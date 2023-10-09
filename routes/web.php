@@ -24,5 +24,36 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-// aseel
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::group(['prefix'=>'admin'],function(){
+
+    });
+
+    Route::group(['prefix'=>'companies'],function(){
+
+    });
+
+    Route::group(['prefix'=>'company_trainer'],function(){
+
+    });
+
+    Route::group(['prefix'=>'mnd'],function(){
+
+    });
+
+    Route::group(['prefix'=>'students'],function(){
+
+    });
+
+    Route::group(['prefix'=>'supervisor_assistatns'],function(){
+
+    });
+
+    Route::group(['prefix'=>'supervisors'],function(){
+
+    });
+
+});
