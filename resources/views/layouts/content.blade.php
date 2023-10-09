@@ -47,6 +47,7 @@
     <div class="container-fluid">
         <div class="row starter-main">
 @yield('content')
+@yield('javascript')
         </div>
     </div>
     <!-- Container-fluid Ends-->

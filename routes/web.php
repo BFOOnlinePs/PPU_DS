@@ -26,3 +26,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/browse_users' , [App\Http\Controllers\UserController::class, 'browse'])->name('browse.users');
