@@ -45,6 +45,7 @@
     <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
+    @yield('style')
 </head>
 
 <body class="rtl">
@@ -93,6 +94,7 @@
     {{-- <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script> --}}
     <!-- login js-->
     <!-- Plugin used-->
+    @yield('script')
 </body>
 
 </html>

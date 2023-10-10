@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\apisControllers\admin\AdminController;
+use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\students\StudentController;
+use App\Models\StudentCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,9 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 
 // public routes
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AdminController::class, 'register']);
+Route::post('/login', [sharedController::class, 'login']);
 
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::post('/logout', [sharedController::class, 'logout']);
+
+    //student
+    Route::get('/getStudentCompanies', [StudentController::class, 'index']);
 
 });
