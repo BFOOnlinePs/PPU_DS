@@ -9,17 +9,24 @@
                     </li>
                     <li class="dropdown"><a class="nav-link menu-title" href="../theme/index.html"
                             target="_blank"><i data-feather="home"></i><span>الرئيسية</span></a></li>
+
+                    <li class="dropdown"><a href="{{route('browse.users')}}"><i
+                                data-feather="users"></i><span>المستخدمين</span></a>
+                    </li>           
+                    
                     <li class="dropdown"><a class="nav-link menu-title" href="{{route('admin.majors.index')}}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>
+                    </li>            
+
                         <ul class="nav-submenu menu-content">
-                            <li><a class="submenu-title" href="javascript:void(0)">color version<span
+                            {{-- <li><a class="submenu-title" href="javascript:void(0)">color version<span
                                         class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
                                 <ul class="nav-sub-childmenu submenu-content">
                                     <li><a href="index.html">Layout Light</a></li>
                                     <li><a href="layout-dark.html">Layout Dark</a></li>
                                 </ul>
-                            </li>
-                            <li> <a class="submenu-title" href="javascript:void(0)">Page layout<span
+                            </li> --}}
+                            {{-- <li> <a class="submenu-title" href="javascript:void(0)">Page layout<span
                                         class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
                                 <ul class="nav-sub-childmenu submenu-content">
                                     <li><a href="boxed.html">Boxed</a></li>
@@ -33,7 +40,7 @@
                                     <li><a href="footer-dark.html">Footer Dark</a></li>
                                     <li><a href="footer-fixed.html">Footer Fixed</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                     <li class="dropdown"><a class="nav-link menu-title"

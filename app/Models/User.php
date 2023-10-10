@@ -46,6 +46,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function role()
+    {
+        // return $this->hasOne(Role::class , 'r_id');
+        return $this->belongsTo(Role::class, 'role_id', 'r_id');
+    }
     protected $primaryKey = 'u_id';
 
     //relations:
@@ -53,5 +58,6 @@ class User extends Authenticatable
     // student belongs to company training
     public function studentCompanies(){
         return $this->belongsTo(StudentCompany::class);
+
     }
 }
