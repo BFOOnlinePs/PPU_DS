@@ -96,5 +96,4 @@
     <!-- Plugin used-->
     @yield('script')
 </body>
-
 </html>

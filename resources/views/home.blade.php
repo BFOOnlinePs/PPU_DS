@@ -11,29 +11,12 @@
 @section('header_link')
     الرئيسية
 @endsection
+@section('style')
+
+@endsection
 @section('content')
-{{-- <div class="col-sm-12">
-    <div class="card">
-        <div class="card-header">
-            <h5></h5>
-        </div>
-        <div class="card-body">
+    Hello word
+@endsection
+@section('script')
 
-        </div>
-    </div>
-</div> --}}
-check for reem branch by mohamad final
-hi reem
-hi anas
-reem herbawi
-bashar bakri
-Mohamad Maraqa
-Nooooooor
-hey Reem
-hey Mohamad
-
-hey all !
-aseel
-
-Mohamad Maraqa Test
 @endsection
