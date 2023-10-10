@@ -9,8 +9,8 @@
                     </li>
                     <li class="dropdown"><a class="nav-link menu-title" href="../theme/index.html"
                             target="_blank"><i data-feather="home"></i><span>الرئيسية</span></a></li>
-                    <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i
-                                data-feather="anchor"></i><span>Starter kit</span></a>
+                    <li class="dropdown"><a class="nav-link menu-title" href="{{route('admin.majors.index')}}"><i
+                                data-feather="anchor"></i><span>إدارة التخصصات</span></a>
                         <ul class="nav-submenu menu-content">
                             <li><a class="submenu-title" href="javascript:void(0)">color version<span
                                         class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
