@@ -12,6 +12,12 @@
 
                     <li class="dropdown"><a href="{{route('browse.users')}}"><i
                                 data-feather="users"></i><span>المستخدمين</span></a>
+                    </li>           
+                    
+                    <li class="dropdown"><a class="nav-link menu-title" href="{{route('admin.majors.index')}}"><i
+                                data-feather="anchor"></i><span>إدارة التخصصات</span></a>
+                    </li>            
+
                         <ul class="nav-submenu menu-content">
                             {{-- <li><a class="submenu-title" href="javascript:void(0)">color version<span
                                         class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>

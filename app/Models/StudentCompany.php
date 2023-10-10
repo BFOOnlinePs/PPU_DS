@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class StudentCompany extends Model
 {
     use HasFactory;
+
+    protected $table = 'students_companies';
+    protected $primaryKey = "sc_id";
+
+    public function users(){
+        return $this->hasMany(User::class);
+    }
+
+    public function companyBranch(){
+        return $this->belongsTo(CompanyBranch::class, 'sc_branch_id', 'b_id');
+    }
 }

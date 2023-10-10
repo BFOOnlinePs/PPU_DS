@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Major extends Model
 {
     use HasFactory;
+
+    // relations:
+    public function users(){
+        return $this->hasMany(User::class);
+    }
 }
