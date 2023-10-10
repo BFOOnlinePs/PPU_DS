@@ -49,6 +49,9 @@
                     <li class="dropdown"><a class="nav-link menu-title"
                             href="https://docs.pixelstrap.com/viho/document/" target="_blank"><i
                                 data-feather="file-text"></i><span>Documentation </span></a></li>
+
+                    {{-- <li class=""><a class="nav-link menu-title" href="{{route('users')}}"><i data-feather="users"></i><span>إدارة المساقات</span></a></li> --}}
+                    <li class=""><a class="nav-link menu-title" href="{{route('admin.courses.index')}}"><i data-feather="book"></i><span>إدارة المساقات</span></a></li>
                 </ul>
             </div>
         </div>

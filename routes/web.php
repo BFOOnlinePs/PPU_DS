@@ -31,6 +31,14 @@ Route::group(['middleware'=>'auth'],function(){
     Route::group(['prefix'=>'project'],function(){
     Route::group(['prefix'=>'admin'],function(){
 
+
+        Route::group(['prefix'=>'courses'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\CoursesController::class,'index'])->name('admin.courses.index');
+            Route::post('/create',[App\Http\Controllers\project\admin\CoursesController::class,'create'])->name('admin.courses.create');
+            Route::post('/update',[App\Http\Controllers\project\admin\CoursesController::class,'update'])->name('admin.courses.update');
+            Route::post('/courseSearch',[App\Http\Controllers\project\admin\CoursesController::class,'courseSearch'])->name('admin.courses.courseSearch');
+        });
+      
         Route::group(['prefix'=>'users'],function(){
             Route::get('/browse' , [App\Http\Controllers\UserController::class, 'browse'])->name('browse.users');
             Route::post('/add' , [App\Http\Controllers\UserController::class, 'create'])->name('add.user');
