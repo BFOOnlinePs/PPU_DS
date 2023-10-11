@@ -59,7 +59,7 @@
             font-weight: bold;
         }
 
-        body {
+        * {
             font-family: 'Tajawal', sans-serif;
         }
     </style>
