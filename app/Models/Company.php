@@ -11,4 +11,8 @@ class Company extends Model
 
     protected $table = 'companies';
 
+    public function companyBranch(){
+        return $this->hanMany(Company::class, 'b_company_id', 'c_id');
+    }
+
 }

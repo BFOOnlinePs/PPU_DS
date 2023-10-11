@@ -27,7 +27,7 @@ class sharedController extends Controller
         $token = $request->user()->createToken('api-token')->plainTextToken;
 
         // Save the token in the remember_token column
-        $request->user()->update(['remember_token' => $token]);
+        // $request->user()->update(['remember_token' => $token]);
 
         return response([
             'message' => 'user logged in',
