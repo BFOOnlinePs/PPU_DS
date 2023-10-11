@@ -265,13 +265,8 @@
 
     let addCourseForm = document.getElementById("addCourseForm");
     let editCourseForm = document.getElementById("editCourseForm");
-
-
-
         addCourseForm.addEventListener("submit", (e) => {
             e.preventDefault();
-
-
             data = $('#addCourseForm').serialize();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
