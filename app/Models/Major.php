@@ -11,8 +11,10 @@ class Major extends Model
     protected $table = 'majors';
     protected $primaryKey = 'm_id';
 
+
     // relations:
     public function majorSupervisors(){
         return $this->hasMany(MajorSupervisor::class, 'ms_major_id', 'm_id');
     }
+
 }
