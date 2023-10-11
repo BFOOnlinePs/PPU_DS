@@ -37,21 +37,32 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+
+    protected $primaryKey = 'u_id';
+
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    protected $primaryKey = 'u_id';
-
     //relations:
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
+    }
 
     // student belongs to company training
     public function studentCompanies(){
-        return $this->belongsTo(StudentCompany::class);
+        return $this->belongsTo(StudentCompany::class, 'u_id', 'sc_student_id');
+
     }
+
+    public function registrations(){
+        return $this->hasMany(Registration::class, 'r_student_id', 'u_id');
+    }
+
+    public function majorSupervisors(){
+        return $this->hasMany(MajorSupervisor::class, 'ms_super_id', 'u_id');
+    }
+
 }

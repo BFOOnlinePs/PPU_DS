@@ -24,10 +24,13 @@ Route::post('/register', [AdminController::class, 'register']);
 Route::post('/login', [sharedController::class, 'login']);
 
 // protected routes
-Route::group(['middleware' => ['auth:sanctum']], function(){
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [sharedController::class, 'logout']);
 
     //student
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
 
+
+    // just for test
+    Route::get('/test', [sharedController::class, 'test']);
 });
