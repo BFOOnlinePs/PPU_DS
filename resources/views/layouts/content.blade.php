@@ -46,7 +46,9 @@
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row starter-main">
+@yield('navbar')
 @yield('content')
+@yield('javascript')
         </div>
     </div>
     <!-- Container-fluid Ends-->
