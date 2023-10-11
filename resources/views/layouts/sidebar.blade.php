@@ -7,16 +7,15 @@
                         <div class="mobile-back text-end"><span>Back</span><i
                                 class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                     </li>
-                    <li class="dropdown"><a class="nav-link menu-title" href="../theme/index.html"
+                    <li class="dropdown"><a class="nav-link" href="../theme/index.html"
                             target="_blank"><i data-feather="home"></i><span>الرئيسية</span></a></li>
 
-                    <li class="dropdown"><a href="{{route('browse.users')}}"><i
-                                data-feather="users"></i><span>المستخدمين</span></a>
-                    </li>           
-                    
-                    <li class="dropdown"><a class="nav-link menu-title" href="{{route('admin.majors.index')}}"><i
+                    <li class="dropdown"><a class="nav-link" href="{{route('browse.users')}}"
+                            target="_blank"><i data-feather="user"></i><span>ادارة المستخدمين</span></a></li>
+
+                    <li class="dropdown"><a class="nav-link" href="{{route('admin.majors.index')}}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>
-                    </li>            
+                    </li>
 
                         <ul class="nav-submenu menu-content">
                             {{-- <li><a class="submenu-title" href="javascript:void(0)">color version<span
@@ -43,15 +42,8 @@
                             </li> --}}
                         </ul>
                     </li>
-                    <li class="dropdown"><a class="nav-link menu-title"
-                            href="http://support.pixelstrap.com/help-center" target="_blank"><i
-                                data-feather="headphones"></i><span>Raise Support</span></a></li>
-                    <li class="dropdown"><a class="nav-link menu-title"
-                            href="https://docs.pixelstrap.com/viho/document/" target="_blank"><i
-                                data-feather="file-text"></i><span>Documentation </span></a></li>
-
                     {{-- <li class=""><a class="nav-link menu-title" href="{{route('users')}}"><i data-feather="users"></i><span>إدارة المساقات</span></a></li> --}}
-                    <li class=""><a class="nav-link menu-title" href="{{route('admin.courses.index')}}"><i data-feather="book"></i><span>إدارة المساقات</span></a></li>
+                    <li class="dropdown"><a class="nav-link" href="{{route('admin.courses.index')}}"><i data-feather="book"></i><span>إدارة المساقات</span></a></li>
                 </ul>
             </div>
         </div>
