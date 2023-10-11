@@ -19,7 +19,7 @@
                   <td>
                     <div class="row">
                       <div class="col-md-6">
-                          <button type="button" class="btn btn-light">Edit</button>
+                          <button type="button" class="btn btn-light" onclick="showEditModal({{$key}})">تعديل</button>
                       </div>
                      </div>
                   </td>

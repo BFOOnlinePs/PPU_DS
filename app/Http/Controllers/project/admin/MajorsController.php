@@ -28,17 +28,15 @@ class MajorsController extends Controller
         
     }
     public function update(Request $request){
-        return $major;
         $major = Major::Where('m_id',$request->edit_m_id)->first();
         $major->m_name=$request->edit_m_name;
         $major->m_description=$request->edit_m_description;
         $major->m_reference_code=$request->edit_m_reference_code;
-       
         if ($major->save()) {
             $data = Major::get();
             return response()->json([
                 'success'=>'true',
-                'data'=>view('project.admin.majors.ajax.majorsList',['data'=>$data])->render()
+                'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data])->render()
             ]);
         }
         

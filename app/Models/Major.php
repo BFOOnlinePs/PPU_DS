@@ -11,7 +11,6 @@ class Major extends Model
     protected $table = 'majors';
     protected $primaryKey = 'm_id';
 
-    protected $primaryKey = 'm_id';
 
     // relations:
     public function majorSupervisors(){

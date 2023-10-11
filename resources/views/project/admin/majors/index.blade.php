@@ -305,7 +305,7 @@
             url: "{{ route('admin.majors.update') }}",
             data: data,
             success: function (response) {
-                $('#editMajorForm').modal('hide');
+                $('#editMajorModal').modal('hide');
                 $('#majorsTable').html(response.view);
             },
             error: function (xhr, status, error) {
