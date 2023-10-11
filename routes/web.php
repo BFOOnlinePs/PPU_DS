@@ -32,7 +32,8 @@ Route::group(['middleware'=>'auth'],function(){
     Route::group(['prefix'=>'admin'],function(){
         Route::group(['prefix'=>'majors'],function(){
                 Route::get('/index',[App\Http\Controllers\project\admin\MajorsController::class,'index'])->name('admin.majors.index');
-            Route::post('/create',[App\Http\Controllers\project\admin\MajorsController::class,'create'])->name('admin.majors.create');
+                Route::post('/create',[App\Http\Controllers\project\admin\MajorsController::class,'create'])->name('admin.majors.create');
+                Route::post('/update',[App\Http\Controllers\project\admin\MajorsController::class,'update'])->name('admin.majors.update');
         });
         });
     
