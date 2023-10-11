@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SystemSetting extends Model
 {
     use HasFactory;
+    protected $table = 'system_settings';
+    protected $primaryKey = 'ss_id';
 }
