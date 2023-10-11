@@ -38,7 +38,7 @@ Route::group(['middleware'=>'auth'],function(){
             Route::post('/update',[App\Http\Controllers\project\admin\CoursesController::class,'update'])->name('admin.courses.update');
             Route::post('/courseSearch',[App\Http\Controllers\project\admin\CoursesController::class,'courseSearch'])->name('admin.courses.courseSearch');
         });
-      
+
         Route::group(['prefix'=>'users'],function(){
             Route::get('/browse' , [App\Http\Controllers\UserController::class, 'browse'])->name('browse.users');
             Route::post('/add' , [App\Http\Controllers\UserController::class, 'create'])->name('add.user');
@@ -56,7 +56,7 @@ Route::group(['middleware'=>'auth'],function(){
             Route::post('/create',[App\Http\Controllers\project\admin\MajorsController::class,'create'])->name('admin.majors.create');
         });
         });
-    
+
     });
 
     Route::group(['prefix'=>'companies'],function(){
