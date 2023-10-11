@@ -14,6 +14,8 @@
                             target="_blank"><i data-feather="user"></i><span>ادارة المستخدمين</span></a></li>
 
                     <li class="dropdown"><a class="nav-link" href="{{route('admin.majors.index')}}"><i
+
+                    <li class="dropdown"><a class="nav-link menu-title" href="{{route('admin.majors.index')}}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>
                     </li>
 
