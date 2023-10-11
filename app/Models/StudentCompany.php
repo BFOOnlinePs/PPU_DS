@@ -10,10 +10,11 @@ class StudentCompany extends Model
     use HasFactory;
 
     protected $table = 'students_companies';
-    protected $primaryKey = "sc_id";
+    protected $primaryKey = 'sc_id';
+
 
     public function users(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'u_id', 'sc_student_id');
     }
 
     public function companyBranch(){

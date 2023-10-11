@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SemesterCourse extends Model
 {
     use HasFactory;
+    protected $table = 'semester_courses';
+    protected $primaryKey = 'sc_id';
 }
