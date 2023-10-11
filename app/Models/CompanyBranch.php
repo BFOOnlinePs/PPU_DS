@@ -16,7 +16,7 @@ class CompanyBranch extends Model
         return $this->hasMany(StudentCompany::class);
     }
 
-    // public function companies(){
-    //     return $this->belongsTo(Company::class, 'b_company_id', 'c_id');
-    // }
+    public function companies(){
+        return $this->belongsTo(Company::class, 'b_company_id', 'c_id');
+    }
 }

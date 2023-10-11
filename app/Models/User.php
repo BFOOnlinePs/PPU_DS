@@ -39,11 +39,6 @@ class User extends Authenticatable
 
     protected $primaryKey = 'u_id';
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -51,8 +46,14 @@ class User extends Authenticatable
 
     //relations:
 
+    public function role(){
+        return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
+    }
+
     // student belongs to company training
     public function studentCompanies(){
         return $this->belongsTo(StudentCompany::class);
     }
+
+
 }
