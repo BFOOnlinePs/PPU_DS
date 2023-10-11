@@ -48,8 +48,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        // return $this->hasOne(Role::class , 'r_id');
-        return $this->belongsTo(Role::class, 'role_id', 'r_id');
+        return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
     }
     protected $primaryKey = 'u_id';
 

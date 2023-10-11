@@ -9,10 +9,10 @@ use App\Models\Role;
 
 class UserController extends Controller
 {
-    public function browse_admin(Request $request)
+    public function index_user(Request $request)
     {
         $data = User::where('u_role_id' , $request->id)->get();
-        $html = view('project.admin.users.table_user' , ['data' => $data])->render();
+        $html = view('project.admin.users.ajax.usersList' , ['data' => $data , 'u_role_id' => $request->id])->render();
         return response()->json(['html' => $html]);
     }
     public function edit_pasword(Request $request)
@@ -37,7 +37,7 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {
-        $user = User::find($request->user_id_modal_edit);
+        $user = User::find($request->id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone1 = $request->phone1;
@@ -49,20 +49,21 @@ class UserController extends Controller
         $user->address = $request->address;
         if($user->save()) {
             $data = User::all();
-            $html = view('project.admin.users.table_user' , ['data' => $data])->render();
+            $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
     }
     public function edit(Request $request)
     {
         $user = User::find($request->id);
-        return response()->json(['user' => $user]);
+        $html = view('project.admin.users.edit' , ['user' => $user])->render();
+        return response()->json(['html' => $html]);
     }
-    public function browse()
+    public function index()
     {
-        $data = User::all();
+        $data = User::with('role')->get();
         $roles = Role::all();
-        return view('project.admin.users.browse' , ['data' => $data , 'roles' => $roles]);
+        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => null]);
     }
     public function create(Request $request)
     {
@@ -79,7 +80,7 @@ class UserController extends Controller
         $user->address = $request->address;
         if($user->save()) {
             $data = User::all();
-            $html = view('project.admin.users.table_user' , ['data' => $data])->render();
+            $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
     }

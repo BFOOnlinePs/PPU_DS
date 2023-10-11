@@ -10,13 +10,13 @@
                     <li class="dropdown"><a class="nav-link menu-title" href="../theme/index.html"
                             target="_blank"><i data-feather="home"></i><span>الرئيسية</span></a></li>
 
-                    <li class="dropdown"><a href="{{route('browse.users')}}"><i
+                    <li class="dropdown"><a href="{{route('index.users')}}"><i
                                 data-feather="users"></i><span>المستخدمين</span></a>
-                    </li>           
-                    
+                    </li>
+
                     <li class="dropdown"><a class="nav-link menu-title" href="{{route('admin.majors.index')}}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>
-                    </li>            
+                    </li>
 
                         <ul class="nav-submenu menu-content">
                             {{-- <li><a class="submenu-title" href="javascript:void(0)">color version<span
