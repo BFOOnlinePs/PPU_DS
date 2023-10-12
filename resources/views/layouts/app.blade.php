@@ -9,7 +9,7 @@
         content="viho admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords"
         content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
@@ -58,6 +58,7 @@
             src: url({{ asset('/fonts/tajawal/Tajawal-Bold.ttf') }}) format('truetype');
             font-weight: bold;
         } */
+
 
         * {
             font-family: 'Tajawal', sans-serif;
@@ -115,4 +116,5 @@
     <!-- Plugin used-->
     @yield('script')
 </body>
+
 </html>

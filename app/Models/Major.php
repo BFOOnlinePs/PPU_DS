@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Major extends Model
 {
     use HasFactory;
-    protected $primaryKey = "m_id";
+    protected $table = 'majors';
+    protected $primaryKey = 'm_id';
+
 
     // relations:
-    public function users(){
-        return $this->hasMany(User::class);
+    public function majorSupervisors(){
+        return $this->hasMany(MajorSupervisor::class, 'ms_major_id', 'm_id');
     }
+
 }

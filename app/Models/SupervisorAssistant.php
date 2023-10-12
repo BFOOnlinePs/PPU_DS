@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SupervisorAssistant extends Model
 {
     use HasFactory;
+    protected $table = 'supervisor_assistants';
+    protected $primaryKey = 'sa_id';
 }
