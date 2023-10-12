@@ -53,7 +53,7 @@
         {
             u_role_id = document.getElementById('u_role_id').value;
             $.ajax({
-                url: "{{route('search.user')}}",
+                url: "{{route('admin.users.search')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -106,7 +106,7 @@
                 'u_gender' : u_gender
             }
             $.ajax({
-                url: "{{route('update.user')}}",
+                url: "{{route('admin.users.update')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -127,7 +127,7 @@
         function edit_user(id)
         {
             $.ajax({
-                url: "{{route('edit.user')}}",
+                url: "{{route('admin.users.edit')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -146,7 +146,7 @@
         function index_user(id)
         {
             $.ajax({
-                url: "{{route('index.user')}}",
+                url: "{{route('admin.users.index_user')}}",
                 method: "post",
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -178,7 +178,7 @@
         // {
         //     let data = $('#reset-password-user-form').serialize();
         //     $.ajax({
-        //         url: "{{route('reset.password')}}",
+        //         url: "{{route('admin.users.reset.password')}}",
         //         method: "post",
         //         headers: {
         //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -205,7 +205,7 @@
         //     $(document).on('click', '.edit-password-user', function() {
         //         let user_id = $(this).data('userid');
         //         $.ajax({
-        //             url: "{{route('id.reset.password')}}",
+        //             url: "{{route('admin.users.id.reset.password')}}",
         //             method: 'post',
         //             headers: {
         //                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -226,7 +226,7 @@
         //     $(document).on('click', '.edit-user', function() {
         //         let user_id = $(this).data('userid');
         //         $.ajax({
-        //             url: "{{route('edit.user')}}",
+        //             url: "{{route('admin.users.edit')}}",
         //             method: 'post',
         //             headers: {
         //                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -263,7 +263,7 @@
         //     e.preventDefault();
         //     let data = $('#add-user-form').serialize();
         //     $.ajax({
-        //         url: "{{route('add.user')}}",
+        //         url: "{{route('admin.users.add')}}",
         //         method: "post",
         //         headers: {
         //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -291,7 +291,7 @@
         // {
         //     let data = $('#edit-user-form').serialize();
         //     $.ajax({
-        //         url: "{{route('update.user')}}",
+        //         url: "{{route('admin.users.update')}}",
         //         method: "post",
         //         headers: {
         //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -318,7 +318,7 @@
         // function clickToChangeStatusButton(id)
         // {
         //     $.ajax({
-        //         url: "{{route('change.status.account')}}",
+        //         url: "{{route('admin.users.change.status.account')}}",
         //         method: "post",
         //         headers: {
         //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
