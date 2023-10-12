@@ -45,6 +45,25 @@
     <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
+
+    <style>
+        @font-face {
+            font-family: 'Tajawal';
+            src: url({{ asset('fonts/tajawal/Tajawal-Regular.ttf') }}) format('truetype');
+            font-weight: normal;
+        }
+
+        /* @font-face {
+            font-family: 'Tajawal';
+            src: url({{ asset('/fonts/tajawal/Tajawal-Bold.ttf') }}) format('truetype');
+            font-weight: bold;
+        } */
+
+        * {
+            font-family: 'Tajawal', sans-serif;
+        }
+    </style>
+
     @yield('style')
 </head>
 
