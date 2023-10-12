@@ -1,3 +1,4 @@
+
 <table class="table table-bordered table-hover" id="user-table">
     <thead>
         <tr>
@@ -24,7 +25,7 @@
                     </td>
                 @endif
                 <td>
-                    <button class="btn btn-primary" onclick="edit_user({{ $key->u_id }})"><span class="fa fa-edit"></span></button>
+                    <button class="btn btn-primary" onclick="edit_user({{ $key->u_id }})" title="تعديل معلومات المستخدم"><span class="fa fa-edit"></span></button>
                     <button class="btn btn-primary" data-toggle="modal" data-target="#edit-user-modal" data-userid="{{$key->id}}"><span class="fa fa-search"></span></button>
 
                 </td>

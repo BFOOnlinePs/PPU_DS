@@ -49,6 +49,7 @@ Route::group(['middleware'=>'auth'],function(){
             Route::post('/edit_password' , [App\Http\Controllers\UserController::class, 'edit_pasword'])->name('id.reset.password');
             Route::post('/reset_pasword' , [App\Http\Controllers\UserController::class, 'reset_pasword'])->name('reset.password');
             Route::post('/index_user' , [App\Http\Controllers\UserController::class, 'index_user'])->name('index.user');
+            Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('search.user');
         });
 
 
