@@ -23,7 +23,7 @@ class CoursesController extends Controller
         $data->c_hours = $request->c_hours;
         $data->c_description = $request->c_description;
         $data->c_course_type =$request->c_course_type;
-        $data->c_reference_code	 =$request->c_reference_code	;
+        $data->c_reference_code	 =$request->c_reference_code;
 
         if ($data->save()) {
             $data = Course::get();
