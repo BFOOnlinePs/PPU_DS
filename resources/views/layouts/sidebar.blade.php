@@ -10,7 +10,7 @@
                     <li class="dropdown"><a class="nav-link" href="../theme/index.html" target="_blank"><i
                                 data-feather="home"></i><span>الرئيسية</span></a></li>
 
-                    <li class="dropdown"><a href="{{route('browse.users')}}" class="nav-link" target="_blank"><i
+                    <li class="dropdown"><a href="{{route('index.users')}}" class="nav-link" target="_blank"><i
                                 data-feather="user"></i><span>ادارة المستخدمين</span></a></li>
 
                     <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
