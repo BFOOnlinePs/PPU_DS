@@ -49,15 +49,16 @@
     <style>
         @font-face {
             font-family: 'Tajawal';
-            src: url('/fonts/tajawal/Tajawal-Regular.ttf') format('truetype');
+            src: url({{ asset('fonts/tajawal/Tajawal-Regular.ttf') }}) format('truetype');
             font-weight: normal;
         }
 
-        @font-face {
+        /* @font-face {
             font-family: 'Tajawal';
-            src: url('/fonts/tajawal/Tajawal-Bold.ttf') format('truetype');
+            src: url({{ asset('/fonts/tajawal/Tajawal-Bold.ttf') }}) format('truetype');
             font-weight: bold;
-        }
+        } */
+
 
         * {
             font-family: 'Tajawal', sans-serif;
