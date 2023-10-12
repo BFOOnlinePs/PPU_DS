@@ -11,8 +11,8 @@
         content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <title>@yield('title')</title>
     <!-- Google font-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -94,6 +94,8 @@
     </div>
     <!-- latest jquery-->
     <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
+    @yield('script')
+
     <!-- feather icon js-->
     <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
     <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
@@ -114,7 +116,6 @@
     {{-- <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script> --}}
     <!-- login js-->
     <!-- Plugin used-->
-    @yield('script')
 </body>
 
 </html>
