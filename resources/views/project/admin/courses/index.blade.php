@@ -12,8 +12,6 @@
     المساقات
 @endsection
 @section('content')
-
-
     {{-- <div class="alert alert-primary d-flex align-items-center col-md-3" role="alert">
         <span class="fa fa-check col-md-1"></span>
         <div class="col-md-11">
@@ -29,7 +27,8 @@
     </div> --}}
 
     <div>
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>  إضافة مساق</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span
+                class="fa fa-plus"></span> إضافة مساق</button>
 
 
     </div>
@@ -38,22 +37,24 @@
 
         <div class="card-body" >
             <div class="form-outline">
-                <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2" placeholder="البحث" aria-label="Search" />
+                <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2" placeholder="البحث"
+                    aria-label="Search" />
             </div>
-            <div class="table-responsive" id="showTable">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="display:none;">id</th>
-                            <th scope="col">اسم المساق</th>
-                            <th scope="col">رمز المساق</th>
-                            <th scope="col">ساعات المساق</th>
-                            <th scope="col">نوع المساق</th>
-                            <th scope="col">العمليات</th>
+            <div id="showTable">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="display:none;">id</th>
+                                <th scope="col">اسم المساق</th>
+                                <th scope="col">رمز المساق</th>
+                                <th scope="col">ساعات المساق</th>
+                                <th scope="col">نوع المساق</th>
+                                <th scope="col">العمليات</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
+                            </tr>
+                        </thead>
+                        <tbody>
 
                         @foreach ($data as $key)
                             <tr>
@@ -74,8 +75,6 @@
                     </tbody>
                 </table>
             </div>
-
-
         </div>
 
 
@@ -90,14 +89,11 @@
 
 
     </div>
-
-
 @endsection
 
 
 @section('script')
     <script>
-
         let addCourseForm = document.getElementById("addCourseForm");
         let editCourseForm = document.getElementById("editCourseForm");
         let dataTable;
@@ -206,7 +202,7 @@
 
         });
 
-        function courseSearch(data){
+        function courseSearch(data) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
@@ -226,7 +222,7 @@
                 url: "{{ route('admin.courses.courseSearch') }}", // Replace with your own URL
                 method: "post",
                 data: {
-                    'search':data,
+                    'search': data,
                     _token: '{!! csrf_token() !!}',
                 }, // Specify the expected data type
                 success: function(data) {

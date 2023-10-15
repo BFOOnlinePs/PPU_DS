@@ -9,11 +9,35 @@ use App\Models\Role;
 
 class UserController extends Controller
 {
+<<<<<<< HEAD
+=======
+    public function search(Request $request)
+    {
+        $data = null;
+        if($request->data['u_role_id'] == null) {
+            $data = User::where('u_username' , 'like' , '%' . $request->data['data'] . '%')->get();
+        }
+        else {
+            $data = User::where('u_username' , 'like' , '%' . $request->data['data'] . '%')
+                        ->where('u_role_id' , $request->data['u_role_id'])
+                        ->get();
+        }
+        $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
+        return response()->json(['html' => $html]);
+
+        return response()->json(['html' => $request->data]);
+    }
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
     public function index_user(Request $request)
     {
         $data = User::where('u_role_id' , $request->id)->get();
         $html = view('project.admin.users.ajax.usersList' , ['data' => $data , 'u_role_id' => $request->id])->render();
+<<<<<<< HEAD
         return response()->json(['html' => $html]);
+=======
+        $r_name = Role::where('r_id', $request->id)->value('r_name');
+        return response()->json(['html' => $html , 'u_role_id' => $request->id , 'r_name' => $r_name]);
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
     }
     public function edit_pasword(Request $request)
     {
@@ -37,6 +61,7 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {
+<<<<<<< HEAD
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->email = $request->email;
@@ -47,6 +72,17 @@ class UserController extends Controller
         $user->major_id = $request->major_id;
         $user->gender = $request->gender;
         $user->address = $request->address;
+=======
+        $user = User::where('u_id' , $request->data['u_id'])->first();
+        $user->u_username = $request->data['u_username'];
+        $user->name = $request->data['name'];
+        $user->email = $request->data['email'];
+        $user->u_phone1 = $request->data['u_phone1'];
+        $user->u_phone2 = $request->data['u_phone2'];
+        $user->u_address = $request->data['u_address'];
+        $user->u_date_of_birth = $request->data['u_date_of_birth'];
+        $user->u_gender = $request->data['u_gender'];
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
         if($user->save()) {
             $data = User::all();
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
