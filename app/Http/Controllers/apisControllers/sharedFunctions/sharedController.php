@@ -25,7 +25,8 @@ class sharedController extends Controller
 
         if (!Auth::attempt($credentials)) {
             return response([
-                'message' => 'Invalid credentials'
+                'status' => false,
+                'message' => 'الرجاء التأكد من المعلومات المدخلة'
             ], 403);
         }
 
@@ -35,7 +36,8 @@ class sharedController extends Controller
         // $request->user()->update(['remember_token' => $token]);
 
         return response([
-            'message' => 'user logged in',
+            'status' => true,
+            'message' => 'تم تسجيل الدخول بنجاح',
             'user' => auth()->user(),
             'token' => $token,
         ], 200);
@@ -57,7 +59,7 @@ class sharedController extends Controller
     // just for test
     public function test()
     {
-        // $result = User::where('u_id', auth()->user()->u_id)->with('role')->get();
+        // $result = User::where('u_id', auth()->user()->u_id)->with('role:r_name,r_id')->get();
         // $result = Role::with('users')->get();
         // $result = StudentCompany::with('users')->get();
         // $result = User::where('u_id', auth()->user()->u_id)->with('studentCompanies')->get();
@@ -67,9 +69,24 @@ class sharedController extends Controller
         // $result = CompanyBranch::with('companies')->get();
         // $result = CompanyBranch::where('b_company_id', 1)->with('companies')->get();
         // $result = CompanyBranch::where('b_id', 1)->with('companyBranchLocation')->get();
-        $result = CompanyBranchLocation::with('companyBranch')->get();
+        // $result = CompanyBranchLocation::with('companyBranch')->get();
+
+
+        $result = User::with('role')->get();
+
+        $transformedResult = $result->map(function ($user) {
+            return [
+                'aseel' => $user->u_id,
+                'userName' => $user->name,
+                'roleInfo' => [
+                    'roleId' => $user->role->r_id,
+                    'roleName' => $user->role->r_name,
+                ],
+            ];
+        });
+
         return response()->json([
-            'result' => $result
+            'result' => $transformedResult
         ]);
     }
 }
