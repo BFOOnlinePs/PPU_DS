@@ -100,13 +100,12 @@
             </div>
         </div>
     </div>
-</div>
-
-</div>
-@include('project.admin.majors.modals.addMajorModal')
+    @include('project.admin.majors.modals.addMajorModal')
 @include('project.admin.majors.modals.editMajorModal')
 @include('project.admin.majors.modals.showMajorModal')
 @include('layouts.loader')
+</div>
+
 @endsection
 @section('script')
 <script>
