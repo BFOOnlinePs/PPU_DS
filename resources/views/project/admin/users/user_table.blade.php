@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
 <table class="table table-bordered table-hover" id="user-table">
     <thead>
         <tr>
@@ -25,7 +28,11 @@
                     </td>
                 @endif
                 <td>
+<<<<<<< HEAD
+                    <button class="btn btn-primary" onclick="edit_user({{ $key->u_id }})"><span class="fa fa-edit"></span></button>
+=======
                     <button class="btn btn-primary" onclick="edit_user({{ $key->u_id }})" title="تعديل معلومات المستخدم"><span class="fa fa-edit"></span></button>
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
                     <button class="btn btn-primary" data-toggle="modal" data-target="#edit-user-modal" data-userid="{{$key->id}}"><span class="fa fa-search"></span></button>
 
                 </td>
