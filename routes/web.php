@@ -40,6 +40,10 @@ Route::group(['middleware'=>'auth'],function(){
             Route::post('/courseSearch',[App\Http\Controllers\project\admin\CoursesController::class,'courseSearch'])->name('admin.courses.courseSearch');
         });
 
+        Route::group(['prefix'=>'semesterCourses'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'index'])->name('admin.semesterCourses.index');
+            });
+
         Route::group(['prefix'=>'users'],function(){
 
             Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');

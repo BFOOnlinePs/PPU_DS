@@ -27,10 +27,7 @@
     </div> --}}
 
     <div>
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span
-                class="fa fa-plus"></span> إضافة مساق</button>
-
-
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span> إضافة مساق</button>
     </div>
 
     <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -73,22 +70,26 @@
                         @endforeach
 
                     </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
+
+
+            @include('project.admin.courses.modals.editCourseModal')
+
+            @include('project.admin.courses.modals.showCourseModal')
+
+            @include('project.admin.courses.modals.addCourseModal')
+
+
+            @include('project.admin.courses.modals.loadingModal')
+
         </div>
-
-
-        @include('project.admin.courses.modals.editCourseModal')
-
-        @include('project.admin.courses.modals.showCourseModal')
-
-        @include('project.admin.courses.modals.addCourseModal')
-
-        @include('project.admin.courses.modals.loadingModal')
 
 
 
     </div>
+
 @endsection
 
 
@@ -189,6 +190,7 @@
                 data: data,
                 dataType: 'json',
                 success: function(response) {
+                    $('#EditCourseModal').modal('hide');
                     $('#showTable').html(response.view);
                 },
                 //new
