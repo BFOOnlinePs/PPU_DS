@@ -18,9 +18,10 @@
                     </li>
                     <li class=""><a class="nav-link" href="{{ route('admin.courses.index') }}"><i
                                 data-feather="book"></i><span>إدارة المساقات</span></a></li>
-
                     <li class=""><a class="nav-link" href="{{ route('admin.semesterCourses.index') }}"><i
                                 data-feather="book"></i><span>مساقات الفصول</span></a></li>
+                    <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
+                                data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
                 </ul>
             </div>
         </div>

@@ -48,7 +48,6 @@
                                 <th scope="col">ساعات المساق</th>
                                 <th scope="col">نوع المساق</th>
                                 <th scope="col">العمليات</th>
-
                             </tr>
                         </thead>
                         <tbody>
