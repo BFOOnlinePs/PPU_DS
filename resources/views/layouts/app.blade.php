@@ -45,7 +45,6 @@
     <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
-
     <style>
         @font-face {
             font-family: 'Tajawal';
@@ -94,8 +93,6 @@
     </div>
     <!-- latest jquery-->
     <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
-    @yield('script')
-
     <!-- feather icon js-->
     <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
     <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
@@ -116,6 +113,6 @@
     {{-- <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script> --}}
     <!-- login js-->
     <!-- Plugin used-->
+    @yield('script')
 </body>
-
 </html>
