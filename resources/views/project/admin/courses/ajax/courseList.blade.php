@@ -22,8 +22,8 @@
                 @if( $key->c_course_type == 1) <td>عملي</td>@endif
                 @if( $key->c_course_type == 2) <td>نظري - عملي</td>@endif
                 <td>
-                    <button class="btn btn-info btn-xs" onclick="$('#ShowCourseModal').modal('show')"><i data-feather="external-link"></i></button>
-                    <button class="btn btn-primary btn-xs" onclick="showEditCourseModal({{ $key }})"><i data-feather="edit"></i></button>
+                    <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
                 </td>
             </tr>
         @endforeach

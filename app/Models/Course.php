@@ -10,4 +10,8 @@ class Course extends Model
     use HasFactory;
     protected $table = 'courses';
     protected $primaryKey = "c_id";
+
+    public function registrations(){
+        return $this->hasMany(Registration::class, 'r_course_id', 'c_id');
+    }
 }
