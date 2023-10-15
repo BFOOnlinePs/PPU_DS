@@ -65,4 +65,12 @@ class User extends Authenticatable
         return $this->hasMany(MajorSupervisor::class, 'ms_super_id', 'u_id');
     }
 
+
+    public function mohammed(){
+        return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
+    }
+
+
+
+
 }
