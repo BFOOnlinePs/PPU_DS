@@ -41,6 +41,7 @@ Route::group(['middleware'=>'auth'],function(){
         });
 
         Route::group(['prefix'=>'users'],function(){
+
             Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
             Route::post('/add' , [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.add');
             Route::post('/edit' , [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
@@ -50,6 +51,7 @@ Route::group(['middleware'=>'auth'],function(){
             Route::post('/reset_pasword' , [App\Http\Controllers\UserController::class, 'reset_pasword'])->name('admin.users.reset.password');
             Route::post('/index_user' , [App\Http\Controllers\UserController::class, 'index_user'])->name('admin.users.index_user');
             Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('admin.users.search');
+
         });
 
 
