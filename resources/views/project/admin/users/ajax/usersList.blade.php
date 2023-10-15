@@ -7,7 +7,7 @@
         <th>اسم المستخدم</th>
         <th>رقم الجوال</th>
         <th>حالة الحساب</th>
-        <th>العمليات</th>
+        <th>عرض التفاصيل</th>
     </tr>
 </thead>
 <tbody>
@@ -15,20 +15,13 @@
         <tr id="user-row-{{ $key->id }}">
             <td>{{$key->name}}</td>
             <td>{{$key->u_username}}</td>
-            <td>{{$key->phone1}}</td>
+            <td>{{$key->u_phone1}}</td>
             @if ($key->u_status == 0)
-                <td class="bg-danger text-white" id="td-{{$key->id}}">
-                        غير مفعل
-                </td>
+                <td class="bg-danger text-white" id="td-{{$key->id}}">غير مفعل</td>
             @else
-                <td class="bg-success text-white" id="td-{{$key->id}}">
-                    مفعل
-                </td>
+                <td class="bg-success text-white" id="td-{{$key->id}}">مفعل</td>
             @endif
-            <td>
-                <button class="btn btn-primary" onclick="edit_user({{ $key->u_id }})"><span class="fa fa-edit"></span></button>
-                <button class="btn btn-primary" data-toggle="modal" data-target="#edit-user-modal" data-userid="{{$key->id}}"><span class="fa fa-search"></span></button>
-            </td>
+            <td><a href="{{route('admin.users.details' , ['id'=>$key->u_id])}}" title="عرض تفاصيل" class="fa fa-edit btn btn-primary"></a></td>
         </tr>
     @endforeach
 </tbody>

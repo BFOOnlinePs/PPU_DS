@@ -41,15 +41,13 @@ Route::group(['middleware'=>'auth'],function(){
         });
 
         Route::group(['prefix'=>'users'],function(){
+            Route::get('/index/{id}' , [App\Http\Controllers\UserController::class, 'index_id'])->name('admin.users.index_id');
             Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
-            Route::post('/add' , [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.add');
-            Route::post('/edit' , [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
+            Route::post('/create' , [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.create');
+            Route::get('/edit/{id}' , [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
             Route::post('/update' , [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
-            Route::post('/status' , [App\Http\Controllers\UserController::class, 'status'])->name('admin.users.change.status.account');
-            Route::post('/edit_password' , [App\Http\Controllers\UserController::class, 'edit_pasword'])->name('admin.users.id.reset.password');
-            Route::post('/reset_pasword' , [App\Http\Controllers\UserController::class, 'reset_pasword'])->name('admin.users.reset.password');
-            Route::post('/index_user' , [App\Http\Controllers\UserController::class, 'index_user'])->name('admin.users.index_user');
             Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('admin.users.search');
+            Route::get('/details/{id}' , [App\Http\Controllers\UserController::class, 'details'])->name('admin.users.details');
         });
 
 
