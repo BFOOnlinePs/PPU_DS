@@ -19,17 +19,22 @@ class UserController extends Controller
     {
         $data = null;
         if($request->data['u_role_id'] == null) {
-            $data = User::where('u_username' , 'like' , '%' . $request->data['data'] . '%')->get();
+            $data = User::where('u_username' , 'like' , '%' . $request->data['data'] . '%')
+                        ->orWhere('name' , 'like' , '%' . $request->data['data'] . '%')
+                        ->get();
         }
         else {
-            $data = User::where('u_username' , 'like' , '%' . $request->data['data'] . '%')
-                        ->where('u_role_id' , $request->data['u_role_id'])
-                        ->get();
+            $data = User::where('u_username', 'like', '%' . $request->data['data'] . '%')
+                        ->where('u_role_id', $request->data['u_role_id']);
+
+                    $data = $data->union(
+                        User::where('name', 'like', '%' . $request->data['data'] . '%')
+                            ->where('u_role_id', $request->data['u_role_id'])
+                    )->get();
+
         }
         $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
         return response()->json(['html' => $html]);
-
-        return response()->json(['html' => $request->data]);
     }
     public function update(Request $request)
     {

@@ -1,5 +1,5 @@
 @if ($data->isEmpty())
-    <h1 class="alert alert-danger">لا يوجد مستخدمين لعرضهم</h1>
+    <h6 class="alert alert-danger">لا يوجد مستخدمين لعرضهم</h6>
 @else
 <thead>
     <tr>
