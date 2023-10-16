@@ -65,4 +65,16 @@ class User extends Authenticatable
     public function majorSupervisors(){
         return $this->hasMany(MajorSupervisor::class, 'ms_super_id', 'u_id');
     }
+<<<<<<< HEAD
+=======
+
+
+    public function mohammed(){
+        return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
+    }
+
+
+
+
+>>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
 }

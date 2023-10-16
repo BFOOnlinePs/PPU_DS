@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends('layouts.app')
 
 @section('title', 'المستخدمين')
@@ -11,6 +12,110 @@
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
+=======
+<<<<<<< HEAD
+<form id="edit-form">
+=======
+<form id="edit_form">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+    @csrf
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+<<<<<<< HEAD
+                <input type="hidden" class="form-control" name="u_id" value="{{$user->u_id}}">
+=======
+                <input type="hidden" class="form-control" name="u_id" value="{{$user->u_id}}" id="edit_form_u_id">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="name">الاسم الكامل</label>
+<<<<<<< HEAD
+                <input type="text" class="form-control" name="name" value="{{$user->name}}">
+=======
+                <input type="text" class="form-control" name="name" value="{{$user->name}}" id="edit_form_name">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="u_username">اسم المستخدم</label>
+<<<<<<< HEAD
+                <input type="text" class="form-control" name="u_username" value="{{$user->u_username}}">
+=======
+                <input type="text" class="form-control" name="u_username" value="{{$user->u_username}}" id="edit_form_u_username" onkeyup="user_email(this.value)">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="email">البريد الإلكتروني</label>
+<<<<<<< HEAD
+                <input type="text" class="form-control" name="email" value="{{$user->email}}">
+=======
+                <input type="text" class="form-control" name="email" value="{{$user->email}}" id="edit_form_email" readonly>
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="u_phone1">رقم الجوال</label>
+<<<<<<< HEAD
+                <input type="text" class="form-control" name="u_phone1" value="{{$user->u_phone1}}">
+=======
+                <input type="text" class="form-control" name="u_phone1" value="{{$user->u_phone1}}" id="edit_form_u_phone1">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="u_phone2">رقم جوال احتياطي</label>
+<<<<<<< HEAD
+                <input type="text" class="form-control" name="u_phone2" value="{{$user->u_phone2}}">
+=======
+                <input type="text" class="form-control" name="u_phone2" value="{{$user->u_phone2}}" id="edit_form_u_phone2">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="u_address">عنوان السكن</label>
+<<<<<<< HEAD
+                <input type="text" class="form-control" name="u_address" value="{{$user->u_address}}">
+=======
+                <input type="text" class="form-control" name="u_address" value="{{$user->u_address}}" id="edit_form_u_address">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="u_date_of_birth">تاريخ الميلاد</label>
+<<<<<<< HEAD
+                <input type="date" class="form-control" name="u_date_of_birth" value="{{$user->u_date_of_birth}}">
+=======
+                <input type="date" class="form-control" name="u_date_of_birth" value="{{$user->u_date_of_birth}}" id="edit_form_u_date_of_birth">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+            </div>
+        </div>
+        @if ($user->u_role_id == 2)
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="u_major_id">التخصص</label>
+<<<<<<< HEAD
+                    <input type="text" class="form-control" name="u_major_id" value="{{$user->u_major_id}}">
+=======
+                    <input type="text" class="form-control" name="u_major_id" value="{{$user->u_major_id}}" id="edit_form_u_major_id">
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+                </div>
+>>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
             </div>
         @endif
         <div class="row">
@@ -124,8 +229,17 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
 @endsection
+=======
+<<<<<<< HEAD
+    <button class="btn btn-primary btn-sm" type="submit" id="serialize-button">حفظ التعديلات</button>
+=======
+    <button class="btn btn-primary" type="submit" onclick="update_user()">حفظ التعديلات</button>
+>>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+</form>
+>>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
 
 @section('script')
 <!-- Add your JavaScript code here if needed -->
