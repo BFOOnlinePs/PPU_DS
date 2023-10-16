@@ -1,5 +1,5 @@
  <div class="modal fade show" id="AddMajorModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content" style="border: none;">
                     <div class="modal-header" style="height: 73px;">
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -30,7 +30,7 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-lg-12 form-label " for="textinput">اسم التخصص</label>
                                                     <div class="col-lg-12">
-                                                       <input id="m_name" type="text" class="form-control @error('m_name') is-invalid @enderror btn-square input-md"
+                                                       <input id="m_name" type="text"  tabindex="1" class="form-control @error('m_name') is-invalid @enderror btn-square input-md"
                                                               name="m_name" value="{{ old('m_name') }}" required autocomplete="m_name" autofocus>
                                                                  @error('m_name')
                                                                 <span class="invalid-feedback" role="alert">
@@ -44,7 +44,7 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-lg-12 form-label " for="textinput">وصف التخصص</label>
                                                     <div class="col-lg-12">
-                                                    <input id="m_description" type="text" class="form-control @error('m_description') is-invalid @enderror btn-square input-md" name="m_description"
+                                                    <input id="m_description" type="text"  tabindex="2" class="form-control @error('m_description') is-invalid @enderror btn-square input-md" name="m_description"
                                                          value="{{ old('m_description') }}" required autocomplete="m_description">
                                                          @error('m_description')
                                                             <span class="invalid-feedback" role="alert">
@@ -58,8 +58,8 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-lg-12 form-label " for="textinput">الرمز المرجعي للتخصص</label>
                                                     <div class="col-lg-12">
-                                                      <input id="m_reference_code" type="text" class="form-control @error('m_reference_code') is-invalid @enderror btn-square input-md"
-                                                        name="m_reference_code" value="{{ old('m_reference_code') }}" required autocomplete="m_reference_code" autofocus>
+                                                      <input id="m_reference_code" type="text"  tabindex="3" class="form-control @error('m_reference_code') is-invalid @enderror btn-square input-md"
+                                                        name="m_reference_code" value="{{ old('m_reference_code') }}" required autocomplete="m_reference_code">
                                                               @error('m_reference_code')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }}</strong>
