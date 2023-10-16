@@ -64,8 +64,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix'=>'companies_categories'],function(){
                 Route::get('/index',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'index'])->name('admin.companies_categories.index');
+                Route::post('/create',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'create'])->name('admin.companies_categories.create');
+                Route::post('/update',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'update'])->name('admin.companies_categories.update');
         });
-
 
         });
     });

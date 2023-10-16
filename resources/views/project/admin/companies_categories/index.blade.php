@@ -33,7 +33,6 @@
                         <thead>
                             <tr>
                                 <th scope="col" style="display:none;">id</th>
-                                <th scope="col">اسم الشركة</th>
                                 <th scope="col">تصنيف الشركة</th>
                                 <th scope="col">العمليات</th>
                             </tr>
@@ -46,10 +45,9 @@
                                 @else
                                 @foreach ($data as $key)
                                 <tr>
-                                    <td>{{ $key->c_name }}</td>
                                     <td>{{ $key->cc_name }}</td>
                                     <td>
-                                        <button href="">asd</button>
+                                        <button onclick="editCompaniesCategories({{ $key }})" class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -60,9 +58,80 @@
             </div>
         </div>
         @include('project.admin.companies_categories.modal.AddCompaniesCategoriesModal')
+        @include('project.admin.companies_categories.modal.EditCompaniesCategoriesModal')
+        @include('layouts.loader')
     </div>
 @endsection
 @section('script')
     <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+
+    <script>
+        document.getElementById("CompaniesCategories").addEventListener("submit", (e) => {
+            e.preventDefault();
+           data =$('#CompaniesCategories').serialize();
+           var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Send an AJAX request with the CSRF token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            $('#AddCompaniesCategoriesModal').modal('hide');
+            $('#LoadingModal').modal('show');
+           // Send an AJAX request
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('admin.companies_categories.create') }}",
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    $('#LoadingModal').modal('hide');
+                    $('#showTable').html(response.view);
+                },
+                error: function(xhr, status, error) {
+                    console.error("error"+error);
+                }
+            });
+    });
+
+    function editCompaniesCategories(data){
+        $('#EditCompaniesCategoriesModal').modal('show');
+        document.getElementById('edit_cc_name').value = data.cc_name;
+        document.getElementById('edit_cc_id').value = data.cc_id;
+    }
+
+    document.getElementById("EditCompaniesCategories").addEventListener("submit", (e) => {
+            e.preventDefault();
+           data =$('#EditCompaniesCategories').serialize();
+           var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Send an AJAX request with the CSRF token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            $('#EditCompaniesCategoriesModal').modal('hide');
+            $('#LoadingModal').modal('show');
+           // Send an AJAX request
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('admin.companies_categories.update') }}",
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    $('#LoadingModal').modal('hide');
+                    $('#showTable').html(response.view);
+                },
+                error: function(xhr, status, error) {
+                    console.error("error"+error);
+                }
+            });
+    });
+
+    </script>
 @endsection
