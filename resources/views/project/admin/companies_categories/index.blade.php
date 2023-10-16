@@ -24,7 +24,7 @@
     <div class="card" style="padding-left:0px; padding-right:0px;">
         <div class="card-body">
             <div class="form-outline">
-                <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2" placeholder="البحث"
+                <input type="search" onkeyup="companies_categories_search(this.value)" class="form-control mb-2" placeholder="البحث"
                     aria-label="Search" />
             </div>
             <div id="showTable">
@@ -132,6 +132,32 @@
                 }
             });
     });
+
+    function companies_categories_search(data) {
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+            $('#showTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
+            $.ajax({
+                url: "{{ route('admin.companies_categories.companies_categories_search') }}", // Replace with your own URL
+                method: "post",
+                data: {
+                    'search': data,
+                    _token: '{!! csrf_token() !!}',
+                },
+                success: function(data) {
+                    dataTable = data;
+                    $('#showTable').html(data.view);
+                },
+                error: function(xhr, status, error) {
+                    alert('error');
+                }
+            });
+        }
+
 
     </script>
 @endsection

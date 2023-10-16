@@ -36,4 +36,12 @@ class CompaniesCategoriesController extends Controller
             ]);
         }
     }
+
+    public function companies_categories_search(Request $request){
+        $data = CompaniesCategory::where('cc_name','like','%'.$request->search.'%')->get();
+        return response()->json([
+            'success'=>'true',
+            'view'=>view('project.admin.companies_categories.ajax.companies_categoriesList',['data'=>$data])->render()
+        ]);
+    }
 }
