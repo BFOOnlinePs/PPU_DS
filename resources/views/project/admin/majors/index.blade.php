@@ -96,8 +96,6 @@
 
 </div>
 
-
-
 </div>
 @endsection
 @section('script')
@@ -204,11 +202,9 @@
                     'X-CSRF-TOKEN': csrfToken
                 }
             });
+            $('#majorsTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
 
             $.ajax({
-                beforeSend: function(){
-                    $('#LoadingModal').modal('show');
-                },
                 url: "{{ route('admin.majors.search') }}", // Replace with your own URL
                 method: "post",
                 data: {
@@ -218,15 +214,14 @@
                 success: function(data) {
                     $('#majorsTable').html(data.view);
                 },
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
                 error: function(xhr, status, error) {
                     // This function is called when there is an error with the request
                     alert('error');
                 }
             });
         }
-              
+        $('.modal').on('shown.bs.modal', function() {
+            $(this).find('[autofocus]').focus();
+        });       
 </script>
 @endsection
