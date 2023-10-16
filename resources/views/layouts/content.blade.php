@@ -49,6 +49,7 @@
 @yield('navbar')
 @yield('content')
 @yield('javascript')
+@yield('javascript')
         </div>
     </div>
     <!-- Container-fluid Ends-->

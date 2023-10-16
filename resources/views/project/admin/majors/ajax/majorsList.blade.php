@@ -17,11 +17,12 @@
                   <td>{{ $key->m_description }}</td>
                   <td>{{ $key->m_reference_code }}</td>
                   <td>
-                    <div class="row">
+                  <div class="row">
                       <div class="col-md-6">
-                          <button type="button" class="btn btn-light" onclick="showEditModal({{$key}})">تعديل</button>
+                         <button class="btn btn-info" onclick="showMajorModal({{ $key }})"><i class="fa fa-search"></i></button>
+                          <button class="btn btn-primary" onclick="showEditModal({{$key}})" ><i class="fa fa-edit"></i></button>
                       </div>
-                     </div>
+                        </div>
                   </td>
                 </tr>
               @endforeach
