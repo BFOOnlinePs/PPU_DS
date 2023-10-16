@@ -34,13 +34,14 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <input class="form-control " onkeyup="user_search(this.value)" type="search" placeholder="ابحث هنا...">
-            <table class="table table-bordered table-hover" id="user-table">
+            <input class="form-control " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
+            <table class="table table-bordered table-striped" id="user-table">
                 @include('project.admin.users.ajax.usersList')
             </table>
         </div>
     </div>
     @include('project.admin.users.modals.add')
+    @include('project.admin.users.modals.loading')
 </div>
 @endsection
 @section('script')
@@ -51,6 +52,10 @@
             e.preventDefault();
             data = $('#addUserForm').serialize();
             $.ajax({
+                beforeSend: function(){
+                    $('#AddUserModal').modal('hide');
+                    $('#LoadingModal').modal('show');
+                },
                 url: "{{route('admin.users.create')}}",
                 method: 'post',
                 headers: {
@@ -60,6 +65,9 @@
                 success: function(response) {
                     $('#AddUserModal').modal('hide');
                     $('#user-table').html(response.html);
+                },
+                complete: function(){
+                    $('#LoadingModal').modal('hide');
                 },
                 error: function() {
                     alert('Error fetching user data.');

@@ -17,9 +17,9 @@
             <td>{{$key->u_username}}</td>
             <td>{{$key->u_phone1}}</td>
             @if ($key->u_status == 0)
-                <td class="bg-danger text-white" id="td-{{$key->id}}">غير مفعل</td>
+                <td class="text-danger" id="td-{{$key->id}}">غير مفعل</td>
             @else
-                <td class="bg-success text-white" id="td-{{$key->id}}">مفعل</td>
+                <td class="text-success" id="td-{{$key->id}}">مفعل</td>
             @endif
             <td><a href="{{route('admin.users.details' , ['id'=>$key->u_id])}}" title="عرض تفاصيل" class="fa fa-edit btn btn-primary"></a></td>
         </tr>
