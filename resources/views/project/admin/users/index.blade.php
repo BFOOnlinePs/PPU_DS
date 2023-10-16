@@ -14,19 +14,35 @@
 @section('navbar')
 <div class="row">
 <<<<<<< HEAD
+    @if (isset($u_role_id))
+        <h1 class="text-center" id="r_name">{{$role_name}}</h1>
+    @else
+        <h1 class="text-center" id="r_name">كل المستخدمين</h1>
+    @endif
+=======
+<<<<<<< HEAD
     <h1 class="text-center">مسؤول النظام</h1>
 =======
     <input type="hidden" id='u_role_id'>
     <h1 class="text-center" id="r_name">كل المستخدمين</h1>
 >>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+>>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
     <div class="col-md-12 p-2 text-center">
         @foreach ($roles as $role)
-            <button class="btn btn-primary btn-sm" onclick="index_user({{$role->r_id}})">{{$role->r_name}}</button>
+            <a class="btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">{{$role->r_name}}</a>
         @endforeach
     </div>
 </div>
 @endsection
 @section('content')
+<<<<<<< HEAD
+<div class="col-sm-12" id="main">
+    @if (isset($u_role_id))
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span> إضافة {{$role_name}}</button>
+    @else
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
+    @endif
+=======
 <div class="col-sm-12">
 <<<<<<< HEAD
     <button  class="add_user_class btn btn-success btn-sm" data-toggle="modal" data-target="#add-user-modal">
@@ -43,13 +59,16 @@
         </button> --}}
     </div>
 >>>>>>> 8eed44ad1dbcc0537ec54d010ec699c510f864bb
+>>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
     <div class="card">
         <div class="card-body">
-            @include('project.admin.users.user_table')
+            <input class="form-control " onkeyup="user_search(this.value)" type="search" placeholder="ابحث هنا...">
+            <table class="table table-bordered table-hover" id="user-table">
+                @include('project.admin.users.ajax.usersList')
+            </table>
         </div>
     </div>
-    @include('project.admin.users.add')
-    @include('project.admin.users.reset_password')
+    @include('project.admin.users.modals.add')
 </div>
 @endsection
 <<<<<<< HEAD
@@ -90,10 +109,26 @@
 @section('script')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function user_email(data)
-        {
-            document.getElementById('edit_form_email').value = data + '@ppu.edu.ps';
-        }
+       let AddUserForm = document.getElementById("addUserForm");
+        AddUserForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            data = $('#addUserForm').serialize();
+            $.ajax({
+                url: "{{route('admin.users.create')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: data,
+                success: function(response) {
+                    $('#AddUserModal').modal('hide');
+                    $('#user-table').html(response.html);
+                },
+                error: function() {
+                    alert('Error fetching user data.');
+                }
+            });
+        });
         function user_search(data)
         {
             u_role_id = document.getElementById('u_role_id').value;
@@ -111,14 +146,14 @@
                 },
                 success: function(response) {
                     $('#user-table').html(response.html);
-                    // $('#user-table').html(response.html);
-                    // alert(response.html);
                 },
                 error: function() {
                     alert('Error fetching user data.');
                 }
             });
         }
+<<<<<<< HEAD
+=======
         function update_user()
         {
             u_id = document.getElementById('edit_form_u_id').value;
@@ -432,5 +467,6 @@
         //         }
         //     });
         // }
+>>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
     </script>
 @endsection

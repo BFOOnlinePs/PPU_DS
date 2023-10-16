@@ -50,6 +50,7 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
     }
+    
 
     // student belongs to company training
     public function studentCompanies(){
@@ -64,6 +65,8 @@ class User extends Authenticatable
     public function majorSupervisors(){
         return $this->hasMany(MajorSupervisor::class, 'ms_super_id', 'u_id');
     }
+<<<<<<< HEAD
+=======
 
 
     public function mohammed(){
@@ -73,4 +76,5 @@ class User extends Authenticatable
 
 
 
+>>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
 }
