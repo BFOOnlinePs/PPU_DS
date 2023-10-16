@@ -7,10 +7,10 @@
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
                                 aria-hidden="true"></i></div>
                     </li>
-                    <li class="dropdown"><a class="nav-link" href="../theme/index.html" target="_blank"><i
+                    <li class="dropdown"><a class="nav-link" href="../theme/index.html"><i
                                 data-feather="home"></i><span>الرئيسية</span></a></li>
 
-                    <li class="dropdown"><a href="{{route('admin.users.index')}}" class="nav-link" target="_blank"><i
+                    <li class="dropdown"><a href="{{route('admin.users.index')}}" class="nav-link"><i
                                 data-feather="users"></i><span>إدارة المستخدمين</span></a></li>
 
                     <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i

@@ -45,24 +45,15 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/index',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'index'])->name('admin.semesterCourses.index');
             });
 
-        Route::group(['prefix'=>'users'],function(){
-<<<<<<< HEAD
-            Route::get('/index/{id}' , [App\Http\Controllers\UserController::class, 'index_id'])->name('admin.users.index_id');
-=======
-
->>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
-            Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
-            Route::post('/create' , [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.create');
-            Route::get('/edit/{id}' , [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
-            Route::post('/update' , [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
-            Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('admin.users.search');
-<<<<<<< HEAD
-            Route::get('/details/{id}' , [App\Http\Controllers\UserController::class, 'details'])->name('admin.users.details');
-=======
-
->>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
-        });
-
+            Route::group(['prefix'=>'users'],function(){
+                Route::get('/index/{id}' , [App\Http\Controllers\UserController::class, 'index_id'])->name('admin.users.index_id');
+                Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
+                Route::post('/create' , [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.create');
+                Route::get('/edit/{id}' , [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
+                Route::post('/update' , [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
+                Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('admin.users.search');
+                Route::get('/details/{id}' , [App\Http\Controllers\UserController::class, 'details'])->name('admin.users.details');
+            });
 
         Route::group(['prefix'=>'majors'],function(){
                 Route::get('/index',[App\Http\Controllers\project\admin\MajorsController::class,'index'])->name('admin.majors.index');
@@ -70,12 +61,12 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('/update',[App\Http\Controllers\project\admin\MajorsController::class,'update'])->name('admin.majors.update');
                 Route::post('/search',[App\Http\Controllers\project\admin\MajorsController::class,'search'])->name('admin.majors.search');
         });
-      
+
         Route::group(['prefix'=>'companies_categories'],function(){
                 Route::get('/index',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'index'])->name('admin.companies_categories.index');
         });
-      
-      
+
+
         });
     });
 
