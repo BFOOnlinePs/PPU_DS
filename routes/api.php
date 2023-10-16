@@ -27,6 +27,9 @@ Route::post('/login', [sharedController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [sharedController::class, 'logout']);
 
+    //user
+    Route::post('getUserById', [sharedController::class, 'index']);
+
     //student
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
 

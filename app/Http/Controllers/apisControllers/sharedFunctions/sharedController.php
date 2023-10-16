@@ -28,33 +28,53 @@ class sharedController extends Controller
                 'status' => false,
                 'message' => 'الرجاء التأكد من المعلومات المدخلة'
             ], 403);
+        } else {
+            $token = $request->user()->createToken('api-token')->plainTextToken;
+
+            // Save the token in the remember_token column
+            // $request->user()->update(['remember_token' => $token]);
+
+            return response([
+                'status' => true,
+                'message' => 'تم تسجيل الدخول بنجاح',
+                'user' => auth()->user(),
+                'token' => $token,
+            ], 200);
         }
-
-        $token = $request->user()->createToken('api-token')->plainTextToken;
-
-        // Save the token in the remember_token column
-        // $request->user()->update(['remember_token' => $token]);
-
-        return response([
-            'status' => true,
-            'message' => 'تم تسجيل الدخول بنجاح',
-            'user' => auth()->user(),
-            'token' => $token,
-        ], 200);
     }
 
     // user logout
     public function logout(Request $request)
     {
-        Auth::user()->tokens->each(function (PersonalAccessToken $token) {
+
+        // Auth::user()->tokens->each(function (PersonalAccessToken $token) {
+        //     $token->delete();
+        // });
+
+        Auth::user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
 
+
         return response([
-            'message' => 'Logout success'
+            'message' => 'تم تسجيل الخروج بنجاح'
         ], 200);
     }
 
+    // user info
+    public function index(Request $request){
+        $credentials = $request->validate([
+            'u_id' => 'required',
+        ]);
+
+        $user = User::where('u_id', $credentials['u_id'])->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json(['user' => $user]);
+    }
 
     // just for test
     public function test()

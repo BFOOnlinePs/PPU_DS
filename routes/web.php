@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    if(auth()->check()){
+    if (auth()->check()) {
 
         return redirect()->route('home');
-    }
-    else{
+    } else {
         return redirect('/login');
     }
     return view('welcome');
@@ -26,8 +26,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware'=>'auth'],function(){
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
     Route::group(['prefix'=>'project'],function(){
     Route::group(['prefix'=>'admin'],function(){
@@ -39,6 +40,10 @@ Route::group(['middleware'=>'auth'],function(){
             Route::post('/update',[App\Http\Controllers\project\admin\CoursesController::class,'update'])->name('admin.courses.update');
             Route::post('/courseSearch',[App\Http\Controllers\project\admin\CoursesController::class,'courseSearch'])->name('admin.courses.courseSearch');
         });
+
+        Route::group(['prefix'=>'semesterCourses'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'index'])->name('admin.semesterCourses.index');
+            });
 
         Route::group(['prefix'=>'users'],function(){
 
@@ -61,32 +66,30 @@ Route::group(['middleware'=>'auth'],function(){
                 Route::post('/update',[App\Http\Controllers\project\admin\MajorsController::class,'update'])->name('admin.majors.update');
                 Route::post('/search',[App\Http\Controllers\project\admin\MajorsController::class,'search'])->name('admin.majors.search');
         });
+      
+        Route::group(['prefix'=>'companies_categories'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'index'])->name('admin.companies_categories.index');
         });
-
+      
+      
+        });
     });
 
-    Route::group(['prefix'=>'companies'],function(){
-
+    Route::group(['prefix' => 'companies'], function () {
     });
 
-    Route::group(['prefix'=>'company_trainer'],function(){
-
+    Route::group(['prefix' => 'company_trainer'], function () {
     });
 
-    Route::group(['prefix'=>'mnd'],function(){
-
+    Route::group(['prefix' => 'mnd'], function () {
     });
 
-    Route::group(['prefix'=>'students'],function(){
-
+    Route::group(['prefix' => 'students'], function () {
     });
 
-    Route::group(['prefix'=>'supervisor_assistatns'],function(){
-
+    Route::group(['prefix' => 'supervisor_assistatns'], function () {
     });
 
-    Route::group(['prefix'=>'supervisors'],function(){
-
+    Route::group(['prefix' => 'supervisors'], function () {
     });
-
 });
