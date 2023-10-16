@@ -45,11 +45,6 @@
     <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
-<<<<<<< HEAD
-    
-
-=======
->>>>>>> 8cc0a8096f6e7114cccf7fe8ae86e8d00f83e477
     <style>
         @font-face {
             font-family: 'Tajawal';
