@@ -224,4 +224,6 @@
             $(this).find('[autofocus]').focus();
         });       
 </script>
+
+<!-- end -->
 @endsection
