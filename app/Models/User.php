@@ -54,7 +54,6 @@ class User extends Authenticatable
     // student belongs to company training
     public function studentCompanies(){
         return $this->belongsTo(StudentCompany::class, 'u_id', 'sc_student_id');
-
     }
 
     public function registrations(){
@@ -65,9 +64,8 @@ class User extends Authenticatable
         return $this->hasMany(MajorSupervisor::class, 'ms_super_id', 'u_id');
     }
 
-
-    public function mohammed(){
-        return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
+    public function managerOf(){
+        return $this->belongsTo(CompanyBranch::class, 'u_id', 'b_manager_id');
     }
 
 
