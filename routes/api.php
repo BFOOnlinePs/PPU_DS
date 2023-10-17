@@ -28,11 +28,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [sharedController::class, 'logout']);
 
     //user
-    Route::post('getUserById', [sharedController::class, 'index']);
+    Route::post('/getUserById', [sharedController::class, 'index']);
 
     //student
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
-
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
