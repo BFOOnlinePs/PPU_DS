@@ -15,7 +15,6 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endsection
 @section('content')
-
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCompaniesCategoriesModal').modal('show')" type="button"><span
                 class="fa fa-plus"></span> إضافة تصنيف الشركات</button>
