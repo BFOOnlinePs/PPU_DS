@@ -25,6 +25,9 @@
     </div>
 </div>
 @endsection
+@section('style')
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+@endsection
 @section('content')
 <div class="col-sm-12" id="main">
     @if (isset($u_role_id))
@@ -35,9 +38,9 @@
     <div class="card">
         <div class="card-body">
             <input class="form-control " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
-            <table class="table table-bordered table-striped" id="user-table">
+            <div id="user-table">
                 @include('project.admin.users.ajax.usersList')
-            </table>
+            </div>
         </div>
     </div>
     @include('project.admin.users.modals.add')
@@ -45,8 +48,16 @@
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        let username = document.getElementById('u_username');
+        let email = document.getElementById('email');
+        username.addEventListener("change" , function() {
+            email.value = username.value + "@ppu.edu.ps";
+        });
+
        let AddUserForm = document.getElementById("addUserForm");
         AddUserForm.addEventListener("submit", (e) => {
             e.preventDefault();

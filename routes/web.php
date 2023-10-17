@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('/update' , [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
                 Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('admin.users.search');
                 Route::get('/details/{id}' , [App\Http\Controllers\UserController::class, 'details'])->name('admin.users.details');
+                Route::get('/courses/student/{id}' , [App\Http\Controllers\UserController::class, 'courses_student'])->name('admin.users.courses.student');
+                Route::post('/courses/student/add' , [App\Http\Controllers\UserController::class, 'courses_student_add'])->name('admin.users.courses.student.add');
             });
 
         Route::group(['prefix'=>'majors'],function(){

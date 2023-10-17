@@ -2,16 +2,14 @@
 @section('title')
 المستخدمين
 @endsection
-@section('header_title')
-
-@endsection
 @section('header_title_link')
 المستخدمين
 @endsection
 @section('header_link')
-تعديل المستخدم
+تعديل المستخدم / <a href="#">{{$user->name}}</a>
 @endsection
 @section('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 <style>
     /* Define a custom style for the buttons */
     .custom-btn {
@@ -50,8 +48,9 @@
       <div class="row">
         <div class="col-xl-3">
             <div class="card">
-                <div class="card-header">
-                <a href="{{route('admin.users.edit' , ['id'=>$user->u_id])}}" class="fa fa-edit"  style="font-size: x-large;"><span></span></a>
+            <input type="hidden" value="{{$user->u_id}}" id="u_id">
+            <div class="card-header pb-0">
+                <a href="{{route('admin.users.edit' , ['id'=>$user->u_id])}}" class="fa fa-edit" style="font-size: x-large;"><span></span></a>
                 <h6 class="card-title mb-0">المعلومات الأساسية</h6>
                 <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
@@ -105,30 +104,60 @@
             </div>
             <div class="card-body">
               <div class="row">
-                @if ($user->u_role_id == 2)
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <a class="btn btn-primary btn-sm custom-btn" href="{{route('admin.users.courses.student' , ['id'=>$user->u_id])}}">مساقات الطالب</a>
+                            <button class="btn btn-primary btn-sm custom-btn" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span> تسجيل مساق للطالب</button>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <a class="btn btn-primary btn-sm custom-btn" href="#">أماكن التدريب</a>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <a class="btn btn-primary btn-sm custom-btn" href="#">سجل المتابعة</a>
-                        </div>
-                    </div>
-                @endif
+              </div>
+              <div class="row" id="content">
+                @include('project.admin.users.ajax.coursesList')
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
+    @include('project.admin.users.modals.add_courses_student')
+    @include('project.admin.users.modals.loading')
   </div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+    <script>
+        let AddCoursesStudentForm = document.getElementById("addCoursesStudentForm");
+        AddCoursesStudentForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            data = $('#addCoursesStudentForm').serialize();
+            id = document.getElementById('u_id').value;
+            $.ajax({
+                beforeSend: function(){
+                    $('#AddCoursesStudentModal').modal('hide');
+                    $('#LoadingModal').modal('show');
+                },
+                url: "{{route('admin.users.courses.student.add')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'data' : data ,
+                    'id' : id
+                },
+                success: function(response) {
+                    $('#AddCoursesStudentModal').modal('hide');
+                    $('#content').html(response.html);
+                },
+                complete: function(){
+                    $('#LoadingModal').modal('hide');
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                    alert('Error fetching user data.');
+                }
+            });
+        });
+
+    </script>
 @endsection
