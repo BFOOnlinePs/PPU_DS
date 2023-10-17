@@ -34,38 +34,37 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">الاسم</label>
-                                    <input class="form-control" type="text" name="name" value="{{ $user->name }}">
+                                    <input class="form-control" type="text" name="name" value="{{ $user->name }}" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">اسم المستخدم</label>
-                                    <input class="form-control" type="text" name="u_username" value="{{ $user->u_username }}">
+                                    <input class="form-control" type="text" name="u_username" value="{{ $user->u_username }}" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">البريد الإلكتروني</label>
-                                    <input class="form-control" type="email" name="email" value="{{ $user->email }}">
+                                    <input class="form-control" type="email" name="email" value="{{ $user->email }}" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">تاريخ الميلاد</label>
-                                    <input class="form-control" type="date" name="u_date_of_birth"
-                                        value="{{ $user->u_date_of_birth }}">
+                                    <input class="form-control" type="date" name="u_date_of_birth" value="{{ $user->u_date_of_birth }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">كلمة السر</label>
-                                    <input class="form-control" type="password" name="password" placeholder="...">
+                                    <input class="form-control" type="password" name="password" placeholder="..." >
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">رقم الجوال</label>
-                                    <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}">
+                                    <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -100,13 +99,23 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">الدور</label>
-                                    <input class="form-control" type="text" name="u_role_id" value="{{ $user->u_role_id }}">
+                                    <select  class="form-control" name="u_role_id" id="">
+                                        <option value="{{$role_id->r_id}}">{{$role_id->r_name}}</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{$role->r_id}}">{{$role->r_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">التخصص</label>
-                                    <input class="form-control" type="text" name="u_major_id" value="{{ $user->u_major_id }}">
+                                    <select  class="form-control" name="u_major_id" id="">
+                                        <option value="{{$major_id->m_id}}">{{$major_id->m_name}}</option>
+                                        @foreach ($majors as $major)
+                                            <option value="{{$major->m_id}}">{{$major->m_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
