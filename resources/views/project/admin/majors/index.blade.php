@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-الرئيسية
+إدارة التخصصات 
 @endsection
 @section('header_title')
-الرئيسية
+إدارة التخصصات 
 @endsection
 @section('header_title_link')
-الرئيسية
+إدارة التخصصات 
 @endsection
 @section('header_link')
-الرئيسية
+التخصصات
 @endsection
 @section('style')
 <style>
@@ -45,67 +45,58 @@
 
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button" id="openAddModalButton"><span class="fa fa-plus"></span>  إضافة تخصص</button>
-
-
     </div>
-<!-- <a onclick="$('#AddMajorModal').modal('show')" id="openAddModalButton" class="btn btn-success">اضافة</a> -->
-<div class="container">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+   
+<div class="card" style="padding-left:0px; padding-right:0px;">
+
+<div class="card-body" >
     <div class="form-outline">
-                <input type="search" onkeyup="majorSearch(this.value)" class="form-control mb-2" placeholder="البحث" aria-label="Search" />
-            </div>
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="table-responsive bg-white">
-                <div id="majorsTable">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <!-- <th scope="col">#</th> -->
-                                <th scope="col">اسم التخصص</th>
-                                <th scope="col">وصف التخصص</th>
-                                <th scope="col">الرمز المرجعي للتخصص </th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $key)
-                            <tr>
-                                <td style="display:none;">{{ $key->m_id }}</td>
-                                <td>{{ $key->m_name }}</td>
-                                <td>{{ $key->m_description }}</td>
-                                <td>{{ $key->m_reference_code }}</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        <button class="btn btn-info" onclick="showMajorModal({{ $key }})"><i class="fa fa-search"></i></button>
-                                        <button class="btn btn-primary" onclick="showEditModal({{$key}})" ><i class="fa fa-edit"></i></button>
-                                    </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+        <input type="search" onkeyup="majorSearch(this.value)" class="form-control mb-2" placeholder="البحث"
+            aria-label="Search" />
+    </div>
+    <div id="majorsTable">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" style="display:none;">id</th>
+                        <th scope="col">اسم التخصص</th>
+                        <th scope="col">وصف التخصص</th>
+                        <th scope="col">الرمز المرجعي للتخصص</th>
+                        <th scope="col">العمليات</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-            </div>
+                @foreach ($data as $key)
+                    <tr>
+                        <td style="display:none;">{{ $key->m_id }}</td>
+                        <td>{{ $key->m_name }}</td>
+                        <td>{{ $key->m_description }}</td>
+                        <td>{{ $key->m_reference_code }}</td>
+                        <td>
+                            <button class="btn btn-info" onclick="showMajorModal({{ $key }})"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-primary" onclick="showEditModal({{ $key }})"><i class="fa fa-edit"></i></button>
+                        </td>
+                    </tr>
+                @endforeach
+
+            </tbody>
+            </table>
         </div>
     </div>
-    @include('project.admin.majors.modals.addMajorModal')
+
+@include('project.admin.majors.modals.addMajorModal')
+
 @include('project.admin.majors.modals.editMajorModal')
+
 @include('project.admin.majors.modals.showMajorModal')
+
 @include('layouts.loader')
+
 </div>
 
+</div>
 @endsection
 @section('script')
 <script>
@@ -211,11 +202,9 @@
                     'X-CSRF-TOKEN': csrfToken
                 }
             });
+            $('#majorsTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
 
             $.ajax({
-                beforeSend: function(){
-                    $('#LoadingModal').modal('show');
-                },
                 url: "{{ route('admin.majors.search') }}", // Replace with your own URL
                 method: "post",
                 data: {
@@ -225,15 +214,16 @@
                 success: function(data) {
                     $('#majorsTable').html(data.view);
                 },
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
                 error: function(xhr, status, error) {
                     // This function is called when there is an error with the request
                     alert('error');
                 }
             });
         }
-              
+        $('.modal').on('shown.bs.modal', function() {
+            $(this).find('[autofocus]').focus();
+        });       
 </script>
+
+<!-- end -->
 @endsection
