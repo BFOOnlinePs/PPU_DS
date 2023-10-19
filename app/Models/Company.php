@@ -12,12 +12,19 @@ class Company extends Model
     protected $table = 'companies';
     protected $primaryKey = 'c_id';
 
-    public function companyBranch(){
+    public function companyBranch()
+    {
         return $this->hasMany(companyBranch::class, 'b_company_id', 'c_id');
     }
 
-    public function companyCategories(){
+    public function companyCategories()
+    {
         return $this->belongsTo(CompaniesCategory::class, 'cc_id', 'c_category_id');
     }
 
+    // the company has many trainings
+    public function trainings()
+    {
+        return $this->hasMany(StudentCompany::class, 'sc_company_id', 'c_id');
+    }
 }

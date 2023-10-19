@@ -3,6 +3,7 @@
 use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\StudentController;
+use App\Http\Controllers\apisControllers\students\studentReportController;
 use App\Models\StudentCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //student
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
+    Route::post('/addStudentReport', [studentReportController::class, 'add']);
+
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

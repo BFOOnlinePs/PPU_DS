@@ -20,4 +20,11 @@ class StudentCompany extends Model
     public function companyBranch(){
         return $this->belongsTo(CompanyBranch::class, 'sc_branch_id', 'b_id');
     }
+
+    // the training belongs to one company
+    public function company(){
+        return $this->belongsTo(Company::class, 'sc_company_id', 'c_id');
+    }
+
+
 }
