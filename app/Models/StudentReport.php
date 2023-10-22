@@ -19,4 +19,8 @@ class StudentReport extends Model
         'sr_submit_longitude',
         'sr_submit_latitude'
     ];
+
+    public function attendance(){
+        return $this->belongsTo(StudentAttendance::class, 's_student_attendance_id', 'sa_id');
+    }
 }
