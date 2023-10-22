@@ -14,14 +14,15 @@ class StudentController extends Controller
     public function index()
     {
         $companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-            ->with('companyBranch.companies')
-            ->with('companyBranch.manager')
+            ->with('company')
+            // ->with('companyBranch.companies')
+            // ->with('companyBranch.manager')
             ->get();
 
-        if($companies->isEmpty()){
+        if ($companies->isEmpty()) {
             return response()->json([
                 'message' => 'لا يوجد تسجيل للطالب في اي شركة حاليا'
-            ]);
+            ], 200);
         }
 
         //i will change it when we need it
@@ -32,7 +33,7 @@ class StudentController extends Controller
         //         'c_website' => $company['c_website'],
         //     ];
         // });
-        return response()->json(['student_companies' => $companies]);
+        return response()->json(['student_companies' => $companies], 200);
     }
 }
 
@@ -47,6 +48,3 @@ class StudentController extends Controller
 // foreach($companies as $key){
 //     $key->bb = CompanyBranch::where('b_id',$key->sc_branch_id)->first();
 // }
-
-
-

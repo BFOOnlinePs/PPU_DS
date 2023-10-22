@@ -11,6 +11,7 @@ use App\Models\StudentCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class sharedController extends Controller
@@ -18,28 +19,38 @@ class sharedController extends Controller
     // user login
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        // $credentials = $request->validate([
+        //     'email' => 'required|email',
+        //     'password' => 'required'
+        // ]);
+
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        if (!Auth::attempt($credentials)) {
-            return response([
+        if ($validator->fails()) {
+            return response()->json([
                 'status' => false,
                 'message' => 'الرجاء التأكد من المعلومات المدخلة'
-            ], 403);
-        } else {
+            ], 200);
+        }
+
+        $credentials = $validator->validated();
+
+        if (Auth::attempt($credentials)) {
             $token = $request->user()->createToken('api-token')->plainTextToken;
-
-            // Save the token in the remember_token column
-            // $request->user()->update(['remember_token' => $token]);
-
             return response([
                 'status' => true,
                 'message' => 'تم تسجيل الدخول بنجاح',
                 'user' => auth()->user(),
                 'token' => $token,
             ], 200);
+        } else {
+            return response([
+                'status' => false,
+                'message' => 'الايميل او كلمة المرور غير صحيحة'
+            ], 403);
         }
     }
 
@@ -62,7 +73,8 @@ class sharedController extends Controller
     }
 
     // user info
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $credentials = $request->validate([
             'u_id' => 'required',
         ]);
