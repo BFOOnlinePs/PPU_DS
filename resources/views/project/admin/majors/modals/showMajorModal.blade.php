@@ -1,5 +1,5 @@
 <div class="modal fade show" id="showMajorModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content" style="border: none;">
                     <div class="modal-header" style="height: 73px;">
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>

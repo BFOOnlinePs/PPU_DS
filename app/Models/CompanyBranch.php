@@ -26,4 +26,8 @@ class CompanyBranch extends Model
     {
         return $this->hasMany(CompanyBranchLocation::class, 'bl_branch_id', 'b_id');
     }
+
+    public function manager(){
+        return $this->hasOne(User::class, 'u_id', 'b_manager_id');
+    }
 }

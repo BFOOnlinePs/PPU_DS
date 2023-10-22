@@ -10,28 +10,30 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    // the companies that student registered in
+    // the companies that student registered in for trainings / current student
     public function index()
     {
         $companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-            ->with('companyBranch.companies')
+            ->with('company')
+            // ->with('companyBranch.companies')
+            // ->with('companyBranch.manager')
             ->get();
 
-        if($companies->isEmpty()){
+        if ($companies->isEmpty()) {
             return response()->json([
-                'message' => 'the user has no companies'
-            ]);
+                'message' => 'لا يوجد تسجيل للطالب في اي شركة حاليا'
+            ], 200);
         }
-        $userCompanies = $companies->pluck('companyBranch.companies');
 
-        $selectedCompanyInfo = $userCompanies->map(function ($company) {
-            return [
-                'c_id' => $company['c_id'],
-                'c_name' => $company['c_name'],
-                'c_website' => $company['c_website'],
-            ];
-        });
-        return response()->json(['companies' => $selectedCompanyInfo]);
+        //i will change it when we need it
+        // $selectedCompanyInfo = $companies->map(function ($company) {
+        //     return [
+        //         'c_id' => $company['c_id'],
+        //         'c_name' => $company['c_name'],
+        //         'c_website' => $company['c_website'],
+        //     ];
+        // });
+        return response()->json(['student_companies' => $companies], 200);
     }
 }
 
@@ -46,6 +48,3 @@ class StudentController extends Controller
 // foreach($companies as $key){
 //     $key->bb = CompanyBranch::where('b_id',$key->sc_branch_id)->first();
 // }
-
-
-
