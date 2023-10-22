@@ -20,7 +20,7 @@
 
 
 <div>
-    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span> إضافة مساق إلى الفصل</button>
+    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span> إضافة مساق إلى الفصل الحالي</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -35,16 +35,16 @@
 
 
 
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label class="col-form-label pt-0" for="exampleInputEmail1">الفصل الدراسي</label>
                             {{-- <input class="form-control" id="semester" name="semester"> --}}
                             <div class="col-lg-12">
                                 <select id="semester" name="semester" class="form-control btn-square">
                                     <option value="0">--الفصل الدراسي--</option>
-                                    <option value="1">أول</option>
-                                    <option value="2">ثاني</option>
-                                    <option value="3">صيفي</option>
+                                    <option value="1" @if($semester==1) selected @endif  >أول</option>
+                                    <option value="2" @if($semester==2) selected @endif>ثاني</option>
+                                    <option value="3" @if($semester==3) selected @endif>صيفي</option>
                                 </select>
                             </div>
                         </div>
@@ -66,10 +66,10 @@
 
 
 
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label class="col-form-label pt-0" for="exampleInputEmail1">العام الدراسي</label>
-                            <input class="form-control" id="year" name="year">
+                            <input class="form-control" id="year" name="year" value="{{ $year }}">
                         </div>
                     </div>
 
@@ -102,28 +102,32 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                    @foreach ($data as $key)
+                    @if ($data->isEmpty())
                         <tr>
-                            <td style="display:none;">{{ $key->sc_id }}</td>
-                            <td>{{ $key->sc_year }}</td>
-                            @if( $key->sc_semester == 1) <td>أول</td>@endif
-                            @if( $key->sc_semester == 2) <td>ثاني</td>@endif
-                            @if( $key->sc_semester == 3) <td>صيفي</td>@endif
-                            <td>{{ $key->courses->c_name }}</td>
-
-                            <td>{{ $key->courses->c_course_code }}</td>
-                            <td>{{ $key->courses->c_hours }}</td>
-                            @if( $key->courses->c_course_type == 0) <td>نظري</td>@endif
-                            @if( $key->courses->c_course_type == 1) <td>عملي</td>@endif
-                            @if( $key->courses->c_course_type == 2) <td>نظري - عملي</td>@endif
-
-                            <td>
-                                <button class="btn btn-danger" onclick="showDeleteCourseModal({{ $key }})"><i class="fa fa-trash"></i></button>
-                            </td>
+                            <td colspan="3" class="text-center"><span>لا توجد بيانات</span></td>
                         </tr>
-                    @endforeach
+                    @else
+                        @foreach ($data as $key)
+                            <tr>
+                                <td style="display:none;">{{ $key->sc_id }}</td>
+                                <td>{{ $key->sc_year }}</td>
+                                @if( $key->sc_semester == 1) <td>أول</td>@endif
+                                @if( $key->sc_semester == 2) <td>ثاني</td>@endif
+                                @if( $key->sc_semester == 3) <td>صيفي</td>@endif
+                                <td>{{ $key->courses->c_name }}</td>
 
+                                <td>{{ $key->courses->c_course_code }}</td>
+                                <td>{{ $key->courses->c_hours }}</td>
+                                @if( $key->courses->c_course_type == 0) <td>نظري</td>@endif
+                                @if( $key->courses->c_course_type == 1) <td>عملي</td>@endif
+                                @if( $key->courses->c_course_type == 2) <td>نظري - عملي</td>@endif
+
+                                <td>
+                                    <button class="btn btn-danger" onclick="showDeleteCourseModal({{ $key }})"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
                 </table>
             </div>
@@ -175,6 +179,7 @@
             $.ajax({
                 beforeSend: function(){
                     $('#AddCourseToSemesterModal').modal('hide');
+                    //$('#selectedCourses').empty();
                     $('#LoadingModal').modal('show');
                 },
                 type: 'POST',
@@ -184,11 +189,15 @@
                 success: function(response) {
                     // $('#AddCourseToSemesterModal').modal('hide');
                     $('#showTable').html(response.view);
+                    $('#selectedCourses').empty();
+                    $('#selectedCourses').html(response.modal);
+                    //$('#selectedCourses').empty().append('@foreach($course as $key)<option value="{{$key->c_id}}">{{$key->c_name}}</option>@endforeach');
                     // document.getElementById('selectedCourses').val = "";
                     //alert(response.data)
                 },
                 complete: function(){
                     $('#LoadingModal').modal('hide');
+
                 },
                 error: function(xhr, status, error) {
                     alert("nooo");
@@ -226,6 +235,8 @@
                 success: function(response) {
                     //$('#AddCourseToSemesterModal').modal('hide');
                     $('#showTable').html(response.view);
+                    $('#selectedCourses').empty();
+                    $('#selectedCourses').html(response.modal);
                     //alert(response.data)
                     //document.getElementById('selectedCourses').val = "";
                 },
@@ -270,6 +281,8 @@
                 dataType: 'json',
                 success: function(response) {
                     $('#showTable').html(response.view);
+                    $('#selectedCourses').empty();
+                    $('#selectedCourses').html(response.modal);
                 },
                 // complete: function(){
                 //     $('#LoadingModal').modal('hide');
@@ -320,9 +333,6 @@
             });
     }
 
-    // $('#openModal').on('click', function(){
-    //     $('#AddCourseToSemesterModal').val('');
-    // });
 
 </script>
 @endsection
