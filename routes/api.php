@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //student
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
     Route::post('/addStudentReport', [studentReportController::class, 'add']);
-
+    //
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
