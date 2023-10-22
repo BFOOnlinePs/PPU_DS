@@ -49,7 +49,7 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <input type="hidden" value="1" id="u_major_id" name="u_major_id">
+                                            <input type="hidden" value="null" id="u_major_id" name="u_major_id">
                                         @endif
                                     </div>
                                     <div class="col-md-4">

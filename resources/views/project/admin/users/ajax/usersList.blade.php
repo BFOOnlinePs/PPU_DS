@@ -22,7 +22,7 @@
             @else
             <td class="text-success" id="td-{{$key->id}}">مفعل</td>
             @endif
-            <td><a href="{{route('admin.users.details' , ['id'=>$key->u_id])}}" title="عرض تفاصيل" class="fa fa-edit btn btn-primary"></a></td>
+            <td><a href="{{route('admin.users.details' , ['id'=>$key->u_id])}}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="عرض التفاصيل" class="fa fa-edit btn btn-primary"></a></td>
         </tr>
         @endforeach
     </tbody>

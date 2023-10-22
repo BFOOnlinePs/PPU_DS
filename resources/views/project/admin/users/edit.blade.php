@@ -109,19 +109,21 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">التخصص</label>
-                                    <select  class="form-control" name="u_major_id" id="">
-                                        <option value="{{$major_id->m_id}}">{{$major_id->m_name}}</option>
-                                        @foreach ($majors as $major)
-                                            <option value="{{$major->m_id}}">{{$major->m_name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <label class="form-label">عنوان السكن</label>
+                                    <input class="form-control" type="text" name="u_address" value="{{ $user->u_address }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">عنوان السكن</label>
-                                    <input class="form-control" type="text" name="u_address" value="{{ $user->u_address }}">
+                                    @if ($user->u_role_id == 2)
+                                        <label class="form-label">التخصص</label>
+                                        <select  class="form-control" name="u_major_id" id="">
+                                            <option value="{{$major_id->m_id}}">{{$major_id->m_name}}</option>
+                                            @foreach ($majors as $major)
+                                                <option value="{{$major->m_id}}">{{$major->m_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-footer text-end">

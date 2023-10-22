@@ -50,10 +50,8 @@
             <div class="card">
             <input type="hidden" value="{{$user->u_id}}" id="u_id">
             <div class="card-header pb-0">
-                <strong class="card-title mb-0" style="font-size: 15px;">
-                    المعلومات الأساسية
-                    <a href="{{route('admin.users.edit' , ['id'=>$user->u_id])}}" class="fa fa-edit" style="font-size: x-large;"><span></span></a>
-                </strong>
+                <a href="{{route('admin.users.edit' , ['id'=>$user->u_id])}}" class="fa fa-edit" style="font-size: x-large;"><span></span></a>
+                <h6 class="card-title mb-0">المعلومات الأساسية</h6>
                 <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
@@ -101,62 +99,59 @@
         <div class="col-xl-9">
           <form class="card">
             <div class="card-header pb-0">
-              {{-- <h4 class="card-title mb-0">Edit Profile</h4> --}}
+              <h4 class="card-title mb-0">أماكن التدريب</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
               <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm custom-btn" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span> تسجيل مساق للطالب</button>
+                            <button class="btn btn-primary btn-sm custom-btn" onclick="$('#AddPlacesTrainingModal').modal('show')" type="button"><span class="fa fa-plus"></span> تسجيل الطالب في تدريب</button>
                         </div>
                     </div>
               </div>
               <div class="row" id="content">
-                @include('project.admin.users.ajax.coursesList')
+                @include('project.admin.users.ajax.placesTrainingList')
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
-    <div id="add_courses_student">
-        @include('project.admin.users.modals.add_courses_student')
-    </div>
+    @include('project.admin.users.modals.add_places_training')
     @include('project.admin.users.modals.loading')
+    @include('project.admin.users.modals.agreement_file')
   </div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+
     <script>
-        function delete_course_for_student(c_id) {
-            u_id = document.getElementById('u_id').value;
+        $('#agreementFileInput').on('change', function () {
+            alert("Helo");
+        });
+        function viewAttachment(url) {
+            $('#AgreementFileModal').modal('show');
+            document.getElementById('view_attachment_result').src = url;
+        }
+
+        function delete_training_place_for_student(sc_id) {
+            sc_student_id = document.getElementById('u_id').value;
             $.ajax({
                 beforeSend: function(){
                     $('#LoadingModal').modal('show');
                 },
-                url: "{{route('admin.users.courses.student.delete')}}",
+                url: "{{route('admin.users.training.place.delete')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-                    'c_id' : c_id,
-                    'u_id': u_id
+                    'sc_id':sc_id,
+                    'sc_student_id':sc_student_id
                 },
                 success: function(response) {
-                    var courseSelect = document.getElementById("select-course");
-                    // Loop through all options and remove them
-                    while (courseSelect.options.length > 0) {
-                        courseSelect.remove(0);
-                    }
-                    response.courses.forEach(function(course) {
-                        var option = document.createElement('option');
-                        option.value = course.c_id;
-                        option.text = course.c_name;
-                        courseSelect.appendChild(option);
-                    });
                     $('#content').html(response.html);
                 },
                 complete: function(){
@@ -168,29 +163,29 @@
                 }
             });
         }
-        let AddCoursesStudentForm = document.getElementById("addCoursesStudentForm");
-        AddCoursesStudentForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-            data = $('#addCoursesStudentForm').serialize();
+        $(document).ready(function() {
+    $('#addPlacesTrainingForm').submit(function(e) {
+            e.preventDefault();
+            // data = $('#addPlacesTrainingForm').serialize();
+            var formData = new FormData(this);
             id = document.getElementById('u_id').value;
+            formData.append('id', id);
             $.ajax({
                 beforeSend: function(){
-                    $('#AddCoursesStudentModal').modal('hide');
+                    $('#AddPlacesTrainingModal').modal('hide');
                     $('#LoadingModal').modal('show');
                 },
-                url: "{{route('admin.users.courses.student.add')}}",
+                url: "{{route('admin.users.places.training.add')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                data: {
-                    'data' : data ,
-                    'id' : id
-                },
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function(response) {
-                    $('#AddCoursesStudentModal').modal('hide');
+                    $('#AddPlacesTrainingModal').modal('hide');
                     $('#content').html(response.html);
-                    $('#add_courses_student').html(response.modal);
                 },
                 complete: function(){
                     $('#LoadingModal').modal('hide');
@@ -199,8 +194,104 @@
                     alert(jqXHR.responseText);
                     alert('Error fetching user data.');
                 }
-            });
-        });
+            });})});
+        function checkSelectedBranch(branch_id) {
+            $.ajax({
+                url: "{{route('admin.users.places.training.departments')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'branch_id': branch_id
+                },
+                success: function(response) {
+                    console.log(response.departments);
+                    var selectDepartments = document.getElementById('select-departments');
+                    selectDepartments.removeAttribute('disabled'); // Enable the select
 
+                    // Remove existing options
+                    while (selectDepartments.firstChild) {
+                        selectDepartments.removeChild(selectDepartments.firstChild);
+                    }
+
+                    var option = document.createElement('option');
+                        option.value = "";
+                        option.text = "";
+                        selectDepartments.appendChild(option);
+
+                    // Populate the select with departments
+                    response.departments.forEach(function(department) {
+                        var option = document.createElement('option');
+                        option.value = department.d_id;
+                        option.text = department.d_name;
+                        selectDepartments.appendChild(option);
+                    });
+                },
+                error: function() {
+                    alert('Error fetching user data.');
+                }
+            });
+        }
+        function checkSelectedCompany(company_id) {
+            $.ajax({
+                url: "{{route('admin.users.places.training.branches')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'company_id': company_id
+                },
+                success: function(response) {
+                    var departmentSelect = document.getElementById("select-departments");
+                    // Loop through all options and remove them
+                    while (departmentSelect.options.length > 0) {
+                        departmentSelect.remove(0);
+                    }
+                    departmentSelect.disabled = true;
+
+                    var selectBranches = document.getElementById('select-branches');
+                    selectBranches.removeAttribute('disabled'); // Enable the select
+
+                    // Remove existing options
+                    while (selectBranches.firstChild) {
+                        selectBranches.removeChild(selectBranches.firstChild);
+                    }
+
+                    // Populate the select with branches
+                    var option = document.createElement('option');
+                        option.value = "";
+                        option.text = "";
+                        selectBranches.appendChild(option);
+
+                    response.branches.forEach(function(branch) {
+                        var option = document.createElement('option');
+                        option.value = branch.b_id;
+                        option.text = branch.b_address;
+                        selectBranches.appendChild(option);
+                    });
+
+
+                    var selectTrainers = document.getElementById('select-trainers');
+                    selectTrainers.removeAttribute('disabled'); // Enable the select
+
+                    // Remove existing options
+                    while (selectTrainers.firstChild) {
+                        selectTrainers.removeChild(selectTrainers.firstChild);
+                    }
+
+                    response.trainers.forEach(function(trainer) {
+                        var option = document.createElement('option');
+                        option.value = trainer.u_id;
+                        option.text = trainer.name;
+                        selectTrainers.appendChild(option);
+                    });
+                },
+                error: function() {
+                    alert('Error fetching user data.');
+                }
+            });
+        }
     </script>
-@endsection
+    @endsection

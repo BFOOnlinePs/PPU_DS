@@ -61,8 +61,10 @@
                   <div class="profile-title">
                     <div class="media"><img class="img-70 rounded-circle" alt="" src="../assets/images/user/7.jpg">
                       <div class="media-body">
-                        <h3 class="mb-1 f-20 txt-primary">{{$user->name}}</h3>
-                        <p class="f-12">التخصص : {{$major}}</p>
+                        @if ($user->u_role_id == 2)
+                            <h3 class="mb-1 f-20 txt-primary">{{$user->name}}</h3>
+                            <p class="f-12">التخصص : {{$major}}</p>
+                        @endif
                       </div>
                     </div>
                   </div>
@@ -113,7 +115,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <a class="btn btn-primary btn-sm custom-btn" href="#">أماكن التدريب</a>
+                            <a class="btn btn-primary btn-sm custom-btn" href="{{route('admin.users.places.training' , ['id'=>$user->u_id])}}">أماكن التدريب</a>
                         </div>
                     </div>
                     <div class="col-md-3">
