@@ -10,23 +10,20 @@ use App\Models\SystemSetting;
 
 class SemesterCoursesController extends Controller
 {
-    //
     public function index()
     {
         $systemSettings = SystemSetting::first();
-        // $course = Course::whereNotIn('c_id', function ($query) use ($systemSettings) {
-        //     $query->select('sc_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
-        // })->get();
 
-        //return $course;
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
 
         $data = SemesterCourse::with('courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year)->get();
 
         $course = Course::whereNotIn('c_id', function ($query) use ($systemSettings) {
-            $query->select('sc_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
+            $query->select('sc_course_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
         })->get();
 
-        return view('project.admin.semesterCourses.index',['data'=>$data,'course'=>$course]);
+        return view('project.admin.semesterCourses.index',['data'=>$data,'course'=>$course,'semester'=>$semester, 'year'=>$year]);
     }
 
     public function create(Request $request){
@@ -47,12 +44,13 @@ class SemesterCoursesController extends Controller
         $data = SemesterCourse::with('courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year)->get();
 
         $course = Course::whereNotIn('c_id', function ($query) use ($systemSettings) {
-            $query->select('sc_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
+            $query->select('sc_course_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
         })->get();
 
         return response()->json([
             'success'=>'true',
-            'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data,'course'=>$course])->render()
+            'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data])->render(),
+            'modal'=>view('project.admin.semesterCourses.ajax.select',['course'=>$course])->render(),
         ]);
     }
 
@@ -65,12 +63,13 @@ class SemesterCoursesController extends Controller
             $data = SemesterCourse::with('courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year)->get();
 
             $course = Course::whereNotIn('c_id', function ($query) use ($systemSettings) {
-                $query->select('sc_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
+                $query->select('sc_course_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
             })->get();
             ;
             return response()->json([
                 'success'=>'true',
-                'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data,'course'=>$course])->render()
+                'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data])->render(),
+                'modal'=>view('project.admin.semesterCourses.ajax.select',['course'=>$course])->render(),
             ]);
         }
 
@@ -79,21 +78,31 @@ class SemesterCoursesController extends Controller
     public function search(Request $request){
         $systemSettings = SystemSetting::first();
 
-        // $data = SemesterCourse::with('courses')
-        // ->where('sc_semester', $request->input('semester'))
-        // ->orWhere('sc_year', $request->input('year'))->get();
+        //$data = new SemesterCourse();
 
-        $data = SemesterCourse::with('courses')
-        ->where('sc_semester', $request->semester)
-        ->orWhere('sc_year', $request->year)->get();
+        if($request->semester == 0){
+            $data = SemesterCourse::with('courses')
+            ->where('sc_year', $request->year)->get();
+        }elseif($request->year == null){
+            $data = SemesterCourse::with('courses')
+            ->where('sc_semester', $request->semester)->get();
+        }elseif($request->semester == 0 && $request->year == null){
+            $data = SemesterCourse::with('courses')->get();
+        }else{
+            $data = SemesterCourse::with('courses')
+            ->where('sc_semester', $request->semester)
+            ->where('sc_year', $request->year)->get();
+        }
+
 
         $course = Course::whereNotIn('c_id', function ($query) use ($systemSettings) {
-            $query->select('sc_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
+            $query->select('sc_course_id')->from('semester_courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year);
         })->get();
-        // return response()->json($request);
+
         return response()->json([
             'success'=>'true',
-            'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data,'course'=>$course])->render()
+            'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data])->render(),
+            'modal'=>view('project.admin.semesterCourses.ajax.select',['course'=>$course])->render(),
         ]);
 
 
@@ -115,7 +124,8 @@ class SemesterCoursesController extends Controller
 
         return response()->json([
             'success'=>'true',
-            'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data,'course'=>$course])->render()
+            'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data])->render(),
+            'modal'=>view('project.admin.semesterCourses.ajax.select',['course'=>$course])->render(),
         ]);
 
 
