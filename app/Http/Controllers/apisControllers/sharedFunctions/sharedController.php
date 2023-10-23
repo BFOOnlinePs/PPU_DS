@@ -57,7 +57,6 @@ class sharedController extends Controller
     // user logout
     public function logout(Request $request)
     {
-
         // Auth::user()->tokens->each(function (PersonalAccessToken $token) {
         //     $token->delete();
         // });
@@ -65,7 +64,6 @@ class sharedController extends Controller
         Auth::user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
-
 
         return response([
             'message' => 'تم تسجيل الخروج بنجاح'

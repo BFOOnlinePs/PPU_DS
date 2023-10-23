@@ -13,11 +13,44 @@ use App\Models\Registration;
 use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\CompanyDepartment;
+use App\Models\StudentAttendance;
 use App\Models\StudentCompany;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    public function students_attendance($id)
+    {
+        $user = User::find($id);
+        $student_attendances = StudentAttendance::where('sa_student_id', $id)->get();
+        return view('project.admin.users.students_attendance' , ['id' => $id , 'user' => $user , 'student_attendances' => $student_attendances]);
+    }
+    public function training_place_delete_file_agreement($sc_id)
+    {
+        $studentCompany = StudentCompany::find($sc_id);
+        // Storage::delete();
+        $studentCompany->sc_agreement_file = null;
+        if($studentCompany->save()) {
+            return redirect()->back();
+        }
+    }
+    public function training_place_update_file_agreement(Request $request)
+    {
+        $studentCompany = StudentCompany::find($request->id_company_student);
+        if ($request->hasFile('file_company_student')) {
+            $file = $request->file('file_company_student');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension; // Unique filename
+            $file->storeAs('uploads', $filename, 'public');
+            $imagepath = 'storage/uploads/' . $filename;
+            $studentCompany->sc_agreement_file = $imagepath;
+        }
+        if($studentCompany->save()) {
+            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
+            $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
+            return response()->json(['html' => $html]);
+        }
+    }
     public function training_place_delete(Request $request)
     {
         $deleted = StudentCompany::where('sc_id', $request->sc_id)->delete();

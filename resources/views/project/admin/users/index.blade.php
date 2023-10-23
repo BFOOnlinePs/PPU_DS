@@ -6,10 +6,10 @@
 المستخدمين
 @endsection
 @section('header_title_link')
-المستخدمين
+    <a href="{{route('home')}}">الرئيسية</a>
 @endsection
 @section('header_link')
-عرض المستخدمين
+    <a href="{{route('admin.users.index')}}">إدارة المستخدمين</a>
 @endsection
 @section('navbar')
 <div class="row p-2">
