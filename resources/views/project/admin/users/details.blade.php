@@ -6,7 +6,7 @@
 
 @endsection
 @section('header_title_link')
-المستخدمين
+<a href="{{route('admin.users.index')}}">المستخدمين</a>
 @endsection
 @section('header_link')
 تعديل المستخدم
@@ -56,11 +56,11 @@
                 <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
-              <form>
-                <div class="row mb-2">
-                  <div class="profile-title">
-                    <div class="media"><img class="img-70 rounded-circle" alt="" src="../assets/images/user/7.jpg">
-                      <div class="media-body">
+                <form>
+                    <div class="row mb-2">
+                        <div class="profile-title">
+                            <div class="media"><img class="img-70 rounded-circle" alt="" src="https://laravel.pixelstrap.com/viho/assets/images/dashboard/1.png">
+                                <div class="media-body">
                         @if ($user->u_role_id == 2)
                             <h3 class="mb-1 f-20 txt-primary">{{$user->name}}</h3>
                             <p class="f-12">التخصص : {{$major}}</p>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <a class="btn btn-primary btn-sm custom-btn" href="#">سجل المتابعة</a>
+                            <a class="btn btn-primary btn-sm custom-btn" href="{{route('admin.users.students.attendance' , ['id'=>$user->u_id])}}">سجل المتابعة</a>
                         </div>
                     </div>
                 @endif

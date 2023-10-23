@@ -58,7 +58,7 @@
               <form>
                 <div class="row mb-2">
                   <div class="profile-title">
-                    <div class="media"><img class="img-70 rounded-circle" alt="" src="../assets/images/user/7.jpg">
+                    <div class="media"><img class="img-70 rounded-circle" alt="" src="https://laravel.pixelstrap.com/viho/assets/images/dashboard/1.png">
                       <div class="media-body">
                         <h3 class="mb-1 f-20 txt-primary">{{$user->name}}</h3>
                         <p class="f-12">التخصص : {{$major}}</p>
@@ -124,18 +124,42 @@
   </div>
 @endsection
 @section('script')
-    <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
-
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     <script>
-        $('#agreementFileInput').on('change', function () {
-            alert("Helo");
-        });
+         function submitFile(input, sc_id) {
+            let file = input.files[0];
+            if (file) {
+                let formData = new FormData();
+                formData.append('file_company_student', file);
+                formData.append('id_company_student', sc_id);
+                formData.append('sc_student_id', document.getElementById('u_id').value);
+
+                // Make an AJAX request to submit the file
+                $.ajax({
+                    url: "{{ route('admin.users.training.place.update.file_agreement') }}",
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        // Handle success, if needed
+                        $('#content').html(response.html);
+                    },
+                    error: function (error) {
+                        // Handle error, if needed
+                        console.error(error);
+                    }
+                });
+            }
+        }
         function viewAttachment(url) {
             $('#AgreementFileModal').modal('show');
             document.getElementById('view_attachment_result').src = url;
         }
-
         function delete_training_place_for_student(sc_id) {
             sc_student_id = document.getElementById('u_id').value;
             $.ajax({
