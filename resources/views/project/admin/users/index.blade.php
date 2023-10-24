@@ -6,13 +6,13 @@
 المستخدمين
 @endsection
 @section('header_title_link')
-المستخدمين
+    <a href="{{route('home')}}">الرئيسية</a>
 @endsection
 @section('header_link')
-عرض المستخدمين
+    <a href="{{route('admin.users.index')}}">إدارة المستخدمين</a>
 @endsection
 @section('navbar')
-<div class="row">
+<div class="row p-2">
     @if (isset($u_role_id))
         <h1 class="text-center" id="r_name">{{$role_name}}</h1>
     @else
@@ -26,18 +26,18 @@
 </div>
 @endsection
 @section('style')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endsection
 @section('content')
 <div class="col-sm-12" id="main">
-    @if (isset($u_role_id))
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span> إضافة {{$role_name}}</button>
-    @else
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
-    @endif
     <div class="card">
         <div class="card-body">
-            <input class="form-control " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
+            @if (isset($u_role_id))
+                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span> إضافة {{$role_name}}</button>
+            @else
+                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
+            @endif
+            <input class="form-control mb-2 " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
             <div id="user-table">
                 @include('project.admin.users.ajax.usersList')
             </div>
@@ -80,8 +80,9 @@
                 complete: function(){
                     $('#LoadingModal').modal('hide');
                 },
-                error: function() {
-                    alert('Error fetching user data.');
+                error: function(xhr, status, error) {
+                    // Display an alert with the error message
+                    alert('Error: ' + error);
                 }
             });
         });

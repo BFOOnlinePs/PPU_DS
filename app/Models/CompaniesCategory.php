@@ -12,7 +12,7 @@ class CompaniesCategory extends Model
     protected $primaryKey = 'cc_id';
 
     public function companies(){
-        return $this->hasMany(Company::class, 'c_category_id', 'cc_id');
+        return $this->hasOne(Company::class, 'cc_id','c_category_id');
     }
 }
 

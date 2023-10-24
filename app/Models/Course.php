@@ -14,4 +14,8 @@ class Course extends Model
     public function registrations(){
         return $this->hasMany(Registration::class, 'r_course_id', 'c_id');
     }
+
+    public function semeste_courses(){
+        return $this->belongsTo(SemesterCourse::class, 'c_id','sc_course_id');
+    }
 }

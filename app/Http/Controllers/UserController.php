@@ -10,9 +10,127 @@ use App\Models\Major;
 use App\Models\Course;
 use App\Models\SystemSetting;
 use App\Models\Registration;
+use App\Models\Company;
+use App\Models\CompanyBranch;
+use App\Models\CompanyDepartment;
+use App\Models\StudentAttendance;
+use App\Models\StudentCompany;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    public function students_attendance($id)
+    {
+        $user = User::find($id);
+        $student_attendances = StudentAttendance::where('sa_student_id', $id)->get();
+        return view('project.admin.users.students_attendance' , ['id' => $id , 'user' => $user , 'student_attendances' => $student_attendances]);
+    }
+    public function training_place_delete_file_agreement($sc_id)
+    {
+        $studentCompany = StudentCompany::find($sc_id);
+        // Storage::delete();
+        $studentCompany->sc_agreement_file = null;
+        if($studentCompany->save()) {
+            return redirect()->back();
+        }
+    }
+    public function training_place_update_file_agreement(Request $request)
+    {
+        $studentCompany = StudentCompany::find($request->id_company_student);
+        if ($request->hasFile('file_company_student')) {
+            $file = $request->file('file_company_student');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension; // Unique filename
+            $file->storeAs('uploads', $filename, 'public');
+            $imagepath = 'storage/uploads/' . $filename;
+            $studentCompany->sc_agreement_file = $imagepath;
+        }
+        if($studentCompany->save()) {
+            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
+            $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
+            return response()->json(['html' => $html]);
+        }
+    }
+    public function training_place_delete(Request $request)
+    {
+        $deleted = StudentCompany::where('sc_id', $request->sc_id)->delete();
+        if($deleted > 0) {
+            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
+            $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
+            return response()->json(['html' => $html]);
+        }
+    }
+    public function places_training_add(Request $request)
+    {
+        $studentCompany = new StudentCompany;
+        $studentCompany->sc_student_id = $request->id;
+        $studentCompany->sc_company_id = $request->input('company');
+        $studentCompany->sc_branch_id = $request->input('branch');
+        $studentCompany->sc_department_id = $request->input('department');
+        $studentCompany->sc_mentor_trainer_id = $request->input('trainer');
+        $studentCompany->sc_assistant_id = $request->input('manager_assistant');
+        $studentCompany->sc_status = 1;
+         if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension; // Unique filename
+            $file->storeAs('uploads', $filename, 'public');
+            $imagepath = 'storage/uploads/' . $filename;
+            $studentCompany->sc_agreement_file = $imagepath;
+        }
+
+        // Save the data to the database
+        if($studentCompany->save()) {
+            $data = StudentCompany::where('sc_student_id' , $request->id)->get();
+            $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
+            return response()->json(['html' => $html]);
+        }
+    }
+    public function places_training_departments(Request $request)
+    {
+        $departments = CompanyDepartment::where('d_company_branch_id' , $request->branch_id)->get();
+        return response()->json(['departments' => $departments]);
+    }
+    public function places_training_branches(Request $request)
+    {
+        $branches = CompanyBranch::where('b_company_id' , $request->company_id)->get();
+        $trainers = User::where('u_company_id' , $request->company_id)->get();
+        return response()->json(['branches' => $branches , 'trainers' => $trainers]);
+    }
+    public function places_training($id)
+    {
+        $user = User::find($id);
+        $major = Major::where('m_id' , $user->u_major_id)->first();
+        $major_name = $major->m_name;
+        $companies = Company::get();
+        // to get المساعد الإداري
+        $manager_assistants = User::where('u_role_id' , 4)->get();
+        $data = StudentCompany::where('sc_student_id' , $id)->get();
+        return view('project.admin.users.places_training' , ['user' => $user , 'major' => $major_name , 'companies' => $companies , 'branches' => null , 'departments' => null , 'trainers' => null , 'manager_assistants' => $manager_assistants , 'data' => $data]);
+    }
+    public function courses_student_delete(Request $request)
+    {
+        $system_setting = SystemSetting::first();
+        $deleted = Registration::where('r_student_id', $request->u_id)
+                                ->where('r_course_id', $request->c_id)
+                                ->where('r_semester' , $system_setting->ss_semester_type)
+                                ->where('r_year' , $system_setting->ss_year)
+                                ->delete();
+        if($deleted > 0) {
+            $data = Registration::where('r_student_id' , $request->u_id)
+                                ->where('r_semester' , $system_setting->ss_semester_type)
+                                ->where('r_year' , $system_setting->ss_year)
+                                ->get();
+            $html = view('project.admin.users.ajax.coursesList' , ['data' => $data])->render();
+            $r_course_id = Registration::where('r_student_id' , $request->u_id)
+                                            ->where('r_semester' , $system_setting->ss_semester_type)
+                                            ->where('r_year' , $system_setting->ss_year)
+                                            ->pluck('r_course_id')
+                                            ->toArray();
+            $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+            return response()->json(['html' => $html , 'courses' => $courses]);
+        }
+    }
     public function courses_student_add(Request $request)
     {
         $serializedData = $request->input('data');
@@ -29,15 +147,21 @@ class UserController extends Controller
         $registration->r_semester = $system_setting->ss_semester_type;
         $registration->r_year = $system_setting->ss_year;
         if($registration->save()) {
-            $r_course_id = Registration::where('r_student_id' , $request->input('id'))
-                                        ->where('r_semester' , $system_setting->ss_semester_type)
-                                        ->where('r_year' , $system_setting->ss_year)
-                                        ->pluck('r_course_id')
-                                        ->toArray();
-            $data = Course::whereIn('c_id' , $r_course_id)->get();
+            $data = Registration::where('r_student_id' , $request->input('id'))
+                                ->where('r_semester' , $system_setting->ss_semester_type)
+                                ->where('r_year' , $system_setting->ss_year)
+                                ->get();
             $html = view('project.admin.users.ajax.coursesList' , ['data' => $data])->render();
+            $system_setting = SystemSetting::first();
+            $r_course_id = Registration::where('r_student_id' , $request->input('id'))
+                                            ->where('r_semester' , $system_setting->ss_semester_type)
+                                            ->where('r_year' , $system_setting->ss_year)
+                                            ->pluck('r_course_id')
+                                            ->toArray();
+            $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+            $modal = view('project.admin.users.modals.add_courses_student' , ['courses' => $courses])->render();
 
-            return response()->json(['html' => $html]);
+            return response()->json(['html' => $html , 'modal' => $modal]);
         }
     }
     public function courses_student($id)
@@ -45,27 +169,29 @@ class UserController extends Controller
         $user = User::find($id);
         $major = Major::where('m_id' , $user->u_major_id)->first();
         $major_name = $major->m_name;
-        $courses = Course::get();
 
         $system_setting = SystemSetting::first();
-
         $r_course_id = Registration::where('r_student_id' , $id)
-                                    ->where('r_semester' , $system_setting->ss_semester_type)
-                                    ->where('r_year' , $system_setting->ss_year)
-                                    ->pluck('r_course_id')
-                                    ->toArray();
-        // if($r_course_id == '[]') {
-        //     $r_course_id = null;
-        // }
+                                        ->where('r_semester' , $system_setting->ss_semester_type)
+                                        ->where('r_year' , $system_setting->ss_year)
+                                        ->pluck('r_course_id')
+                                        ->toArray();
+        $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
 
-        $data = Course::whereIn('c_id' , $r_course_id)->get();
+        $data = Registration::where('r_student_id' , $id)
+                                ->where('r_semester' , $system_setting->ss_semester_type)
+                                ->where('r_year' , $system_setting->ss_year)
+                                ->get();
         return view('project.admin.users.courese_student' , ['user' => $user , 'major' => $major_name , 'courses' => $courses , 'data' => $data]);
     }
     public function details($id)
     {
         $user = User::find($id);
         $major = Major::where('m_id' , $user->u_major_id)->first();
-        $major_name = $major->m_name;
+        $major_name = null;
+        if(!empty($major)) {
+            $major_name = $major->m_name;
+        }
         return view('project.admin.users.details' , ['user' => $user , 'major' => $major_name]);
     }
     public function search(Request $request)
@@ -153,7 +279,9 @@ class UserController extends Controller
         $user->u_address = $request->u_address;
         $user->u_date_of_birth = $request->u_date_of_birth;
         $user->u_gender = $request->u_gender;
-        $user->u_major_id = $request->u_major_id;
+        if ($request->u_major_id === "null") {
+            $user->u_major_id = null;
+        }
         $user->u_role_id = $request->u_role_id;
         if($user->save()) {
             $data = User::where('u_role_id', $request->u_role_id)->get();
