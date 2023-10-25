@@ -72,4 +72,7 @@ class User extends Authenticatable
     public function major(){
         return $this->belongsTo(Major::class, 'u_major_id', 'm_id');
     }
+    public function companyManager(){
+        return $this->hasOne(Company::class, 'c_manager_id','u_id');
+    }
 }
