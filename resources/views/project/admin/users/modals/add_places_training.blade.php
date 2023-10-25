@@ -20,7 +20,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
                                             <label for="">الشركة</label>
-                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-companies" onchange="checkSelectedCompany(this.value)" name="company">
+                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-companies" onchange="checkSelectedCompany(this.value)" name="company" required>
                                                 <option value=""></option>
                                                 @foreach ($companies as $company)
                                                     <option value="{{$company->c_id}}">{{$company->c_name}}</option>
