@@ -67,7 +67,15 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('/training/place/update/file_agreement' , [App\Http\Controllers\UserController::class, 'training_place_update_file_agreement'])->name('admin.users.training.place.update.file_agreement');
                 Route::get('/training/place/delete/file_agreement/{sc_id}' , [App\Http\Controllers\UserController::class, 'training_place_delete_file_agreement'])->name('admin.users.training.place.delete.file_agreement');
                 Route::get('/students/attendance/{id}' , [App\Http\Controllers\UserController::class, 'students_attendance'])->name('admin.users.students.attendance');
-             });
+                Route::get('/student/payments/{id}' , [App\Http\Controllers\UserController::class, 'student_payments'])->name('admin.users.student.payments');
+                Route::get('/supervisor/majors/{id}' , [App\Http\Controllers\UserController::class , 'supervisor_majors'])->name('admin.users.supervisor.majors'); // To show majors to academic supervisor
+                Route::post('/supervisor/major/add' , [App\Http\Controllers\UserController::class , 'supervisor_major_add'])->name('admin.users.supervisor.major.add'); // To add major to academic supervisor
+                Route::post('/supervisor/major/delete' , [App\Http\Controllers\UserController::class, 'supervisor_major_delete'])->name('admin.users.supervisor.major.delete'); // To delete major to academic supervisor
+                Route::get('/supervisor/students/{id}' , [App\Http\Controllers\UserController::class , 'supervisor_students'])->name('admin.users.supervisor.sutdents');
+                Route::post('/supervisor/students/search' , [App\Http\Controllers\UserController::class, 'supervisor_students_search'])->name('admin.users.supervisor.students.search');
+                Route::post('/supervisor/students/search/major' , [App\Http\Controllers\UserController::class , 'supervisor_students_search_major'])->name('admin.users.supervisor.students.search.major'); // To make filter for major
+
+            });
 
         Route::group(['prefix'=>'majors'],function(){
                 Route::get('/index',[App\Http\Controllers\project\admin\MajorsController::class,'index'])->name('admin.majors.index');

@@ -15,13 +15,15 @@
 <div class="row p-2">
     @if (isset($u_role_id))
         <h1 class="text-center" id="r_name">{{$role_name}}</h1>
-    @else
-        <h1 class="text-center" id="r_name">كل المستخدمين</h1>
     @endif
-    <div class="col-md-12 p-2 text-center">
-        @foreach ($roles as $role)
-            <a class="btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">{{$role->r_name}}</a>
-        @endforeach
+    <div class="container">
+        <div class="container-fluid">
+            <div class="col-md-12 row p-2 text-center">
+                @foreach ($roles as $role)
+                    <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">{{$role->r_name}}</a>
+                @endforeach
+            </div>
+        </div>
     </div>
 </div>
 @endsection

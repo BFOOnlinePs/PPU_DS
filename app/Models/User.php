@@ -68,4 +68,8 @@ class User extends Authenticatable
     public function managerOf(){
         return $this->belongsTo(CompanyBranch::class, 'u_id', 'b_manager_id');
     }
+
+    public function major(){
+        return $this->belongsTo(Major::class, 'u_major_id', 'm_id');
+    }
 }

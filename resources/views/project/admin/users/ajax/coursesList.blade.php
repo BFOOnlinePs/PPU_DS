@@ -12,7 +12,7 @@
         @foreach($data as $registration)
             <tr>
                 <td>{{$registration->courses->c_name}}</td>
-                <td><button class="btn btn-danger" onclick="delete_course_for_student({{$registration->r_course_id}})" type="button">حذف المساق</button></td>
+                <td><button class="btn btn-danger" onclick="delete_course_for_student({{$registration->r_course_id}})" type="button"><span class="fa fa-trash"></span></button></td>
             </tr>
         @endforeach
     </tbody>

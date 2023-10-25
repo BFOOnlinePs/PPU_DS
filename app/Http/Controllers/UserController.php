@@ -16,9 +16,113 @@ use App\Models\CompanyDepartment;
 use App\Models\StudentAttendance;
 use App\Models\StudentCompany;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\MajorSupervisor;
 class UserController extends Controller
 {
+    public function supervisor_students_search_major(Request $request)
+    {
+        if(!isset($request->m_id)) {
+            $ms_major_id = MajorSupervisor::where('ms_super_id' , $request->user_id)
+                                    ->pluck('ms_major_id')
+                                    ->toArray();
+            $students = User::where('u_role_id' , 2)
+                            ->whereIn('u_major_id' , $ms_major_id)
+                            ->get();
+        }
+        else {
+            $students = User::where('u_role_id' , 2)
+                            ->where('u_major_id' , $request->m_id)
+                            ->get();
+        }
+        $html = view('project.admin.users.ajax.supervisorStudentsList' , ['students' => $students])->render();
+        return response()->json(['html' => $html]);
+    }
+    public function supervisor_students_search(Request $request)
+    {
+        $students = null;
+        if(!isset($request->m_id)) {
+            $ms_major_id = MajorSupervisor::where('ms_super_id' , $request->user_id)
+                                            ->pluck('ms_major_id')
+                                            ->toArray();
+            $students = User::where('u_role_id' , 2)
+                            ->whereIn('u_major_id' , $ms_major_id)
+                            ->where('name', 'like', '%' . $request->word_to_search . '%');
+            $students = $students->union(
+                User::where('u_role_id' , 2)
+                    ->whereIn('u_major_id' , $ms_major_id)
+                    ->where('u_username', 'like', '%' . $request->word_to_search . '%')
+            )->get();
+        }
+        else {
+            $students = User::where('u_role_id' , 2)
+                        ->where('u_major_id' , $request->m_id)
+                        ->where('name', 'like', '%' . $request->word_to_search . '%');
+            $students = $students->union(
+            User::where('u_role_id' , 2)
+                ->where('u_major_id' , $request->m_id)
+                ->where('u_username', 'like', '%' . $request->word_to_search . '%')
+            )->get();
+        }
+        $html = view('project.admin.users.ajax.supervisorStudentsList' , ['students' => $students])->render();
+        return response()->json(['html' => $html]);
+    }
+    public function supervisor_students($id)
+    {
+        $user = User::find($id);
+        $ms_major_id = MajorSupervisor::where('ms_super_id' , $id)
+                                    ->pluck('ms_major_id')
+                                    ->toArray();
+        $students = User::where('u_role_id' , 2)
+                        ->whereIn('u_major_id' , $ms_major_id)
+                        ->get();
+        $majors = Major::get();
+        return view('project.admin.users.supervisor_students' , ['user' => $user , 'students' => $students , 'majors' => $majors]);
+    }
+    public function supervisor_major_delete(Request $request)
+    {
+        $major_supervisor_delete = MajorSupervisor::where('ms_id' , $request->ms_id)->delete();
+        if($major_supervisor_delete > 0)
+        {
+            $data = MajorSupervisor::where('ms_super_id' , $request->user_id)->get();
+            $html = view('project.admin.users.ajax.supervisorMajorList' , ['data' => $data])->render();
+            $supervisor_majors_id = MajorSupervisor::where('ms_super_id' , $request->user_id)
+                                            ->pluck('ms_major_id')
+                                            ->toArray();
+            $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
+            return response()->json(['html' => $html , 'majors' => $majors]);
+        }
+    }
+    public function supervisor_major_add(Request $request)
+    {
+        $major_supervisor = new MajorSupervisor;
+        $major_supervisor->ms_super_id = $request->user_id;
+        $major_supervisor->ms_major_id = $request->major_id;
+        if($major_supervisor->save())
+        {
+            $data = MajorSupervisor::where('ms_super_id' , $request->user_id)->get();
+            $html = view('project.admin.users.ajax.supervisorMajorList' , ['data' => $data])->render();
+            $supervisor_majors_id = MajorSupervisor::where('ms_super_id' , $request->user_id)
+                                            ->pluck('ms_major_id')
+                                            ->toArray();
+            $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
+            return response()->json(['html' => $html , 'majors' => $majors]);
+        }
+    }
+    public function supervisor_majors($id)
+    {
+        $user = User::find($id);
+        $supervisor_majors_id = MajorSupervisor::where('ms_super_id' , $id)
+                                            ->pluck('ms_major_id')
+                                            ->toArray();
+        $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
+        $data = MajorSupervisor::where('ms_super_id' , $id)->get();
+        return view('project.admin.users.supervisor_majors' , ['user' => $user , 'majors' => $majors , 'data' => $data]);
+    }
+    public function student_payments($id)
+    {
+        $user = User::find($id);
+        return view('project.admin.users.student_payments' , ['user' => $user]);
+    }
     public function students_attendance($id)
     {
         $user = User::find($id);
@@ -100,13 +204,11 @@ class UserController extends Controller
     public function places_training($id)
     {
         $user = User::find($id);
-        $major = Major::where('m_id' , $user->u_major_id)->first();
-        $major_name = $major->m_name;
         $companies = Company::get();
         // to get المساعد الإداري
         $manager_assistants = User::where('u_role_id' , 4)->get();
         $data = StudentCompany::where('sc_student_id' , $id)->get();
-        return view('project.admin.users.places_training' , ['user' => $user , 'major' => $major_name , 'companies' => $companies , 'branches' => null , 'departments' => null , 'trainers' => null , 'manager_assistants' => $manager_assistants , 'data' => $data]);
+        return view('project.admin.users.places_training' , ['user' => $user , 'companies' => $companies , 'branches' => null , 'departments' => null , 'trainers' => null , 'manager_assistants' => $manager_assistants , 'data' => $data]);
     }
     public function courses_student_delete(Request $request)
     {
@@ -167,9 +269,6 @@ class UserController extends Controller
     public function courses_student($id)
     {
         $user = User::find($id);
-        $major = Major::where('m_id' , $user->u_major_id)->first();
-        $major_name = $major->m_name;
-
         $system_setting = SystemSetting::first();
         $r_course_id = Registration::where('r_student_id' , $id)
                                         ->where('r_semester' , $system_setting->ss_semester_type)
@@ -182,17 +281,12 @@ class UserController extends Controller
                                 ->where('r_semester' , $system_setting->ss_semester_type)
                                 ->where('r_year' , $system_setting->ss_year)
                                 ->get();
-        return view('project.admin.users.courese_student' , ['user' => $user , 'major' => $major_name , 'courses' => $courses , 'data' => $data]);
+        return view('project.admin.users.courese_student' , ['user' => $user , 'courses' => $courses , 'data' => $data]);
     }
     public function details($id)
     {
         $user = User::find($id);
-        $major = Major::where('m_id' , $user->u_major_id)->first();
-        $major_name = null;
-        if(!empty($major)) {
-            $major_name = $major->m_name;
-        }
-        return view('project.admin.users.details' , ['user' => $user , 'major' => $major_name]);
+        return view('project.admin.users.details' , ['user' => $user]);
     }
     public function search(Request $request)
     {
