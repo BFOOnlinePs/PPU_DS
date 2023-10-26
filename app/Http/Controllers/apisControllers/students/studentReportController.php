@@ -10,24 +10,29 @@ use Illuminate\Support\Facades\Validator;
 class studentReportController extends Controller
 {
     // to add student report for the current student
-    public function add(Request $request)
+    public function studentSubmitNewReport(Request $request)
     {
         $validator  = Validator::make($request->all(), [
             'sr_student_attendance_id' => 'required|exists:students_attendance,sa_id',
             'sr_report_text' => 'required',
-            'sr_attached_file' => 'nullable|file',
+            // 'sr_attached_file' => 'nullable|file|mimetypes:image/jpeg,image/png,image/svg+xml,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.oasis.opendocument.text,application/vnd.oasis.opendocument.spreadsheet,application/vnd.oasis.opendocument.presentation,audio/mpeg,video/mp4,text/plain,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'sr_attached_file' => 'nullable|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,mp3,mp4,csv,xlsx', // .txt accept other things
             'sr_submit_longitude' => 'required|string',
             'sr_submit_latitude' => 'required|string',
+        ],[
+            'sr_student_attendance_id.required' => 'يجب ان يكون الطالب قد سجل دخوله',
+            'sr_report_text.required' => 'يجب ادخال نص التقرير',
+            'sr_submit_longitude.required' => 'يجب ادخال الموقع',
+            'sr_submit_latitude.required' => 'يجب ادخال الموقع',
+            'sr_attached_file.mimes' =>'صيغة الملف غير مدعومة، جرب ملفًا آخر',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'الرجاء التأكد من ادخال جميع المعلومات'
+                'message' => $validator->errors()->first(),
             ], 200);
         }
-
-
 
         //  $reportUrl = asset('storage/' . $folderPath . '/' . $fileName);
 

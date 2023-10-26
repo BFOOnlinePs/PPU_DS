@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //student
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
-    Route::post('/addStudentReport', [studentReportController::class, 'add']);
+    Route::post('/addStudentReport', [studentReportController::class, 'studentSubmitNewReport']);
 
     Route::post('/getStudentReportsDependOnAttendance', [StudentReportAttendanceController::class, 'getStudentReportsWithAttendance']);
 
