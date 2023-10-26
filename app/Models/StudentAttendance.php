@@ -13,7 +13,7 @@ class StudentAttendance extends Model
 
     public function report()
     {
-        return $this->hasOne(StudentReport::class, 's_student_attendance_id', 'sa_id');
+        return $this->hasOne(StudentReport::class, 'sr_student_attendance_id', 'sa_id');
     }
 
     public function training()
