@@ -46,7 +46,7 @@ return [
 
         'student_reports' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/studentReports'),
+            'root' => storage_path('app/public/student_reports'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],

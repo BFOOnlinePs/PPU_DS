@@ -19,7 +19,7 @@ class Company extends Model
 
     public function companyCategories()
     {
-        return $this->belongsTo(CompaniesCategory::class, 'cc_id', 'c_category_id');
+        return $this->belongsTo(CompaniesCategory::class, 'c_category_id', 'cc_id');
     }
 
     // the company has many trainings
@@ -27,4 +27,9 @@ class Company extends Model
     {
         return $this->hasMany(StudentCompany::class, 'sc_company_id', 'c_id');
     }
+
+    public function manager(){
+        return $this->belongsTo(User::class, 'c_manager_id', 'u_id');
+    }
+
 }

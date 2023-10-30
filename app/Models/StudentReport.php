@@ -21,6 +21,6 @@ class StudentReport extends Model
     ];
 
     public function attendance(){
-        return $this->belongsTo(StudentAttendance::class, 's_student_attendance_id', 'sa_id');
+        return $this->belongsTo(StudentAttendance::class, 'sr_student_attendance_id', 'sa_id');
     }
 }

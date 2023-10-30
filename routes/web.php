@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/courseSearch',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'courseNameSearch'])->name('admin.semesterCourses.courseNameSearch');
         });
 
+
             Route::group(['prefix'=>'users'],function(){
                 Route::get('/index/{id}' , [App\Http\Controllers\UserController::class, 'index_id'])->name('admin.users.index_id');
                 Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
@@ -84,6 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('/student/submit/report' , [App\Http\Controllers\UserController::class , 'student_submit_report'])->name('student.submit.report');
             });
 
+
         Route::group(['prefix'=>'majors'],function(){
                 Route::get('/index',[App\Http\Controllers\project\admin\MajorsController::class,'index'])->name('admin.majors.index');
                 Route::post('/create',[App\Http\Controllers\project\admin\MajorsController::class,'create'])->name('admin.majors.create');
@@ -96,6 +98,11 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('/create',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'create'])->name('admin.companies_categories.create');
                 Route::post('/update',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'update'])->name('admin.companies_categories.update');
                 Route::post('/companies_categories_search',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'companies_categories_search'])->name('admin.companies_categories.companies_categories_search');
+        });
+
+        Route::group(['prefix'=>'companies'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\CompaniesController::class,'index'])->name('admin.companies.index');
+            Route::get('/company',[App\Http\Controllers\project\admin\CompaniesController::class,'company'])->name('admin.companies.company');
         });
 
         });
