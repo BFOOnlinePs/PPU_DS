@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\apisController\students\StudentAttendanceController;
 use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
 use App\Http\Controllers\apisControllers\students\studentReportController;
@@ -38,6 +40,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/addStudentReport', [studentReportController::class, 'studentSubmitNewReport']);
 
     Route::post('/getStudentReportsDependOnAttendance', [StudentReportAttendanceController::class, 'getStudentReportsWithAttendance']);
+
+    Route::post('/recordStudentCheckIn', [StudentsStudentAttendanceController::class, 'studentCheckIn']);
+    Route::post('/recordStudentCheckOut', [StudentsStudentAttendanceController::class, 'studentCheckOut']);
+    Route::post('/checkTodayStudentAttendance', [StudentsStudentAttendanceController::class, 'checkTodayStudentAttendance']);
 
     //company_manager
     Route::get('/list_student_in_company',[CompaniesController::class , 'list_student_in_company']);
