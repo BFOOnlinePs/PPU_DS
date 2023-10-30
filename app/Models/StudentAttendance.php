@@ -11,6 +11,18 @@ class StudentAttendance extends Model
     protected $table = 'students_attendance';
     protected $primaryKey = 'sa_id';
 
+    protected $fillable = [
+        'sa_student_id',
+        'sa_student_company_id',
+        'sa_start_time_latitude',
+        'sa_start_time_longitude',
+        'sa_description',
+        'sa_in_time',
+        'sa_end_time_longitude',
+        'sa_end_time_latitude',
+        'sa_out_time'
+    ];
+
     public function report()
     {
         return $this->hasOne(StudentReport::class, 'sr_student_attendance_id', 'sa_id');
