@@ -23,28 +23,29 @@
     </div>
   </div>
 <div class="container-fluid">
-    <div class="p-2 pt-0 row">
-        @include('project.admin.users.includes.menu_student')
-    </div>
+    @if (auth()->user()->u_role_id == 2) {{-- For student doesn't show menu student --}}
+
+    @else
+        <div class="p-2 pt-0 row">
+            @include('project.admin.users.includes.menu_student')
+        </div>
+    @endif
     <div class="edit-profile">
       <div class="row">
-        <div class="col-xl-3">
-            @include('project.admin.users.includes.information_edit_card_student')
-        </div>
-        <div class="col-xl-9">
+        @if (auth()->user()->u_role_id == 2) {{-- For student doesn't show information card student --}}
+            <div class="col-xl-12">
+        @else
+            <div class="col-xl-3">
+                @include('project.admin.users.includes.information_edit_card_student')
+            </div>
+            <div class="col-xl-9">
+        @endif
           <form class="card">
             <div class="card-header pb-0">
               <h4 class="card-title mb-0">سجل الحضور و الغياب</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
-              <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {{-- <button class="btn btn-primary btn-sm" onclick="$('#AddPlacesTrainingModal').modal('show')" type="button"><span class="fa fa-plus"></span> تسجيل الطالب في تدريب</button> --}}
-                        </div>
-                    </div>
-              </div>
               <div class="row" id="content">
                 @include('project.admin.users.ajax.studentsAttendanceList')
               </div>
@@ -54,10 +55,66 @@
       </div>
     </div>
     @include('project.admin.users.modals.map_attendance')
+    <div id="report_student_modal">
+        @include('project.admin.users.modals.report_student')
+    </div>
   </div>
 @endsection
 @section('script')
     <script>
+        function submit_notes_supervisor(sr_id)
+        {
+            let sr_notes = document.getElementById("sr_notes").value;
+            $.ajax({
+                beforeSend: function(){
+                },
+                url: "{{route('admin.users.report.student.edit')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'sr_id' : sr_id,
+                    'sr_notes' : sr_notes
+                },
+                success: function(response) {
+                    $('#EditStudentReportModal').modal('hide');
+                },
+                complete: function(){
+
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                    alert('Error fetching user data.');
+                }
+            });
+        }
+        function report(sa_id)
+        {
+            $.ajax({
+                beforeSend: function(){
+                },
+                url: "{{route('admin.users.report.student.display')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'sa_id' : sa_id
+                },
+                success: function(response) {
+                    $('#report_student_modal').html(response.modal);
+                    $('#EditStudentReportModal').modal('show');
+                },
+                complete: function(){
+
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                    alert('Error fetching user data.');
+                }
+            });
+        }
         var latitude1 , longitude1 , latitude2 , longitude2;
         function map(a , b , c , d){
             latitude1 = parseFloat(a); // Your latitude

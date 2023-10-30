@@ -23,28 +23,37 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="p-2 pt-0 row">
-        @include('project.admin.users.includes.menu_academic_supervisor')
-    </div>
+    @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+        <div class="p-2 pt-0 row">
+            @include('project.admin.users.includes.menu_academic_supervisor')
+        </div>
+    @endif
     <div class="edit-profile">
         <div class="row">
-            <div class="col-xl-3">
-                @include('project.admin.users.includes.information_edit_card_student')
-        </div>
-        <div class="col-xl-9">
+            @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+                <div class="col-xl-3">
+                    @include('project.admin.users.includes.information_edit_card_student')
+                </div>
+                <div class="col-xl-9">
+            @elseif(auth()->user()->u_role_id == 3) {{-- Supervisor --}}
+                <input type="hidden" value="{{$user->u_id}}" id="u_id">
+                <div class="col-xl-12">
+            @endif
           <form class="card">
             <div class="card-header pb-0">
               <h4 class="card-title mb-0">التخصصات</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
-              <div class="row">
+            @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <button class="btn btn-primary btn-sm" onclick="$('#AddMajorModal').modal('show')" type="button"><span class="fa fa-plus"></span>  إضافة تخصص للمشرف الأكاديمي </button>
                         </div>
                     </div>
-              </div>
+                </div>
+            @endif
               <div class="row" id="content">
                 @include('project.admin.users.ajax.supervisorMajorList')
               </div>
@@ -53,10 +62,12 @@
         </div>
       </div>
     </div>
-    <div class="add_major_supervisor">
-        @include('project.admin.users.modals.add_major_supervisor')
-    </div>
-    @include('project.admin.users.modals.loading')
+    @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+        <div class="add_major_supervisor">
+            @include('project.admin.users.modals.add_major_supervisor')
+        </div>
+        @include('project.admin.users.modals.loading')
+    @endif
   </div>
 @endsection
 @section('script')

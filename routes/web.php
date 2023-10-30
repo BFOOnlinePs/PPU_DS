@@ -71,10 +71,17 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/supervisor/majors/{id}' , [App\Http\Controllers\UserController::class , 'supervisor_majors'])->name('admin.users.supervisor.majors'); // To show majors to academic supervisor
                 Route::post('/supervisor/major/add' , [App\Http\Controllers\UserController::class , 'supervisor_major_add'])->name('admin.users.supervisor.major.add'); // To add major to academic supervisor
                 Route::post('/supervisor/major/delete' , [App\Http\Controllers\UserController::class, 'supervisor_major_delete'])->name('admin.users.supervisor.major.delete'); // To delete major to academic supervisor
-                Route::get('/supervisor/students/{id}' , [App\Http\Controllers\UserController::class , 'supervisor_students'])->name('admin.users.supervisor.sutdents');
-                Route::post('/supervisor/students/search' , [App\Http\Controllers\UserController::class, 'supervisor_students_search'])->name('admin.users.supervisor.students.search');
-                Route::post('/supervisor/students/search/major' , [App\Http\Controllers\UserController::class , 'supervisor_students_search_major'])->name('admin.users.supervisor.students.search.major'); // To make filter for major
-
+                Route::get('/supervisor/students/{id}' , [App\Http\Controllers\UserController::class , 'supervisor_students'])->name('admin.users.supervisor.sutdents'); // To display supervisor's students
+                Route::post('/supervisor/students/search' , [App\Http\Controllers\UserController::class, 'supervisor_students_search'])->name('admin.users.supervisor.students.search'); // To make search by username and name to supervisor's students
+                Route::post('/supervisor/students/search/major' , [App\Http\Controllers\UserController::class , 'supervisor_students_search_major'])->name('admin.users.supervisor.students.search.major'); // To make filter for major in academic supervisor
+                Route::post('/report/student/display' , [App\Http\Controllers\UserController::class , 'report_student_display'])->name('admin.users.report.student.display'); // To show report of student in modal
+                Route::post('/report/student/edit' , [App\Http\Controllers\UserController::class , 'report_student_edit'])->name('admin.users.report.student.edit'); // To submit notes of supervisor to student report
+                Route::get('/student/companies/list/{id}' , [App\Http\Controllers\UserController::class , 'student_companies_list'])->name('student.companies.list'); // To display list of companies student for student
+                Route::get('/student/training/list/{id}' , [App\Http\Controllers\UserController::class , 'student_training_list'])->name('student.training.list'); // To display list of trainings student for student
+                Route::get('/student/training/company/{id}' , [App\Http\Controllers\UserController::class , 'student_training_company'])->name('student.training.company'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
+                Route::post('/student/submit/attendance' , [App\Http\Controllers\UserController::class , 'student_submit_attendance'])->name('student.submit.attendance'); // To submit student time attendance (sa_in_time)
+                Route::post('/student/submit/departure' , [App\Http\Controllers\UserController::class , 'student_submit_departure'])->name('student.submit.departure');
+                Route::post('/student/submit/report' , [App\Http\Controllers\UserController::class , 'student_submit_report'])->name('student.submit.report');
             });
 
         Route::group(['prefix'=>'majors'],function(){

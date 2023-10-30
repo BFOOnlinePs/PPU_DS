@@ -77,7 +77,7 @@
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     <script>
-         function submitFile(input, sc_id) {
+        function submitFile(input, sc_id) {
             let file = input.files[0];
             if (file) {
                 let formData = new FormData();

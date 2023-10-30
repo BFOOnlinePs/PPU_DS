@@ -17,10 +17,22 @@ class StudentCompany extends Model
     {
         return $this->hasMany(User::class, 'u_id', 'sc_student_id');
     }
+    public function userMentorTrainer()
+    {
+        return $this->belongsTo(User::class, 'sc_mentor_trainer_id', 'u_id');
+    }
+    public function userAssistant()
+    {
+        return $this->belongsTo(User::class, 'sc_assistant_id', 'u_id');
+    }
 
     public function companyBranch()
     {
         return $this->belongsTo(CompanyBranch::class, 'sc_branch_id', 'b_id');
+    }
+    public function companyDepartment()
+    {
+        return $this->belongsTo(CompanyDepartment::class, 'sc_department_id', 'd_id');
     }
 
     // the training belongs to one company

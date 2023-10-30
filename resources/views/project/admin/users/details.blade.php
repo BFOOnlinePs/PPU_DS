@@ -24,7 +24,14 @@
       </div>
     </div>
   </div>
-<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="p-2 pt-0 row">
+        @if ($user->u_role_id == 2)
+            @include('project.admin.users.includes.menu_student')
+        @elseif($user->u_role_id == 3)
+            @include('project.admin.users.includes.menu_academic_supervisor')
+        @endif
+    </div>
     <div class="edit-profile">
       <div class="row">
         <div class="col-xl-3">
@@ -38,11 +45,6 @@
             </div>
             <div class="card-body pt-0">
               <div class="row">
-                @if ($user->u_role_id == 2)
-                    @include('project.admin.users.includes.menu_student')
-                @elseif($user->u_role_id == 3)
-                    @include('project.admin.users.includes.menu_academic_supervisor')
-                @endif
               </div>
 
               <hr>

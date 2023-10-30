@@ -72,4 +72,10 @@ class User extends Authenticatable
     public function major(){
         return $this->belongsTo(Major::class, 'u_major_id', 'm_id');
     }
+    public function studentCompaniesMentorTrainer(){
+        return $this->hasMany(StudentCompany::class, 'sc_mentor_id', 'u_id');
+    }
+    public function studentCompaniesAssistant(){
+        return $this->hasMany(StudentCompany::class, 'sc_assistant_id', 'u_id');
+    }
 }
