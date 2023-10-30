@@ -17,8 +17,102 @@ use App\Models\StudentAttendance;
 use App\Models\StudentCompany;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MajorSupervisor;
+use App\Models\StudentReport;
+use Carbon\Carbon;
 class UserController extends Controller
 {
+    public function student_submit_report(Request $request)
+    {
+        $student_report = new StudentReport;
+        $student_report->sr_student_attendance_id = $request->input('sa_id');
+        if ($request->hasFile('file_report_student')) {
+            $file = $request->file('file_report_student');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension; // Unique filename
+            $file->storeAs('student_reports', $filename, 'public');
+            $imagepath = 'storage/student_reports/' . $filename;
+            $student_report->sr_attached_file = $imagepath;
+            $student_report->save();
+            // return response()->json(['html' => 'kdsljfdlkjd']);
+        }
+    }
+    public function student_submit_departure(Request $request)
+    {
+        $student_attendance = StudentAttendance::find($request->sa_id);
+        $student_attendance->sa_end_time_latitude = $request->sa_end_time_latitude;
+        $student_attendance->sa_end_time_longitude = $request->sa_end_time_longitude;
+        $student_attendance->sa_out_time = Carbon::now('Asia/Gaza'); // Time now
+        if($student_attendance->save()) {
+            $student_attendances = StudentAttendance::where('sa_student_id', $student_attendance->sa_student_id)
+                                                    ->where('sa_student_company_id', $student_attendance->sa_student_company_id)
+                                                    ->get();
+            $html = view('project.admin.users.ajax.submitAttendanceList' , ['student_attendances' => $student_attendances])->render();
+            return response()->json(['html' => $html]);
+        }
+    }
+    public function student_submit_attendance(Request $request)
+    {
+        $student_attendance = new StudentAttendance;
+        $student_attendance->sa_student_id = $request->sa_student_id;
+        $student_attendance->sa_student_company_id = $request->sa_student_company_id;
+        $student_attendance->sa_start_time_latitude = $request->sa_start_time_latitude;
+        $student_attendance->sa_start_time_longitude = $request->sa_start_time_longitude;
+        $student_attendance->sa_in_time = Carbon::now('Asia/Gaza'); // Time now
+        if($student_attendance->save()) {
+            $student_attendances = StudentAttendance::where('sa_student_id', $request->sa_student_id)
+                                                    ->where('sa_student_company_id', $request->sa_student_company_id)
+                                                    ->get();
+            $html = view('project.admin.users.ajax.submitAttendanceList' , ['student_attendances' => $student_attendances])->render();
+            return response()->json(['html' => $html]);
+        }
+    }
+    public function student_training_company($id)
+    {
+        $student_company = StudentCompany::where('sc_id' , $id)->with('company')->first();
+        $student_attendances = StudentAttendance::where('sa_student_id', $student_company->sc_student_id)
+                                                ->where('sa_student_company_id', $student_company->sc_id)
+                                                ->get();
+        $nowInHebron = Carbon::now('Asia/Gaza');
+        $dateToday = $nowInHebron->toDateString();
+        $date = StudentAttendance::selectRaw('DATE(sa_in_time) as sa_date')
+                                    ->where('sa_student_id', $student_company->sc_student_id)
+                                    ->where('sa_student_company_id', $student_company->sc_id)
+                                    ->where('sa_in_time' , 'like' , $dateToday . '%')
+                                    ->first();
+        $lastDate = null;
+        if(isset($date)) {
+            $lastDate = $date->sa_date;
+        }
+        return view('project.admin.users.submit_attendance' , ['sc_id' => $id , 'student_company' => $student_company , 'student_attendances' =>  $student_attendances , 'date_today' => $dateToday , 'last_date' => $lastDate]);
+    }
+    public function student_training_list($id)
+    {
+        $student_companies = StudentCompany::where('sc_student_id', $id)
+                                            ->where('sc_status' , 1)
+                                            ->get();
+        return view('project.admin.users.studentCompanyList' , ['student_companies' => $student_companies]);
+    }
+    public function student_companies_list($id)
+    {
+        $student_companies = StudentCompany::where('sc_student_id', $id)
+                                            ->where('sc_status' , 1)
+                                            ->get();
+        return view('project.admin.users.ajax.studentCompaniesList' , ['student_companies' => $student_companies]);
+    }
+    public function report_student_edit(Request $request)
+    {
+        $student_report = StudentReport::find($request->sr_id);
+        $student_report->sr_notes = $request->sr_notes;
+        if($student_report->save()) {
+            return response()->json([]);
+        }
+    }
+    public function report_student_display(Request $request)
+    {
+        $student_report = StudentReport::where('sr_student_attendance_id' , $request->sa_id)->first();
+        $modal = view('project.admin.users.modals.report_student' , ['student_report' => $student_report])->render();
+        return response()->json(['modal' => $modal]);
+    }
     public function supervisor_students_search_major(Request $request)
     {
         if(!isset($request->m_id)) {
@@ -127,7 +221,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $student_attendances = StudentAttendance::where('sa_student_id', $id)->get();
-        return view('project.admin.users.students_attendance' , ['id' => $id , 'user' => $user , 'student_attendances' => $student_attendances]);
+        return view('project.admin.users.students_attendance' , ['id' => $id , 'user' => $user , 'student_attendances' => $student_attendances , 'student_report'=> null]);
     }
     public function training_place_delete_file_agreement($sc_id)
     {

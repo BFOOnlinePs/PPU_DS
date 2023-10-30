@@ -23,15 +23,22 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="p-2 pt-0 row">
-        @include('project.admin.users.includes.menu_academic_supervisor')
-    </div>
+    @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+        <div class="p-2 pt-0 row">
+            @include('project.admin.users.includes.menu_academic_supervisor')
+        </div>
+    @endif
     <div class="edit-profile">
         <div class="row">
-            <div class="col-xl-3">
-                @include('project.admin.users.includes.information_edit_card_student')
-        </div>
-        <div class="col-xl-9">
+            @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+                <div class="col-xl-3">
+                    @include('project.admin.users.includes.information_edit_card_student')
+                </div>
+                <div class="col-xl-9">
+            @elseif(auth()->user()->u_role_id == 3) {{-- Supervisor --}}
+                <input type="hidden" value="{{$user->u_id}}" id="u_id">
+                <div class="col-xl-12">
+            @endif
           <form class="card">
             <div class="card-header pb-0">
               <h4 class="card-title mb-0">طلاب المشرف</h4>
