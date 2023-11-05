@@ -8,6 +8,7 @@ use App\Models\CompanyBranch;
 use App\Models\CompanyBranchLocation;
 use App\Models\Role;
 use App\Models\StudentCompany;
+use App\Models\SystemSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,8 +68,7 @@ class sharedController extends Controller
         ], 200);
     }
 
-    // user info
-    public function index(Request $request)
+    public function getUserInfo(Request $request)
     {
         $credentials = $request->validate([
             'u_id' => 'required',
@@ -81,6 +81,23 @@ class sharedController extends Controller
         }
 
         return response()->json(['user' => $user]);
+    }
+
+
+    public function getFacebookLink(){
+        $facebook = SystemSetting::select('ss_facebook_link')->first();
+
+        return response()->json([
+            'facebook' => $facebook->ss_facebook_link
+        ]);
+    }
+
+    public function getInstagramLink(){
+        $instagram = SystemSetting::select('ss_instagram_link')->first();
+
+        return response()->json([
+            'instagram' => $instagram->ss_instagram_link
+        ]);
     }
 
     // just for test

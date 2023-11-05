@@ -28,16 +28,22 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AdminController::class, 'register']);
 Route::post('/login', [sharedController::class, 'login']);
 
+Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
+Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
+
+
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [sharedController::class, 'logout']);
 
     //user
-    Route::post('/getUserById', [sharedController::class, 'index']);
+    Route::post('/getUserById', [sharedController::class, 'getUserInfo']);
 
     //student
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
+
     Route::post('/addStudentReport', [studentReportController::class, 'studentSubmitNewReport']);
+    Route::post('/studentEditReport', [studentReportController::class, 'studentEditReport']);
 
     Route::post('/getStudentReportsDependOnAttendance', [StudentReportAttendanceController::class, 'getStudentReportsWithAttendance']);
 

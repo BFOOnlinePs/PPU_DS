@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,9 @@ class StudentReport extends Model
         'sr_submit_latitude'
     ];
 
-    public function attendance(){
+    public function attendance()
+    {
         return $this->belongsTo(StudentAttendance::class, 'sr_student_attendance_id', 'sa_id');
     }
+
 }

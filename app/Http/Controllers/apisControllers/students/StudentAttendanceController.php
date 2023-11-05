@@ -39,6 +39,10 @@ class StudentAttendanceController extends Controller
             $lastCheckInDate = Carbon::parse($latestCheckIn->sa_in_time)->toDateString();
             $today = Carbon::now('Asia/Gaza')->toDateString();
 
+            // return response()->json([
+            //     '$lastCheckInDate' => $lastCheckInDate,
+            //     '$today' => $today
+            // ]);
             if ($lastCheckInDate === $today) {
                 return response()->json(['message' => 'تم تسجيل الحضور اليوم من قبل']);
             }
@@ -126,6 +130,7 @@ class StudentAttendanceController extends Controller
 
         $today_checkin = false;
         $today_checkout = false;
+        $sa_description = null;
 
         if ($student_attendance) {
             $lastCheckInDate = Carbon::parse($student_attendance->sa_in_time)->toDateString();
@@ -133,9 +138,10 @@ class StudentAttendanceController extends Controller
 
             if ($lastCheckInDate === $today) {
                 $today_checkin = true;
+                $sa_description = $student_attendance->sa_description;
             }
 
-            if ($student_attendance->sa_out_time != null) {
+            if ($today_checkin && $student_attendance->sa_out_time != null) {
                 $today_checkout = true;
             }
         }
@@ -144,7 +150,7 @@ class StudentAttendanceController extends Controller
         return response()->json([
             'today_checkin' => $today_checkin,
             'today_checkout' => $today_checkout,
-            'sa_description' => $student_attendance->sa_description ?? null,
+            'sa_description' => $sa_description,
         ]);
     }
 }
