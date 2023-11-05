@@ -16,17 +16,17 @@
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
-                        <li class=""><a class="nav-link" href="{{ route('admin.users.edit' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="user"></i><span>الملف الشخصي</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('student.companies.list' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="list"></i><span>الشركات</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('student.training.list' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="check"></i><span>سجل الحضور والمغادرة</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.personal_profile.index' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="user"></i><span>الملف الشخصي</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.company.index' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="list"></i><span>الشركات</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.attendance.index' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="check"></i><span>سجل الحضور والمغادرة</span></a></li>
                     @elseif (auth()->user()->u_role_id == 3) {{--- Supervisor --}}
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
                             aria-hidden="true"></i></div>
                         </li>
-                    <li class=""><a class="nav-link" href="{{ route('admin.users.supervisor.majors' , ['id'=>auth()->user()->u_id]) }}"><i
+                    <li class=""><a class="nav-link" href="{{ route('supervisors.majors.index' , ['id'=>auth()->user()->u_id]) }}"><i
                         data-feather="book-open"></i><span>التخصصات</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('admin.users.supervisor.sutdents' , ['id'=>auth()->user()->u_id]) }}"><i
+                        <li class=""><a class="nav-link" href="{{ route('supervisors.students.index' , ['id'=>auth()->user()->u_id]) }}"><i
                             data-feather="users"></i><span>الطلاب</span></a></li>
                     @else
                     <li class="back-btn">
@@ -49,7 +49,7 @@
                         <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
                                     data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
                     @endif
-                    <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
+                    {{-- <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>
                     </li>
                     <li class=""><a class="nav-link" href="{{ route('admin.courses.index') }}"><i
@@ -58,7 +58,7 @@
                                 data-feather="book"></i><span>مساقات الفصول</span></a></li>
                     <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
                                 data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
-                    <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i data-feather="briefcase"></i><span>الشركات</span></a></li>
+                    <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i data-feather="briefcase"></i><span>الشركات</span></a></li> --}}
                 </ul>
             </div>
         </div>
