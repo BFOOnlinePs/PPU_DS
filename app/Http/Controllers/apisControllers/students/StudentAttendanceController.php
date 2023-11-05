@@ -30,23 +30,23 @@ class StudentAttendanceController extends Controller
             ]);
         }
 
-        $latestCheckIn = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
-            ->where('sa_student_company_id', $request->input('sa_student_company_id'))
-            ->latest() // descending order
-            ->first();
+        // $latestCheckIn = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
+        //     ->where('sa_student_company_id', $request->input('sa_student_company_id'))
+        //     ->latest() // descending order
+        //     ->first();
 
-        if ($latestCheckIn) {
-            $lastCheckInDate = Carbon::parse($latestCheckIn->sa_in_time)->toDateString();
-            $today = Carbon::now('Asia/Gaza')->toDateString();
+        // if ($latestCheckIn) {
+        //     $lastCheckInDate = Carbon::parse($latestCheckIn->sa_in_time)->toDateString();
+        //     $today = Carbon::now('Asia/Gaza')->toDateString();
 
-            // return response()->json([
-            //     '$lastCheckInDate' => $lastCheckInDate,
-            //     '$today' => $today
-            // ]);
-            if ($lastCheckInDate === $today) {
-                return response()->json(['message' => 'تم تسجيل الحضور اليوم من قبل']);
-            }
-        }
+        //     // return response()->json([
+        //     //     '$lastCheckInDate' => $lastCheckInDate,
+        //     //     '$today' => $today
+        //     // ]);
+        //     if ($lastCheckInDate === $today) {
+        //         return response()->json(['message' => 'تم تسجيل الحضور اليوم من قبل']);
+        //     }
+        // }
 
         $studentCheckIn = StudentAttendance::create([
             'sa_student_id' => auth()->user()->u_id, // $request->input('sa_student_id')
@@ -143,6 +143,12 @@ class StudentAttendanceController extends Controller
 
             if ($today_checkin && $student_attendance->sa_out_time != null) {
                 $today_checkout = true;
+            }
+
+            if($today_checkin && $today_checkout){
+                $today_checkin = false;
+                $today_checkout = false;
+                $sa_description = null;
             }
         }
 
