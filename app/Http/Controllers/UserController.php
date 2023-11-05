@@ -50,54 +50,12 @@ class UserController extends Controller
             return response()->json(['html' => $html]);
         }
     }
-    public function student_submit_attendance(Request $request)
-    {
-        $student_attendance = new StudentAttendance;
-        $student_attendance->sa_student_id = $request->sa_student_id;
-        $student_attendance->sa_student_company_id = $request->sa_student_company_id;
-        $student_attendance->sa_start_time_latitude = $request->sa_start_time_latitude;
-        $student_attendance->sa_start_time_longitude = $request->sa_start_time_longitude;
-        $student_attendance->sa_in_time = Carbon::now('Asia/Gaza'); // Time now
-        if($student_attendance->save()) {
-            $student_attendances = StudentAttendance::where('sa_student_id', $request->sa_student_id)
-                                                    ->where('sa_student_company_id', $request->sa_student_company_id)
-                                                    ->get();
-            $html = view('project.admin.users.ajax.submitAttendanceList' , ['student_attendances' => $student_attendances])->render();
-            return response()->json(['html' => $html]);
-        }
-    }
-    public function student_training_company($id)
-    {
-        $student_company = StudentCompany::where('sc_id' , $id)->with('company')->first();
-        $student_attendances = StudentAttendance::where('sa_student_id', $student_company->sc_student_id)
-                                                ->where('sa_student_company_id', $student_company->sc_id)
-                                                ->get();
-        $nowInHebron = Carbon::now('Asia/Gaza');
-        $dateToday = $nowInHebron->toDateString();
-        $date = StudentAttendance::selectRaw('DATE(sa_in_time) as sa_date')
-                                    ->where('sa_student_id', $student_company->sc_student_id)
-                                    ->where('sa_student_company_id', $student_company->sc_id)
-                                    ->where('sa_in_time' , 'like' , $dateToday . '%')
-                                    ->first();
-        $lastDate = null;
-        if(isset($date)) {
-            $lastDate = $date->sa_date;
-        }
-        return view('project.admin.users.submit_attendance' , ['sc_id' => $id , 'student_company' => $student_company , 'student_attendances' =>  $student_attendances , 'date_today' => $dateToday , 'last_date' => $lastDate]);
-    }
     public function student_training_list($id)
     {
         $student_companies = StudentCompany::where('sc_student_id', $id)
                                             ->where('sc_status' , 1)
                                             ->get();
         return view('project.admin.users.studentCompanyList' , ['student_companies' => $student_companies]);
-    }
-    public function student_companies_list($id)
-    {
-        $student_companies = StudentCompany::where('sc_student_id', $id)
-                                            ->where('sc_status' , 1)
-                                            ->get();
-        return view('project.admin.users.ajax.studentCompaniesList' , ['student_companies' => $student_companies]);
     }
     public function report_student_edit(Request $request)
     {
@@ -160,18 +118,6 @@ class UserController extends Controller
         $html = view('project.admin.users.ajax.supervisorStudentsList' , ['students' => $students])->render();
         return response()->json(['html' => $html]);
     }
-    public function supervisor_students($id)
-    {
-        $user = User::find($id);
-        $ms_major_id = MajorSupervisor::where('ms_super_id' , $id)
-                                    ->pluck('ms_major_id')
-                                    ->toArray();
-        $students = User::where('u_role_id' , 2)
-                        ->whereIn('u_major_id' , $ms_major_id)
-                        ->get();
-        $majors = Major::get();
-        return view('project.admin.users.supervisor_students' , ['user' => $user , 'students' => $students , 'majors' => $majors]);
-    }
     public function supervisor_major_delete(Request $request)
     {
         $major_supervisor_delete = MajorSupervisor::where('ms_id' , $request->ms_id)->delete();
@@ -201,16 +147,6 @@ class UserController extends Controller
             $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
             return response()->json(['html' => $html , 'majors' => $majors]);
         }
-    }
-    public function supervisor_majors($id)
-    {
-        $user = User::find($id);
-        $supervisor_majors_id = MajorSupervisor::where('ms_super_id' , $id)
-                                            ->pluck('ms_major_id')
-                                            ->toArray();
-        $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
-        $data = MajorSupervisor::where('ms_super_id' , $id)->get();
-        return view('project.admin.users.supervisor_majors' , ['user' => $user , 'majors' => $majors , 'data' => $data]);
     }
     public function student_payments($id)
     {

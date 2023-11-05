@@ -9,28 +9,7 @@
 تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a>
 @endsection
 @section('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-<style>
-    /* Define a custom style for the buttons */
-    .custom-btn {
-        background-color: #3498db; /* Background color */
-        color: #ffffff; /* Text color */
-        border: none; /* Remove button border */
-        border-radius: 5px; /* Add rounded corners */
-        padding: 10px 20px; /* Adjust padding for a better appearance */
-        text-decoration: none; /* Remove underlines on links */
-        display: inline-block; /* Display as inline-block to size according to content */
-        transition: background-color 0.3s; /* Add a smooth color transition on hover */
-
-        /* Optional: Add a box shadow for a raised effect */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Change button color on hover */
-    .custom-btn:hover {
-        background-color: #1b6f9e;
-    }
-</style>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -62,7 +41,7 @@
               <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm custom-btn" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span> تسجيل مساق للطالب</button>
+                            <button class="btn btn-primary btn-sm" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span> تسجيل مساق للطالب</button>
                         </div>
                     </div>
               </div>
