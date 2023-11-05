@@ -32,7 +32,7 @@ class StudentReportAttendanceController extends Controller
             $query->where('sa_student_company_id', $student_company_id);
         })->with(['attendance' => function ($query) {
             $query->select('sa_id', 'sa_in_time');
-        }])->get();
+        }])->orderBy('created_at', 'desc')->get();
 
         $today = Carbon::now('Asia/Gaza')->toDateString();
 
