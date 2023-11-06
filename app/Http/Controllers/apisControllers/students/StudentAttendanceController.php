@@ -4,6 +4,7 @@ namespace App\Http\Controllers\apisControllers\students;
 
 use App\Http\Controllers\Controller;
 use App\Models\StudentAttendance;
+use App\Models\StudentCompany;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,16 @@ class StudentAttendanceController extends Controller
 {
     public function studentCheckIn(Request $request)
     {
+        $student_in_company = StudentCompany::where('sc_id', $request->input('sa_student_company_id'))
+            ->where('sc_student_id', auth()->user()->u_id)->first();
+
+        if (!$student_in_company) {
+            return response()->json([
+                'status' => false,
+                'message' => 'not authenticated',
+            ]);
+        }
+
         $validator = Validator::make($request->all(), [
             'sa_student_company_id' => 'required|exists:students_companies,sc_id',
             'sa_start_time_latitude' => 'required',
@@ -30,26 +41,22 @@ class StudentAttendanceController extends Controller
             ]);
         }
 
-        // $latestCheckIn = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
-        //     ->where('sa_student_company_id', $request->input('sa_student_company_id'))
-        //     ->latest() // descending order
-        //     ->first();
+        $latestCheckIn = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
+            ->where('sa_student_company_id', $request->input('sa_student_company_id'))
+            ->latest() // descending order
+            ->first();
 
-        // if ($latestCheckIn) {
-        //     $lastCheckInDate = Carbon::parse($latestCheckIn->sa_in_time)->toDateString();
-        //     $today = Carbon::now('Asia/Gaza')->toDateString();
+        if ($latestCheckIn) {
+            $lastCheckInDate = Carbon::parse($latestCheckIn->sa_in_time)->toDateString();
+            $today = Carbon::now('Asia/Gaza')->toDateString();
 
-        //     // return response()->json([
-        //     //     '$lastCheckInDate' => $lastCheckInDate,
-        //     //     '$today' => $today
-        //     // ]);
-        //     if ($lastCheckInDate === $today) {
-        //         return response()->json(['message' => 'تم تسجيل الحضور اليوم من قبل']);
-        //     }
-        // }
+            if ($lastCheckInDate === $today && $latestCheckIn->sa_out_time == null) {
+                return response()->json(['message' => 'تم تسجيل الحضور اليوم من قبل']);
+            }
+        }
 
         $studentCheckIn = StudentAttendance::create([
-            'sa_student_id' => auth()->user()->u_id, // $request->input('sa_student_id')
+            'sa_student_id' => auth()->user()->u_id,
             'sa_student_company_id' => $request->input('sa_student_company_id'),
             'sa_start_time_latitude' => $request->input('sa_start_time_latitude'),
             'sa_start_time_longitude' => $request->input('sa_start_time_longitude'),
@@ -68,7 +75,6 @@ class StudentAttendanceController extends Controller
     public function studentCheckOut(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'sa_id' => 'required',
             'sa_end_time_longitude' => 'required',
             'sa_end_time_latitude' => 'required',
             'sa_description' => 'nullable',
@@ -93,7 +99,7 @@ class StudentAttendanceController extends Controller
             ->first();
 
         if (!$latestCheckIn) {
-            return response()->json(['message' => ' لم يتم تسجيل الدخول / تم تسجيل المغادرة']);
+            return response()->json(['message' => 'قم بتسجيل الدخول اولا']);
         }
 
         if ($latestCheckIn) {
@@ -101,7 +107,7 @@ class StudentAttendanceController extends Controller
             $today = Carbon::now('Asia/Gaza')->toDateString();
 
             if ($lastCheckInDate !== $today) {
-                return response()->json(['message' => 'لم يتم تسجيل الدخول لهذا التدريب اليوم / تم تسجيل المغادرة']);
+                return response()->json(['message' => 'قم بتسجيل الدخول اولا']);
             }
         }
 
@@ -128,13 +134,35 @@ class StudentAttendanceController extends Controller
             ->latest()
             ->first();
 
+        $student_attendance_in_all_companies = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
+            ->latest()
+            ->first();
+
+        $today = Carbon::now('Asia/Gaza')->toDateString();
+
+        // if last check in is today and different sc_id and did not checked out
+        // then he can not checkin in different training (return true true)
+        if ($student_attendance_in_all_companies) {
+            $lastCheckInAllCompaniesDate = Carbon::parse($student_attendance_in_all_companies->sa_in_time)->toDateString();
+            if (
+                $lastCheckInAllCompaniesDate === $today
+                && $student_attendance_in_all_companies->sa_out_time == null
+                && $student_attendance_in_all_companies->sa_student_company_id != $request->input('sa_student_company_id')
+            ) {
+                return response()->json([
+                    'today_checkin' => true,
+                    'today_checkout' => true,
+                    'sa_description' => null,
+                ]);
+            }
+        }
+
         $today_checkin = false;
         $today_checkout = false;
         $sa_description = null;
 
         if ($student_attendance) {
             $lastCheckInDate = Carbon::parse($student_attendance->sa_in_time)->toDateString();
-            $today = Carbon::now('Asia/Gaza')->toDateString();
 
             if ($lastCheckInDate === $today) {
                 $today_checkin = true;
@@ -145,13 +173,12 @@ class StudentAttendanceController extends Controller
                 $today_checkout = true;
             }
 
-            if($today_checkin && $today_checkout){
+            if ($today_checkin && $today_checkout) {
                 $today_checkin = false;
                 $today_checkout = false;
                 $sa_description = null;
             }
         }
-
 
         return response()->json([
             'today_checkin' => $today_checkin,
