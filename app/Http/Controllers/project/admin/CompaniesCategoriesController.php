@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CompaniesCategoriesController extends Controller
 {
     public function index(){
-        $data = CompaniesCategory::with('companies')->get();
+        $data = CompaniesCategory::get();
         return view('project.admin.companies_categories.index',['data'=>$data]);
     }
 
