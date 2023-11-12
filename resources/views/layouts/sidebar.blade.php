@@ -16,9 +16,9 @@
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
-                        <li class=""><a class="nav-link" href="{{ route('students.personal_profile.index' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="user"></i><span>الملف الشخصي</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('students.company.index' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="list"></i><span>الشركات</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('students.attendance.index' , ['id'=>auth()->user()->u_id]) }}"><i data-feather="check"></i><span>سجل الحضور والمغادرة</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.personal_profile.index')}}"><i data-feather="user"></i><span>الملف الشخصي</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.company.index')}}"><i data-feather="list"></i><span>الشركات</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.attendance.index')}}"><i data-feather="check"></i><span>سجل الحضور والمغادرة</span></a></li>
                     @elseif (auth()->user()->u_role_id == 3) {{--- Supervisor --}}
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"

@@ -10,9 +10,9 @@ use App\Models\Role;
 
 class PersonalProfileController extends Controller
 {
-    public function index($id)
+    public function index()
     {
-        $user = User::find($id);
+        $user = User::find(auth()->user()->u_id);
         $role_name = Role::find($user->u_role_id);
         $major_id = Major::where('m_id' , $user->u_major_id)->first();
         $role_id = Role::where('r_id' , $user->u_role_id)->first();
