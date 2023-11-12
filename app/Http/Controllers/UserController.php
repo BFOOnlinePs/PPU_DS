@@ -36,20 +36,6 @@ class UserController extends Controller
             // return response()->json(['html' => 'kdsljfdlkjd']);
         }
     }
-    public function student_submit_departure(Request $request)
-    {
-        $student_attendance = StudentAttendance::find($request->sa_id);
-        $student_attendance->sa_end_time_latitude = $request->sa_end_time_latitude;
-        $student_attendance->sa_end_time_longitude = $request->sa_end_time_longitude;
-        $student_attendance->sa_out_time = Carbon::now('Asia/Gaza'); // Time now
-        if($student_attendance->save()) {
-            $student_attendances = StudentAttendance::where('sa_student_id', $student_attendance->sa_student_id)
-                                                    ->where('sa_student_company_id', $student_attendance->sa_student_company_id)
-                                                    ->get();
-            $html = view('project.admin.users.ajax.submitAttendanceList' , ['student_attendances' => $student_attendances])->render();
-            return response()->json(['html' => $html]);
-        }
-    }
     public function student_training_list($id)
     {
         $student_companies = StudentCompany::where('sc_student_id', $id)

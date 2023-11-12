@@ -13,58 +13,39 @@
         <div class="col-xl-12">
             <form class="card">
                 <div class="card-header pb-0">
-                    <h4 class="card-title mb-0">تسجيل الحضور و المغادرة لدى شركة {{$student_company->company->c_name}}</h4>
+                    <h4 class="card-title mb-0">سِجل الحضور و المغادرة</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="hidden" id="latitude">
-                                <input type="hidden" id="longitude">
-                                @if (isset($student_company->sc_id) && $last_date != $date_today)
-                                    <button id="AttendanceRegistrationButton" class="btn btn-primary btn-sm" onclick="AttendanceRegistration({{$student_company->sc_id}} , {{$student_company->sc_student_id}})" type="button"><span class="fa fa-plus"></span> تسجيل حضور</button>
-                                @endif
-                                @if (!isset($student_company->sa_out_time) && $last_date == $date_today)
-                                    <button class="btn btn-primary btn-sm" onclick="confirm_departure()" type="button"><span class="fa fa-sign-out"></span> تسجيل مغادرة </button>
-                                @endif
-                            </div>
                             @include('project.admin.users.modals.loading')
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <select autofocus class="js-example-basic-single col-sm-12" onchange="select_company(this.value)">
+                            <select autofocus class="js-example-basic-single col-sm-12" id="sc_id">
                                 @if (isset($student_company->company->c_name))
                                 <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
-                                <option value="{{null}}">جميع الشركات</option>
-                                    @foreach ($student_companies as $student_company)
-                                        <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
-                                    @endforeach
+                                <option value="">جميع الشركات</option>
+                                @foreach ($student_companies as $student_company)
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                @endforeach
                                 @else
-                                    <option value="{{null}}">جميع الشركات</option>
-                                    @foreach ($student_companies as $student_company)
-                                        <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
-                                    @endforeach
+                                <option value="">جميع الشركات</option>
+                                @foreach ($student_companies as $student_company)
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                @endforeach
                                 @endif
                             </select>
                         </div>
+
                         <div class="col-md-3">
-                            <select autofocus class="js-example-basic-single col-sm-12">
-                                <option value="{{null}}">من</option>
-                                @foreach ($from_to as $key)
-                                    <option value="{{$key->sa_id}}">{{date("Y-m-d", strtotime($key->sa_in_time))}}</option>
-                                @endforeach
-                            </select>
+                                <input type="date" class="form-control digits" id="from">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control digits" id="to">
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <select autofocus class="js-example-basic-single col-sm-12">
-                                <option value="{{null}}">إلى</option>
-                                @foreach ($from_to as $key)
-                                    <option value="{{$key->sa_id}}">{{date("Y-m-d", strtotime($key->sa_out_time))}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
                     <hr style="background: white">
                     <div class="row" id="content">
                         @include('project.student.attendance.ajax.attendanceList')
@@ -76,156 +57,75 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
-<script>
-    function select_company(value)
-    {
-        // let u_id = document.getElementById('u_id').value;
-        $.ajax({
-            url: "{{route('students.attendance.ajax_company_from_to')}}",
-            method: 'post',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            data: {
-                'sc_id' : value
-            },
-            success: function(response) {
-                $('#content').html(response.html);
-            },
-            error: function() {
-                alert('Error fetching user data.');
-            }
-        });
-    }
-    function submitFile(input, sa_id) {
-            let file = input.files[0];
-            if (file) {
-                let formData = new FormData();
-                formData.append('sa_id', sa_id);
-                formData.append('file_report_student', file);
-
-                $(`#progress-container${sa_id}`).show();
-
-                // Make an AJAX request to submit the file
+    <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            let nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
+            // Function to load more student attendances
+            function loadMoreStudentAttendances() {
+                let sc_id = $('#sc_id').val();
+                let from = $('#from').val();
+                let to = $('#to').val();
                 $.ajax({
-                    url: "{{ route('students.attendance.report.submit') }}",
-                    method: 'POST',
+                    url: nextPageUrl,
+                    method: 'post',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    xhr: function () {
-                        var xhr = new XMLHttpRequest();
-                        xhr.upload.addEventListener("progress", function (event) {
-                            if (event.lengthComputable) {
-                                var percentComplete = (event.loaded / event.total) * 100;
-                                $(`#progress-bar${sa_id}`).css('width', percentComplete + '%');
-                                $(`#progress-bar${sa_id}`).attr('aria-valuenow', percentComplete);
-                                $(`#progress-text${sa_id}`).text('Uploading: ' + percentComplete.toFixed(2) + '%');
-                            }
-                        }, false);
-                        return xhr;
+                    beforeSend: function () {
+                        nextPageUrl = '';
                     },
-                    success: function (response) {
-                        // Handle success, if needed
-                        // $('#content').html(response.html);
-                        alert(response.html);
-                        $(`#progress-container${sa_id}`).hide();
+                    data: {
+                        'sc_id': sc_id,
+                        'from': from,
+                        'to': to
                     },
-                    error: function (error) {
-                        // Handle error, if needed
-                        console.error(error);
-                        $('#progress-container').hide();
+                    success: function (data) {
+                        nextPageUrl = data.nextPageUrl;
+                        $('table tbody').append(data.html);
+                        let rowCount = $('table tbody tr').length;
+                        console.log("Number of rows: " + rowCount);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error loading more student attendances:", error);
                     }
                 });
             }
-        }
-        function getLocation(sa_student_company_id , sa_student_id) {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    document.getElementById("latitude").textContent = latitude;
-                    document.getElementById("longitude").textContent = longitude;
-                    $.ajax({
-                        beforeSend: function(){
-                            $('#LoadingModal').modal('show');
-                        },
-                        url: "{{route('students.attendance.create_attendance')}}",
-                        method: 'post',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        data: {
-                            'sa_student_company_id' : sa_student_company_id,
-                            'sa_student_id' : sa_student_id,
-                            'sa_start_time_latitude' : latitude,
-                            'sa_start_time_longitude' : longitude
-                        },
-                        success: function(response) {
-                            $('#content').html(response.html);
-                            document.getElementById('AttendanceRegistrationButton').style.display = 'none';
-                        },
-                        complete: function(){
-                            $('#LoadingModal').modal('hide');
-                        },
-                        error: function(jqXHR) {
-                            alert(jqXHR.responseText);
-                            alert('Error fetching user data.');
-                        }
-                    });
-                });
-            } else {
-                alert("Geolocation is not available in your browser.");
-            }
-    }
-    function AttendanceRegistration(sa_student_company_id , sa_student_id) {
-        getLocation(sa_student_company_id , sa_student_id);
-    }
-    function getLocationDeparture(sa_id) {
-        if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    document.getElementById("latitude").textContent = latitude;
-                    document.getElementById("longitude").textContent = longitude;
-                    $.ajax({
-                        beforeSend: function(){
-                            $('#LoadingModal').modal('show');
-                        },
-                        url: "{{route('student.submit.departure')}}",
-                        method: 'post',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        data: {
-                            'sa_id' : sa_id,
-                            'sa_end_time_latitude' : latitude,
-                            'sa_end_time_longitude' : longitude
-                        },
-                        success: function(response) {
-                            $('#content').html(response.html);
-                        },
-                        complete: function(){
-                            $('#LoadingModal').modal('hide');
-                        },
-                        error: function(jqXHR) {
-                            alert(jqXHR.responseText);
-                            alert('Error fetching user data.');
-                        }
-                    });
-                });
-            } else {
-                alert("Geolocation is not available in your browser.");
-            }
-        }
-    function confirm_departure(sa_id) {
-        getLocationDeparture(sa_id);
-    }
-</script>
+            // Initialize Select2
+            $('#sc_id').select2();
+            // Listen for Select2 select event
+            $('#sc_id').on("select2:select", function (e) {
+                // Your onchange logic goes here
+                $('table tbody').empty();
+                nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
+                loadMoreStudentAttendances();
+            });
+            $('#to, #from').change(function () {
+                // Your action when the date changes goes here
+                $('table tbody').empty();
+                nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
+                loadMoreStudentAttendances();
+            });
+            // Scroll event listener for loading more data
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                    if (nextPageUrl) {
+                        loadMoreStudentAttendances();
+                    }
+                }
+            });
+        });
 
+        // Put 1 / 1 / current_year in input from
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const defaultDateString = `${currentYear}-01-01`;
+        document.getElementById('from').value = defaultDateString;
+
+        // Put current date in input to
+        const today = new Date();
+        const formattedDate = today.toISOString().slice(0, 10);
+        document.getElementById('to').value = formattedDate;
+    </script>
 @endsection

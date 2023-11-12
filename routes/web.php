@@ -75,7 +75,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/supervisor/students/search/major' , [App\Http\Controllers\UserController::class , 'supervisor_students_search_major'])->name('admin.users.supervisor.students.search.major'); // To make filter for major in academic supervisor
             Route::post('/report/student/display' , [App\Http\Controllers\UserController::class , 'report_student_display'])->name('admin.users.report.student.display'); // To show report of student in modal
             Route::post('/report/student/edit' , [App\Http\Controllers\UserController::class , 'report_student_edit'])->name('admin.users.report.student.edit'); // To submit notes of supervisor to student report
-            Route::post('/student/submit/departure' , [App\Http\Controllers\UserController::class , 'student_submit_departure'])->name('student.submit.departure');
         });
 
 
@@ -112,12 +111,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'students'], function () {
         Route::group(['prefix' => 'personal_profile'], function () {
-            Route::get('/index/{id}' , [App\Http\Controllers\Project\Students\Personal_Profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student
+            Route::get('/index' , [App\Http\Controllers\Project\Students\Personal_Profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student
         });
         Route::group(['prefix' => 'company'], function () {
-            Route::get('/index/{id}' , [App\Http\Controllers\Project\Students\Company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
+            Route::get('/index' , [App\Http\Controllers\Project\Students\Company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
             Route::group(['prefix' => 'attendance'], function () {
-                Route::get('/index/{id}' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index_for_specific_student'])->name('students.company.attendance.index_for_specific_student'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
+                Route::get('/index/{id}' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index_for_specific_company'])->name('students.company.attendance.index_for_specific_student'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
                 Route::post('/select' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'ajax_company_from_to'])->name('students.attendance.ajax_company_from_to');
             });
         });
@@ -126,10 +125,10 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/edit/{sa_id}' , [App\Http\Controllers\Project\Students\Attendance\Report\ReportController::class , 'edit'])->name('students.attendance.report.edit'); // To creat or edit report student
                 Route::post('/submit' , [App\Http\Controllers\Project\Students\Attendance\Report\ReportController::class , 'submit'])->name('students.attendance.report.submit'); // To submit report student
                 Route::post('/upload' , [App\Http\Controllers\Project\Students\Attendance\Report\ReportController::class , 'upload'])->name('students.attendance.report.upload'); // To upload report student
-                Route::post('/remove_file' , [App\Http\Controllers\Project\Students\Attendance\Report\ReportController::class , 'remove_file'])->name('students.attendance.report.remove_file'); // To remove report student
             });
-            Route::get('/index/{id}' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index'])->name('students.attendance.index'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
-            Route::post('/create_attendance' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'create_attendance'])->name('students.attendance.create_attendance'); // To submit student time attendance (sa_in_time)
+            Route::get('/index' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index'])->name('students.attendance.index'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
+            Route::post('/create_attendance' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'create_attendance'])->name('students.attendance.create_attendance'); // To submit student attendance
+            Route::post('/create_departure' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'create_departure'])->name('students.attendance.create_departure'); // To submit student departure
         });
     });
 

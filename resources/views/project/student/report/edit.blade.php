@@ -22,19 +22,23 @@
                                             <div class="alert alert-success">
                                                 {{ session('success') }}
                                             </div>
+                                        @elseif(session('danger'))
+                                            <div class="alert alert-danger">
+                                                {{ session('danger') }}
+                                            </div>
                                         @endif
                                         <form action="{{route('students.attendance.report.submit')}}" class="theme-form" method="post" enctype="multipart/form-data" id="myForm">
                                             @csrf
                                             <input type="hidden" id="latitude" name="latitude">
                                             <input type="hidden" id="longitude" name="longitude">
-                                            <input type="text" value="{{$student_report->sr_id}}" name="sr_id" id="sr_id" hidden>
+                                            <input type="text" value="{{$sa_id}}" name="sa_id" id="sa_id" hidden>
                                             <div class="form-group">
-                                                <label class="col-form-label pt-0" for="text-box">ملاحظات عن التقرير</label>
-                                                <textarea name="sr_report_text" id="text-box">{{$student_report->sr_report_text}}</textarea>
+                                                <label class="col-form-label pt-0">ملاحظات عن التقرير</label>
+                                                <textarea name="sr_report_text" class="form-control" cols="4" rows="4">@if (isset($student_report->sr_report_text)){{$student_report->sr_report_text}}@endif</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label class="dropzone digits text-center dz-clickable" id="singleFileUpload">
-                                                    <input type="file" onchange="submitFile(this, {{$student_report->sr_id}})" id="input-file" name="file" hidden>
+                                                    <input type="file" onchange="submitFile(this)" id="input-file" name="file" hidden>
                                                     <div class="dz-message needsclick">
                                                         <i class="icon-cloud-up"></i>
                                                         <h6>قم بسحب الملف هنا أو انقر للرفع</h6>
@@ -47,11 +51,12 @@
                                                     </div>
                                                     @if (isset($student_report->sr_attached_file))
                                                         <button class="btn-close" type="button" onclick="remove_file()" id="remove_button"></button>
+                                                        <input type="hidden" name="save_file" id="save_file" value="true">
                                                         <a href="{{ asset('storage/student_reports/'.$student_report->sr_attached_file) }}" id="downloadLink" download>{{$student_report->sr_attached_file}}</a>
-
                                                     @else
                                                         <button class="btn-close" type="button" onclick="remove_file()" style="display: none" id="remove_button"></button>
-                                                        <a href="" id="downloadLink" style="display: none" download></a>
+                                                        <a href="" id="downloadLink" style="display: none"></a>
+                                                        <input type="hidden" name="save_file" id="save_file" value="false">
                                                     @endif
                                                 </label>
                                             </div>
@@ -72,12 +77,6 @@
     <script src="{{ asset('assets/js/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('assets/js/dropzone/dropzone-script.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js"></script>
-    <script src="{{asset('assets/js/editor/ckeditor/ckeditor.js')}}"></script>
-    <script src="{{asset('assets/js/editor/ckeditor/adapters/jquery.js')}}"></script>
-    <script src="{{asset('assets/js/dropzone/dropzone.js')}}"></script>
-    <script src="{{asset('assets/js/dropzone/dropzone-script.js')}}"></script>
-    <script src="{{asset('assets/js/email-app.js')}}"></script>
-
     <script>
         const dropArea = document.getElementById('singleFileUpload');
         const inputFile = document.getElementById('input-file');
@@ -88,38 +87,39 @@
         dropArea.addEventListener("drop", function(e) {
             e.preventDefault();
             inputFile.files = e.dataTransfer.files;
-            submitFile(inputFile, document.getElementById('sr_id').value);
+            submitFile(inputFile);
         });
         function remove_file() {
-            let sr_id = document.getElementById('sr_id').value;
-            $.ajax({
-                    url: "{{ route('students.attendance.report.remove_file') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    data: {
-                        'sr_id': sr_id
-                    },
-                    success: function (response) {
-                        $("#downloadLink").attr("href" , "");
-                        $('#downloadLink').text("");
-                        $("#downloadLink").css("display", "none");
-                        $("#remove_button").css("display", "none");
-                        inputFile.value = null;
-                    },
-                    error: function (error) {
-                        // Handle error, if needed
-                        console.error(error);
-                        $('#progress-container').hide();
-                    }
-                });
+            document.getElementById('remove_button').style.display = "none";
+            document.getElementById('save_file').value = false;
+            document.getElementById('downloadLink').href = "";
+            document.getElementById('downloadLink').style.display = "none";
+            document.getElementById('input-file').value = '';
         }
-        function submitFile(input, sr_id) {
+        function download_file() {
+            let file = document.getElementById('input-file').files[0];
+            const blob = new Blob([file], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+
+            // Create an invisible anchor element to trigger the download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.name;
+            // a.style.display = 'none';
+
+            // Trigger the click event to initiate the download
+            document.body.appendChild(a);
+            a.click();
+
+            // Clean up
+            URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+        function submitFile(input) {
+            document.getElementById('save_file').value = true;
             let file = input.files[0];
             if (file) {
                 let formData = new FormData();
-                formData.append('sr_id', sr_id);
                 formData.append('input-file', file);
                 $(`#progress-container`).show();
                 // Make an AJAX request to submit the file
@@ -146,11 +146,31 @@
                     },
                     success: function (response) {
                         $(`#progress-container`).hide();
-                        $("#downloadLink").attr("href", `{{ asset('storage/student_reports/${response.newHref}') }}`);
-                        $("#downloadLink").attr("href", `{{ asset('storage/student_reports/${response.newHref}') }}`);
                         $('#downloadLink').text(response.newHref);
+                        let file = document.getElementById('input-file').files[0];
+                        const blob = new Blob([file], { type: 'application/octet-stream' });
+                        const url = URL.createObjectURL(blob);
+
+                        // Create an invisible anchor element to trigger the download
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = file.name;
+
+                        // Trigger the click event to initiate the download
+                        document.body.appendChild(a);
+
+                        // Clean up
+                        URL.revokeObjectURL(url);
+
+                        $('#downloadLink').attr('href', url);
                         $("#downloadLink").css("display", "");
                         $("#remove_button").css("display", "");
+                        const downloadLink = document.getElementById('downloadLink');
+                        downloadLink.removeAttribute('download');
+                        downloadLink.onclick = function(event) {
+                            event.preventDefault();
+                            download_file();
+                        };
                     },
                     error: function (error) {
                         // Handle error, if needed

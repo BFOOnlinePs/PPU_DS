@@ -12,53 +12,102 @@
 @endsection
 @section('content')
     <div class="container-fluid">
-        @if ($student_companies->isEmpty())
-            <h6 class="alert alert-danger">لا يوجد شركات مسجل فيها </h6>
-        @else
-            <div class="card">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>اسم الشركة</th>
-                            <th>الفرع</th>
-                            <th>الدائرة</th>
-                            <th>المدرب المسؤول في الشركة</th>
-                            <th>مساعد المشرف في الجامعة</th>
-                            <th>سجل الحضور والمغادرة</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($student_companies as $student_company)
-                            <tr>
-                                <td>{{$student_company->company->c_name}}</td>
-                                <td>
-                                    @if (isset($student_company->companyBranch->b_address))
-                                        {{$student_company->companyBranch->b_address}}
-                                    @endif
-                                </td>
-
-                                <td>
-                                    @if (isset($student_company->companyDepartment->d_name))
-                                        {{$student_company->companyDepartment->d_name}}
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (isset($student_company->userMentorTrainer->name))
-                                        {{$student_company->userMentorTrainer->name}}
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (isset($student_company->userAssistant->name))
-                                        {{$student_company->userAssistant->name}}
-                                    @endif
-                                </td>
-                                <td><a href="{{route('students.company.attendance.index_for_specific_student' , ['id' => $student_company->sc_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-check"></span></a></td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
+        <div id="content">
+            @include('project.student.company.ajax.companyList')
+        </div>
+        @include('project.admin.users.modals.loading')
     </div>
 @endsection
-
+@section('script')
+        <script>
+            function DepartureRegistration(sa_student_company_id) {
+                getLocation().then(function (position) {
+                    navigator.permissions.query({ name: 'geolocation' }).then(function(permissionStatus) {
+                        // Check the state of geolocation permission
+                        if (permissionStatus.state === 'granted') {
+                            document.getElementById("latitude").value = position.coords.latitude;
+                            document.getElementById("longitude").value = position.coords.longitude;
+                            $.ajax({
+                                beforeSend: function(){
+                                    $('#LoadingModal').modal('show');
+                                },
+                                url: "{{route('students.attendance.create_departure')}}",
+                                method: 'post',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                data: {
+                                    'sa_student_company_id' : sa_student_company_id,
+                                    'sa_end_time_latitude' : document.getElementById("latitude").value,
+                                    'sa_end_time_longitude' : document.getElementById("longitude").value
+                                },
+                                success: function(response) {
+                                    $('#content').html(response.html);
+                                    if(response.alert_departure === true) {
+                                        document.getElementById('alert_departure').style.display = 'block';
+                                    }
+                                    $('#LoadingModal').modal('hide');
+                                },
+                                complete: function(){
+                                    $('#LoadingModal').modal('hide');
+                                },
+                                error: function(jqXHR) {
+                                    alert(jqXHR.responseText);
+                                    alert('Error fetching user data.');
+                                }
+                            });
+                        }
+                    });
+                }).catch(function (error) {
+                    alert('To record your departure, you need to allow access to your location from your browser settings. \n Or record attendance from application.');
+                });
+            }
+            function getLocation() {
+                return new Promise(function (resolve, reject) {
+                    navigator.geolocation.getCurrentPosition(resolve, reject);
+                });
+            }
+            function AttendanceRegistration(sa_student_company_id) {
+                getLocation().then(function (position) {
+                    navigator.permissions.query({ name: 'geolocation' }).then(function(permissionStatus) {
+                    // Check the state of geolocation permission
+                        if (permissionStatus.state === 'granted') {
+                            document.getElementById("latitude").value = position.coords.latitude;
+                            document.getElementById("longitude").value = position.coords.longitude;
+                            $.ajax({
+                                beforeSend: function(){
+                                    $('#LoadingModal').modal('show');
+                                },
+                                url: "{{route('students.attendance.create_attendance')}}",
+                                method: 'post',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                data: {
+                                    'sa_student_company_id' : sa_student_company_id,
+                                    'sa_start_time_latitude' : document.getElementById("latitude").value,
+                                    'sa_start_time_longitude' : document.getElementById("longitude").value
+                                },
+                                success: function(response) {
+                                    // alert(response.html);
+                                    //alert(response.html);
+                                    $('#content').html(response.html);
+                                    document.getElementById('attendance_id').textContent = "تسجيل مغادرة";
+                                    $('#LoadingModal').modal('hide');
+                                },
+                                complete: function(){
+                                    $('#LoadingModal').modal('hide');
+                                },
+                                error: function(jqXHR) {
+                                    alert(jqXHR.responseText);
+                                    alert('Error fetching user data.');
+                                }
+                            });
+                        }
+                    });
+                }).catch(function(error){
+                    alert('To record your attendance, you need to allow access to your location from your browser settings. \n Or record attendance from application.');
+                });
+            }
+    </script>
+@endsection
