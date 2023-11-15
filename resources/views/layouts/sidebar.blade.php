@@ -48,6 +48,8 @@
                                     data-feather="book"></i><span>مساقات الفصول</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
                                     data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
+                                    data-feather="briefcase"></i><span>الشركات</span></a></li>
                     @endif
                     {{-- <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>
