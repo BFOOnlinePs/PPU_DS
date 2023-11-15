@@ -64,10 +64,46 @@
 
 
 
+
+
 </div>
 
 @endsection
 
 
 @section('script')
+
+<script>
+
+
+function companySearch(data){
+
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    // Send an AJAX request with the CSRF token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+    $('#showTable').html('<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>')
+    $.ajax({
+        url: "{{ route('admin.companies.companySearch') }}",
+        method: "post",
+        data: {
+            'search': data,
+            _token: '{!! csrf_token() !!}',
+        },
+        success: function(data) {
+            $('#showTable').html(data.view);
+        },
+        error: function(xhr, status, error) {
+            alert('error');
+        }
+    });
+
+}
+
+</script>
+
 @endsection
