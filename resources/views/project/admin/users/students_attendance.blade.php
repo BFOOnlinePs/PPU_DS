@@ -10,26 +10,6 @@
 @endsection
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-<style>
-    /* Define a custom style for the buttons */
-    .custom-btn {
-        color: #ffffff; /* Text color */
-        border: none; /* Remove button border */
-        border-radius: 5px; /* Add rounded corners */
-        padding: 10px 20px; /* Adjust padding for a better appearance */
-        text-decoration: none; /* Remove underlines on links */
-        display: inline-block; /* Display as inline-block to size according to content */
-        transition: background-color 0.3s; /* Add a smooth color transition on hover */
-
-        /* Optional: Add a box shadow for a raised effect */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Change button color on hover */
-    .custom-btn:hover {
-        background-color: #1b6f9e;
-    }
-</style>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -43,72 +23,29 @@
     </div>
   </div>
 <div class="container-fluid">
+    @if (auth()->user()->u_role_id == 2) {{-- For student doesn't show menu student --}}
+
+    @else
+        <div class="p-2 pt-0 row">
+            @include('project.admin.users.includes.menu_student')
+        </div>
+    @endif
     <div class="edit-profile">
       <div class="row">
-        <div class="col-xl-3">
-            <div class="card">
-            <input type="hidden" value="{{$user->u_id}}" id="u_id">
-            <div class="card-header pb-0">
-                <a href="{{route('admin.users.edit' , ['id'=>$user->u_id])}}" class="fa fa-edit" style="font-size: x-large;"><span></span></a>
-                <h6 class="card-title mb-0">المعلومات الأساسية</h6>
-                <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+        @if (auth()->user()->u_role_id == 2) {{-- For student doesn't show information card student --}}
+            <div class="col-xl-12">
+        @else
+            <div class="col-xl-3">
+                @include('project.admin.users.includes.information_edit_card_student')
             </div>
-            <div class="card-body">
-              <form>
-                <div class="row mb-2">
-                  <div class="profile-title">
-                    <div class="media"><img class="img-70 rounded-circle" alt="" src="https://laravel.pixelstrap.com/viho/assets/images/dashboard/1.png">
-                      <div class="media-body">
-                        <h3 class="mb-1 f-20 txt-primary">{{$user->name}}</h3>
-                        {{-- <p class="f-12">التخصص : {{$major}}</p> --}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">اسم المستخدم</label>
-                  <input class="form-control" value="{{$user->u_username}}" readonly>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">الإيميل</label>
-                  <input class="form-control" type="text" value="{{$user->email}}" readonly>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">رقم الجوال</label>
-                  <input class="form-control" value="{{$user->u_phone1}}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">رقم الجوال الاحتياط</label>
-                    <input class="form-control" value="{{$user->u_phone2}}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">عنوان السكن</label>
-                    <input class="form-control" value="{{$user->u_address}}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">تاريخ الميلاد</label>
-                    <input class="form-control" value="{{$user->u_date_of_birth}}" readonly>
-                </div>
-                <div class="form-footer">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-9">
+            <div class="col-xl-9">
+        @endif
           <form class="card">
             <div class="card-header pb-0">
               <h4 class="card-title mb-0">سجل الحضور و الغياب</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
-              <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {{-- <button class="btn btn-primary btn-sm custom-btn" onclick="$('#AddPlacesTrainingModal').modal('show')" type="button"><span class="fa fa-plus"></span> تسجيل الطالب في تدريب</button> --}}
-                        </div>
-                    </div>
-              </div>
               <div class="row" id="content">
                 @include('project.admin.users.ajax.studentsAttendanceList')
               </div>
@@ -118,10 +55,66 @@
       </div>
     </div>
     @include('project.admin.users.modals.map_attendance')
+    <div id="report_student_modal">
+        @include('project.admin.users.modals.report_student')
+    </div>
   </div>
 @endsection
 @section('script')
     <script>
+        function submit_notes_supervisor(sr_id)
+        {
+            let sr_notes = document.getElementById("sr_notes").value;
+            $.ajax({
+                beforeSend: function(){
+                },
+                url: "{{route('admin.users.report.student.edit')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'sr_id' : sr_id,
+                    'sr_notes' : sr_notes
+                },
+                success: function(response) {
+                    $('#EditStudentReportModal').modal('hide');
+                },
+                complete: function(){
+
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                    alert('Error fetching user data.');
+                }
+            });
+        }
+        function report(sa_id)
+        {
+            $.ajax({
+                beforeSend: function(){
+                },
+                url: "{{route('admin.users.report.student.display')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'sa_id' : sa_id
+                },
+                success: function(response) {
+                    $('#report_student_modal').html(response.modal);
+                    $('#EditStudentReportModal').modal('show');
+                },
+                complete: function(){
+
+                },
+                error: function(jqXHR) {
+                    alert(jqXHR.responseText);
+                    alert('Error fetching user data.');
+                }
+            });
+        }
         var latitude1 , longitude1 , latitude2 , longitude2;
         function map(a , b , c , d){
             latitude1 = parseFloat(a); // Your latitude
