@@ -5,6 +5,7 @@ use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
@@ -39,22 +40,27 @@ Route::post('/storeFcmUserToken', [FCMController::class, 'storeFcmUserToken']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [sharedController::class, 'logout']);
 
-    //user
+    // user
     Route::post('/getUserById', [sharedController::class, 'getUserInfo']);
 
-    //student
+    // student trainings
     Route::get('/getStudentCompanies', [StudentController::class, 'index']);
 
+    // student reports
     Route::post('/addStudentReport', [studentReportController::class, 'studentSubmitNewReport']);
     Route::post('/studentEditReport', [studentReportController::class, 'studentEditReport']);
-
     Route::post('/getStudentReportsDependOnAttendance', [StudentReportAttendanceController::class, 'getStudentReportsWithAttendance']);
 
+    // student attendance
     Route::post('/recordStudentCheckIn', [StudentsStudentAttendanceController::class, 'studentCheckIn']);
     Route::post('/recordStudentCheckOut', [StudentsStudentAttendanceController::class, 'studentCheckOut']);
     Route::post('/checkTodayStudentAttendance', [StudentsStudentAttendanceController::class, 'checkTodayStudentAttendance']);
 
-    //company_manager
+    // student log
+    Route::post('/getAllStudentAttendanceLog', [studentLogController::class, 'getAllStudentAttendanceLog']);
+    Route::post('/getAllStudentReportsLog', [studentLogController::class, 'getAllStudentReportsLog']);
+
+    // company_manager
     Route::get('/list_student_in_company',[CompaniesController::class , 'list_student_in_company']);
 
     // just for test
