@@ -47,11 +47,15 @@
                             </div>
                         </div>
                     <hr style="background: white">
+                    <div class="row" id="error" style="display: none">
+                        <h6 class="alert alert-danger">لا يوجد سجلات لعرضها</h6>
+                    </div>
                     <div class="row" id="content">
                         @include('project.student.attendance.ajax.attendanceList')
                     </div>
                 </div>
             </form>
+            @include('project.student.attendance.ajax.loading')
         </div>
     </div>
 </div>
@@ -62,6 +66,7 @@
     <script>
         $(document).ready(function () {
             let nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
+            loadMoreStudentAttendances();
             // Function to load more student attendances
             function loadMoreStudentAttendances() {
                 let sc_id = $('#sc_id').val();
@@ -75,6 +80,7 @@
                     },
                     beforeSend: function () {
                         nextPageUrl = '';
+                        document.getElementById('loading').style.display = '';
                     },
                     data: {
                         'sc_id': sc_id,
@@ -83,12 +89,21 @@
                     },
                     success: function (data) {
                         nextPageUrl = data.nextPageUrl;
-                        $('table tbody').append(data.html);
-                        let rowCount = $('table tbody tr').length;
-                        console.log("Number of rows: " + rowCount);
+                        if(data.html == '') {
+                            document.getElementById('error').style.display = '';
+                            document.getElementById('content').style.display = 'none';
+                            document.getElementById('loading').style.display = 'none';
+                        }
+                        else {
+                            document.getElementById('error').style.display = 'none';
+                            document.getElementById('content').style.display = '';
+                            $('table tbody').append(data.html);
+                            document.getElementById('loading').style.display = 'none';
+                        }
                     },
                     error: function (xhr, status, error) {
                         console.error("Error loading more student attendances:", error);
+                        document.getElementById('loading').style.display = 'none';
                     }
                 });
             }

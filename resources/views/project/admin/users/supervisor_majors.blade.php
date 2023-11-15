@@ -24,26 +24,26 @@
 </div>
 <div class="container-fluid">
     @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
-        <div class="p-2 pt-0 row">
+    <div class="p-2 pt-0 row">
             @include('project.admin.users.includes.menu_academic_supervisor')
         </div>
-    @endif
-    <div class="edit-profile">
-        <div class="row">
-            @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+        @endif
+        <div class="edit-profile">
+            <div class="row">
+                @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
                 <div class="col-xl-3">
                     @include('project.admin.users.includes.information_edit_card_student')
                 </div>
                 <div class="col-xl-9">
-            @elseif(auth()->user()->u_role_id == 3) {{-- Supervisor --}}
-                <input type="hidden" value="{{$user->u_id}}" id="u_id">
-                <div class="col-xl-12">
-            @endif
-          <form class="card">
-            <div class="card-header pb-0">
-              <h4 class="card-title mb-0">التخصصات</h4>
-              <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
-            </div>
+                    @elseif(auth()->user()->u_role_id == 3) {{-- Supervisor --}}
+                    <input type="hidden" value="{{$user->u_id}}" id="u_id">
+                    <div class="col-xl-12">
+                        @endif
+                        <form class="card">
+                            <div class="card-header pb-0">
+                                <h4 class="card-title mb-0">التخصصات</h4>
+                                <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+                            </div>
             <div class="card-body">
             @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
                 <div class="row">

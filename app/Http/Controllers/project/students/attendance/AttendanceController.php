@@ -40,14 +40,15 @@ class AttendanceController extends Controller
     }
     public function index()
     {
-        $student_company = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
-                                            ->where('sc_status', 1)
-                                            ->with('company')
-                                            ->pluck('sc_id')
-                                            ->toArray();
-        $student_attendances = StudentAttendance::whereIn('sa_student_company_id', $student_company)
-                                ->orderBy('created_at', 'desc')
-                                ->paginate(5);
+        // $student_company = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
+        //                                     ->where('sc_status', 1)
+        //                                     ->with('company')
+        //                                     ->pluck('sc_id')
+        //                                     ->toArray();
+        $student_attendances = [];
+        // $student_attendances = StudentAttendance::whereIn('sa_student_company_id', $student_company)
+        //                         ->orderBy('created_at', 'desc')
+        //                         ->paginate(5);
         $nowInHebron = Carbon::now('Asia/Gaza');
         $dateToday = $nowInHebron->toDateString();
         $date = StudentAttendance::selectRaw('DATE(sa_in_time) as sa_date')
@@ -67,10 +68,11 @@ class AttendanceController extends Controller
     public function index_for_specific_company($id)
     {
         $student_company = StudentCompany::where('sc_id' , $id)->with('company')->first();
-        $student_attendances = StudentAttendance::where('sa_student_id', $student_company->sc_student_id)
-                                                ->where('sa_student_company_id', $student_company->sc_id)
-                                                ->orderBy('created_at', 'desc')
-                                                ->paginate(5);
+        // $student_attendances = StudentAttendance::where('sa_student_id', $student_company->sc_student_id)
+        //                                         ->where('sa_student_company_id', $student_company->sc_id)
+        //                                         ->orderBy('created_at', 'desc')
+        //                                         ->paginate(5);
+        $student_attendances = [];
         $nowInHebron = Carbon::now('Asia/Gaza');
         $date_today = $nowInHebron->toDateString();
         $date = StudentAttendance::selectRaw('DATE(sa_in_time) as sa_date')
@@ -97,7 +99,11 @@ class AttendanceController extends Controller
                                     ->where('sa_student_company_id', $student_company->sc_id)
                                     ->latest('created_at')
                                     ->first();
-        return view('project.student.attendance.index' , ['student_company' => $student_company , 'student_attendances' =>  $student_attendances , 'date_today' => $date_today , 'last_date' => $lastDate , 'student_companies' => $student_companies , 'from_to' => $from_to , 'sa_id' => $sa_id->sa_id]);
+        $value = null;
+        if(isset($sa_id)) {
+            $value = $sa_id->sa_id;
+        }
+        return view('project.student.attendance.index' , ['student_company' => $student_company , 'student_attendances' =>  $student_attendances , 'date_today' => $date_today , 'last_date' => $lastDate , 'student_companies' => $student_companies , 'from_to' => $from_to , 'sa_id' => $value]);
     }
     public function create_attendance(Request $request)
     {

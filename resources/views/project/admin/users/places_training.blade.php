@@ -9,22 +9,7 @@
 تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a>
 @endsection
 @section('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-<style>
-    /* Define a custom style for the buttons */
-    .custom-btn {
-        color: #ffffff; /* Text color */
-        border: none; /* Remove button border */
-        border-radius: 5px; /* Add rounded corners */
-        padding: 10px 20px; /* Adjust padding for a better appearance */
-        text-decoration: none; /* Remove underlines on links */
-        display: inline-block; /* Display as inline-block to size according to content */
-        transition: background-color 0.3s; /* Add a smooth color transition on hover */
-
-        /* Optional: Add a box shadow for a raised effect */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -123,8 +108,8 @@
             }
         }
         function viewAttachment(url) {
-            $('#AgreementFileModal').modal('show');
             document.getElementById('view_attachment_result').src = url;
+            $('#AgreementFileModal').modal('show');
         }
         function delete_training_place_for_student(sc_id) {
             sc_student_id = document.getElementById('u_id').value;
@@ -153,8 +138,8 @@
                 }
             });
         }
-        $(document).ready(function() {
-    $('#addPlacesTrainingForm').submit(function(e) {
+    $(document).ready(function() {
+        $('#addPlacesTrainingForm').submit(function(e) {
             e.preventDefault();
             // data = $('#addPlacesTrainingForm').serialize();
             var formData = new FormData(this);

@@ -29,12 +29,15 @@
                                         @endif
                                         <form action="{{route('students.attendance.report.submit')}}" class="theme-form" method="post" enctype="multipart/form-data" id="myForm">
                                             @csrf
+                                            <div class="alert alert-danger" id="error" style="display: none">
+                                                يجب كتابة ملاحظات عن التقرير
+                                            </div>
                                             <input type="hidden" id="latitude" name="latitude">
                                             <input type="hidden" id="longitude" name="longitude">
                                             <input type="text" value="{{$sa_id}}" name="sa_id" id="sa_id" hidden>
                                             <div class="form-group">
                                                 <label class="col-form-label pt-0">ملاحظات عن التقرير</label>
-                                                <textarea name="sr_report_text" class="form-control" cols="4" rows="4">@if (isset($student_report->sr_report_text)){{$student_report->sr_report_text}}@endif</textarea>
+                                                <textarea name="sr_report_text" class="form-control" cols="4" rows="4" id="sr_report_text">@if (isset($student_report->sr_report_text)){{$student_report->sr_report_text}}@endif</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label class="dropzone digits text-center dz-clickable" id="singleFileUpload">
@@ -192,7 +195,14 @@
         function showPosition(position) {
             document.querySelector('#latitude').value = position.coords.latitude;
             document.querySelector('#longitude').value = position.coords.longitude;
-            document.getElementById('myForm').submit();
+            let sr_report_text = document.getElementById('sr_report_text').value;
+            if(sr_report_text == '')
+            {
+                document.getElementById('error').style.display = '';
+            }
+            else {
+                document.getElementById('myForm').submit();
+            }
         }
         submitButton.addEventListener('click', function (event) {
             event.preventDefault(); // Prevent the form from submitting (optional)

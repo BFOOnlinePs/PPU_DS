@@ -147,7 +147,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/index/{id}' , [App\Http\Controllers\Project\Supervisors\MajorsController::class , 'index'])->name('supervisors.majors.index'); // To show majors to academic supervisor
         });
         Route::group(['prefix' => 'students'], function () {
-            Route::get('/index/{id}' , [App\Http\Controllers\Project\Supervisors\StudentsController::class , 'index'])->name('supervisors.students.index'); // To display supervisor's students
+            Route::get('/index/{id}/{ms_major_id?}' , [App\Http\Controllers\Project\Supervisors\StudentsController::class , 'index'])->name('supervisors.students.index'); // To display supervisor's students
+        });
+        Route::group(['prefix' => 'companies'], function () {
+            Route::get('/index' , [App\Http\Controllers\Project\Supervisors\CompaniesController::class , 'index'])->name('supervisors.companies.index'); // To display companies
+            Route::get('/students/{id}' , [App\Http\Controllers\Project\Supervisors\CompaniesController::class , 'students'])->name('supervisors.companies.students'); // To display students
         });
     });
 });

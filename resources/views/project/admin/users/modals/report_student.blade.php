@@ -22,7 +22,7 @@
                                                 <label>التقرير</label>
                                                 <textarea name="" id="" cols="100" rows="5" readonly>{{$student_report->sr_report_text}}</textarea>
                                                 @if (!empty($student_report->sr_attached_file))
-                                                    <a href="{{ asset($student_report->sr_attached_file) }}" type="button" download>تنزيل الملف المرفق مع التقرير</a>
+                                                    <a href="{{ asset('storage/student_reports/'.$student_report->sr_attached_file) }}" type="button" download>تنزيل الملف المرفق مع التقرير</a>
                                                 @endif
                                                 <label>ملاحظات المشرف</label>
                                                 <textarea cols="100" rows="5" id="sr_notes">{{$student_report->sr_notes}}</textarea>

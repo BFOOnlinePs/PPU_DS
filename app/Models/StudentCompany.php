@@ -14,7 +14,7 @@ class StudentCompany extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'u_id', 'sc_student_id');
+        return $this->belongsTo(User::class, 'sc_student_id', 'u_id');
     }
     public function userMentorTrainer()
     {

@@ -52,10 +52,10 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
     }
 
-    // student belongs to company training
-    public function studentCompanies()
-    {
-        return $this->belongsTo(StudentCompany::class, 'u_id', 'sc_student_id');
+
+    // student has many company training
+    public function studentCompanies(){
+        return $this->hasMany(StudentCompany::class, 'sc_student_id', 'u_id');
     }
 
     public function registrations()
@@ -78,18 +78,14 @@ class User extends Authenticatable
         return $this->belongsTo(Major::class, 'u_major_id', 'm_id');
     }
 
-    public function studentCompaniesMentorTrainer()
-    {
+    public function studentCompaniesMentorTrainer(){
         return $this->hasMany(StudentCompany::class, 'sc_mentor_id', 'u_id');
     }
 
-    public function studentCompaniesAssistant()
-    {
+    public function studentCompaniesAssistant(){
         return $this->hasMany(StudentCompany::class, 'sc_assistant_id', 'u_id');
     }
 
-    public function companyManager()
-    {
-        return $this->hasOne(Company::class, 'c_manager_id', 'u_id');
-    }
+    public function companyManager(){
+        return $this->hasOne(Company::class, 'c_manager_id','u_id');
 }
