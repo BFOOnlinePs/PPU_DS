@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label for="">المساق</label>
+                                            <label for="">التخصص</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" name="m_id" id="select-majors">
                                                 @foreach ($majors as $major)
                                                     <option value="{{$major->m_id}}">{{$major->m_name}}</option>

@@ -51,6 +51,9 @@
                     </div>
                     <div class="col-md-4">
                         <select autofocus class="js-example-basic-single col-sm-12" name="m_id" id="select-major" onchange="select_major(this.value)">
+                            @if (isset($major))
+                                <option value="{{$major->m_id}}">{{$major->m_name}}</option>
+                            @endif
                             <option value="{{null}}">جميع التخصصات</option>
                             @foreach ($majors as $major)
                                 <option value="{{$major->m_id}}">{{$major->m_name}}</option>
@@ -78,6 +81,10 @@
     <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     <script>
+        $(document).ready(function() {
+            let selectedValue = $('#select-major').val();
+            select_major(selectedValue);
+        });
         function user_search(word_to_search)
         {
             let u_id = document.getElementById('u_id').value;

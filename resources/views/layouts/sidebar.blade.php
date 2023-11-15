@@ -20,14 +20,16 @@
                         <li class=""><a class="nav-link" href="{{ route('students.company.index')}}"><i data-feather="list"></i><span>الشركات</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('students.attendance.index')}}"><i data-feather="check"></i><span>سجل الحضور والمغادرة</span></a></li>
                     @elseif (auth()->user()->u_role_id == 3) {{--- Supervisor --}}
-                    <li class="back-btn">
-                        <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
-                            aria-hidden="true"></i></div>
-                        </li>
-                    <li class=""><a class="nav-link" href="{{ route('supervisors.majors.index' , ['id'=>auth()->user()->u_id]) }}"><i
-                        data-feather="book-open"></i><span>التخصصات</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('supervisors.students.index' , ['id'=>auth()->user()->u_id]) }}"><i
+                        <li class="back-btn">
+                            <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
+                                aria-hidden="true"></i></div>
+                            </li>
+                        <li class=""><a class="nav-link" href="{{ route('supervisors.majors.index' , ['id' => auth()->user()->u_id])}}"><i
+                            data-feather="book-open"></i><span>التخصصات</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}"><i
                             data-feather="users"></i><span>الطلاب</span></a></li>
+                            <li class=""><a class="nav-link" href="{{ route('supervisors.companies.index') }}"><i
+                                data-feather="briefcase"></i><span> أماكن التدريب</span></a></li>
                     @else
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"

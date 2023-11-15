@@ -35,7 +35,8 @@ class ReportController extends Controller
             if($request->save_file == 'true') {
                 if ($request->hasFile('file')) {
                     $file = $request->file('file');
-                    $filename = time() . '_' . uniqid();
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = time() . '_' . uniqid() . '.' .  $extension;
                     $file->storeAs('student_reports', $filename, 'public');
                     $student_report->sr_attached_file = $filename;
                 }

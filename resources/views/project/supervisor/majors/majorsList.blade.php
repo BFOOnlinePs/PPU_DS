@@ -1,4 +1,4 @@
-@if ($data->isEmpty())
+{{-- @if ($data->isEmpty())
     <h6 class="alert alert-danger">لا يوجد تخصصات مضافة لهذا المشرف لعرضها</h6>
 @else
     @foreach ($data as $key)
@@ -6,9 +6,6 @@
             <div class="card o-hidden border-0">
                 <div class="bg-secondary b-r-4 card-body">
                     <div class="media static-top-widget">
-                        {{-- <div class="align-self-center text-center">
-                            <span class="fa fa-book"></span>
-                        </div> --}}
                         <div class="media-body row">
                             <div class="col-md-10">
                                 <h5 class="mb-0 counter">{{$key->majors->m_name}}</h5>
@@ -20,4 +17,4 @@
             </div>
         </div>
     @endforeach
-@endif
+@endif --}}

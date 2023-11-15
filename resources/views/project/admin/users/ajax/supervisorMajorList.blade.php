@@ -1,28 +1,31 @@
 @if ($data->isEmpty())
     <h6 class="alert alert-danger">لا يوجد تخصصات مضافة لهذا المشرف لعرضها</h6>
 @else
-    @foreach ($data as $key)
-        <div class="col-sm-6">
-            <div class="card o-hidden border-0">
-                <div class="bg-secondary b-r-4 card-body">
-                    <div class="media static-top-widget">
-                        {{-- <div class="align-self-center text-center">
-                            <span class="fa fa-book"></span>
-                        </div> --}}
-                        <div class="media-body row">
-                            <div class="col-md-10">
-                                <h5 class="mb-0 counter">{{$key->majors->m_name}}</h5>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag icon-bg"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                            </div>
-                            @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
-                                <div class="col-md-2">
-                                    <button class="btn btn-lg" onclick="delete_major_for_supervisor({{$key->ms_id}})" type="button"><span class="fa fa-trash "></span></button>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>التخصص</th>
+                <th>عرض طلاب التخصص</th>
+                @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+                    <th>
+                        حذف التخصص للمشرف
+                    </th>
+                @endif
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($data as $key)
+                <tr>
+                    <td>{{$key->majors->m_name}}</td>
+                    <td><a href="{{route('supervisors.students.index' , ['id' => auth()->user()->u_id , 'ms_major_id' => $key->ms_major_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-users"></span></a></td>
+                    @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+                    <th>
+                        <button class="btn btn-lg" onclick="delete_major_for_supervisor({{$key->ms_id}})" type="button"><span class="fa fa-trash "></span></button>
+                    </th>
+                @endif
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @endif
+

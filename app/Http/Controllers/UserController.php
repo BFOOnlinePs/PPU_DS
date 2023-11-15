@@ -30,8 +30,7 @@ class UserController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension; // Unique filename
             $file->storeAs('student_reports', $filename, 'public');
-            $imagepath = 'storage/student_reports/' . $filename;
-            $student_report->sr_attached_file = $imagepath;
+            $student_report->sr_attached_file = $filename;
             $student_report->save();
             // return response()->json(['html' => 'kdsljfdlkjd']);
         }
@@ -162,8 +161,7 @@ class UserController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension; // Unique filename
             $file->storeAs('uploads', $filename, 'public');
-            $imagepath = 'storage/uploads/' . $filename;
-            $studentCompany->sc_agreement_file = $imagepath;
+            $studentCompany->sc_agreement_file = $filename;
         }
         if($studentCompany->save()) {
             $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
@@ -195,8 +193,7 @@ class UserController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension; // Unique filename
             $file->storeAs('uploads', $filename, 'public');
-            $imagepath = 'storage/uploads/' . $filename;
-            $studentCompany->sc_agreement_file = $imagepath;
+            $studentCompany->sc_agreement_file = $filename;
         }
 
         // Save the data to the database
@@ -389,10 +386,13 @@ class UserController extends Controller
         $user->u_address = $request->u_address;
         $user->u_date_of_birth = $request->u_date_of_birth;
         $user->u_gender = $request->u_gender;
-        if ($request->u_major_id === "null") {
+        $user->u_role_id = $request->u_role_id;
+        if (isset($request->u_major_id)) {
+            $user->u_major_id = $request->u_major_id;
+        }
+        else {
             $user->u_major_id = null;
         }
-        $user->u_role_id = $request->u_role_id;
         if($user->save()) {
             $data = User::where('u_role_id', $request->u_role_id)->get();
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
