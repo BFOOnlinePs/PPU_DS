@@ -87,7 +87,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix'=>'companies'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CompaniesController::class,'index'])->name('admin.companies.index');
+            Route::post('/companySearch',[App\Http\Controllers\project\admin\CompaniesController::class,'companySearch'])->name('admin.companies.companySearch');
             Route::get('/company',[App\Http\Controllers\project\admin\CompaniesController::class,'company'])->name('admin.companies.company');
+            Route::post('/create',[App\Http\Controllers\project\admin\CompaniesController::class,'create'])->name('admin.companies.create');
+            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\CompaniesController::class,'edit'])->name('admin.companies.edit');
+            Route::post('/updateCompany',[App\Http\Controllers\project\admin\CompaniesController::class,'updateCompany'])->name('admin.companies.updateCompany');
+            Route::post('/createBranches',[App\Http\Controllers\project\admin\CompaniesController::class,'createBranches'])->name('admin.companies.createBranches');
+            Route::post('/checkCompany',[App\Http\Controllers\project\admin\CompaniesController::class,'checkCompany'])->name('admin.companies.checkCompany');
+            Route::post('/companySummary',[App\Http\Controllers\project\admin\CompaniesController::class,'companySummary'])->name('admin.companies.companySummary');
         });
 
         });
