@@ -47,41 +47,49 @@ class User extends Authenticatable
 
     //relations:
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
     }
 
-
     // student belongs to company training
-    public function studentCompanies(){
+    public function studentCompanies()
+    {
         return $this->belongsTo(StudentCompany::class, 'u_id', 'sc_student_id');
     }
 
-    public function registrations(){
+    public function registrations()
+    {
         return $this->hasMany(Registration::class, 'r_student_id', 'u_id');
     }
 
-    public function majorSupervisors(){
+    public function majorSupervisors()
+    {
         return $this->hasMany(MajorSupervisor::class, 'ms_super_id', 'u_id');
     }
     // manager of companyBranch
-    public function managerOf(){
+    public function managerOf()
+    {
         return $this->belongsTo(CompanyBranch::class, 'u_id', 'b_manager_id');
     }
 
-    public function major(){
+    public function major()
+    {
         return $this->belongsTo(Major::class, 'u_major_id', 'm_id');
     }
-  
-    public function studentCompaniesMentorTrainer(){
+
+    public function studentCompaniesMentorTrainer()
+    {
         return $this->hasMany(StudentCompany::class, 'sc_mentor_id', 'u_id');
     }
-  
-    public function studentCompaniesAssistant(){
+
+    public function studentCompaniesAssistant()
+    {
         return $this->hasMany(StudentCompany::class, 'sc_assistant_id', 'u_id');
     }
-  
-    public function companyManager(){
-        return $this->hasOne(Company::class, 'c_manager_id','u_id');
+
+    public function companyManager()
+    {
+        return $this->hasOne(Company::class, 'c_manager_id', 'u_id');
     }
 }

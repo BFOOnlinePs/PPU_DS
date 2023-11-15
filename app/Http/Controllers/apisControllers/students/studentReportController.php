@@ -50,7 +50,8 @@ class studentReportController extends Controller
             $file = $request->file('sr_attached_file');
             $folderPath = 'student_reports';
             // $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalName();
-            $fileName = time() . '_' . uniqid();
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '_' . uniqid() . '.' . $extension;
             $request->file('sr_attached_file')->storeAs($folderPath, $fileName, 'public');
 
             $studentReport->update([
@@ -106,7 +107,8 @@ class studentReportController extends Controller
         if ($request->hasFile('sr_attached_file')) {
             $file = $request->file('sr_attached_file');
             $folderPath = 'student_reports';
-            $fileName = time() . '_' . uniqid();
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '_' . uniqid() . '.' . $extension;
             $request->file('sr_attached_file')->storeAs($folderPath, $fileName, 'public');
 
             $studentReport->update([
