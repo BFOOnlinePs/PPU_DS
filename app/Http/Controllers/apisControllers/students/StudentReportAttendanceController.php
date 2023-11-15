@@ -22,7 +22,6 @@ class StudentReportAttendanceController extends Controller
             // for more than one
             // ->where('sa_in_time', '>=', Carbon::now('Asia/Gaza')->subDays(2))
 
-
         // $reports = StudentReport::whereHas('attendance', function ($query) use ($student_company_id) {
         //     $query->where('sa_student_company_id', $student_company_id);
         // })->with('attendance:sa_id,sa_in_time')->get(); // to return the date and print the day of attendance not report
