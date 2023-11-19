@@ -61,7 +61,7 @@ function scroll_to_class(element_class, removed_height) {
     		parent_fieldset.fadeOut(400, function() {
     			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
 
-                console.log(current_active_step);
+                //console.log(current_active_step);
                 //$('.ribbon-wrapper').fadeOut('slow');
 
 

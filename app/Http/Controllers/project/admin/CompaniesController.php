@@ -64,14 +64,16 @@ class CompaniesController extends Controller
             if($newCompany->save()){
                 return response()->json([
                     'success'=>'true',
-                    'manager_id'=>$id
+                    'manager_id'=>$id,
+                    'company_id'=>$newCompany->c_id
                 ]);
             }
         }
-        return response()->json([
-            'success'=>'true',
-            'data'=>"all has done"
-        ]);
+
+        // return response()->json([
+        //     'success'=>'true',
+        //     'data'=>"all has done"
+        // ]);
 
     }
 
@@ -153,12 +155,12 @@ class CompaniesController extends Controller
 
 
 
-        return response()->json([
-            'success'=>'true',
-            // 'data'=>json_decode($request->department_for_1, true),
-            // 'list'=>$departmentsList,
-            // 'company_id'=>$company_id
-        ]);
+        // return response()->json([
+        //     'success'=>'true',
+        //     // 'data'=>json_decode($request->department_for_1, true),
+        //     // 'list'=>$departmentsList,
+        //     // 'company_id'=>$company_id
+        // ]);
 
 
     }
@@ -198,22 +200,5 @@ class CompaniesController extends Controller
     }
 
 
-    /////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////summary for company/////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////
 
-    // public function companySummary(Request $request){
-
-    //     $company_id = $request->company_id;
-    //     $company = Company::with('manager','companyCategories')->where('c_id',$company_id);
-    //     $branches = Company::with('manager','companyCategories')->where('c_id',$company_id);
-
-
-    //     return response()->json([
-    //         'success'=>'true',
-    //         'data'=>$data
-    //     ]);
-    // }
-
-    /////////////////////////////////////////////////////////////////////////////
 }
