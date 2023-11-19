@@ -88,4 +88,5 @@ class User extends Authenticatable
 
     public function companyManager(){
         return $this->hasOne(Company::class, 'c_manager_id','u_id');
+    }
 }

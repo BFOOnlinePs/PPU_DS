@@ -288,6 +288,7 @@
 
                                 <h1><span class="fa fa-th" style="text-align: center; font-size:80px; "></span></h1>
 
+
                                 <h3>إضافة قسم إلى الشركة</h3>
 
                                 <hr>
