@@ -1,4 +1,4 @@
- <div class="modal fade show" id="AddMajorModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+ <div class="modal fade show" id="AddMajorModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content" style="border: none;">
                     <div class="modal-header" style="height: 73px;">
@@ -69,15 +69,10 @@
                                                     </div>
                                                 </div>
 
-
-
-
-
-
-                                            </div>
+                                        
                                           
 
-                                        </div>
+                                        </div> 
 
 
                                 </div>
@@ -92,5 +87,4 @@
                 </div>
             </div>
         </div>
-
-      
+</div>
