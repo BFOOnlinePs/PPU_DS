@@ -6,38 +6,43 @@
 المستخدمين
 @endsection
 @section('header_title_link')
-المستخدمين
+    <a href="{{route('home')}}">الرئيسية</a>
 @endsection
 @section('header_link')
-عرض المستخدمين
+    <a href="{{route('admin.users.index')}}">إدارة المستخدمين</a>
 @endsection
 @section('navbar')
-<div class="row">
+<div class="row p-2">
     @if (isset($u_role_id))
         <h1 class="text-center" id="r_name">{{$role_name}}</h1>
-    @else
-        <h1 class="text-center" id="r_name">كل المستخدمين</h1>
     @endif
-    <div class="col-md-12 p-2 text-center">
-        @foreach ($roles as $role)
-            <a class="btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">{{$role->r_name}}</a>
-        @endforeach
+    <div class="container">
+        <div class="container-fluid">
+            <div class="col-md-12 row p-2 text-center">
+                @foreach ($roles as $role)
+                    <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">{{$role->r_name}}</a>
+                @endforeach
+            </div>
+        </div>
     </div>
 </div>
 @endsection
+@section('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+@endsection
 @section('content')
 <div class="col-sm-12" id="main">
-    @if (isset($u_role_id))
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span> إضافة {{$role_name}}</button>
-    @else
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
-    @endif
     <div class="card">
         <div class="card-body">
-            <input class="form-control " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
-            <table class="table table-bordered table-striped" id="user-table">
+            @if (isset($u_role_id))
+                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span> إضافة {{$role_name}}</button>
+            @else
+                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
+            @endif
+            <input class="form-control mb-2 " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
+            <div id="user-table">
                 @include('project.admin.users.ajax.usersList')
-            </table>
+            </div>
         </div>
     </div>
     @include('project.admin.users.modals.add')
@@ -45,8 +50,16 @@
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        let username = document.getElementById('u_username');
+        let email = document.getElementById('email');
+        username.addEventListener("change" , function() {
+            email.value = username.value + "@ppu.edu.ps";
+        });
+
        let AddUserForm = document.getElementById("addUserForm");
         AddUserForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -69,8 +82,9 @@
                 complete: function(){
                     $('#LoadingModal').modal('hide');
                 },
-                error: function() {
-                    alert('Error fetching user data.');
+                error: function(xhr, status, error) {
+                    // Display an alert with the error message
+                    alert('Error: ' + error);
                 }
             });
         });

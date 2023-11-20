@@ -1,3 +1,9 @@
+let next_step = true;
+var steps = document.querySelectorAll('.f1-step');
+var progressBar = document.querySelector('.f1-progress-line');
+var totalSteps = steps.length;
+var currentStep = 0;
+
 "use strict";
 function scroll_to_class(element_class, removed_height) {
 	var scroll_to = $(element_class).offset().top - removed_height;
@@ -5,18 +11,18 @@ function scroll_to_class(element_class, removed_height) {
 		$('html, body').stop().animate({scrollTop: scroll_to}, 0);
 	}
 }
-function bar_progress(progress_line_object, direction) {
-	var number_of_steps = progress_line_object.data('number-of-steps');
-	var now_value = progress_line_object.data('now-value');
-	var new_value = 0;
-	if(direction == 'right') {
-		new_value = now_value + ( 100 / number_of_steps );
-	}
-	else if(direction == 'left') {
-		new_value = now_value - ( 100 / number_of_steps );
-	}
-	progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
-}
+// function bar_progress(progress_line_object, direction) {
+// 	var number_of_steps = progress_line_object.data('number-of-steps');
+// 	var now_value = progress_line_object.data('now-value');
+// 	var new_value = 0;
+// 	if(direction == 'right') {
+// 		new_value = now_value + ( 100 / number_of_steps );
+// 	}
+// 	else if(direction == 'left') {
+// 		new_value = now_value - ( 100 / number_of_steps );
+// 	}
+// 	progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
+// }
 (function($) {
 	"use strict";
 	$.backstretch;
@@ -27,8 +33,8 @@ function bar_progress(progress_line_object, direction) {
     	$.backstretch("resize");
     });
     $('.f1 fieldset:first').fadeIn('slow');
-    
-    $('.f1 input[type="text"], .f1 input[type="password"], .f1 textarea').on('focus', function() {
+
+    $('.f1 input[type="text"], .f1 input[type="password"]').on('focus', function() {
     	$(this).removeClass('input-error');
     });
     $('.f1 .btn-next').on('click', function() {
@@ -36,21 +42,35 @@ function bar_progress(progress_line_object, direction) {
     	var next_step = true;
         var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
-    	parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
-    		if( $(this).val() == "" ) {
+    	parent_fieldset.find('input[type="text"], input[type="password"]').each(function() {
+
+
+            if( $(this).val() == "" ) {
+
     			$(this).addClass('input-error');
     			next_step = false;
     		}
     		else {
     			$(this).removeClass('input-error');
     		}
+
     	});
-    	if( next_step ) {
+
+
+    	if( next_step == true && currentStep < totalSteps - 1 ) {
     		parent_fieldset.fadeOut(400, function() {
     			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
-    			bar_progress(progress_line, 'right');
+
+                //console.log(current_active_step);
+                //$('.ribbon-wrapper').fadeOut('slow');
+
+
+    			//bar_progress(progress_line, 'right');
     			$(this).next().fadeIn();
 	    		scroll_to_class( $('.f1'), 20 );
+
+                currentStep++;
+                updateWizard();
 	    	});
     	}
     });
@@ -65,7 +85,7 @@ function bar_progress(progress_line_object, direction) {
     	});
     });
     $('.f1').on('submit', function(e) {
-    	$(this).find('input[type="text"], input[type="password"], textarea').each(function() {
+    	$(this).find('input[type="text"], input[type="password"]').each(function() {
     		if( $(this).val() == "" ) {
     			e.preventDefault();
     			$(this).addClass('input-error');
@@ -76,3 +96,15 @@ function bar_progress(progress_line_object, direction) {
     	});
     });
 })(jQuery);
+
+function updateWizard() {
+    var progressWidth = (currentStep + 1) * (100 / totalSteps);
+    progressBar.style.width = progressWidth + '%';
+
+    steps.forEach(function(step, index) {
+        step.classList.remove('active');
+        if (index === currentStep) {
+            step.classList.add('active');
+        }
+    });
+}

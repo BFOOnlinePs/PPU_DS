@@ -164,7 +164,6 @@
         }
 
         editCourseForm.addEventListener("submit", (e) => {
-
             e.preventDefault();
             data = $('#editCourseForm').serialize();
             console.log(data);
