@@ -13,8 +13,13 @@ class Major extends Model
 
 
     // relations:
+
+
     public function majorSupervisors(){
         return $this->hasMany(MajorSupervisor::class, 'ms_major_id', 'm_id');
+    }
+    public function majorStudent(){
+        return $this->hasMany(User::class, 'u_major_id', 'm_id');
     }
 
 }

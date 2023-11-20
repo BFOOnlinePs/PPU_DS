@@ -1,17 +1,18 @@
 @extends('layouts.app')
 @section('title')
-الرئيسية
+إدارة التخصصات 
 @endsection
 @section('header_title')
-الرئيسية
+إدارة التخصصات 
 @endsection
 @section('header_title_link')
-الرئيسية
+إدارة التخصصات 
 @endsection
 @section('header_link')
-الرئيسية
+التخصصات
 @endsection
 @section('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 <style>
     table td,
     table th {
@@ -28,224 +29,98 @@
 @endsection
 @section('content')
 
-<a onclick="$('#AddMajorModal').modal('show')" id="openAddModalButton" class="btn btn-success">اضافة</a>
-<div class="container">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
+
+{{-- <div class="alert alert-primary d-flex align-items-center col-md-3" role="alert">
+        <span class="fa fa-check col-md-1"></span>
+        <div class="col-md-11">
+          تمت العملية بنجاح
+        </div>
+    </div>
+
+    <div class="alert alert-danger d-flex align-items-center col-md-3" role="alert">
+        <span class="fa fa-exclamation col-md-1"></span>
+        <div class="col-md-11">
+          هناك خطأ ! الرجاء المحاولة مرة أخرى
+        </div>
+    </div> --}}
+
+    <div>
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button" id="openAddModalButton"><span class="fa fa-plus"></span>  إضافة تخصص</button>
+    </div>
+   
+<div class="card" style="padding-left:0px; padding-right:0px;">
+
+<div class="card-body" >
+    <div class="form-outline">
+        <input type="search" onkeyup="majorSearch(this.value)" class="form-control mb-2" placeholder="البحث"
+            aria-label="Search" />
+    </div>
+    <div id="majorsTable">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" style="display:none;">id</th>
+                        <th scope="col">اسم التخصص</th>
+                        <th scope="col">وصف التخصص</th>
+                        <th scope="col">الرمز المرجعي للتخصص</th>
+                        <th scope="col">المشرف</th> 
+                        <th scope="col">العمليات</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                @foreach ($data as $major)
+                <tr>
+                    <td  style="display:none;">{{ $major->m_id }}</td>
+                    <td>{{ $major->m_name }}</td>
+                    <td>{{ $major->m_description }}</td>
+                    <td>{{ $major->m_reference_code }}</td>
+                        <td>
+                 <select  class="js-example-basic-single col-sm-12" id="supervisor_{{ $major->m_id }}"  multiple="multiple"  onchange="showSuperVisorModal({{$major}})" >
+                  @foreach ($superVisors as $super)
+                    <option @foreach ($major->majorSupervisors as $majorSupervisor) @if($super->u_id ==  $majorSupervisor->users->u_id) selected @endif  @endforeach value="{{$super->u_id }}">{{$super->name}}</option>
+                      @endforeach
+                 </select>
+                    
+</td>
+                    <td>
+    <button class="btn btn-info" onclick="showMajorModal({{ $major }})"><i class="fa fa-search"></i></button>
+    <button class="btn btn-primary" onclick="showEditModal({{ $major }})"><i class="fa fa-edit"></i></button>
+</td>             
+</tr>
             @endforeach
-        </ul>
-    </div>
-    @endif
 
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="table-responsive bg-white">
-                <div id="majorsTable">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">اسم التخصص</th>
-                                <th scope="col">وصف التخصص</th>
-                                <th scope="col">الرمز المرجعي للتخصص </th>
-                                <th scope="col">التعديل</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $key)
-                            <tr>
-                                <td>{{ $key->m_id }}</td>
-                                <td>{{ $key->m_name }}</td>
-                                <td>{{ $key->m_description }}</td>
-                                <td>{{ $key->m_reference_code }}</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-light" onclick="showEditModal({{$key}})">تعديل</button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
 
-            </div>
+            </tbody>
+            </table>
         </div>
     </div>
+
+@include('project.admin.majors.modals.addMajorModal')
+
+@include('project.admin.majors.modals.editMajorModal')
+
+@include('project.admin.majors.modals.selectSuperVisorModal')
+
+@include('project.admin.majors.modals.showMajorModal')
+
+@include('layouts.loader')
+
 </div>
 
-
-
 </div>
-
-<div class="modal fade bd-example-modal-xl" id="AddMajorModal" tabindex="-1" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">اضافة تخصص</h4>
-                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <form id="addMajorForm" enctype="multipart/form-data" >
-                    @csrf
-                    <div class="row mb-3">
-                        <label for="m_name" class="col-md-4 col-form-label text-md-end">{{ __('اسم التخصص') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="m_name" type="text" class="form-control @error('m_name') is-invalid @enderror"
-                                name="m_name" value="{{ old('m_name') }}" required autocomplete="m_name" autofocus>
-
-                            @error('m_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="m_description" class="col-md-4 col-form-label text-md-end">{{ __('وصف التخصص')
-                            }}</label>
-
-                        <div class="col-md-6">
-                            <input id="m_description" type="text"
-                                class="form-control @error('m_description') is-invalid @enderror" name="m_description"
-                                value="{{ old('m_description') }}" required autocomplete="m_description">
-
-                            @error('m_description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-3">
-                        <label for="m_reference_code" class="col-md-4 col-form-label text-md-end">{{ __('الرمز المرجعي
-                            للتخصص') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="m_reference_code" type="text"
-                                class="form-control @error('m_reference_code') is-invalid @enderror"
-                                name="m_reference_code" value="{{ old('m_reference_code') }}" required
-                                autocomplete="m_reference_code" autofocus>
-
-                            @error('m_reference_code')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('اضافة تخصص ') }}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade bd-example-modal-xl" id="editMajorModal" tabindex="-1" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">تعديل تخصص</h4>
-                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <form id="editMajorForm" enctype="multipart/form-data">
-                    @csrf
-                    <input id="edit_m_id" name="edit_m_id" hidden type="text"  class="form-control btn-square input-md">
-
-                    <div class="row mb-3">
-                        <label for="edit_m_name" class="col-md-4 col-form-label text-md-end">{{ __('اسم التخصص') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="edit_m_name" type="text" class="form-control @error('edit_m_name') is-invalid @enderror"
-                                name="edit_m_name" value="{{ old('edit_m_name') }}" required autocomplete="edit_m_name" autofocus>
-
-                            @error('m_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="edit_m_description" class="col-md-4 col-form-label text-md-end">{{ __('وصف التخصص')
-                            }}</label>
-
-                        <div class="col-md-6">
-                            <input id="edit_m_description" type="text"
-                                class="form-control @error('m_description') is-invalid @enderror" name="edit_m_description"
-                                value="{{ old('m_description') }}" required autocomplete="edit_m_description">
-
-                            @error('m_description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-3">
-                        <label for="edit_m_reference_code" class="col-md-4 col-form-label text-md-end">{{ __('الرمز المرجعي
-                            للتخصص') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="edit_m_reference_code" type="text"
-                                class="form-control @error('m_reference_code') is-invalid @enderror"
-                                name="edit_m_reference_code" value="{{ old('m_reference_code') }}" required
-                                autocomplete="edit_m_reference_code" autofocus>
-
-                            @error('m_reference_code')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('تعديل التخصص ') }}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
 @section('script')
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 <script>
+
     let AddMajorForm = document.getElementById("addMajorForm");
     let EditMajorForm = document.getElementById("editMajorForm");
-
+    let AddSuperVisorForm = document.getElementById("AddSuperVisorForm");
+   
     AddMajorForm.addEventListener("submit", (e) => {
         e.preventDefault();
         data = $('#addMajorForm').serialize();
@@ -261,6 +136,11 @@
 
         // Send an AJAX request
         $.ajax({
+            beforeSend: function(){
+           
+                    $('#AddMajorModal').modal('hide');
+                    $('#LoadingModal').modal('show');
+                },
             type: 'POST',
             url: "{{ route('admin.majors.create') }}",
             data: data,
@@ -268,22 +148,86 @@
                 $('#AddMajorModal').modal('hide');
                 $('#majorsTable').html(response.view);
             },
+            complete: function(){
+                    $('#LoadingModal').modal('hide');
+                },
             error: function (xhr, status, error) {
                 console.error("error" + error);
             }
         });
 
     });
+   
+   
     function showEditModal(data){
-    console.log(data);
+   
+    console.log("data");
+    console.log(data.major_supervisors.users);
+    console.log( document.getElementById('edited_supervisor'));
     document.getElementById('edit_m_id').value = data.m_id
     document.getElementById('edit_m_name').value = data.m_name
     document.getElementById('edit_m_description').value = data.m_description
     document.getElementById('edit_m_reference_code').value = data.m_reference_code
-  
+    
+    // document.getElementById('edited_supervisor').value = data
    
-
     $('#editMajorModal').modal('show')
+  }
+    function showSuperVisorModal(data){
+       superVisor = [];
+       const selectElement =  document.getElementById("supervisor_"+data.m_id);
+        for (const option of selectElement.options) {
+            if (option.selected) {
+              superVisor.push(option.value);
+             }
+        }
+
+        var url;
+        if(data.major_supervisors.length == 0)
+        {
+            url = "{{ route('admin.majors.addSuperVisor')}}";
+        }
+       else 
+       {  
+        url = "{{ route('admin.majors.updateSuperVisor') }}";
+       }
+          console.log("eeeeeee")
+          
+      
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+// Send an AJAX request with the CSRF token
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': csrfToken
+    }
+});
+
+        // Send an AJAX request
+        $.ajax({
+            beforeSend: function(){ 
+             
+                    $('#LoadingModal').modal('show');
+                },
+            type: 'POST',
+            url: url,
+            data: {
+                superVisor:superVisor,
+                selected_m_id:data.m_id
+
+            },
+            dataType: 'json',
+            success: function (response) {
+                $('#majorsTable').html(response.view);
+            },
+            complete: function(){
+              
+                   $('#LoadingModal').modal('hide');
+                },
+            error: function (xhr, status, error) {
+                console.error("error" + error);
+            }
+        });
   }
     EditMajorForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -301,6 +245,10 @@
 
         // Send an AJAX request
         $.ajax({
+            beforeSend: function(){
+                    $('#editMajorModal').modal('hide');
+                    $('#LoadingModal').modal('show');
+                },
             type: 'POST',
             url: "{{ route('admin.majors.update') }}",
             data: data,
@@ -308,11 +256,59 @@
                 $('#editMajorModal').modal('hide');
                 $('#majorsTable').html(response.view);
             },
+            complete: function(){
+                    $('#LoadingModal').modal('hide');
+                },
             error: function (xhr, status, error) {
                 console.error("error" + error);
             }
         });
 
     });
+    function showMajorModal(data) {
+            document.getElementById('show_m_name').value = data.m_name;
+            document.getElementById('show_m_description').value = data.m_description;
+            document.getElementById('show_m_reference_code').value = data.m_reference_code;
+           
+            $('#showMajorModal').modal('show');
+        }
+    function majorSearch(data){
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Send an AJAX request with the CSRF token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+            $('#majorsTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
+
+            $.ajax({
+                url: "{{ route('admin.majors.search') }}", // Replace with your own URL
+                method: "post",
+                data: {
+                    'search':data,
+                    _token: '{!! csrf_token() !!}',
+                }, // Specify the expected data type
+                success: function(data) {
+                   
+                    $('#majorsTable').html(data.view);
+                },
+                error: function(xhr, status, error) {
+                    // This function is called when there is an error with the request
+                    alert('error');
+                }
+            });
+        }
+        $('.modal').on('shown.bs.modal', function() {
+            $(this).find('[autofocus]').focus();
+        });       
 </script>
+
+    
+
+
+<!-- end -->
 @endsection
+
+    

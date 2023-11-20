@@ -11,6 +11,10 @@ class Role extends Model
     protected $table = 'roles';
     protected $primaryKey = 'r_id';
 
+    protected $fillable = [
+        'r_name'
+    ];
+
     // relations:
     public function users()
     {

@@ -11,8 +11,8 @@
         content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <title>@yield('title')</title>
     <!-- Google font-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -46,6 +46,7 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
     <style>
         @font-face {
             font-family: 'Tajawal';
@@ -80,7 +81,6 @@
     <div class="page-wrapper" id="pageWrapper">
         <!-- Page Header Start-->
         @include('layouts.navbar')
-
         <!-- Page Header Ends                              -->
         <!-- Page Body Start-->
         <div class="page-body-wrapper horizontal-menu">
@@ -116,5 +116,4 @@
     <!-- Plugin used-->
     @yield('script')
 </body>
-
 </html>

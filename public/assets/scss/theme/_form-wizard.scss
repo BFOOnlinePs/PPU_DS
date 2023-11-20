@@ -85,7 +85,7 @@
 			height:1px;
 			background-color:$light-gray;
 			.f1-progress-line {
-				height:1px;			
+				height:1px;
 				background-color:$primary-color;
 				width:16%;
 			}
@@ -96,7 +96,7 @@
 			width: 33.333333%;
 			text-align:center;
 			&.activated {
-				.f1-step-icon {				
+				.f1-step-icon {
 					border: 1px solid $primary-color;
 					color: $primary-color;
 					line-height: 38px;
@@ -106,9 +106,9 @@
 				}
 			}
 			&.active {
-				.f1-step-icon {								
+				.f1-step-icon {
 					background-color:$primary-color;
-					color:$white;									
+					color:$white;
 				}
 				p {
 					color: $primary-color;
@@ -121,7 +121,7 @@
 			.f1-step-icon {
 				display:inline-block;
 				width:40px;
-				height:40px;				
+				height:40px;
 				background-color:$light-gray;
 				font-size:16px;
 				color:$primary-color;
@@ -285,7 +285,7 @@
 				.f1-step-icon{
 					width:35px;
 					height:35px;
-					font-size:14px;			
+					font-size:14px;
 				}
 			}
 
