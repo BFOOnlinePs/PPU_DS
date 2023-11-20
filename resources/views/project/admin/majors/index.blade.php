@@ -12,6 +12,7 @@
 التخصصات
 @endsection
 @section('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 <style>
     table td,
     table th {
@@ -63,23 +64,34 @@
                         <th scope="col">اسم التخصص</th>
                         <th scope="col">وصف التخصص</th>
                         <th scope="col">الرمز المرجعي للتخصص</th>
+                        <th scope="col">المشرف</th> 
                         <th scope="col">العمليات</th>
+
                     </tr>
                 </thead>
                 <tbody>
 
-                @foreach ($data as $key)
-                    <tr>
-                        <td style="display:none;">{{ $key->m_id }}</td>
-                        <td>{{ $key->m_name }}</td>
-                        <td>{{ $key->m_description }}</td>
-                        <td>{{ $key->m_reference_code }}</td>
+                @foreach ($data as $major)
+                <tr>
+                    <td  style="display:none;">{{ $major->m_id }}</td>
+                    <td>{{ $major->m_name }}</td>
+                    <td>{{ $major->m_description }}</td>
+                    <td>{{ $major->m_reference_code }}</td>
                         <td>
-                            <button class="btn btn-info" onclick="showMajorModal({{ $key }})"><i class="fa fa-search"></i></button>
-                            <button class="btn btn-primary" onclick="showEditModal({{ $key }})"><i class="fa fa-edit"></i></button>
-                        </td>
-                    </tr>
-                @endforeach
+                 <select  class="js-example-basic-single col-sm-12" id="supervisor_{{ $major->m_id }}"  multiple="multiple"  onchange="showSuperVisorModal({{$major}})" >
+                  @foreach ($superVisors as $super)
+                    <option @foreach ($major->majorSupervisors as $majorSupervisor) @if($super->u_id ==  $majorSupervisor->users->u_id) selected @endif  @endforeach value="{{$super->u_id }}">{{$super->name}}</option>
+                      @endforeach
+                 </select>
+                    
+</td>
+                    <td>
+    <button class="btn btn-info" onclick="showMajorModal({{ $major }})"><i class="fa fa-search"></i></button>
+    <button class="btn btn-primary" onclick="showEditModal({{ $major }})"><i class="fa fa-edit"></i></button>
+</td>             
+</tr>
+            @endforeach
+
 
             </tbody>
             </table>
@@ -90,6 +102,8 @@
 
 @include('project.admin.majors.modals.editMajorModal')
 
+@include('project.admin.majors.modals.selectSuperVisorModal')
+
 @include('project.admin.majors.modals.showMajorModal')
 
 @include('layouts.loader')
@@ -99,10 +113,14 @@
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 <script>
+
     let AddMajorForm = document.getElementById("addMajorForm");
     let EditMajorForm = document.getElementById("editMajorForm");
-
+    let AddSuperVisorForm = document.getElementById("AddSuperVisorForm");
+   
     AddMajorForm.addEventListener("submit", (e) => {
         e.preventDefault();
         data = $('#addMajorForm').serialize();
@@ -139,16 +157,77 @@
         });
 
     });
+   
+   
     function showEditModal(data){
-    console.log(data);
+   
+    console.log("data");
+    console.log(data.major_supervisors.users);
+    console.log( document.getElementById('edited_supervisor'));
     document.getElementById('edit_m_id').value = data.m_id
     document.getElementById('edit_m_name').value = data.m_name
     document.getElementById('edit_m_description').value = data.m_description
     document.getElementById('edit_m_reference_code').value = data.m_reference_code
-  
+    
+    // document.getElementById('edited_supervisor').value = data
    
-
     $('#editMajorModal').modal('show')
+  }
+    function showSuperVisorModal(data){
+       superVisor = [];
+       const selectElement =  document.getElementById("supervisor_"+data.m_id);
+        for (const option of selectElement.options) {
+            if (option.selected) {
+              superVisor.push(option.value);
+             }
+        }
+
+        var url;
+        if(data.major_supervisors.length == 0)
+        {
+            url = "{{ route('admin.majors.addSuperVisor')}}";
+        }
+       else 
+       {  
+        url = "{{ route('admin.majors.updateSuperVisor') }}";
+       }
+          console.log("eeeeeee")
+          
+      
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+// Send an AJAX request with the CSRF token
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': csrfToken
+    }
+});
+
+        // Send an AJAX request
+        $.ajax({
+            beforeSend: function(){ 
+             
+                    $('#LoadingModal').modal('show');
+                },
+            type: 'POST',
+            url: url,
+            data: {
+                superVisor:superVisor,
+                selected_m_id:data.m_id
+
+            },
+            dataType: 'json',
+            success: function (response) {
+                $('#majorsTable').html(response.view);
+            },
+            complete: function(){
+              
+                   $('#LoadingModal').modal('hide');
+                },
+            error: function (xhr, status, error) {
+                console.error("error" + error);
+            }
+        });
   }
     EditMajorForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -212,6 +291,7 @@
                     _token: '{!! csrf_token() !!}',
                 }, // Specify the expected data type
                 success: function(data) {
+                   
                     $('#majorsTable').html(data.view);
                 },
                 error: function(xhr, status, error) {
@@ -225,5 +305,10 @@
         });       
 </script>
 
+    
+
+
 <!-- end -->
 @endsection
+
+    
