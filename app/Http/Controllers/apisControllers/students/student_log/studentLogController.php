@@ -71,8 +71,9 @@ class studentLogController extends Controller
 
 
         $allStudentReportsLog = StudentReport::where('sr_student_id', $request->input('sr_student_id'))
+        ->with('attendance.training.company')
         ->orderBy('created_at', 'desc')
-        ->paginate(6); // number of items each page
+        ->paginate(5); // number of items each page
         // ->get();
 
         if (!$allStudentReportsLog) {

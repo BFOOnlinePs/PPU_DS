@@ -34,6 +34,8 @@ Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
 
 Route::post('/storeFcmUserToken', [FCMController::class, 'storeFcmUserToken']);
+Route::post('/deleteFcmUserToken', [FCMController::class, 'deleteFcmUserToken']);
+Route::post('/updateFcmUserToken', [FCMController::class, 'updateFcmUserToken']);
 
 
 // protected routes
