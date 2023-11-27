@@ -3,6 +3,7 @@
 use App\Http\Controllers\apisController\students\StudentAttendanceController;
 use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
+use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
@@ -33,6 +34,7 @@ Route::post('/login', [sharedController::class, 'login']);
 Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
 
+// FCM
 Route::post('/storeFcmUserToken', [FCMController::class, 'storeFcmUserToken']);
 Route::post('/deleteFcmUserToken', [FCMController::class, 'deleteFcmUserToken']);
 Route::post('/updateFcmUserToken', [FCMController::class, 'updateFcmUserToken']);
@@ -62,8 +64,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/getAllStudentAttendanceLog', [studentLogController::class, 'getAllStudentAttendanceLog']);
     Route::post('/getAllStudentReportsLog', [studentLogController::class, 'getAllStudentReportsLog']);
 
+
+    // add middleware
     // company_manager
-    Route::get('/list_student_in_company',[CompaniesController::class , 'list_student_in_company']);
+    Route::post('getTrainees', [CompanyTrainees::class, 'getTrainees']);
+    Route::post('getTraineeAttendanceLog', [CompanyTrainees::class, 'getTraineeAttendanceLog']);
+    Route::post('getTraineeReportsLog', [CompanyTrainees::class, 'getTraineeReportsLog']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
