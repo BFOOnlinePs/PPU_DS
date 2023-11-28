@@ -32,4 +32,9 @@ class StudentAttendance extends Model
     {
         return $this->belongsTo(StudentCompany::class, 'sa_student_company_id', 'sc_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sa_student_id', 'u_id');
+    }
 }

@@ -12,6 +12,7 @@ class StudentCompany extends Model
     protected $table = 'students_companies';
     protected $primaryKey = 'sc_id';
 
+    // student (trainee)
     public function users()
     {
         return $this->belongsTo(User::class, 'sc_student_id', 'u_id');
@@ -44,4 +45,6 @@ class StudentCompany extends Model
     {
         return $this->hasMany(StudentAttendance::class, 'sa_student_company_id', 'sc_id');
     }
+
+
 }
