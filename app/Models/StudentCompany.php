@@ -45,4 +45,6 @@ class StudentCompany extends Model
     {
         return $this->hasMany(StudentAttendance::class, 'sa_student_company_id', 'sc_id');
     }
+
+
 }

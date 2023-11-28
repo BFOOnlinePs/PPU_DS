@@ -66,10 +66,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     // add middleware
-    // company_manager
+    // manager
     Route::post('getTrainees', [CompanyTrainees::class, 'getTrainees']);
     Route::post('getTraineeAttendanceLog', [CompanyTrainees::class, 'getTraineeAttendanceLog']);
     Route::post('getTraineeReportsLog', [CompanyTrainees::class, 'getTraineeReportsLog']);
+
+
+    Route::get('getAllTraineesAttendanceLog', [CompanyTrainees::class, 'getAllTraineesAttendanceLog']);
+    Route::get('getAllTraineesReportsLog', [CompanyTrainees::class, 'getAllTraineesReportsLog']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
