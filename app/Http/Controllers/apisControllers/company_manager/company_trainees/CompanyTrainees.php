@@ -88,13 +88,13 @@ class CompanyTrainees extends Controller
             ], 422);
         };
 
-        $allStudentAttendanceLog = StudentAttendance::where('sa_student_id', $request->input('trainee_id'))
+        $allTraineeAttendanceLog = StudentAttendance::where('sa_student_id', $request->input('trainee_id'))
             ->where('sa_student_company_id', $request->input('student_company_id'))
             // ->with('training') //i may need: training.company
             ->orderBy('created_at', 'desc')
             ->paginate(6); // number of items each page
 
-        if (!$allStudentAttendanceLog) {
+        if (!$allTraineeAttendanceLog) {
             return response()->json([
                 'status' => false,
                 'message' => 'لم يتم تسحيل اي حضور بعد'
@@ -104,12 +104,12 @@ class CompanyTrainees extends Controller
         return response()->json([
             'status' => true,
             'pagination' => [
-                'current_page' => $allStudentAttendanceLog->currentPage(),
-                'last_page' => $allStudentAttendanceLog->lastPage(),
-                'per_page' => $allStudentAttendanceLog->perPage(),
-                'total_items' => $allStudentAttendanceLog->total(),
+                'current_page' => $allTraineeAttendanceLog->currentPage(),
+                'last_page' => $allTraineeAttendanceLog->lastPage(),
+                'per_page' => $allTraineeAttendanceLog->perPage(),
+                'total_items' => $allTraineeAttendanceLog->total(),
             ],
-            'trainee_attendance' => $allStudentAttendanceLog->items(),
+            'trainee_attendance' => $allTraineeAttendanceLog->items(),
 
         ], 200);
     }
@@ -132,7 +132,12 @@ class CompanyTrainees extends Controller
             ], 422);
         };
 
+        $sc_id = $request->input('student_company_id');
+
         $allStudentReportsLog = StudentReport::where('sr_student_id', $request->input('trainee_id'))
+            ->whereHas('attendance', function($query) use ($sc_id){
+                $query->where('.sa_student_company_id', $sc_id);
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
