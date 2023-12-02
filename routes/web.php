@@ -153,7 +153,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'students'], function () {
         Route::group(['prefix' => 'personal_profile'], function () {
             // return 'anas';
-            Route::get('/index' , [App\Http\Controllers\Project\Students\Personal_Profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student
+            // Route::get('/index' , [App\Http\Controllers\Project\Students\Personal_Profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student
+            Route::get('/index' , function(){
+                return 'anas';
+            })->name('students.personal_profile.index'); // To display personal profile for this student
         });
         Route::group(['prefix' => 'company'], function () {
             Route::get('/index' , [App\Http\Controllers\Project\Students\Company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
