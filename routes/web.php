@@ -152,12 +152,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::group(['prefix' => 'students'], function () {
         Route::group(['prefix' => 'personal_profile'], function () {
-            Route::get('/index' , [App\Http\Controllers\Project\Students\Personal_Profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student
+            return 'anas';
+            // Route::get('/index' , [App\Http\Controllers\Project\Students\Personal_Profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student
         });
         Route::group(['prefix' => 'company'], function () {
             Route::get('/index' , [App\Http\Controllers\Project\Students\Company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
             Route::group(['prefix' => 'attendance'], function () {
-                Route::get('/index/{id}' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index_for_specific_company'])->name('students.company.attendance.index_for_specific_student'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
+                Route::get('/index/{id}', [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index_for_specific_company'])->name('students.company.attendance.index_for_specific_student'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
                 Route::post('/select' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'ajax_company_from_to'])->name('students.attendance.ajax_company_from_to');
             });
         });
