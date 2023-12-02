@@ -55,8 +55,8 @@
                                 <option value="{{$major->m_id}}">{{$major->m_name}}</option>
                             @endif
                             <option value="{{null}}">جميع التخصصات</option>
-                            @foreach ($majors as $major)
-                                <option value="{{$major->m_id}}">{{$major->m_name}}</option>
+                            @foreach ($majors as $key)
+                                <option value="{{$key->m_id}}">{{$key->m_name}}</option>
                             @endforeach
                         </select>
                     </div>

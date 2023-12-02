@@ -30,6 +30,13 @@
                             data-feather="users"></i><span>الطلاب</span></a></li>
                             <li class=""><a class="nav-link" href="{{ route('supervisors.companies.index') }}"><i
                                 data-feather="briefcase"></i><span> أماكن التدريب</span></a></li>
+                    @elseif (auth()->user()->u_role_id == 6) {{-- Company manager --}}
+                        <li class="back-btn">
+                            <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                        </li>
+                        <li class=""><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>الطلاب</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>سجلات المتابعة</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('company_manager.payments.index')}}"><i data-feather="dollar-sign"></i><span>الدفعات</span></a></li>
                     @else
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"

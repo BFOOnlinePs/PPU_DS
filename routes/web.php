@@ -116,6 +116,34 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'mnd'], function () {
     });
 
+    Route::group(['prefix' => 'company_manager'], function () {
+        Route::group(['prefix' => 'students'], function () {
+            Route::group(['prefix' => 'reports'], function () {
+                Route::get('/index/{id}' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'index'])->name('company_manager.students.reports.index');
+                Route::post('/add' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'addNotes'])->name('company_manager.students.reports.addNotes');
+                Route::post('/show' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'showNotes'])->name('company_manager.students.reports.showNotes');
+                Route::post('/report' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'showReport'])->name('company_manager.students.reports.showReport');
+            });
+            Route::group(['prefix' => 'attendance'], function () {
+                Route::get('/index/{id}' , [App\Http\Controllers\Project\Company_Manager\Students\Attendance\AttendanceController::class, 'index'])->name('company_manager.students.attendance.index');
+                Route::post('/index' , [App\Http\Controllers\Project\Company_Manager\Students\Attendance\AttendanceController::class, 'index_ajax'])->name('company_manager.students.attendance.index_ajax');
+
+            });
+            Route::group(['prefix' => 'payments'], function () {
+                Route::get('/index/{id}' , [App\Http\Controllers\Project\Company_Manager\Students\Payments\PaymentsController::class, 'index'])->name('company_manager.students.payments.index');
+                Route::post('/create' , [App\Http\Controllers\Project\Company_Manager\Students\Payments\PaymentsController::class, 'create'])->name('company_manager.students.payments.create');
+            });
+            Route::get('/index' , [App\Http\Controllers\Project\Company_Manager\Students\StudentController::class, 'index'])->name('company_manager.students.index');
+        });
+        Route::group(['prefix' => 'payments'], function () {
+            Route::get('/index' , [App\Http\Controllers\Project\Company_Manager\Payments\PaymentsController::class, 'index'])->name('company_manager.payments.index');
+        });
+        Route::group(['prefix' => 'records'], function () {
+            Route::get('/index' , [App\Http\Controllers\Project\Company_Manager\Records\RecordsController::class, 'index'])->name('company_manager.records.index');
+            Route::post('/search' , [App\Http\Controllers\Project\Company_Manager\Records\RecordsController::class, 'search'])->name('company_manager.records.search');
+        });
+
+    });
     Route::group(['prefix' => 'students'], function () {
         Route::group(['prefix' => 'personal_profile'], function () {
             Route::get('/index' , [App\Http\Controllers\Project\Students\Personal_Profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student

@@ -19,7 +19,7 @@
                                     </div>
                                     <div class="email-wrapper">
                                         @if(session('success'))
-                                            <div class="alert alert-success">
+                                            <div class="alert alert-success" id="success">
                                                 {{ session('success') }}
                                             </div>
                                         @elseif(session('danger'))
@@ -199,6 +199,7 @@
             if(sr_report_text == '')
             {
                 document.getElementById('error').style.display = '';
+                document.getElementById('success').style.display = 'none';
             }
             else {
                 document.getElementById('myForm').submit();
