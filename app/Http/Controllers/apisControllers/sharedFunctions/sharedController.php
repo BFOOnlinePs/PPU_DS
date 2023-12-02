@@ -80,7 +80,7 @@ class sharedController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        return response()->json(['user' => $user]);
+        return response()->json(['user' => $user], 200);
     }
 
 

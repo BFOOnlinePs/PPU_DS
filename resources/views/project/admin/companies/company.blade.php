@@ -252,6 +252,7 @@
 
 
                 <input hidden id="manager_id" name="manager_id">
+                {{-- <input hidden id="company_id" name="company_id"> --}}
 
                 <div class="f1-buttons">
                     {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
@@ -404,7 +405,7 @@
                         </div>
                     </div>
 
-                    <input hidden id="company_id" name="company_id" value="3">
+                    <input hidden id="company_id" name="company_id">
 
                 </div>
 
@@ -494,8 +495,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group" id="mb_department_summary_area" hidden>
-                                    <label for="f1-last-name">أقسام الفرع</label>
-                                    <div id="main_branch_departments"></div>
+                                    <label for="f1-last-name">أقسام الفرع الرئيسي</label>
+                                    <input class="f1-last-name form-control" id="main_branch_departments" disabled>
                                 </div>
                             </div>
                         </div>
@@ -526,86 +527,6 @@
                     </div>
                     </div>
                   </div>
-
-                {{-- <h4>معلومات الشركة</h4>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">الشخص المسؤول</label>
-                            <input class="f1-last-name form-control" id="manager_summary">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">البريد الإلكتروني</label>
-                            <input class="f1-last-name form-control" id="email_sammury">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">رقم هاتف الشركة</label>
-                            <input class="f1-last-name form-control" id="phone_summary">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">عنوان الشركة</label>
-                            <input class="f1-last-name form-control" id="address_summary">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">تصنيف الشركة</label>
-                            <input class="f1-last-name form-control" id="category_summary">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">نوع الشركة</label>
-                            <input class="f1-last-name form-control" id="type_summary">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group" id="description_summary_area" hidden>
-                            <label for="f1-last-name">وصف الشركة</label>
-                            <textarea class="f1-last-name form-control" id="description_summary" rows="6"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row" id="phone2_website_area">
-
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group" id="mb_department_summary_area" hidden>
-                            <label for="f1-last-name">أقسام الفرع</label>
-                            <div id="main_branch_departments"></div>
-                        </div>
-                    </div>
-                </div> --}}
-
-                <!--//////////////////////////////////////////////////////-->
-                {{-- <h4 id="departments_title" hidden>أقسام الشركة</h4>
-                <hr>
-                <div id="departments_summary">
-
-                </div>
-                <br> --}}
-
-                {{-- <h4 id="branches_title" hidden>فروع الشركة</h4>
-                <hr>
-                <div id="branches_summary">
-
-                </div> --}}
 
 
                 <div class="f1-buttons">
@@ -656,9 +577,9 @@ window.addEventListener("load", (event) => {
 
     //console.log($('fieldset:eq(0)'))
     //console.log($('fieldset:first'))
-    $('fieldset').each(function(index, element) {
-        console.log(index)
-    })
+    // $('fieldset').each(function(index, element) {
+    //     console.log(index)
+    // })
 
     uncompletedCompanySize = {{count($uncompletedCompany)}}
     if(uncompletedCompanySize != 0){
@@ -706,27 +627,31 @@ function completeCompany(index){
     document.getElementById('manager_id').value = uncompletedCompany[index].manager.u_id;
     document.getElementById('companyName').value = uncompletedCompany[index].c_name;
 
+    document.getElementById('company_id').value = uncompletedCompany[index].c_id;
+
+
+    branchesNum = document.getElementById('branchesNum').value;
     if(branchesNum<2){
+        //cause adress2 and phone1 are required inputs in the wizard and it will not continue to the
+        //next step even they are hidden, so when choose 1 branch they are actully exists but whithout values
+        //so the wizard will not continue to next step
+        //so this is the temp solution for this issue
         document.getElementById('address2').value = 0;
         document.getElementById('phone1_2').value = 0;
     }
 
-    //document.querySelector('#firstStepButton').click();
     $('#uncompletedCompanyModal').modal('hide');
-
-
 
 }
 
 function checkCompany(data){
 
-    //document.getElementById('search_icon').hidden = false;
     document.getElementById('ok_icon').hidden = true;
 
     if(data!=""){
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-    // Send an AJAX request with the CSRF token
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': csrfToken
@@ -735,8 +660,7 @@ function checkCompany(data){
 
     $.ajax({
         beforeSend: function(){
-                //$('#LoadingModal').modal('show');
-                document.getElementById('search_icon').hidden = false;
+            document.getElementById('search_icon').hidden = false;
         },
         url: "{{ route('admin.companies.checkCompany') }}",
         method: "post",
@@ -780,7 +704,12 @@ function checkCompany(data){
 
 function firstStep(){
 
+    branchesNum = document.getElementById('branchesNum').value;
     if(branchesNum<2){
+        //cause adress2 and phone1 are required inputs in the wizard and it will not continue to the
+        //next step even they are hidden, so when choose 1 branch they are actully exists but whithout values
+        //so the wizard will not continue to next step
+        //so this is the temp solution for this issue
         document.getElementById('address2').value = 0;
         document.getElementById('phone1_2').value = 0;
     }
@@ -795,52 +724,53 @@ function firstStep(){
     document.getElementById('address1').value=address1;
     ///////////////////////////////////////////////////////////////////////////////
 
-    // if(uncompletedCompanySize!=0){
-    //     console.log("hi reem from first step but with complete company")
-    //     document.querySelector('#firstStepButton').click();
-    // }else{
-    //     console.log("hi reem from first step but with new company")
-    //     var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    //     data = $('#companyForm').serialize();
+    if(uncompletedCompanySize!=0){
+        console.log("hi reem from first step but with complete company")
+        document.querySelector('#firstStepButton').click();
+    }else{
+        console.log("hi reem from first step but with new company")
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        data = $('#companyForm').serialize();
 
-    //     console.log(data);
+        console.log(data);
 
-    //     $.ajaxSetup({
-    //         headers: {
-    //             'X-CSRF-TOKEN': csrfToken
-    //         }
-    //     })
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
 
-    //     $.ajax({
-    //         beforeSend: function(){
-    //             //$('#LoadingModal').modal('show');
-    //             document.getElementById('loaderContainer').hidden = false;
-    //         },
-    //         type: 'POST',
-    //         url: "{{ route('admin.companies.create') }}",
-    //         data: data,
-    //         dataType: 'json',
-    //         success: function(response) {
+        $.ajax({
+            beforeSend: function(){
+                //$('#LoadingModal').modal('show');
+                document.getElementById('loaderContainer').hidden = false;
+            },
+            type: 'POST',
+            url: "{{ route('admin.companies.create') }}",
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response.company_id)
+                manager_id = response.manager_id;
+                document.getElementById('manager_id').value = manager_id;
+                document.getElementById('company_id').value = response.company_id;
+                companyName = document.getElementById("c_name").value;
+                document.getElementById('companyName').value = companyName;
 
-    //             manager_id = response.manager_id;
-    //             document.getElementById('manager_id').value = manager_id;
-    //             companyName = document.getElementById("c_name").value;
-    //             document.getElementById('companyName').value = companyName;
+            },
+            complete: function(){
+                //$('#LoadingModal').modal('hide');
+                document.getElementById('loaderContainer').hidden = true;
+                document.querySelector('#firstStepButton').click();
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
 
-    //         },
-    //         complete: function(){
-    //             //$('#LoadingModal').modal('hide');
-    //             document.getElementById('loaderContainer').hidden = true;
-    //             document.querySelector('#firstStepButton').click();
-    //         },
-    //         error: function(xhr, status, error) {
-    //             console.error(xhr.responseText);
-    //         }
-    //     });
-    // }
-
-    document.getElementById('companyName').value = "companyName";
-    document.querySelector('#firstStepButton').click();
+    //document.getElementById('companyName').value = "companyName";
+    //document.querySelector('#firstStepButton').click();
 
 }
 
@@ -851,143 +781,41 @@ function secondStep(){
     // if(document.getElementById('c_website').value=="" && document.getElementById('c_description').value==""&&uncompletedCompanySize==0){
     //     document.querySelector('#secondStepButton').click();
     // }else{
-    //     $.ajaxSetup({
-    //         headers: {
-    //             'X-CSRF-TOKEN': csrfToken
-    //         }
-    //     })
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
 
-    //     $.ajax({
-    //         beforeSend: function(){
-    //             //$('#LoadingModal').modal('show');
-    //             document.getElementById('loaderContainer').hidden = false;
-    //         },
-    //         type: 'POST',
-    //         url: "{{ route('admin.companies.updateCompany') }}",
-    //         data: data,
-    //         dataType: 'json',
-    //         success: function(response) {
-    //             console.log("all has done")
-    //         },
-    //         complete: function(){
-    //             //$('#LoadingModal').modal('hide');
-    //             document.getElementById('loaderContainer').hidden = true;
-    //             document.querySelector('#secondStepButton').click();
-    //         },
-    //         error: function(xhr, status, error) {
-    //             console.error(xhr.responseText);
-    //         }
-    //     });
+        $.ajax({
+            beforeSend: function(){
+                //$('#LoadingModal').modal('show');
+                document.getElementById('loaderContainer').hidden = false;
+            },
+            type: 'POST',
+            url: "{{ route('admin.companies.updateCompany') }}",
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                console.log("all has done")
+            },
+            complete: function(){
+                //$('#LoadingModal').modal('hide');
+                document.getElementById('loaderContainer').hidden = true;
+                document.querySelector('#secondStepButton').click();
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
 
-    // }
+    //}
 
-    document.querySelector('#secondStepButton').click();
+    //document.querySelector('#secondStepButton').click();
 
 }
 
 function thirdStep(){
-
-    var editLink = "{{ route('admin.companies.edit', ['id' => 'company_id']) }}";
-    editLink = editLink.replace('company_id', company_id);
-    document.getElementById("editCompanyLink").setAttribute("href",editLink);
-
-    $('.ribbon-wrapper').fadeOut('slow');
-    categories = {!! json_encode($categories, JSON_HEX_APOS) !!};
-    console.log(document.getElementById("c_category").value)
-
-    //set step 4 values - summary tab
-    document.getElementById("company_name_summary").innerHTML = "اسم الشركة : "+document.getElementById("c_name").value;
-    document.getElementById("manager_summary").value = document.getElementById("name").value ;
-    document.getElementById("email_sammury").value = document.getElementById("email").value;
-    document.getElementById("phone_summary").value = document.getElementById("phoneNum").value;
-    document.getElementById("address_summary").value = document.getElementById("address").value;
-    document.getElementById("category_summary").value = categories[document.getElementById("c_category").value-1].cc_name;
-    document.getElementById("type_summary").value = document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص";
-    // if(document.getElementById("c_description").value != ""){
-    //     document.getElementById("description_summary").value = document.getElementById("c_description").value;
-    // }
-
-    x = "";
-    if(document.getElementById("c_description").value != ""){
-        document.getElementById("description_summary_area").hidden = false;
-        document.getElementById("description_summary").value = document.getElementById("c_description").value;
-    }
-    if(document.getElementById("phone2_1").value != ""){
-        x +=`<div class="col-md-6">
-                <div class="form-group">
-                    <label for="f1-last-name">هاتف 2</label>
-                    <input class="f1-last-name form-control" value=${document.getElementById("phone2_1").value}>
-                </div>
-            </div>`;
-        // document.getElementById("mb_phone2_summary").value = document.getElementById("phone2_1").value;
-        // document.getElementById("website_summary_area").hidden = false;
-
-        $('#phone2_website_area').html(x);
-    }
-    if(document.getElementById("c_website").value != ""){
-        x +=`<div class="col-md-6">
-                <div class="form-group">
-                    <label for="f1-last-name">الموقع الإلكتروني</label>
-                    <input class="f1-last-name form-control" value=${document.getElementById("c_website").value}>
-                </div>
-            </div>`;
-        $('#phone2_website_area').html(x);
-        //document.getElementById("mb_website_summary").value = document.getElementById("c_website").value;
-        //document.getElementById("website_summary_area").hidden = false;
-    }
-
-
-    //to list all departments for company
-    if(departments.length!=0){
-        x="";
-
-        document.getElementById("departments_summary_area").hidden = false;
-
-        document.getElementById("mb_department_summary_area").hidden = false;
-
-
-        mb_departments = $('#departments1').val();
-        console.log("mb_departments")
-        console.log(mb_departments)
-        for(d=0;d<mb_departments.length;d++){
-            x += `<li>${departments[mb_departments[d]]}</li>`
-            // if(d < mb_departments.length-1){
-            //     x += "، "
-            // }
-        }
-        $('#main_branch_departments').html(x);
-
-        x="";
-        for(i=0;i<departments.length;i++){
-            d_name = departments[i];
-
-            x += `<li>${d_name}</li>`
-        }
-
-        $('#departments_summary').html(x);
-    }
-
-    //to list all branches for company
-    //branchesNum = 3
-    // if(branchesNum > 1){
-    //    x=""
-    //     document.getElementById("branches_title").hidden = false;
-    //     for(i=1;i<branchesNum;i++){
-    //         branch_name = "";
-    //         branch_id = `address${i+1}`
-    //         branch_address = document.getElementById(branch_id).value;
-    //         x += `<h6>الفرع ${i+1}<h6>
-    //               <div>عنوان الفرع : ${branch_address}</div>
-    //               <div>هاتف 1  : ${branch_address}</div>
-    //             `
-    //         //if(departments.le)
-    //         console.log(document.getElementById("department_for_1").value)
-    //         $('#branches_summary').html(x);
-    //     }
-    // }
-
-
-    document.querySelector('#thirdStepButton').click();
 
     //to set selected values in department for each branch
     if(departments.length!=0){
@@ -996,8 +824,8 @@ function thirdStep(){
             branchDepId=`department_for_${i+1}`;
             branchSelect = `#departments${i+1}`;
 
-            console.log("$(branchSelect).val()")
-            console.log($(branchSelect).val())
+            //console.log("$(branchSelect).val()")
+            //console.log($(branchSelect).val())
             depArr = JSON.stringify($(branchSelect).val());
 
             //document.getElementById(branchDepId).value = $(branchSelect).val();
@@ -1005,106 +833,333 @@ function thirdStep(){
         }
     }
 
-    console.log("branchesNum")
-    console.log(branchesNum)
-    branchesNum = document.getElementById('branchesNum').value;
-    if(branchesNum > 1){
-       x=""
-        document.getElementById("branches_summary_area").hidden = false;
-        for(i=1;i<=branchesNum;i++){
-            // console.log("reeeeeeeeeeeeeeeem");
-            // console.log(document.getElementById(`department_for_${i}`).value);
-            branchSelect = `#departments${i+1}`;
-            branch_name = "";
-            branch_id = `address${i+1}`
-            branch_address = document.getElementById(branch_id).value;
-            branch_phone1 = document.getElementById(`phone1_${i+1}`).value;
-            branch_phone2 = document.getElementById(`phone2_${i+1}`).value;
-            x += `<h6>الفرع ${i+1}<h6>
-                  <div>عنوان الفرع : ${branch_address}</div>
-                  <div>هاتف 1  : ${branch_phone1}</div>
-                `
-            if(document.getElementById(`phone2_${i+1}`).value != ""){
-                x += `<div>هاتف 2  : ${branch_phone2}</div>`
-            }
-            if(departments.length!=0){
-                x += `<div>الأقسام الخاصة بالفرع : </div>`
-                for(r=0;r<$(branchSelect).val().length;r++){
-                    temp = $(branchSelect).val()
-                    x += `${departments[temp[r]]}`
-                }
-                // x += '</ul>'
-            }
-
-            //console.log(document.getElementById("department_for_1").value)
-            $('#branches_summary').html(x);
-        }
-    }
-
-
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     data = $('#companyForm').serialize();
     console.log(data);
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': csrfToken
         }
     })
+    $.ajax({
+        beforeSend: function(){
+            //$('#LoadingModal').modal('show');
+            document.getElementById('loaderContainer').hidden = false;
+        },
+        type: 'POST',
+        url: "{{ route('admin.companies.createBranches') }}",
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+            console.log(response.data)
+            // console.log(response.list)
+            // console.log(response.company_id)
+            //document.getElementById('company_id').value = response.company_id;
+        },
+        complete: function(){
+            document.getElementById('loaderContainer').hidden = true;
+            document.querySelector('#thirdStepButton').click();
 
-    // $.ajax({
-    //     beforeSend: function(){
-    //         //$('#LoadingModal').modal('show');
-    //         document.getElementById('loaderContainer').hidden = false;
-    //     },
-    //     type: 'POST',
-    //     url: "{{ route('admin.companies.createBranches') }}",
-    //     data: data,
-    //     dataType: 'json',
-    //     success: function(response) {
-    //         // console.log(response.data)
-    //         // console.log(response.list)
-    //         // console.log(response.company_id)
-    //         //document.getElementById('company_id').value = response.company_id;
-    //     },
-    //     complete: function(){
-    //         document.getElementById('loaderContainer').hidden = true;
-    //         document.querySelector('#thirdStepButton').click();
-    //         // $.ajaxSetup({
-    //         //     headers: {
-    //         //         'X-CSRF-TOKEN': csrfToken
-    //         //     }
-    //         // })
+            var editLink = "{{ route('admin.companies.edit', ['id' => 'company_id']) }}";
+            editLink = editLink.replace('company_id', document.getElementById("company_id").value);
+            document.getElementById("editCompanyLink").setAttribute("href",editLink);
 
-    //         // summaryCompanyId = document.getElementById('company_id').value;
 
-    //         // $.ajax({
-    //         //     beforeSend: function(){
 
-    //         //     },
-    //         //     type: 'POST',
-    //         //     url: "{{ route('admin.companies.companySummary') }}",
-    //         //     data: {'company_id':summaryCompanyId},
-    //         //     dataType: 'json',
-    //         //     success: function(response) {
-    //         //         console.log(response.data)
-    //         //     },
-    //         //     complete: function(){
-    //         //         //$('#LoadingModal').modal('hide');
-    //         //         //document.querySelector('#thirdStepButton').click();
-    //         //         document.getElementById('loaderContainer').hidden = true;
-    //         //         document.querySelector('#thirdStepButton').click();
-    //         //     },
-    //         //     error: function(xhr, status, error) {
-    //         //         console.error(xhr.responseText);
-    //         //     }
-    //         // });
+            categories = {!! json_encode($categories, JSON_HEX_APOS) !!};
+            //set step 4 values - summary tab
+            document.getElementById("company_name_summary").innerHTML = "اسم الشركة : "+document.getElementById("c_name").value;
+            document.getElementById("manager_summary").value = document.getElementById("name").value ;
+            document.getElementById("email_sammury").value = document.getElementById("email").value;
+            document.getElementById("phone_summary").value = document.getElementById("phoneNum").value;
+            document.getElementById("address_summary").value = document.getElementById("address").value;
+            document.getElementById("category_summary").value = categories[document.getElementById("c_category").value-1].cc_name;
+            document.getElementById("type_summary").value = document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص";
 
-    //     },
-    //     error: function(xhr, status, error) {
-    //         console.error(xhr.responseText);
+
+            x = "";
+            if(document.getElementById("c_description").value != ""){
+                document.getElementById("description_summary_area").hidden = false;
+                document.getElementById("description_summary").value = document.getElementById("c_description").value;
+            }
+            if(document.getElementById("phone2_1").value != ""){
+                x +=`<div class="col-md-6">
+                        <div class="form-group">
+                            <label for="f1-last-name">هاتف 2</label>
+                            <input class="f1-last-name form-control" value="${document.getElementById("phone2_1").value}" disabled>
+                        </div>
+                    </div>`;
+                $('#phone2_website_area').html(x);
+            }
+            if(document.getElementById("c_website").value != ""){
+                x +=`<div class="col-md-6">
+                        <div class="form-group">
+                            <label for="f1-last-name">الموقع الإلكتروني</label>
+                            <input class="f1-last-name form-control" value="${document.getElementById("c_website").value}" disabled>
+                        </div>
+                    </div>`;
+                $('#phone2_website_area').html(x);
+            }
+
+
+            //to list all departments for company
+            if(departments.length!=0){
+
+                x="";
+                //departments area
+                document.getElementById("departments_summary_area").hidden = false;
+                //main branch department
+                document.getElementById("mb_department_summary_area").hidden = false;
+
+                //to set main branch departments
+                mb_departments = $('#departments1').val();
+                for(d=0;d<mb_departments.length;d++){
+                    x += `${departments[mb_departments[d]]}`
+                    if(d < mb_departments.length-1){
+                        x += "، "
+                    }
+                }
+                document.getElementById("main_branch_departments").value = x;
+
+                //to list departments for this company
+                x="";
+                for(i=0;i<departments.length;i++){
+                    d_name = departments[i];
+
+                    x += `<li>${d_name}</li>`
+                }
+                $('#departments_summary').html(x);
+            }
+
+
+
+
+            branchesNum = document.getElementById('branchesNum').value;
+
+            //to list branches in summary page for this company
+            if(branchesNum > 1){
+                x=""
+                document.getElementById("branches_summary_area").hidden = false;
+                for(i=1;i<branchesNum;i++){
+
+                    branchSelect = `#departments${i+1}`;
+                    branch_name = "";
+                    branch_id = `address${i+1}`
+                    branch_address = document.getElementById(branch_id).value;
+                    branch_phone1 = document.getElementById(`phone1_${i+1}`).value;
+                    branch_phone2 = document.getElementById(`phone2_${i+1}`).value;
+                    x += `<h6>الفرع ${i+1}<h6>
+
+                        <hr>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">هاتف 1</label>
+                                    <input class="f1-last-name form-control" value="${branch_phone1}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">عنوان الفرع</label>
+                                    <input class="f1-last-name form-control" value="${branch_address}" disabled>
+                                </div>
+                            </div>
+                          </div>
+                        `
+                    if(document.getElementById(`phone2_${i+1}`).value != "" || departments.length!=0){
+                        x += `<div class="row">`
+                    }
+                    if(document.getElementById(`phone2_${i+1}`).value != ""){
+                        x += `<div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="f1-last-name">هاتف 2</label>
+                                      <input class="f1-last-name form-control" value="${branch_phone2}" disabled>
+                                  </div>
+                              </div>`
+                    }
+                    if(departments.length!=0){
+                        tempB = "";
+                        //console.log("$(branchSelect).val()");
+                        //console.log($(branchSelect).val());
+                        for(r=0;r<$(branchSelect).val().length;r++){
+                            temp = $(branchSelect).val()
+                            tempB += `${departments[temp[r]]}`
+                            if(r < $(branchSelect).val().length - 1){
+                                tempB += `، `
+                            }
+                        }
+
+                        x += `<div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">الأقسام الخاصة بالفرع</label>
+                                    <input class="f1-last-name form-control" value="${tempB}" disabled>
+                                </div>
+                              </div>`
+
+                    }
+                    if(document.getElementById(`phone2_${i+1}`).value != "" || departments.length!=0){
+                        x += `</div">`
+                    }
+
+                }
+
+                $('#branches_summary').html(x);
+            }
+
+            $('.ribbon-wrapper').fadeOut('slow');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+
+    /////////////////////////////////////this whole code for summary content////////////////////////////////////////////
+    // var editLink = "{{ route('admin.companies.edit', ['id' => 'company_id']) }}";
+    // editLink = editLink.replace('company_id', document.getElementById("company_id").value);
+    // document.getElementById("editCompanyLink").setAttribute("href",editLink);
+
+
+
+    // categories = {!! json_encode($categories, JSON_HEX_APOS) !!};
+    // //set step 4 values - summary tab
+    // document.getElementById("company_name_summary").innerHTML = "اسم الشركة : "+document.getElementById("c_name").value;
+    // document.getElementById("manager_summary").value = document.getElementById("name").value ;
+    // document.getElementById("email_sammury").value = document.getElementById("email").value;
+    // document.getElementById("phone_summary").value = document.getElementById("phoneNum").value;
+    // document.getElementById("address_summary").value = document.getElementById("address").value;
+    // document.getElementById("category_summary").value = categories[document.getElementById("c_category").value-1].cc_name;
+    // document.getElementById("type_summary").value = document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص";
+
+
+    // x = "";
+    // if(document.getElementById("c_description").value != ""){
+    //     document.getElementById("description_summary_area").hidden = false;
+    //     document.getElementById("description_summary").value = document.getElementById("c_description").value;
+    // }
+    // if(document.getElementById("phone2_1").value != ""){
+    //     x +=`<div class="col-md-6">
+    //             <div class="form-group">
+    //                 <label for="f1-last-name">هاتف 2</label>
+    //                 <input class="f1-last-name form-control" value="${document.getElementById("phone2_1").value}" disabled>
+    //             </div>
+    //         </div>`;
+    //     $('#phone2_website_area').html(x);
+    // }
+    // if(document.getElementById("c_website").value != ""){
+    //     x +=`<div class="col-md-6">
+    //             <div class="form-group">
+    //                 <label for="f1-last-name">الموقع الإلكتروني</label>
+    //                 <input class="f1-last-name form-control" value="${document.getElementById("c_website").value}" disabled>
+    //             </div>
+    //         </div>`;
+    //     $('#phone2_website_area').html(x);
+    // }
+
+
+    // //to list all departments for company
+    // if(departments.length!=0){
+
+    //     x="";
+    //     //departments area
+    //     document.getElementById("departments_summary_area").hidden = false;
+    //     //main branch department
+    //     document.getElementById("mb_department_summary_area").hidden = false;
+
+    //     //to set main branch departments
+    //     mb_departments = $('#departments1').val();
+    //     for(d=0;d<mb_departments.length;d++){
+    //         x += `${departments[mb_departments[d]]}`
+    //         if(d < mb_departments.length-1){
+    //             x += "، "
+    //         }
     //     }
-    // });
+    //     document.getElementById("main_branch_departments").value = x;
+
+    //     //to list departments for this company
+    //     x="";
+    //     for(i=0;i<departments.length;i++){
+    //         d_name = departments[i];
+
+    //         x += `<li>${d_name}</li>`
+    //     }
+    //     $('#departments_summary').html(x);
+    // }
+
+
+
+
+    // branchesNum = document.getElementById('branchesNum').value;
+
+    // //to list branches in summary page for this company
+    // if(branchesNum > 1){
+    //    x=""
+    //     document.getElementById("branches_summary_area").hidden = false;
+    //     for(i=1;i<branchesNum;i++){
+
+    //         branchSelect = `#departments${i+1}`;
+    //         branch_name = "";
+    //         branch_id = `address${i+1}`
+    //         branch_address = document.getElementById(branch_id).value;
+    //         branch_phone1 = document.getElementById(`phone1_${i+1}`).value;
+    //         branch_phone2 = document.getElementById(`phone2_${i+1}`).value;
+    //         x += `<h6>الفرع ${i+1}<h6>
+
+    //             <hr>
+    //               <div class="row">
+    //                 <div class="col-md-6">
+    //                     <div class="form-group">
+    //                         <label for="f1-last-name">هاتف 1</label>
+    //                         <input class="f1-last-name form-control" value="${branch_phone1}" disabled>
+    //                     </div>
+    //                 </div>
+    //                 <div class="col-md-6">
+    //                     <div class="form-group">
+    //                         <label for="f1-last-name">عنوان الفرع</label>
+    //                         <input class="f1-last-name form-control" value="${branch_address}" disabled>
+    //                     </div>
+    //                 </div>
+    //               </div>
+    //             `
+    //         if(document.getElementById(`phone2_${i+1}`).value != "" || departments.length!=0){
+    //             x += `<div class="row">`
+    //         }
+    //         if(document.getElementById(`phone2_${i+1}`).value != ""){
+    //             x += `<div class="col-md-6">
+    //                       <div class="form-group">
+    //                           <label for="f1-last-name">هاتف 2</label>
+    //                           <input class="f1-last-name form-control" value="${branch_phone2}" disabled>
+    //                       </div>
+    //                   </div>`
+    //         }
+    //         if(departments.length!=0){
+    //             tempB = "";
+    //             //console.log("$(branchSelect).val()");
+    //             //console.log($(branchSelect).val());
+    //             for(r=0;r<$(branchSelect).val().length;r++){
+    //                 temp = $(branchSelect).val()
+    //                 tempB += `${departments[temp[r]]}`
+    //                 if(r < $(branchSelect).val().length - 1){
+    //                     tempB += `، `
+    //                 }
+    //             }
+
+    //             x += `<div class="col-md-6">
+    //                     <div class="form-group">
+    //                         <label for="f1-last-name">الأقسام الخاصة بالفرع</label>
+    //                         <input class="f1-last-name form-control" value="${tempB}" disabled>
+    //                     </div>
+    //                   </div>`
+
+    //         }
+    //         if(document.getElementById(`phone2_${i+1}`).value != "" || departments.length!=0){
+    //             x += `</div">`
+    //         }
+
+    //     }
+    // }
+
+
+
 
 }
 
@@ -1146,8 +1201,8 @@ function departmentStep(){
 
         x="";
 
-        console.log("branchesNumberbranchesNumberbranchesNumberbranchesNumberbranchesNumberbranchesNumber");
-        console.log(branchesNumber);
+        //console.log("branchesNumberbranchesNumberbranchesNumberbranchesNumberbranchesNumberbranchesNumber");
+        //console.log(branchesNumber);
 
         if(branchesNumber>1){
 

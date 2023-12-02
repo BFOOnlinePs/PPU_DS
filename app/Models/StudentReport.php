@@ -26,4 +26,14 @@ class StudentReport extends Model
         return $this->belongsTo(StudentAttendance::class, 'sr_student_attendance_id', 'sa_id');
     }
 
+    public function reportAttendance()
+    {
+        return $this->belongsTo(StudentAttendance::class, 'sr_student_attendance_id', 'sa_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sr_student_id', 'u_id');
+    }
+
 }

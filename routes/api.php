@@ -3,6 +3,7 @@
 use App\Http\Controllers\apisController\students\StudentAttendanceController;
 use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
+use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
@@ -33,7 +34,10 @@ Route::post('/login', [sharedController::class, 'login']);
 Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
 
+// FCM
 Route::post('/storeFcmUserToken', [FCMController::class, 'storeFcmUserToken']);
+Route::post('/deleteFcmUserToken', [FCMController::class, 'deleteFcmUserToken']);
+Route::post('/updateFcmUserToken', [FCMController::class, 'updateFcmUserToken']);
 
 
 // protected routes
@@ -60,8 +64,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/getAllStudentAttendanceLog', [studentLogController::class, 'getAllStudentAttendanceLog']);
     Route::post('/getAllStudentReportsLog', [studentLogController::class, 'getAllStudentReportsLog']);
 
-    // company_manager
-    Route::get('/list_student_in_company',[CompaniesController::class , 'list_student_in_company']);
+
+    // add middleware
+    // manager
+    Route::post('getTrainees', [CompanyTrainees::class, 'getTrainees']);
+    Route::post('getTraineeAttendanceLog', [CompanyTrainees::class, 'getTraineeAttendanceLog']);
+    Route::post('getTraineeReportsLog', [CompanyTrainees::class, 'getTraineeReportsLog']);
+
+
+    Route::get('getAllTraineesAttendanceLog', [CompanyTrainees::class, 'getAllTraineesAttendanceLog']);
+    Route::get('getAllTraineesReportsLog', [CompanyTrainees::class, 'getAllTraineesReportsLog']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

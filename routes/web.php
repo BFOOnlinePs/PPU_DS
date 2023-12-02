@@ -83,7 +83,13 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/create',[App\Http\Controllers\project\admin\MajorsController::class,'create'])->name('admin.majors.create');
                 Route::post('/update',[App\Http\Controllers\project\admin\MajorsController::class,'update'])->name('admin.majors.update');
                 Route::post('/search',[App\Http\Controllers\project\admin\MajorsController::class,'search'])->name('admin.majors.search');
+
+                Route::post('/addSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'addSuperVisor'])->name('admin.majors.addSuperVisor');
+                Route::post('/updateSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'updateSuperVisor'])->name('admin.majors.updateSuperVisor');
+        
+
             });
+
 
             Route::group(['prefix'=>'companies_categories'],function(){
                 Route::get('/index',[App\Http\Controllers\project\admin\CompaniesCategoriesController::class,'index'])->name('admin.companies_categories.index');

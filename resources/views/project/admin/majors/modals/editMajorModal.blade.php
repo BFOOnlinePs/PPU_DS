@@ -1,4 +1,4 @@
-<div class="modal fade show" id="editMajorModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade show" id="editMajorModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content" style="border: none;">
                     <div class="modal-header" style="height: 73px;">
@@ -68,7 +68,7 @@
 
                                                     </div>
                                                 </div>
-
+                                             
                                                 <input id="edit_m_id" name="m_id" hidden type="text"
                                                     class="form-control btn-square input-md">
 
