@@ -17,17 +17,17 @@ class AttendanceController extends Controller
         $student_company = null;
         if($request->sc_id == null) {
             $student_company = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
-                                             ->where('sc_status', 1)
-                                             ->with('company')
-                                             ->pluck('sc_id')
-                                             ->toArray();
+                                            ->where('sc_status', 1)
+                                            ->with('company')
+                                            ->pluck('sc_id')
+                                            ->toArray();
         }
         else {
             $student_company = StudentCompany::where('sc_id' , $request->sc_id)
-                                             ->where('sc_status', 1)
-                                             ->with('company')
-                                             ->pluck('sc_id')
-                                             ->toArray();
+                                            ->where('sc_status', 1)
+                                            ->with('company')
+                                            ->pluck('sc_id')
+                                            ->toArray();
         }
         $student_attendances = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
                                                 ->whereIn('sa_student_company_id', $student_company)

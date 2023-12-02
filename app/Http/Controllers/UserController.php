@@ -141,7 +141,13 @@ class UserController extends Controller
     public function students_attendance($id)
     {
         $user = User::find($id);
-        $student_attendances = StudentAttendance::where('sa_student_id', $id)->get();
+        $student_company = StudentCompany::where('sc_student_id' , $id)
+                            ->where('sc_status' , 1)
+                            ->pluck('sc_id')
+                            ->toArray();
+        $student_attendances = StudentAttendance::where('sa_student_id', $id )
+                            ->whereIn('sa_student_company_id', $student_company)
+                            ->get();
         return view('project.admin.users.students_attendance' , ['id' => $id , 'user' => $user , 'student_attendances' => $student_attendances , 'student_report'=> null]);
     }
     public function training_place_delete_file_agreement($sc_id)
@@ -164,16 +170,21 @@ class UserController extends Controller
             $studentCompany->sc_agreement_file = $filename;
         }
         if($studentCompany->save()) {
-            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
+            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)
+                                    ->where('sc_status', 1)
+                                    ->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
     }
     public function training_place_delete(Request $request)
     {
-        $deleted = StudentCompany::where('sc_id', $request->sc_id)->delete();
-        if($deleted > 0) {
-            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
+        $student_company = StudentCompany::where('sc_id', $request->sc_id)->first();
+        $student_company->sc_status = 0;
+        if($student_company->save()) {
+            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)
+                                    ->where('sc_status', 1)
+                                    ->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
@@ -188,7 +199,7 @@ class UserController extends Controller
         $studentCompany->sc_mentor_trainer_id = $request->input('trainer');
         $studentCompany->sc_assistant_id = $request->input('manager_assistant');
         $studentCompany->sc_status = 1;
-         if ($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension; // Unique filename
@@ -198,7 +209,9 @@ class UserController extends Controller
 
         // Save the data to the database
         if($studentCompany->save()) {
-            $data = StudentCompany::where('sc_student_id' , $request->id)->get();
+            $data = StudentCompany::where('sc_student_id' , $request->id)
+                                ->where('sc_status', 1)
+                                ->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
@@ -220,7 +233,9 @@ class UserController extends Controller
         $companies = Company::get();
         // to get المساعد الإداري
         $manager_assistants = User::where('u_role_id' , 4)->get();
-        $data = StudentCompany::where('sc_student_id' , $id)->get();
+        $data = StudentCompany::where('sc_student_id' , $id)
+                            ->where('sc_status', 1)
+                            ->get();
         return view('project.admin.users.places_training' , ['user' => $user , 'companies' => $companies , 'branches' => null , 'departments' => null , 'trainers' => null , 'manager_assistants' => $manager_assistants , 'data' => $data]);
     }
     public function courses_student_delete(Request $request)
