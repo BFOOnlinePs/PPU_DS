@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Project\Company_Manager\Payments;
+namespace App\Http\Controllers\project\company_manager\payments;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;

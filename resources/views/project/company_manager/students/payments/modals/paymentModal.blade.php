@@ -8,7 +8,7 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-clipboard" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>إضافة دفعة لطالب</h3>
+                            <h3>إضافة دفعة ل{{$name_student}}</h3>
                             <hr>
                             <p>في هذا القسم يمكنك إضافة دفعة لطالب</p>
                         </div>

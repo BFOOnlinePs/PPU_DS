@@ -18,7 +18,7 @@
                         <td>
                             <a href="{{route('company_manager.students.reports.index' , ['id' => $student_company->sc_student_id])}}" class="btn btn-primary fa fa-file-text"></a>
                             <a href="{{route('company_manager.students.attendance.index' , ['id' => $student_company->sc_student_id])}}" class="btn btn-primary fa fa-check"></a>
-                            <a href="{{route('company_manager.students.payments.index' , ['id' => $student_company->sc_student_id])}}" class="btn btn-primary fa fa-dollar"></a>
+                            <a href="{{route('company_manager.students.payments.index' , ['id' => $student_company->sc_student_id , 'name_student' => $student_company->users->name])}}" class="btn btn-primary fa fa-dollar"></a>
                         </td>
                     </tr>
                 @endforeach
