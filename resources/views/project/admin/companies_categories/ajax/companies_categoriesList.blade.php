@@ -17,7 +17,7 @@
                     <tr>
                         <td>{{ $key->cc_name }}</td>
                         <td>
-                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-info" onclick="editCompaniesCategories({{ $key }})"><i class="fa fa-edit"></i></button>
                         </td>
                     </tr>
                 @endforeach
