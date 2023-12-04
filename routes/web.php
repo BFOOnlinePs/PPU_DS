@@ -86,7 +86,7 @@ Route::group(['middleware' => 'auth'], function () {
 
                 Route::post('/addSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'addSuperVisor'])->name('admin.majors.addSuperVisor');
                 Route::post('/updateSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'updateSuperVisor'])->name('admin.majors.updateSuperVisor');
-        
+
 
             });
 
@@ -125,51 +125,51 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'company_manager'], function () {
         Route::group(['prefix' => 'students'], function () {
             Route::group(['prefix' => 'reports'], function () {
-                Route::get('/index/{id}' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'index'])->name('company_manager.students.reports.index');
-                Route::post('/add' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'addNotes'])->name('company_manager.students.reports.addNotes');
-                Route::post('/show' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'showNotes'])->name('company_manager.students.reports.showNotes');
-                Route::post('/report' , [App\Http\Controllers\Project\Company_Manager\Students\Report\ReportController::class, 'showReport'])->name('company_manager.students.reports.showReport');
+                Route::get('/index/{id}' , [App\Http\Controllers\project\company_manager\students\report\ReportController::class, 'index'])->name('company_manager.students.reports.index');
+                Route::post('/add' , [App\Http\Controllers\project\company_manager\students\report\ReportController::class, 'addNotes'])->name('company_manager.students.reports.addNotes');
+                Route::post('/show' , [App\Http\Controllers\project\company_manager\students\report\ReportController::class, 'showNotes'])->name('company_manager.students.reports.showNotes');
+                Route::post('/report' , [App\Http\Controllers\project\company_manager\students\report\ReportController::class, 'showReport'])->name('company_manager.students.reports.showReport');
             });
             Route::group(['prefix' => 'attendance'], function () {
-                Route::get('/index/{id}' , [App\Http\Controllers\Project\Company_Manager\Students\Attendance\AttendanceController::class, 'index'])->name('company_manager.students.attendance.index');
-                Route::post('/index' , [App\Http\Controllers\Project\Company_Manager\Students\Attendance\AttendanceController::class, 'index_ajax'])->name('company_manager.students.attendance.index_ajax');
+                Route::get('/index/{id}' , [App\Http\Controllers\project\company_manager\students\attendance\AttendanceController::class, 'index'])->name('company_manager.students.attendance.index');
+                Route::post('/index' , [App\Http\Controllers\project\company_manager\students\attendance\AttendanceController::class, 'index_ajax'])->name('company_manager.students.attendance.index_ajax');
 
             });
             Route::group(['prefix' => 'payments'], function () {
-                Route::get('/index/{id}' , [App\Http\Controllers\Project\Company_Manager\Students\Payments\PaymentsController::class, 'index'])->name('company_manager.students.payments.index');
-                Route::post('/create' , [App\Http\Controllers\Project\Company_Manager\Students\Payments\PaymentsController::class, 'create'])->name('company_manager.students.payments.create');
+                Route::get('/index/{id}/{name_student}' , [App\Http\Controllers\project\company_manager\students\payments\PaymentsController::class, 'index'])->name('company_manager.students.payments.index');
+                Route::post('/create' , [App\Http\Controllers\project\company_manager\students\payments\PaymentsController::class, 'create'])->name('company_manager.students.payments.create');
             });
-            Route::get('/index' , [App\Http\Controllers\Project\Company_Manager\Students\StudentController::class, 'index'])->name('company_manager.students.index');
+            Route::get('/index' , [App\Http\Controllers\project\company_manager\students\StudentController::class, 'index'])->name('company_manager.students.index');
         });
         Route::group(['prefix' => 'payments'], function () {
-            Route::get('/index' , [App\Http\Controllers\Project\Company_Manager\Payments\PaymentsController::class, 'index'])->name('company_manager.payments.index');
+            Route::get('/index' , [App\Http\Controllers\project\company_manager\payments\PaymentsController::class, 'index'])->name('company_manager.payments.index');
         });
         Route::group(['prefix' => 'records'], function () {
-            Route::get('/index' , [App\Http\Controllers\Project\Company_Manager\Records\RecordsController::class, 'index'])->name('company_manager.records.index');
-            Route::post('/search' , [App\Http\Controllers\Project\Company_Manager\Records\RecordsController::class, 'search'])->name('company_manager.records.search');
+            Route::get('/index' , [App\Http\Controllers\project\company_manager\records\RecordsController::class, 'index'])->name('company_manager.records.index');
+            Route::post('/search' , [App\Http\Controllers\project\company_Manager\records\RecordsController::class, 'search'])->name('company_manager.records.search');
         });
 
     });
     Route::group(['prefix' => 'students'], function () {
         Route::group(['prefix' => 'personal_profile'], function () {
-            Route::get('/index' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index'); // To display personal profile for this student
+            Route::get('/index' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index');  // To display personal profile for this student
         });
         Route::group(['prefix' => 'company'], function () {
-            Route::get('/index' , [App\Http\Controllers\Project\Students\Company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
+            Route::get('/index' , [App\Http\Controllers\project\students\company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
             Route::group(['prefix' => 'attendance'], function () {
-                Route::get('/index/{id}', [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index_for_specific_company'])->name('students.company.attendance.index_for_specific_student'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
-                Route::post('/select' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'ajax_company_from_to'])->name('students.attendance.ajax_company_from_to');
+                Route::get('/index/{id}', [App\Http\Controllers\project\students\attendance\AttendanceController::class , 'index_for_specific_company'])->name('students.company.attendance.index_for_specific_student'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
+                Route::post('/select' , [App\Http\Controllers\project\students\attendance\AttendanceController::class , 'ajax_company_from_to'])->name('students.attendance.ajax_company_from_to');
             });
         });
         Route::group(['prefix' => 'attendance'], function () {
             Route::group(['prefix' => 'report'], function () {
-                Route::get('/edit/{sa_id}' , [App\Http\Controllers\Project\Students\Attendance\Report\ReportController::class , 'edit'])->name('students.attendance.report.edit'); // To creat or edit report student
-                Route::post('/submit' , [App\Http\Controllers\Project\Students\Attendance\Report\ReportController::class , 'submit'])->name('students.attendance.report.submit'); // To submit report student
-                Route::post('/upload' , [App\Http\Controllers\Project\Students\Attendance\Report\ReportController::class , 'upload'])->name('students.attendance.report.upload'); // To upload report student
+                Route::get('/edit/{sa_id}' , [App\Http\Controllers\project\students\attendance\report\ReportController::class , 'edit'])->name('students.attendance.report.edit'); // To creat or edit report student
+                Route::post('/submit' , [App\Http\Controllers\project\students\attendance\report\ReportController::class , 'submit'])->name('students.attendance.report.submit'); // To submit report student
+                Route::post('/upload' , [App\Http\Controllers\project\students\attendance\report\ReportController::class , 'upload'])->name('students.attendance.report.upload'); // To upload report student
             });
-            Route::get('/index' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'index'])->name('students.attendance.index'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
-            Route::post('/create_attendance' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'create_attendance'])->name('students.attendance.create_attendance'); // To submit student attendance
-            Route::post('/create_departure' , [App\Http\Controllers\Project\Students\Attendance\AttendanceController::class , 'create_departure'])->name('students.attendance.create_departure'); // To submit student departure
+            Route::get('/index' , [App\Http\Controllers\project\students\attendance\AttendanceController::class , 'index'])->name('students.attendance.index'); // To show the page for specific company to make attendance for student (time in , time out , submit report , show notes of supervisor to student report)
+            Route::post('/create_attendance' , [App\Http\Controllers\project\students\attendance\AttendanceController::class , 'create_attendance'])->name('students.attendance.create_attendance'); // To submit student attendance
+            Route::post('/create_departure' , [App\Http\Controllers\project\students\attendance\AttendanceController::class , 'create_departure'])->name('students.attendance.create_departure'); // To submit student departure
         });
     });
 
@@ -178,14 +178,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'supervisors'], function () {
         Route::group(['prefix' => 'majors'], function () {
-            Route::get('/index/{id}' , [App\Http\Controllers\Project\Supervisors\MajorsController::class , 'index'])->name('supervisors.majors.index'); // To show majors to academic supervisor
+            Route::get('/index/{id}' , [App\Http\Controllers\project\supervisors\MajorsController::class , 'index'])->name('supervisors.majors.index'); // To show majors to academic supervisor
         });
         Route::group(['prefix' => 'students'], function () {
-            Route::get('/index/{id}/{ms_major_id?}' , [App\Http\Controllers\Project\Supervisors\StudentsController::class , 'index'])->name('supervisors.students.index'); // To display supervisor's students
+            Route::get('/index/{id}/{ms_major_id?}' , [App\Http\Controllers\project\supervisors\StudentsController::class , 'index'])->name('supervisors.students.index'); // To display supervisor's students
         });
         Route::group(['prefix' => 'companies'], function () {
-            Route::get('/index' , [App\Http\Controllers\Project\Supervisors\CompaniesController::class , 'index'])->name('supervisors.companies.index'); // To display companies
-            Route::get('/students/{id}' , [App\Http\Controllers\Project\Supervisors\CompaniesController::class , 'students'])->name('supervisors.companies.students'); // To display students
+            Route::get('/index' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'index'])->name('supervisors.companies.index'); // To display companies
+            Route::get('/students/{id}' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'students'])->name('supervisors.companies.students'); // To display students
         });
     });
 });

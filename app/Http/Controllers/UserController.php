@@ -17,6 +17,7 @@ use App\Models\StudentAttendance;
 use App\Models\StudentCompany;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MajorSupervisor;
+use App\Models\Payment;
 use App\Models\StudentReport;
 use Carbon\Carbon;
 class UserController extends Controller
@@ -136,7 +137,8 @@ class UserController extends Controller
     public function student_payments($id)
     {
         $user = User::find($id);
-        return view('project.admin.users.student_payments' , ['user' => $user]);
+        $payments = Payment::where('p_student_id', $id)->get();
+        return view('project.admin.users.student_payments' , ['user' => $user , 'payments' => $payments]);
     }
     public function students_attendance($id)
     {

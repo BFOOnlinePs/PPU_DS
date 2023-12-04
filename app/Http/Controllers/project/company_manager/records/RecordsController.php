@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Project\Company_Manager\Records;
+namespace App\Http\Controllers\project\company_manager\records;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
