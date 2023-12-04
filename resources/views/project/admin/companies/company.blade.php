@@ -432,101 +432,82 @@
                 <h1 class="mt-3" id="company_name_summary"></h1>
                 <br>
 
-                <!--معلومات الشركة-->
-                <div class="col-md-12">
-                    <div class="ribbon-wrapper-right card">
-                      <div class="card-body">
-                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">معلومات الشركة</div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">الشخص المسؤول</label>
-                                    <input class="f1-last-name form-control" id="manager_summary" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">البريد الإلكتروني</label>
-                                    <input class="f1-last-name form-control" id="email_sammury" disabled>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">رقم هاتف الشركة</label>
-                                    <input class="f1-last-name form-control" id="phone_summary" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">عنوان الشركة</label>
-                                    <input class="f1-last-name form-control" id="address_summary" disabled>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">تصنيف الشركة</label>
-                                    <input class="f1-last-name form-control" id="category_summary" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">نوع الشركة</label>
-                                    <input class="f1-last-name form-control" id="type_summary" disabled>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group" id="description_summary_area" hidden>
-                                    <label for="f1-last-name">وصف الشركة</label>
-                                    <textarea class="f1-last-name form-control" id="description_summary" rows="6" disabled></textarea>
-                                </div>
-                            </div>
-                        </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="background-color: #ecf0ef82;" colspan="2">المعلومات الأساسية</th>
+                        </tr>
+                      <tbody>
+                        <tr>
+                          <td class="col-md-3">الشخص المسؤول</td>
+                          <td id="manager_summary"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-3">البريد الإلكتروني</td>
+                          <td id="email_sammury"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-3">رقم هاتف الشركة</td>
+                          <td id="phone_summary"></td>
+                        </tr>
+                        <tr id="phone2_summary_area" hidden>
+                          <td class="col-md-3">هاتف 2</td>
+                          <td id="phone2_summary"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-3">عنوان الشركة</td>
+                          <td id="address_summary"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-3">تصنيف الشركة</td>
+                          <td id="category_summary"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-3">نوع الشركة</td>
+                          <td id="type_summary"></td>
+                        </tr>
+                        <tr id="description_summary_area" hidden>
+                          <td class="col-md-3">وصف الشركة</td>
+                          <td id="description_summary"></td>
+                        </tr>
+                        <tr id="main_branch_departments_area" hidden>
+                          <td class="col-md-3">أقسام الفرع الرئيسي</td>
+                          <td id="main_branch_departments"></td>
+                        </tr>
+                        <tr id="website_summary_area" hidden>
+                          <td class="col-md-3">الموقع الإلكتروني</td>
+                          <td id="website_summary"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <br>
 
-                        <div class="row" id="phone2_website_area">
+                <!--table for departments-->
+                <div id="departments_table" hidden>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="background-color: #ecf0ef82;" colspan="2">أقسام الشركة</th>
+                            </tr>
+                        <tbody>
+                            <tr>
+                                <td id="departments_summary" class="col-md-3"></td>
+                            </tr>
 
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group" id="mb_department_summary_area" hidden>
-                                    <label for="f1-last-name">أقسام الفرع الرئيسي</label>
-                                    <input class="f1-last-name form-control" id="main_branch_departments" disabled>
-                                </div>
-                            </div>
-                        </div>
-                      </div>
+                        </tbody>
+                        </table>
                     </div>
                 </div>
+                <!------------------------->
+                <br>
 
-                <!--أقسام الشركة-->
-                <div class="col-md-12">
-                    <div class="ribbon-wrapper-right card" id="departments_summary_area" hidden>
-                      <div class="card-body">
-                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">أقسام الشركة</div>
-                        <div id="departments_summary">
 
-                        </div>
-                    </div>
-                    </div>
+
+                <div id="branches_summary">
+
                 </div>
 
-                <!--فروع الشركة-->
-                <div class="col-md-12">
-                    <div class="ribbon-wrapper-right card" id="branches_summary_area" hidden>
-                      <div class="card-body">
-                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">فروع الشركة</div>
-                        <div id="branches_summary">
-
-                        </div>
-                    </div>
-                    </div>
-                  </div>
 
 
                 <div class="f1-buttons">
@@ -670,6 +651,10 @@ function checkCompany(data){
         },
         success: function(response) {
 
+
+            console.log("response.data");
+                console.log(response.data);
+
             if(response.data!=null){
 
                 company_id = response.company_id;
@@ -728,7 +713,7 @@ function firstStep(){
         console.log("hi reem from first step but with complete company")
         document.querySelector('#firstStepButton').click();
     }else{
-        console.log("hi reem from first step but with new company")
+        console.log("hi reem from first step but with new companyyyyyyy")
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         data = $('#companyForm').serialize();
 
@@ -817,6 +802,7 @@ function secondStep(){
 
 function thirdStep(){
 
+
     //to set selected values in department for each branch
     if(departments.length!=0){
         for(i=0;i<branchesNumber;i++){
@@ -832,6 +818,7 @@ function thirdStep(){
             document.getElementById(branchDepId).value = depArr;
         }
     }
+
 
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     data = $('#companyForm').serialize();
@@ -852,9 +839,6 @@ function thirdStep(){
         dataType: 'json',
         success: function(response) {
             console.log(response.data)
-            // console.log(response.list)
-            // console.log(response.company_id)
-            //document.getElementById('company_id').value = response.company_id;
         },
         complete: function(){
             document.getElementById('loaderContainer').hidden = true;
@@ -867,49 +851,37 @@ function thirdStep(){
 
 
             categories = {!! json_encode($categories, JSON_HEX_APOS) !!};
+
             //set step 4 values - summary tab
             document.getElementById("company_name_summary").innerHTML = "اسم الشركة : "+document.getElementById("c_name").value;
-            document.getElementById("manager_summary").value = document.getElementById("name").value ;
-            document.getElementById("email_sammury").value = document.getElementById("email").value;
-            document.getElementById("phone_summary").value = document.getElementById("phoneNum").value;
-            document.getElementById("address_summary").value = document.getElementById("address").value;
-            document.getElementById("category_summary").value = categories[document.getElementById("c_category").value-1].cc_name;
-            document.getElementById("type_summary").value = document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص";
+            $('#manager_summary').html(document.getElementById("name").value);
+            $('#email_sammury').html(document.getElementById("email").value);
+            $('#phone_summary').html(document.getElementById("phoneNum").value);
+            $('#address_summary').html(document.getElementById("address").value);
+            $('#category_summary').html(categories[document.getElementById("c_category").value-1].cc_name);
+            $('#type_summary').html(document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص");
 
 
             x = "";
             if(document.getElementById("c_description").value != ""){
                 document.getElementById("description_summary_area").hidden = false;
-                document.getElementById("description_summary").value = document.getElementById("c_description").value;
+                $('#description_summary').html(document.getElementById("c_description").value)
             }
+
             if(document.getElementById("phone2_1").value != ""){
-                x +=`<div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">هاتف 2</label>
-                            <input class="f1-last-name form-control" value="${document.getElementById("phone2_1").value}" disabled>
-                        </div>
-                    </div>`;
-                $('#phone2_website_area').html(x);
+                document.getElementById("phone2_summary_area").hidden = false;
+                $('#phone2_summary').html(document.getElementById("phone2_1").value);
             }
+
             if(document.getElementById("c_website").value != ""){
-                x +=`<div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-last-name">الموقع الإلكتروني</label>
-                            <input class="f1-last-name form-control" value="${document.getElementById("c_website").value}" disabled>
-                        </div>
-                    </div>`;
-                $('#phone2_website_area').html(x);
+                document.getElementById("website_summary_area").hidden = false;
+                $('#website_summary').html(document.getElementById("c_website").value);
             }
 
 
             //to list all departments for company
             if(departments.length!=0){
 
-                x="";
-                //departments area
-                document.getElementById("departments_summary_area").hidden = false;
-                //main branch department
-                document.getElementById("mb_department_summary_area").hidden = false;
 
                 //to set main branch departments
                 mb_departments = $('#departments1').val();
@@ -919,19 +891,23 @@ function thirdStep(){
                         x += "، "
                     }
                 }
-                document.getElementById("main_branch_departments").value = x;
+                document.getElementById("main_branch_departments_area").hidden = false;
+                $('#main_branch_departments').html(x);
+
 
                 //to list departments for this company
                 x="";
                 for(i=0;i<departments.length;i++){
                     d_name = departments[i];
-
-                    x += `<li>${d_name}</li>`
+                    x += `${d_name}`
+                    if(i < departments.length-1){
+                        x += "، "
+                    }
                 }
                 $('#departments_summary').html(x);
+                document.getElementById("departments_table").hidden = false;
+
             }
-
-
 
 
             branchesNum = document.getElementById('branchesNum').value;
@@ -939,7 +915,8 @@ function thirdStep(){
             //to list branches in summary page for this company
             if(branchesNum > 1){
                 x=""
-                document.getElementById("branches_summary_area").hidden = false;
+                tempB = "";
+                //document.getElementById("branches_summary_area").hidden = false;
                 for(i=1;i<branchesNum;i++){
 
                     branchSelect = `#departments${i+1}`;
@@ -948,39 +925,8 @@ function thirdStep(){
                     branch_address = document.getElementById(branch_id).value;
                     branch_phone1 = document.getElementById(`phone1_${i+1}`).value;
                     branch_phone2 = document.getElementById(`phone2_${i+1}`).value;
-                    x += `<h6>الفرع ${i+1}<h6>
 
-                        <hr>
-                          <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">هاتف 1</label>
-                                    <input class="f1-last-name form-control" value="${branch_phone1}" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">عنوان الفرع</label>
-                                    <input class="f1-last-name form-control" value="${branch_address}" disabled>
-                                </div>
-                            </div>
-                          </div>
-                        `
-                    if(document.getElementById(`phone2_${i+1}`).value != "" || departments.length!=0){
-                        x += `<div class="row">`
-                    }
-                    if(document.getElementById(`phone2_${i+1}`).value != ""){
-                        x += `<div class="col-md-6">
-                                  <div class="form-group">
-                                      <label for="f1-last-name">هاتف 2</label>
-                                      <input class="f1-last-name form-control" value="${branch_phone2}" disabled>
-                                  </div>
-                              </div>`
-                    }
                     if(departments.length!=0){
-                        tempB = "";
-                        //console.log("$(branchSelect).val()");
-                        //console.log($(branchSelect).val());
                         for(r=0;r<$(branchSelect).val().length;r++){
                             temp = $(branchSelect).val()
                             tempB += `${departments[temp[r]]}`
@@ -988,19 +934,35 @@ function thirdStep(){
                                 tempB += `، `
                             }
                         }
-
-                        x += `<div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="f1-last-name">الأقسام الخاصة بالفرع</label>
-                                    <input class="f1-last-name form-control" value="${tempB}" disabled>
-                                </div>
-                              </div>`
-
-                    }
-                    if(document.getElementById(`phone2_${i+1}`).value != "" || departments.length!=0){
-                        x += `</div">`
                     }
 
+                    x += `<div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th style="background-color: #ecf0ef82;" colspan="2">الفرع ${i+1}</th>
+                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-md-3">هاتف 1</td>
+                                        <td>${branch_phone1}</td>
+                                    </tr>
+                                    <tr id="branch_phone2_area" ${branch_phone2 == "" ? 'hidden' : ''}>
+                                        <td class="col-md-3">هاتف 2 </td>
+                                        <td id="branch_phone2">${branch_phone2}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-3">العنوان</td>
+                                        <td>${branch_address}</td>
+                                    </tr>
+                                    <tr id="branch_departments_area" ${departments.length == 0 ? 'hidden' : ''}>
+                                        <td class="col-md-3">الأقسام</td>
+                                        <td id="branch_departments">${tempB}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                          </div>
+                          <br>`
                 }
 
                 $('#branches_summary').html(x);
