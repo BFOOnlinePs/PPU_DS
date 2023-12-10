@@ -1,7 +1,7 @@
 @if ($data->isEmpty())
     <h6 class="alert alert-danger">لا يوجد مستخدمين لعرضهم</h6>
 @else
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="users_table">
         <thead>
             <tr>
                 <th>الاسم الكامل</th>

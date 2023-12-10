@@ -1,6 +1,13 @@
 @foreach($student_attendances as $student_attendance)
     <tr>
-        <td>{{strftime('%A', strtotime($student_attendance->sa_in_time))}}</td>
+        @php
+            function arabicDay($englishDay) {
+                $englishDays = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+                $arabicDays = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+                return str_replace($englishDays, $arabicDays, $englishDay);
+            }
+        @endphp
+        <td>{{arabicDay(strftime('%A', strtotime($student_attendance->sa_in_time)))}}</td>
         <td>{{date("Y-m-d", strtotime($student_attendance->sa_in_time))}}</td>
         <td>{{$student_attendance->sa_in_time}}</td>
         @if (!isset($student_attendance->sa_out_time))

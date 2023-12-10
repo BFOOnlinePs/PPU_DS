@@ -341,6 +341,36 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {
+        $validatedData = $request->validate([
+            'u_username' => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'nullable|min:8',
+            'u_date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . Carbon::now()->format('Y-m-d'),
+            ],
+            'u_phone1' => 'required|digits:10',
+            'u_phone2' => 'nullable|digits:10',
+            'u_gender' => 'required'
+        ],
+        [
+            'u_username.required' => 'اسم المستخدم حقل مطلوب',
+            'name.required' => 'الاسم حقل مطلوب' ,
+            'email.required' => 'البريد الإلكتروني حقل مطلوب',
+            'email.email' => 'البريد الإلكتروني يجب أن يكون صالحا.',
+            'email.unique' => 'البريد الإلكتروني موجود بالفعل',
+            'password.min' => ' يجب أن تتكون كلمة المرور من 8  أرقام أو حروف',
+            'u_date_of_birth.required' => 'تاريخ الميلاد حقل مطلوب',
+            'u_date_of_birth.date' => 'صيغة تاريخ الميلاد غير صالحة',
+            'u_date_of_birth.before_or_equal' => 'يجب أن يكون تاريخ الميلاد في الماضي',
+            'u_phone1.required' => 'رقم الجوال حقل مطلوب',
+            'u_phone1.digits' => 'يجب أن يتكون رقم الجوال من عشرة أرقام فقط',
+            'u_phone2.digits' => 'يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط',
+            'u_gender' => 'يجب اختيار ذكر أو أنثى'
+        ]
+        );
         $user = User::find($request->u_id);
         $user->u_username = $request->u_username;
         $user->name = $request->name;
@@ -363,6 +393,9 @@ class UserController extends Controller
         }
         if ($user->save()) {
             return redirect()->back()->with('success', 'تم تعديل بيانات هذا المستخدم بنجاح');
+        }
+        else {
+            return redirect()->back()->withErrors(['error' => 'حدثت مشكلة أثناء تحديث البيانات.']);
         }
     }
     public function edit($id)
@@ -393,6 +426,37 @@ class UserController extends Controller
     }
     public function create(Request $request)
     {
+        $validatedData = $request->validate([
+            'u_username' => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+            'u_date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . Carbon::now()->format('Y-m-d'),
+            ],
+            'u_phone1' => 'required|digits:10',
+            'u_phone2' => 'nullable|digits:10',
+            'u_gender' => 'required'
+        ],
+        [
+            'u_username.required' => 'اسم المستخدم حقل مطلوب',
+            'name.required' => 'الاسم حقل مطلوب' ,
+            'email.required' => 'البريد الإلكتروني حقل مطلوب',
+            'email.email' => 'البريد الإلكتروني يجب أن يكون صالحا.',
+            'email.unique' => 'البريد الإلكتروني موجود بالفعل',
+            'password.required' => 'كلمة المرور حقل مطلوب',
+            'password.min' => ' يجب أن تتكون كلمة المرور من 8  أرقام أو حروف',
+            'u_date_of_birth.required' => 'تاريخ الميلاد حقل مطلوب',
+            'u_date_of_birth.date' => 'صيغة تاريخ الميلاد غير صالحة',
+            'u_date_of_birth.before_or_equal' => 'يجب أن يكون تاريخ الميلاد في الماضي',
+            'u_phone1.required' => 'رقم الجوال حقل مطلوب',
+            'u_phone1.digits' => 'يجب أن يتكون رقم الجوال من عشرة أرقام فقط',
+            'u_phone2.digits' => 'يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط',
+            'u_gender' => 'يجب اختيار ذكر أو أنثى'
+        ]
+        );
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -414,6 +478,17 @@ class UserController extends Controller
             $data = User::where('u_role_id', $request->u_role_id)->get();
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
+        }
+        return response()->json(['errors' => ['Save failed']]);
+    }
+    public function check_email_not_duplicate(Request $request)
+    {
+        $user_email = User::where('email', $request->email)->first();
+        if($user_email) {
+            return response()->json(['status' => 'true']);
+        }
+        else {
+            return response()->json(['status' => 'false']);
         }
     }
 }

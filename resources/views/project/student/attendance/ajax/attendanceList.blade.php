@@ -1,7 +1,3 @@
-{{-- @if (!isset($student_attendances))
-    <h6 class="alert alert-danger">لا يوجد سجلات لعرضها</h6>
-@else
-@endif --}}
 <table class="table table-bordered table-striped">
     <thead>
         <tr>

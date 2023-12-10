@@ -13,6 +13,15 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <form action="{{ route('admin.users.update') }}" class="card" method="post" enctype="multipart/form-data">
@@ -37,46 +46,46 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">الاسم</label>
+                                    <label class="form-label">الاسم * </label>
                                     <input class="form-control" type="text" name="name" value="{{ $user->name }}" required @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">اسم المستخدم</label>
+                                    <label class="form-label">اسم المستخدم * </label>
                                     <input class="form-control" type="text" name="u_username" value="{{ $user->u_username }}" required @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">البريد الإلكتروني</label>
+                                    <label class="form-label">البريد الإلكتروني * </label>
                                     <input class="form-control" type="email" name="email" value="{{ $user->email }}" required @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">تاريخ الميلاد</label>
+                                    <label class="form-label">تاريخ الميلاد * </label>
                                     <input class="form-control" type="date" name="u_date_of_birth" value="{{ $user->u_date_of_birth }}" @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>
                             @if (auth()->user()->u_role_id != 2) {{-- If the user is student don't able to change or display his password --}}
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">كلمة السر</label>
+                                        <label class="form-label">كلمة السر * </label>
                                         <input class="form-control" type="password" name="password" placeholder="...............">
                                     </div>
                                 </div>
                             @endif
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">رقم الجوال</label>
-                                    <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}" required @if (auth()->user()->u_role_id == 2) readonly @endif>
+                                    <label class="form-label">رقم الجوال * </label>
+                                    <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}" required @if (auth()->user()->u_role_id == 2) readonly @endif pattern="[0-9]{10}" minlength="10" maxlength="10">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">رقم جوال احتياطي</label>
-                                    <input class="form-control" type="text" name="u_phone2" value="{{ $user->u_phone2 }}" @if (auth()->user()->u_role_id == 2) readonly @endif>
+                                    <input class="form-control" type="text" name="u_phone2" value="{{ $user->u_phone2 }}" @if (auth()->user()->u_role_id == 2) readonly @endif pattern="[0-9]{10}" minlength="10" maxlength="10">
                                 </div>
                             </div>
                             @if (auth()->user()->u_role_id != 2)
@@ -94,7 +103,7 @@
                                 </div>
                             @endif
                             <div class="col-md-3">
-                                <label class="form-label">الجنس</label>
+                                <label class="form-label">الجنس * </label>
                                 @if (auth()->user()->u_role_id == 2)
                                     @if ($user->u_gender == 0)
                                         <input class="form-control" type="text" value="ذكر" readonly>
