@@ -21,6 +21,7 @@ class StudentController extends Controller
             ->with(['userAssistant' => function ($query) {
                 $query->select('u_id', 'name');
             }])
+            ->orderBy('created_at', 'desc')
             ->get();
 
         // ->with(['companyBranch.manager' => function ($query) {

@@ -4,6 +4,7 @@ use App\Http\Controllers\apisController\students\StudentAttendanceController;
 use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
+use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
@@ -74,6 +75,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('getAllTraineesAttendanceLog', [CompanyTrainees::class, 'getAllTraineesAttendanceLog']);
     Route::get('getAllTraineesReportsLog', [CompanyTrainees::class, 'getAllTraineesReportsLog']);
+
+    Route::post('managerAddOrEditReportNote', [ManagerNotes::class, 'managerAddOrEditReportNote']);
+    // Route::post('managerEditNote', [ManagerNotes::class, 'managerEditNote']);
+
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

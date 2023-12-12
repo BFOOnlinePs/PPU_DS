@@ -44,12 +44,18 @@ class CompanyTrainees extends Controller
         // (add .users if you want the users inside the studentCompanies as well)
         $trainees = $trainees->pluck('managerOf.studentCompanies.*')->flatten();
 
+        // Filter out null values
+        $trainees = $trainees->filter(function ($item) {
+            return !is_null($item);
+        });
+
         // for order
         $trainees = $trainees->sortByDesc('created_at')->values();
 
         // Manually paginate the collection
         $perPage = 10;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
         $currentPageItems = $trainees->forPage($currentPage, $perPage);
         $paginatedTrainees = new LengthAwarePaginator(
             $currentPageItems->values(),
@@ -135,7 +141,7 @@ class CompanyTrainees extends Controller
         $sc_id = $request->input('student_company_id');
 
         $allStudentReportsLog = StudentReport::where('sr_student_id', $request->input('trainee_id'))
-            ->whereHas('attendance', function($query) use ($sc_id){
+            ->whereHas('attendance', function ($query) use ($sc_id) {
                 $query->where('.sa_student_company_id', $sc_id);
             })
             ->orderBy('created_at', 'desc')
