@@ -12,6 +12,9 @@ use App\Http\Controllers\apisControllers\students\StudentAttendanceController as
 use App\Http\Controllers\apisControllers\students\StudentController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
 use App\Http\Controllers\apisControllers\students\studentReportController;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Models\StudentCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +82,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('managerAddOrEditReportNote', [ManagerNotes::class, 'managerAddOrEditReportNote']);
     // Route::post('managerEditNote', [ManagerNotes::class, 'managerEditNote']);
 
+
+    // Supervisor
+    Route::get('getSupervisorsMajors', [SupervisorMajorsController::class, 'getSupervisorsMajors']);
+    Route::post('getSupervisorStudentsDependOnMajor', [SupervisorStudentsController::class, 'getSupervisorStudentsDependOnMajor']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
