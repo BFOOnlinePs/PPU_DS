@@ -1,5 +1,5 @@
 <div class="modal fade show" id="ShowCourseModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="border: none;">
             <div class="modal-header" style="height: 73px;">
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -7,7 +7,7 @@
                 <div class="modal-body">
                     <div class="row p-3 m-5">
 
-                        <div class="col-md-4 text-center" >
+                        <div class="col-md-4 text-center" style="margin: auto">
 
 
                                 <h1><span class="fa fa-list" style="text-align: center; font-size:80px; "></span></h1>
@@ -24,7 +24,7 @@
                         <div class="col-md-8">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <!-- Text input-->
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">اسم المساق</label>
@@ -33,6 +33,9 @@
 
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+
 
                                         <!-- Text input-->
                                         <div class="mb-3 row">
@@ -80,13 +83,7 @@
                                             </div>
                                         </div> --}}
 
-                                        <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">وصف المساق</label>
-                                            <div class="col-lg-12">
-                                                <input id="show_c_description" name="c_description" disabled type="text" class="form-control btn-square input-md">
 
-                                            </div>
-                                        </div>
 
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">الرمز المرجعي للمساق</label>
@@ -96,6 +93,18 @@
                                             </div>
                                         </div>
 
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="mb-3 row">
+                                            <label class="col-lg-12 form-label " for="textinput">وصف المساق</label>
+                                            <div class="col-lg-12">
+                                                <textarea id="show_c_description" name="c_description" disabled type="text"
+                                                class="form-control btn-square input-md" rows="6">
+                                                </textarea>
+
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>

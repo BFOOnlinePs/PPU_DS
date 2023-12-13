@@ -37,20 +37,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($data->isEmpty())
+                                @if ($data->isEmpty())
                                 <tr>
-                                    <td colspan="3" class="text-center"><span>لا توجد بيانات</span></td>
+                                    <td colspan="2" class="text-center"><span>لا توجد بيانات</span></td>
                                 </tr>
                                 @else
-                                @foreach ($data as $key)
-                                <tr>
-                                    <td>{{ $key->cc_name }}</td>
-                                    <td>
-                                        <button onclick="editCompaniesCategories({{ $key }})" class="btn btn-info" ><i class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @endif
+                                    @foreach ($data as $key)
+                                    <tr>
+                                        <td>{{ $key->cc_name }}</td>
+                                        <td>
+                                            <button onclick="editCompaniesCategories({{ $key }})" class="btn btn-info" ><i class="fa fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                         </tbody>
                     </table>
                 </div>

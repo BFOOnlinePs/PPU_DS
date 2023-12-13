@@ -140,7 +140,16 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="f1-first-name"> البريد الإلكتروني </label>
-                            <input class="form-control" id="email" type="text" name="email" required="">
+                            <div class="input-container">
+                                <i id="email_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                <i id="email_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
+                                <input class="form-control" id="email" type="text" name="email" required="" onkeyup="checkEmail(this.value)">
+                            </div>
+
+                            <div id="similarEmailMessage" style="color:#dc3545" hidden>
+                                <span>البريد الإلكتروني موجود بالفعل</span>
+                            </div>
+
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -192,7 +201,7 @@
 
 
                 <div class="f1-buttons">
-                    <button class="btn btn-primary" onclick="firstStep()" type="button">التالي</button>
+                    <button class="btn btn-primary" id="firstButton" onclick="firstStep()" type="button">التالي</button>
                     <button class="btn btn-primary btn-next" id="firstStepButton" type="button" hidden></button>
                 </div>
             </fieldset>
@@ -685,7 +694,58 @@ function checkCompany(data){
 
 }
 
+function checkEmail(data){
+console.log("hi reeeeeeeeeem")
+document.getElementById('email_ok_icon').hidden = true;
 
+if(data!=""){
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+
+    $.ajax({
+        beforeSend: function(){
+            document.getElementById('email_search_icon').hidden = false;
+        },
+        url: "{{ route('users.add.check_email_not_duplicate') }}",
+        method: "post",
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        data: {
+            'email': data
+        },
+        success: function(response) {
+
+            if(response.status == 'true'){
+
+                document.getElementById('firstButton').disabled = true;
+                document.getElementById('email_search_icon').hidden = true;
+                document.getElementById('email_ok_icon').hidden = true;
+
+                document.getElementById('similarEmailMessage').hidden = false;
+
+            }else{
+                document.getElementById('firstButton').disabled = false;
+                document.getElementById('similarEmailMessage').hidden = true;
+
+
+                document.getElementById('email_search_icon').hidden = true;
+                document.getElementById('email_ok_icon').hidden = false;
+            }
+
+        },
+        error: function(xhr, status, error) {
+            alert('error');
+        }
+    });
+}
+
+}
 
 function firstStep(){
 
