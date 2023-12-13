@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title')
-إدارة التخصصات 
+إدارة التخصصات
 @endsection
 @section('header_title')
-إدارة التخصصات 
+إدارة التخصصات
 @endsection
 @section('header_title_link')
-إدارة التخصصات 
+إدارة التخصصات
 @endsection
 @section('header_link')
 التخصصات
@@ -47,7 +47,7 @@
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button" id="openAddModalButton"><span class="fa fa-plus"></span>  إضافة تخصص</button>
     </div>
-   
+
 <div class="card" style="padding-left:0px; padding-right:0px;">
 
 <div class="card-body" >
@@ -64,34 +64,39 @@
                         <th scope="col">اسم التخصص</th>
                         <th scope="col">وصف التخصص</th>
                         <th scope="col">الرمز المرجعي للتخصص</th>
-                        <th scope="col">المشرف</th> 
+                        <th scope="col">المشرف</th>
                         <th scope="col">العمليات</th>
 
                     </tr>
                 </thead>
                 <tbody>
 
-                @foreach ($data as $major)
-                <tr>
-                    <td  style="display:none;">{{ $major->m_id }}</td>
-                    <td>{{ $major->m_name }}</td>
-                    <td>{{ $major->m_description }}</td>
-                    <td>{{ $major->m_reference_code }}</td>
-                        <td>
-                 <select  class="js-example-basic-single col-sm-12" id="supervisor_{{ $major->m_id }}"  multiple="multiple"  onchange="showSuperVisorModal({{$major}})" >
-                  @foreach ($superVisors as $super)
-                    <option @foreach ($major->majorSupervisors as $majorSupervisor) @if($super->u_id ==  $majorSupervisor->users->u_id) selected @endif  @endforeach value="{{$super->u_id }}">{{$super->name}}</option>
-                      @endforeach
-                 </select>
-                    
-</td>
-                    <td>
-    <button class="btn btn-info" onclick="showMajorModal({{ $major }})"><i class="fa fa-search"></i></button>
-    <button class="btn btn-primary" onclick="showEditModal({{ $major }})"><i class="fa fa-edit"></i></button>
-</td>             
-</tr>
-            @endforeach
+                @if ($data->isEmpty())
+                    <tr>
+                        <td colspan="5" class="text-center"><span>لا توجد بيانات</span></td>
+                    </tr>
+                @else
+                    @foreach ($data as $major)
+                        <tr>
+                            <td  style="display:none;">{{ $major->m_id }}</td>
+                            <td>{{ $major->m_name }}</td>
+                            <td>{{ $major->m_description }}</td>
+                            <td>{{ $major->m_reference_code }}</td>
+                                <td>
+                        <select  class="js-example-basic-single col-sm-12" id="supervisor_{{ $major->m_id }}"  multiple="multiple"  onchange="showSuperVisorModal({{$major}})" >
+                        @foreach ($superVisors as $super)
+                            <option @foreach ($major->majorSupervisors as $majorSupervisor) @if($super->u_id ==  $majorSupervisor->users->u_id) selected @endif  @endforeach value="{{$super->u_id }}">{{$super->name}}</option>
+                            @endforeach
+                        </select>
 
+                            </td>
+                                                <td>
+                                <button class="btn btn-info" onclick="showMajorModal({{ $major }})"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-primary" onclick="showEditModal({{ $major }})"><i class="fa fa-edit"></i></button>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
 
             </tbody>
             </table>
@@ -120,7 +125,7 @@
     let AddMajorForm = document.getElementById("addMajorForm");
     let EditMajorForm = document.getElementById("editMajorForm");
     let AddSuperVisorForm = document.getElementById("AddSuperVisorForm");
-   
+
     AddMajorForm.addEventListener("submit", (e) => {
         e.preventDefault();
         data = $('#addMajorForm').serialize();
@@ -137,7 +142,7 @@
         // Send an AJAX request
         $.ajax({
             beforeSend: function(){
-           
+
                     $('#AddMajorModal').modal('hide');
                     $('#LoadingModal').modal('show');
                 },
@@ -157,10 +162,10 @@
         });
 
     });
-   
-   
+
+
     function showEditModal(data){
-   
+
     console.log("data");
     console.log(data.major_supervisors.users);
     console.log( document.getElementById('edited_supervisor'));
@@ -168,9 +173,9 @@
     document.getElementById('edit_m_name').value = data.m_name
     document.getElementById('edit_m_description').value = data.m_description
     document.getElementById('edit_m_reference_code').value = data.m_reference_code
-    
+
     // document.getElementById('edited_supervisor').value = data
-   
+
     $('#editMajorModal').modal('show')
   }
     function showSuperVisorModal(data){
@@ -187,13 +192,13 @@
         {
             url = "{{ route('admin.majors.addSuperVisor')}}";
         }
-       else 
-       {  
+       else
+       {
         url = "{{ route('admin.majors.updateSuperVisor') }}";
        }
           console.log("eeeeeee")
-          
-      
+
+
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 // Send an AJAX request with the CSRF token
@@ -205,8 +210,8 @@ $.ajaxSetup({
 
         // Send an AJAX request
         $.ajax({
-            beforeSend: function(){ 
-             
+            beforeSend: function(){
+
                     $('#LoadingModal').modal('show');
                 },
             type: 'POST',
@@ -221,7 +226,7 @@ $.ajaxSetup({
                 $('#majorsTable').html(response.view);
             },
             complete: function(){
-              
+
                    $('#LoadingModal').modal('hide');
                 },
             error: function (xhr, status, error) {
@@ -269,7 +274,7 @@ $.ajaxSetup({
             document.getElementById('show_m_name').value = data.m_name;
             document.getElementById('show_m_description').value = data.m_description;
             document.getElementById('show_m_reference_code').value = data.m_reference_code;
-           
+
             $('#showMajorModal').modal('show');
         }
     function majorSearch(data){
@@ -291,7 +296,7 @@ $.ajaxSetup({
                     _token: '{!! csrf_token() !!}',
                 }, // Specify the expected data type
                 success: function(data) {
-                   
+
                     $('#majorsTable').html(data.view);
                 },
                 error: function(xhr, status, error) {
@@ -302,13 +307,13 @@ $.ajaxSetup({
         }
         $('.modal').on('shown.bs.modal', function() {
             $(this).find('[autofocus]').focus();
-        });       
+        });
 </script>
 
-    
+
 
 
 <!-- end -->
 @endsection
 
-    
+

@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/create',[App\Http\Controllers\project\admin\CoursesController::class,'create'])->name('admin.courses.create');
             Route::post('/update',[App\Http\Controllers\project\admin\CoursesController::class,'update'])->name('admin.courses.update');
             Route::post('/courseSearch',[App\Http\Controllers\project\admin\CoursesController::class,'courseSearch'])->name('admin.courses.courseSearch');
+            Route::post('/checkCourseCode',[App\Http\Controllers\project\admin\CoursesController::class,'checkCourseCode'])->name('admin.courses.checkCourseCode');
         });
 
         Route::group(['prefix'=>'semesterCourses'],function(){

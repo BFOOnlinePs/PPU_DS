@@ -64,4 +64,45 @@ class CoursesController extends Controller
         ]);
 
     }
+
+    public function checkCourseCode(Request $request){
+
+
+
+        $opp = $request->opp;
+
+        if($opp == 'code'){
+            $data = Course::where('c_course_code',$request->search)->first();
+            if($data!=null){
+
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+
+            }else{
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+            }
+        }else{
+            $data = Course::where('c_reference_code',$request->search)->first();
+            if($data!=null){
+
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+
+            }else{
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+            }
+        }
+
+
+    }
 }
