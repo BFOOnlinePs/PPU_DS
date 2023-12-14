@@ -36,7 +36,9 @@
                         @if( $key->courses->c_course_type == 2) <td>نظري - عملي</td>@endif
 
                         <td>
-                            <button class="btn btn-danger" onclick="showDeleteCourseModal({{ $key }})"><i class="fa fa-trash"></i></button>
+                            @if($key->sc_semester == $semester && $key->sc_year == $year)
+                                    <button class="btn btn-danger" onclick="showDeleteCourseModal({{ $key }})"><i class="fa fa-trash"></i></button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
