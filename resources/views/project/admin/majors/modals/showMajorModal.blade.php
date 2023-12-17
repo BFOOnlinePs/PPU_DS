@@ -7,13 +7,13 @@
                         <div class="modal-body">
                             <div class="row p-3 m-5">
 
-                                <div class="col-md-4 text-center" >
+                                <div class="col-md-4 text-center" style="margin: auto">
 
 
                                         <h1><span class="fa fa-list" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                        <h1 >استعراض التخصص</h1>
+                                        <h3>استعراض التخصص</h3>
 
                                         <hr>
                                         <p>في هذا القسم يمكنك استعراض البيانات الخاصة بالمساقات </p>
@@ -23,46 +23,36 @@
 
                                 <div class="col-md-8">
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <!-- Text input-->
-                                                <div class="mb-3 row">
-                                                    <label class="col-lg-12 form-label " for="textinput">اسم التخصص</label>
-                                                    <div class="col-lg-12">
-                                                        <input id="show_m_name" name="m_name" disabled type="text" class="form-control btn-square input-md">
-
-                                                    </div>
-                                                </div>
-
-                                                <!-- Text input-->
-                                                <div class="mb-3 row">
-                                                    <label class="col-lg-12 form-label " for="textinput">وصف التخصص</label>
-                                                    <div class="col-lg-12">
-                                                        <input id="show_m_description" name="m_description" disabled type="text" class="form-control btn-square input-md">
-
-                                                    </div>
-                                                </div>
-
-                                                <!-- Text input-->
-                                                <div class="mb-3 row">
-                                                    <label class="col-lg-12 form-label " for="textinput">رمز المرجعي للتخصص</label>
-                                                    <div class="col-lg-12">
-                                                        <input id="show_m_reference_code" name="m_reference_code" disabled type="text" class="form-control btn-square input-md">
-
-                                                    </div>
-                                                </div>
-
-
-                                                <input id="show_m_id" name="m_id" hidden type="text"
-                                                    class="form-control btn-square input-md">
-
-
+                                    <div class="row">
+                                        <div class="mb-3 row">
+                                            <label class="col-lg-12 form-label " for="textinput">اسم التخصص</label>
+                                            <div class="col-lg-12">
+                                                <input id="show_m_name" name="m_name" disabled type="text" class="form-control btn-square input-md">
 
                                             </div>
-                                          
-
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 row">
+                                            <label class="col-lg-12 form-label " for="textinput">رمز المرجعي للتخصص</label>
+                                            <div class="col-lg-12">
+                                                <input id="show_m_reference_code" name="m_reference_code" disabled type="text" class="form-control btn-square input-md">
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 row">
+                                            <label class="col-lg-12 form-label " for="textinput">وصف التخصص</label>
+                                            <div class="col-lg-12">
+                                                <textarea id="show_m_description" name="m_description"
+                                                disabled type="text" class="form-control btn-square input-md" rows="6"></textarea>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input id="show_m_id" name="m_id" hidden type="text" class="form-control btn-square input-md">
 
                                 </div>
 
