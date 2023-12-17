@@ -83,13 +83,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix'=>'majors'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\MajorsController::class,'index'])->name('admin.majors.index');
             Route::post('/create',[App\Http\Controllers\project\admin\MajorsController::class,'create'])->name('admin.majors.create');
-                Route::post('/update',[App\Http\Controllers\project\admin\MajorsController::class,'update'])->name('admin.majors.update');
-                Route::post('/search',[App\Http\Controllers\project\admin\MajorsController::class,'search'])->name('admin.majors.search');
-
-                Route::post('/addSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'addSuperVisor'])->name('admin.majors.addSuperVisor');
-                Route::post('/updateSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'updateSuperVisor'])->name('admin.majors.updateSuperVisor');
-
-
+            Route::post('/update',[App\Http\Controllers\project\admin\MajorsController::class,'update'])->name('admin.majors.update');
+            Route::post('/search',[App\Http\Controllers\project\admin\MajorsController::class,'search'])->name('admin.majors.search');
+            Route::post('/addSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'addSuperVisor'])->name('admin.majors.addSuperVisor');
+            Route::post('/updateSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'updateSuperVisor'])->name('admin.majors.updateSuperVisor');
+            Route::post('/checkMajorCode',[App\Http\Controllers\project\admin\MajorsController::class,'checkMajorCode'])->name('admin.majors.checkMajorCode');
             });
 
 
