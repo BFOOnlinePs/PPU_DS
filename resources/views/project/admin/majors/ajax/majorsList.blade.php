@@ -1,19 +1,7 @@
 
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
-<script>
-    $(document).ready(function(){
-        loadScript("{{ asset('assets/js/select2/select2-custom.js') }}", function() {});
-        loadScript("{{ asset('assets/js/select2/select2.full.min.js') }}", function() {});
-    });
-    //to load script again
-    function loadScript(src, callback) {
-        var script = document.createElement('script');
-        script.src = src;
-        script.onload = callback;
-        document.head.appendChild(script);
-    }
-</script>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>

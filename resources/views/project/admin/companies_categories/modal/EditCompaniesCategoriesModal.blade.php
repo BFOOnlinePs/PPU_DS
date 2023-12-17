@@ -20,8 +20,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">تصنيف الشركة</label>
-                                        <input autocomplete="off" name="cc_name" id="edit_cc_name" required
-                                            placeholder="تصنيف الشركة" type="text" class="form-control">
+                                        <input autocomplete="off" name="cc_name" id="edit_cc_name" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
