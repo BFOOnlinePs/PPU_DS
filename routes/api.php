@@ -10,6 +10,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
+use App\Http\Controllers\apisControllers\students\StudentCoursesController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
 use App\Http\Controllers\apisControllers\students\studentReportController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
@@ -86,6 +87,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Supervisor
     Route::get('getSupervisorsMajors', [SupervisorMajorsController::class, 'getSupervisorsMajors']);
     Route::post('getSupervisorStudentsDependOnMajor', [SupervisorStudentsController::class, 'getSupervisorStudentsDependOnMajor']);
+    Route::post('getStudentInfo', [SupervisorStudentsController::class, 'getStudentInfo']);
+
+    // student courses
+    Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']);
+    Route::post('addStudentCourse', [StudentCoursesController::class, 'addStudentCourse']);
+    Route::post('deleteStudentCourse', [StudentCoursesController::class, 'deleteStudentCourse']);
+    Route::post('availableCoursesForStudent', [StudentCoursesController::class, 'availableCoursesForStudent']);
+
+    // courses
+    Route::get('availableCourses', [sharedController::class, 'availableCourses']);
+
+
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

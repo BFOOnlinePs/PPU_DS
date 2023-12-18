@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\CompanyBranchLocation;
+use App\Models\Course;
 use App\Models\Role;
+use App\Models\SemesterCourse;
 use App\Models\StudentCompany;
 use App\Models\SystemSetting;
 use App\Models\User;
@@ -84,7 +86,8 @@ class sharedController extends Controller
     }
 
 
-    public function getFacebookLink(){
+    public function getFacebookLink()
+    {
         $facebook = SystemSetting::select('ss_facebook_link')->first();
 
         return response()->json([
@@ -92,11 +95,39 @@ class sharedController extends Controller
         ]);
     }
 
-    public function getInstagramLink(){
+    public function getInstagramLink()
+    {
         $instagram = SystemSetting::select('ss_instagram_link')->first();
 
         return response()->json([
             'instagram' => $instagram->ss_instagram_link
+        ]);
+    }
+
+    // available courses depend on semester and year
+    public function availableCourses()
+    {
+        $system_settings = SystemSetting::first();
+
+        $current_year = $system_settings->ss_year;
+        $current_semester = $system_settings->ss_semester_type;
+
+        $semester_courses_id = SemesterCourse::where('sc_semester', $current_semester)
+            ->where('sc_year', $current_year)
+            ->pluck('sc_course_id');
+
+        $available_courses = Course::whereIn('c_id', $semester_courses_id)->get();
+
+        if ($available_courses->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'لا يوجد مساقات متوفرة للفصل الحالي'
+            ]);
+        }
+
+        return response()->json([
+            'status' => true,
+            'available_courses' => $available_courses
         ]);
     }
 
