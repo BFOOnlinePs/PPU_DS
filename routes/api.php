@@ -13,6 +13,7 @@ use App\Http\Controllers\apisControllers\students\StudentController;
 use App\Http\Controllers\apisControllers\students\StudentCoursesController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
 use App\Http\Controllers\apisControllers\students\studentReportController;
+use App\Http\Controllers\apisControllers\students\studentTrainingsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
@@ -94,6 +95,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('addStudentCourse', [StudentCoursesController::class, 'addStudentCourse']);
     Route::post('deleteStudentCourse', [StudentCoursesController::class, 'deleteStudentCourse']);
     Route::post('availableCoursesForStudent', [StudentCoursesController::class, 'availableCoursesForStudent']);
+
+
+    // student trainings
+    Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
 
     // courses
     Route::get('availableCourses', [sharedController::class, 'availableCourses']);

@@ -9,13 +9,11 @@ use App\Models\StudentCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class StudentController extends Controller
+class studentTrainingsController extends Controller
 {
-    // the companies that student registered in for trainings / current student
-    public function index()
+    public function getStudentTrainings(Request $request)
     {
-        $student_id = auth()->user()->u_id;
-
+        $student_id = $request->input('student_id');
 
         $user = User::where('u_id', $student_id)->where('u_role_id', 2)->first();
 
@@ -46,19 +44,6 @@ class StudentController extends Controller
             return $training;
         });
 
-
-        return response()->json(['student_companies' => $trainings], 200);
+        return response()->json(['status' => true, 'student_companies' => $trainings], 200);
     }
 }
-
-
-
-
-// $companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-//     ->with('companyBranch')->get();
-//
-// same as:
-//
-// foreach($companies as $key){
-//     $key->bb = CompanyBranch::where('b_id',$key->sc_branch_id)->first();
-// }
