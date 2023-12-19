@@ -16,6 +16,7 @@ use App\Http\Controllers\apisControllers\students\studentReportController;
 use App\Http\Controllers\apisControllers\students\studentTrainingsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Models\StudentCompany;
 use Illuminate\Http\Request;
@@ -77,7 +78,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getTraineeAttendanceLog', [CompanyTrainees::class, 'getTraineeAttendanceLog']);
     Route::post('getTraineeReportsLog', [CompanyTrainees::class, 'getTraineeReportsLog']);
 
-
     Route::get('getAllTraineesAttendanceLog', [CompanyTrainees::class, 'getAllTraineesAttendanceLog']);
     Route::get('getAllTraineesReportsLog', [CompanyTrainees::class, 'getAllTraineesReportsLog']);
 
@@ -89,6 +89,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getSupervisorsMajors', [SupervisorMajorsController::class, 'getSupervisorsMajors']);
     Route::post('getSupervisorStudentsDependOnMajor', [SupervisorStudentsController::class, 'getSupervisorStudentsDependOnMajor']);
     Route::post('getStudentInfo', [SupervisorStudentsController::class, 'getStudentInfo']);
+    Route::post('supervisorAddOrEditReportNote', [SupervisorNotesController::class, 'supervisorAddOrEditReportNote']);
+    Route::get('getAllSupervisorStudentsAttendanceLog', [SupervisorStudentsController::class, 'getAllSupervisorStudentsAttendanceLog']);
 
     // student courses
     Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']);

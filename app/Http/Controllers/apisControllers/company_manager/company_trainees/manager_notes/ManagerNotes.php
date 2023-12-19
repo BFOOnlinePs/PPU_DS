@@ -34,6 +34,7 @@ class ManagerNotes extends Controller
             ], 200);
         }
 
+        // update since the report row is exists
         $report->update([
             'sr_notes_company' => $request->input('sr_notes_company'),
         ]);

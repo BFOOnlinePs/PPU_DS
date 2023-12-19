@@ -168,7 +168,7 @@ class CompanyTrainees extends Controller
     }
 
     // get attendance of all trainees
-    public function getAllTraineesAttendanceLog(Request $request)
+    public function getAllTraineesAttendanceLog()
     {
         $traineesAttendance = CompanyBranch::where('b_manager_id', auth()->user()->u_id)
             ->with('studentCompanies.attendance.user')

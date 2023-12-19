@@ -5,8 +5,10 @@ namespace App\Http\Controllers\apisControllers\supervisors;
 use App\Http\Controllers\Controller;
 use App\Models\Major;
 use App\Models\MajorSupervisor;
+use App\Models\StudentAttendance;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
 
 class SupervisorStudentsController extends Controller
@@ -34,6 +36,37 @@ class SupervisorStudentsController extends Controller
     }
 
 
+    public function getAllSupervisorStudentsAttendanceLog()
+    {
+        $supervisorId = auth()->user()->u_id;
+        $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
+        $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
+        $allStudentsAttendance = StudentAttendance::whereIn('sa_student_id', $studentsIdList)->with('user')
+            ->orderBy('created_at', 'desc')->get();
+
+        $perPage = 8;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageItems = $allStudentsAttendance->forPage($currentPage, $perPage);
+        $paginatedAllStudentsAttendance = new LengthAwarePaginator(
+            $currentPageItems->values(),
+            $allStudentsAttendance->count(),
+            $perPage,
+            $currentPage
+        );
+
+        return response()->json([
+            'pagination' => [
+                'current_page' => $paginatedAllStudentsAttendance->currentPage(),
+                'last_page' => $paginatedAllStudentsAttendance->lastPage(),
+                'per_page' => $paginatedAllStudentsAttendance->perPage(),
+                'total_items' => $paginatedAllStudentsAttendance->total(),
+            ],
+            'trainees_attendance' => $paginatedAllStudentsAttendance->items(),
+
+        ], 200);
+    }
+
+
     // send student id to get his info
     public function getStudentInfo(Request $request)
     {
@@ -43,7 +76,7 @@ class SupervisorStudentsController extends Controller
             ['student_id.required' => 'الرجاء ارسال رقم الطالب']
         );
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => $validator->errors()->first(),
@@ -53,7 +86,7 @@ class SupervisorStudentsController extends Controller
         $student_id = $request->input('student_id');
         $student_info = User::where('u_role_id', 2)->where('u_id', $student_id)->first();
 
-        if(!$student_info){
+        if (!$student_info) {
             return response()->json([
                 'status' => false,
                 'message' => 'الطالب غير موحود'
