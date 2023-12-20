@@ -20,7 +20,7 @@
                     <tr>
                         <th>اسم الشركة</th>
                         <th>الفرع</th>
-                        <th>الدائرة</th>
+                        <th>القسم</th>
                         <th>المدرب المسؤول في الشركة</th>
                         <th>مساعد المشرف في الجامعة</th>
                     </tr>
@@ -57,37 +57,3 @@
         @endif
     </div>
 @endsection
-
-
-
-
-
-
-
-{{--
-@if ($student_companies->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد شركات مسجل فيها </h6>
-@else
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>اسم الشركة</th>
-                <th>الفرع</th>
-                <th>الدائرة</th>
-                <th>المدرب المسؤول في الشركة</th>
-                <th>مساعد المشرف في الجامعة</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($student_companies as $student_company)
-                <tr>
-                    <td>{{$student_company->sc_company_id}}</td>
-                    <td>{{$student_company->sc_branch_id}}</td>
-                    <td>{{$student_company->sc_department_id}}</td>
-                    <td>{{$student_company->sc_mentor_trainer_id}}</td>
-                    <td>{{$student_company->sc_assistant_id}}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@endif --}}

@@ -1,8 +1,6 @@
 <a class=" col m-1 btn btn-primary btn-sm" href="{{route('admin.users.courses.student' , ['id'=>$user->u_id])}}">
 <h1 style="font-size: 25px; " class="fa fa-book" ></h1>
-<br>
-
-    مساقات الطالب</a>
+<br>مساقات الطالب</a>
 <a class=" col m-1 btn btn-primary btn-sm" href="{{route('admin.users.places.training' , ['id'=>$user->u_id])}}">
     <h1 style="font-size: 25px; " class="fa fa-map-marker" ></h1>
     <br>

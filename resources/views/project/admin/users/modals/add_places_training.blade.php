@@ -26,6 +26,7 @@
                                                     <option value="{{$company->c_id}}">{{$company->c_name}}</option>
                                                 @endforeach
                                             </select>
+                                            <a href="{{route('admin.companies.index')}}">انقر لإضافة شركة جديدة</a>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="">الفرع</label>
@@ -39,7 +40,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="">الدائرة التابعة للفرع</label>
+                                            <label for="">القسم التابعة للفرع</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" id="select-departments" name="department" disabled>
                                                 @if ($departments != null)
                                                     <option value=""></option>
