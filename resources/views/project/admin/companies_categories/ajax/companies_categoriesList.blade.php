@@ -10,14 +10,14 @@
         <tbody>
             @if ($data->isEmpty())
                 <tr>
-                    <td colspan="3" class="text-center"><span>لا توجد بيانات</span></td>
+                    <td colspan="2" class="text-center"><span>لا توجد بيانات</span></td>
                 </tr>
                 @else
                 @foreach ($data as $key)
                     <tr>
                         <td>{{ $key->cc_name }}</td>
                         <td>
-                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-info" onclick="editCompaniesCategories({{ $key }})"><i class="fa fa-edit"></i></button>
                         </td>
                     </tr>
                 @endforeach

@@ -41,7 +41,7 @@
                             {{-- <input class="form-control" id="semester" name="semester"> --}}
                             <div class="col-lg-12">
                                 <select id="semester" name="semester" class="form-control btn-square">
-                                    <option value="0">--الفصل الدراسي--</option>
+                                    <option value="0">جميع الفصول</option>
                                     <option value="1" @if($semester==1) selected @endif  >أول</option>
                                     <option value="2" @if($semester==2) selected @endif>ثاني</option>
                                     <option value="3" @if($semester==3) selected @endif>صيفي</option>
@@ -50,26 +50,18 @@
                         </div>
                     </div>
 
-                    {{-- <div class="mb-3 row">
-                        <label class="col-lg-12 form-label " for="selectbasic">عدد ساعات المساق</label>
-                        <div class="col-lg-12">
-                        <select tabindex="5" id="c_hours" name="c_hours" class="form-control btn-square">
-                            <option value="0">--عدد ساعات المساق--</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        </div>
-                    </div> --}}
-
-
 
                     <div class="col-md-5">
                         <div class="form-group">
                             <label class="col-form-label pt-0" for="exampleInputEmail1">العام الدراسي</label>
-                            <input class="form-control" id="year" name="year" value="{{ $year }}">
+                            <div class="col-lg-12">
+                                <select id="year" name="year" class="form-control btn-square">
+                                    <option value="0">جميع الأعوام</option>
+                                    @foreach($years as $key)
+                                    <option value={{$key}} @if($key == $year) selected @endif> {{$key}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -104,7 +96,7 @@
                     <tbody>
                     @if ($data->isEmpty())
                         <tr>
-                            <td colspan="3" class="text-center"><span>لا توجد بيانات</span></td>
+                            <td colspan="7" class="text-center"><span>لا توجد بيانات</span></td>
                         </tr>
                     @else
                         @foreach ($data as $key)
@@ -122,8 +114,11 @@
                                 @if( $key->courses->c_course_type == 1) <td>عملي</td>@endif
                                 @if( $key->courses->c_course_type == 2) <td>نظري - عملي</td>@endif
 
+
                                 <td>
+                                    @if($key->sc_semester == $semester && $key->sc_year == $year)
                                     <button class="btn btn-danger" onclick="showDeleteCourseModal({{ $key }})"><i class="fa fa-trash"></i></button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -157,7 +152,6 @@
     let addCourseToSemesterForm = document.getElementById("addCourseToSemesterForm");
     let searchForm = document.getElementById("searchForm");
     let semesterCourseID;
-
 
     addCourseToSemesterForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -296,6 +290,7 @@
     });
 
     function courseNameSearch(data) {
+
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
@@ -316,6 +311,8 @@
                 method: "post",
                 data: {
                     'search': data,
+                    'year': document.getElementById("year").value,
+                    'semester': document.getElementById("semester").value,
                     _token: '{!! csrf_token() !!}',
                 }, // Specify the expected data type
                 success: function(data) {
@@ -332,6 +329,10 @@
                 }
             });
     }
+
+    $("#AddCourseToSemesterModal").on("hidden.bs.modal", function () {
+        $('#selectedCourses').val(null).trigger('change');
+    })
 
 
 </script>

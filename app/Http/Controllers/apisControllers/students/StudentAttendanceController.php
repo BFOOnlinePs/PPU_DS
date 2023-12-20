@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
+// we depend on Gaza time: Asia/Gaza
 class StudentAttendanceController extends Controller
 {
     public function studentCheckIn(Request $request)

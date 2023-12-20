@@ -1,6 +1,7 @@
 @if ($data->isEmpty())
     <h6 class="alert alert-danger">لا يوجد مساقات مسجلة</h6>
 @else
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>

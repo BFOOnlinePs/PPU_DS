@@ -10,7 +10,7 @@
                             <h1><span class="fa fa-book" style="text-align: center; font-size:80px; "></span></h1>
                             <h3>تسجيل مساق</h3>
                             <hr>
-                            <p >في هذا القسم يمكن تسجيل مساق للطاب</p>
+                            <p >في هذا القسم يمكن تسجيل مساق للطالب</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addCoursesStudentForm" enctype="multipart/form-data">

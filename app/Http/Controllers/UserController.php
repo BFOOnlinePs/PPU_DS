@@ -17,7 +17,10 @@ use App\Models\StudentAttendance;
 use App\Models\StudentCompany;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MajorSupervisor;
+use App\Models\Payment;
+use App\Models\SemesterCourse;
 use App\Models\StudentReport;
+use App\Models\SupervisorAssistant;
 use Carbon\Carbon;
 class UserController extends Controller
 {
@@ -114,7 +117,8 @@ class UserController extends Controller
                                             ->pluck('ms_major_id')
                                             ->toArray();
             $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
-            return response()->json(['html' => $html , 'majors' => $majors]);
+            $supervisor_assistants = User::where('u_role_id' , 4)->get();
+            return response()->json(['html' => $html , 'majors' => $majors , 'supervisor_assistants' => $supervisor_assistants]);
         }
     }
     public function supervisor_major_add(Request $request)
@@ -130,18 +134,26 @@ class UserController extends Controller
                                             ->pluck('ms_major_id')
                                             ->toArray();
             $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
-            return response()->json(['html' => $html , 'majors' => $majors]);
+            $supervisor_assistants = User::where('u_role_id' , 4)->get();
+            return response()->json(['html' => $html , 'majors' => $majors , 'supervisor_assistants' => $supervisor_assistants]);
         }
     }
     public function student_payments($id)
     {
         $user = User::find($id);
-        return view('project.admin.users.student_payments' , ['user' => $user]);
+        $payments = Payment::where('p_student_id', $id)->get();
+        return view('project.admin.users.student_payments' , ['user' => $user , 'payments' => $payments]);
     }
     public function students_attendance($id)
     {
         $user = User::find($id);
-        $student_attendances = StudentAttendance::where('sa_student_id', $id)->get();
+        $student_company = StudentCompany::where('sc_student_id' , $id)
+                            ->where('sc_status' , 1)
+                            ->pluck('sc_id')
+                            ->toArray();
+        $student_attendances = StudentAttendance::where('sa_student_id', $id )
+                            ->whereIn('sa_student_company_id', $student_company)
+                            ->get();
         return view('project.admin.users.students_attendance' , ['id' => $id , 'user' => $user , 'student_attendances' => $student_attendances , 'student_report'=> null]);
     }
     public function training_place_delete_file_agreement($sc_id)
@@ -164,16 +176,21 @@ class UserController extends Controller
             $studentCompany->sc_agreement_file = $filename;
         }
         if($studentCompany->save()) {
-            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
+            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)
+                                    ->where('sc_status', 1)
+                                    ->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
     }
     public function training_place_delete(Request $request)
     {
-        $deleted = StudentCompany::where('sc_id', $request->sc_id)->delete();
-        if($deleted > 0) {
-            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)->get();
+        $student_company = StudentCompany::where('sc_id', $request->sc_id)->first();
+        $student_company->sc_status = 0;
+        if($student_company->save()) {
+            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)
+                                    ->where('sc_status', 1)
+                                    ->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
@@ -188,7 +205,7 @@ class UserController extends Controller
         $studentCompany->sc_mentor_trainer_id = $request->input('trainer');
         $studentCompany->sc_assistant_id = $request->input('manager_assistant');
         $studentCompany->sc_status = 1;
-         if ($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension; // Unique filename
@@ -198,7 +215,9 @@ class UserController extends Controller
 
         // Save the data to the database
         if($studentCompany->save()) {
-            $data = StudentCompany::where('sc_student_id' , $request->id)->get();
+            $data = StudentCompany::where('sc_student_id' , $request->id)
+                                ->where('sc_status', 1)
+                                ->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
@@ -220,7 +239,9 @@ class UserController extends Controller
         $companies = Company::get();
         // to get المساعد الإداري
         $manager_assistants = User::where('u_role_id' , 4)->get();
-        $data = StudentCompany::where('sc_student_id' , $id)->get();
+        $data = StudentCompany::where('sc_student_id' , $id)
+                            ->where('sc_status', 1)
+                            ->get();
         return view('project.admin.users.places_training' , ['user' => $user , 'companies' => $companies , 'branches' => null , 'departments' => null , 'trainers' => null , 'manager_assistants' => $manager_assistants , 'data' => $data]);
     }
     public function courses_student_delete(Request $request)
@@ -242,7 +263,10 @@ class UserController extends Controller
                                             ->where('r_year' , $system_setting->ss_year)
                                             ->pluck('r_course_id')
                                             ->toArray();
-            $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+            $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                                                ->pluck('sc_course_id')
+                                                ->toArray();
+            $courses = Course::whereIn('c_id' , $semester_courses)->get();
             return response()->json(['html' => $html , 'courses' => $courses]);
         }
     }
@@ -273,7 +297,10 @@ class UserController extends Controller
                                             ->where('r_year' , $system_setting->ss_year)
                                             ->pluck('r_course_id')
                                             ->toArray();
-            $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+            $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                                                ->pluck('sc_course_id')
+                                                ->toArray();
+            $courses = Course::whereIn('c_id' , $semester_courses)->get();
             $modal = view('project.admin.users.modals.add_courses_student' , ['courses' => $courses])->render();
 
             return response()->json(['html' => $html , 'modal' => $modal]);
@@ -288,7 +315,10 @@ class UserController extends Controller
                                         ->where('r_year' , $system_setting->ss_year)
                                         ->pluck('r_course_id')
                                         ->toArray();
-        $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+        $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                                            ->pluck('sc_course_id')
+                                            ->toArray();
+        $courses = Course::whereIn('c_id' , $semester_courses)->get();
 
         $data = Registration::where('r_student_id' , $id)
                                 ->where('r_semester' , $system_setting->ss_semester_type)
@@ -299,7 +329,14 @@ class UserController extends Controller
     public function details($id)
     {
         $user = User::find($id);
-        return view('project.admin.users.details' , ['user' => $user]);
+        $company_id = Company::where('c_manager_id' , $id)
+                                ->pluck('c_id')
+                                ->toArray();
+        $company = Company::where('c_manager_id' , $id)->first();
+        $students = StudentCompany::whereIn('sc_company_id', $company_id)
+                                    ->where('sc_status' , 1)
+                                    ->get();
+        return view('project.admin.users.details' , ['user' => $user , 'students' => $students , 'company' => $company]);
     }
     public function search(Request $request)
     {
@@ -324,6 +361,36 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {
+        $validatedData = $request->validate([
+            'u_username' => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'nullable|min:8',
+            'u_date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . Carbon::now()->format('Y-m-d'),
+            ],
+            'u_phone1' => 'required|digits:10',
+            'u_phone2' => 'nullable|digits:10',
+            'u_gender' => 'required'
+        ],
+        [
+            'u_username.required' => 'اسم المستخدم حقل مطلوب',
+            'name.required' => 'الاسم حقل مطلوب' ,
+            'email.required' => 'البريد الإلكتروني حقل مطلوب',
+            'email.email' => 'البريد الإلكتروني يجب أن يكون صالحا.',
+            'email.unique' => 'البريد الإلكتروني موجود بالفعل',
+            'password.min' => ' يجب أن تتكون كلمة المرور من 8  أرقام أو حروف',
+            'u_date_of_birth.required' => 'تاريخ الميلاد حقل مطلوب',
+            'u_date_of_birth.date' => 'صيغة تاريخ الميلاد غير صالحة',
+            'u_date_of_birth.before_or_equal' => 'يجب أن يكون تاريخ الميلاد في الماضي',
+            'u_phone1.required' => 'رقم الجوال حقل مطلوب',
+            'u_phone1.digits' => 'يجب أن يتكون رقم الجوال من عشرة أرقام فقط',
+            'u_phone2.digits' => 'يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط',
+            'u_gender' => 'يجب اختيار ذكر أو أنثى'
+        ]
+        );
         $user = User::find($request->u_id);
         $user->u_username = $request->u_username;
         $user->name = $request->name;
@@ -346,6 +413,9 @@ class UserController extends Controller
         }
         if ($user->save()) {
             return redirect()->back()->with('success', 'تم تعديل بيانات هذا المستخدم بنجاح');
+        }
+        else {
+            return redirect()->back()->withErrors(['error' => 'حدثت مشكلة أثناء تحديث البيانات.']);
         }
     }
     public function edit($id)
@@ -372,10 +442,48 @@ class UserController extends Controller
         $data = User::with('role')->get();
         $roles = Role::all();
         $major = Major::all();
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => null , 'major' => $major , 'role_name' => null]);
+
+        return view('project.admin.users.index', [
+            'data' => $data,
+            'roles' => $roles,
+            'u_role_id' => null,
+            'major' => $major,
+            'role_name' => null
+        ]);
     }
     public function create(Request $request)
     {
+        $validatedData = $request->validate([
+            'u_username' => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+            'u_date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . Carbon::now()->format('Y-m-d'),
+            ],
+            'u_phone1' => 'required|digits:10',
+            'u_phone2' => 'nullable|digits:10',
+            'u_gender' => 'required'
+        ],
+        [
+            'u_username.required' => 'اسم المستخدم حقل مطلوب',
+            'name.required' => 'الاسم حقل مطلوب' ,
+            'email.required' => 'البريد الإلكتروني حقل مطلوب',
+            'email.email' => 'البريد الإلكتروني يجب أن يكون صالحا.',
+            'email.unique' => 'البريد الإلكتروني موجود بالفعل',
+            'password.required' => 'كلمة المرور حقل مطلوب',
+            'password.min' => ' يجب أن تتكون كلمة المرور من 8  أرقام أو حروف',
+            'u_date_of_birth.required' => 'تاريخ الميلاد حقل مطلوب',
+            'u_date_of_birth.date' => 'صيغة تاريخ الميلاد غير صالحة',
+            'u_date_of_birth.before_or_equal' => 'يجب أن يكون تاريخ الميلاد في الماضي',
+            'u_phone1.required' => 'رقم الجوال حقل مطلوب',
+            'u_phone1.digits' => 'يجب أن يتكون رقم الجوال من عشرة أرقام فقط',
+            'u_phone2.digits' => 'يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط',
+            'u_gender' => 'يجب اختيار ذكر أو أنثى'
+        ]
+        );
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -398,5 +506,31 @@ class UserController extends Controller
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
+        return response()->json(['errors' => ['Save failed']]);
+    }
+    public function check_email_not_duplicate(Request $request)
+    {
+        $user_email = User::where('email', $request->email)->first();
+        if($user_email) {
+            return response()->json(['status' => 'true']);
+        }
+        else {
+            return response()->json(['status' => 'false']);
+        }
+    }
+    public function searchStudentByName(Request $request)
+    {
+        $users = User::where('name', 'like', '%' . $request->value . '%')
+                        ->pluck('u_id')
+                        ->toArray();
+        $company_id = Company::where('c_manager_id' , $request->user_id)
+                                ->pluck('c_id')
+                                ->toArray();
+        $students = StudentCompany::whereIn('sc_company_id', $company_id)
+                                    ->whereIn('sc_student_id' , $users)
+                                    ->where('sc_status' , 1)
+                                    ->get();
+        $html = view('project.admin.users.includes.student' , ['students' => $students])->render();
+        return response()->json(['html' => $html]);
     }
 }

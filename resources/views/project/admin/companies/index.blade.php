@@ -39,21 +39,25 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                    @foreach ($data as $key)
+                    @if ($data->isEmpty())
                         <tr>
-                            <td style="display:none;">{{ $key->c_id }}</td>
-                            <td>{{ $key->c_name }}</td>
-                            <td>{{ $key->manager->name }}</td>
-                            <td>{{ $key->companyCategories->cc_name}}</td>
-                            @if( $key->c_type == 1) <td>قطاع عام</td>@endif
-                            @if( $key->c_type == 2) <td>قطاع خاص</td>@endif
-                            <td>
-                                <button class="btn btn-info" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
-                            </td>
+                            <td colspan="6" class="text-center"><span>لا توجد بيانات</span></td>
                         </tr>
-                    @endforeach
-
+                    @else
+                        @foreach ($data as $key)
+                            <tr>
+                                <td style="display:none;">{{ $key->c_id }}</td>
+                                <td>{{ $key->c_name }}</td>
+                                <td>{{ $key->manager->name }}</td>
+                                <td>{{ $key->companyCategories->cc_name}}</td>
+                                @if( $key->c_type == 1) <td>قطاع عام</td>@endif
+                                @if( $key->c_type == 2) <td>قطاع خاص</td>@endif
+                                <td>
+                                  <button class="btn btn-info" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
                 </table>
             </div>

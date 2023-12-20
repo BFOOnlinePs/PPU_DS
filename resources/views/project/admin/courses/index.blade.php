@@ -11,35 +11,71 @@
 @section('header_link')
     المساقات
 @endsection
-@section('content')
-    {{-- <div class="alert alert-primary d-flex align-items-center col-md-3" role="alert">
-        <span class="fa fa-check col-md-1"></span>
-        <div class="col-md-11">
-          تمت العملية بنجاح
-        </div>
-    </div>
+@section('style')
+<style>
+.input-error {
+    border-color: #d22d3d;
+}
+.input-container {
+      position: relative;
+      /* width: 300px; Set the width of the input container */
+    }
 
-    <div class="alert alert-danger d-flex align-items-center col-md-3" role="alert">
-        <span class="fa fa-exclamation col-md-1"></span>
-        <div class="col-md-11">
-          هناك خطأ ! الرجاء المحاولة مرة أخرى
-        </div>
-    </div> --}}
+    .icon {
+      position: absolute;
+      left: 20px; /* Adjust the left position to control the icon's placement */
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .icon_spinner {
+      position: absolute;
+      left: 20px; /* Adjust the left position to control the icon's placement */
+      top: 30%;
+      transform: translateY(-50%);
+    }
+
+    /* Style the input to provide some spacing for the icon */
+    input {
+      padding-left: 30px; /* Add padding to the left of the input to make room for the icon */
+      width: 100%; /* Make the input take up the full width of the container */
+    }
+</style>
+
+@endsection
+@section('content')
 
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span> إضافة مساق</button>
     </div>
 
+
+    {{-- <h1>Courses</h1>
+
+    <ul>
+        @foreach($courses as $course)
+            <li>{{ $course->c_name }}</li>
+        @endforeach
+    </ul>
+
+    {{ $courses->links() }} --}}
+
     <div class="card" style="padding-left:0px; padding-right:0px;">
 
         <div class="card-body" >
+            <div class="form-outline" id="showSearch" hidden>
+                <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2" placeholder="البحث"
+                    aria-label="Search" />
+            </div>
+            @if(!$data->isEmpty())
             <div class="form-outline">
                 <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2" placeholder="البحث"
                     aria-label="Search" />
             </div>
+            @endif
             <div id="showTable">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped" id="coursesTable">
                         <thead>
                             <tr>
                                 <th scope="col" style="display:none;">id</th>
@@ -51,24 +87,31 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                        @foreach ($data as $key)
-                            <tr>
-                                <td style="display:none;">{{ $key->c_id }}</td>
-                                <td>{{ $key->c_name }}</td>
-                                <td>{{ $key->c_course_code }}</td>
-                                <td>{{ $key->c_hours }}</td>
-                                @if( $key->c_course_type == 0) <td>نظري</td>@endif
-                                @if( $key->c_course_type == 1) <td>عملي</td>@endif
-                                @if( $key->c_course_type == 2) <td>نظري - عملي</td>@endif
-                                <td>
-                                    <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-search"></i></button>
-                                    <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
-                                </td>
-                            </tr>
-                        @endforeach
-
-                    </tbody>
+                            @if ($data->isEmpty())
+                                <tr>
+                                    <td colspan="5" class="text-center"><span>لا توجد بيانات</span></td>
+                                </tr>
+                            @else
+                                @foreach ($data as $key)
+                                    <tr>
+                                        <td style="display:none;">{{ $key->c_id }}</td>
+                                        <td>{{ $key->c_name }}</td>
+                                        <td>{{ $key->c_course_code }}</td>
+                                        <td>{{ $key->c_hours }}</td>
+                                        @if( $key->c_course_type == 0) <td>نظري</td>@endif
+                                        @if( $key->c_course_type == 1) <td>عملي</td>@endif
+                                        @if( $key->c_course_type == 2) <td>نظري - عملي</td>@endif
+                                        <td>
+                                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-search"></i></button>
+                                            <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            <div id="data-wrapper">
+                                <!-- Results -->
+                            </div>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -82,6 +125,12 @@
 
 
             @include('project.admin.courses.modals.loadingModal')
+
+            <div id="auto-load" hidden>
+                <div class="loader-box">
+                    <div class="loader-3" ></div>
+                </div>
+            </div>
 
         </div>
 
@@ -97,50 +146,337 @@
         let addCourseForm = document.getElementById("addCourseForm");
         let editCourseForm = document.getElementById("editCourseForm");
         let dataTable;
+        var add_button_code = false;
+        var add_button_ref = false;
+
+        var edit_button_code = false;
+        var edit_button_ref = false;
+
+        var page = 1;
+        var last_page = {!! json_encode($last_page, JSON_HEX_APOS) !!};
+
+
+        let totalDBDataNum = 0;
+        let dataPerPage = 0;
+        let current_page=1;
+        let dataLengthPerPage = 0;
+        let stop= false;
+
+        window.addEventListener("load", (event) => {
+            dataLengthPerPage = {!! json_encode($data, JSON_HEX_APOS) !!}.length
+            totalDBDataNum = {!! json_encode($total, JSON_HEX_APOS) !!}
+            dataPerPage = {!! json_encode($per_page, JSON_HEX_APOS) !!}
+            console.log({!! json_encode($data, JSON_HEX_APOS) !!});
+        });
+
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() + 1 >= $(document).height() && stop == false) {
+                page++;
+                console.log("hi reem from infinite loading")
+                infinteLoadMore(page);
+            }
+        });
+
+        function infinteLoadMore(page) {
+            //console.log("response.current_page")
+            var editLink = "{{ route('admin.courses.loadMoreCourses', ['page' => 'page_id']) }}";
+            editLink = editLink.replace('page_id', page);
+            if(page<=last_page){
+                console.log("reem");
+                //console.log(page)
+                //console.log(last_page)
+                stop = true;
+                $.ajax({
+                    url: editLink,
+                    datatype: "json",
+                    type: "get",
+                    beforeSend: function () {
+                        document.getElementById('auto-load').hidden=false
+                    },
+                    success: function(response) {
+                        console.log("response.current_page")
+                        console.log(response.current_page)
+                        last_page = response.data.last_page;
+                        dataLengthPerPage = response.data.data.length;
+                        current_page = response.current_page;
+                        courses = response.data.data
+                        if (response.length == 0) {
+                            $('#auto-load').html("We don't have more data to display :(");
+                            return;
+                        }
+                        var tableBody = document.getElementById('coursesTable').getElementsByTagName('tbody')[0];
+                        courses.forEach(function (next) {
+
+                            var newRow = tableBody.insertRow();
+
+                            var cell1 = newRow.insertCell(0);
+                            cell1.innerHTML = `${next.c_name}`;
+                            var cell2 = newRow.insertCell(1);
+                            cell2.innerHTML = `${next.c_course_code}`;
+                            var cell3 = newRow.insertCell(2);
+                            cell3.innerHTML = `${next.c_hours}`;
+                            var cell4 = newRow.insertCell(3);
+                            if( `${next.c_course_type}` == 0){
+                                cell4.innerHTML = "نظري";
+                            }else if( `${next.c_course_type}` == 1){
+                                cell4.innerHTML = "عملي";
+                            }else if( `${next.c_course_type}` == 2){
+                                cell4.innerHTML = "نظري - عملي";
+                            }
+                            var cell5 = newRow.insertCell(4);
+                            var jsonToHTML = JSON.stringify(next).replace(/"/g, "&quot;");
+
+                            cell5.innerHTML = `
+                                <button class="btn btn-info" onclick="showCourseModal(${jsonToHTML})">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                                <button class="btn btn-primary" onclick="showEditCourseModal(${jsonToHTML})">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            `;
+                        })
+                        document.getElementById('auto-load').hidden=true
+                        stop = false;
+                    }
+                })
+            }
+
+        }
+
+        function validateInput(inputElement) {
+            // Remove any non-alphanumeric characters, including Arabic letters and spaces
+            inputElement.value = inputElement.value.replace(/[^a-zA-Z0-9\u0600-\u06FF\s]/g, '');
+
+            // Check if the input contains at least one letter
+            var containsLetter = /[a-zA-Z\u0600-\u06FF]/.test(inputElement.value);
+
+            // If the input doesn't contain a letter, clear the input
+            if (!containsLetter) {
+                inputElement.value = '';
+            }
+        }
+
+        function validateEngNumInput(inputElement) {
+
+            //console.log("hi")
+            var cleanedValue = inputElement.value.replace(/[^a-zA-Z0-9]/g, '');
+            if (!/^[a-zA-Z0-9]{6}$/.test(cleanedValue)) {
+                inputElement.value = cleanedValue;
+            } else {
+                inputElement.value = cleanedValue.slice(0, 5);
+            }
+
+        }
+
+        function validateNumInput(inputElement) {
+            // Remove any non-numeric characters
+            var cleanedValue = inputElement.value.replace(/\D/g, '');
+
+            // Ensure the input is exactly 4 digits long
+            if (/^\d{4}$/.test(cleanedValue)) {
+                // Update the input value
+                inputElement.value = cleanedValue;
+            } else {
+                // If input is not 4 digits, clear the input
+                inputElement.value = cleanedValue.slice(0, 4);;
+            }
+        }
 
         addCourseForm.addEventListener("submit", (e) => {
+            courses = {!! json_encode($data, JSON_HEX_APOS) !!};
+            coursesLength = courses.length;
             e.preventDefault();
+            var serializedFormData = $('#addCourseForm').serialize();
 
+            var if_submit = true;
 
-            data = $('#addCourseForm').serialize();
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
+            // Convert the serialized string to an array of objects
+            var formDataArray = serializedFormData.split('&').map(function(item) {
+                var pair = item.split('=');
+                return { name: pair[0], value: decodeURIComponent(pair[1] || '') };
             });
 
-            // Send an AJAX request
-            $.ajax({
-                beforeSend: function(){
-                    $('#AddCourseModal').modal('hide');
-                    $('#LoadingModal').modal('show');
-                },
-                type: 'POST',
-                url: "{{ route('admin.courses.create') }}",
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    $('#AddCourseModal').modal('hide');
-                    $('#showTable').html(response.view);
-                    document.getElementById('c_name').value = "";
-                    document.getElementById('c_course_code').value = "";
-                    document.getElementById('c_hours').value = "";
-                    document.getElementById('c_course_type').value = "";
-                    document.getElementById('c_description').value = "";
-                    document.getElementById('c_reference_code').value = "";
-                },
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+            for (var i = 1; i < formDataArray.length; i++) {
+                console.log(formDataArray[i].name);
+                if(formDataArray[i].value==""){
+                    var x = `#${formDataArray[i].name}`;
+                    $(`${x}`).addClass('input-error');
+                    if_submit = false;
                 }
-            });
+                if(document.getElementById('c_course_type').value==""){
+                    $('#c_course_type').addClass('input-error');
+                    if_submit = false;
+                }
+                if(document.getElementById('c_hours').value==""){
+                    $('#c_hours').addClass('input-error');
+                    if_submit = false;
+                }
+            }
+
+
+            if(if_submit){
+
+                var editLink = "{{ route('admin.courses.create', ['page' => 'page_id']) }}";
+                editLink = editLink.replace('page_id', page);
+
+                data = $('#addCourseForm').serialize();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                // Send an AJAX request with the CSRF token
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+
+                // Send an AJAX request
+                $.ajax({
+                    beforeSend: function(){
+                        $('#AddCourseModal').modal('hide');
+                        $('#LoadingModal').modal('show');
+                    },
+                    type: 'POST',
+                    url: "{{ route('admin.courses.create') }}",
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+
+                        $('#AddCourseModal').modal('hide');
+
+                        // console.log("totalDBDataNum"+totalDBDataNum)
+                        // console.log("dataPerPage"+dataPerPage)
+                        // console.log("current_page"+current_page)
+                        // console.log("last_page"+last_page)
+                        // console.log("dataLengthPerPage"+dataLengthPerPage)
+                        // console.log("dataPerPage"+dataPerPage)
+
+                        //if the table has just one page and its rows less than data number per page
+                        if(totalDBDataNum<dataPerPage){
+                            $('#showTable').html(response.view);
+                        }
+                        //if the user loaded to the end and its rows less than data number per page
+                        if(current_page==last_page && dataLengthPerPage<dataPerPage){
+                            $('#showTable').html(response.view);
+                        }
+                        //$('#showTable').html(response.view);
+                        document.getElementById('c_name').value = "";
+                        document.getElementById('c_course_code').value = "";
+                        document.getElementById('c_hours').value = "";
+                        document.getElementById('c_course_type').value = "";
+                        document.getElementById('c_description').value = "";
+                        document.getElementById('c_reference_code').value = "";
+                    },
+                    complete: function(){
+                        $('#LoadingModal').modal('hide');
+
+                        //want it to add in first time when there is no data
+                        if(coursesLength==0){
+                            document.getElementById('showSearch').hidden = false;
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+
+
+
 
         });
+
+        //to remove red outline from required inputs
+        $('#c_name').on('focus', function() {
+    	    $('#c_name').removeClass('input-error');
+        });
+        $('#c_hours').on('focus', function() {
+    	    $('#c_hours').removeClass('input-error');
+        });
+        $('#c_course_code').on('focus', function() {
+    	    $('#c_course_code').removeClass('input-error');
+        });
+        $('#c_course_type').on('focus', function() {
+    	    $('#c_course_type').removeClass('input-error');
+        });
+        $('#c_reference_code').on('focus', function() {
+    	    $('#c_reference_code').removeClass('input-error');
+        });
+        $('#c_description').on('focus', function() {
+    	    $('#c_description').removeClass('input-error');
+        });
+
+        //to remove red outline from required inputs
+        $('#edit_c_name').on('focus', function() {
+    	    $('#edit_c_name').removeClass('input-error');
+        });
+        $('#edit_c_hours').on('focus', function() {
+    	    $('#edit_c_hours').removeClass('input-error');
+        });
+        $('#edit_c_course_code').on('focus', function() {
+    	    $('#edit_c_course_code').removeClass('input-error');
+        });
+        $('#edit_c_course_type').on('focus', function() {
+    	    $('#edit_c_course_type').removeClass('input-error');
+        });
+        $('#edit_c_reference_code').on('focus', function() {
+    	    $('#edit_c_reference_code').removeClass('input-error');
+        });
+        $('#edit_c_description').on('focus', function() {
+    	    $('#edit_c_description').removeClass('input-error');
+        });
+
+        //to empty the add modal any time it closed
+        $("#AddCourseModal").on("hidden.bs.modal", function () {
+            document.getElementById('c_name').value = "";
+            document.getElementById('c_course_code').value = "";
+            document.getElementById('c_hours').value = "";
+            document.getElementById('c_course_type').value = "";
+            document.getElementById('c_description').value = "";
+            document.getElementById('c_reference_code').value = "";
+
+            $('#c_name').removeClass('input-error');
+            $('#c_hours').removeClass('input-error');
+            $('#c_course_code').removeClass('input-error');
+            $('#c_course_type').removeClass('input-error');
+            $('#c_reference_code').removeClass('input-error');
+            $('#c_description').removeClass('input-error');
+
+            document.getElementById('similarCourseCodeMessage').hidden = true;
+            document.getElementById('search_icon').hidden = true;
+            document.getElementById('ok_icon').hidden = true;
+
+            document.getElementById('similarCourseCodeRefMessage').hidden = true;
+            document.getElementById('ref_search_icon').hidden = true;
+            document.getElementById('ref_ok_icon').hidden = true;
+
+            document.getElementById('add_course').disabled = false;
+
+        });
+
+        $("#EditCourseModal").on("hidden.bs.modal", function () {
+
+            $('#edit_c_name').removeClass('input-error');
+            $('#edit_c_hours').removeClass('input-error');
+            $('#edit_c_course_code').removeClass('input-error');
+            $('#edit_c_course_type').removeClass('input-error');
+            $('#edit_c_reference_code').removeClass('input-error');
+            $('#edit_c_description').removeClass('input-error');
+
+            document.getElementById('edit_similarCourseCodeMessage').hidden = true;
+            document.getElementById('edit_search_icon').hidden = true;
+            document.getElementById('edit_ok_icon').hidden = true;
+
+            document.getElementById('edit_similarCourseCodeRefMessage').hidden = true;
+            document.getElementById('edit_ref_search_icon').hidden = true;
+            document.getElementById('edit_ref_ok_icon').hidden = true;
+
+            document.getElementById('edit_course').disabled = false;
+
+        });
+
 
         function showEditCourseModal(data) {
             document.getElementById('edit_c_id').value = data.c_id;
@@ -166,39 +502,57 @@
         editCourseForm.addEventListener("submit", (e) => {
             e.preventDefault();
             data = $('#editCourseForm').serialize();
-            console.log(data);
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            //console.log(data1);
 
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
+            var if_submit1 = true;
+            var serializedFormData1 = $('#editCourseForm').serialize();
+            var formDataArray1 = serializedFormData1.split('&').map(function(item) {
+                var pair = item.split('=');
+                return { name: pair[0], value: decodeURIComponent(pair[1] || '') };
             });
 
-            // Send an AJAX request
-            $.ajax({
-                //new
-                beforeSend: function(){
-                    $('#EditCourseModal').modal('hide');
-                    $('#LoadingModal').modal('show');
-                },
-                type: 'POST',
-                url: "{{ route('admin.courses.update') }}",
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    $('#EditCourseModal').modal('hide');
-                    $('#showTable').html(response.view);
-                },
-                //new
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+            for (var i = 1; i < formDataArray1.length; i++) {
+                if(formDataArray1[i].value==""){
+                    var x = `#edit_${formDataArray1[i].name}`;
+                    $(`${x}`).addClass('input-error');
+                    if_submit1 = false;
                 }
-            });
+            }
+
+            if(if_submit1){
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                // Send an AJAX request with the CSRF token
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+
+                // Send an AJAX request
+                $.ajax({
+                    //new
+                    beforeSend: function(){
+                        $('#EditCourseModal').modal('hide');
+                        $('#LoadingModal').modal('show');
+                    },
+                    type: 'POST',
+                    url: "{{ route('admin.courses.update') }}",
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#EditCourseModal').modal('hide');
+                        $('#showTable').html(response.view);
+                    },
+                    //new
+                    complete: function(){
+                        $('#LoadingModal').modal('hide');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
 
         });
 
@@ -212,7 +566,7 @@
                 }
             });
 
-            $('#showTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
+            $('#showTable').html('<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>');
 
 
             $.ajax({
@@ -243,5 +597,199 @@
         $('.modal').on('shown.bs.modal', function() {
             $(this).find('[autofocus]').focus();
         });
+
+        function checkCourseCode(data,opp,page){
+
+            if(page=="edit"){
+
+                document.getElementById('edit_ok_icon').hidden = true;
+                document.getElementById('edit_ref_ok_icon').hidden = true;
+
+                if(data!=""){
+
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        }
+                    })
+
+                    $.ajax({
+                        beforeSend: function(){
+                            if(opp=="code"){
+                                document.getElementById('edit_search_icon').hidden = false;
+                            }else{
+                                document.getElementById('edit_ref_search_icon').hidden = false;
+                            }
+
+                        },
+                        url: "{{ route('admin.courses.checkCourseCode') }}",
+                        method: "post",
+                        data: {
+                            'search': data,
+                            'opp': opp,
+                            _token: '{!! csrf_token() !!}',
+                        },
+                        success: function(response) {
+
+                            if(response.data!=null){
+
+
+                                if(opp=="code"){
+                                    document.getElementById('edit_search_icon').hidden = true;
+                                    document.getElementById('edit_ok_icon').hidden = true;
+                                    document.getElementById('edit_similarCourseCodeMessage').hidden = false;
+                                    document.getElementById('edit_course').disabled = true;
+                                    edit_button_code = true;
+                                }else{
+                                    document.getElementById('edit_ref_search_icon').hidden = true;
+                                    document.getElementById('edit_ref_ok_icon').hidden = true;
+                                    document.getElementById('edit_similarCourseCodeRefMessage').hidden = false;
+                                    document.getElementById('edit_course').disabled = true;
+                                    edit_button_ref = true;
+                                }
+
+
+                            }else{
+
+                                if(opp=="code"){
+                                    document.getElementById('edit_similarCourseCodeMessage').hidden = true;
+                                    document.getElementById('edit_search_icon').hidden = true;
+                                    document.getElementById('edit_ok_icon').hidden = false;
+                                    edit_button_code = false;
+                                }else{
+                                    document.getElementById('edit_similarCourseCodeRefMessage').hidden = true;
+                                    document.getElementById('edit_ref_search_icon').hidden = true;
+                                    document.getElementById('edit_ref_ok_icon').hidden = false;
+                                    edit_button_ref = false;
+                                }
+
+                                if(edit_button_code == false && edit_button_ref == false){
+                                    document.getElementById('edit_course').disabled = false;
+                                }
+                            }
+
+                        },
+                        error: function(xhr, status, error) {
+                            alert('error');
+                        }
+                    });
+                }
+                else{
+                    if(opp=="code"){
+                        document.getElementById('edit_similarCourseCodeMessage').hidden = true;
+                        document.getElementById('edit_search_icon').hidden = true;
+                        document.getElementById('edit_ok_icon').hidden = true;
+                    }else{
+                        document.getElementById('edit_similarCourseCodeRefMessage').hidden = true;
+                        document.getElementById('edit_ref_search_icon').hidden = true;
+                        document.getElementById('edit_ref_ok_icon').hidden = true;
+                    }
+
+                    if(edit_button_code == false && edit_button_ref == false){
+                        document.getElementById('edit_course').disabled = false;
+                    }
+
+                }
+
+            }else{
+
+                document.getElementById('ok_icon').hidden = true;
+                document.getElementById('ref_ok_icon').hidden = true;
+
+                if(data!=""){
+
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        }
+                    })
+
+                    $.ajax({
+                        beforeSend: function(){
+                            if(opp=="code"){
+                                document.getElementById('search_icon').hidden = false;
+                            }else{
+                                document.getElementById('ref_search_icon').hidden = false;
+                            }
+
+                        },
+                        url: "{{ route('admin.courses.checkCourseCode') }}",
+                        method: "post",
+                        data: {
+                            'search': data,
+                            'opp': opp,
+                            _token: '{!! csrf_token() !!}',
+                        },
+                        success: function(response) {
+
+                            if(response.data!=null){
+
+
+                                if(opp=="code"){
+                                    document.getElementById('search_icon').hidden = true;
+                                    document.getElementById('ok_icon').hidden = true;
+                                    document.getElementById('similarCourseCodeMessage').hidden = false;
+                                    document.getElementById('add_course').disabled = true;
+                                    add_button_code = true;
+                                }else{
+                                    document.getElementById('ref_search_icon').hidden = true;
+                                    document.getElementById('ref_ok_icon').hidden = true;
+                                    document.getElementById('similarCourseCodeRefMessage').hidden = false;
+                                    document.getElementById('add_course').disabled = true;
+                                    add_button_ref = true;
+                                }
+
+
+                            }else{
+
+                                if(opp=="code"){
+                                    document.getElementById('similarCourseCodeMessage').hidden = true;
+                                    document.getElementById('search_icon').hidden = true;
+                                    document.getElementById('ok_icon').hidden = false;
+                                    add_button_code = false;
+                                }else{
+                                    document.getElementById('similarCourseCodeRefMessage').hidden = true;
+                                    document.getElementById('ref_search_icon').hidden = true;
+                                    document.getElementById('ref_ok_icon').hidden = false;
+                                    add_button_ref = false;
+                                }
+
+                                if(add_button_code == false && add_button_ref == false){
+                                    document.getElementById('add_course').disabled = false;
+                                }
+                            }
+
+                        },
+                        error: function(xhr, status, error) {
+                            alert('error');
+                        }
+                    });
+                }
+                else{
+                    if(opp=="code"){
+                        document.getElementById('similarCourseCodeMessage').hidden = true;
+                        document.getElementById('search_icon').hidden = true;
+                        document.getElementById('ok_icon').hidden = true;
+                    }else{
+                        document.getElementById('similarCourseCodeRefMessage').hidden = true;
+                        document.getElementById('ref_search_icon').hidden = true;
+                        document.getElementById('ref_ok_icon').hidden = true;
+                    }
+
+                    if(add_button_code == false && add_button_ref == false){
+                        document.getElementById('add_course').disabled = false;
+                    }
+
+                }
+            }
+
+        }
+
+
+
     </script>
 @endsection

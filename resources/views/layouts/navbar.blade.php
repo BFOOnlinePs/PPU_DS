@@ -1,8 +1,12 @@
 <div class="page-main-header">
     <div class="main-header-right row m-0">
         <div class="main-header-left">
-            <div class="logo-wrapper"><a href="index.html"><img class="img-fluid"
-                        src="{{ asset('assets/images/logo/logo.png') }}" alt=""></a></div>
+            <div class="logo-wrapper">
+                {{-- <a href="index.html">
+                <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="">
+                </a> --}}
+                <h6 style="margin-bottom: 0px;">كلية الدراسات الثنائية</h6>
+            </div>
             <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid"
                         src="{{ asset('assets/images/logo/dark-logo.png') }}" alt=""></a></div>
             <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"

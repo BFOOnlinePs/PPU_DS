@@ -1,5 +1,5 @@
 <div class="modal fade show" id="AddCourseModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="border: none;">
             <div class="modal-header" style="height: 73px;">
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -7,7 +7,7 @@
                 <div class="modal-body">
                     <div class="row p-3 m-5">
 
-                        <div class="col-md-4 text-center" >
+                        <div class="col-md-4 text-center" style="margin:auto">
 
 
                                 <h1><span class="fa fa-plus" style="text-align: center; font-size:80px; "></span></h1>
@@ -24,46 +24,58 @@
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addCourseForm" action="" method="POST" enctype="multipart/form-data">
                                 @csrf
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3 row">
+                                            <label class="col-lg-12 form-label " for="textinput">اسم المساق<span style="color: red">*</span></label>
+                                            <div class="col-lg-12">
+                                                <input id="c_name" name="c_name" type="text"
+                                                    class="form-control " autofocus oninput="validateInput(this)">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-6">
-
-
-
-                                        <!-- Text input-->
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">اسم المساق</label>
-                                            <div class="col-lg-12">
-                                                <input id="c_name"  tabindex="1" name="c_name" type="text"
-                                                    class="form-control btn-square input-md" autofocus>
+                                            <label class="col-lg-12 form-label " for="textinput">رمز المساق<span style="color: red">*</span></label>
+                                            <div class="input-container">
+                                                <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                                <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
+                                                <input class="form-control" type="text" id="c_course_code" name="c_course_code" onkeyup="checkCourseCode(this.value,'code')" oninput="validateNumInput(this)">
+                                            </div>
 
+                                            <div id="similarCourseCodeMessage" style="color:#dc3545" hidden>
+                                                <span>يوجد مساق بنفس الرمز الذي قمت بادخاله</span>
                                             </div>
                                         </div>
-
-                                        <!-- Text input-->
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">رمز المساق</label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">نوع المساق<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
-                                                <input id="c_course_code" tabindex="3" name="c_course_code" type="text"
-                                                    class="form-control btn-square input-md">
-
+                                            <select id="c_course_type" name="c_course_type" class="form-control btn-square">
+                                                <option selected="" disabled="" value="">--اختيار--</option>
+                                                <option value="0">نظري</option>
+                                                <option value="1">عملي</option>
+                                                <option value="2">نظري - عملي</option>
+                                            </select>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <!-- Text input-->
-                                        {{-- <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">عدد ساعات المساق</label>
-                                            <div class="col-lg-12">
-                                                <input id="c_hours" tabindex="5" name="c_hours" type="text"
-                                                    class="form-control btn-square input-md">
-
-                                            </div>
-                                        </div> --}}
-
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">عدد ساعات المساق</label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">عدد ساعات المساق<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
-                                            <select tabindex="5" id="c_hours" name="c_hours" class="form-control btn-square">
-                                                <option value="0">--عدد ساعات المساق--</option>
+                                            <select id="c_hours" name="c_hours" class="form-control btn-square">
+                                                <option selected="" disabled="" value="">--اختيار--</option>
+                                                <option value="1">0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -72,45 +84,36 @@
                                             </select>
                                             </div>
                                         </div>
-
-
-
-
                                     </div>
                                     <div class="col-md-6">
 
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">نوع المساق</label>
-                                            <div class="col-lg-12">
-                                            <select id="c_course_type" tabindex="2" name="c_course_type" class="form-control btn-square">
-                                                <option value="-1">--نوع المساق--</option>
-                                                <option value="0">نظري</option>
-                                                <option value="1">عملي</option>
-                                                <option value="2">نظري - عملي</option>
-                                            </select>
+                                            <label class="col-lg-12 form-label " for="textinput">الرمز المرجعي للمساق<span style="color: red">*</span></label>
+                                            <div class="input-container">
+                                                <i id="ref_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                                <i id="ref_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
+                                                <input id="c_reference_code" name="c_reference_code" type="text"
+                                                    class="form-control btn-square input-md" oninput="validateEngNumInput(this)" onkeyup="checkCourseCode(this.value,'refCode')">
+                                            </div>
+
+                                            <div id="similarCourseCodeRefMessage" style="color:#dc3545" hidden>
+                                                <span>يوجد مساق بنفس الرمز المرجعي الذي قمت بادخاله</span>
                                             </div>
                                         </div>
 
+                                    </div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">وصف المساق</label>
+                                            <label class="col-lg-12 form-label " for="textinput">وصف المساق<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
-                                                <input id="c_description" tabindex="4" name="c_description" type="text"
-                                                    class="form-control btn-square input-md">
-
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">الرمز المرجعي للمساق</label>
-                                            <div class="col-lg-12">
-                                                <input id="c_reference_code" tabindex="6" name="c_reference_code" type="text"
-                                                    class="form-control btn-square input-md">
-
+                                                <textarea id="c_description" name="c_description" type="text"
+                                                    class="form-control btn-square input-md" rows="6"></textarea>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
 
 
@@ -119,7 +122,7 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary">إضافة مساق</button>
+                    <button type="submit" class="btn btn-primary" id="add_course">إضافة مساق</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
                 </div>
             </form>

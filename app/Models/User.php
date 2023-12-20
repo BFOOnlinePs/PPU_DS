@@ -89,4 +89,27 @@ class User extends Authenticatable
     public function companyManager(){
         return $this->hasOne(Company::class, 'c_manager_id','u_id');
     }
+
+    public function paymentStudent()
+    {
+        return $this->hasMany(Payment::class, 'p_student_id', 'u_id');
+    }
+    public function paymentUser()
+    {
+        return $this->hasMany(Payment::class, 'p_inserted_by_id', 'u_id');
+    }
+
+    public function studentAttendances(){
+        return $this->hasMany(StudentAttendance::class, 'sa_student_id', 'u_id');
+    }
+
+    public function studentReports(){
+        return $this->hasMany(StudentReport::class, 'sr_student_id', 'u_id');
+    }
+    public function assistants(){
+        return $this->hasMany(SupervisorAssistant::class, 'sa_assistant_id', 'u_id');
+    }
+    public function supervisors(){
+        return $this->hasMany(SupervisorAssistant::class, 'sa_supervisor_id', 'u_id');
+    }
 }

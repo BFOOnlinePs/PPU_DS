@@ -17,6 +17,8 @@ class StudentReport extends Model
         'sr_student_id',
         'sr_report_text',
         'sr_attached_file',
+        'sr_notes',
+        'sr_notes_company',
         'sr_submit_longitude',
         'sr_submit_latitude'
     ];
@@ -24,6 +26,16 @@ class StudentReport extends Model
     public function attendance()
     {
         return $this->belongsTo(StudentAttendance::class, 'sr_student_attendance_id', 'sa_id');
+    }
+
+    public function reportAttendance()
+    {
+        return $this->belongsTo(StudentAttendance::class, 'sr_student_attendance_id', 'sa_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sr_student_id', 'u_id');
     }
 
 }

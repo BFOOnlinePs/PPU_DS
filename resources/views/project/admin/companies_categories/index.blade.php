@@ -13,6 +13,11 @@
 @endsection
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+<style>
+    .input-error {
+        border-color: #d22d3d;
+    }
+</style>
 @endsection
 @section('content')
     <div>
@@ -22,10 +27,18 @@
 
     <div class="card" style="padding-left:0px; padding-right:0px;">
         <div class="card-body">
+
+            <div class="form-outline" id="showSearch" hidden>
+                <input type="search" onkeyup="companies_categories_search(this.value)" class="form-control mb-2" placeholder="البحث"
+                    aria-label="Search" />
+            </div>
+            @if(!$data->isEmpty())
             <div class="form-outline">
                 <input type="search" onkeyup="companies_categories_search(this.value)" class="form-control mb-2" placeholder="البحث"
                     aria-label="Search" />
             </div>
+            @endif
+
             <div id="showTable">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
@@ -37,20 +50,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($data->isEmpty())
+                                @if ($data->isEmpty())
                                 <tr>
-                                    <td colspan="3" class="text-center"><span>لا توجد بيانات</span></td>
+                                    <td colspan="2" class="text-center"><span>لا توجد بيانات</span></td>
                                 </tr>
                                 @else
-                                @foreach ($data as $key)
-                                <tr>
-                                    <td>{{ $key->cc_name }}</td>
-                                    <td>
-                                        <button onclick="editCompaniesCategories({{ $key }})" class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @endif
+                                    @foreach ($data as $key)
+                                    <tr>
+                                        <td>{{ $key->cc_name }}</td>
+                                        <td>
+                                            <button onclick="editCompaniesCategories({{ $key }})" class="btn btn-info" ><i class="fa fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                         </tbody>
                     </table>
                 </div>
@@ -67,33 +80,66 @@
 
     <script>
         document.getElementById("CompaniesCategories").addEventListener("submit", (e) => {
+
             e.preventDefault();
-           data =$('#CompaniesCategories').serialize();
-           var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
+            if(document.getElementById("cc_name").value == ""){
+                $('#cc_name').addClass('input-error');
+            }else{
+                categories = {!! json_encode($data, JSON_HEX_APOS) !!};
+                categoriesLength = categories.length;
 
-            $('#AddCompaniesCategoriesModal').modal('hide');
-            $('#LoadingModal').modal('show');
-           // Send an AJAX request
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('admin.companies_categories.create') }}",
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    $('#LoadingModal').modal('hide');
-                    $('#showTable').html(response.view);
-                },
-                error: function(xhr, status, error) {
-                    console.error("error"+error);
-                }
-            });
+
+                data =$('#CompaniesCategories').serialize();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                // Send an AJAX request with the CSRF token
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+
+                $('#AddCompaniesCategoriesModal').modal('hide');
+                $('#LoadingModal').modal('show');
+                // Send an AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('admin.companies_categories.create') }}",
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+                        if(categoriesLength==0){
+                            document.getElementById('showSearch').hidden = false;
+                        }
+                        $('#LoadingModal').modal('hide');
+                        $('#showTable').html(response.view);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("error"+error);
+                    }
+                });
+            }
+
+
+    });
+
+    $('#cc_name').on('focus', function() {
+    	$('#cc_name').removeClass('input-error');
+    });
+    $('#edit_cc_name').on('focus', function() {
+    	$('#edit_cc_name').removeClass('input-error');
+    });
+
+    $("#AddCompaniesCategoriesModal").on("hidden.bs.modal", function () {
+            document.getElementById('cc_name').value = "";
+
+            $('#cc_name').removeClass('input-error');
+
+    });
+
+    $("#EditCompaniesCategoriesModal").on("hidden.bs.modal", function () {
+            $('#edit_cc_name').removeClass('input-error');
     });
 
     function editCompaniesCategories(data){
@@ -103,33 +149,39 @@
     }
 
     document.getElementById("EditCompaniesCategories").addEventListener("submit", (e) => {
-            e.preventDefault();
-           data =$('#EditCompaniesCategories').serialize();
-           var csrfToken = $('meta[name="csrf-token"]').attr('content');
+           e.preventDefault();
 
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
+           if(document.getElementById("cc_name").value == ""){
+                $('#edit_cc_name').addClass('input-error');
+            }else{
 
-            $('#EditCompaniesCategoriesModal').modal('hide');
-            $('#LoadingModal').modal('show');
-           // Send an AJAX request
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('admin.companies_categories.update') }}",
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    $('#LoadingModal').modal('hide');
-                    $('#showTable').html(response.view);
-                },
-                error: function(xhr, status, error) {
-                    console.error("error"+error);
-                }
-            });
+                data =$('#EditCompaniesCategories').serialize();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                // Send an AJAX request with the CSRF token
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+
+                $('#EditCompaniesCategoriesModal').modal('hide');
+                $('#LoadingModal').modal('show');
+                // Send an AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('admin.companies_categories.update') }}",
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#LoadingModal').modal('hide');
+                        $('#showTable').html(response.view);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("error"+error);
+                    }
+                });
+            }
     });
 
     function companies_categories_search(data) {
@@ -139,7 +191,7 @@
                     'X-CSRF-TOKEN': csrfToken
                 }
             });
-            $('#showTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
+            $('#showTable').html('<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>');
             $.ajax({
                 url: "{{ route('admin.companies_categories.companies_categories_search') }}", // Replace with your own URL
                 method: "post",

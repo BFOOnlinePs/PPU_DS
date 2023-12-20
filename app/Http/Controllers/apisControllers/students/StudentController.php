@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\apisControllers\students;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\StudentCompany;
 use App\Models\User;
@@ -13,63 +14,40 @@ class StudentController extends Controller
     // the companies that student registered in for trainings / current student
     public function index()
     {
-        $companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-            ->with('company')
-            ->with(['userMentorTrainer' => function ($query) {
-                $query->select('u_id', 'name');
-            }])
-            ->with(['userAssistant' => function ($query) {
-                $query->select('u_id', 'name');
-            }])
+        $student_id = auth()->user()->u_id;
+
+
+        $user = User::where('u_id', $student_id)->where('u_role_id', 2)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                "message" => 'رقم الطالب غير موجود',
+            ]);
+        }
+
+        $trainings = StudentCompany::where('sc_student_id', $student_id)
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        // ->with(['companyBranch.manager' => function ($query) {
-        //     $query->select('u_id', 'name');
-        // }])
-
-        if ($companies->isEmpty()) {
+        if ($trainings->isEmpty()) {
             return response()->json([
+                'status' => false,
                 'message' => 'لا يوجد تسجيل للطالب في اي شركة حاليا'
             ], 200);
         }
 
-        // in future:
-        // $companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-        //     ->with(['company', 'companyBranch.manager'])
-        //     ->get()
-        //     ->map(function ($item) {
-        //         return [
-        //             'sc_id' => $item->sc_id,
-        //             'sc_student_id' => $item->sc_student_id,
-        //             'sc_company_id' => $item->sc_company_id,
-        //             'created_at' => $item->created_at,
-        //             'updated_at' => $item->updated_at,
-        //             'company' => [
-        //                 'c_id' => $item->company->c_id,
-        //                 'c_name' => $item->company->c_name,
-        //                 'created_at' => $item->company->created_at,
-        //                 'updated_at' => $item->company->updated_at,
-        //             ],
-        //             'company_branch' => [
-        //                 'b_id' => $item->companyBranch->b_id,
-        //                 'manager' => [
-        //                     'u_id' => $item->companyBranch->manager->u_id,
-        //                     'name' => $item->companyBranch->manager->name,
-        //                 ],
-        //             ],
-        //         ];
-        //     });
+        // add company name, branch address, mentor name, and assistant name for each training object
+        $trainings = $trainings->map(function ($training) {
+            $training->company_name = Company::where('c_id', $training->sc_company_id)->pluck('c_name')->first();
+            $training->branch_name = CompanyBranch::where('b_id', $training->sc_branch_id)->pluck('b_address')->first();
+            $training->mentor_trainer_name = User::where('u_id', $training->sc_mentor_trainer_id)->pluck('name')->first();
+            $training->assistant_name = User::where('u_id', $training->sc_assistant_id)->pluck('name')->first();
+            return $training;
+        });
 
 
-        //i will change it when we need it
-        // $selectedCompanyInfo = $companies->map(function ($company) {
-        //     return [
-        //         'c_id' => $company['c_id'],
-        //         'c_name' => $company['c_name'],
-        //         'c_website' => $company['c_website'],
-        //     ];
-        // });
-        return response()->json(['student_companies' => $companies], 200);
+        return response()->json(['student_companies' => $trainings], 200);
     }
 }
 

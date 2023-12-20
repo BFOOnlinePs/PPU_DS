@@ -23,26 +23,29 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                            <label class="from-control digits"></label>
                             <select autofocus class="js-example-basic-single col-sm-12" id="sc_id">
                                 @if (isset($student_company->company->c_name))
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | القسم : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 <option value="">جميع الشركات</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | القسم : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @else
                                 <option value="">جميع الشركات</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | الدائرة : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | القسم : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @endif
                             </select>
                         </div>
 
                         <div class="col-md-3">
+                                <label class="from-control digits">من:</label>
                                 <input type="date" class="form-control digits" id="from">
                             </div>
                             <div class="col-md-3">
+                                <label class="from-control digits">إلى:</label>
                                 <input type="date" class="form-control digits" id="to">
                             </div>
                         </div>
@@ -88,6 +91,7 @@
                         'to': to
                     },
                     success: function (data) {
+                        console.log("ajax success");
                         nextPageUrl = data.nextPageUrl;
                         if(data.html == '') {
                             document.getElementById('error').style.display = '';
@@ -116,11 +120,36 @@
                 nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
                 loadMoreStudentAttendances();
             });
-            $('#to, #from').change(function () {
-                // Your action when the date changes goes here
+            /*
+            *   This function helps delay the execution of another function until a certain
+            *   amount of time has passed since the last invocation of the debounced function.
+            */
+            function debounce(func, delay) {
+                let timer;
+                return function () {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(() => {
+                        func.apply(context, args);
+                    }, delay);
+                };
+            }
+
+            // Wrap the function that triggers the AJAX call with debounce
+            const debouncedLoadMoreAttendances = debounce(loadMoreStudentAttendances, 500);
+
+            // Event listeners using the debounced function
+            $('#from').change(function () {
                 $('table tbody').empty();
                 nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
-                loadMoreStudentAttendances();
+                debouncedLoadMoreAttendances();
+            });
+
+            $('#to').change(function () {
+                $('table tbody').empty();
+                nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
+                debouncedLoadMoreAttendances();
             });
             // Scroll event listener for loading more data
             $(window).scroll(function () {

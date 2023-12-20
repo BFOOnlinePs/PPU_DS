@@ -8,15 +8,14 @@ use App\Models\Course;
 
 class CoursesController extends Controller
 {
-    //
-    public function index()
-    {
-        $data = Course::get();
-        return view('project.admin.courses.index',['data'=>$data]);
+
+    public function index(){
+        $numOfDataPerPage = 10;
+        $data = Course::paginate($numOfDataPerPage);
+        return view('project.admin.courses.index',['data'=>$data,'total'=>$data->total(), 'per_page'=>$numOfDataPerPage,'last_page'=>$data->lastPage()]);
     }
 
-    public function create(Request $request)
-    {
+    public function create(Request $request){
         $data = new Course;
         $data->c_name = $request->c_name;
         $data->c_course_code = $request->c_course_code;
@@ -26,10 +25,12 @@ class CoursesController extends Controller
         $data->c_reference_code	 =$request->c_reference_code;
 
         if ($data->save()) {
-            $data = Course::get();
+            //$data = Course::get();
+            $numOfDataPerPage = 10;
+            $data = Course::paginate($numOfDataPerPage);
             return response()->json([
                 'success'=>'true',
-                'view'=>view('project.admin.courses.ajax.courseList',['data'=>$data])->render()
+                'view'=>view('project.admin.courses.ajax.courseList',['data'=>$data,'total'=>$data->total(), 'per_page'=>$numOfDataPerPage,'last_page'=>$data->lastPage()])->render()
             ]);
         }
     }
@@ -46,7 +47,9 @@ class CoursesController extends Controller
 
 
         if ($data->save()) {
-            $data = Course::get();
+            // $data = Course::get();
+            $numOfDataPerPage = 10;
+            $data = Course::paginate($numOfDataPerPage);
             return response()->json([
                 'success'=>'true',
                 'view'=>view('project.admin.courses.ajax.courseList',['data'=>$data])->render()
@@ -64,4 +67,58 @@ class CoursesController extends Controller
         ]);
 
     }
+
+    public function checkCourseCode(Request $request){
+
+
+
+        $opp = $request->opp;
+
+        if($opp == 'code'){
+            $data = Course::where('c_course_code',$request->search)->first();
+            if($data!=null){
+
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+
+            }else{
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+            }
+        }else{
+            $data = Course::where('c_reference_code',$request->search)->first();
+            if($data!=null){
+
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+
+            }else{
+                return response()->json([
+                    'success'=>'true',
+                    'data'=>$data
+                ]);
+            }
+        }
+
+
+    }
+
+    public function getCourses(Request $request)
+    {
+        $results = Course::orderBy('c_id')->paginate(10);
+
+        return response()->json([
+                'success'=>'true',
+                'data'=>$results,
+                'current_page'=>$results->currentPage(),
+        ]);
+
+    }
+
 }

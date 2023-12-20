@@ -10,9 +10,9 @@ use App\Models\MajorSupervisor;
 
 class MajorsController extends Controller
 {
-      
 
-   
+
+
     public function index()
     {
         $data = Major::with('majorSupervisors.users')->get();
@@ -34,7 +34,7 @@ class MajorsController extends Controller
 
             ]);
         }
-        
+
     }
     public function addSuperVisor(Request $request){
        $superVisor=$request->superVisor;
@@ -53,11 +53,11 @@ class MajorsController extends Controller
           'success'=>'true',
           'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data, 'superVisors'=>$superVisors ,'majorSuper'=>$majorSuper])->render()
       ]);
-       
-        
+
+
     }
     public function updateSuperVisor(Request $request){
-        $superVisor=$request->superVisor;  
+        $superVisor=$request->superVisor;
         $majorSuperVisor= MajorSupervisor::where('ms_major_id',$request->selected_m_id)->get();
         $majorSuperVisor1 = MajorSupervisor::where('ms_major_id', $request->selected_m_id)->pluck('ms_super_id')->toArray();
         $collection1 = collect($superVisor);
@@ -69,12 +69,12 @@ class MajorsController extends Controller
             for($i = 0 ; $i<count($uniqueCollection1); $i++)
             if($uniqueCollection1[$i] != $majorSuperVisor1[$i])
             {
-            $majorSuperVisor[$i]->ms_super_id=$uniqueCollection1[$i];  
+            $majorSuperVisor[$i]->ms_super_id=$uniqueCollection1[$i];
             $user=User::where('u_id',$uniqueCollection1[$i])->first();
             $user->u_major_id=$request->selected_m_id;
             $majorSuperVisor[$i]->save();
             $user->save();
-          
+
         }
     }
     else {
@@ -86,20 +86,20 @@ class MajorsController extends Controller
                         $user->u_major_id=$request->selected_m_id;
                         $majorSuperVisor->save();
                         $user->save();
-                    
+
                             }
                             for($i = 0 ; $i<count($uniqueCollection2) ; $i++)
                                 {
                                     $majorSuperVisor3 = MajorSupervisor::where('ms_major_id', $request->selected_m_id)
                                     ->where('ms_super_id', $uniqueCollection2[$i])
                                     ->get();
-                                
-                            $majorSuperVisor3[$i]->delete(); 
-                            
+
+                            $majorSuperVisor3[$i]->delete();
+
                                 }
 
     }
-       
+
              $data = Major::with('majorSupervisors.users')->get();
              $superVisors=User::where('u_role_id',3)->where('u_status',1)->get();
              return response()->json([
@@ -107,8 +107,8 @@ class MajorsController extends Controller
                    'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data, 'superVisors'=>$superVisors ,'majorSuper'=>$majorSuper])->render()
                ]);
 
-      
-        
+
+
     }
     public function update(Request $request){
         $major = Major::Where('m_id',$request->m_id)->first();
@@ -117,16 +117,17 @@ class MajorsController extends Controller
         $major->m_reference_code=$request->m_reference_code;
         if ($major->save()) {
             $data = Major::with('majorSupervisors.users')->get();
-            $superVisors=User::where('u_role_id',3)->where('u_status',1)->get();
+            $superVisors=User::where('u_role_id',3)->get();
+            $majorSuper = MajorSupervisor::with('users')->get();
             return response()->json([
                 'success'=>'true',
-                'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data , 'superVisors'=>$superVisors  ,'majorSuper'=>$majorSuper])->render()
+                'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data, 'superVisors'=>$superVisors ,'majorSuper'=>$majorSuper])->render()
             ]);
         }
-        
+
     }
     public function search(Request $request){
-       
+
        // $data = Major::where('m_name','like','%'.$request->search.'%')->get();
         $data = Major::with('majorSupervisors.users')->where('m_name','like','%'.$request->search.'%')->get();
         $superVisors=User::where('u_role_id',3)->where('u_status',1)->get();
@@ -135,6 +136,14 @@ class MajorsController extends Controller
             'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data,'superVisors'=>$superVisors])->render()
         ]);
 
+    }
+
+    function checkMajorCode(Request $request){
+        $data = Major::where('m_reference_code',$request->search)->first();
+        return response()->json([
+            'success'=>'true',
+            'data'=>$data
+        ]);
     }
 
 }
