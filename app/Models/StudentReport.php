@@ -17,6 +17,8 @@ class StudentReport extends Model
         'sr_student_id',
         'sr_report_text',
         'sr_attached_file',
+        'sr_notes',
+        'sr_notes_company',
         'sr_submit_longitude',
         'sr_submit_latitude'
     ];
