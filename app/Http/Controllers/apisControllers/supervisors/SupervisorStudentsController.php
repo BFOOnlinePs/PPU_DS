@@ -36,6 +36,7 @@ class SupervisorStudentsController extends Controller
     }
 
 
+    // for log of all supervisors students
     public function getAllSupervisorStudentsAttendanceLog()
     {
         $supervisorId = auth()->user()->u_id;
