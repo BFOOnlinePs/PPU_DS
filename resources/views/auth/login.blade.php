@@ -113,13 +113,21 @@
                   <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
                     <input id="email" class="form-control " name="email" type="email" required="" placeholder="Test@gmail.com" value="" autocomplete="email" autofocus="">
                                       </div>
+                    @error('email')
+                    <span class="text-danger">{{$message}}</span>
+
+                @enderror
                 </div>
+
                 <div class="form-group">
                   <label>كلمة المرور</label>
                   <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
                     <input id="password" class="form-control " type="password" name="password" required="" placeholder="*********" autocomplete="current-password">
                                         <div class="show-hide"><span class="show">                         </span></div>
                   </div>
+                  @error('password')
+                {{$message}}
+            @enderror
                 </div>
 
 
