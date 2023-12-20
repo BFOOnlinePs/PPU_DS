@@ -18,7 +18,9 @@ use App\Models\StudentCompany;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MajorSupervisor;
 use App\Models\Payment;
+use App\Models\SemesterCourse;
 use App\Models\StudentReport;
+use App\Models\SupervisorAssistant;
 use Carbon\Carbon;
 class UserController extends Controller
 {
@@ -115,7 +117,8 @@ class UserController extends Controller
                                             ->pluck('ms_major_id')
                                             ->toArray();
             $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
-            return response()->json(['html' => $html , 'majors' => $majors]);
+            $supervisor_assistants = User::where('u_role_id' , 4)->get();
+            return response()->json(['html' => $html , 'majors' => $majors , 'supervisor_assistants' => $supervisor_assistants]);
         }
     }
     public function supervisor_major_add(Request $request)
@@ -131,7 +134,8 @@ class UserController extends Controller
                                             ->pluck('ms_major_id')
                                             ->toArray();
             $majors = Major::whereNotIn('m_id', $supervisor_majors_id)->get();
-            return response()->json(['html' => $html , 'majors' => $majors]);
+            $supervisor_assistants = User::where('u_role_id' , 4)->get();
+            return response()->json(['html' => $html , 'majors' => $majors , 'supervisor_assistants' => $supervisor_assistants]);
         }
     }
     public function student_payments($id)
@@ -259,7 +263,10 @@ class UserController extends Controller
                                             ->where('r_year' , $system_setting->ss_year)
                                             ->pluck('r_course_id')
                                             ->toArray();
-            $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+            $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                                                ->pluck('sc_course_id')
+                                                ->toArray();
+            $courses = Course::whereIn('c_id' , $semester_courses)->get();
             return response()->json(['html' => $html , 'courses' => $courses]);
         }
     }
@@ -290,7 +297,10 @@ class UserController extends Controller
                                             ->where('r_year' , $system_setting->ss_year)
                                             ->pluck('r_course_id')
                                             ->toArray();
-            $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+            $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                                                ->pluck('sc_course_id')
+                                                ->toArray();
+            $courses = Course::whereIn('c_id' , $semester_courses)->get();
             $modal = view('project.admin.users.modals.add_courses_student' , ['courses' => $courses])->render();
 
             return response()->json(['html' => $html , 'modal' => $modal]);
@@ -305,7 +315,10 @@ class UserController extends Controller
                                         ->where('r_year' , $system_setting->ss_year)
                                         ->pluck('r_course_id')
                                         ->toArray();
-        $courses = Course::whereNotIn('c_id' , $r_course_id)->get();
+        $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                                            ->pluck('sc_course_id')
+                                            ->toArray();
+        $courses = Course::whereIn('c_id' , $semester_courses)->get();
 
         $data = Registration::where('r_student_id' , $id)
                                 ->where('r_semester' , $system_setting->ss_semester_type)
@@ -316,7 +329,14 @@ class UserController extends Controller
     public function details($id)
     {
         $user = User::find($id);
-        return view('project.admin.users.details' , ['user' => $user]);
+        $company_id = Company::where('c_manager_id' , $id)
+                                ->pluck('c_id')
+                                ->toArray();
+        $company = Company::where('c_manager_id' , $id)->first();
+        $students = StudentCompany::whereIn('sc_company_id', $company_id)
+                                    ->where('sc_status' , 1)
+                                    ->get();
+        return view('project.admin.users.details' , ['user' => $user , 'students' => $students , 'company' => $company]);
     }
     public function search(Request $request)
     {
@@ -422,7 +442,14 @@ class UserController extends Controller
         $data = User::with('role')->get();
         $roles = Role::all();
         $major = Major::all();
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => null , 'major' => $major , 'role_name' => null]);
+
+        return view('project.admin.users.index', [
+            'data' => $data,
+            'roles' => $roles,
+            'u_role_id' => null,
+            'major' => $major,
+            'role_name' => null
+        ]);
     }
     public function create(Request $request)
     {
@@ -490,5 +517,20 @@ class UserController extends Controller
         else {
             return response()->json(['status' => 'false']);
         }
+    }
+    public function searchStudentByName(Request $request)
+    {
+        $users = User::where('name', 'like', '%' . $request->value . '%')
+                        ->pluck('u_id')
+                        ->toArray();
+        $company_id = Company::where('c_manager_id' , $request->user_id)
+                                ->pluck('c_id')
+                                ->toArray();
+        $students = StudentCompany::whereIn('sc_company_id', $company_id)
+                                    ->whereIn('sc_student_id' , $users)
+                                    ->where('sc_status' , 1)
+                                    ->get();
+        $html = view('project.admin.users.includes.student' , ['students' => $students])->render();
+        return response()->json(['html' => $html]);
     }
 }

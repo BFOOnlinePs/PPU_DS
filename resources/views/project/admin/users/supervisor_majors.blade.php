@@ -79,6 +79,7 @@
             e.preventDefault();
             let user_id = document.getElementById('u_id').value;
             let major_id = document.getElementById('select-majors').value;
+            let assistant_id = document.getElementById('select-assistant').value;
             $.ajax({
                 beforeSend: function(){
                     $('#AddMajorModal').modal('hide');
@@ -91,7 +92,8 @@
                 },
                 data: {
                     'user_id' : user_id,
-                    'major_id' : major_id
+                    'major_id' : major_id,
+                    'assistant_id' : assistant_id
                 },
                 success: function(response) {
                     var selectMajors = document.getElementById('select-majors');

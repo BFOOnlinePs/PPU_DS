@@ -132,7 +132,7 @@
                     $('#user-table').html(response.html);
                 },
                 error: function() {
-                    alert('Error fetching user data.');
+                    
                 }
             });
         }
