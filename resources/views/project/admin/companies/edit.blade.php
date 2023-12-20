@@ -462,7 +462,7 @@ for(i=0 ; i< branches.length ; i++){
 console.log("hi")
 console.log(multiselect);
          var options = departments;
-         var selectedOptions=$('#departments1').val();
+        //  var selectedOptions=$('#departments1').val();
 
          for (var r = 0; r < options.length; r++) {
             
@@ -470,7 +470,7 @@ console.log(multiselect);
                     option.text = options[r].d_name;
                     console.log("f")
                     console.log(options[r])
-                    option.value =  options[r].d_id;
+                    option.value =  r;
                    // option.selected=true;
                     multiselect.add(option);
          }
