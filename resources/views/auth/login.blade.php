@@ -14,26 +14,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
-    <!-- Font Awesome-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/fontawesome.css">
-    <!-- ico-font-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/icofont.css">
-    <!-- Themify icon-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/themify.css">
-    <!-- Flag icon-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/flag-icon.css">
-    <!-- Feather icon-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/feather-icon.css">
-    <!-- Plugins css start-->
-    <!-- Plugins css Ends-->
-    <!-- Bootstrap css-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/bootstrap.css">
-    <!-- App css-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/style.css">
-    <link id="color" rel="stylesheet" href="http://localhost/befound/PPU_DS/public/assets/css/color-1.css" media="screen">
-    <!-- Responsive css-->
-    <link rel="stylesheet" type="text/css" href="http://localhost/befound/PPU_DS/public/assets/css/responsive.css">
-    <style>
+<!-- Font Awesome-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/fontawesome.css')}}">
+<!-- ico-font-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/icofont.css')}}">
+<!-- Themify icon-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/themify.css')}}">
+<!-- Flag icon-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/flag-icon.css')}}">
+<!-- Feather icon-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/feather-icon.css')}}">
+<!-- Plugins css start-->
+<!-- Plugins css Ends-->
+<!-- Bootstrap css-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.css')}}">
+<!-- App css-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
+<link id="color" rel="stylesheet" href="{{asset('assets/css/color-1.css')}}" media="screen">
+<!-- Responsive css-->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive.css')}}">    <style>
         .column {
             display: flex;
             flex-direction: column;
@@ -86,7 +85,7 @@
 <div class="column">
         <h1 class="text">الدراسات الثنائية</h1>
         <h3 class="text">جامعة بوليتكنك فلسطين</h3>
-        <img class="photo" src="http://localhost/befound/PPU_DS/public/assets/images/ds-ppu.png" alt="Centered Photo">
+        <img class="photo" src="{{ asset('assets/images/ds-ppu.png') }}" alt="Centered Photo">
         <br>
 </div>
 
@@ -146,23 +145,22 @@
     </section>
     <!-- page-wrapper end-->
     <!-- latest jquery-->
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="{{asset('assets/js/jquery-3.5.1.min.js')}}"></script>
     <!-- feather icon js-->
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/icons/feather-icon/feather.min.js"></script>
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/icons/feather-icon/feather-icon.js"></script>
+    <script src="{{asset('assets/js/icons/feather-icon/feather.min.js')}}"></script>
+    <script src="{{asset('assets/js/icons/feather-icon/feather-icon.js')}}"></script>
     <!-- Sidebar jquery-->
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/sidebar-menu.js"></script>
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/config.js"></script>
+    <script src="{{asset('assets/js/sidebar-menu.js')}}"></script>
+    <script src="{{asset('assets/js/config.js')}}"></script>
     <!-- Bootstrap js-->
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/bootstrap/popper.min.js"></script>
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/bootstrap/bootstrap.min.js"></script>
+    <script src="{{asset('assets/js/bootstrap/popper.min.js')}}"></script>
+    <script src="{{asset('assets/js/bootstrap/bootstrap.min.js')}}"></script>
     <!-- Plugins JS start-->
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
-    <script src="http://localhost/befound/PPU_DS/public/assets/js/script.js"></script>
+    <script src="{{asset('assets/js/script.js')}}"></script>
     <!-- login js-->
     <!-- Plugin used-->
-
 
 
 </body></html>
