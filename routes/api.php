@@ -4,13 +4,20 @@ use App\Http\Controllers\apisController\students\StudentAttendanceController;
 use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
+use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
+use App\Http\Controllers\apisControllers\students\StudentCoursesController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
 use App\Http\Controllers\apisControllers\students\studentReportController;
+use App\Http\Controllers\apisControllers\students\studentTrainingsController;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
+use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Models\StudentCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -71,9 +78,34 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getTraineeAttendanceLog', [CompanyTrainees::class, 'getTraineeAttendanceLog']);
     Route::post('getTraineeReportsLog', [CompanyTrainees::class, 'getTraineeReportsLog']);
 
-
     Route::get('getAllTraineesAttendanceLog', [CompanyTrainees::class, 'getAllTraineesAttendanceLog']);
     Route::get('getAllTraineesReportsLog', [CompanyTrainees::class, 'getAllTraineesReportsLog']);
+
+    Route::post('managerAddOrEditReportNote', [ManagerNotes::class, 'managerAddOrEditReportNote']);
+    // Route::post('managerEditNote', [ManagerNotes::class, 'managerEditNote']);
+
+
+    // Supervisor
+    Route::get('getSupervisorsMajors', [SupervisorMajorsController::class, 'getSupervisorsMajors']);
+    Route::post('getSupervisorStudentsDependOnMajor', [SupervisorStudentsController::class, 'getSupervisorStudentsDependOnMajor']);
+    Route::post('getStudentInfo', [SupervisorStudentsController::class, 'getStudentInfo']);
+    Route::post('supervisorAddOrEditReportNote', [SupervisorNotesController::class, 'supervisorAddOrEditReportNote']);
+    Route::get('getAllSupervisorStudentsAttendanceLog', [SupervisorStudentsController::class, 'getAllSupervisorStudentsAttendanceLog']);
+
+    // student courses
+    Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']);
+    Route::post('addStudentCourse', [StudentCoursesController::class, 'addStudentCourse']);
+    Route::post('deleteStudentCourse', [StudentCoursesController::class, 'deleteStudentCourse']);
+    Route::post('availableCoursesForStudent', [StudentCoursesController::class, 'availableCoursesForStudent']);
+
+
+    // student trainings
+    Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
+
+    // courses
+    Route::get('availableCourses', [sharedController::class, 'availableCourses']);
+
+
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

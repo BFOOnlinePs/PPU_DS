@@ -121,28 +121,32 @@
     /* padding-top: 50px; */
     padding-top: 40px;
 ">
-                            @csrf
-                            <h4>تسجيل الدخول</h4>
-                            <h6></h6>
-                            <div class="form-group">
-                                <label>البريد الإلكتروني</label>
-                                <div class="input-group"><span class="input-group-text"><i
-                                            class="icon-email"></i></span>
-                                    <input id="email" class="form-control " name="email" type="email"
-                                        required="" placeholder="Test@gmail.com" value="" autocomplete="email"
-                                        autofocus="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>كلمة المرور</label>
-                                <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
-                                    <input id="password" class="form-control " type="password" name="password"
-                                        required="" placeholder="*********" autocomplete="current-password">
-                                    <div class="show-hide"><span class="show"> </span></div>
-                                </div>
-                            </div>
+                @csrf
+                <h4>تسجيل الدخول</h4>
+                <h6></h6>
+                <div class="form-group">
+                  <label>البريد الإلكتروني</label>
+                  <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
+                    <input id="email" class="form-control " name="email" type="email" required="" placeholder="Test@gmail.com" value="" autocomplete="email" autofocus="">
+                                      </div>
+                    @error('email')
+                    <span class="text-danger">{{$message}}</span>
 
-                            <div class="mt-2">
+                @enderror
+                </div>
+
+                <div class="form-group">
+                  <label>كلمة المرور</label>
+                  <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
+                    <input id="password" class="form-control " type="password" name="password" required="" placeholder="*********" autocomplete="current-password">
+                                        <div class="show-hide"><span class="show">                         </span></div>
+                  </div>
+                  @error('password')
+                {{$message}}
+            @enderror
+                </div>
+
+<div class="mt-2">
                                 <div class="div p-1 ">
                                     <button onclick="login('admin@gmail.com','123456789')" type="button" class="btn text-white btn-info btn-sm form-control">ادمن</button>
                                 </div>
@@ -163,21 +167,10 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary" style="margin-left: 0px;">
-                                    تسجيل الدخول
-                                </button>
-                            </div>
-
-
-
-
-
-
-                            <!--edit later (language section in login page)-->
-
-                        </form>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary" style="margin-left: 0px;">
+                        تسجيل الدخول
+                    </button>
                 </div>
             </div>
         </div>
