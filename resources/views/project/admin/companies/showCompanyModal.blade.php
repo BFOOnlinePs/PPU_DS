@@ -63,21 +63,12 @@
       padding-left: 30px; /* Add padding to the left of the input to make room for the icon */
       width: 100%; /* Make the input take up the full width of the container */
     }
-    .c_name{
-      position: absolute;
-      top: 20px; /* Adjust the top position as needed */
-      right: 40px; /* Adjust the left position as needed */
-      padding-bottom:10px;
-      margin-bottom: 5px; /* Remove default margin-bottom */
-      }
 </style>
 
 @endsection
 @section('content')
 
-<div class="card" style="padding-left:0px; padding-right:0px; padding-top:0px">
-<div style="position: absolute; top: 10px; right: 40px;"> <h2>{{$company->c_name}}</h2></div>
-<!-- <h3 class="c_name"> {{$company->c_name}}</h3> -->
+<div class="card" style="padding-left:0px; padding-right:0px;">
 
     {{-- <div class="card-header pb-0">
         <h1>إضافة شركة</h1>
@@ -92,42 +83,43 @@
         <div>
 
         </div>
-        <div class="f1"  id="companyForm">
+        <form class="f1" method="post" id="companyForm">
             <div class="f1-steps">
                 <div class="f1-progress">
                     <div class="f1-progress-line"></div>
                 </div>
-                
-                <div class="f1-step"onclick="info()">
-                    <div class="f1-step-icon"><i class="fa fa-file-text-o" ></i></div>
+                <div class="f1-step active">
+                    <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                    <p>المستخدم</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-file-text-o"></i></div>
                     <p>معلومات الشركة</p>
                 </div>
-                <div class="f1-step" onclick="department()">
-                    <div class="f1-step-icon"><i class="fa fa-th-large" ></i></div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-th-large"></i></div>
                     <p>أقسام الشركة</p>
                 </div>
-                <div class="f1-step" onclick="branch()">
-                    <div class="f1-step-icon"><i class="fa fa-sitemap" ></i></div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-sitemap"></i></div>
                     <p>فروع الشركة</p>
                 </div>
-              
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-file-text"></i></div>
+                    <p>الملخص</p>
+                </div>
             </div>
 
-   
-
-
-            <div id ="info">
-                <form id="EditCompanyInfo" method="post">
-            
-            <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
+            <fieldset>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3 form-group">
                             <label for="f1-first-name"> اسم الشركة</label>
 
                             <div class="input-container">
                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                 <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
-                                <input class="form-control" type="text" id="c_name" name="c_name" value="{{$company->c_name}}" required="" onkeyup="checkCompany(this.value)">
+                                <input class="form-control" type="text" id="c_name" name="c_name" required="" onkeyup="checkCompany(this.value)">
                             </div>
 
                             <div id="similarCompanyMessage" style="color:#dc3545" hidden>
@@ -136,129 +128,182 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="f1-last-name">الشخص المسؤول</label>
-                            <input class="f1-last-name form-control" id="name" type="text" name="name" value="{{$company->manager->name}}" required="">
-                        </div>
-                    </div>   
-                                    
-              <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="f1-last-name">رقم هاتف الشركة</label>
-                            <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" value="{{$company->manager->u_phone1}}" required="">
-                        </div>
-                   
-
-                </div>
-   
-    
-
-                
-  
-                
-
-    <div class="row">
-                <div class="col-md-4">
-                        <div class=" mb-3 form-group">
-                            <label for="f1-first-name"> البريد الإلكتروني </label>
-                            <input class="form-control" id="email" type="text" name="email" value="{{$company->manager->email}}" required="h">
-                        </div>
-                  
-                 </div> 
-                       <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="f1-last-name">كلمة المرور</label>
-                            <input class="f1-password form-control" id="password" type="password" name="password" >
+                            <input class="f1-last-name form-control" id="name" type="text" name="name" required="">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="f1-first-name"> البريد الإلكتروني </label>
+                            <input class="form-control" id="email" type="text" name="email" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="f1-last-name">كلمة المرور</label>
+                            <input class="f1-password form-control" id="password" type="password" name="password" required="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="f1-last-name">رقم هاتف الشركة</label>
+                            <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                             <div class="form-group">
                                 <label for="f1-last-name">عنوان الشركة</label>
-                                <input class="f1-last-name form-control" id="address" type="text" name="address" value="{{$company->manager->u_address}}" required="">
+                                <input class="f1-last-name form-control" id="address" type="text" name="address" required="">
                             </div>
                     </div>
                 </div>
-    </div>
-  
+
                 <div class="row">
-            
-                  
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">نوع الشركة</label>
-                            <select id="c_type" name="c_type" class="form-control btn-square" value="{{$company->c_type}}">
-                                <option @if($company->c_type== 1) selected @endif value="1">قطاع عام</option>
-                                <option @if($company->c_type== 2) selected @endif value="2">قطاع خاص</option>
+                            <label for="f1-last-name">عدد فروع الشركة - "يشمل الفرع الرئيسي"</label>
+                            <select id="branchesNum" name="branchesNum" class="form-control btn-square">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+
+
+
+                <div class="f1-buttons">
+                    <button class="btn btn-primary" onclick="firstStep()" type="button">التالي</button>
+                    <button class="btn btn-primary btn-next" id="firstStepButton" type="button" hidden></button>
+                </div>
+            </fieldset>
+
+
+
+            <fieldset>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="f1-last-name">اسم الشركة</label>
+
+                            <input class="f1-last-name form-control" id="companyName" type="text" name="companyName" disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="f1-last-name">الموقع الإلكتروني</label>
+
+                            <input class="form-control" id="c_website" name="c_website">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="f1-last-name">تصنيف الشركة</label>
+                            <select id="c_type" name="c_type" class="form-control btn-square">
+                                <option value="1">قطاع عام</option>
+                                <option value="2">قطاع خاص</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">تصنيف الشركة</label>
-                            <select id="c_category" name="c_category" class="form-control btn-square" value="{{$company->c_category_id}}">
+                            <label for="f1-last-name">نوع الشركة</label>
+                            <select id="c_category" name="c_category" class="form-control btn-square">
                                 @foreach($categories as $key)
-                                   <option value="{{$key->cc_id}}" @if($company->c_category_id == $key->cc_id) selected @endif>{{$key->cc_name}}</option>
+                                    <option value="{{$key->cc_id}}">{{$key->cc_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-   <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="f1-last-name">الموقع الإلكتروني</label>
-                            <input  class="form-control" id="c_website" name="c_website" value="{{$company->c_website}}">
-                        </div>
-                    </div>                   
-                         
 
-                </div> 
-                 <div class="row">
-    
-                 
-              
+
+                </div>
+
+                <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="f1-last-name">وصف الشركة</label>
-                            <textarea  class="form-control" id="c_description" name="c_description" rows="6" >{{$company->c_description}}</textarea>
+                            <textarea  class="form-control" id="c_description" name="c_description" rows="6"></textarea>
                         </div>
                     </div>
-               
-                
-         
-    </div>
-   
-              
-
-                <input hidden id="manager_id" name="manager_id" value="{{$company->manager->u_id}}"> 
-                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}"> 
-                <div class="f1-buttons">
-                    <button type="submit" id="submit" class="btn btn-primary">تعديل</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
-                                </div>
-               
-    </form>
                 </div>
-   
-    
 
 
+                <input hidden id="manager_id" name="manager_id">
+                {{-- <input hidden id="company_id" name="company_id"> --}}
 
-            
-            
+                <div class="f1-buttons">
+                    {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
+                    <button class="btn btn-primary" type="button" onclick="secondStep()">التالي</button>
+                    <button class="btn btn-primary btn-next" id="secondStepButton" type="button" hidden></button>
+                </div>
+            </fieldset>
 
-            
-                <div id="department" hidden>
-                <div class="col-md-8">
+            <fieldset>
+                {{-- <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="f1-first-name"> اسم القسم</label>
+                            <input class="form-control" id="d_name"  name="d_name"> --}}
+                            {{-- <input class="form-control" id="d_name" type="text" name="d_name"> --}}
+                        {{-- </div>
+                    </div>
+                    <div class="col-md-6" style="margin-top: 26px;">
+                        <button class="btn btn-info" type="button" onclick="addDepartment()">إضافة القسم</button>
+                    </div>
+                </div> --}}
+
+
+                {{-- <hr>
+                <div id="departmentsArea">
+
+                </div> --}}
+
+                <div class="row p-3 m-5 mt-3">
+
+                        <div class="col-md-4 text-center">
+
+
+                                <h1><span class="fa fa-th" style="text-align: center; font-size:80px; "></span></h1>
+
+
+                                <h3>إضافة قسم إلى الشركة</h3>
+
+                                <hr>
+                                <p>في هذا القسم يمكنك إضافة الأقسام الخاصة بالشركة الحالية</p>
+
+
+                        </div>
+
+
+                        <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                    <form id="addDepartment" method="post">
-
                                         <label for="f1-first-name"> اسم القسم</label>
                                         <input class="form-control" id="d_name" name="d_name">
-                                        <input class="form-control" id="d_company_id" name="d_company_id" value="{{$company->c_id}}" hidden>
-    </form>
                                     </div>
                                 </div>
                                 <div class="col-md-4" style="margin-top: 26px;">
@@ -269,130 +314,101 @@
 
                             </div>
                         </div>
-              
 
-                <!--أقسام الشركة-->
-               
+                </div>
 
-                <div class="col-md-8" >
-                    <div class="ribbon-wrapper-right card"  id="departments_summary_area_company" >
-                      <div class="card-body">
-                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">أقسام الشركة</div>
-                        <div id="departments"> 
-                             <div class="row">
-                                        <form id="EditCompanyDepartments" method="post">
-                                            <div id="noor12121">
-                                        
-                                            <input id="companyDepartments" name="companyDepartments" value="{{$companyDepartments}}" hidden>
-                                        @foreach($companyDepartments as $key1)     
-                                        <input hidden id="d_id" name="d_id" value="{{$key1->d_id}}">  
-                               <div class="col-md-4">
-                                <input class="f1-last-name form-control" name="d_name_{{$key1->d_id}}" id="d_name_{{$key1->d_id}}" value="{{$key1->d_name}}">
-      </div>
-   
-  
-                                    @endforeach
-                                   
-                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">  
-                  </div>
-       <div class="f1-buttons" id="formButtons" hidden>
-                    <button type="submit" id="submit" class="btn btn-primary">تعديل</button> 
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
-                                </div>
-                               
 
-  </form>
-    </div>
-    <div id="addedDepartment" >
-       
-    </div>
-                                   
-                                       
-    </div>
-                        </div>
-                    </div>
-       
-   
-          
-            </div>
-         
-              
-    </div>
-          
-           
-         
-       
+                <input hidden id="departmentsList" name="departmentsList">
 
-   
-   
-      
+                <div class="f1-buttons">
+                    <button class="btn btn-primary" onclick="departmentStep()" type="button">التالي</button>
+                    <button class="btn btn-primary btn-next" id="departmentStepButton" type="button" hidden></button>
+                </div>
+            </fieldset>
 
-            <div id="branch" hidden>
-            <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='addBranch()'><span class="fa fa-plus"></span> إضافة فرع </button>
-</div>
-    <div class="row" id="companyBranches">
-            @foreach($company->companyBranch as $key)
-           
-                               
+            <fieldset>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
                           <div class="card-body">
-                            <form id="EditCompanyBranches_{{$key->b_id}}" method="POST">
-                            <div class="ribbon ribbon-primary ribbon-right">@if($key->b_main_branch == 1) الفرع الرئيسي @else الفرع {{ $loop->index  ++  }}@endif</div> 
-   
+                            <div class="ribbon ribbon-primary ribbon-right">الفرع الرئيسي</div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone1">هاتف 1</label>
-                                        <input class="f1-last-name form-control" id="phone1_{{$key->b_id}}" type="text" name="phone1_{{$key->b_id}}" value="{{$key->b_phone1}}">
+                                        <label for="phone1_1">هاتف 1</label>
+                                        <input class="f1-last-name form-control" id="phone1_1" type="text" name="phone1_1" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone2">هاتف 2</label>
-                                        <input class="f1-last-name form-control" id="phone2_{{$key->b_id}}"  name="phone2_{{$key->b_id}}"  value="{{$key->b_phone2}}" >
+                                        <label for="phone2_1">هاتف 2</label>
+                                        <input class="f1-last-name form-control" id="phone2_1"  name="phone2_1" required="">
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="address">عنوان الفرع</label>
-                                        <input class="f1-last-name form-control" id="address_{{$key->b_id}}" type="text" name="address_{{$key->b_id}}"   value="{{$key->b_address}}" >
+                                        <label for="address1">عنوان الفرع</label>
+                                        <input class="f1-last-name form-control" id="address1" type="text" name="address1" required="">
                                     </div>
                                 </div>
-                                <input hidden id="department_for_1_{{$key->b_id}}" name="department_for_1_{{$key->b_id}}">
-                                <input hidden id="c_id_{{$key->b_id}}" name="c_id_{{$key->b_id}}" value="{{$company->c_id}}">
-                                <input hidden id="manager_id_{{$key->b_id}}" name="manager_id_{{$key->b_id}}" value="{{$company->c_manager_id}}">
-                                <input hidden id="b_id" name="b_id" value="{{$key->b_id}}">
-                                <input hidden id="branches" name="branches" value="{{$company->companyBranch}}">
                                 <div class="col-md-6">
-                                    <div class="form-group" id="departments_group1_{{$key->b_id}}" >
-                                        <input hidden id="branchesNumber_{{$key->b_id}}" name="branchedNumber_{{$key->b_id}}" value="{{count($company->companyBranch)}}">
-                                        <label for="departments_{{$key->b_id}}">أقسام الفرع</label>
-                                        <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments_{{$key->b_id}}"  multiple></select>
-                                       
+                                    <div class="form-group" id="departments_group1" hidden>
+                                        <label for="departments1">أقسام الفرع</label>
+                                        <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments1" multiple></select>
                                     </div>
                                 </div>
-                                
 
+                                <input hidden id="department_for_1" name="department_for_1">
 
-                            </div> 
-                <div class="f1-buttons" >
-                    <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" class="btn btn-primary">تعديل</button> 
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
-                                </div>
-  </form>
+                            </div>
                           </div>
                         </div>
-           
                     </div>
-                   
-                               
+                    <div class="col-md-6" id="secondBranch" hidden>
+                        <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-primary ribbon-right">الفرع 2</div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone1_2">هاتف 1</label>
+                                            <input class="f1-last-name form-control" id="phone1_2" type="text" name="phone1_2" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone2_2">هاتف 2</label>
+                                            <input class="f1-last-name form-control" id="phone2_2" name="phone2_2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="address2">عنوان الفرع</label>
+                                            <input class="f1-last-name form-control" id="address2" type="text" name="address2" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" id="departments_group2" hidden>
+                                            <label for="departments2">أقسام الفرع</label>
+                                            <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments2" multiple></select>
+                                        </div>
+                                    </div>
 
-            @endforeach
-     </div>
+                                    <input hidden id="department_for_2" name="department_for_2">
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+
+                    <input hidden id="company_id" name="company_id">
+
+                </div>
+
 
 
 
@@ -403,22 +419,131 @@
 
 
 
-            
+                <div class="f1-buttons">
+                    {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
+                    {{-- <button class="btn btn-primary btn-submit" type="submit">إضافة</button> --}}
+                    <button class="btn btn-primary" type="button" onclick="thirdStep()">التالي</button>
+                    <button class="btn btn-primary btn-next" id="thirdStepButton" type="button" hidden></button>
+                </div>
+            </fieldset>
+
+            <fieldset>
+
+                <h1 class="mt-3" id="company_name_summary"></h1>
+                <br>
+
+                <!--معلومات الشركة-->
+                <div class="col-md-12">
+                    <div class="ribbon-wrapper-right card">
+                      <div class="card-body">
+                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">معلومات الشركة</div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">الشخص المسؤول</label>
+                                    <input class="f1-last-name form-control" id="manager_summary" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">البريد الإلكتروني</label>
+                                    <input class="f1-last-name form-control" id="email_sammury" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">رقم هاتف الشركة</label>
+                                    <input class="f1-last-name form-control" id="phone_summary" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">عنوان الشركة</label>
+                                    <input class="f1-last-name form-control" id="address_summary" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">تصنيف الشركة</label>
+                                    <input class="f1-last-name form-control" id="category_summary" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="f1-last-name">نوع الشركة</label>
+                                    <input class="f1-last-name form-control" id="type_summary" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" id="description_summary_area" hidden>
+                                    <label for="f1-last-name">وصف الشركة</label>
+                                    <textarea class="f1-last-name form-control" id="description_summary" rows="6" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="phone2_website_area">
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" id="mb_department_summary_area" hidden>
+                                    <label for="f1-last-name">أقسام الفرع الرئيسي</label>
+                                    <input class="f1-last-name form-control" id="main_branch_departments" disabled>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!--أقسام الشركة-->
+                <div class="col-md-12">
+                    <div class="ribbon-wrapper-right card" id="departments_summary_area" hidden>
+                      <div class="card-body">
+                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">أقسام الشركة</div>
+                        <div id="departments_summary">
+
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!--فروع الشركة-->
+                <div class="col-md-12">
+                    <div class="ribbon-wrapper-right card" id="branches_summary_area" hidden>
+                      <div class="card-body">
+                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">فروع الشركة</div>
+                        <div id="branches_summary">
+
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+
+
+                <div class="f1-buttons">
+                    {{-- <button class="btn btn-success" type="button">إنهاء</button> --}}
+                    <a type="button" class="btn btn-success" href="{{ route('admin.companies.index') }}">إنهاء</a>
+                    <a type="button" class="btn btn-info" id="editCompanyLink">تعديل</a>
+                    {{-- <button class="btn btn-info" type="button">تعديل</button> --}}
+                </div>
+            </fieldset>
+
+        </form>
+
+
     </div>
-    </div>
-
-     
-    </div>
-
-
-
-    <!-- </div>
-    </div> -->
 
 
     @include('project.admin.companies.modals.uncompletedCompanyModal')
-
-    @include('project.admin.companies.modals.addBranchModal')
 
     @include('layouts.loader')
 </div>
@@ -427,8 +552,8 @@
 
 
 @section('script')
-<!-- <script src="{{ asset('assets/js/form-wizard/form-wizard-three.js') }}"></script>
-<script src="{{asset('assets/js/form-wizard/jquery.backstretch.min.js')}}"></script> -->
+<script src="{{ asset('assets/js/form-wizard/form-wizard-three.js') }}"></script>
+<script src="{{asset('assets/js/form-wizard/jquery.backstretch.min.js')}}"></script>
 
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
@@ -437,309 +562,57 @@
 
 <script>
 let companyForm = document.getElementById("companyForm");
-let EditCompanyInfoForm = document.getElementById("EditCompanyInfo");
-let EditCompanyDepartments = document.getElementById("EditCompanyDepartments");
-let addBranchForm = document.getElementById("addBranchForm");
-let editBranchForm = document.getElementById("EditCompanyBranches");
 let companyName;
 let company_id;
+let branchesNum = document.getElementById('branchesNum').value;
 let branchesNumber = 1;
-let departments = JSON.parse(document.getElementById('companyDepartments').value);
-let branches=JSON.parse(document.getElementById('branches').value)
+const departments = [];
 let uncompletedCompanySize = 0;
 let uncompletedCompany;
-$(document).ready(function()  {
-  
-for(i=0 ; i< branches.length ; i++){
-
-    $('#departments_'+branches[i].b_id).on('select2:open', function (event) {
-   console.log('Select2 dropdown opened!');
- 
-   // Your custom code when the dropdown is opened
-   
-   var multiselect = this;
-   multiselect.innerHTML = '';
-console.log("hi")
-console.log(multiselect);
-         var options = departments;
-         var selectedOptions=$('#departments1').val();
-
-         for (var r = 0; r < options.length; r++) {
-            
-                    var option = document.createElement("option");
-                    option.text = options[r].d_name;
-                    console.log("f")
-                    console.log(options[r])
-                    option.value =  options[r].d_id;
-                   // option.selected=true;
-                    multiselect.add(option);
-         }
-   
-
-});
-
-}
-});
 
 
-//noor
-function info(){
 
-    document.getElementById('info').hidden = false ; 
-    document.getElementById('department').hidden = true ;  
-    document.getElementById('branch').hidden = true ; 
-}
-function department(){
-    document.getElementById('info').hidden = true ;
-    document.getElementById('department').hidden = false ;  
-    document.getElementById('branch').hidden = true ; 
-    if(document.getElementById('companyDepartments').value != null){
-        document.getElementById('formButtons').hidden=false;
-    }
-    console.log("document.getElementById('companyDepartments').value")
-    console.log(document.getElementById('companyDepartments').value)
-    // var departmentsArray = JSON.parse(document.getElementById('companyDepartments').value);
-    // console.log("dataArray")
-    // console.log(departmentsArray)
-    // for(i=0;i<departmentsArray.length;i++){
-    //     departments.push(departmentsArray[i]);
-    // }
- console.log("departments")
-    console.log(departments)
+//for uncomleted companies
+window.addEventListener("load", (event) => {
 
-}
-function branch(){
-    document.getElementById('info').hidden = true ;
-    document.getElementById('department').hidden = true ; 
-    document.getElementById('branch').hidden = false ; 
-    console.log("fbbb")
-    console.log(departments)
-        //  var multiselect = document.getElementById('departments1');
-        //  var options = departments;
-        //  for (var r = 0; r < options.length; r++) {
-        //             var option = document.createElement("option");
-        //             option.text = options[r].d_name;
-        //             option.value = r;
-        //             multiselect.add(option);
-        //  }
-   
+    //console.log($('fieldset:eq(0)'))
+    //console.log($('fieldset:first'))
+    // $('fieldset').each(function(index, element) {
+    //     console.log(index)
+    // })
 
+    uncompletedCompanySize = {{count($uncompletedCompany)}}
+    if(uncompletedCompanySize != 0){
 
-}
-function addBranch(){
+        uncompletedCompany = {!! json_encode($uncompletedCompany, JSON_HEX_APOS) !!};
 
-  
-    var multiselect = document.getElementById('departments1');
-
-     var options = departments;
-       
-         for (var r = 0; r < options.length; r++) {
-            
-                    var option = document.createElement("option");
-                    option.text = options[r].d_name;
-                    console.log("f")
-         console.log(options[r])
-                    option.value = r;
-                    multiselect.add(option);
-         }  
-         $('#AddBranchModal').modal('show');
-
-}
-EditCompanyInfoForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            data = $('#EditCompanyInfo').serialize();
-            console.log(data);
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-            // Send an AJAX request
-            $.ajax({
-                //new
-                beforeSend: function(){
-                    $('#LoadingModal').modal('show');
-                },
-                type: 'POST',
-                url: "{{ route('admin.companies.update') }}",
-                data: data,
-                success: function(response) {
-                  
-                    company = response.company1
-                    console.log("company");
-                    console.log(company.c_name);
-                    $('#info').html(response.view); 
-                  
-                    // document.getElementById('c_name').value = company.c_name;
-                    // document.getElementById('name').value = company.manager.name;
-                    // document.getElementById('phoneNum').value = company.manager.u_phone1;
-                    // document.getElementById('email').value = company.manager.email;
-                    // document.getElementById('password').value = company.manager.password;
-                    // document.getElementById('u_address').value = company.manager.address;
-                    // document.getElementById('c_type').value = company.c_type;
-                    // document.getElementById('c_description').value = company.c_description;
-                    // document.getElementById('c_website').value = company.c_website;
-                    // document.getElementById('c_category').value = company.c_category;
-                  
-                    
-                },
-                //new
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-
-        });
-        addBranchForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            depArr=[];
-            ms_departments = $('#departments1').val();
-            console.log(ms_departments)
-            depArr = JSON.stringify($('#departments1').val());
-
-            console.log("ms_departments")
-              
-                document.getElementById("departmentsList").value = depArr;
-
-           
-           
-            console.log("data55555")
-            data = $('#addBranchForm').serialize();
-            console.log(data);
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-            // Send an AJAX request
-            $.ajax({
-                //new
-                beforeSend: function(){
-
-                    $('#AddBranchModal').modal('hide');
-                    $('#LoadingModal').modal('show');
-                },
-                type: 'POST',
-                url: "{{ route('admin.companies.createBranchesEdit') }}",
-                data: data,
-               // dataType: 'json',
-                success: function(response) {
-                    alert(response);
-                     $('#companyBranches').html(response.view); 
-                  
-                  
-                    
-                },
-                //new
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-
-        });
-        function submitEditCompanyBranches(data){
-            editBranchFormID="EditCompanyBranches_"+data;
-            editBranchForm =document.getElementById(editBranchFormID);
-            editBranchFormIDser='#'+editBranchFormID;
-            // e.preventDefault();
-            data = $(editBranchFormIDser).serialize();
-            console.log(data);
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-            // Send an AJAX request
-            $.ajax({
-                //new
-                beforeSend: function(){
-
-                   
-                    $('#LoadingModal').modal('show');
-                },
-                type: 'POST',
-                url: "{{ route('admin.companies.updateBranches') }}",
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    alert(response)
-                     $('#companyBranches').html(response.view); 
-                  
-                  
-                    
-                },
-                //new
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-
-       
+        x=""
+        for(i=0;i<uncompletedCompanySize;i++){
+            //console.log(uncompletedCompany[i].c_name)
+            x += `<div class="row mb-2">
+                    <div class="col-md-6">
+                        <h6>
+                            ${uncompletedCompany[i].c_name}
+                        </h6>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-secondary" onclick="completeCompany(${i})" >إكمال</button>
+                    </div>
+                  </div>`
         }
-        
+
+        $('#p_company').html(x);
 
 
-        EditCompanyDepartments.addEventListener("submit", (e) => {
-            e.preventDefault();
-            data = $('#EditCompanyDepartments').serialize();
-            console.log(data);
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
+        //console.log(uncompletedCompany[0])
 
-            // Send an AJAX request
-            $.ajax({
-                //new
-                beforeSend: function(){
-                    $('#LoadingModal').modal('show');
-                },
-                type: 'POST',
-                url: "{{ route('admin.companies.updateDepartments') }}",
-                data: data,
-                success: function(response) {
-                //   alert(response)
-                    
-                     $('#noor12121').html(response.view); 
-                  
-                  
-                    
-                },
-                //new
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
 
-        });
+        //show popup with companies and links to them
+        $('#uncompletedCompanyModal').modal('show');
+    }
+
+});
 
 function completeCompany(index){
 
@@ -1299,115 +1172,24 @@ companyForm.addEventListener("submit", (e) => {
 
 function addDepartment(){
     departmentName = document.getElementById('d_name').value;
-    data=$('#addDepartment').serialize();
-    console.log(data)
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-// Send an AJAX request with the CSRF token
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': csrfToken
+    departments.push(departmentName);
+    x = "";
+    for(i=0;i<departments.length;i++){
+        x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
+        '</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
     }
-});
-
-// Send an AJAX request
-$.ajax({
-    //new
-    beforeSend: function(){
-
-        $('#LoadingModal').modal('show');
-    },
-    type: 'POST',
-    url: "{{ route('admin.companies.addDepartment') }}",
-    data: data,
-    dataType: 'json',
-    success: function(response) {
-         $('#noor12121').html(response.view); 
-         departments = JSON.parse(document.getElementById('companyDepartments').value);
-         console.log("departmentsdepartmentsdepartments")
-         console.log(departments)
-      
-        
-    },
-    //new
-    complete: function(){
-        $('#LoadingModal').modal('hide');
-    },
-    error: function(xhr, status, error) {
-        console.error(xhr.responseText);
-    }
-});
-
-     
-    departmentName = document.getElementById('d_name').value;
-   document.getElementById('departments_summary_area_company').hidden=false;
-   // departments.push(departmentName);
-    departments = JSON.parse(document.getElementById('companyDepartments').value);
-console.log("departmentsdepartmentsdepartments")
-console.log(departments)
-   
+    $('#departmentsArea').html(x);
     document.getElementById('d_name').value = "";
-    console.log("f")
-    console.log(departments)
-    console.log(branchesNumber)
-    branchesNumber= document.getElementById('branchesNumber').value ; 
-    if(departments.length!=0){
-
-////////////to set departments for branches/////////////
-if(branchesNumber>=1){
-    //to show department area in each branch
-    for(var i = 0; i < branchesNumber; i++){
-        departmentArea = `departments_group${i+1}`
-        document.getElementById(departmentArea).hidden = false;
-
-        departmentSelect = `departments${i+1}`
-        var multiselect = document.getElementById(departmentSelect);
-console.log("nnnnnn")
-console.log(multiselect)
-        // var options = departments;
-
-        // for (var r = 0; r < options.length; r++) {
-        // var option = document.createElement("option");
-        // option.text = departmentName;
-        // option.value = departments.length;
-        // multiselect.add(option);
-       
-        // }
-
-    }
-}
-
-
-
-
-}
-
 }
 
 function deleteDepartment(i){
-    if(departments.length!=0){
-
-////////////to set departments for branches/////////////
-if(branchesNumber>=1){
-    //to show department area in each branch
-    for(var c = 0; c < branchesNumber; c++){
-        departmentArea = `departments_group${c+1}`;
-        document.getElementById(departmentArea).hidden = false;
-        departmentSelect = `departments${c+1}`;
-        var multiselect = document.getElementById(departmentSelect);
-        var option = document.createElement("option");
-        option.value = i;
-        multiselect.options.remove(option);
-    }}}
     departments.splice(i, 1);
     x = "";
     for(i=0;i<departments.length;i++){
-        x=x+ '<br> <div class="row"> <div class="col-md-8"> <div class="form-group"><input class="f1-last-name form-control" id="d_name"  value="'+departments[i]+'"> </div></div>'
-        +'<div class="col-md-4" ><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
+        x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
+        '</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
     }
-    $('#addedDepartment').html(x);
-    
-    
+    $('#departmentsArea').html(x);
 }
 
 function departmentStep(){
@@ -1437,7 +1219,7 @@ function departmentStep(){
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone1_${i+1}">هاتف 1</label>
-                                        <input class="f1-last-name form-control" id="phone1_${i+1}" type="text" name="phone1_${i+1}" >
+                                        <input class="f1-last-name form-control" id="phone1_${i+1}" type="text" name="phone1_${i+1}" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -1451,7 +1233,7 @@ function departmentStep(){
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for=address${i+1}">عنوان الفرع</label>
-                                        <input class="f1-last-name form-control" id="address${i+1}" type="text" name="address${i+1}" >
+                                        <input class="f1-last-name form-control" id="address${i+1}" type="text" name="address${i+1}" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -1479,13 +1261,13 @@ function departmentStep(){
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone1_${i+2}">هاتف 1</label>
-                                        <input class="f1-last-name form-control" id="phone1_${i+2}" type="text" name="phone1_${i+2}" >
+                                        <input class="f1-last-name form-control" id="phone1_${i+2}" type="text" name="phone1_${i+2}" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone2_${i+2}">هاتف 2</label>
-                                        <input class="f1-last-name form-control" id="phone2_${i+2}" name="phone2_${i+2}" >
+                                        <input class="f1-last-name form-control" id="phone2_${i+2}" name="phone2_${i+2}" required="">
                                     </div>
                                 </div>
                             </div>
@@ -1493,7 +1275,7 @@ function departmentStep(){
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for=address${i+2}">عنوان الفرع</label>
-                                        <input class="f1-last-name form-control" id="address${i+2}" type="text" name="address${i+2}" >
+                                        <input class="f1-last-name form-control" id="address${i+2}" type="text" name="address${i+2}" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
