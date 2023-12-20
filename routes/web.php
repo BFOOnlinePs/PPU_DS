@@ -92,7 +92,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/addSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'addSuperVisor'])->name('admin.majors.addSuperVisor');
             Route::post('/updateSuperVisor',[App\Http\Controllers\project\admin\MajorsController::class,'updateSuperVisor'])->name('admin.majors.updateSuperVisor');
             Route::post('/checkMajorCode',[App\Http\Controllers\project\admin\MajorsController::class,'checkMajorCode'])->name('admin.majors.checkMajorCode');
-            });
+
+         });
 
 
             Route::group(['prefix'=>'companies_categories'],function(){
@@ -110,9 +111,16 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/edit/{id}',[App\Http\Controllers\project\admin\CompaniesController::class,'edit'])->name('admin.companies.edit');
             Route::post('/updateCompany',[App\Http\Controllers\project\admin\CompaniesController::class,'updateCompany'])->name('admin.companies.updateCompany');
             Route::post('/createBranches',[App\Http\Controllers\project\admin\CompaniesController::class,'createBranches'])->name('admin.companies.createBranches');
+            Route::post('/createBranchesEdit',[App\Http\Controllers\project\admin\CompaniesController::class,'createBranchesEdit'])->name('admin.companies.createBranchesEdit');
             Route::post('/checkCompany',[App\Http\Controllers\project\admin\CompaniesController::class,'checkCompany'])->name('admin.companies.checkCompany');
             Route::post('/companySummary',[App\Http\Controllers\project\admin\CompaniesController::class,'companySummary'])->name('admin.companies.companySummary');
-        });
+            Route::get('/showCompanyInfo',[App\Http\Controllers\project\admin\CompaniesController::class,'showCompanyInfo'])->name('admin.companies.showCompanyInfo');
+            Route::post('/update',[App\Http\Controllers\project\admin\CompaniesController::class,'update'])->name('admin.companies.update');
+            Route::post('/updateDepartments',[App\Http\Controllers\project\admin\CompaniesController::class,'updateDepartments'])->name('admin.companies.updateDepartments');
+            Route::post('/addDepartment',[App\Http\Controllers\project\admin\CompaniesController::class,'addDepartment'])->name('admin.companies.addDepartment');
+            Route::post('/updateBranches',[App\Http\Controllers\project\admin\CompaniesController::class,'updateBranches'])->name('admin.companies.updateBranches');
+       
+        }); 
 
         });
     });

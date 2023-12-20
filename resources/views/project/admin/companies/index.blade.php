@@ -41,7 +41,7 @@
                     <tbody>
                     @if ($data->isEmpty())
                         <tr>
-                            <td colspan="5" class="text-center"><span>لا توجد بيانات</span></td>
+                            <td colspan="6" class="text-center"><span>لا توجد بيانات</span></td>
                         </tr>
                     @else
                         @foreach ($data as $key)
@@ -53,8 +53,7 @@
                                 @if( $key->c_type == 1) <td>قطاع عام</td>@endif
                                 @if( $key->c_type == 2) <td>قطاع خاص</td>@endif
                                 <td>
-                                    <button class="btn btn-info" onclick=""><i class="fa fa-search"></i></button>
-                                    <button class="btn btn-primary" onclick=""><i class="fa fa-edit"></i></button>
+                                  <button class="btn btn-info" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
                                 </td>
                             </tr>
                         @endforeach
