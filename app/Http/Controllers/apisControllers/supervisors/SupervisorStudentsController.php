@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Major;
 use App\Models\MajorSupervisor;
 use App\Models\StudentAttendance;
+use App\Models\StudentReport;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -36,13 +37,14 @@ class SupervisorStudentsController extends Controller
     }
 
 
-    // for log of all supervisors students
+    // attendance log of all supervisors students
     public function getAllSupervisorStudentsAttendanceLog()
     {
         $supervisorId = auth()->user()->u_id;
         $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
         $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
-        $allStudentsAttendance = StudentAttendance::whereIn('sa_student_id', $studentsIdList)->with('user')
+        $allStudentsAttendance = StudentAttendance::whereIn('sa_student_id', $studentsIdList)
+            ->with('user')->with('training.company')
             ->orderBy('created_at', 'desc')->get();
 
         $perPage = 8;
@@ -62,11 +64,42 @@ class SupervisorStudentsController extends Controller
                 'per_page' => $paginatedAllStudentsAttendance->perPage(),
                 'total_items' => $paginatedAllStudentsAttendance->total(),
             ],
-            'trainees_attendance' => $paginatedAllStudentsAttendance->items(),
+            'students_attendance' => $paginatedAllStudentsAttendance->items(),
 
         ], 200);
     }
 
+    // reports log of all supervisors students
+    public function getAllSupervisorStudentsReportsLog()
+    {
+        $supervisorId = auth()->user()->u_id;
+        $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
+        $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
+        $allStudentsReports = StudentReport::whereIn('sr_student_id', $studentsIdList)
+            ->with('user')->with('attendance.training.company')
+            ->orderBy('created_at', 'desc')->get();
+
+        $perPage = 10;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageItems = $allStudentsReports->forPage($currentPage, $perPage);
+        $paginatedAllStudentsReports = new LengthAwarePaginator(
+            $currentPageItems->values(),
+            $allStudentsReports->count(),
+            $perPage,
+            $currentPage
+        );
+
+        return response()->json([
+            'pagination' => [
+                'current_page' => $paginatedAllStudentsReports->currentPage(),
+                'last_page' => $paginatedAllStudentsReports->lastPage(),
+                'per_page' => $paginatedAllStudentsReports->perPage(),
+                'total_items' => $paginatedAllStudentsReports->total(),
+            ],
+            'students_reports' => $paginatedAllStudentsReports->items(),
+
+        ], 200);
+    }
 
     // send student id to get his info
     public function getStudentInfo(Request $request)
