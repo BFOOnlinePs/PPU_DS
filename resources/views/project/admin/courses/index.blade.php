@@ -49,6 +49,17 @@
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span> إضافة مساق</button>
     </div>
 
+
+    {{-- <h1>Courses</h1>
+
+    <ul>
+        @foreach($courses as $course)
+            <li>{{ $course->c_name }}</li>
+        @endforeach
+    </ul>
+
+    {{ $courses->links() }} --}}
+
     <div class="card" style="padding-left:0px; padding-right:0px;">
 
         <div class="card-body" >
@@ -64,7 +75,7 @@
             @endif
             <div id="showTable">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped" id="coursesTable">
                         <thead>
                             <tr>
                                 <th scope="col" style="display:none;">id</th>
@@ -97,7 +108,10 @@
                                     </tr>
                                 @endforeach
                             @endif
-                    </tbody>
+                            <div id="data-wrapper">
+                                <!-- Results -->
+                            </div>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -111,6 +125,12 @@
 
 
             @include('project.admin.courses.modals.loadingModal')
+
+            <div id="auto-load" hidden>
+                <div class="loader-box">
+                    <div class="loader-3" ></div>
+                </div>
+            </div>
 
         </div>
 
@@ -131,6 +151,98 @@
 
         var edit_button_code = false;
         var edit_button_ref = false;
+
+        var page = 1;
+        var last_page = {!! json_encode($last_page, JSON_HEX_APOS) !!};
+
+
+        let totalDBDataNum = 0;
+        let dataPerPage = 0;
+        let current_page=1;
+        let dataLengthPerPage = 0;
+        let stop= false;
+
+        window.addEventListener("load", (event) => {
+            dataLengthPerPage = {!! json_encode($data, JSON_HEX_APOS) !!}.length
+            totalDBDataNum = {!! json_encode($total, JSON_HEX_APOS) !!}
+            dataPerPage = {!! json_encode($per_page, JSON_HEX_APOS) !!}
+            console.log({!! json_encode($data, JSON_HEX_APOS) !!});
+        });
+
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() + 1 >= $(document).height() && stop == false) {
+                page++;
+                console.log("hi reem from infinite loading")
+                infinteLoadMore(page);
+            }
+        });
+
+        function infinteLoadMore(page) {
+            //console.log("response.current_page")
+            var editLink = "{{ route('admin.courses.loadMoreCourses', ['page' => 'page_id']) }}";
+            editLink = editLink.replace('page_id', page);
+            if(page<=last_page){
+                console.log("reem");
+                //console.log(page)
+                //console.log(last_page)
+                stop = true;
+                $.ajax({
+                    url: editLink,
+                    datatype: "json",
+                    type: "get",
+                    beforeSend: function () {
+                        document.getElementById('auto-load').hidden=false
+                    },
+                    success: function(response) {
+                        console.log("response.current_page")
+                        console.log(response.current_page)
+                        last_page = response.data.last_page;
+                        dataLengthPerPage = response.data.data.length;
+                        current_page = response.current_page;
+                        courses = response.data.data
+                        if (response.length == 0) {
+                            $('#auto-load').html("We don't have more data to display :(");
+                            return;
+                        }
+                        var tableBody = document.getElementById('coursesTable').getElementsByTagName('tbody')[0];
+                        courses.forEach(function (next) {
+
+                            var newRow = tableBody.insertRow();
+
+                            var cell1 = newRow.insertCell(0);
+                            cell1.innerHTML = `${next.c_name}`;
+                            var cell2 = newRow.insertCell(1);
+                            cell2.innerHTML = `${next.c_course_code}`;
+                            var cell3 = newRow.insertCell(2);
+                            cell3.innerHTML = `${next.c_hours}`;
+                            var cell4 = newRow.insertCell(3);
+                            if( `${next.c_course_type}` == 0){
+                                cell4.innerHTML = "نظري";
+                            }else if( `${next.c_course_type}` == 1){
+                                cell4.innerHTML = "عملي";
+                            }else if( `${next.c_course_type}` == 2){
+                                cell4.innerHTML = "نظري - عملي";
+                            }
+                            var cell5 = newRow.insertCell(4);
+                            var jsonToHTML = JSON.stringify(next).replace(/"/g, "&quot;");
+
+                            cell5.innerHTML = `
+                                <button class="btn btn-info" onclick="showCourseModal(${jsonToHTML})">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                                <button class="btn btn-primary" onclick="showEditCourseModal(${jsonToHTML})">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            `;
+                        })
+                        document.getElementById('auto-load').hidden=true
+                        stop = false;
+                    }
+                })
+            }
+
+        }
 
         function validateInput(inputElement) {
             // Remove any non-alphanumeric characters, including Arabic letters and spaces
@@ -204,6 +316,10 @@
 
 
             if(if_submit){
+
+                var editLink = "{{ route('admin.courses.create', ['page' => 'page_id']) }}";
+                editLink = editLink.replace('page_id', page);
+
                 data = $('#addCourseForm').serialize();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -227,7 +343,23 @@
                     success: function(response) {
 
                         $('#AddCourseModal').modal('hide');
-                        $('#showTable').html(response.view);
+
+                        // console.log("totalDBDataNum"+totalDBDataNum)
+                        // console.log("dataPerPage"+dataPerPage)
+                        // console.log("current_page"+current_page)
+                        // console.log("last_page"+last_page)
+                        // console.log("dataLengthPerPage"+dataLengthPerPage)
+                        // console.log("dataPerPage"+dataPerPage)
+
+                        //if the table has just one page and its rows less than data number per page
+                        if(totalDBDataNum<dataPerPage){
+                            $('#showTable').html(response.view);
+                        }
+                        //if the user loaded to the end and its rows less than data number per page
+                        if(current_page==last_page && dataLengthPerPage<dataPerPage){
+                            $('#showTable').html(response.view);
+                        }
+                        //$('#showTable').html(response.view);
                         document.getElementById('c_name').value = "";
                         document.getElementById('c_course_code').value = "";
                         document.getElementById('c_hours').value = "";
@@ -380,15 +512,12 @@
             });
 
             for (var i = 1; i < formDataArray1.length; i++) {
-                console.log(formDataArray1[i].name);
                 if(formDataArray1[i].value==""){
                     var x = `#edit_${formDataArray1[i].name}`;
                     $(`${x}`).addClass('input-error');
                     if_submit1 = false;
                 }
             }
-
-            console.log(formDataArray1);
 
             if(if_submit1){
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
