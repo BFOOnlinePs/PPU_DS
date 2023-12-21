@@ -50,16 +50,6 @@
     </div>
 
 
-    {{-- <h1>Courses</h1>
-
-    <ul>
-        @foreach($courses as $course)
-            <li>{{ $course->c_name }}</li>
-        @endforeach
-    </ul>
-
-    {{ $courses->links() }} --}}
-
     <div class="card" style="padding-left:0px; padding-right:0px;">
 
         <div class="card-body" >
@@ -93,7 +83,7 @@
                                 </tr>
                             @else
                                 @foreach ($data as $key)
-                                    <tr>
+                                    <tr data-id="{{ $key->c_id }}">
                                         <td style="display:none;">{{ $key->c_id }}</td>
                                         <td>{{ $key->c_name }}</td>
                                         <td>{{ $key->c_course_code }}</td>
@@ -101,16 +91,13 @@
                                         @if( $key->c_course_type == 0) <td>نظري</td>@endif
                                         @if( $key->c_course_type == 1) <td>عملي</td>@endif
                                         @if( $key->c_course_type == 2) <td>نظري - عملي</td>@endif
-                                        <td>
+                                        <td id="table_buttons_{{$key->c_id}}">
                                             <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-search"></i></button>
                                             <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
                             @endif
-                            <div id="data-wrapper">
-                                <!-- Results -->
-                            </div>
                         </tbody>
                     </table>
                 </div>
@@ -145,7 +132,7 @@
     <script>
         let addCourseForm = document.getElementById("addCourseForm");
         let editCourseForm = document.getElementById("editCourseForm");
-        let dataTable;
+
         var add_button_code = false;
         var add_button_ref = false;
 
@@ -156,67 +143,60 @@
         var last_page = {!! json_encode($last_page, JSON_HEX_APOS) !!};
 
 
-        let totalDBDataNum = 0;
-        let dataPerPage = 0;
-        let current_page=1;
-        let dataLengthPerPage = 0;
         let stop= false;
-
-        window.addEventListener("load", (event) => {
-            dataLengthPerPage = {!! json_encode($data, JSON_HEX_APOS) !!}.length
-            totalDBDataNum = {!! json_encode($total, JSON_HEX_APOS) !!}
-            dataPerPage = {!! json_encode($per_page, JSON_HEX_APOS) !!}
-            console.log({!! json_encode($data, JSON_HEX_APOS) !!});
-        });
 
 
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() + 1 >= $(document).height() && stop == false) {
                 page++;
-                console.log("hi reem from infinite loading")
                 infinteLoadMore(page);
             }
         });
 
         function infinteLoadMore(page) {
-            //console.log("response.current_page")
+
             var editLink = "{{ route('admin.courses.loadMoreCourses', ['page' => 'page_id']) }}";
             editLink = editLink.replace('page_id', page);
+
             if(page<=last_page){
-                console.log("reem");
-                //console.log(page)
-                //console.log(last_page)
+
+                //to prevent it from calling an ajax while the first one doesn't complete
                 stop = true;
+
                 $.ajax({
                     url: editLink,
                     datatype: "json",
                     type: "get",
                     beforeSend: function () {
+                        //to show the loading under the table
                         document.getElementById('auto-load').hidden=false
                     },
                     success: function(response) {
-                        console.log("response.current_page")
-                        console.log(response.current_page)
-                        last_page = response.data.last_page;
-                        dataLengthPerPage = response.data.data.length;
-                        current_page = response.current_page;
+
+                        last_page = response.data.last_page;//check thisssssssssssssssssssss
+
                         courses = response.data.data
-                        if (response.length == 0) {
-                            $('#auto-load').html("We don't have more data to display :(");
-                            return;
-                        }
+
+                        //to get the table and then add the new rows
                         var tableBody = document.getElementById('coursesTable').getElementsByTagName('tbody')[0];
+
+                        //to add a row for each course in the page
                         courses.forEach(function (next) {
 
                             var newRow = tableBody.insertRow();
+                            newRow.setAttribute("data-id", next.c_id);
 
-                            var cell1 = newRow.insertCell(0);
+                            var cell0 = newRow.insertCell(0);
+                            cell0.innerHTML = `${next.c_id}`;
+                            cell0.style.display = "none";
+
+                            var cell1 = newRow.insertCell(1);
                             cell1.innerHTML = `${next.c_name}`;
-                            var cell2 = newRow.insertCell(1);
+                            var cell2 = newRow.insertCell(2);
                             cell2.innerHTML = `${next.c_course_code}`;
-                            var cell3 = newRow.insertCell(2);
+                            var cell3 = newRow.insertCell(3);
                             cell3.innerHTML = `${next.c_hours}`;
-                            var cell4 = newRow.insertCell(3);
+                            var cell4 = newRow.insertCell(4);
                             if( `${next.c_course_type}` == 0){
                                 cell4.innerHTML = "نظري";
                             }else if( `${next.c_course_type}` == 1){
@@ -224,7 +204,11 @@
                             }else if( `${next.c_course_type}` == 2){
                                 cell4.innerHTML = "نظري - عملي";
                             }
-                            var cell5 = newRow.insertCell(4);
+
+                            var cell5 = newRow.insertCell(5);
+                            cell5.id = `table_buttons_${next.c_id}`
+
+                            //to pass the json object from js to html
                             var jsonToHTML = JSON.stringify(next).replace(/"/g, "&quot;");
 
                             cell5.innerHTML = `
@@ -236,7 +220,8 @@
                                 </button>
                             `;
                         })
-                        document.getElementById('auto-load').hidden=true
+
+                        document.getElementById('auto-load').hidden=true;
                         stop = false;
                     }
                 })
@@ -244,6 +229,7 @@
 
         }
 
+        //to check if this input consists of numbers and letters not just numbers
         function validateInput(inputElement) {
             // Remove any non-alphanumeric characters, including Arabic letters and spaces
             inputElement.value = inputElement.value.replace(/[^a-zA-Z0-9\u0600-\u06FF\s]/g, '');
@@ -257,9 +243,9 @@
             }
         }
 
+        //to check if this input cosists of english letters and numbers only (doesn't accept arabic)
         function validateEngNumInput(inputElement) {
 
-            //console.log("hi")
             var cleanedValue = inputElement.value.replace(/[^a-zA-Z0-9]/g, '');
             if (!/^[a-zA-Z0-9]{6}$/.test(cleanedValue)) {
                 inputElement.value = cleanedValue;
@@ -269,6 +255,7 @@
 
         }
 
+        //to check if this numbers only
         function validateNumInput(inputElement) {
             // Remove any non-numeric characters
             var cleanedValue = inputElement.value.replace(/\D/g, '');
@@ -283,20 +270,24 @@
             }
         }
 
+        //when add a new course
         addCourseForm.addEventListener("submit", (e) => {
-            courses = {!! json_encode($data, JSON_HEX_APOS) !!};
-            coursesLength = courses.length;
+
+            coursesLength = {!! json_encode($data, JSON_HEX_APOS) !!}.length;
+
             e.preventDefault();
+
             var serializedFormData = $('#addCourseForm').serialize();
 
             var if_submit = true;
 
-            // Convert the serialized string to an array of objects
+            // Convert the serialized string to an array of objects (to take the inputs and check if they are empty)
             var formDataArray = serializedFormData.split('&').map(function(item) {
                 var pair = item.split('=');
                 return { name: pair[0], value: decodeURIComponent(pair[1] || '') };
             });
 
+            //check if the inputs empty and if they empty givr them "input-error" class
             for (var i = 1; i < formDataArray.length; i++) {
                 console.log(formDataArray[i].name);
                 if(formDataArray[i].value==""){
@@ -316,9 +307,6 @@
 
 
             if(if_submit){
-
-                var editLink = "{{ route('admin.courses.create', ['page' => 'page_id']) }}";
-                editLink = editLink.replace('page_id', page);
 
                 data = $('#addCourseForm').serialize();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -342,38 +330,15 @@
                     dataType: 'json',
                     success: function(response) {
 
-                        $('#AddCourseModal').modal('hide');
-
-                        // console.log("totalDBDataNum"+totalDBDataNum)
-                        // console.log("dataPerPage"+dataPerPage)
-                        // console.log("current_page"+current_page)
-                        // console.log("last_page"+last_page)
-                        // console.log("dataLengthPerPage"+dataLengthPerPage)
-                        // console.log("dataPerPage"+dataPerPage)
-
-                        //if the table has just one page and its rows less than data number per page
-                        if(totalDBDataNum<dataPerPage){
-                            $('#showTable').html(response.view);
-                        }
-                        //if the user loaded to the end and its rows less than data number per page
-                        if(current_page==last_page && dataLengthPerPage<dataPerPage){
-                            $('#showTable').html(response.view);
-                        }
-                        //$('#showTable').html(response.view);
-                        document.getElementById('c_name').value = "";
-                        document.getElementById('c_course_code').value = "";
-                        document.getElementById('c_hours').value = "";
-                        document.getElementById('c_course_type').value = "";
-                        document.getElementById('c_description').value = "";
-                        document.getElementById('c_reference_code').value = "";
-                    },
-                    complete: function(){
-                        $('#LoadingModal').modal('hide');
-
-                        //want it to add in first time when there is no data
+                        //to show the search area if the added course is the first one
+                        //because it's hidden when the table is empty
                         if(coursesLength==0){
                             document.getElementById('showSearch').hidden = false;
                         }
+
+                        $('#AddCourseModal').modal('hide');
+
+                        $('#showTable').html(response.view);
 
                     },
                     error: function(xhr, status, error) {
@@ -381,10 +346,6 @@
                     }
                 });
             }
-
-
-
-
 
         });
 
@@ -456,6 +417,7 @@
 
         });
 
+        //to remove red outline when the edit modal any time it closed
         $("#EditCourseModal").on("hidden.bs.modal", function () {
 
             $('#edit_c_name').removeClass('input-error');
@@ -500,26 +462,29 @@
         }
 
         editCourseForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            data = $('#editCourseForm').serialize();
-            //console.log(data1);
 
-            var if_submit1 = true;
-            var serializedFormData1 = $('#editCourseForm').serialize();
-            var formDataArray1 = serializedFormData1.split('&').map(function(item) {
+            e.preventDefault();
+
+            data = $('#editCourseForm').serialize();
+
+            var if_edit_submit = true;
+
+            var serializedFormDataEdit = $('#editCourseForm').serialize();
+            var formDataArrayEdit = serializedFormDataEdit.split('&').map(function(item) {
                 var pair = item.split('=');
                 return { name: pair[0], value: decodeURIComponent(pair[1] || '') };
             });
 
-            for (var i = 1; i < formDataArray1.length; i++) {
-                if(formDataArray1[i].value==""){
-                    var x = `#edit_${formDataArray1[i].name}`;
+            for (var i = 1; i < formDataArrayEdit.length; i++) {
+                if(formDataArrayEdit[i].value==""){
+                    var x = `#edit_${formDataArrayEdit[i].name}`;
                     $(`${x}`).addClass('input-error');
-                    if_submit1 = false;
+                    if_edit_submit = false;
                 }
             }
 
-            if(if_submit1){
+
+            if(if_edit_submit){
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 // Send an AJAX request with the CSRF token
@@ -531,7 +496,6 @@
 
                 // Send an AJAX request
                 $.ajax({
-                    //new
                     beforeSend: function(){
                         $('#EditCourseModal').modal('hide');
                         $('#LoadingModal').modal('show');
@@ -541,10 +505,32 @@
                     data: data,
                     dataType: 'json',
                     success: function(response) {
+
+                        //to get the row that is clicked to update it
+                        var course_id = formDataArrayEdit.find(item => item.name === 'c_id').value;
+                        var row = document.querySelector('tr[data-id="' + course_id + '"]');
+
+                        //update cells content
+                        row.cells[1].textContent = response.data.c_name
+                        row.cells[2].textContent = response.data.c_course_code
+                        row.cells[3].textContent = response.data.c_hours
+                        course_type = response.data.c_course_type;
+                        row.cells[4].textContent = (course_type==0) ? "نظري" : (course_type==1) ? "عملي" : "نظري-عملي"
+
+                        var jsonToHTML = JSON.stringify(response.data).replace(/"/g, "&quot;");
+                        $(`#table_buttons_${course_id}`).html(`
+                                <button class="btn btn-info" onclick="showCourseModal(${jsonToHTML})">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                                <button class="btn btn-primary" onclick="showEditCourseModal(${jsonToHTML})">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                        `)
+
                         $('#EditCourseModal').modal('hide');
-                        $('#showTable').html(response.view);
+
+
                     },
-                    //new
                     complete: function(){
                         $('#LoadingModal').modal('hide');
                     },
@@ -557,6 +543,7 @@
         });
 
         function courseSearch(data) {
+
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
@@ -570,36 +557,30 @@
 
 
             $.ajax({
-                // beforeSend: function(){
-                //     $('#showTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
-                // },
-                url: "{{ route('admin.courses.courseSearch') }}", // Replace with your own URL
+                url: "{{ route('admin.courses.courseSearch') }}",
                 method: "post",
                 data: {
                     'search': data,
                     _token: '{!! csrf_token() !!}',
-                }, // Specify the expected data type
+                },
                 success: function(data) {
-                    dataTable = data;
                     $('#showTable').html(data.view);
                 },
-                // complete: function(){
-                //     //$('#LoadingModal').modal('hide');
-                //     $('#showTable').html(dataTable.view);
-                // },
                 error: function(xhr, status, error) {
-                    // This function is called when there is an error with the request
                     alert('error');
                 }
             });
         }
 
+        //to focus on the auto focus input
         $('.modal').on('shown.bs.modal', function() {
             $(this).find('[autofocus]').focus();
         });
 
+        //to check course code and reference course code are exists
         function checkCourseCode(data,opp,page){
 
+            //check for edit modal
             if(page=="edit"){
 
                 document.getElementById('edit_ok_icon').hidden = true;
@@ -693,7 +674,8 @@
 
                 }
 
-            }else{
+            }
+            else{ //check for add modal
 
                 document.getElementById('ok_icon').hidden = true;
                 document.getElementById('ref_ok_icon').hidden = true;

@@ -11,7 +11,7 @@ class CoursesController extends Controller
 
     public function index(){
         $numOfDataPerPage = 10;
-        $data = Course::paginate($numOfDataPerPage);
+        $data = Course::orderBy('c_id', 'desc')->paginate($numOfDataPerPage);
         return view('project.admin.courses.index',['data'=>$data,'total'=>$data->total(), 'per_page'=>$numOfDataPerPage,'last_page'=>$data->lastPage()]);
     }
 
@@ -27,7 +27,7 @@ class CoursesController extends Controller
         if ($data->save()) {
             //$data = Course::get();
             $numOfDataPerPage = 10;
-            $data = Course::paginate($numOfDataPerPage);
+            $data = Course::orderBy('c_id', 'desc')->paginate($numOfDataPerPage);
             return response()->json([
                 'success'=>'true',
                 'view'=>view('project.admin.courses.ajax.courseList',['data'=>$data,'total'=>$data->total(), 'per_page'=>$numOfDataPerPage,'last_page'=>$data->lastPage()])->render()
@@ -46,12 +46,16 @@ class CoursesController extends Controller
         $data->c_name = $request->c_name;
 
 
+
         if ($data->save()) {
+
+            $course = Course::where('c_id',$request->c_id)->first();
             // $data = Course::get();
             $numOfDataPerPage = 10;
             $data = Course::paginate($numOfDataPerPage);
             return response()->json([
                 'success'=>'true',
+                'data'=>$course,
                 'view'=>view('project.admin.courses.ajax.courseList',['data'=>$data])->render()
             ]);
         }
@@ -59,7 +63,13 @@ class CoursesController extends Controller
 
     public function courseSearch(Request $request){
 
-        $data = Course::where('c_name','like','%'.$request->search.'%')->get();
+        $numOfDataPerPage = 10;
+
+        if($request->search == ""){
+            $data = Course::orderBy('c_id', 'desc')->paginate($numOfDataPerPage);
+        }else{
+            $data = Course::where('c_name','like','%'.$request->search.'%')->get();
+        }
 
         return response()->json([
             'success'=>'true',
@@ -111,7 +121,7 @@ class CoursesController extends Controller
 
     public function getCourses(Request $request)
     {
-        $results = Course::orderBy('c_id')->paginate(10);
+        $results = Course::orderBy('c_id', 'desc')->paginate(10);
 
         return response()->json([
                 'success'=>'true',
