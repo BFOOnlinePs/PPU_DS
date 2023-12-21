@@ -18,7 +18,7 @@
                 </tr>
             @else
                 @foreach($data as $key)
-                    <tr>
+                    <tr data-id="{{ $key->c_id }}">
                         <td style="display:none;">{{ $key->c_id }}</td>
                         <td>{{ $key->c_name }}</td>
                         <td>{{ $key->c_course_code }}</td>
@@ -26,7 +26,7 @@
                         @if( $key->c_course_type == 0) <td>نظري</td>@endif
                         @if( $key->c_course_type == 1) <td>عملي</td>@endif
                         @if( $key->c_course_type == 2) <td>نظري - عملي</td>@endif
-                        <td>
+                        <td id="table_buttons_{{$key->c_id}}">
                             <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-search"></i></button>
                             <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
                         </td>
