@@ -289,7 +289,6 @@
 
             //check if the inputs empty and if they empty givr them "input-error" class
             for (var i = 1; i < formDataArray.length; i++) {
-                console.log(formDataArray[i].name);
                 if(formDataArray[i].value==""){
                     var x = `#${formDataArray[i].name}`;
                     $(`${x}`).addClass('input-error');
@@ -336,7 +335,7 @@
                             document.getElementById('showSearch').hidden = false;
                         }
 
-                        $('#AddCourseModal').modal('hide');
+                        $('#LoadingModal').modal('hide');
 
                         $('#showTable').html(response.view);
 
