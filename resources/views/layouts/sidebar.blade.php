@@ -26,7 +26,7 @@
                                 aria-hidden="true"></i></div>
                             </li>
                         <li class=""><a class="nav-link" href="{{ route('supervisors.majors.index' , ['id' => auth()->user()->u_id])}}"><i
-                            data-feather="book-open"></i><span>التخصصات</span></a></li>
+                            data-feather="book-open"></i><span>{{__('translate.Majors')}}{{-- التخصصات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}"><i
                             data-feather="users"></i><span>الطلاب</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('supervisors.companies.index') }}"><i
@@ -47,7 +47,7 @@
                             <a class="nav-link" href="{{ route('supervisor_assistants.majors.index' , ['id' => auth()->user()->u_id])}}">
                                 <i data-feather="book-open">
                                 </i>
-                                <span>التخصصات</span>
+                                <span>{{__('translate.Majors')}}{{-- التخصصات --}}</span>
                             </a>
                         </li>
                         <li class="">
@@ -86,7 +86,7 @@
                                     data-feather="users"></i><span> {{__('translate.Users management')}} {{-- إدارة المستخدمين --}}</span></a></li>
 
                         <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
-                                    data-feather="anchor"></i><span> {{__('translate.Specializations management')}} {{-- إدارة التخصصات --}}</span></a>
+                                    data-feather="anchor"></i><span> {{__('translate.Majors management')}} {{-- إدارة التخصصات --}}</span></a>
                         </li>
                         <li class=""><a class="nav-link" href="{{ route('admin.courses.index') }}"><i
                                     data-feather="book"></i><span> {{__('translate.Courses management')}} {{-- إدارة المساقات --}}</span></a></li>

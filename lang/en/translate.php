@@ -1,5 +1,10 @@
 <?php
     return [
+        'Adding a major for the academic supervisor' => 'Adding a major for the academic supervisor' ,
+        'Administrative assistants' => 'Administrative assistants' ,
+        "Supervisor's students" => "Supervisor's students" ,
+        'Majors' => 'Majors' ,
+        'The username that added a payment' => 'The username that added a payment' ,
         'Approval file' => 'Approval file' ,
         'The administrative assistant (from the university)' => 'The administrative assistant (from the university)' ,
         'The trainer (from the company)' => 'The trainer (from the company)' ,
@@ -32,7 +37,7 @@
         'Add' => 'Add' ,
         'College of Dual Studies' => 'College of Dual Studies' ,
         'Users management' => 'Users management' ,
-        'Specializations management' => 'Specializations management' ,
+        'Majors management' => 'Majors management' ,
         'Courses management' => 'Courses management' ,
         'Semester courses' => 'Semester courses' ,
         'Classification of companies' => 'Classification of companies' ,

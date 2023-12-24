@@ -4,13 +4,13 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>اسم المستخدم الَّذي قام بإضافة دفعة</th>
-                <th>قيمة المبلغ</th>
-                <th>الرقم المرجعي</th>
-                <th>حالة الدفعة</th>
-                <th>ملاحظات الطالب</th>
-                <th>ملاحظات مدير الشركة</th>
-                <th>ملاحظات المشرف الأكاديمي</th>
+                <th>{{__('translate.The username that added a payment')}} {{-- اسم المستخدم الذي قام بإضافة دفعة --}}</th>
+                <th>{{__('translate.The value of the amount')}} {{-- قيمة المبلغ --}}</th>
+                <th>{{__('translate.The reference number')}} {{-- الرقم المرجعي --}}</th>
+                <th>{{__('translate.Payment status')}} {{-- حالة الدفعة --}}</th>
+                <th>{{__('translate.Student notes')}} {{-- ملاحظات الطالب --}}</th>
+                <th>{{__('translate.Company manager notes')}} {{-- ملاحظات مدير الشركة --}}</th>
+                <th>{{__('translate.Supervisor notes')}} {{-- ملاحظات المشرف الأكاديمي --}}</th>
             </tr>
         </thead>
         <tbody>

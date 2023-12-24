@@ -1,5 +1,10 @@
 <?php
     return [
+        'Adding a major for the academic supervisor' => 'إضافة تخصص للمشرف الأكاديمي' ,
+        'Administrative assistants' => 'المساعدين الإداريين' ,
+        "Supervisor's students" => 'طلاب المشرف' ,
+        'Majors' => 'التخصصات' ,
+        'The username that added a payment' => 'اسم المستخدم الذي قام بإضافة دفعة' ,
         'Approval file' => 'ملف الموافقة' ,
         'The administrative assistant (from the university)' => 'المساعد الإداري (من الجامعة)' ,
         'The trainer (from the company)' => 'المدرب (من الشركة)' ,
@@ -32,7 +37,7 @@
         'Add' => 'إضافة' ,
         'College of Dual Studies' => 'كلية الدراسات الثنائية' ,
         'Users management' => 'إدارة المستخدمين' ,
-        'Specializations management' => 'إدارة التخصصات' ,
+        'Majors management' => 'إدارة التخصصات' ,
         'Courses management' => 'إدارة المساقات' ,
         'Semester courses' => 'مساقات الفصول',
         'Classification of companies' => 'تصنيف الشركات' ,
@@ -78,7 +83,7 @@
         'Branch' => 'الفرع' ,
         'Attachment file' => 'الملف المرفق' ,
         'Record attendance and departure' => 'سِجل الحضور و المغادرة' ,
-        'Arrival time' => 'وقت الدخول' ,
+        'Arrival time' => 'وقت الوصول' ,
         'Departure time' => 'وقت المغادرة' ,
         'Details' => 'التفاصيل' ,
         'Did not record departure' => 'لم يسجل مغادرة' ,
