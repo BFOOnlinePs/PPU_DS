@@ -31,7 +31,7 @@
         @elseif($user->u_role_id == 3)
             @include('project.admin.users.includes.menu_academic_supervisor')
         @elseif($user->u_role_id == 4)
-            @include('project.admin.users.includes.menu_supervisor_assistatns')
+            {{-- @include('project.admin.users.includes.menu_supervisor_assistatns') --}}
         @endif
     </div>
     <div class="edit-profile">
