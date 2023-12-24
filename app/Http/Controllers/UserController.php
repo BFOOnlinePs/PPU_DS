@@ -379,7 +379,7 @@ class UserController extends Controller
             'u_username.required' => 'اسم المستخدم حقل مطلوب',
             'name.required' => 'الاسم حقل مطلوب' ,
             'email.required' => 'البريد الإلكتروني حقل مطلوب',
-            'email.email' => 'البريد الإلكتروني يجب أن يكون صالحا.',
+            'email.email' => 'البريد الإلكتروني يجب أن يكون صالحًا.',
             'email.unique' => 'البريد الإلكتروني موجود بالفعل',
             'password.min' => ' يجب أن تتكون كلمة المرور من 8  أرقام أو حروف',
             'u_date_of_birth.required' => 'تاريخ الميلاد حقل مطلوب',

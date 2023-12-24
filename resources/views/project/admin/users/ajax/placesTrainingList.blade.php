@@ -1,13 +1,13 @@
 @if ($data->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد تدريبات مسجلة</h6>
+    <h6 class="alert alert-danger">{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</h6>
 @else
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>اسم الشركة</th>
-                <th>الفرع</th>
-                <th>الملف المرفق</th>
-                <th>العمليات</th>
+                <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+                <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
+                <th>{{__('translate.Attachment file')}} {{-- الملف المرفق --}}</th>
+                <th>{{__('translate.Operations')}} {{-- العمليات --}}</th>
             </tr>
         </thead>
         <tbody>
