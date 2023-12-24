@@ -8,6 +8,7 @@ use App\Models\StudentCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
 class CompaniesController extends Controller
 {
     public function index()
@@ -34,7 +35,6 @@ class CompaniesController extends Controller
                             ->toArray();
         $user = User::whereIn('u_major_id' , $major_supervisor)
                 ->where('u_role_id' , 2)
-                ->where('u_status' , 1)
                 ->pluck('u_id')
                 ->toArray();
         $students_company = StudentCompany::whereIn('sc_student_id', $user)
@@ -44,6 +44,5 @@ class CompaniesController extends Controller
                             ->groupBy('sc_student_id')
                             ->get();
         return view('project.supervisor.companies.students' , ['students_company' => $students_company]);
-
     }
 }

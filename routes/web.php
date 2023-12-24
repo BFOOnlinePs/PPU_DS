@@ -27,6 +27,12 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/language/{locale}', function($locale) {
+        if(in_array($locale , ['en', 'ar'])) {
+            session()->put('locale' , $locale);
+        }
+        return redirect()->back();
+    })->name('language');
 
 
     Route::group(['prefix'=>'project'],function(){
@@ -190,6 +196,17 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'supervisor_assistatns'], function () {
+        Route::group(['prefix' => 'majors'], function () {
+            Route::get('/index/{id}' , [App\Http\Controllers\project\supervisor_assistants\MajorsController::class , 'index'])->name('supervisor_assistants.majors.index'); // To show majors to supervisor assistant
+        });
+        Route::group(['prefix' => 'students'], function () {
+            Route::get('/index/{ms_major_id?}' , [App\Http\Controllers\project\supervisor_assistants\StudentsController::class , 'index'])->name('supervisor_assistants.students.index');
+            Route::post('/search' , [App\Http\Controllers\project\supervisor_assistants\StudentsController::class , 'search'])->name('supervisor_assistants.students.search');
+        });
+        Route::group(['prefix' => 'companies'], function () {
+            Route::get('/index' , [App\Http\Controllers\project\supervisor_assistants\CompaniesController::class , 'index'])->name('supervisor_assistants.companies.index');
+            Route::get('/students/{id}' , [App\Http\Controllers\project\supervisor_assistants\CompaniesController::class , 'students'])->name('supervisor_assistants.companies.students'); // To display students
+        });
     });
 
     Route::group(['prefix' => 'supervisors'], function () {
