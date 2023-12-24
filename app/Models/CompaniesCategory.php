@@ -11,6 +11,10 @@ class CompaniesCategory extends Model
     protected $table = 'companies_categories';
     protected $primaryKey = 'cc_id';
 
+    protected $fillable = [
+        'cc_name'
+    ];
+
     public function companies(){
         return $this->hasOne(Company::class, 'cc_id','c_category_id');
     }

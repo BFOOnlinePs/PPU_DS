@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 class SupervisorStudentsController extends Controller
 {
     // to get the students of a major that the current supervisor is supervised
-    // all students if no major_id sent
+    // all students when no major_id sent
     // students of a specific major when major_id sent
     public function getSupervisorStudentsDependOnMajor(Request $request)
     {
@@ -23,16 +23,37 @@ class SupervisorStudentsController extends Controller
         $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
         $studentsList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList);
 
+        // search
+        $requestSearch = $request->input('search');
+        if (!empty($requestSearch)) {
+            $studentsList->where(function ($query) use ($requestSearch) {
+                $query->where('u_username', 'like', '%' . $requestSearch . '%')
+                    ->orWhere('name', 'like', '%' . $requestSearch . '%');
+            });
+        }
+        // $studentsList->when(!empty($requestSearch), function ($query) use ($requestSearch) {
+        //     $query->where('u_username', 'like', '%' . $requestSearch . '%')
+        //         ->orWhere('name', 'like', '%' . $requestSearch . '%');
+        // });
+
         if (request()->has('major_id')) {
             $majorId = $request->input('major_id');
             $studentsList->where('u_major_id', $majorId);
         }
 
-        $studentsList = $studentsList->with('major')->get();
+        $studentsList = $studentsList->with('major')->paginate(8);
+        // $studentsList = $studentsList->with('major');
 
         return response()->json([
             'status' => true,
-            'students' => $studentsList,
+            'pagination' => [
+                'current_page' => $studentsList->currentPage(),
+                'last_page' => $studentsList->lastPage(),
+                'per_page' => $studentsList->perPage(),
+                'total_items' => $studentsList->total(),
+            ],
+            'students' => $studentsList->items(),
+
         ]);
     }
 

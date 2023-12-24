@@ -5,6 +5,7 @@ use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
+use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
@@ -106,9 +107,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
 
-    // courses
+    // courses => for supervisor
     Route::get('availableCourses', [sharedController::class, 'availableCourses']);
 
+    // companies categories => for supervisor
+    Route::post('getCompaniesCategories', [CompaniesCategoriesController::class, 'getCompaniesCategories']); // with search
+    Route::post('addCompanyCategory', [CompaniesCategoriesController::class, 'addCompanyCategory']);
+    Route::post('editCompanyCategory', [CompaniesCategoriesController::class, 'editCompanyCategory']);
 
 
     // just for test
