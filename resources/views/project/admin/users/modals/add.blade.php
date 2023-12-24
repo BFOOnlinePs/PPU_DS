@@ -8,9 +8,44 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-user-plus" style="text-align: center; font-size:80px; "></span></h1>
-                            <h1 id="title_modal_add_user">إضافة {{$role_name}}</h1>
+                            <h1 id="title_modal_add_user">
+                                {{__('translate.Add')}} {{-- إضافة --}}
+                                @if ($role_name == 'أدمن')
+                                    {{__('translate.Administrator')}} {{-- أدمن --}}
+                                @elseif($role_name == 'طالب')
+                                    {{__('translate.Student')}} {{-- طالب --}}
+                                @elseif($role_name == 'مشرف أكاديمي')
+                                    {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                                @elseif($role_name == 'مساعد إداري')
+                                    {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                                @elseif($role_name == 'مسؤول متابعة وتقييم')
+                                    {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                                @elseif($role_name == 'مدير شركة')
+                                    {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                                @elseif($role_name == 'مسؤول تدريب')
+                                {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                @endif
+                            </h1>
                             <hr>
-                            <p id="p_modal_add_user">في هذا القسم يمكنك إضافة {{$role_name}} جديد</p>
+                            <p id="p_modal_add_user">
+                                {{__('translate.In this section, you can add')}} {{-- في هذا القسم يمكنك إضافة --}}
+                                {{__('translate.New')}} {{-- جديد --}}
+                                @if ($role_name == 'أدمن')
+                                    {{__('translate.Administrator')}} {{-- أدمن --}}
+                                @elseif($role_name == 'طالب')
+                                    {{__('translate.Student')}} {{-- طالب --}}
+                                @elseif($role_name == 'مشرف أكاديمي')
+                                    {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                                @elseif($role_name == 'مساعد إداري')
+                                    {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                                @elseif($role_name == 'مسؤول متابعة وتقييم')
+                                    {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                                @elseif($role_name == 'مدير شركة')
+                                    {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                                @elseif($role_name == 'مسؤول تدريب')
+                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                @endif
+                                </p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addUserForm" enctype="multipart/form-data">
@@ -20,31 +55,31 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label" for="textinput">الاسم * </label>
+                                            <label class="col-lg-12 form-label" for="textinput">{{__('translate.Name')}}* {{-- الاسم --}} </label>
                                             <div class="col-lg-12">
                                                 <input id="name" name="name" type="text" class="form-control btn-square input-md" tabindex="1" required>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">اسم المستخدم * </label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Username')}}* {{-- اسم المستخدم --}} </label>
                                             <div class="col-lg-12">
                                                 <input id="u_username" name="u_username" type="text" class="form-control btn-square input-md" tabindex="4" required onblur="check_email_not_duplicate()">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">كلمة السر * </label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Password')}}* {{-- كلمة المرور --}} </label>
                                             <div class="col-lg-12">
                                                 <input id="password" name="password" type="password" class="form-control btn-square input-md" tabindex="7" required pattern=".{8,}">
                                             </div>
                                         </div>
                                         @if ($u_role_id == 2)
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">التخصص</label>
+                                            <label class="col-lg-12 form-label " for="selectbasic"> {{__('translate.Major')}} {{-- التخصص --}}</label>
                                                 <div class="col-lg-12">
                                                     <select id="u_major_id" name="u_major_id" class="form-control btn-square col-sm-12" tabindex="10" autofocus>
-                                                    @foreach ($major as $item)
-                                                    <option value="{{$item->m_id}}">{{$item->m_name}}</option>
-                                                    @endforeach
+                                                        @foreach ($major as $item)
+                                                            <option value="{{$item->m_id}}">{{$item->m_name}}</option>
+                                                        @endforeach
                                                 </select>
                                             </div>
                                             </div>
@@ -52,20 +87,20 @@
                                         </div>
                                     <div class="col-md-4">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">تاريخ الميلاد * </label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Birth date')}}* {{-- تاريخ الميلاد --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_date_of_birth" name="u_date_of_birth" type="date" class="form-control btn-square input-md" tabindex="2" required>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">البريد الإلكتروني * </label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Email')}}* {{-- البريد الإلكتروني --}}</label>
                                             <div class="col-lg-12">
                                                 <input @if ($u_role_id >= 1 && $u_role_id <= 5) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
-                                                <label for="" id="email_duplicate_message" style="color: red; display:none;">البريد الإلكتروني موجود بالفعل</label>
+                                                <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.The email already exists')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label" for="textinput">عنوان السكن</label>
+                                            <label class="col-lg-12 form-label" for="textinput"> {{__('translate.Home address')}} {{-- عنوان السكن --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_address" name="u_address" type="text" class="form-control btn-square input-md" tabindex="8">
                                             </div>
@@ -73,25 +108,25 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">رقم الجوال * </label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Phone number')}}*  {{-- رقم الجوال --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_phone1" name="u_phone1" type="text" class="form-control btn-square input-md" tabindex="3" required pattern="[0-9]{10}" minlength="10" maxlength="10">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">رقم جوال احتياطي</label>
+                                            <label class="col-lg-12 form-label " for="textinput"> {{__('translate.Reserve phone number')}} {{-- رقم جوال احتياطي --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_phone2" name="u_phone2" type="text" class="form-control btn-square input-md" tabindex="6" pattern="[0-9]{10}" minlength="10" maxlength="10">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <div class="form-group m-t-15 custom-radio-ml">
-                                                <label class="form-label">الجنس * </label>
+                                                <label class="form-label">{{__('translate.Gender')}}* {{-- الجنس --}}</label>
                                                 <div class="radio radio-primary">
                                                     <input id="male" type="radio" name="u_gender" value="0" tabindex="9" checked>
-                                                    <label for="male" style="padding-right: 2px">ذكر</label>
+                                                    <label for="male" style="padding-right: 2px">{{__('translate.Male')}} {{-- ذكر --}}</label>
                                                     <input id="female" type="radio" name="u_gender" value="1" style="margin: 10px;">
-                                                    <label for="female" style="padding-right: 2px">أنثى</label>
+                                                    <label for="female" style="padding-right: 2px">{{__('translate.Female')}} {{-- أنثى --}}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -104,8 +139,27 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary" id="button_add_user_in_modal">إضافة {{$role_name}}</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="button_add_user_in_modal">
+                        {{__('translate.Add')}} {{-- إضافة --}}
+                        @if ($role_name == 'أدمن')
+                            {{__('translate.Administrator')}} {{-- أدمن --}}
+                        @elseif($role_name == 'طالب')
+                            {{__('translate.Student')}} {{-- طالب --}}
+                        @elseif($role_name == 'مشرف أكاديمي')
+                            {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                        @elseif($role_name == 'مساعد إداري')
+                            {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                        @elseif($role_name == 'مسؤول متابعة وتقييم')
+                            {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                        @elseif($role_name == 'مدير شركة')
+                            {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                        @elseif($role_name == 'مسؤول تدريب')
+                            {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                        @endif
+                    </button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                        {{__('translate.Cancel')}} {{-- إلغاء --}}
+                    </button>
                 </div>
             </form>
         </div>

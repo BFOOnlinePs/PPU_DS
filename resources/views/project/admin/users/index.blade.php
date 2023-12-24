@@ -14,13 +14,45 @@
 @section('navbar')
 <div class="row p-2">
     @if (isset($u_role_id))
-        <h1 class="text-center" id="r_name">{{$role_name}}</h1>
+        <h1 class="text-center" id="r_name">
+            @if ($role_name == 'أدمن')
+                {{__('translate.Administrator')}} {{-- أدمن --}}
+            @elseif($role_name == 'طالب')
+                {{__('translate.Student')}} {{-- طالب --}}
+            @elseif($role_name == 'مشرف أكاديمي')
+                {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+            @elseif($role_name == 'مساعد إداري')
+                {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+            @elseif($role_name == 'مسؤول متابعة وتقييم')
+                {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+            @elseif($role_name == 'مدير شركة')
+                {{__('translate.Company manager')}} {{-- مدير شركة --}}
+            @elseif($role_name == 'مسؤول تدريب')
+                {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+            @endif
+        </h1>
     @endif
     <div class="container">
         <div class="container-fluid">
             <div class="col-md-12 row p-2 text-center">
                 @foreach ($roles as $role)
-                    <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">{{$role->r_name}}</a>
+                    <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">
+                        @if ($role->r_name == 'أدمن')
+                            {{__('translate.Administrator')}} {{-- أدمن --}}
+                        @elseif($role->r_name == 'طالب')
+                            {{__('translate.Student')}} {{-- طالب --}}
+                        @elseif($role->r_name == 'مشرف أكاديمي')
+                            {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                        @elseif($role->r_name == 'مساعد إداري')
+                            {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                        @elseif($role->r_name == 'مسؤول متابعة وتقييم')
+                            {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                        @elseif($role->r_name == 'مدير شركة')
+                            {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                        @elseif($role->r_name == 'مسؤول تدريب')
+                            {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                        @endif
+                    </a>
                 @endforeach
             </div>
         </div>
@@ -35,11 +67,28 @@
     <div class="card">
         <div class="card-body">
             @if (isset($u_role_id))
-                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span> إضافة {{$role_name}}</button>
+                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                        @if ($role_name == 'أدمن')
+                            {{__('translate.Administrator')}} {{-- أدمن --}}
+                        @elseif($role_name == 'طالب')
+                            {{__('translate.Student')}} {{-- طالب --}}
+                        @elseif($role_name == 'مشرف أكاديمي')
+                            {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                        @elseif($role_name == 'مساعد إداري')
+                            {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                        @elseif($role_name == 'مسؤول متابعة وتقييم')
+                            {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                        @elseif($role_name == 'مدير شركة')
+                            {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                        @elseif($role_name == 'مسؤول تدريب')
+                            {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                        @endif
+                </button>
             @else
                 <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
             @endif
-            <input class="form-control mb-2 " id="search_input" onkeyup="user_search(this.value)" type="search" placeholder="البحث">
+            <input class="form-control mb-2 " id="search_input" onkeyup="user_search(this.value)" type="search" placeholder="{{__('translate.Search')}}"> {{-- البحث --}}
             <div id="user-table">
                 @include('project.admin.users.ajax.usersList')
             </div>
@@ -132,7 +181,7 @@
                     $('#user-table').html(response.html);
                 },
                 error: function() {
-                    
+
                 }
             });
         }
@@ -160,8 +209,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Display an alert with the error message
-                    alert('Error: ' + error);
+
                 }
             });
         }

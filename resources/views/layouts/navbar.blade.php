@@ -135,7 +135,7 @@
                 <li class="onhover-dropdown p-0">
                     {{-- <button class="btn btn-primary-light" type="button"><a href="login_two.html"><i
                                 data-feather="log-out"></i>Log out</a></button> --}}
-                                <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">تسجيل الخروج</a>
+                                <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{__('translate.Log out')}} {{-- تسجيل الخروج --}}</a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}

@@ -80,22 +80,22 @@
                             aria-hidden="true"></i></div>
                         </li>
                         <li class="dropdown"><a class="nav-link" href="{{route('home')}}"><i
-                                    data-feather="home"></i><span>الرئيسية</span></a></li>
+                                    data-feather="home"></i><span> {{__('translate.Main')}} {{-- الرئيسية --}}</span></a></li>
 
                         <li class="dropdown"><a href="{{ route('admin.users.index') }}" class="nav-link"><i
-                                    data-feather="users"></i><span>إدارة المستخدمين</span></a></li>
+                                    data-feather="users"></i><span> {{__('translate.Users management')}} {{-- إدارة المستخدمين --}}</span></a></li>
 
                         <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
-                                    data-feather="anchor"></i><span>إدارة التخصصات</span></a>
+                                    data-feather="anchor"></i><span> {{__('translate.Specializations management')}} {{-- إدارة التخصصات --}}</span></a>
                         </li>
                         <li class=""><a class="nav-link" href="{{ route('admin.courses.index') }}"><i
-                                    data-feather="book"></i><span>إدارة المساقات</span></a></li>
+                                    data-feather="book"></i><span> {{__('translate.Courses management')}} {{-- إدارة المساقات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.semesterCourses.index') }}"><i
-                                    data-feather="book"></i><span>مساقات الفصول</span></a></li>
+                                    data-feather="book"></i><span> {{__('translate.Semester courses')}} {{-- مساقات الفصول --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
-                                    data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
+                                    data-feather="briefcase"></i><span> {{__('translate.Classification of companies')}} {{-- تصنيف الشركات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
-                                    data-feather="briefcase"></i><span>الشركات</span></a></li>
+                                    data-feather="briefcase"></i><span> {{__('translate.Companies')}} {{-- الشركات --}}</span></a></li>
                     @endif
                     {{-- <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>
