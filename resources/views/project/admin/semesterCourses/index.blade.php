@@ -20,7 +20,7 @@
 
 
 <div>
-    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span> إضافة مساق إلى الفصل الحالي</button>
+    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add course to current semester')}}{{-- إضافة مساق إلى الفصل الحالي --}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -37,14 +37,14 @@
 
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label class="col-form-label pt-0" for="exampleInputEmail1">الفصل الدراسي</label>
+                            <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Semester')}}{{-- الفصل الدراسي --}}</label>
                             {{-- <input class="form-control" id="semester" name="semester"> --}}
                             <div class="col-lg-12">
                                 <select id="semester" name="semester" class="form-control btn-square">
-                                    <option value="0">جميع الفصول</option>
-                                    <option value="1" @if($semester==1) selected @endif  >أول</option>
-                                    <option value="2" @if($semester==2) selected @endif>ثاني</option>
-                                    <option value="3" @if($semester==3) selected @endif>صيفي</option>
+                                    <option value="0">{{__('translate.All semesters')}}{{-- جميع الفصول --}}</option>
+                                    <option value="1" @if($semester==1) selected @endif>{{__('translate.First')}}{{-- أول --}}</option>
+                                    <option value="2" @if($semester==2) selected @endif>{{__('translate.Second')}}{{-- ثاني --}}</option>
+                                    <option value="3" @if($semester==3) selected @endif>{{__('translate.Summer')}}{{-- صيفي --}}</option>
                                 </select>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
 
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label class="col-form-label pt-0" for="exampleInputEmail1">العام الدراسي</label>
+                            <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic year')}}{{-- العام الدراسي --}}</label>
                             <div class="col-lg-12">
                                 <select id="year" name="year" class="form-control btn-square">
                                     <option value="0">جميع الأعوام</option>
@@ -68,14 +68,14 @@
                     <div class="col-md-2 d-flex justify-content-center">
                         <div class="form-group">
                             <div style="margin-top:27px;" style="width: 100%">
-                            <button class="btn btn-info  mb-2 btn-s" style="width: 120px" type="submit">بحث</button>
+                            <button class="btn btn-info  mb-2 btn-s" style="width: 120px" type="submit">{{__('translate.Search')}} {{-- بحث --}}</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
             <div class="mb-3">
-                <input class="form-control" onkeyup="courseNameSearch(this.value)" id="courseName" name="courseName" placeholder="البحث عن اسم المساق">
+                <input class="form-control" onkeyup="courseNameSearch(this.value)" id="courseName" name="courseName" placeholder="{{__('translate.Search for course name')}}"> {{-- البحث عن اسم المساق --}}
             </div>
 
         <div id="showTable">
@@ -84,13 +84,13 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col"> العام الدراسي</th>
-                            <th scope="col"> الفصل</th>
-                            <th scope="col">اسم المساق</th>
-                            <th scope="col">كود المساق</th>
-                            <th scope="col">ساعات المساق</th>
-                            <th scope="col">نوع المساق</th>
-                            <th scope="col"> العمليات </th>
+                            <th scope="col"> {{__('translate.Academic year')}}{{-- العام الدراسي --}}</th>
+                            <th scope="col">{{__('translate.Term')}}{{-- الفصل --}}</th>
+                            <th scope="col">{{__('translate.Course name')}} {{-- اسم المساق --}}</th>
+                            <th scope="col">{{__('translate.Course code')}}{{-- رمز المساق --}}</th>
+                            <th scope="col">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</th>
+                            <th scope="col">{{__('translate.Course type')}}{{-- نوع المساق --}}</th>
+                            <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,16 +103,16 @@
                             <tr>
                                 <td style="display:none;">{{ $key->sc_id }}</td>
                                 <td>{{ $key->sc_year }}</td>
-                                @if( $key->sc_semester == 1) <td>أول</td>@endif
-                                @if( $key->sc_semester == 2) <td>ثاني</td>@endif
-                                @if( $key->sc_semester == 3) <td>صيفي</td>@endif
+                                @if( $key->sc_semester == 1) <td>{{__('translate.First')}}{{-- أول --}}</td>@endif
+                                @if( $key->sc_semester == 2) <td>{{__('translate.Second')}}{{-- ثاني --}}</td>@endif
+                                @if( $key->sc_semester == 3) <td>{{__('translate.Summer')}}{{-- صيفي --}}</td>@endif
                                 <td>{{ $key->courses->c_name }}</td>
 
                                 <td>{{ $key->courses->c_course_code }}</td>
                                 <td>{{ $key->courses->c_hours }}</td>
-                                @if( $key->courses->c_course_type == 0) <td>نظري</td>@endif
-                                @if( $key->courses->c_course_type == 1) <td>عملي</td>@endif
-                                @if( $key->courses->c_course_type == 2) <td>نظري - عملي</td>@endif
+                                @if( $key->courses->c_course_type == 0) <td>{{__('translate.Theoretical')}} {{-- نظري --}}</td>@endif
+                                @if( $key->courses->c_course_type == 1) <td>{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
+                                @if( $key->courses->c_course_type == 2) <td>{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</td>@endif
 
 
                                 <td>

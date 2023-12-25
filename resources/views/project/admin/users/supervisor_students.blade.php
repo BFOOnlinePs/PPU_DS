@@ -41,13 +41,13 @@
             @endif
           <form class="card">
             <div class="card-header pb-0">
-              <h4 class="card-title mb-0">طلاب المشرف</h4>
+              <h4 class="card-title mb-0">{{__("translate.Supervisor's students")}} {{-- طلاب المشرف --}}</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <input class="form-control mb-2 " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
+                        <input class="form-control mb-2 " onkeyup="user_search(this.value)" type="search" placeholder="{{__('translate.Search')}}"> {{-- بحث --}}
                     </div>
                     <div class="col-md-4">
                         <select autofocus class="js-example-basic-single col-sm-12" name="m_id" id="select-major" onchange="select_major(this.value)">

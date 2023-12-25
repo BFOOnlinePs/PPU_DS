@@ -3,7 +3,7 @@
     إضافة شركة
 @endsection
 @section('header_title')
-     الشركات
+     {{__('translate.Companies')}}{{-- الشركات --}}
 @endsection
 @section('header_title_link')
     إدارة الشركات
@@ -97,32 +97,32 @@
                 <div class="f1-progress">
                     <div class="f1-progress-line"></div>
                 </div>
-                
+
                 <div class="f1-step"onclick="info()">
                     <div class="f1-step-icon"><i class="fa fa-file-text-o" ></i></div>
-                    <p>معلومات الشركة</p>
+                    <p>{{__('translate.Company information')}}{{-- معلومات الشركة --}}</p>
                 </div>
                 <div class="f1-step" onclick="department()">
                     <div class="f1-step-icon"><i class="fa fa-th-large" ></i></div>
-                    <p>أقسام الشركة</p>
+                    <p>{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</p>
                 </div>
                 <div class="f1-step" onclick="branch()">
                     <div class="f1-step-icon"><i class="fa fa-sitemap" ></i></div>
-                    <p>فروع الشركة</p>
+                    <p>{{__('translate.Company branches')}}{{-- فروع الشركة --}}</p>
                 </div>
-              
+
             </div>
 
-   
+
 
 
             <div id ="info">
                 <form id="EditCompanyInfo" method="post">
-            
+
             <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-first-name"> اسم الشركة</label>
+                            <label for="f1-first-name"> {{__('translate.Company name')}} {{-- اسم الشركة --}}</label>
 
                             <div class="input-container">
                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
@@ -138,65 +138,65 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">الشخص المسؤول</label>
+                            <label for="f1-last-name">{{__('translate.Owner')}}{{-- الشخص المسؤول --}}</label>
                             <input class="f1-last-name form-control" id="name" type="text" name="name" value="{{$company->manager->name}}" required="">
                         </div>
-                    </div>   
-                                    
+                    </div>
+
               <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">رقم هاتف الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}}</label>
                             <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" value="{{$company->manager->u_phone1}}" required="">
                         </div>
-                   
+
 
                 </div>
-   
-    
 
-                
-  
-                
+
+
+
+
+
 
     <div class="row">
                 <div class="col-md-4">
                         <div class=" mb-3 form-group">
-                            <label for="f1-first-name"> البريد الإلكتروني </label>
+                            <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} </label>
                             <input class="form-control" id="email" type="text" name="email" value="{{$company->manager->email}}" required="h">
                         </div>
-                  
-                 </div> 
+
+                 </div>
                        <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">كلمة المرور</label>
+                            <label for="f1-last-name">{{__('translate.Password')}} {{-- كلمة المرور --}}</label>
                             <input class="f1-password form-control" id="password" type="password" name="password" >
                         </div>
                     </div>
                     <div class="col-md-4">
                             <div class="form-group">
-                                <label for="f1-last-name">عنوان الشركة</label>
+                                <label for="f1-last-name">{{__('translate.Company address')}}{{-- عنوان الشركة --}}</label>
                                 <input class="f1-last-name form-control" id="address" type="text" name="address" value="{{$company->manager->u_address}}" required="">
                             </div>
                     </div>
                 </div>
     </div>
-  
+
                 <div class="row">
-            
-                  
+
+
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">نوع الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</label>
                             <select id="c_type" name="c_type" class="form-control btn-square" value="{{$company->c_type}}">
-                                <option @if($company->c_type== 1) selected @endif value="1">قطاع عام</option>
-                                <option @if($company->c_type== 2) selected @endif value="2">قطاع خاص</option>
+                                <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
+                                <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">تصنيف الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</label>
                             <select id="c_category" name="c_category" class="form-control btn-square" value="{{$company->c_category_id}}">
                                 @foreach($categories as $key)
                                    <option value="{{$key->cc_id}}" @if($company->c_category_id == $key->cc_id) selected @endif>{{$key->cc_name}}</option>
@@ -206,48 +206,48 @@
                     </div>
    <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">الموقع الإلكتروني</label>
+                            <label for="f1-last-name">{{__('translate.Website')}}{{-- الموقع الإلكتروني --}}</label>
                             <input  class="form-control" id="c_website" name="c_website" value="{{$company->c_website}}">
                         </div>
-                    </div>                   
-                         
+                    </div>
 
-                </div> 
+
+                </div>
                  <div class="row">
-    
-                 
-              
+
+
+
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="f1-last-name">وصف الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Company description')}}{{-- وصف الشركة --}}</label>
                             <textarea  class="form-control" id="c_description" name="c_description" rows="6" >{{$company->c_description}}</textarea>
                         </div>
                     </div>
-               
-                
-         
-    </div>
-   
-              
 
-                <input hidden id="manager_id" name="manager_id" value="{{$company->manager->u_id}}"> 
-                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}"> 
+
+
+    </div>
+
+
+
+                <input hidden id="manager_id" name="manager_id" value="{{$company->manager->u_id}}">
+                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
                 <div class="f1-buttons">
-                    <button type="submit" id="submit" class="btn btn-primary">تعديل</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" id="submit" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                                 </div>
-               
+
     </form>
                 </div>
-   
-    
 
 
 
-            
-            
 
-            
+
+
+
+
+
                 <div id="department" hidden>
                 <div class="col-md-8">
                             <div class="row">
@@ -255,110 +255,110 @@
                                     <div class="form-group">
                                     <form id="addDepartment" method="post">
 
-                                        <label for="f1-first-name"> اسم القسم</label>
+                                        <label for="f1-first-name"> {{__('translate.Department Name')}}{{-- اسم القسم --}}</label>
                                         <input class="form-control" id="d_name" name="d_name">
                                         <input class="form-control" id="d_company_id" name="d_company_id" value="{{$company->c_id}}" hidden>
     </form>
                                     </div>
                                 </div>
                                 <div class="col-md-4" style="margin-top: 26px;">
-                                    <button class="btn btn-info" type="button" onclick="addDepartment()">إضافة القسم</button>
+                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add department')}}{{-- إضافة القسم --}}</button>
                                 </div>
                             </div>
                             <div class="row" id="departmentsArea">
 
                             </div>
                         </div>
-              
+
 
                 <!--أقسام الشركة-->
-               
+
 
                 <div class="col-md-8" >
                     <div class="ribbon-wrapper-right card"  id="departments_summary_area_company" >
                       <div class="card-body">
-                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">أقسام الشركة</div>
-                        <div id="departments"> 
+                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</div>
+                        <div id="departments">
                              <div class="row">
                                         <form id="EditCompanyDepartments" method="post">
                                             <div id="noor12121">
-                                        
+
                                             <input id="companyDepartments" name="companyDepartments" value="{{$companyDepartments}}" hidden>
-                                        @foreach($companyDepartments as $key1)     
-                                        <input hidden id="d_id" name="d_id" value="{{$key1->d_id}}">  
+                                        @foreach($companyDepartments as $key1)
+                                        <input hidden id="d_id" name="d_id" value="{{$key1->d_id}}">
                                <div class="col-md-4">
                                 <input class="f1-last-name form-control" name="d_name_{{$key1->d_id}}" id="d_name_{{$key1->d_id}}" value="{{$key1->d_name}}">
       </div>
-   
-  
+
+
                                     @endforeach
-                                   
-                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">  
+
+                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
                   </div>
        <div class="f1-buttons" id="formButtons" hidden>
-                    <button type="submit" id="submit" class="btn btn-primary">تعديل</button> 
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" id="submit" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                                 </div>
-                               
+
 
   </form>
     </div>
     <div id="addedDepartment" >
-       
+
     </div>
-                                   
-                                       
+
+
     </div>
                         </div>
                     </div>
-       
-   
-          
-            </div>
-         
-              
-    </div>
-          
-           
-         
-       
 
-   
-   
-      
+
+
+            </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
 
             <div id="branch" hidden>
             <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='addBranch()'><span class="fa fa-plus"></span> إضافة فرع </button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='addBranch()'><span class="fa fa-plus"></span> {{__('translate.Add Branch')}}{{-- إضافة فرع --}}</button>
 </div>
     <div class="row" id="companyBranches">
             @foreach($company->companyBranch as $key)
-           
-                               
+
+
                     <div class="col-md-6">
                         <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
                           <div class="card-body">
                             <form id="EditCompanyBranches_{{$key->b_id}}" method="POST">
-                            <div class="ribbon ribbon-primary ribbon-right">@if($key->b_main_branch == 1) الفرع الرئيسي @else الفرع {{ $loop->index  ++  }}@endif</div> 
-   
+                            <div class="ribbon ribbon-primary ribbon-right">@if($key->b_main_branch == 1) {{__('translate.Main Branch')}}{{-- الفرع الرئيسي --}} @else {{__('translate.Branch')}} {{-- الفرع --}} {{ $loop->index  ++  }}@endif</div>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone1">هاتف 1</label>
+                                        <label for="phone1">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
                                         <input class="f1-last-name form-control" id="phone1_{{$key->b_id}}" type="text" name="phone1_{{$key->b_id}}" value="{{$key->b_phone1}}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone2">هاتف 2</label>
+                                        <label for="phone2">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
                                         <input class="f1-last-name form-control" id="phone2_{{$key->b_id}}"  name="phone2_{{$key->b_id}}"  value="{{$key->b_phone2}}" >
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="address">عنوان الفرع</label>
+                                        <label for="address">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
                                         <input class="f1-last-name form-control" id="address_{{$key->b_id}}" type="text" name="address_{{$key->b_id}}"   value="{{$key->b_address}}" >
                                     </div>
                                 </div>
@@ -370,26 +370,26 @@
                                 <div class="col-md-6">
                                     <div class="form-group" id="departments_group1_{{$key->b_id}}" >
                                         <input hidden id="branchesNumber_{{$key->b_id}}" name="branchedNumber_{{$key->b_id}}" value="{{count($company->companyBranch)}}">
-                                        <label for="departments_{{$key->b_id}}">أقسام الفرع</label>
+                                        <label for="departments_{{$key->b_id}}">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                                         <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments_{{$key->b_id}}"  multiple></select>
-                                       
+
                                     </div>
                                 </div>
-                                
 
 
-                            </div> 
+
+                            </div>
                 <div class="f1-buttons" >
-                    <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" class="btn btn-primary">تعديل</button> 
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                                 </div>
   </form>
                           </div>
                         </div>
-           
+
                     </div>
-                   
-                               
+
+
 
             @endforeach
      </div>
@@ -403,11 +403,11 @@
 
 
 
-            
+
     </div>
     </div>
 
-     
+
     </div>
 
 
@@ -449,14 +449,14 @@ let branches=JSON.parse(document.getElementById('branches').value)
 let uncompletedCompanySize = 0;
 let uncompletedCompany;
 $(document).ready(function()  {
-  
+
 for(i=0 ; i< branches.length ; i++){
 
     $('#departments_'+branches[i].b_id).on('select2:open', function (event) {
    console.log('Select2 dropdown opened!');
- 
+
    // Your custom code when the dropdown is opened
-   
+
    var multiselect = this;
    multiselect.innerHTML = '';
 console.log("hi")
@@ -465,7 +465,7 @@ console.log(multiselect);
         //  var selectedOptions=$('#departments1').val();
 
          for (var r = 0; r < options.length; r++) {
-            
+
                     var option = document.createElement("option");
                     option.text = options[r].d_name;
                     console.log("f")
@@ -474,7 +474,7 @@ console.log(multiselect);
                    // option.selected=true;
                     multiselect.add(option);
          }
-   
+
 
 });
 
@@ -485,14 +485,14 @@ console.log(multiselect);
 //noor
 function info(){
 
-    document.getElementById('info').hidden = false ; 
-    document.getElementById('department').hidden = true ;  
-    document.getElementById('branch').hidden = true ; 
+    document.getElementById('info').hidden = false ;
+    document.getElementById('department').hidden = true ;
+    document.getElementById('branch').hidden = true ;
 }
 function department(){
     document.getElementById('info').hidden = true ;
-    document.getElementById('department').hidden = false ;  
-    document.getElementById('branch').hidden = true ; 
+    document.getElementById('department').hidden = false ;
+    document.getElementById('branch').hidden = true ;
     if(document.getElementById('companyDepartments').value != null){
         document.getElementById('formButtons').hidden=false;
     }
@@ -510,8 +510,8 @@ function department(){
 }
 function branch(){
     document.getElementById('info').hidden = true ;
-    document.getElementById('department').hidden = true ; 
-    document.getElementById('branch').hidden = false ; 
+    document.getElementById('department').hidden = true ;
+    document.getElementById('branch').hidden = false ;
     console.log("fbbb")
     console.log(departments)
         //  var multiselect = document.getElementById('departments1');
@@ -522,26 +522,26 @@ function branch(){
         //             option.value = r;
         //             multiselect.add(option);
         //  }
-   
+
 
 
 }
 function addBranch(){
 
-  
+
     var multiselect = document.getElementById('departments1');
 
      var options = departments;
-       
+
          for (var r = 0; r < options.length; r++) {
-            
+
                     var option = document.createElement("option");
                     option.text = options[r].d_name;
                     console.log("f")
          console.log(options[r])
                     option.value = r;
                     multiselect.add(option);
-         }  
+         }
          $('#AddBranchModal').modal('show');
 
 }
@@ -568,12 +568,12 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 url: "{{ route('admin.companies.update') }}",
                 data: data,
                 success: function(response) {
-                  
+
                     company = response.company1
                     console.log("company");
                     console.log(company.c_name);
-                    $('#info').html(response.view); 
-                  
+                    $('#info').html(response.view);
+
                     // document.getElementById('c_name').value = company.c_name;
                     // document.getElementById('name').value = company.manager.name;
                     // document.getElementById('phoneNum').value = company.manager.u_phone1;
@@ -584,8 +584,8 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                     // document.getElementById('c_description').value = company.c_description;
                     // document.getElementById('c_website').value = company.c_website;
                     // document.getElementById('c_category').value = company.c_category;
-                  
-                    
+
+
                 },
                 //new
                 complete: function(){
@@ -605,11 +605,11 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
             depArr = JSON.stringify($('#departments1').val());
 
             console.log("ms_departments")
-              
+
                 document.getElementById("departmentsList").value = depArr;
 
-           
-           
+
+
             console.log("data55555")
             data = $('#addBranchForm').serialize();
             console.log(data);
@@ -636,10 +636,10 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                // dataType: 'json',
                 success: function(response) {
                     alert(response);
-                     $('#companyBranches').html(response.view); 
-                  
-                  
-                    
+                     $('#companyBranches').html(response.view);
+
+
+
                 },
                 //new
                 complete: function(){
@@ -672,7 +672,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 //new
                 beforeSend: function(){
 
-                   
+
                     $('#LoadingModal').modal('show');
                 },
                 type: 'POST',
@@ -681,10 +681,10 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 dataType: 'json',
                 success: function(response) {
                     alert(response)
-                     $('#companyBranches').html(response.view); 
-                  
-                  
-                    
+                     $('#companyBranches').html(response.view);
+
+
+
                 },
                 //new
                 complete: function(){
@@ -695,9 +695,9 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 }
             });
 
-       
+
         }
-        
+
 
 
         EditCompanyDepartments.addEventListener("submit", (e) => {
@@ -724,11 +724,11 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 data: data,
                 success: function(response) {
                 //   alert(response)
-                    
-                     $('#noor12121').html(response.view); 
-                  
-                  
-                    
+
+                     $('#noor12121').html(response.view);
+
+
+
                 },
                 //new
                 complete: function(){
@@ -1322,12 +1322,12 @@ $.ajax({
     data: data,
     dataType: 'json',
     success: function(response) {
-         $('#noor12121').html(response.view); 
+         $('#noor12121').html(response.view);
          departments = JSON.parse(document.getElementById('companyDepartments').value);
          console.log("departmentsdepartmentsdepartments")
          console.log(departments)
-      
-        
+
+
     },
     //new
     complete: function(){
@@ -1338,19 +1338,19 @@ $.ajax({
     }
 });
 
-     
+
     departmentName = document.getElementById('d_name').value;
    document.getElementById('departments_summary_area_company').hidden=false;
    // departments.push(departmentName);
     departments = JSON.parse(document.getElementById('companyDepartments').value);
 console.log("departmentsdepartmentsdepartments")
 console.log(departments)
-   
+
     document.getElementById('d_name').value = "";
     console.log("f")
     console.log(departments)
     console.log(branchesNumber)
-    branchesNumber= document.getElementById('branchesNumber').value ; 
+    branchesNumber= document.getElementById('branchesNumber').value ;
     if(departments.length!=0){
 
 ////////////to set departments for branches/////////////
@@ -1371,7 +1371,7 @@ console.log(multiselect)
         // option.text = departmentName;
         // option.value = departments.length;
         // multiselect.add(option);
-       
+
         // }
 
     }
@@ -1406,8 +1406,8 @@ if(branchesNumber>=1){
         +'<div class="col-md-4" ><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
     }
     $('#addedDepartment').html(x);
-    
-    
+
+
 }
 
 function departmentStep(){

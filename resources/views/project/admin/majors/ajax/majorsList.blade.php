@@ -7,10 +7,10 @@
         <thead>
             <tr>
                 <th scope="col" style="display:none;">id</th>
-                <th scope="col">اسم التخصص</th>
-                <th scope="col">الرمز المرجعي للتخصص</th>
-                <th scope="col">المشرف</th>
-                <th scope="col">العمليات</th>
+                <th scope="col">{{__("translate.Major's name")}} {{-- اسم التخصص --}}</th>
+                <th scope="col">{{__('translate.Major reference code')}} {{-- الرمز المرجعي للتخصص --}}</th>
+                <th scope="col">{{__('translate.Supervisor')}} {{-- المشرف --}}</th>
+                <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
 
             </tr>
         </thead>

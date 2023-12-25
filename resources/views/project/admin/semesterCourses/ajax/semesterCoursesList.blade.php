@@ -4,13 +4,13 @@
             <thead>
                 <tr>
                     <th scope="col" style="display:none;">id</th>
-                    <th scope="col"> العام الدراسي</th>
-                    <th scope="col"> الفصل</th>
-                    <th scope="col">اسم المساق</th>
-                    <th scope="col">كود المساق</th>
-                    <th scope="col">ساعات المساق</th>
-                    <th scope="col">نوع المساق</th>
-                    <th scope="col"> العمليات </th>
+                    <th scope="col"> {{__('translate.Academic year')}}{{-- العام الدراسي --}}</th>
+                    <th scope="col">{{__('translate.Term')}}{{-- الفصل --}}</th>
+                    <th scope="col">{{__('translate.Course name')}} {{-- اسم المساق --}}</th>
+                    <th scope="col">{{__('translate.Course code')}}{{-- رمز المساق --}}</th>
+                    <th scope="col">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</th>
+                    <th scope="col">{{__('translate.Course type')}}{{-- نوع المساق --}}</th>
+                    <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,16 +24,16 @@
                     <tr>
                         <td style="display:none;">{{ $key->sc_id }}</td>
                         <td>{{ $key->sc_year }}</td>
-                        @if( $key->sc_semester == 1) <td>أول</td>@endif
+                        @if( $key->sc_semester == 1) <td>{{__('translate.First')}}{{-- أول --}}</td>@endif
                         @if( $key->sc_semester == 2) <td>ثاني</td>@endif
-                        @if( $key->sc_semester == 3) <td>صيفي</td>@endif
+                        @if( $key->sc_semester == 3) <td>{{__('translate.Summer')}}{{-- صيفي --}}</td>@endif
                         <td>{{ $key->courses->c_name }}</td>
 
                         <td>{{ $key->courses->c_course_code }}</td>
                         <td>{{ $key->courses->c_hours }}</td>
-                        @if( $key->courses->c_course_type == 0) <td>نظري</td>@endif
-                        @if( $key->courses->c_course_type == 1) <td>عملي</td>@endif
-                        @if( $key->courses->c_course_type == 2) <td>نظري - عملي</td>@endif
+                        @if( $key->courses->c_course_type == 0) <td>{{__('translate.Theoretical')}} {{-- نظري --}}</td>@endif
+                        @if( $key->courses->c_course_type == 1) <td>{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
+                        @if( $key->courses->c_course_type == 2) <td>{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</td>@endif
 
                         <td>
                             @if($key->sc_semester == $semester && $key->sc_year == $year)

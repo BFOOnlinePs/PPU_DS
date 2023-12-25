@@ -31,7 +31,7 @@
             @endif
           <form class="card">
             <div class="card-header pb-0">
-              <h4 class="card-title mb-0">المساعدين الإداريين للمشرف الأكاديمي</h4>
+              <h4 class="card-title mb-0">{{__('translate.Administrative Assistants to the Academic Supervisor')}} {{-- المساعدين الإداريين للمشرف الأكاديمي --}}</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm" onclick="show_modal_add_assistant()" type="button"><span class="fa fa-plus"></span>إضافة مساعد إداري للمشرف الأكاديمي</button>
+                            <button class="btn btn-primary btn-sm" onclick="show_modal_add_assistant()" type="button"><span class="fa fa-plus"></span>{{__('translate.Adding an Administrative Assistant to the Academic Supervisor')}}{{-- إضافة مساعد إداري للمشرف الأكاديمي --}}</button>
                         </div>
                     </div>
                 </div>

@@ -5,8 +5,8 @@
     <table class="table table-bordered table-striped" id="students">
             <thead>
                 <tr>
-                    <th>اسم الطالب</th>
-                    <th>العمليات</th>
+                    <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
+                    <th>{{__('translate.Operations')}} {{--  العمليات --}}</th>
                 </tr>
             </thead>
             <tbody>

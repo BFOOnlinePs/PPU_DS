@@ -125,7 +125,7 @@
                 <h4>تسجيل الدخول</h4>
                 <h6></h6>
                 <div class="form-group">
-                  <label>البريد الإلكتروني</label>
+                  <label>{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</label>
                   <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
                     <input id="email" class="form-control " name="email" type="email" required="" placeholder="Test@gmail.com" value="" autocomplete="email" autofocus="">
                                       </div>
@@ -136,7 +136,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label>كلمة المرور</label>
+                  <label>{{__('translate.Password')}} {{-- كلمة المرور --}}</label>
                   <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
                     <input id="password" class="form-control " type="password" name="password" required="" placeholder="*********" autocomplete="current-password">
                                         <div class="show-hide"><span class="show">                         </span></div>
@@ -160,7 +160,7 @@
                                     <button onclick="login('noor@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">مسؤول المتابعة والتقييم</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('anas-bfo@gmail.com','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">مدير الشركة</button>
+                                    <button onclick="login('anas-bfo@gmail.com','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Manager of the company')}}{{-- مدير الشركة --}}</button>
                                 </div>
                                 <div class="div p-1">
                                     <button onclick="login('manar@gmail.com','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">مسؤول التدريب</button>

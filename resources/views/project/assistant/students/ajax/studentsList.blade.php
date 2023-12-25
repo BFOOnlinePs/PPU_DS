@@ -4,10 +4,10 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>اسم الطالب</th>
-            <th>اسم المستخدم</th>
-            <th>التخصص</th>
-            <th>عرض التفاصيل</th>
+            <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
+            <th>{{__('translate.Username')}} {{-- اسم المستخدم --}}</th>
+            <th>{{__('translate.Majors')}} {{-- التخصص --}}</th>
+            <th>{{__('translate.View details')}} {{-- عرض تفاصيل --}}</th>
         </tr>
     </thead>
     <tbody>

@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-plus" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h1>إضافة مساق</h1>
+                                <h1>{{__('translate.Add course')}}{{-- إضافة مساق --}}</h1>
 
                                 <hr>
-                                <p>في هذا القسم يمكنك إضافة مساق جديد</p>
+                                <p>{{__('translate.In this section, you can add a new course')}}{{-- في هذا القسم يمكنك إضافة مساق جديد --}}</p>
 
 
                         </div>
@@ -28,7 +28,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">اسم المساق<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course name')}} {{-- اسم المساق --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                                 <input id="c_name" name="c_name" type="text"
                                                     class="form-control " autofocus oninput="validateInput(this)">
@@ -41,7 +41,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">رمز المساق<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course code')}}{{-- رمز المساق --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
                                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                                 <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -55,13 +55,13 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">نوع المساق<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course type')}}{{-- نوع المساق --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                             <select id="c_course_type" name="c_course_type" class="form-control btn-square">
-                                                <option selected="" disabled="" value="">--اختيار--</option>
-                                                <option value="0">نظري</option>
-                                                <option value="1">عملي</option>
-                                                <option value="2">نظري - عملي</option>
+                                                <option selected="" disabled="" value="">--{{__('translate.Choice')}}{{-- اختيار --}}--</option>
+                                                <option value="0">{{__('translate.Theoretical')}} {{-- نظري --}}</option>
+                                                <option value="1">{{__('translate.Practical')}} {{-- عملي --}}</option>
+                                                <option value="2">{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</option>
                                             </select>
                                             </div>
                                         </div>
@@ -71,10 +71,10 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">عدد ساعات المساق<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course hours')}}{{-- ساعات المساق --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                             <select id="c_hours" name="c_hours" class="form-control btn-square">
-                                                <option selected="" disabled="" value="">--اختيار--</option>
+                                                <option selected="" disabled="" value="">--{{__('translate.Choice')}}{{-- اختيار --}}--</option>
                                                 <option value="1">0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -88,7 +88,7 @@
                                     <div class="col-md-6">
 
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">الرمز المرجعي للمساق<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course reference code')}}{{-- الرمز المرجعي للمساق --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
                                                 <i id="ref_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                                 <i id="ref_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -107,7 +107,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">وصف المساق<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course description')}}{{-- وصف المساق --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                                 <textarea id="c_description" name="c_description" type="text"
                                                     class="form-control btn-square input-md" rows="6"></textarea>
@@ -122,8 +122,8 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary" id="add_course">إضافة مساق</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="add_course">{{__('translate.Add course')}}{{-- إضافة مساق --}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>
         </div>

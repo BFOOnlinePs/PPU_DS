@@ -30,7 +30,7 @@
                 </div>
                 <div class="modal-footer ">
                     <button type="submit" class="btn btn-primary" id="button_add_course_in_modal">حفظ</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>
         </div>

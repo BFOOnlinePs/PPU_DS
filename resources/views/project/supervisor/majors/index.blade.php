@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm" onclick="$('#AddMajorModal').modal('show')" type="button"><span class="fa fa-plus"></span>  إضافة تخصص للمشرف الأكاديمي </button>
+                            <button class="btn btn-primary btn-sm" onclick="$('#AddMajorModal').modal('show')" type="button"><span class="fa fa-plus"></span>  {{__('translate.Adding a major for the academic supervisor')}} {{-- إضافة تخصص للمشرف الأكاديمي --}}</button>
                         </div>
                     </div>
                 </div>
