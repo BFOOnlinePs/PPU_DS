@@ -124,9 +124,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/update',[App\Http\Controllers\project\admin\CompaniesController::class,'update'])->name('admin.companies.update');
             Route::post('/updateDepartments',[App\Http\Controllers\project\admin\CompaniesController::class,'updateDepartments'])->name('admin.companies.updateDepartments');
             Route::post('/addDepartment',[App\Http\Controllers\project\admin\CompaniesController::class,'addDepartment'])->name('admin.companies.addDepartment');
+            Route::post('/createDepartments',[App\Http\Controllers\project\admin\CompaniesController::class,'createDepartments'])->name('admin.companies.createDepartments');
             Route::post('/updateBranches',[App\Http\Controllers\project\admin\CompaniesController::class,'updateBranches'])->name('admin.companies.updateBranches');
-       
-        }); 
+
+        });
 
         });
     });
