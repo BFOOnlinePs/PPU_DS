@@ -461,6 +461,7 @@ for(i=0 ; i< branches.length ; i++){
    multiselect.innerHTML = '';
 console.log("hi")
 console.log(multiselect);
+
          var options = departments;
         //  var selectedOptions=$('#departments1').val();
 
