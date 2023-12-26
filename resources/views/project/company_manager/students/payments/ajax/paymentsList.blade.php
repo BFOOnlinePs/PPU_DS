@@ -4,7 +4,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>اسم الطالب</th>
+                <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
                 <th>اسم المستخدم الَّذي قام بإضافة دفعة</th>
                 <th>قيمة المبلغ</th>
                 <th>الرقم المرجعي</th>

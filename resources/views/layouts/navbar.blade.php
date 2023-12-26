@@ -5,7 +5,7 @@
                 {{-- <a href="index.html">
                 <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="">
                 </a> --}}
-                <h6 style="margin-bottom: 0px;">كلية الدراسات الثنائية</h6>
+                <h6 style="margin-bottom: 0px;">{{__('translate.College of Dual Studies')}}</h6>
             </div>
             <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid"
                         src="{{ asset('assets/images/logo/dark-logo.png') }}" alt=""></a></div>
@@ -135,14 +135,18 @@
                 <li class="onhover-dropdown p-0">
                     {{-- <button class="btn btn-primary-light" type="button"><a href="login_two.html"><i
                                 data-feather="log-out"></i>Log out</a></button> --}}
-                                <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">تسجيل الخروج</a>
+                                <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{__('translate.Log out')}} {{-- تسجيل الخروج --}}</a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
-                </li>
+    </li>
             </ul>
         </div>
         <div class="d-lg-none mobile-toggle pull-right w-auto"><i data-feather="more-horizontal"></i></div>
     </div>
+    <p style="text-align: center;">
+        <a href="{{route('language' , 'en')}}">EN</a>
+        <a href="{{route('language' , 'ar')}}">AR</a>
+    </p>
 </div>

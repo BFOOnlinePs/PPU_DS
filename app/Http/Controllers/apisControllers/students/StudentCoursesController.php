@@ -61,7 +61,7 @@ class StudentCoursesController extends Controller
     }
 
 
-    // add course
+    // add course for student
     public function addStudentCourse(Request $request)
     {
         $validator = Validator::make(

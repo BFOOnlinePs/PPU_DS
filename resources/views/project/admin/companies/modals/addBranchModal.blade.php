@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-plus" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h1>إضافة فرع</h1>
+                                <h1>{{__('translate.Add Branch')}}{{-- إضافة فرع --}}</h1>
 
                                 <hr>
-                                <p>في هذا القسم يمكنك إضافة فرع جديد</p>
+                                <p>{{__('translate.In this section, you can add a new branch')}}{{-- في هذا القسم يمكنك إضافة فرع جديد --}}</p>
 
 
                         </div>
@@ -31,7 +31,7 @@
 
                                         <!-- Text input-->
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">هاتف 1</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="phone1"  type="text" name="phone1" tabindex="1"
                                                     class="form-control btn-square input-md" autofocus>
@@ -41,16 +41,16 @@
 
                                         <!-- Text input-->
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">هاتف 2</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
                                             <div class="col-lg-12">
-                                                <input  tabindex="3" id="phone2"  name="phone2" 
+                                                <input  tabindex="3" id="phone2"  name="phone2"
                                                     class="form-control btn-square input-md">
 
                                             </div>
                                         </div>
                                         <!-- Text input-->
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">عنوان الفرع</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
                                             <div class="col-lg-12">
                                                 <input  tabindex="4" id="address" type="text" name="address"
                                                     class="form-control btn-square input-md">
@@ -58,26 +58,26 @@
                                             </div>
                                         </div>
 
-                                        
-                                       
+
+
                                         <div class="mb-3 row">
                                         <div class="col-lg-12 form-label">
                                     <div class="col-lg-12" id="departments_group1" >
-                                        <label for="departments1">أقسام الفرع</label>
+                                        <label for="departments1">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                                         <select tabindex="5" class="js-example-basic-single col-sm-12" multiple="multiple" id="departments1" multiple>
 
                                               @foreach($companyDepartments as $key1)
                                                 <option   value="{{$key1->d_id }}" >{{$key1->d_name}}</option>
                                             @endforeach
                                   </select>
-                                 
-                                    
-                                       
-                                   
+
+
+
+
                                     </div>
                                     </div>
                                     </div>
-                                
+
 
 
                                         <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
@@ -85,11 +85,11 @@
                                         <input hidden id="departmentsList" name="departmentsList">
 
 
-                                  
-                                  
 
 
-                                       
+
+
+
                                     </div>
 
                                 </div>
@@ -98,10 +98,10 @@
                         </div>
                 </div>
                     </div>
-               
+
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary">إضافة فرع</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">{{__('translate.Add Branch')}}{{-- إضافة فرع --}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>
         </div>

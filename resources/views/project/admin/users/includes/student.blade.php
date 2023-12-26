@@ -4,9 +4,9 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>اسم الطالب</th>
-                <th>الفرع</th>
-                <th>القسم</th>
+                <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
+                <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
+                <th>{{__('translate.The section')}} {{-- القسم --}}</th>
             </tr>
         </thead>
         <tbody>
@@ -18,14 +18,14 @@
                         @if (isset($student->companyBranch->b_address))
                             {{$student->companyBranch->b_address}}
                         @else
-                            الفرع غير محدد
+                            {{__('translate.Branch unspecified')}} {{-- الفرع غير محدد --}}
                         @endif
                     </td>
                     <td>
                         @if (isset($student->companyDepartment->d_name))
                             {{$student->companyDepartment->d_name}}
                         @else
-                            القسم غير محددة
+                            {{__('translate.Section unspecified')}} {{-- القسم غير محدد --}}
                         @endif
                     </td>
                 </tr>

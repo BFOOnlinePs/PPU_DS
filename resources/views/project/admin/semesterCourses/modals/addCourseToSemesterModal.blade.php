@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-plus" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h3>إضافة مساق إلى الفصل</h3>
+                                <h3>{{__('translate.Add course to current semester')}}{{-- إضافة مساق إلى الفصل الحالي --}}</h3>
 
                                 <hr>
-                                <p>في هذا القسم يمكنك إضافة مساق أو عدة مساقات إلى الفصل الحالي</p>
+                                <p>{{__('translate.In this section, you can add one or multiple courses to the current semester')}}{{-- في هذا القسم يمكنك إضافة مساق أو عدة مساقات إلى الفصل الحالي --}}</p>
 
 
                         </div>
@@ -26,7 +26,7 @@
                                 <form class="form-horizontal" id="addCourseToSemesterForm" action="" method="POST" enctype="multipart/form-data">
                                     @csrf
                                 <div class="mb-2">
-                                    <label class="col-form-label">المساقات "بامكانك اختيار مساق أو عدة مساقات"</label>
+                                    <label class="col-form-label">{{__('translate.Courses (You can select one course or multiple courses)')}}{{-- (المساقات (بإمكانك اختيار مساق أو عدة مساقات --}}</label>
                                     <select class="js-example-basic-single col-sm-12" multiple="multiple" id="selectedCourses" multiple>
                                         @foreach($course as $key)
                                         <option value="{{$key->c_id}}">{{$key->c_name}}</option>
@@ -46,8 +46,8 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary">إضافة</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">{{__('translate.Add')}}{{-- إضافة --}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>
         </div>

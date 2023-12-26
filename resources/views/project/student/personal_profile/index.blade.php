@@ -37,13 +37,13 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">اسم المستخدم</label>
+                                        <label class="form-label">{{__('translate.Username')}} {{-- اسم المستخدم --}}</label>
                                         <input class="form-control" type="text" name="u_username" value="{{ $user->u_username }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">البريد الإلكتروني</label>
+                                        <label class="form-label">{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</label>
                                         <input class="form-control" type="email" name="email" value="{{ $user->email }}" readonly>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">التخصص</label>
+                                        <label class="form-label">{{__('translate.Majors')}} {{-- التخصص --}}</label>
                                         <input class="form-control" type="text" value="{{$major_id->m_name}}" readonly>
                                     </div>
                                 </div>

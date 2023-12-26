@@ -31,7 +31,7 @@
         @elseif($user->u_role_id == 3)
             @include('project.admin.users.includes.menu_academic_supervisor')
         @elseif($user->u_role_id == 4)
-            @include('project.admin.users.includes.menu_supervisor_assistatns')
+            {{-- @include('project.admin.users.includes.menu_supervisor_assistatns') --}}
         @endif
     </div>
     <div class="edit-profile">
@@ -50,12 +50,18 @@
                 <div class="card-header pb-0">
                     @if($user->u_role_id == 6)
                         <input type="hidden" value="{{$user->u_id}}" id="user_id">
-                        <h4 class="card-title mb-0">   الطلاب المتدربين لدى شركة {{$company->c_name}} </h4>
+                        <h4 class="card-title mb-0">
+                            @if(app()->getLocale() == 'en')
+                                {{$company->c_name}} {{__("translate.Company's interns")}}
+                            @else
+                                {{__("translate.Company's interns")}} {{$company->c_name}}
+                            @endif
+                        </h4>
                         @if (isset($students))
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control mb-2 " onkeyup="user_search(this.value)" type="search" placeholder="البحث">
+                                    <input class="form-control mb-2 " onkeyup="user_search(this.value)" type="search" placeholder="{{__('translate.Search')}}"> {{-- بحث --}}
                                 </div>
                             </div>
                             <div id="user-table">

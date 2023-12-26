@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Close')}}{{-- إغلاق --}}</button>
                 </div>
         </div>
     </div>

@@ -15,7 +15,8 @@
 @section('content')
 
 <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies.company")}}"'><span class="fa fa-plus"></span> إضافة شركة</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies.company")}}"'><span class="fa fa-plus"></span> {{__('translate.Adding a company')}}{{-- إضافة شركة --}}</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies_categories.index")}}"'><span class="fa fa-briefcase"></span> {{__('translate.Categories of companies')}}{{-- تصنيف الشركات --}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -23,8 +24,8 @@
     <div class="card-body" >
         @if(!$data->isEmpty())
         <div class="form-outline">
-            <input type="search" onkeyup="companySearch(this.value)" class="form-control mb-2" placeholder="البحث"
-                aria-label="Search" />
+            <input type="search" onkeyup="companySearch(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
+                aria-label="Search" /> {{-- بحث --}}
         </div>
         @endif
         <div id="showTable">
@@ -33,11 +34,12 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">اسم الشركة</th>
-                            <th scope="col">مدير الشركة</th>
-                            <th scope="col">تصنيف الشركة</th>
-                            <th scope="col">نوع الشركة</th>
-                            <th scope="col">العمليات</th>
+                            <th scope="col">{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+                            <th scope="col">{{__('translate.Manager of the company')}}{{-- مدير الشركة --}}</th>
+                            <th scope="col">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</th>
+                            <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
+                            <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -52,8 +54,8 @@
                                 <td>{{ $key->c_name }}</td>
                                 <td>{{ $key->manager->name }}</td>
                                 <td>{{ $key->companyCategories->cc_name}}</td>
-                                @if( $key->c_type == 1) <td>قطاع عام</td>@endif
-                                @if( $key->c_type == 2) <td>قطاع خاص</td>@endif
+                                @if( $key->c_type == 1) <td>{{__('translate.Public sector')}}{{-- قطاع عام --}}</td>@endif
+                                @if( $key->c_type == 2) <td>{{__('translate.Private sector')}}{{-- قطاع خاص --}}</td>@endif
                                 <td>
                                   <button class="btn btn-info" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
                                 </td>
