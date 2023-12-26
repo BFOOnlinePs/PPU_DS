@@ -66,7 +66,7 @@
                                         <label for="departments1">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                                         <select tabindex="5" class="js-example-basic-single col-sm-12" multiple="multiple" id="departments1" multiple>
 
-                                              @foreach($companyDepartments as $key1)
+                                        @foreach($companyDepartments as $key1)
                                                 <option   value="{{$key1->d_id }}" >{{$key1->d_name}}</option>
                                             @endforeach
                                   </select>

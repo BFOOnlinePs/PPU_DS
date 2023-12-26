@@ -83,7 +83,7 @@ class CompaniesController extends Controller
         $categories = CompaniesCategory::get();
         $data = Company::with('manager','companyCategories','companyBranch.companyDepartments','companyDepartments')->where('c_id',$id)->first();
         // $companyDepartments=CompanyBranch::with('companyDepartments')->where('b_company_id',$id)->get();
-        $companyDepartments=CompanyDepartment::where('d_company_branch_id',$id)->get();
+        $companyDepartments=CompanyDepartment::where('d_company_id',$id)->get();
 
     //return $data;
         return view('project.admin.companies.edit',['company'=>$data,'categories'=>$categories,'uncompletedCompany'=>$uncompletedCompany,'companyDepartments'=>$companyDepartments]);
@@ -140,7 +140,7 @@ class CompaniesController extends Controller
     if($user->save() && $company->save() ){
         $company = Company::with('manager','companyCategories')->where('c_id',$request->c_id)->first();
         $categories = CompaniesCategory::get();
-        $companyDepartment=CompanyDepartment::where('d_company_branch_id',$request->c_id)->get();
+        $companyDepartment=CompanyDepartment::where('d_company_id',$request->c_id)->get();
 
    return response()->json([
             'success'=>'true',
@@ -151,7 +151,7 @@ class CompaniesController extends Controller
 
 }
  public function updateDepartments(Request $request){
-    $companyDepartments=CompanyDepartment::where('d_company_branch_id',$request->c_id)->get();
+    $companyDepartments=CompanyDepartment::where('d_company_id',$request->c_id)->get();
     foreach($companyDepartments as $key){
     // for($i = 0 ; $i<count($companyDepartments) ; $i++){
         $d_name='d_name_'.$key->d_id;
@@ -169,7 +169,7 @@ class CompaniesController extends Controller
 
     if($companyDepartment->save()){
         $company = Company::with('manager','companyCategories')->where('c_id',$request->c_id)->first();
-        $companyDepartments=CompanyDepartment::where('d_company_branch_id',$request->c_id)->get();
+        $companyDepartments=CompanyDepartment::where('d_company_id',$request->c_id)->get();
         $categories = CompaniesCategory::get();
    return response()->json([
             'success'=>'true',
@@ -340,12 +340,12 @@ class CompaniesController extends Controller
 
             $data = new CompanyDepartment;
             $data->d_name = $request->d_name;
-            $data->d_company_branch_id = $request->d_company_id;//must be  d_company_id until change the attribute in DB and reems' Tasks
+            $data->d_company_id = $request->d_company_id;//must be  d_company_id until change the attribute in DB and reems' Tasks
 
           if($data->save()){
         $company = Company::with('manager','companyCategories','companyBranch.companyDepartments','companyDepartments')->where('c_id',$request->d_company_id)->first();
         $categories = CompaniesCategory::get();
-        $companyDepartments=CompanyDepartment::where('d_company_branch_id',$request->d_company_id)->get();
+        $companyDepartments=CompanyDepartment::where('d_company_id',$request->d_company_id)->get();
             return response()->json([
                 'success'=>'true',
                 'view'=>view('project.admin.companies.ajax.departmentForm',['company'=>$company,'categories'=>$categories,'companyDepartments'=>$companyDepartments])->render()

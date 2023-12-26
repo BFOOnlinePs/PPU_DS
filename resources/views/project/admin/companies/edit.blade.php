@@ -297,7 +297,6 @@
                   </div>
        <div class="f1-buttons" id="formButtons" hidden>
                     <button type="submit" id="submit" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                                 </div>
 
 
@@ -381,7 +380,6 @@
                             </div>
                 <div class="f1-buttons" >
                     <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                                 </div>
   </form>
                           </div>
@@ -445,12 +443,14 @@ let companyName;
 let company_id;
 let branchesNumber = 1;
 let departments = JSON.parse(document.getElementById('companyDepartments').value);
-let branches=JSON.parse(document.getElementById('branches').value)
 let uncompletedCompanySize = 0;
 let uncompletedCompany;
 $(document).ready(function()  {
+if(document.getElementById('branches').value != null )
+{
+     branches=JSON.parse(document.getElementById('branches').value)
 
-for(i=0 ; i< branches.length ; i++){
+   for(i=0 ; i< branches.length ; i++){
 
     $('#departments_'+branches[i].b_id).on('select2:open', function (event) {
    console.log('Select2 dropdown opened!');
@@ -477,7 +477,9 @@ console.log(multiselect);
          }
 
 
-});
+}); 
+}
+
 
 }
 });
@@ -529,20 +531,6 @@ function branch(){
 }
 function addBranch(){
 
-
-    var multiselect = document.getElementById('departments1');
-
-     var options = departments;
-
-         for (var r = 0; r < options.length; r++) {
-
-                    var option = document.createElement("option");
-                    option.text = options[r].d_name;
-                    console.log("f")
-         console.log(options[r])
-                    option.value = r;
-                    multiselect.add(option);
-         }
          $('#AddBranchModal').modal('show');
 
 }
@@ -636,7 +624,6 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 data: data,
                // dataType: 'json',
                 success: function(response) {
-                    alert(response);
                      $('#companyBranches').html(response.view);
 
 
@@ -681,7 +668,6 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 data: data,
                 dataType: 'json',
                 success: function(response) {
-                    alert(response)
                      $('#companyBranches').html(response.view);
 
 
@@ -725,7 +711,6 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 data: data,
                 success: function(response) {
                 //   alert(response)
-
                      $('#noor12121').html(response.view);
 
 
@@ -1303,6 +1288,17 @@ function addDepartment(){
     data=$('#addDepartment').serialize();
     console.log(data)
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    var multiselect = document.getElementById('departments1');
+
+var options = departments;
+console.log(departments)
+console.log("departments")
+var r = departments.length;
+console.log(r);
+               var option = document.createElement("option");
+               option.text = departmentName;
+               option.value = r;
+               multiselect.add(option);
 
 // Send an AJAX request with the CSRF token
 $.ajaxSetup({
