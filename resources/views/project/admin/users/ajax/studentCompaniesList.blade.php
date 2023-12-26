@@ -18,9 +18,9 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>اسم الشركة</th>
-                        <th>الفرع</th>
-                        <th>القسم</th>
+                        <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+                        <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
+                        <th>{{__('translate.The section')}} {{-- القسم --}}</th>
                         <th>المدرب المسؤول في الشركة</th>
                         <th>مساعد المشرف في الجامعة</th>
                     </tr>

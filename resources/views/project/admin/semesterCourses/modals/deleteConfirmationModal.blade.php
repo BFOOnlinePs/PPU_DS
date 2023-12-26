@@ -15,7 +15,7 @@
      </div>
      <div class="modal-footer">
       <button id="b-deactive" type="button" class="btn btn-danger" onclick="deleteCourse()">حذف</button>
-      <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">إلغاء</button>
+      <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
       </div>
      </div>
     </div>

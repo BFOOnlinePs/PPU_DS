@@ -13,36 +13,36 @@
                             <hr>
                             <p>في هذا القسم يمكنك اختيار مشرفين لتخصص معين</p>
                         </div>
-                      
-                            
+
+
                         <div class="col-md-8" id="test">
                             <div class="row">
                                 <div class="col-md-12">
                                     <form id="AddSuperVisorForm" enctype="multipart/form-data">
-                                    @csrf   
+                                    @csrf
                                     <input id="selected_m_id" name="m_id" hidden type="text"
                                                     class="form-control btn-square input-md">
                                      <div class="form-group">
-                                        <label for="">المشرف</label>
+                                        <label for="">{{__('translate.Supervisor')}} {{-- المشرف --}}</label>
                                         <select  class="js-example-basic-single col-sm-12" id="supervisor"  multiple="multiple" >
                                             @foreach ($superVisors as $super)
                                                 <option   value="{{$super->u_id }}" >{{$super->name}}</option>
                                             @endforeach
                                         </select>
-                                    </div>       
-                                  
+                                    </div>
+
                                 </div>
                             </div>
-                          
+
                         </div>
 
                     </div>
-              
+
             </div>
             <div class="modal-footer ">
-                
+
                 <button type="submit" class="btn btn-primary" id="buttonName"></button>
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
             </div>
             </form>
         </div>

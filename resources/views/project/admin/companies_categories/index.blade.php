@@ -22,20 +22,20 @@
 @section('content')
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCompaniesCategoriesModal').modal('show')" type="button"><span
-                class="fa fa-plus"></span> إضافة تصنيف الشركات</button>
+                class="fa fa-plus"></span>{{__('translate.Add company category')}}{{--  إضافة تصنيف شركات--}}</button>
     </div>
 
     <div class="card" style="padding-left:0px; padding-right:0px;">
         <div class="card-body">
 
             <div class="form-outline" id="showSearch" hidden>
-                <input type="search" onkeyup="companies_categories_search(this.value)" class="form-control mb-2" placeholder="البحث"
-                    aria-label="Search" />
+                <input type="search" onkeyup="companies_categories_search(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
+                    aria-label="Search" /> {{-- بحث --}}
             </div>
             @if(!$data->isEmpty())
             <div class="form-outline">
-                <input type="search" onkeyup="companies_categories_search(this.value)" class="form-control mb-2" placeholder="البحث"
-                    aria-label="Search" />
+                <input type="search" onkeyup="companies_categories_search(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
+                    aria-label="Search" /> {{-- بحث --}}
             </div>
             @endif
 
@@ -45,8 +45,8 @@
                         <thead>
                             <tr>
                                 <th scope="col" style="display:none;">id</th>
-                                <th scope="col">تصنيف الشركة</th>
-                                <th scope="col">العمليات</th>
+                                <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
+                                <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
                             </tr>
                         </thead>
                         <tbody>

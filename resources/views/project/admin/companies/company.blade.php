@@ -3,7 +3,7 @@
     إضافة شركة
 @endsection
 @section('header_title')
-     الشركات
+     {{__('translate.Companies')}}{{-- الشركات --}}
 @endsection
 @section('header_title_link')
     إدارة الشركات
@@ -94,15 +94,15 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-file-text-o"></i></div>
-                    <p>معلومات الشركة</p>
+                    <p>{{__('translate.Company information')}}{{-- معلومات الشركة --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-th-large"></i></div>
-                    <p>أقسام الشركة</p>
+                    <p>{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-sitemap"></i></div>
-                    <p>فروع الشركة</p>
+                    <p>{{__('translate.Company branches')}}{{-- فروع الشركة --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-file-text"></i></div>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">الشخص المسؤول</label>
+                            <label for="f1-last-name">{{__('translate.Owner')}}{{-- الشخص المسؤول --}}</label>
                             <input class="f1-last-name form-control" id="name" type="text" name="name" required="">
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-first-name"> البريد الإلكتروني </label>
+                            <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} </label>
                             <div class="input-container">
                                 <i id="email_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                 <i id="email_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">كلمة المرور</label>
+                            <label for="f1-last-name">{{__('translate.Password')}} {{-- كلمة المرور --}}</label>
                             <input class="f1-password form-control" id="password" type="password" name="password" required="">
                         </div>
                     </div>
@@ -163,13 +163,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">رقم هاتف الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}}</label>
                             <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" required="">
                         </div>
                     </div>
                     <div class="col-md-6">
                             <div class="form-group">
-                                <label for="f1-last-name">عنوان الشركة</label>
+                                <label for="f1-last-name">{{__('translate.Company address')}}{{-- عنوان الشركة --}}</label>
                                 <input class="f1-last-name form-control" id="address" type="text" name="address" required="">
                             </div>
                     </div>
@@ -220,7 +220,7 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">الموقع الإلكتروني</label>
+                            <label for="f1-last-name">{{__('translate.Website')}}{{-- الموقع الإلكتروني --}}</label>
 
                             <input class="form-control" id="c_website" name="c_website">
                         </div>
@@ -228,10 +228,10 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">تصنيف الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</label>
                             <select id="c_type" name="c_type" class="form-control btn-square">
-                                <option value="1">قطاع عام</option>
-                                <option value="2">قطاع خاص</option>
+                                <option value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
+                                <option value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
                             </select>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="f1-last-name">وصف الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Company description')}}{{-- وصف الشركة --}}</label>
                             <textarea  class="form-control" id="c_description" name="c_description" rows="6"></textarea>
                         </div>
                     </div>
@@ -298,7 +298,7 @@
                                 <h1><span class="fa fa-th" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h3>إضافة قسم إلى الشركة</h3>
+                                <h3>{{__('translate.Add Department to Company')}}{{-- إضافة قسم إلى الشركة --}}</h3>
 
                                 <hr>
                                 <p>في هذا القسم يمكنك إضافة الأقسام الخاصة بالشركة الحالية</p>
@@ -311,12 +311,12 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="f1-first-name"> اسم القسم</label>
+                                        <label for="f1-first-name">{{__('translate.Department Name')}}{{-- اسم القسم --}}</label>
                                         <input class="form-control" id="d_name" name="d_name">
                                     </div>
                                 </div>
                                 <div class="col-md-4" style="margin-top: 26px;">
-                                    <button class="btn btn-info" type="button" onclick="addDepartment()">إضافة القسم</button>
+                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add department')}}{{-- إضافة القسم --}}</button>
                                 </div>
                             </div>
                             <div class="row" id="departmentsArea">
@@ -341,17 +341,17 @@
                     <div class="col-md-6">
                         <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
                           <div class="card-body">
-                            <div class="ribbon ribbon-primary ribbon-right">الفرع الرئيسي</div>
+                            <div class="ribbon ribbon-primary ribbon-right">{{__('translate.Main Branch')}}{{-- الفرع --}}</div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone1_1">هاتف 1</label>
+                                        <label for="phone1_1">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
                                         <input class="f1-last-name form-control" id="phone1_1" type="text" name="phone1_1" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone2_1">هاتف 2</label>
+                                        <label for="phone2_1">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
                                         <input class="f1-last-name form-control" id="phone2_1"  name="phone2_1" required="">
                                     </div>
                                 </div>
@@ -359,13 +359,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="address1">عنوان الفرع</label>
+                                        <label for="address1">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
                                         <input class="f1-last-name form-control" id="address1" type="text" name="address1" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group" id="departments_group1" hidden>
-                                        <label for="departments1">أقسام الفرع</label>
+                                        <label for="departments1">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                                         <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments1" multiple></select>
                                     </div>
                                 </div>
@@ -379,17 +379,17 @@
                     <div class="col-md-6" id="secondBranch" hidden>
                         <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
                             <div class="card-body">
-                                <div class="ribbon ribbon-primary ribbon-right">الفرع 2</div>
+                                <div class="ribbon ribbon-primary ribbon-right">{{__('translate.Branch')}} {{-- الفرع --}} 2</div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="phone1_2">هاتف 1</label>
+                                            <label for="phone1_2">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
                                             <input class="f1-last-name form-control" id="phone1_2" type="text" name="phone1_2" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="phone2_2">هاتف 2</label>
+                                            <label for="phone2_2">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
                                             <input class="f1-last-name form-control" id="phone2_2" name="phone2_2">
                                         </div>
                                     </div>
@@ -397,13 +397,13 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="address2">عنوان الفرع</label>
+                                            <label for="address2">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
                                             <input class="f1-last-name form-control" id="address2" type="text" name="address2" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group" id="departments_group2" hidden>
-                                            <label for="departments2">أقسام الفرع</label>
+                                            <label for="departments2">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                                             <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments2" multiple></select>
                                         </div>
                                     </div>
@@ -448,35 +448,35 @@
                         </tr>
                       <tbody>
                         <tr>
-                          <td class="col-md-3">الشخص المسؤول</td>
+                          <td class="col-md-3">{{__('translate.Owner')}}{{-- الشخص المسؤول --}}</td>
                           <td id="manager_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">البريد الإلكتروني</td>
+                          <td class="col-md-3">{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</td>
                           <td id="email_sammury"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">رقم هاتف الشركة</td>
+                          <td class="col-md-3">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}}</td>
                           <td id="phone_summary"></td>
                         </tr>
                         <tr id="phone2_summary_area" hidden>
-                          <td class="col-md-3">هاتف 2</td>
+                          <td class="col-md-3">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</td>
                           <td id="phone2_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">عنوان الشركة</td>
+                          <td class="col-md-3">{{__('translate.Company address')}}{{-- عنوان الشركة --}}</td>
                           <td id="address_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">تصنيف الشركة</td>
+                          <td class="col-md-3">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</td>
                           <td id="category_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">نوع الشركة</td>
+                          <td class="col-md-3">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</td>
                           <td id="type_summary"></td>
                         </tr>
                         <tr id="description_summary_area" hidden>
-                          <td class="col-md-3">وصف الشركة</td>
+                          <td class="col-md-3">{{__('translate.Company description')}}{{-- وصف الشركة --}}</td>
                           <td id="description_summary"></td>
                         </tr>
                         <tr id="main_branch_departments_area" hidden>
@@ -484,7 +484,7 @@
                           <td id="main_branch_departments"></td>
                         </tr>
                         <tr id="website_summary_area" hidden>
-                          <td class="col-md-3">الموقع الإلكتروني</td>
+                          <td class="col-md-3">{{__('translate.Website')}}{{-- الموقع الإلكتروني --}}</td>
                           <td id="website_summary"></td>
                         </tr>
                       </tbody>
@@ -497,7 +497,7 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
-                                <th style="background-color: #ecf0ef82;" colspan="2">أقسام الشركة</th>
+                                <th style="background-color: #ecf0ef82;" colspan="2">{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</th>
                             </tr>
                         <tbody>
                             <tr>
@@ -522,7 +522,7 @@
                 <div class="f1-buttons">
                     {{-- <button class="btn btn-success" type="button">إنهاء</button> --}}
                     <a type="button" class="btn btn-success" href="{{ route('admin.companies.index') }}">إنهاء</a>
-                    <a type="button" class="btn btn-info" id="editCompanyLink">تعديل</a>
+                    <a type="button" class="btn btn-info" id="editCompanyLink">{{__('translate.Edit')}}{{-- تعديل --}}</a>
                     {{-- <button class="btn btn-info" type="button">تعديل</button> --}}
                 </div>
             </fieldset>

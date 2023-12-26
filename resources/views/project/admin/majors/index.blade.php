@@ -55,7 +55,7 @@
 @section('content')
 
     <div>
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button" id="openAddModalButton"><span class="fa fa-plus"></span>  إضافة تخصص</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button" id="openAddModalButton"><span class="fa fa-plus"></span>{{__('translate.Add major')}} {{-- إضافة تخصص --}}</button>
     </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -66,13 +66,13 @@
                 aria-label="Search" />
         </div> --}}
         <div class="form-outline" id="showSearch" hidden>
-            <input type="search" onkeyup="majorSearch(this.value)" class="form-control mb-2" placeholder="البحث"
-                aria-label="Search" />
+            <input type="search" onkeyup="majorSearch(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
+                aria-label="Search" /> {{-- بحث --}}
         </div>
         @if(!$data->isEmpty())
         <div class="form-outline">
-            <input type="search" onkeyup="majorSearch(this.value)" class="form-control mb-2" placeholder="البحث"
-                aria-label="Search" />
+            <input type="search" onkeyup="majorSearch(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
+                aria-label="Search" /> {{-- بحث --}}
         </div>
         @endif
 
@@ -82,10 +82,10 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">اسم التخصص</th>
-                            <th scope="col">الرمز المرجعي للتخصص</th>
-                            <th scope="col">المشرف</th>
-                            <th scope="col">العمليات</th>
+                            <th scope="col">{{__("translate.Major's name")}} {{-- اسم التخصص --}}</th>
+                            <th scope="col">{{__('translate.Major reference code')}} {{-- الرمز المرجعي للتخصص --}}</th>
+                            <th scope="col">{{__('translate.Supervisor')}} {{-- المشرف --}}</th>
+                            <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
 
                         </tr>
                     </thead>

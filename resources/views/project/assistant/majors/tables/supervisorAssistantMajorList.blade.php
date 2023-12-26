@@ -4,8 +4,8 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>التخصص</th>
-                <th>عرض طلاب التخصص</th>
+                <th>{{__('translate.Majors')}} {{-- التخصص --}}</th>
+                <th>{{__('translate.Displaying students of major')}} {{-- عرض طلاب التخصص --}}</th>
             </tr>
         </thead>
         <tbody>

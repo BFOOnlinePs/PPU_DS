@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label for="">التخصص</label>
+                                            <label for="">{{__('translate.Majors')}} {{-- التخصص --}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" name="m_id" id="select-majors">
                                                 @foreach ($majors as $major)
                                                     <option value="{{$major->m_id}}">{{$major->m_name}}</option>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="modal-footer ">
                     <button type="submit" class="btn btn-primary" id="button_add_major_in_modal">تسجيل التخصص</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>
         </div>

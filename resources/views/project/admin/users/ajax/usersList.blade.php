@@ -8,7 +8,7 @@
                 <th>{{__('translate.Username')}} {{-- اسم المستخدم --}}</th>
                 <th>{{__('translate.Phone number')}} {{-- رقم الجوال --}}</th>
                 <th>{{__('translate.Account status')}} {{-- حالة الحساب --}}</th>
-                <th>{{__('translate.View details')}} {{-- عرض التفاصيل --}}</th>
+                <th>{{__('translate.View details')}} {{-- عرض تفاصيل --}}</th>
             </tr>
         </thead>
         <tbody>

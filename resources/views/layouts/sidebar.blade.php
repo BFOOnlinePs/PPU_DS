@@ -17,7 +17,7 @@
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
                         <li class=""><a class="nav-link" href="{{ route('students.personal_profile.index')}}"><i data-feather="user"></i><span>الملف الشخصي</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('students.company.index')}}"><i data-feather="list"></i><span>الشركات</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.company.index')}}"><i data-feather="list"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('students.attendance.index')}}"><i data-feather="check"></i><span>سجل الحضور والمغادرة</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('students.payments.index')}}"><i data-feather="dollar-sign"></i><span>الدفعات</span></a></li>
                     @elseif (auth()->user()->u_role_id == 3) {{--- Supervisor --}}
@@ -28,13 +28,11 @@
                         <li class=""><a class="nav-link" href="{{ route('supervisors.majors.index' , ['id' => auth()->user()->u_id])}}"><i
                             data-feather="book-open"></i><span>{{__('translate.Majors')}}{{-- التخصصات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}"><i
-                            data-feather="users"></i><span>الطلاب</span></a></li>
+                            data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('supervisors.companies.index') }}"><i
-                                data-feather="briefcase"></i><span> أماكن التدريب</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
-                                    data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
+                                data-feather="briefcase"></i><span> {{__('translate.Training places')}} {{-- أماكن التدريب --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
-                                    data-feather="briefcase"></i><span>الشركات</span></a></li>
+                                    data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                     @elseif (auth()->user()->u_role_id == 4) {{--- Asisstant --}}
                         <li class="back-btn">
                             <div class="mobile-back text-end">
@@ -54,24 +52,22 @@
                             <a class="nav-link" href="{{route('supervisor_assistants.students.index' , ['ms_major_id' => null])}}">
                                 <i data-feather="users">
                                 </i>
-                                <span>الطلاب</span>
+                                <span>{{__('translate.Students')}}{{-- الطلاب --}}</span>
                             </a>
                         </li>
                         <li class="">
                         <a class="nav-link" href="{{route('supervisor_assistants.companies.index') }}">
                             <i data-feather="briefcase"></i>
-                            <span> أماكن التدريب</span>
+                            <span> {{__('translate.Training places')}} {{-- أماكن التدريب --}}</span>
                         </a>
                         </li>
-                        <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
-                        data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
-                        data-feather="briefcase"></i><span>الشركات</span></a></li>
+                        data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                     @elseif (auth()->user()->u_role_id == 6) {{-- Company manager --}}
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
-                        <li class=""><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>الطلاب</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>سجلات المتابعة</span></a></li>
                         <li class=""><a class="nav-link" href="{{route('company_manager.payments.index')}}"><i data-feather="dollar-sign"></i><span>الدفعات</span></a></li>
                     @else
@@ -92,8 +88,6 @@
                                     data-feather="book"></i><span> {{__('translate.Courses management')}} {{-- إدارة المساقات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.semesterCourses.index') }}"><i
                                     data-feather="book"></i><span> {{__('translate.Semester courses')}} {{-- مساقات الفصول --}}</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
-                                    data-feather="briefcase"></i><span> {{__('translate.Classification of companies')}} {{-- تصنيف الشركات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
                                     data-feather="briefcase"></i><span> {{__('translate.Companies')}} {{-- الشركات --}}</span></a></li>
                     @endif
@@ -104,8 +98,6 @@
                                 data-feather="book"></i><span>إدارة المساقات</span></a></li>
                     <li class=""><a class="nav-link" href="{{ route('admin.semesterCourses.index') }}"><i
                                 data-feather="book"></i><span>مساقات الفصول</span></a></li>
-                    <li class=""><a class="nav-link" href="{{ route('admin.companies_categories.index') }}"><i
-                                data-feather="briefcase"></i><span>تصنيف الشركات</span></a></li>
                     <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i data-feather="briefcase"></i><span>الشركات</span></a></li> --}}
                 </ul>
             </div>

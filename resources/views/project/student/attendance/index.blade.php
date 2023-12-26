@@ -26,15 +26,15 @@
                             <label class="from-control digits"></label>
                             <select autofocus class="js-example-basic-single col-sm-12" id="sc_id">
                                 @if (isset($student_company->company->c_name))
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | القسم : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.The section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 <option value="">جميع الشركات</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | القسم : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.The section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @else
                                 <option value="">جميع الشركات</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | القسم : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.The section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @endif
                             </select>
