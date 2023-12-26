@@ -21,10 +21,12 @@
 <div class="card" style="padding-left:0px; padding-right:0px;">
 
     <div class="card-body" >
+        @if(!$data->isEmpty())
         <div class="form-outline">
             <input type="search" onkeyup="companySearch(this.value)" class="form-control mb-2" placeholder="البحث"
                 aria-label="Search" />
         </div>
+        @endif
         <div id="showTable">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -33,8 +35,8 @@
                             <th scope="col" style="display:none;">id</th>
                             <th scope="col">اسم الشركة</th>
                             <th scope="col">مدير الشركة</th>
-                            <th scope="col">نوع الشركة</th>
                             <th scope="col">تصنيف الشركة</th>
+                            <th scope="col">نوع الشركة</th>
                             <th scope="col">العمليات</th>
                         </tr>
                     </thead>
