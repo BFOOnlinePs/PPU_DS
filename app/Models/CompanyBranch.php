@@ -18,7 +18,7 @@ class CompanyBranch extends Model
     }
     public function companyDepartments()
     {
-        return $this->hasMany(CompanyDepartment::class, 'd_company_branch_id', 'b_id');
+        return $this->hasMany(CompanyDepartment::class, 'd_company_id', 'b_id');
     }
     public function companies()
     {
