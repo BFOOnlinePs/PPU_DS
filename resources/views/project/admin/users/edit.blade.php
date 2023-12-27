@@ -20,33 +20,7 @@
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>
-                            @if ($error == 'اسم المستخدم حقل مطلوب')
-                                {{__('translate.Username field is required')}} {{-- اسم المستخدم حقل مطلوب --}}
-                            @elseif ($error == 'الاسم حقل مطلوب')
-                                {{__('translate.Name field is required')}} {{-- الاسم حقل مطلوب --}}
-                            @elseif ($error == 'البريد الإلكتروني حقل مطلوب')
-                                {{__('translate.Email field is required')}} {{-- البريد الإلكتروني حقل مطلوب --}}
-                            @elseif ($error == 'البريد الإلكتروني يجب أن يكون صالحًا.')
-                                {{__('translate.Email must be a valid email address')}} {{-- البريد الإلكتروني يجب أن يكون صالحًا --}}
-                            @elseif ($error == 'البريد الإلكتروني موجود بالفعل')
-                                {{__('translate.Email is already taken')}} {{-- البريد الإلكتروني موجود بالفعل --}}
-                            @elseif ($error == ' يجب أن تتكون كلمة المرور من 8  أرقام أو حروف')
-                                {{__('translate.Password must be at least 8 characters long')}} {{-- يجب أن تتكون كلمة المرور من 8 أرقام أو حروف --}}
-                            @elseif ($error == 'تاريخ الميلاد حقل مطلوب')
-                                {{__('translate.Date of Birth field is required')}} {{-- تاريخ الميلاد حقل مطلوب --}}
-                            @elseif ($error == 'صيغة تاريخ الميلاد غير صالحة')
-                                {{__('translate.Date of Birth is in an invalid format')}} {{-- صيغة تاريخ الميلاد غير صالحة --}}
-                            @elseif ($error == 'يجب أن يكون تاريخ الميلاد في الماضي')
-                                {{__('translate.Date of Birth must be before or equal to today')}} {{-- يجب أن يكون تاريخ الميلاد في الماضي --}}
-                            @elseif ($error == 'رقم الجوال حقل مطلوب')
-                                {{__('translate.Phone number field is required')}} {{-- رقم الجوال حقل مطلوب --}}
-                            @elseif ($error == 'يجب أن يتكون رقم الجوال من عشرة أرقام فقط')
-                                {{__('translate.Phone number must be exactly 10 digits')}} {{-- يجب أن يتكون رقم الجوال من عشرة أرقام فقط --}}
-                            @elseif ($error == 'يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط')
-                                {{__('translate.Secondary phone number must be exactly 10 digits')}} {{-- يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط --}}
-                            @elseif ($error == 'يجب اختيار ذكر أو أنثى')
-                                {{__('translate.Gender must be Male or Female')}} {{-- يجب اختيار ذكر أو أنثى --}}
-                            @endif
+                            {{$error}}
                         </li>
                     @endforeach
                 </ul>

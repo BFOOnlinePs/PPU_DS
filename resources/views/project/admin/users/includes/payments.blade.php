@@ -5,7 +5,7 @@
         <thead>
             <tr>
                 <th>{{__('translate.The username that added a payment')}} {{-- اسم المستخدم الذي قام بإضافة دفعة --}}</th>
-                <th>{{__('translate.The value of the amount')}} {{-- قيمة المبلغ --}}</th>
+                <th>{{__('translate.Amount value')}} {{-- قيمة المبلغ --}}</th>
                 <th>{{__('translate.The reference number')}} {{-- الرقم المرجعي --}}</th>
                 <th>{{__('translate.Payment status')}} {{-- حالة الدفعة --}}</th>
                 <th>{{__('translate.Student notes')}} {{-- ملاحظات الطالب --}}</th>

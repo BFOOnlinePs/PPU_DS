@@ -17,7 +17,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddPaymentModal').modal('show')" type="button" id="button_add_payment"><span class="fa fa-plus"></span> إضافة دفعة</button>
+                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddPaymentModal').modal('show')" type="button" id="button_add_payment"><span class="fa fa-plus"></span> {{__('translate.Add payment')}}{{-- إضافة دفعة --}}</button>
                 <div id="content">
                     @include('project.company_manager.students.payments.ajax.paymentsList')
                 </div>

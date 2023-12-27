@@ -5,8 +5,8 @@
     <table class="table table-bordered table-striped" id="students">
             <thead>
                 <tr>
-                    <th>التاريخ</th>
-                    <th>عرض التقرير</th>
+                    <th>{{__('translate.Date')}}{{-- التاريخ --}}</th>
+                    <th>{{__('translate.View report')}} {{-- عرض التقرير --}}</th>
                     <th>كتابة ملاحظات</th>
                 </tr>
             </thead>

@@ -28,33 +28,6 @@
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
                             data-feather="maximize"></i></a></li>
                 <li class="onhover-dropdown">
-                    <div class="bookmark-box"><i data-feather="star"></i></div>
-                    <div class="bookmark-dropdown onhover-show-div">
-                        <div class="form-group mb-0">
-                            <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text"><i
-                                            class="fa fa-search"></i></span></div>
-                                <input class="form-control" type="text"
-                                    placeholder="Search for bookmark...">
-                            </div>
-                        </div>
-                        <ul class="m-t-5">
-                            <li class="add-to-bookmark"><i class="bookmark-icon"
-                                    data-feather="inbox"></i>Email<span class="pull-right"><i
-                                        data-feather="star"></i></span></li>
-                            <li class="add-to-bookmark"><i class="bookmark-icon"
-                                    data-feather="message-square"></i>Chat<span class="pull-right"><i
-                                        data-feather="star"></i></span></li>
-                            <li class="add-to-bookmark"><i class="bookmark-icon"
-                                    data-feather="command"></i>Feather Icon<span class="pull-right"><i
-                                        data-feather="star"></i></span></li>
-                            <li class="add-to-bookmark"><i class="bookmark-icon"
-                                    data-feather="airplay"></i>Widgets<span class="pull-right"><i
-                                        data-feather="star"> </i></span></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i><span
                             class="dot-animated"></span></div>
                     <ul class="notification-dropdown onhover-show-div">
@@ -136,7 +109,8 @@
                     {{-- <button class="btn btn-primary-light" type="button"><a href="login_two.html"><i
                                 data-feather="log-out"></i>Log out</a></button> --}}
                                 <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{__('translate.Log out')}} {{-- تسجيل الخروج --}}</a>
-
+                                <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'en')}}">English</a>
+                                <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'ar')}}">عربي</a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
@@ -145,8 +119,4 @@
         </div>
         <div class="d-lg-none mobile-toggle pull-right w-auto"><i data-feather="more-horizontal"></i></div>
     </div>
-    <p style="text-align: center;">
-        <a href="{{route('language' , 'en')}}">EN</a>
-        <a href="{{route('language' , 'ar')}}">AR</a>
-    </p>
 </div>

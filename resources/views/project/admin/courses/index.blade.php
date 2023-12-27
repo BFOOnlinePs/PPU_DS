@@ -47,6 +47,7 @@
 
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add course')}}{{-- إضافة مساق --}}</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route("admin.semesterCourses.index")}}"' type="button"><span class="fa fa-book"></span> {{__('translate.Current semester courses')}}{{-- مساقات الفصل الحالي --}}</button>
     </div>
 
 
@@ -92,7 +93,7 @@
                                         @if( $key->c_course_type == 1) <td>{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
                                         @if( $key->c_course_type == 2) <td>{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</td>@endif
                                         <td id="table_buttons_{{$key->c_id}}">
-                                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-search"></i></button>
+                                            {{-- <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-info"></i></button> --}}
                                             <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
                                         </td>
                                     </tr>

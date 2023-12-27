@@ -1,15 +1,17 @@
-@if ($students->isEmpty())
-    <span class="text-center">لا يوجد متدربين في هذه الشركة</span>
-@else
-    <table class="table table-bordered table-striped">
-        <thead>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
+            <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
+            <th>{{__('translate.The section')}} {{-- القسم --}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if ($students->isEmpty())
             <tr>
-                <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
-                <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
-                <th>{{__('translate.The section')}} {{-- القسم --}}</th>
+                <td colspan="3" class="text-center"><span>{{__('translate.No trainee students in this company')}}{{-- لا يوجد طلاب متدربين في هذه الشركة --}}</span></td>
             </tr>
-        </thead>
-        <tbody>
+        @else
             @foreach($students as $student)
                 <tr>
                     <td>{{$student->users->name}}</td>
@@ -30,6 +32,6 @@
                     </td>
                 </tr>
             @endforeach
-        </tbody>
-    </table>
-@endif
+        @endif
+    </tbody>
+</table>

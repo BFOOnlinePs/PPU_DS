@@ -1,10 +1,11 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>id</th>
             <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
-            <th>وقت الحضور</th>
-            <th>وقت المغادرة</th>
-            <th>عرض التقرير</th>
+            <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
+            <th>{{__('translate.Departure time')}} {{-- وقت المغادرة --}}</th>
+            <th>{{__('translate.View report')}} {{-- عرض التقرير --}}</th>
         </tr>
     </thead>
     <tbody>

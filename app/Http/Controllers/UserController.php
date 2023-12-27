@@ -22,6 +22,7 @@ use App\Models\SemesterCourse;
 use App\Models\StudentReport;
 use App\Models\SupervisorAssistant;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     public function student_submit_report(Request $request)
@@ -364,7 +365,11 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'u_username' => 'required',
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($request->u_id , 'u_id'),
+            ],
             'password' => 'nullable|min:8',
             'u_date_of_birth' => [
                 'required',
@@ -376,19 +381,31 @@ class UserController extends Controller
             'u_gender' => 'required'
         ],
         [
-            'u_username.required' => 'اسم المستخدم حقل مطلوب',
-            'name.required' => 'الاسم حقل مطلوب' ,
-            'email.required' => 'البريد الإلكتروني حقل مطلوب',
-            'email.email' => 'البريد الإلكتروني يجب أن يكون صالحًا.',
-            'email.unique' => 'البريد الإلكتروني موجود بالفعل',
-            'password.min' => ' يجب أن تتكون كلمة المرور من 8  أرقام أو حروف',
-            'u_date_of_birth.required' => 'تاريخ الميلاد حقل مطلوب',
-            'u_date_of_birth.date' => 'صيغة تاريخ الميلاد غير صالحة',
-            'u_date_of_birth.before_or_equal' => 'يجب أن يكون تاريخ الميلاد في الماضي',
-            'u_phone1.required' => 'رقم الجوال حقل مطلوب',
-            'u_phone1.digits' => 'يجب أن يتكون رقم الجوال من عشرة أرقام فقط',
-            'u_phone2.digits' => 'يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط',
-            'u_gender' => 'يجب اختيار ذكر أو أنثى'
+            'u_username.required' => __('translate.Username') // اسم المستخدم حقل مطلوب
+            ,
+            'name.required' => __('translate.Name field is required') // الاسم حقل مطلوب
+            ,
+            'email.required' => __('translate.Email field is required') // البريد الإلكتروني حقل مطلوب
+            ,
+            'email.email' => __('translate.Email must be a valid email address') // البريد الإلكتروني يجب أن يكون صالحًا
+            ,
+            'email.unique' => __('translate.Email is already taken') // البريد الإلكتروني موجود بالفعل
+            ,
+            'password.min' => __('translate.Password must be at least 8 characters long') // يجب أن تتكون كلمة المرور من 8  أرقام أو حروف
+            ,
+            'u_date_of_birth.required' => __('translate.Date of Birth field is required') // تاريخ الميلاد حقل مطلوب
+            ,
+            'u_date_of_birth.date' => __('translate.Date of Birth is in an invalid format') // صيغة تاريخ الميلاد غير صالحة
+            ,
+            'u_date_of_birth.before_or_equal' => __('translate.Date of Birth must be before or equal to today') // يجب أن يكون تاريخ الميلاد في الماضي
+            ,
+            'u_phone1.required' => __('translate.Phone number field is required') // رقم الجوال حقل مطلوب
+            ,
+            'u_phone1.digits' => __('translate.Phone number must be exactly 10 digits') // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
+            ,
+            'u_phone2.digits' => __('translate.Secondary phone number must be exactly 10 digits') // يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط
+            ,
+            'u_gender' => __('translate.Gender must be Male or Female') // يجب اختيار ذكر أو أنثى
         ]
         );
         $user = User::find($request->u_id);
@@ -415,7 +432,7 @@ class UserController extends Controller
             return redirect()->back()->with('success', 'تم تعديل بيانات هذا المستخدم بنجاح');
         }
         else {
-            return redirect()->back()->withErrors(['error' => 'حدثت مشكلة أثناء تحديث البيانات.']);
+            return redirect()->back()->withErrors(['error' => 'حدثت مشكلة أثناء تحديث البيانات.'])->withInput();
         }
     }
     public function edit($id)

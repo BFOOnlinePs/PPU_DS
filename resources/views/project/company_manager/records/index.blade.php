@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header pb-0">
-                <h4 class="card-title mb-0">سِجل المتابعة لجميع متدربي الشركة</h4>
+                <h4 class="card-title mb-0">{{__('translate.The track records for all company trainees')}}{{-- سِجل المتابعة لجميع متدربي الشركة --}}</h4>
             </div>
             <div class="row card-body">
                 <div class="col-md-6">

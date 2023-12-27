@@ -22,7 +22,7 @@
                                 <input type="hidden" id="latitude">
                                 <input type="hidden" id="longitude">
                                 @if ($last_date != $date_today)
-                                    <button id="AttendanceRegistrationButton" class="btn btn-primary btn-sm custom-btn" onclick="AttendanceRegistration({{$student_company->sc_id}} , {{$student_company->sc_student_id}})" type="button"><span class="fa fa-plus"></span> تسجيل حضور</button>
+                                    <button id="AttendanceRegistrationButton" class="btn btn-primary btn-sm custom-btn" onclick="AttendanceRegistration({{$student_company->sc_id}} , {{$student_company->sc_student_id}})" type="button"><span class="fa fa-plus"></span>{{__('translate.Attendance record')}}{{-- تسجيل حضور --}}</button>
                                 @endif
                             </div>
                             @include('project.admin.users.modals.loading')

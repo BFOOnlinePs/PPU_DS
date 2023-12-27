@@ -1,0 +1,76 @@
+@extends('layouts.app')
+@section('title')
+    الرئيسية
+@endsection
+@section('header_title')
+@endsection
+@section('header_title_link')
+@endsection
+@section('header_link')
+@endsection
+@section('style')
+@endsection
+@section('content')
+<div class="row">
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">{{__('translate.Background color')}}{{-- لون الخلفية --}}:</label>
+                    <input class="form-control" type="color" id="primary_background_color" onchange="primary_background_color(this.value)" value="{{$background_color}}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">{{__('translate.Text color')}}{{-- لون الخط --}}:</label>
+                    <input class="form-control" type="color" id="primary_font_color" onchange="primary_font_color(this.value)" value="{{$text_color}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+@section('script')
+    <script>
+        function primary_background_color(color_value)
+        {
+            $.ajax({
+                url: "{{route('admin.color.primary_background_color')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'color_value' : color_value,
+                },
+                success: function(response) {
+
+                },
+                error: function() {
+
+                }
+            });
+        }
+        function primary_font_color(color_value)
+        {
+            $.ajax({
+                url: "{{route('admin.color.primary_font_color')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'color_value' : color_value,
+                },
+                success: function(response) {
+
+                },
+                error: function() {
+
+                }
+            });
+        }
+    </script>
+@endsection

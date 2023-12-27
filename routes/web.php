@@ -125,9 +125,17 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/updateDepartments',[App\Http\Controllers\project\admin\CompaniesController::class,'updateDepartments'])->name('admin.companies.updateDepartments');
             Route::post('/addDepartment',[App\Http\Controllers\project\admin\CompaniesController::class,'addDepartment'])->name('admin.companies.addDepartment');
             Route::post('/updateBranches',[App\Http\Controllers\project\admin\CompaniesController::class,'updateBranches'])->name('admin.companies.updateBranches');
-       
-        }); 
 
+        });
+
+        });
+        Route::group(['prefix'=>'settings'],function(){
+            Route::get('/', function () {
+                return view('project.admin.settings.index');
+            })->name('admin.settings');
+            Route::get('/coloring',[App\Http\Controllers\project\settings\SettingsController::class,'index'])->name('admin.color.index');
+            Route::post('/primary_background_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_background_color'])->name('admin.color.primary_background_color');
+            Route::post('/primary_font_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_font_color'])->name('admin.color.primary_font_color');
         });
     });
 
