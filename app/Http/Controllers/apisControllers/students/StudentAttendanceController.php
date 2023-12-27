@@ -130,8 +130,9 @@ class StudentAttendanceController extends Controller
     // req: sa_student_company_id
     public function checkTodayStudentAttendance(Request $request)
     {
+        $student_company_id = $request->input('sa_student_company_id');
         $student_attendance = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
-            ->where('sa_student_company_id', $request->input('sa_student_company_id'))
+            ->where('sa_student_company_id', $student_company_id)
             ->latest()
             ->first();
 
@@ -140,6 +141,11 @@ class StudentAttendanceController extends Controller
             ->first();
 
         $today = Carbon::now('Asia/Gaza')->toDateString();
+
+        $today_attendance = StudentAttendance::where('sa_student_company_id', $student_company_id)
+            ->whereDate('sa_in_time', $today)
+            // ->whereDoesntHave('report')
+            ->get();
 
         // if last check in is today and different sc_id and did not checked out
         // then he can not checkin in different training (return true true)
@@ -154,6 +160,7 @@ class StudentAttendanceController extends Controller
                     'today_checkin' => true,
                     'today_checkout' => true,
                     'sa_description' => null,
+                    'today_attendance' =>$today_attendance
                 ]);
             }
         }
@@ -185,6 +192,7 @@ class StudentAttendanceController extends Controller
             'today_checkin' => $today_checkin,
             'today_checkout' => $today_checkout,
             'sa_description' => $sa_description,
+            'today_attendance' =>$today_attendance
         ]);
     }
 }

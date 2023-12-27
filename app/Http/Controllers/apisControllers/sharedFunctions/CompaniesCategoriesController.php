@@ -46,7 +46,7 @@ class CompaniesCategoriesController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'تم إضافة التصنيف الجديد بنجاح',
-            'companyCategory' => $company_category,
+            // 'companyCategory' => $company_category,
         ]);
     }
 
