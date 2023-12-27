@@ -229,3 +229,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
+Route::get('generate', function () {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        echo 'ok';
+    });
+
