@@ -56,25 +56,25 @@ class CompaniesController extends Controller
         $data->u_address = $request->address;
         $data->u_role_id = 6;
 
-        // if($data->save()){
-        //     $user = User::where('email',$request->email)->first();
-        //     $id = $user->u_id;
-        //     $newCompany = new Company;
-        //     $newCompany->c_name = $request->c_name;
-        //     $newCompany->c_manager_id=$id;//get from added user
-        //     if($newCompany->save()){
-        //         return response()->json([
-        //             'success'=>'true',
-        //             'manager_id'=>$id,
-        //             'company_id'=>$newCompany->c_id
-        //         ]);
-        //     }
-        // }
+        if($data->save()){
+            $user = User::where('email',$request->email)->first();
+            $id = $user->u_id;
+            $newCompany = new Company;
+            $newCompany->c_name = $request->c_name;
+            $newCompany->c_manager_id=$id;//get from added user
+            if($newCompany->save()){
+                return response()->json([
+                    'success'=>'true',
+                    'manager_id'=>$id,
+                    'company_id'=>$newCompany->c_id
+                ]);
+            }
+        }
 
-        return response()->json([
-            'success'=>'true',
-            'data'=>"all has done"
-        ]);
+        // return response()->json([
+        //     'success'=>'true',
+        //     'data'=>"all has done"
+        // ]);
 
     }
 
@@ -93,27 +93,27 @@ class CompaniesController extends Controller
     //this function for update inserted company in add company page
     public function updateCompany(Request $request){
 
-        // $data = Company::where('c_manager_id',$request->manager_id)->first();
-        // if($request->c_description!=null){
-        //     $data->c_description = $request->c_description;
-        // }
-        // if($request->c_website!=null){
-        //     $data->c_website = $request->c_website;
-        // }
-        // $data->c_type = $request->c_type;
-        // $data->c_category_id = $request->c_category;
+        $data = Company::where('c_manager_id',$request->manager_id)->first();
+        if($request->c_description!=null){
+            $data->c_description = $request->c_description;
+        }
+        if($request->c_website!=null){
+            $data->c_website = $request->c_website;
+        }
+        $data->c_type = $request->c_type;
+        $data->c_category_id = $request->c_category;
 
-        // if($data->save()){
-        //     return response()->json([
-        //         'success'=>'true',
-        //         'data'=>"all has done"
-        //     ]);
-        // }
+        if($data->save()){
+            return response()->json([
+                'success'=>'true',
+                'data'=>"all has done"
+            ]);
+        }
 
-        return response()->json([
-            'success'=>'true',
-            'data'=>"all has done"
-        ]);
+        // return response()->json([
+        //     'success'=>'true',
+        //     'data'=>"all has done"
+        // ]);
     }
  public function update(Request $request){
 
@@ -183,55 +183,55 @@ class CompaniesController extends Controller
 
         $newlyCreatedId = 0;
         $departmentsList = json_decode($request->departmentsList, true);
-        //$company_id=Company::where('c_manager_id',$request->manager_id)->first()->c_id;
+        $company_id=Company::where('c_manager_id',$request->manager_id)->first()->c_id;
 
 
 
-        // for($i = 1;$i<=$request->branchesNum;$i++)
-        // {
-        //     $data = new CompanyBranch;
-        //     $data->b_company_id = $company_id;
-        //     $address = 'address'. $i;
-        //     $data->b_address = $request->$address;
-        //     $phone1 = 'phone1_'. $i;
-        //     $data->b_phone1 = $request->$phone1;
-        //     $phone2 = 'phone2_'. $i;
-        //     if($request->$phone2 != null){
-        //         $data->b_phone2 = $request->$phone2;
-        //     }
-        //     $data->b_manager_id = $request->manager_id;
-        //     if($i==1){
-        //         $data->b_main_branch = 1;
-        //     }else{
-        //         $data->b_main_branch = 0;
-        //     }
-        //     if($data->save()){
-        //         $departments = 'department_for_'. $i;
-        //         if($request->$departments!=null){
+        for($i = 1;$i<=$request->branchesNum;$i++)
+        {
+            $data = new CompanyBranch;
+            $data->b_company_id = $company_id;
+            $address = 'address'. $i;
+            $data->b_address = $request->$address;
+            $phone1 = 'phone1_'. $i;
+            $data->b_phone1 = $request->$phone1;
+            $phone2 = 'phone2_'. $i;
+            if($request->$phone2 != null){
+                $data->b_phone2 = $request->$phone2;
+            }
+            $data->b_manager_id = $request->manager_id;
+            if($i==1){
+                $data->b_main_branch = 1;
+            }else{
+                $data->b_main_branch = 0;
+            }
+            if($data->save()){
+                $departments = 'department_for_'. $i;
+                if($request->$departments!=null){
 
-        //             $newlyCreatedId = $data->b_id;
-        //             $branchDepartments = json_decode($request->$departments, true);
-        //             for($r=0;$r<count($branchDepartments);$r++){
-        //                 $branchDepartment = new companyBranchDepartments;
-        //                 $branchDepartment->cbd_company_branch_id = $newlyCreatedId;
+                    $newlyCreatedId = $data->b_id;
+                    $branchDepartments = json_decode($request->$departments, true);
+                    for($r=0;$r<count($branchDepartments);$r++){
+                        $branchDepartment = new companyBranchDepartments;
+                        $branchDepartment->cbd_company_branch_id = $newlyCreatedId;
 
 
-        //                 ///to get department name///////////////////
-        //                 $departmentName = $branchDepartments[$r];
-        //                 $departmentName = $departmentsList[$departmentName];
-        //                 ////////////////////////////////////////////
+                        ///to get department name///////////////////
+                        $departmentName = $branchDepartments[$r];
+                        $departmentName = $departmentsList[$departmentName];
+                        ////////////////////////////////////////////
 
-        //                 $depID=CompanyDepartment::where('d_company_id',$company_id)
-        //                 ->where('d_name',$departmentName)->first()->d_id;
+                        $depID=CompanyDepartment::where('d_company_id',$company_id)
+                        ->where('d_name',$departmentName)->first()->d_id;
 
-        //                 $branchDepartment->cbd_d_id= $depID;
+                        $branchDepartment->cbd_d_id= $depID;
 
-        //                 $branchDepartment->save();
-        //             }
+                        $branchDepartment->save();
+                    }
 
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
 
 
 
