@@ -16,10 +16,10 @@
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
-                        <li class=""><a class="nav-link" href="{{ route('students.personal_profile.index')}}"><i data-feather="user"></i><span>الملف الشخصي</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.personal_profile.index')}}"><i data-feather="user"></i><span>{{__('translate.Profile')}} {{-- الملف الشخصي --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('students.company.index')}}"><i data-feather="list"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('students.attendance.index')}}"><i data-feather="check"></i><span>سجل الحضور والمغادرة</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('students.payments.index')}}"><i data-feather="dollar-sign"></i><span>الدفعات</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.attendance.index')}}"><i data-feather="check"></i><span>{{__('translate.Record attendance and departure')}}{{-- سجل الحضور و المغادرة --}}</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('students.payments.index')}}"><i data-feather="dollar-sign"></i><span>{{__('translate.Payments')}} {{-- الدفعات --}}</span></a></li>
                     @elseif (auth()->user()->u_role_id == 3) {{--- Supervisor --}}
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
@@ -68,8 +68,8 @@
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
                         <li class=""><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
-                        <li class=""><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>سجلات المتابعة</span></a></li>
-                        <li class=""><a class="nav-link" href="{{route('company_manager.payments.index')}}"><i data-feather="dollar-sign"></i><span>الدفعات</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>{{__('translate.Track records')}}{{-- سجلات المتابعة --}}</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('company_manager.payments.index')}}"><i data-feather="dollar-sign"></i><span>{{__('translate.Payments')}} {{-- الدفعات --}}</span></a></li>
                     @else
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
@@ -86,10 +86,9 @@
                         </li>
                         <li class=""><a class="nav-link" href="{{ route('admin.courses.index') }}"><i
                                     data-feather="book"></i><span> {{__('translate.Courses management')}} {{-- إدارة المساقات --}}</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('admin.semesterCourses.index') }}"><i
-                                    data-feather="book"></i><span> {{__('translate.Semester courses')}} {{-- مساقات الفصول --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
                                     data-feather="briefcase"></i><span> {{__('translate.Companies')}} {{-- الشركات --}}</span></a></li>
+                        <li class="dropdown"><a class="nav-link" href="{{route('admin.settings')}}"><i data-feather="settings"></i><span> {{__('translate.Settings')}} {{-- الإعدادات --}}</span></a></li>
                     @endif
                     {{-- <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
                                 data-feather="anchor"></i><span>إدارة التخصصات</span></a>

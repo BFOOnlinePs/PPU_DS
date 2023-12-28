@@ -47,6 +47,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+
     <style>
         @font-face {
             font-family: 'Tajawal';
@@ -70,6 +71,7 @@
 </head>
 
 <body class="rtl">
+    @include('project.admin.settings.styles')
     <!-- Loader starts-->
     <div class="loader-wrapper">
         <div class="theme-loader">

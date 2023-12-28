@@ -21,8 +21,8 @@
                         <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
                         <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
                         <th>{{__('translate.The section')}} {{-- القسم --}}</th>
-                        <th>المدرب المسؤول في الشركة</th>
-                        <th>مساعد المشرف في الجامعة</th>
+                        <th>{{__('translate.The trainer (from the company)')}}{{-- (المدرب (من الشركة --}}</th>
+                        <th>{{__('translate.The administrative assistant (from the university)')}}{{-- المساعد الإداري من الجامعة --}}</th>
                     </tr>
                 </thead>
                 <tbody>

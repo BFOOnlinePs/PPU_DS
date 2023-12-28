@@ -1,10 +1,10 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>اليوم</th>
-            <th>التاريخ</th>
-            <th>وقت الحضور</th>
-            <th>وقت المغادرة</th>
+            <th>{{__('translate.Day')}}{{-- اليوم --}}</th>
+            <th>{{__('translate.Date')}}{{-- التاريخ --}}</th>
+            <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
+            <th>{{__('translate.Departure time')}} {{-- وقت المغادرة --}}</th>
         </tr>
     </thead>
     <tbody>

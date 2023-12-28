@@ -13,7 +13,7 @@
         <div class="col-xl-12">
             <form class="card">
                 <div class="card-header pb-0">
-                    <h4 class="card-title mb-0">سِجل الحضور و المغادرة</h4>
+                    <h4 class="card-title mb-0">{{__('translate.Record attendance and departure')}} {{-- سِجل الحضور و المغادرة --}}</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -41,11 +41,11 @@
                         </div>
 
                         <div class="col-md-3">
-                                <label class="from-control digits">من:</label>
+                                <label class="from-control digits">{{__('translate.From')}}{{-- من --}}:</label>
                                 <input type="date" class="form-control digits" id="from">
                             </div>
                             <div class="col-md-3">
-                                <label class="from-control digits">إلى:</label>
+                                <label class="from-control digits">{{__('translate.To')}}{{-- إلى --}}:</label>
                                 <input type="date" class="form-control digits" id="to">
                             </div>
                         </div>

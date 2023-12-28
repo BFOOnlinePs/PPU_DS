@@ -111,7 +111,7 @@
 
                                     </td>
                                 <td>
-                                    <button class="btn btn-info" onclick="showMajorModal({{ $major }})"><i class="fa fa-search"></i></button>
+                                    {{-- <button class="btn btn-info" onclick="showMajorModal({{ $major }})"><i class="fa fa-info"></i></button> --}}
                                     <button class="btn btn-primary" onclick="showEditModal({{ $major }})"><i class="fa fa-edit"></i></button>
                                 </td>
                             </tr>

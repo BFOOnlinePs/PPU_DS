@@ -130,6 +130,14 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         });
+        Route::group(['prefix'=>'settings'],function(){
+            Route::get('/', function () {
+                return view('project.admin.settings.index');
+            })->name('admin.settings');
+            Route::get('/coloring',[App\Http\Controllers\project\settings\SettingsController::class,'index'])->name('admin.color.index');
+            Route::post('/primary_background_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_background_color'])->name('admin.color.primary_background_color');
+            Route::post('/primary_font_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_font_color'])->name('admin.color.primary_font_color');
+        });
     });
 
     Route::group(['prefix' => 'companies'], function () {

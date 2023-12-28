@@ -4,7 +4,7 @@
         <td>{{date("Y-m-d", strtotime($student_attendance->sa_in_time))}}</td>
         <td>{{$student_attendance->sa_in_time}}</td>
         @if (!isset($student_attendance->sa_out_time))
-            <td>لم يسجل مغادرة</td>
+            <td>{{__('translate.Did not record departure')}} {{-- لم يسجل مغادرة --}}</td>
         @else
             <td>{{$student_attendance->sa_out_time}}</td>
         @endif

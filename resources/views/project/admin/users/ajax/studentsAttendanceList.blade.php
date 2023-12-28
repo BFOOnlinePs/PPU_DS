@@ -25,7 +25,7 @@
                         @if (!isset($student_attendance->report->sr_student_attendance_id))
                             {{__('translate.The student did not submit the report')}} {{-- لم يُسلم الطالب تقرير --}}
                         @else
-                            <button class="btn btn-primary fa fa-file-text" onclick="report({{$student_attendance->sa_id}})" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="عرض تقرير الطالب"></button>
+                            <button class="btn btn-primary fa fa-file-text" onclick="report({{$student_attendance->sa_id}})" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.View student report')}}"></button>{{-- عرض تقرير الطالب --}}
                         @endif
                     </td>
                 </tr>

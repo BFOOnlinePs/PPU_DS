@@ -9,9 +9,9 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-file-text" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>عرض تقرير الطالب</h3>
+                            <h3>{{__('translate.View student report')}}{{-- عرض تقرير الطالب --}}</h3>
                             <hr>
-                            <p>في هذا القسم يمكنك عرض تقرير الطالب</p>
+                            <p>{{__('translate.In this section, you can view student report')}}{{-- في هذا القسم يمكنك عرض تقرير الطالب --}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="StudentReportForm" enctype="multipart/form-data">
@@ -20,9 +20,9 @@
                                 <div class="row">
                                         <div class="col-md-6">
                                             <input type="hidden" name="report_sr_id" id="report_sr_id">
-                                            <label>التقرير</label>
+                                            <label>{{__('translate.The report')}}{{-- التقرير --}}</label>
                                             <textarea name="sr_report_text" id="sr_report_text" cols="100" rows="5" readonly></textarea>
-                                            <a href="" type="button" id="sr_attached_file" style="display: none" download>تنزيل الملف المرفق مع التقرير</a>
+                                            <a href="" type="button" id="sr_attached_file" style="display: none" download>{{__('translate.Download attachment file with report')}}{{-- تنزيل الملف المرفق مع التقرير --}}</a>
                                         </div>
                                     </div>
                                 </div>
