@@ -116,6 +116,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('editCompanyCategory', [CompaniesCategoriesController::class, 'editCompanyCategory']);
 
 
+    // file test
+    Route::post('/fileUpload', [sharedController::class, 'fileUpload']);
+
+
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
 });

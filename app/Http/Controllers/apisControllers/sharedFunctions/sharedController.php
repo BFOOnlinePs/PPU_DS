@@ -131,6 +131,21 @@ class sharedController extends Controller
         ]);
     }
 
+    public function fileUpload(Request $request){
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $folderPath = 'student_reports';
+            // $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '_' . uniqid() . '.' . $extension;
+            $request->file('file')->storeAs($folderPath, $fileName, 'public');
+
+            return response()->json([
+                'file' => $fileName
+            ], 200);
+        }
+    }
+
     // just for test
     public function test()
     {

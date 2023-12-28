@@ -240,7 +240,7 @@ class StudentCoursesController extends Controller
         if ($available_courses_for_student->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد مساقات متوفرة للفصل الحالي'
+                'message' => 'لا يوجد مساقات متوفرة'
             ]);
         }
 

@@ -22,10 +22,12 @@
 <div class="card" style="padding-left:0px; padding-right:0px;">
 
     <div class="card-body" >
+        @if(!$data->isEmpty())
         <div class="form-outline">
             <input type="search" onkeyup="companySearch(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
                 aria-label="Search" /> {{-- بحث --}}
         </div>
+        @endif
         <div id="showTable">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -37,6 +39,7 @@
                             <th scope="col">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</th>
                             <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
                             <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
+
                         </tr>
                     </thead>
                     <tbody>
