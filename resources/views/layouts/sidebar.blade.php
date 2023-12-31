@@ -88,6 +88,10 @@
                                     data-feather="book"></i><span> {{__('translate.Courses management')}} {{-- إدارة المساقات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
                                     data-feather="briefcase"></i><span> {{__('translate.Companies')}} {{-- الشركات --}}</span></a></li>
+
+                        <li class=""><a class="nav-link" href="{{ route('admin.registration.index') }}"><i
+                            data-feather="user-check"></i><span> التسجيل {{-- الشركات --}}</span></a></li>
+
                         <li class="dropdown"><a class="nav-link" href="{{route('admin.settings')}}"><i data-feather="settings"></i><span> {{__('translate.Settings')}} {{-- الإعدادات --}}</span></a></li>
                     @endif
                     {{-- <li class="dropdown"><a class="nav-link" href="{{ route('admin.majors.index') }}"><i
