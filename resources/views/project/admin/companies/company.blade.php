@@ -114,7 +114,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3 form-group">
-                            <label for="f1-first-name"> اسم الشركة</label>
+                            <label for="f1-first-name">اسم الشركة <span style="color: red">*</span></label>
 
                             <div class="input-container">
                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Owner')}}{{-- الشخص المسؤول --}}</label>
+                            <label for="f1-last-name">{{__('translate.Owner')}}{{-- الشخص المسؤول --}} <span style="color: red">*</span></label>
                             <input class="f1-last-name form-control" id="name" type="text" name="name" required="">
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} </label>
+                            <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} <span style="color: red">*</span></label>
                             <div class="input-container">
                                 <i id="email_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                 <i id="email_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Password')}} {{-- كلمة المرور --}}</label>
+                            <label for="f1-last-name">{{__('translate.Password')}} {{-- كلمة المرور --}} <span style="color: red">*</span></label>
                             <input class="f1-password form-control" id="password" type="password" name="password" required="">
                         </div>
                     </div>
@@ -164,14 +164,15 @@
                     <div class="col-md-6">
                         <div class="form-group">
 
-                            <label for="f1-last-name">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}}</label>
-                            <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" required="">
+                            <label for="f1-last-name">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}} <span style="color: red">*</span></label>
+                            <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" required="" oninput="validateInput(this)">
+                            <div id="errorMessage_phoneNum" style="color:#dc3545" class="error-message"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="f1-last-name">{{__('translate.Company address')}}{{-- عنوان الشركة --}}</label>
+                                <label for="f1-last-name">{{__('translate.Company address')}}{{-- عنوان الشركة --}} <span style="color: red">*</span></label>
                                 <input class="f1-last-name form-control" id="address" type="text" name="address" required="">
                             </div>
                     </div>
@@ -180,7 +181,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">عدد فروع الشركة - "يشمل الفرع الرئيسي"</label>
+                            <label for="f1-last-name">عدد فروع الشركة - "يشمل الفرع الرئيسي" <span style="color: red">*</span></label>
                             <select id="branchesNum" name="branchesNum" class="form-control btn-square">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -224,14 +225,15 @@
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Website')}}{{-- الموقع الإلكتروني --}}</label>
 
-                            <input class="form-control" id="c_website" name="c_website">
+                            <input class="form-control" id="c_website" name="c_website" oninput="validateArabicText(this)">
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Type of company')}}{{-- نوع الشركة --}} <span style="color: red">*</span></label>
                             <select id="c_type" name="c_type" class="form-control btn-square">
+                                <option selected="" disabled="" value="">--اختيار--</option>
                                 <option value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
                                 <option value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
                             </select>
@@ -240,8 +242,9 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">تصنيف الشركة</label>
+                            <label for="f1-last-name">تصنيف الشركة <span style="color: red">*</span></label>
                             <select id="c_category" name="c_category" class="form-control btn-square">
+                                <option selected="" disabled="" value="">--اختيار--</option>
                                 @foreach($categories as $key)
                                     <option value="{{$key->cc_id}}">{{$key->cc_name}}</option>
                                 @endforeach
@@ -354,7 +357,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone2_1">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
-                                        <input class="f1-last-name form-control" id="phone2_1"  name="phone2_1" required="">
+                                        <input class="f1-last-name form-control" id="phone2_1"  name="phone2_1" required="" oninput="validateInput(this)">
+                                        <div id="errorMessage_phone2_1" style="color:#dc3545" class="error-message"></div>
                                     </div>
                                 </div>
                             </div>
@@ -369,8 +373,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group" id="departments_group1" hidden>
-                                        <label for="departments1">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
-                                        <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments1" multiple></select>
+                                        <label for="departments1">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}} <span style="color: red">*</span></label>
+                                        <select class="js-example-basic-single col-sm-12" multiple="multiple" type="text" id="departments1" multiple required></select>
                                     </div>
                                 </div>
 
@@ -387,27 +391,29 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="phone1_2">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
-                                            <input class="f1-last-name form-control" id="phone1_2" type="text" name="phone1_2" required="">
+                                            <label for="phone1_2">{{__('translate.Phone 1')}}{{-- هاتف 1 --}} <span style="color: red">*</span></label>
+                                            <input class="f1-last-name form-control" id="phone1_2" type="text" name="phone1_2" required="" oninput="validateInput(this)">
+                                            <div id="errorMessage_phone1_2" style="color:#dc3545" class="error-message"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="phone2_2">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
-                                            <input class="f1-last-name form-control" id="phone2_2" name="phone2_2">
+                                            <input class="f1-last-name form-control" id="phone2_2" name="phone2_2" oninput="validateInput(this)">
+                                            <div id="errorMessage_phone2_2" style="color:#dc3545" class="error-message"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="address2">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
+                                            <label for="address2">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}} <span style="color: red">*</span></label>
                                             <input class="f1-last-name form-control" id="address2" type="text" name="address2" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group" id="departments_group2" hidden>
-                                            <label for="departments2">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
+                                            <label for="departments2">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}} <span style="color: red">*</span></label>
                                             <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments2" multiple></select>
                                         </div>
                                     </div>
@@ -435,7 +441,7 @@
                 <div class="f1-buttons">
                     {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
                     {{-- <button class="btn btn-primary btn-submit" type="submit">إضافة</button> --}}
-                    <button class="btn btn-primary" type="button" onclick="thirdStep()">التالي</button>
+                    <button class="btn btn-primary" id="thirdButton" type="button" onclick="thirdStep()">التالي</button>
                     <button class="btn btn-primary btn-next" id="thirdStepButton" type="button" hidden></button>
                 </div>
             </fieldset>
@@ -565,12 +571,23 @@ let uncompletedCompanySize = 0;
 let uncompletedCompany;
 let continueValidation = true;
 
+function validateArabicText(inputElement) {
+    var cleanedValue = inputElement.value.replace(/[\u0600-\u06FF]/g, '');
+    if (!/[\u0600-\u06FF]/.test(cleanedValue)) {
+        inputElement.value = cleanedValue;
+    } else {
+        inputElement.value = cleanedValue.slice(0, 5);
+    }
+}
+
 //to check email format and check if it exists
 function validateEmail(input) {
+    document.getElementById('firstButton').disabled = true;
     let email = input.value.trim();
 
     if(email==""){
        input.style.borderColor = "";
+       document.getElementById('firstButton').disabled = false;
        document.getElementById('email_ok_icon').hidden = true;
        document.getElementById('email_search_icon').hidden = true;
        document.getElementById('similarEmailMessage').hidden = true;
@@ -603,6 +620,7 @@ function validateEmail(input) {
             $.ajax({
                 beforeSend: function(){
                     document.getElementById('email_search_icon').hidden = false;
+                    document.getElementById('firstButton').disabled = true;
                     document.getElementById('similarEmailMessage').hidden = true;
                     document.getElementById('email_ok_icon').hidden = true;
                 },
@@ -637,18 +655,74 @@ function validateEmail(input) {
 
 }
 
+// $('.f1 #firstButton').on('click', function() {
+//     	var parent_fieldset = $(this).parents('fieldset');
+//     	parent_fieldset.find('input[type="text"], input[type="password"]').each(function() {
+
+
+//             if( $(this).val() == "" ) {
+
+//     			$(this).addClass('input-error');
+//     		}
+//     		else {
+//     			$(this).removeClass('input-error');
+//     		}
+
+//     	});
+// });
 
 
 //for phone number - (accept just 10 digits and only numbers)
 function validateInput(input) {
+
+    inputID = input.id;
+
     // Remove non-numeric characters
     let sanitizedValue = input.value.replace(/\D/g, '');
+    const errorMessageElement = document.getElementById(`errorMessage_${inputID}`);
 
-    // Limit to 10 digits
-    sanitizedValue = sanitizedValue.slice(0, 10);
+    var wizardStep = input.closest('fieldset');
+    //var stepButton = wizardStep.querySelector('button');
 
-    // Update the input value
-    input.value = sanitizedValue;
+    //var parent_fieldset = $('.f1 #firstButton').parents('fieldset');
+    // wizardStep.find('button').each(function() {
+    //     console.log('hi')
+    // })
+
+
+    var buttonsInFieldset = wizardStep.querySelector('.btn').id;
+
+    if(input.value==""){
+        input.style.borderColor = "";
+        errorMessageElement.textContent = '';
+        document.getElementById(`${buttonsInFieldset}`).disabled = false;
+    }else{
+
+
+
+        // Limit to 10 digits
+        sanitizedValue = sanitizedValue.slice(0, 10);
+
+        // Update the input value
+        input.value = sanitizedValue;
+
+        if (sanitizedValue.length < 10) {
+            // Invalid input
+            //input.setCustomValidity('Please enter a 10-digit number.');
+            //input.style.borderColor = "#dc3545";
+            errorMessageElement.textContent = 'الرجاء إدخال رقم مكون من 10 خانات';
+            document.getElementById(`${buttonsInFieldset}`).disabled = true;
+        } else {
+            //input.style.borderColor = "";
+            errorMessageElement.textContent = '';
+            document.getElementById(`${buttonsInFieldset}`).disabled = false;
+        }
+
+    }
+
+
+
+
 }
 
 //for uncomleted companies
@@ -721,83 +795,6 @@ function checkCompany(data){
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': csrfToken
-        }
-    })
-
-    $.ajax({
-        beforeSend: function(){
-            document.getElementById('search_icon').hidden = false;
-        },
-        url: "{{ route('admin.companies.checkCompany') }}",
-        method: "post",
-        data: {
-            'search': data,
-            _token: '{!! csrf_token() !!}',
-        },
-        success: function(response) {
-
-            if(response.data!=null){
-
-                company_id = response.company_id;
-
-                var editLink = "{{ route('admin.companies.edit', ['id' => 'company_id']) }}";
-                editLink = editLink.replace('company_id', company_id);
-                document.getElementById("companyLink").setAttribute("href",editLink);
-
-                document.getElementById('search_icon').hidden = true;
-                document.getElementById('ok_icon').hidden = true;
-
-                document.getElementById('similarCompanyMessage').hidden = false;
-
-            }else{
-                document.getElementById('similarCompanyMessage').hidden = true;
-
-
-                document.getElementById('search_icon').hidden = true;
-                document.getElementById('ok_icon').hidden = false;
-            }
-
-        },
-        error: function(xhr, status, error) {
-            alert('error');
-        }
-    });
-    }
-
-}
-
-
-function firstStep(){
-
-    branchesNum = document.getElementById('branchesNum').value;
-    if(branchesNum<2){
-        //cause adress2 and phone1 are required inputs in the wizard and it will not continue to the
-        //next step even they are hidden, so when choose 1 branch they are actully exists but whithout values
-        //so the wizard will not continue to next step
-        //so this is the temp solution for this issue
-        document.getElementById('address2').value = 0;
-        document.getElementById('phone1_2').value = 0;
-    }
-
-    branchesNumber = document.getElementById('branchesNum').value;
-
-    ////////set phone number and address to the main branch in branches page///////
-    phoneNum1 = document.getElementById('phoneNum').value;
-    address1 = document.getElementById('address').value;
-
-    document.getElementById('phone1_1').value=phoneNum1;
-    document.getElementById('address1').value=address1;
-    ///////////////////////////////////////////////////////////////////////////////
-
-    if(uncompletedCompanySize!=0){
-        document.querySelector('#firstStepButton').click();
-    }else{
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        data = $('#companyForm').serialize();
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': csrfToken
@@ -806,30 +803,129 @@ function firstStep(){
 
         $.ajax({
             beforeSend: function(){
-                //$('#LoadingModal').modal('show');
-                document.getElementById('loaderContainer').hidden = false;
+                document.getElementById('search_icon').hidden = false;
             },
-            type: 'POST',
-            url: "{{ route('admin.companies.create') }}",
-            data: data,
-            dataType: 'json',
+            url: "{{ route('admin.companies.checkCompany') }}",
+            method: "post",
+            data: {
+                'search': data,
+                _token: '{!! csrf_token() !!}',
+            },
             success: function(response) {
-                manager_id = response.manager_id;
-                document.getElementById('manager_id').value = manager_id;
-                document.getElementById('company_id').value = response.company_id;
-                companyName = document.getElementById("c_name").value;
-                document.getElementById('companyName').value = companyName;
+
+                if(response.data!=null){
+
+                    company_id = response.company_id;
+
+                    var editLink = "{{ route('admin.companies.edit', ['id' => 'company_id']) }}";
+                    editLink = editLink.replace('company_id', company_id);
+                    document.getElementById("companyLink").setAttribute("href",editLink);
+
+                    document.getElementById('search_icon').hidden = true;
+                    document.getElementById('ok_icon').hidden = true;
+
+                    document.getElementById('similarCompanyMessage').hidden = false;
+
+                }else{
+                    document.getElementById('similarCompanyMessage').hidden = true;
+
+
+                    document.getElementById('search_icon').hidden = true;
+                    document.getElementById('ok_icon').hidden = false;
+                }
 
             },
-            complete: function(){
-                //$('#LoadingModal').modal('hide');
-                document.getElementById('loaderContainer').hidden = true;
-                document.querySelector('#firstStepButton').click();
-            },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+                alert('error');
             }
         });
+    }
+
+}
+
+
+function firstStep(){
+
+    ///////////////////to check the inputs if empty in step 1 page///////////////////////
+    var parent_fieldset = $('.f1 #firstButton').parents('fieldset');
+    var if_next = true;
+
+    parent_fieldset.find('input[type="text"], input[type="password"]').each(function() {
+
+        if( $(this).val() == "" ) {
+    		$(this).addClass('input-error');
+            if_next = false;
+    	}
+    	else {
+    		$(this).removeClass('input-error');
+    	}
+
+    });
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    //console.log(parent_fieldset)
+
+    if(if_next){
+        branchesNum = document.getElementById('branchesNum').value;
+        if(branchesNum<2){
+            //cause adress2 and phone1 are required inputs in the wizard and it will not continue to the
+            //next step even they are hidden, so when choose 1 branch they are actully exists but whithout values
+            //so the wizard will not continue to next step
+            //so this is the temp solution for this issue
+            document.getElementById('address2').value = 0;
+            document.getElementById('phone1_2').value = 0;
+        }
+
+        branchesNumber = document.getElementById('branchesNum').value;
+
+        ////////set phone number and address to the main branch in branches page///////
+        phoneNum1 = document.getElementById('phoneNum').value;
+        address1 = document.getElementById('address').value;
+
+        document.getElementById('phone1_1').value=phoneNum1;
+        document.getElementById('address1').value=address1;
+        ///////////////////////////////////////////////////////////////////////////////
+
+        if(uncompletedCompanySize!=0){
+            document.querySelector('#firstStepButton').click();
+        }else{
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            data = $('#companyForm').serialize();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+
+            $.ajax({
+                beforeSend: function(){
+                    //$('#LoadingModal').modal('show');
+                    document.getElementById('loaderContainer').hidden = false;
+                },
+                type: 'POST',
+                url: "{{ route('admin.companies.create') }}",
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    manager_id = response.manager_id;
+                    document.getElementById('manager_id').value = manager_id;
+                    document.getElementById('company_id').value = response.company_id;
+                    companyName = document.getElementById("c_name").value;
+                    document.getElementById('companyName').value = companyName;
+
+                },
+                complete: function(){
+                    //$('#LoadingModal').modal('hide');
+                    document.getElementById('loaderContainer').hidden = true;
+                    document.querySelector('#firstStepButton').click();
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
     }
 
     //document.getElementById('companyName').value = "companyName";
@@ -841,9 +937,34 @@ function secondStep(){
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     data = $('#companyForm').serialize();
 
-    // if(document.getElementById('c_website').value=="" && document.getElementById('c_description').value==""&&uncompletedCompanySize==0){
-    //     document.querySelector('#secondStepButton').click();
-    // }else{
+    // if(document.getElementById('c_type').value==""){
+    //     $('#c_type').addClass('input-error');
+    //     if_submit = false;
+    // }
+
+    var parent_fieldset = $('.f1 #secondStepButton').parents('fieldset');
+    var if_next = true;
+
+    //console.log(parent_fieldset)
+
+    parent_fieldset.find('select').each(function() {
+
+        //console.log($(this)[0].id)
+        //$('.select2-container--default .select2-selection--multiple').css('border-color', 'red')
+        //if( $(this).value == "") {
+        if(document.getElementById(`${$(this)[0].id}`).value=="") {
+    		//$(this).css('border-color', 'red')
+    		$(this).addClass('input-error');
+            if_next = false;
+    	}
+    	else {
+    		$(this).removeClass('input-error');
+    	}
+
+    });
+
+
+    if(if_next){
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': csrfToken
@@ -872,9 +993,8 @@ function secondStep(){
             }
         });
 
-    //}
+    }
 
-    //document.querySelector('#secondStepButton').click();
 
 }
 
@@ -897,161 +1017,213 @@ function thirdStep(){
         }
     }
 
+    //console.log($('#departments1').val())
 
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    data = $('#companyForm').serialize();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': csrfToken
-        }
-    })
-    $.ajax({
-        beforeSend: function(){
-            //$('#LoadingModal').modal('show');
-            document.getElementById('loaderContainer').hidden = false;
-        },
-        type: 'POST',
-        url: "{{ route('admin.companies.createBranches') }}",
-        data: data,
-        dataType: 'json',
-        success: function(response) {
-            console.log(response.data)
-        },
-        complete: function(){
-            document.getElementById('loaderContainer').hidden = true;
-            document.querySelector('#thirdStepButton').click();
+    var parent_fieldset = $('.f1 #thirdButton').parents('fieldset');
+    var if_next = true;
 
-            var editLink = "{{ route('admin.companies.edit', ['id' => 'company_id']) }}";
-            editLink = editLink.replace('company_id', document.getElementById("company_id").value);
-            document.getElementById("editCompanyLink").setAttribute("href",editLink);
+    parent_fieldset.find('input[type="text"], input[type="password"], select').each(function() {
+
+        if( ($(this).val() == "" && $(this)[0].nodeName!="SELECT") || ($(this).val().length == 0  && departments.length != 0)) {
+
+            $(this).addClass('input-error');
+
+            if($(this)[0].nodeName=="INPUT") if_next = false
 
 
+            if(branchesNum < 2 && $(this)[0].id!='departments2') if_next = false
 
-            categories = {!! json_encode($categories, JSON_HEX_APOS) !!};
-
-            //set step 4 values - summary tab
-            document.getElementById("company_name_summary").innerHTML = "اسم الشركة : "+document.getElementById("c_name").value;
-            $('#manager_summary').html(document.getElementById("name").value);
-            $('#email_sammury').html(document.getElementById("email").value);
-            $('#phone_summary').html(document.getElementById("phoneNum").value);
-            $('#address_summary').html(document.getElementById("address").value);
-            $('#category_summary').html(categories[document.getElementById("c_category").value-1].cc_name);
-            $('#type_summary').html(document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص");
-
-
-            x = "";
-            if(document.getElementById("c_description").value != ""){
-                document.getElementById("description_summary_area").hidden = false;
-                $('#description_summary').html(document.getElementById("c_description").value)
-            }
-
-            if(document.getElementById("phone2_1").value != ""){
-                document.getElementById("phone2_summary_area").hidden = false;
-                $('#phone2_summary').html(document.getElementById("phone2_1").value);
-            }
-
-            if(document.getElementById("c_website").value != ""){
-                document.getElementById("website_summary_area").hidden = false;
-                $('#website_summary').html(document.getElementById("c_website").value);
-            }
-
-
-            //to list all departments for company
-            if(departments.length!=0){
-
-
-                //to set main branch departments
-                mb_departments = $('#departments1').val();
-                for(d=0;d<mb_departments.length;d++){
-                    x += `${departments[mb_departments[d]]}`
-                    if(d < mb_departments.length-1){
-                        x += "، "
-                    }
-                }
-                document.getElementById("main_branch_departments_area").hidden = false;
-                $('#main_branch_departments').html(x);
-
-
-                //to list departments for this company
-                x="";
-                for(i=0;i<departments.length;i++){
-                    d_name = departments[i];
-                    x += `${d_name}`
-                    if(i < departments.length-1){
-                        x += "، "
-                    }
-                }
-                $('#departments_summary').html(x);
-                document.getElementById("departments_table").hidden = false;
-
-            }
-
-
-            branchesNum = document.getElementById('branchesNum').value;
-
-            //to list branches in summary page for this company
             if(branchesNum > 1){
-                x=""
-                tempB = "";
-                //document.getElementById("branches_summary_area").hidden = false;
-                for(i=1;i<branchesNum;i++){
-
-                    branchSelect = `#departments${i+1}`;
-                    branch_name = "";
-                    branch_id = `address${i+1}`
-                    branch_address = document.getElementById(branch_id).value;
-                    branch_phone1 = document.getElementById(`phone1_${i+1}`).value;
-                    branch_phone2 = document.getElementById(`phone2_${i+1}`).value;
-
-                    if(departments.length!=0){
-                        for(r=0;r<$(branchSelect).val().length;r++){
-                            temp = $(branchSelect).val()
-                            tempB += `${departments[temp[r]]}`
-                            if(r < $(branchSelect).val().length - 1){
-                                tempB += `، `
-                            }
-                        }
-                    }
-
-                    x += `<div class="table-responsive">
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th style="background-color: #ecf0ef82;" colspan="2">الفرع ${i+1}</th>
-                                </tr>
-                                <tbody>
-                                    <tr>
-                                        <td class="col-md-3">هاتف 1</td>
-                                        <td>${branch_phone1}</td>
-                                    </tr>
-                                    <tr id="branch_phone2_area" ${branch_phone2 == "" ? 'hidden' : ''}>
-                                        <td class="col-md-3">هاتف 2 </td>
-                                        <td id="branch_phone2">${branch_phone2}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-3">العنوان</td>
-                                        <td>${branch_address}</td>
-                                    </tr>
-                                    <tr id="branch_departments_area" ${departments.length == 0 ? 'hidden' : ''}>
-                                        <td class="col-md-3">الأقسام</td>
-                                        <td id="branch_departments">${tempB}</td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                          </div>
-                          <br>`
+                if($(this)[0].nodeName=="SELECT"){
+                    if_next = false
                 }
-
-                $('#branches_summary').html(x);
             }
 
-            $('.ribbon-wrapper').fadeOut('slow');
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-        }
+    	}
+    	else {
+    		$(this).removeClass('input-error');
+    	}
+
     });
 
+
+    if(if_next){
+        //console.log("hi reem from ajax")
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        data = $('#companyForm').serialize();
+        //console.log(data)
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        $.ajax({
+            beforeSend: function(){
+                //$('#LoadingModal').modal('show');
+                document.getElementById('loaderContainer').hidden = false;
+            },
+            type: 'POST',
+            url: "{{ route('admin.companies.createBranches') }}",
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response.data)
+            },
+            complete: function(){
+                document.getElementById('loaderContainer').hidden = true;
+                document.querySelector('#thirdStepButton').click();
+
+                var editLink = "{{ route('admin.companies.edit', ['id' => 'company_id']) }}";
+                editLink = editLink.replace('company_id', document.getElementById("company_id").value);
+                document.getElementById("editCompanyLink").setAttribute("href",editLink);
+
+
+                //to get companies categories
+                categories = {!! json_encode($categories, JSON_HEX_APOS) !!};
+
+                //console.log(categories)
+
+                const arrayOfCategories = categories.map(obj => [obj.cc_id, obj.cc_name]);
+
+                //console.log(arrayOfCategories);
+
+                //ccIdToFind = 8;
+
+                categIdToFind = document.getElementById('c_category').value;
+                var categName;
+                for (const array of arrayOfCategories) {
+                    const [ccId, name] = array;
+                    if (ccId+"" === categIdToFind) {
+                        categName = name;
+                        break; // Stop the loop once a match is found
+                    }
+                }
+
+                //set step 4 values - summary tab
+                document.getElementById("company_name_summary").innerHTML = "اسم الشركة : "+document.getElementById("c_name").value;
+                $('#manager_summary').html(document.getElementById("name").value);
+                $('#email_sammury').html(document.getElementById("email").value);
+                $('#phone_summary').html(document.getElementById("phoneNum").value);
+                $('#address_summary').html(document.getElementById("address").value);
+                $('#category_summary').html(categName);
+                $('#type_summary').html(document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص");
+
+
+                x = "";
+                if(document.getElementById("c_description").value != ""){
+                    document.getElementById("description_summary_area").hidden = false;
+                    $('#description_summary').html(document.getElementById("c_description").value)
+                }
+
+                if(document.getElementById("phone2_1").value != ""){
+                    document.getElementById("phone2_summary_area").hidden = false;
+                    $('#phone2_summary').html(document.getElementById("phone2_1").value);
+                }
+
+                if(document.getElementById("c_website").value != ""){
+                    document.getElementById("website_summary_area").hidden = false;
+                    $('#website_summary').html(document.getElementById("c_website").value);
+                }
+
+
+                //to list all departments for company
+                if(departments.length!=0){
+
+
+                    //to set main branch departments
+                    mb_departments = $('#departments1').val();
+                    for(d=0;d<mb_departments.length;d++){
+                        x += `${departments[mb_departments[d]]}`
+                        if(d < mb_departments.length-1){
+                            x += "، "
+                        }
+                    }
+                    document.getElementById("main_branch_departments_area").hidden = false;
+                    $('#main_branch_departments').html(x);
+
+
+                    //to list departments for this company
+                    x="";
+                    for(i=0;i<departments.length;i++){
+                        d_name = departments[i];
+                        x += `${d_name}`
+                        if(i < departments.length-1){
+                            x += "، "
+                        }
+                    }
+                    $('#departments_summary').html(x);
+                    document.getElementById("departments_table").hidden = false;
+
+                }
+
+
+                branchesNum = document.getElementById('branchesNum').value;
+
+                //to list branches in summary page for this company
+                if(branchesNum > 1){
+                    x=""
+                    tempB = "";
+                    //document.getElementById("branches_summary_area").hidden = false;
+                    for(i=1;i<branchesNum;i++){
+
+                        branchSelect = `#departments${i+1}`;
+                        branch_name = "";
+                        branch_id = `address${i+1}`
+                        branch_address = document.getElementById(branch_id).value;
+                        branch_phone1 = document.getElementById(`phone1_${i+1}`).value;
+                        branch_phone2 = document.getElementById(`phone2_${i+1}`).value;
+
+                        if(departments.length!=0){
+                            for(r=0;r<$(branchSelect).val().length;r++){
+                                temp = $(branchSelect).val()
+                                tempB += `${departments[temp[r]]}`
+                                if(r < $(branchSelect).val().length - 1){
+                                    tempB += `، `
+                                }
+                            }
+                        }
+
+                        x += `<div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th style="background-color: #ecf0ef82;" colspan="2">الفرع ${i+1}</th>
+                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-md-3">هاتف 1</td>
+                                            <td>${branch_phone1}</td>
+                                        </tr>
+                                        <tr id="branch_phone2_area" ${branch_phone2 == "" ? 'hidden' : ''}>
+                                            <td class="col-md-3">هاتف 2 </td>
+                                            <td id="branch_phone2">${branch_phone2}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-3">العنوان</td>
+                                            <td>${branch_address}</td>
+                                        </tr>
+                                        <tr id="branch_departments_area" ${departments.length == 0 ? 'hidden' : ''}>
+                                            <td class="col-md-3">الأقسام</td>
+                                            <td id="branch_departments">${tempB}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>`
+
+                        tempB = "";
+                    }
+
+                    $('#branches_summary').html(x);
+                }
+
+                $('.ribbon-wrapper').fadeOut('slow');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
 }
 
 companyForm.addEventListener("submit", (e) => {
@@ -1061,15 +1233,19 @@ companyForm.addEventListener("submit", (e) => {
 
 });
 
+
 function addDepartment(){
     departmentName = document.getElementById('d_name').value;
-    departments.push(departmentName);
-    x = "";
-    for(i=0;i<departments.length;i++){
-        x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
-        '</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
+    if(departmentName!="" && !departments.includes(departmentName)){
+        departments.push(departmentName);
+        x = "";
+        for(i=0;i<departments.length;i++){
+            x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
+            '</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
+        }
+        $('#departmentsArea').html(x);
     }
-    $('#departmentsArea').html(x);
+
     document.getElementById('d_name').value = "";
 }
 
@@ -1110,157 +1286,155 @@ function departmentStep(){
         },
         dataType: 'json',
         success: function(response) {
-            console.log(response.data)
+            //console.log(response.data)
+
+            x="";
+
+            if(branchesNumber>1){
+
+                document.getElementById('secondBranch').hidden = false;
+
+                for(i=2;i<branchesNumber;i += 2){
+
+                        x += `<div class="row">
+                            <div class="col-md-6">
+                            <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-primary ribbon-right">الفرع ${i+1}</div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone1_${i+1}">هاتف 1 <span style="color: red">*</span></label>
+                                            <input class="f1-last-name form-control" id="phone1_${i+1}" type="text" name="phone1_${i+1}" required="" oninput="validateInput(this)">
+                                            <div id="errorMessage_phone1_${i+1}" style="color:#dc3545" class="error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone2_${i+1}">هاتف 2</label>
+                                            <input class="f1-last-name form-control" id="phone2_${i+1}" name="phone2_${i+1}" oninput="validateInput(this)">
+                                            <div id="errorMessage_phone2_${i+1}" style="color:#dc3545" class="error-message"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for=address${i+1}">عنوان الفرع <span style="color: red">*</span></label>
+                                            <input class="f1-last-name form-control" id="address${i+1}" type="text" name="address${i+1}" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" id="departments_group${i+1}" hidden>
+                                            <label for="departments${i+1}">أقسام الفرع <span style="color: red">*</span></label>
+                                            <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments${i+1}" multiple></select>
+                                        </div>
+                                    </div>
+
+                                    <input hidden id="department_for_${i+1}" name="department_for_${i+1}">
+
+                                </div>
+                            </div>
+                            </div>
+                            </div>`;
+
+
+                        // Check if there is another branch to add in the same row
+                        if (i + 2 <= branchesNumber) {
+                            x += `<div class="col-md-6">
+                            <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-primary ribbon-right">الفرع ${i+2}</div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone1_${i+2}">هاتف 1</label>
+                                            <input class="f1-last-name form-control" id="phone1_${i+2}" type="text" name="phone1_${i+2}" required="" oninput="validateInput(this)">
+                                            <div id="errorMessage_phone1_${i+2}" style="color:#dc3545" class="error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone2_${i+2}">هاتف 2</label>
+                                            <input class="f1-last-name form-control" id="phone2_${i+2}" name="phone2_${i+2}" required="" oninput="validateInput(this)">
+                                            <div id="errorMessage_phone2_${i+2}" style="color:#dc3545" class="error-message"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for=address${i+2}">عنوان الفرع</label>
+                                            <input class="f1-last-name form-control" id="address${i+2}" type="text" name="address${i+2}" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" id="departments_group${i+2}" hidden>
+                                            <label for="departments${i+2}">أقسام الفرع</label>
+                                            <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments${i+2}" multiple></select>
+                                        </div>
+                                    </div>
+
+                                    <input hidden id="department_for_${i+2}" name="department_for_${i+2}">
+
+                                </div>
+                            </div>
+                            </div>
+                                </div>`;
+                        }
+
+                        x += '</div>';
+                }
+
+
+                $('#branches').html(x);
+
+
+                //to load script after adding branches
+                loadScript("{{ asset('assets/js/select2/select2-custom.js') }}", function() {});
+                loadScript("{{ asset('assets/js/select2/select2.full.min.js') }}", function() {});
+
+
+            }
+
+
+            if(departments.length!=0){
+
+                ////////////to set departments for branches/////////////
+                if(branchesNumber>=1){
+                    //to show department area in each branch
+                    for(var i = 0; i < branchesNumber; i++){
+                        departmentArea = `departments_group${i+1}`
+                        document.getElementById(departmentArea).hidden = false;
+
+                        departmentSelect = `departments${i+1}`
+                        var multiselect = document.getElementById(departmentSelect);
+
+                        var options = departments;
+
+                        for (var r = 0; r < options.length; r++) {
+                        var option = document.createElement("option");
+                        option.text = options[r];
+                        option.value = r;
+                        multiselect.add(option);
+                        }
+
+                    }
+                }
+                ////////////////////////////////////////////////////////////////
+
+
+
+            }
+
             document.getElementById('loaderContainer').hidden = true;
+            document.querySelector('#departmentStepButton').click();
         },
         error: function(xhr, status, error) {
             console.error(xhr.responseText);
         }
     });
 
-
-        x="";
-
-        //console.log("branchesNumberbranchesNumberbranchesNumberbranchesNumberbranchesNumberbranchesNumber");
-        //console.log(branchesNumber);
-
-        if(branchesNumber>1){
-
-            document.getElementById('secondBranch').hidden = false;
-
-            for(i=2;i<branchesNumber;i += 2){
-
-                    x += `<div class="row">
-                          <div class="col-md-6">
-                        <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
-                          <div class="card-body">
-                            <div class="ribbon ribbon-primary ribbon-right">الفرع ${i+1}</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone1_${i+1}">هاتف 1</label>
-                                        <input class="f1-last-name form-control" id="phone1_${i+1}" type="text" name="phone1_${i+1}" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone2_${i+1}">هاتف 2</label>
-                                        <input class="f1-last-name form-control" id="phone2_${i+1}" name="phone2_${i+1}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for=address${i+1}">عنوان الفرع</label>
-                                        <input class="f1-last-name form-control" id="address${i+1}" type="text" name="address${i+1}" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group" id="departments_group${i+1}" hidden>
-                                        <label for="departments${i+1}">أقسام الفرع</label>
-                                        <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments${i+1}" multiple></select>
-                                    </div>
-                                </div>
-
-                                <input hidden id="department_for_${i+1}" name="department_for_${i+1}">
-
-                            </div>
-                          </div>
-                        </div>
-                          </div>`;
-
-
-                    // Check if there is another branch to add in the same row
-                    if (i + 2 <= branchesNumber) {
-                        x += `<div class="col-md-6">
-                        <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
-                          <div class="card-body">
-                            <div class="ribbon ribbon-primary ribbon-right">الفرع ${i+2}</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone1_${i+2}">هاتف 1</label>
-                                        <input class="f1-last-name form-control" id="phone1_${i+2}" type="text" name="phone1_${i+2}" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone2_${i+2}">هاتف 2</label>
-                                        <input class="f1-last-name form-control" id="phone2_${i+2}" name="phone2_${i+2}" required="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for=address${i+2}">عنوان الفرع</label>
-                                        <input class="f1-last-name form-control" id="address${i+2}" type="text" name="address${i+2}" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group" id="departments_group${i+2}" hidden>
-                                        <label for="departments${i+2}">أقسام الفرع</label>
-                                        <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments${i+2}" multiple></select>
-                                    </div>
-                                </div>
-
-                                <input hidden id="department_for_${i+2}" name="department_for_${i+2}">
-
-                            </div>
-                          </div>
-                        </div>
-                             </div>`;
-                    }
-
-                    x += '</div>';
-            }
-
-
-            $('#branches').html(x);
-
-
-            //to load script after adding branches
-            loadScript("{{ asset('assets/js/select2/select2-custom.js') }}", function() {});
-            loadScript("{{ asset('assets/js/select2/select2.full.min.js') }}", function() {});
-
-
-        }
-
-
-        if(departments.length!=0){
-
-            ////////////to set departments for branches/////////////
-            if(branchesNumber>=1){
-                //to show department area in each branch
-                for(var i = 0; i < branchesNumber; i++){
-                    departmentArea = `departments_group${i+1}`
-                    document.getElementById(departmentArea).hidden = false;
-
-                    departmentSelect = `departments${i+1}`
-                    var multiselect = document.getElementById(departmentSelect);
-
-                    var options = departments;
-
-                    for (var r = 0; r < options.length; r++) {
-                    var option = document.createElement("option");
-                    option.text = options[r];
-                    option.value = r;
-                    multiselect.add(option);
-                    }
-
-                }
-            }
-            ////////////////////////////////////////////////////////////////
-
-
-
-        }
-
-        ////////////////////////////////////////////////////////////////
-
-
-    document.querySelector('#departmentStepButton').click();
 
 }
 

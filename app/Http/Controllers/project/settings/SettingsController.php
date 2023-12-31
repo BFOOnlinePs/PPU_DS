@@ -37,6 +37,7 @@ class SettingsController extends Controller
             return response()->json([]);
         }
     }
+
     public function integration()
     {
         return view('project.admin.settings.integration');
@@ -68,4 +69,33 @@ class SettingsController extends Controller
             return response()->json([]);
         }
     }
+
+
+    public function systemSettings(){
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+
+        return view('project.admin.settings.systemSettings' , ['year' => $year, 'semester' => $semester]);
+    }
+
+    public function systemSettingsUpdate(Request $request){
+        $systemSettings = SystemSetting::first();
+
+        $year = $request->year;
+        $semester = $request->semester;
+
+
+        $systemSettings->ss_year = $year;
+        $systemSettings->ss_semester_type = $semester;
+
+        if($systemSettings->save()) {
+            return response()->json([
+                'success'=> 'true'
+            ]);
+        }
+    }
+
+
 }
