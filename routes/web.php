@@ -38,6 +38,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix'=>'project'],function(){
     Route::group(['prefix'=>'admin'],function(){
 
+        Route::group(['prefix'=>'registration'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\RegistrationController::class,'index'])->name('admin.registration.index');
+            Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
+            Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
+        });
 
         Route::group(['prefix'=>'courses'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CoursesController::class,'index'])->name('admin.courses.index');
@@ -137,6 +142,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/coloring',[App\Http\Controllers\project\settings\SettingsController::class,'index'])->name('admin.color.index');
             Route::post('/primary_background_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_background_color'])->name('admin.color.primary_background_color');
             Route::post('/primary_font_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_font_color'])->name('admin.color.primary_font_color');
+            Route::get('/systemSettings',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettings'])->name('admin.settings.systemSettings');
+            Route::post('/systemSettingsUpdate',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettingsUpdate'])->name('admin.settings.systemSettingsUpdate');
         });
     });
 
