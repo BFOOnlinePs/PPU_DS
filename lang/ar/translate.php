@@ -1,5 +1,15 @@
 <?php
     return [
+        "Choose field" => "اختر الحقل",
+        "Major number" => 'رقم التخصص',
+        "Course number" => "رقم المساق",
+        "Student ID number" => "رقم الطالب الجامعي",
+        "Year" => "السنة",
+        "Uploading" => "جارٍ التحميل",
+        "In this section, when clicking on 'Synchronize', the fields are synchronized, establishing integration between the database and the Excel file" => 'في هذا القسم عند الضغط على مزامنة يتم مزامنة الحقول وعمل تكامل ما بين قاعدة البيانات وملف إكسل',
+        'Synchronization' => 'مزامنة',
+        'Columns selection' => 'تحديد الأعمدة',
+        'Upload excel file' => 'رفع ملف إكسل',
         'Text color' => 'لون الخط',
         'Background color' => 'لون الخلفية',
         'Appearance settings' => 'إعدادات المظهر',

@@ -45,6 +45,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($user) {
+        // Attempt to find a user with the provided email
+        $existingUser = self::where('email', $user->email)->first();
+
+        // If the user with the email exists, skip this record
+        if ($existingUser) {
+            return false; // This will skip the current record and proceed to the next
+        }
+
+        // If the user doesn't exist, proceed with the insertion
+        return true; // This will allow the insertion of the current record
+    });
+}
+
     //relations:
 
     public function role()

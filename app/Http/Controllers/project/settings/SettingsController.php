@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\project\settings;
 
 use App\Http\Controllers\Controller;
+use App\Imports\CoursesImport;
+use App\Imports\MajorsImport;
+use App\Imports\RegistrationsImport;
+use App\Imports\UsersImport;
+use App\Models\Registration;
 use App\Models\SystemSetting;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SettingsController extends Controller
 {
@@ -28,6 +34,37 @@ class SettingsController extends Controller
         $system_settings = SystemSetting::first();
         $system_settings->ss_primary_font_color = $request->color_value;
         if($system_settings->save()) {
+            return response()->json([]);
+        }
+    }
+    public function integration()
+    {
+        return view('project.admin.settings.integration');
+    }
+    public function uploadFileExcel(Request $request)
+    {
+        if ($request->hasFile('input-file')) {
+            $file = $request->file('input-file');
+            // Read the first row of the Excel file
+            $firstRow = Excel::toCollection([], $file)->first()->first();
+            return response()->json(['headers' => $firstRow]);
+        }
+    }
+    public function submitForm(Request $request)
+    {
+        if ($request->hasFile('input-file')) {
+            $file = $request->file('input-file');
+            $decodedMap = explode(',', $request->input('data'));
+            $result = null;
+            for ($i = 0; $i < count($decodedMap) - 1; $i += 2) {
+                $key = $decodedMap[$i];
+                $value = $decodedMap[$i + 1];
+                $result[$key] = $value;
+            }
+            Excel::import(new UsersImport($result), $file);
+            Excel::import(new CoursesImport($result), $file);
+            Excel::import(new MajorsImport($result), $file);
+            Excel::import(new RegistrationsImport($result), $file);
             return response()->json([]);
         }
     }

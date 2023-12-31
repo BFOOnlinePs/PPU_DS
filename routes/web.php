@@ -37,8 +37,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix'=>'project'],function(){
     Route::group(['prefix'=>'admin'],function(){
-
-
         Route::group(['prefix'=>'courses'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CoursesController::class,'index'])->name('admin.courses.index');
             Route::post('/create',[App\Http\Controllers\project\admin\CoursesController::class,'create'])->name('admin.courses.create');
@@ -137,6 +135,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/coloring',[App\Http\Controllers\project\settings\SettingsController::class,'index'])->name('admin.color.index');
             Route::post('/primary_background_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_background_color'])->name('admin.color.primary_background_color');
             Route::post('/primary_font_color',[App\Http\Controllers\project\settings\SettingsController::class,'primary_font_color'])->name('admin.color.primary_font_color');
+            Route::get('/integration',[App\Http\Controllers\project\settings\SettingsController::class,'integration'])->name('integration');
+            Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\SettingsController::class,'uploadFileExcel'])->name('integration.uploadFileExcel');
+            Route::post('/submitForm',[App\Http\Controllers\project\settings\SettingsController::class,'submitForm'])->name('integration.submitForm');
         });
     });
 
