@@ -1,5 +1,15 @@
 <?php
     return [
+        "Choose field" => "Choose field",
+        "Major number" => "Major number",
+        "Course number" => "Course number",
+        "Student ID number" => "Student ID number",
+        "Year" => "Year",
+        "Uploading" => "Uploading",
+        "In this section, when clicking on 'Synchronize', the fields are synchronized, establishing integration between the database and the Excel file" => "In this section, when clicking on 'Synchronize', the fields are synchronized, establishing integration between the database and the Excel file",
+        'Synchronization' => 'Synchronization',
+        'Columns selection' => 'Columns selection',
+        'Upload excel file' => 'Upload excel file',
         'Text color' => 'Text color',
         'Background color' => 'Background color',
         'Appearance settings' => 'Appearance settings',

@@ -183,14 +183,6 @@
                 });
             }
         }
-
-
-
-
-
-
-
-
         var submitButton = document.getElementById('submitButton');
         function showPosition(position) {
             document.querySelector('#latitude').value = position.coords.latitude;

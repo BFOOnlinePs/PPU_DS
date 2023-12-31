@@ -10,6 +10,11 @@ class Major extends Model
     use HasFactory;
     protected $table = 'majors';
     protected $primaryKey = 'm_id';
+    protected $fillable = [
+        'm_name',
+        'm_description',
+        'm_reference_code'
+    ];
 
 
     // relations:
