@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    التسجيل
+    طلاب الفصل الحالي
 @endsection
 @section('header_title')
-    التسجيل
+    طلاب الفصل الحالي
 @endsection
 @section('header_title_link')
     التسجيل
 @endsection
 @section('header_link')
-    التسجيل
+    طلاب الفصل الحالي
 @endsection
 
 @section('style')
@@ -21,7 +21,7 @@
 
 <div>
     <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> مساقات الفصل الحالي</button>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies_categories.index")}}"'><span class="fa fa-users"></span> طلاب الفصل الحالي</button>
+    {{-- <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies_categories.index")}}"'><span class="fa fa-users"></span> طلاب الفصل الحالي</button> --}}
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -36,8 +36,8 @@
                             <th scope="col" style="display:none;">id</th>
                             <th scope="col">رقم الطالب الجامعي</th>
                             <th scope="col">اسم الطالب</th>
-                            <th scope="col">رقم المساق</th>
-                            <th scope="col">اسم المساق</th>
+                            {{-- <th scope="col">رقم المساق</th>
+                            <th scope="col">اسم المساق</th> --}}
                             <th scope="col">تفاصيل الطالب</th>
                         </tr>
                     </thead>
@@ -52,8 +52,8 @@
                                 <td style="display:none;">{{ $key->r_id }}</td>
                                 <td>{{ $key->users->u_username }}</td>
                                 <td>{{ $key->users->name }}</td>
-                                <td>{{ $key->courses->c_course_code }}</td>
-                                <td>{{ $key->courses->c_name }}</td>
+                                {{-- <td>{{ $key->courses->c_course_code }}</td>
+                                <td>{{ $key->courses->c_name }}</td> --}}
                                 <td>
                                     <button class="btn btn-info" onclick='location.href="{{route("admin.users.details" , ["id"=>$key->users->u_id])}}"'><i class="fa fa-search"></i></button>
                                 </td>

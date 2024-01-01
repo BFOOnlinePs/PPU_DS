@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    التسجيل
+    مساقات الفصل الحالي
 @endsection
 @section('header_title')
-    التسجيل
+    مساقات الفصل الحالي
 @endsection
 @section('header_title_link')
     التسجيل
 @endsection
 @section('header_link')
-    التسجيل
+    مساقات الفصل الحالي
 @endsection
 
 @section('style')
@@ -20,7 +20,7 @@
 
 
 <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> مساقات الفصل الحالي</button>
+    {{-- <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> مساقات الفصل الحالي</button> --}}
     <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span> طلاب الفصل الحالي</button>
 </div>
 

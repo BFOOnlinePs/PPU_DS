@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
 use App\Models\SystemSetting;
 use App\Models\Registration;
+use App\Models\Course;
+
 
 class RegistrationController extends Controller
 {
@@ -34,7 +36,9 @@ class RegistrationController extends Controller
         ->where('r_semester',$semester)
         ->get();
 
-        return view('project.admin.registration.courseStudents',['data'=>$data]);
+        $course = Course::where('c_id',$id)->first();
+
+        return view('project.admin.registration.courseStudents',['data'=>$data,'course'=>$course]);
 
     }
 
@@ -49,6 +53,8 @@ class RegistrationController extends Controller
         $data = Registration::with('users','courses')
         ->where('r_year',$year)
         ->where('r_semester',$semester)
+        ->select('r_student_id')
+        ->distinct()
         ->get();
 
         return view('project.admin.registration.semesterStudents',['data'=>$data]);
