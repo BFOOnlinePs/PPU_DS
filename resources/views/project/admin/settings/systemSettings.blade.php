@@ -52,41 +52,64 @@
         <hr>
         <br>
 
-        <form class="form-horizontal" id="updateSettingsForm" action="" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="mb-3 row">
-                        <label class="col-lg-12 form-label " for="textinput">العام الدراسي الحالي</label>
-                        <div class="col-lg-12">
-                            <input id="year" name="year" type="text" class="form-control" value="{{$year}}" oninput="validateInput(this)">
+        <div class="row">
+            <div class="col-md-6">
+                <form class="form-horizontal" id="updateSettingsForm" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    {{-- <div class="row"> --}}
+                        {{-- <div class="col-md-4"> --}}
+                            {{-- <div class="mb-3 row"> --}}
+                                <label class="col-lg-12 form-label " for="textinput">العام الدراسي الحالي</label>
+                                <div class="col-lg-12">
+                                    <input id="year" name="year" type="text" class="form-control" value="{{$year}}" oninput="validateInput(this)">
 
-                        </div>
-                    </div>
-                </div>
+                                </div>
+                            {{-- </div> --}}
+                        {{-- </div> --}}
+                    {{-- </div> --}}
+
+                    {{-- <div class="row"> --}}
+                        {{-- <div class="col-md-4"> --}}
+                            {{-- <div class="mb-3 row"> --}}
+                                <label class="col-lg-12 form-label " for="selectbasic">الفصل الدراسي الحالي</label>
+                                <div class="col-lg-12">
+                                <select id="semester" name="semester" class="form-control btn-square">
+                                    <option value="1" @if($semester == '1') selected @endif>فصل أول</option>
+                                    <option value="2" @if($semester == '2') selected @endif>فصل ثاني</option>
+                                    <option value="3" @if($semester == '3') selected @endif>فصل صيفي</option>
+                                </select>
+                                </div>
+                            {{-- </div> --}}
+                        {{-- </div> --}}
+                    {{-- </div> --}}
+
+                    <br>
+
+                    <button class="btn btn-primary">حفظ</button>
+
+                    <br>
+                </form>
             </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="mb-3 row">
-                        <label class="col-lg-12 form-label " for="selectbasic">الفصل الدراسي الحالي</label>
-                        <div class="col-lg-12">
-                        <select id="semester" name="semester" class="form-control btn-square">
-                            <option value="1" @if($semester == '1') selected @endif>فصل أول</option>
-                            <option value="2" @if($semester == '2') selected @endif>فصل ثاني</option>
-                            <option value="3" @if($semester == '3') selected @endif>فصل صيفي</option>
-                        </select>
-                        </div>
+            <div class="col-md-6">
+                {{-- <div class="col-sm-12 col-xl-6"> --}}
+                    <div class="card">
+                      <div class="card-header b-l-primary border-3">
+                        {{-- <h5>عام {{$year}}، فصل {{$semester}}</h5> --}}
+                        <h5 id="systemSettingsTitle">الفصل @if($semester==1) الأول @elseif($semester==2) الثاني @elseif($semester==3) الصيفي@endif لعام {{$year}}</h5>
+                      </div>
+                      <div class="card-body">
+                        <h6 id="totalSemesterCourses">
+                            إجمالي مساقات الفصل: {{$coursesNum}}
+                        </h6>
+                        <h6 id="totalSemesterStudents">
+                            إجمالي طلاب الفصل: {{$studentsNum}}
+                        </h6>
+                      </div>
                     </div>
-                </div>
+                {{-- </div> --}}
             </div>
+        </div>
 
-            <br>
-
-            <button class="btn btn-primary">حفظ</button>
-
-            <br>
-        </form>
 
     </div>
 
@@ -103,6 +126,7 @@
 <script>
 
     let submit = false;
+
 
     function validateInput(input) {
         // Remove non-numeric characters
@@ -121,6 +145,8 @@
     document.getElementById('updateSettingsForm').addEventListener("submit", (e) => {
         e.preventDefault();
         data = $('#updateSettingsForm').serialize();
+        year = document.getElementById('year').value;
+        semester = document.getElementById('semester').value;
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
         if(document.getElementById('year').value != ""){
@@ -148,6 +174,12 @@
                 dataType: 'json',
                 success: function(response) {
                     document.getElementById('loaderContainer').hidden = true;
+                    document.getElementById("totalSemesterStudents").innerHTML = `إجمالي طلاب الفصل: ${response.studentsNum}`
+                    document.getElementById("totalSemesterCourses").innerHTML = `إجمالي مساقات الفصل: ${response.coursesNum}`
+                    // document.getElementById("systemSettingsTitle").innerHTML = `الفصل ${if(semester==1){'الأول'}elseif(semester==2){'الثاني'}elseif(semester==3){"الصيفي"}} لعام ${year}`
+                    document.getElementById("systemSettingsTitle").innerHTML = `الفصل ${semester == 1 ? 'الأول' : (semester == 2 ? 'الثاني' : (semester == 3 ? 'الصيفي' : ''))} لعام ${year}`;
+
+
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);

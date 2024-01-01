@@ -10,6 +10,8 @@ use App\Imports\UsersImport;
 use App\Models\Registration;
 use App\Models\SystemSetting;
 use Illuminate\Http\Request;
+use App\Models\SemesterCourse;
+use App\Models\Registration;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SettingsController extends Controller
@@ -77,7 +79,17 @@ class SettingsController extends Controller
         $semester = $systemSettings->ss_semester_type;
         $year = $systemSettings->ss_year;
 
-        return view('project.admin.settings.systemSettings' , ['year' => $year, 'semester' => $semester]);
+        $studentsNum = Registration::where('r_year',$year)
+        ->where('r_semester',$semester)
+        ->select('r_student_id')
+        ->distinct()
+        ->get();
+
+        $coursesNum = SemesterCourse::where('sc_semester',$semester)
+        ->where('sc_year',$year)
+        ->get();
+
+        return view('project.admin.settings.systemSettings' , ['year' => $year, 'semester' => $semester, 'studentsNum'=>count($studentsNum), 'coursesNum'=>count($coursesNum)]);
     }
 
     public function systemSettingsUpdate(Request $request){
@@ -90,9 +102,22 @@ class SettingsController extends Controller
         $systemSettings->ss_year = $year;
         $systemSettings->ss_semester_type = $semester;
 
+        $studentsNum = Registration::where('r_year',$year)
+        ->where('r_semester',$semester)
+        ->select('r_student_id')
+        ->distinct()
+        ->get();
+
+        $coursesNum = SemesterCourse::where('sc_semester',$semester)
+        ->where('sc_year',$year)
+        ->get();
+
+
         if($systemSettings->save()) {
             return response()->json([
-                'success'=> 'true'
+                'success'=> 'true',
+                'coursesNum'=> count($coursesNum),
+                'studentsNum'=> count($studentsNum)
             ]);
         }
     }
