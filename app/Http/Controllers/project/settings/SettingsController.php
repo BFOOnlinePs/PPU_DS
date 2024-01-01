@@ -11,7 +11,6 @@ use App\Models\Registration;
 use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
-use App\Models\Registration;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SettingsController extends Controller
