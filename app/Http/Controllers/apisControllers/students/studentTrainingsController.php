@@ -50,7 +50,6 @@ class studentTrainingsController extends Controller
         return response()->json(['status' => true, 'student_companies' => $trainings], 200);
     }
 
-    // add file if necessary
     public function registerStudentInTraining(Request $request)
     {
         $validator = Validator::make(
@@ -58,10 +57,14 @@ class studentTrainingsController extends Controller
             [
                 'student_id' => 'required',
                 'company_id' => 'required',
+                'branch_id' => 'required',
+                'agreement_file' => 'nullable|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx',
             ],
             [
                 'student_id.required' => 'الرجاء ارسال رقم الطالب',
-                'company_id.required' => 'الرجاء ارسال رقم الشركة'
+                'company_id.required' => 'الرجاء ارسال رقم الشركة',
+                'branch_id.required' => 'الرجاء ارسال رقم الفرع',
+                'agreement_file.mimes' => 'يجب ان تكون صيغة الملف من احدى الصيغ التالية: jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx'
             ]
         );
 
@@ -98,6 +101,16 @@ class studentTrainingsController extends Controller
             ]);
         }
 
+
+        if ($request->hasFile('agreement_file')) {
+            $file = $request->file('agreement_file');
+            $folderPath = 'uploads';
+            // $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '_' . uniqid() . '.' . $extension;
+            $file->storeAs($folderPath, $fileName, 'public');
+        }
+
         $student_company = StudentCompany::create([
             'sc_student_id' => $student_id,
             'sc_company_id' => $company_id,
@@ -106,6 +119,8 @@ class studentTrainingsController extends Controller
             'sc_status' => 1,
             'sc_mentor_trainer_id' => $mentor_id,
             'sc_assistant_id' => $assistant_id,
+            'sc_agreement_file' => $fileName ?? null
+
         ]);
 
         return response()->json([
@@ -115,7 +130,65 @@ class studentTrainingsController extends Controller
         ]);
     }
 
-    public function getAllCompaniesAndAssistants(){
+    public function updateStudentRegistrationInTraining(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'sc_id' => 'required',
+                'branch_id' => 'required',
+                'agreement_file' => 'nullable|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx',
+            ],
+            [
+                'sc_id.required' => 'الرجاء ارسال رقم التدريب',
+                'branch_id.required' => 'الرجاء ارسال رقم الفرع',
+                'agreement_file.mimes' => 'يجب ان تكون صيغة الملف من احدى الصيغ التالية: jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                "message" => $validator->errors()->first(),
+            ]);
+        }
+        $sc_id = $request->input('sc_id');
+        $student_company = StudentCompany::where('sc_id', $sc_id)->first();
+        if (!$student_company) {
+            return response()->json([
+                'status' => false,
+                "message" => 'التدريب غير موجود',
+            ]);
+        }
+
+
+        $student_company->update([
+            'sc_branch_id' => $request->input('branch_id'),
+            'sc_department_id' => $request->input('department_id'),
+            'sc_mentor_id' => $request->input('mentor_id'),
+            'sc_assistant_id' => $request->input('assistant_id'),
+        ]);
+
+        if ($request->hasFile('agreement_file')) {
+            $file = $request->file('agreement_file');
+            $folderPath = 'uploads';
+            // $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '_' . uniqid() . '.' . $extension;
+            $file->storeAs($folderPath, $fileName, 'public');
+            $student_company->update([
+                'sc_agreement_file' => $fileName
+            ]);
+        }
+
+        return response()->json([
+            'status' => true,
+            "message" => 'تم تحديث تسجيل الطالب بنجاح',
+        ]);
+    }
+
+    public function getAllCompaniesAndAssistants()
+    {
         $companies = Company::get();
         $assistants = User::where('u_role_id', 4)->get();
 

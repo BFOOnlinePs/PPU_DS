@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
     Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']);
+    Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
     Route::post('getBranchDepartments', [studentTrainingsController::class, 'getBranchDepartments']);
     Route::get('getAllCompaniesAndAssistants', [studentTrainingsController::class, 'getAllCompaniesAndAssistants']);

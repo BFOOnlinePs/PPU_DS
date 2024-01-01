@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\CompanyBranchLocation;
 use App\Models\Course;
+use App\Models\Major;
 use App\Models\Role;
 use App\Models\SemesterCourse;
 use App\Models\StudentCompany;
@@ -72,17 +73,38 @@ class sharedController extends Controller
 
     public function getUserInfo(Request $request)
     {
-        $credentials = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'u_id' => 'required',
+        ], [
+            'u_id.required' => 'الرجاء ارسال رقم المستخدم'
         ]);
 
-        $user = User::where('u_id', $credentials['u_id'])->first();
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        };
+
+        $user_id = $request->input('u_id');
+        $user = User::where('u_id', $user_id)->first();
+        if ($user->u_role_id == 2) {
+            // student
+            $user->major_name  = Major::where('m_id', $user->u_major_id)->pluck('m_name')->first();
+        } else if ($user->u_role_id == 6) {
+            // manager
+            $user->company = Company::where('c_manager_id', $user_id)->first();
+
+            // for later, when we depend on branch manager, not company manager:
+            // $user->branches = CompanyBranch::where('b_manager_id', $user_id)->with('companies')->get();0
+        }
 
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        return response()->json(['user' => $user], 200);
+        return response()->json(['user' => $user,], 200);
     }
 
 
@@ -131,7 +153,8 @@ class sharedController extends Controller
         ]);
     }
 
-    public function fileUpload(Request $request){
+    public function fileUpload(Request $request)
+    {
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $folderPath = 'student_reports';

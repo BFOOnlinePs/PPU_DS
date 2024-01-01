@@ -20,6 +20,7 @@ class StudentCompany extends Model
         'sc_status',
         'sc_mentor_trainer_id',
         'sc_assistant_id',
+        'sc_agreement_file',
     ];
 
     // student (trainee)
