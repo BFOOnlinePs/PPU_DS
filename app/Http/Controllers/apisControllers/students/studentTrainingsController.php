@@ -167,6 +167,7 @@ class studentTrainingsController extends Controller
             'sc_department_id' => $request->input('department_id'),
             'sc_mentor_id' => $request->input('mentor_id'),
             'sc_assistant_id' => $request->input('assistant_id'),
+            'sc_status' => $request->input('status'),
         ]);
 
         if ($request->hasFile('agreement_file')) {
