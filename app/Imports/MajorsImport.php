@@ -12,11 +12,13 @@ class MajorsImport implements ToModel
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    protected $additionalData , $startRow;
+    protected $additionalData , $startRow , $cnt , $majors_array;
     public function __construct($additionalData)
     {
         $this->additionalData = $additionalData;
         $this->startRow = 1;
+        $this->cnt = 0;
+        $this->majors_array = array();
     }
     public function model(array $row)
     {
@@ -30,10 +32,27 @@ class MajorsImport implements ToModel
         if ($major || empty($row[$this->additionalData['major_id']]) || empty($row[$this->additionalData['major_name']])) {
             return null; // Skip this row
         }
-        return new Major([
+        $return_major = new Major([
             'm_name' => $row[$this->additionalData['major_name']],
             'm_description' => '',
             'm_reference_code' => $row[$this->additionalData['major_id']],
         ]);
+        if($return_major->save()) {
+            $this->cnt++;
+            array_push($this->majors_array , $row[$this->additionalData['major_id']]);
+            array_push($this->majors_array , $row[$this->additionalData['major_name']]);
+            return $return_major;
+        }
+        else {
+            return null;
+        }
+    }
+    public function getCount()
+    {
+        return $this->cnt;
+    }
+    public function getMajorsArray()
+    {
+        return $this->majors_array;
     }
 }

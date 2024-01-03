@@ -1,5 +1,14 @@
 <?php
     return [
+        "Example" => "مثال",
+        "Student ID number" => "الرقم الجامعي للطالب",
+        "The semester (1 means the first semester, 2 means the second semester, 3 means the summer semester)" => "الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي)",
+        "You must upload an Excel file containing the following headings" => "يجب رفع ملف إكسل تحتوي على العناوين التالية",
+        "System settings" => "إعدادات النظام",
+        "Registration" => "التسجيل",
+        "Confirmation make synchronization" => "تأكيد عمل المزامنة",
+        "Are you sure you want to make synchronization between the Excel file and the database?" => "هل أنت متأكد من عمل المزامنة ما بين ملف الإكسل وقاعدة البيانات؟",
+        "Confirmation" => "تأكيد",
         "Choose field" => "اختر الحقل",
         "Major number" => 'رقم التخصص',
         "Course number" => "رقم المساق",

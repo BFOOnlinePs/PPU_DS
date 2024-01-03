@@ -337,7 +337,12 @@ class UserController extends Controller
         $students = StudentCompany::whereIn('sc_company_id', $company_id)
                                     ->where('sc_status' , 1)
                                     ->get();
-        return view('project.admin.users.details' , ['user' => $user , 'students' => $students , 'company' => $company]);
+        $supervisors_assistant = null;
+        if($user->u_role_id == 4) {
+            $supervisors_assistant = SupervisorAssistant::where('sa_assistant_id' , $user->u_id)
+                                                        ->get();
+        }
+        return view('project.admin.users.details' , ['user' => $user , 'students' => $students , 'company' => $company , 'supervisors_assistant' => $supervisors_assistant]);
     }
     public function search(Request $request)
     {

@@ -46,9 +46,17 @@ class SettingsController extends Controller
     {
         if ($request->hasFile('input-file')) {
             $file = $request->file('input-file');
-            // Read the first row of the Excel file
-            $firstRow = Excel::toCollection([], $file)->first()->first();
-            return response()->json(['headers' => $firstRow]);
+            $extension = $file->getClientOriginalExtension();
+            // Allowed Excel extensions
+            $allowedExtensions = ['xlsx', 'xls'];
+            if (in_array($extension, $allowedExtensions)) {
+                // Read the first row of the Excel file
+                $firstRow = Excel::toCollection([], $file)->first()->first();
+                return response()->json(['status' => 1 ,'headers' => $firstRow]);
+            }
+            else {
+                return response()->json(['status' => 0]);
+            }
         }
     }
     public function submitForm(Request $request)
@@ -62,11 +70,40 @@ class SettingsController extends Controller
                 $value = $decodedMap[$i + 1];
                 $result[$key] = $value;
             }
-            Excel::import(new UsersImport($result), $file);
-            Excel::import(new CoursesImport($result), $file);
-            Excel::import(new MajorsImport($result), $file);
-            Excel::import(new RegistrationsImport($result), $file);
-            return response()->json([]);
+            $course_object = new CoursesImport($result);
+            $major_object = new MajorsImport($result);
+            $user_object = new UsersImport($result);
+            $registration_object = new RegistrationsImport($result);
+            Excel::import($course_object, $file);
+            Excel::import($major_object, $file);
+            Excel::import($user_object, $file);
+            Excel::import($registration_object, $file);
+            return response()->json([
+                'registration_object' => $registration_object->getCount() ,
+                'major_object' => $major_object->getCount() ,
+                'user_object' => $user_object->getCount() ,
+                'course_object' => $course_object->getCount() ,
+                'courses_array' => $course_object->getCoursesArray(),
+                'majors_array' => $major_object->getMajorsArray(),
+                'students_numbers_array' => $user_object->getArrayStudentsNumbers() ,
+                'students_names_array' => $user_object->getArrayStudentsNames() ,
+                'registration_array' => $registration_object->getRegistrationArray()
+            ]);
+        }
+    }
+    public function validateStepOne(Request $request)
+    {
+        if ($request->hasFile('input-file')) {
+            $file = $request->file('input-file');
+            $extension = $file->getClientOriginalExtension();
+            // Allowed Excel extensions
+            $allowedExtensions = ['xlsx', 'xls'];
+            if (in_array($extension, $allowedExtensions)) {
+                return response()->json(['status' => 1]);
+            }
+            else {
+                return response()->json(['status' => 0]);
+            }
         }
     }
 

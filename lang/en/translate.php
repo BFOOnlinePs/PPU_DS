@@ -1,5 +1,14 @@
 <?php
     return [
+        "Example" => "Example",
+        "Student ID number" => "Student ID number",
+        "The semester (1 means the first semester, 2 means the second semester, 3 means the summer semester)" => "The semester (1 means the first semester, 2 means the second semester, 3 means the summer semester)",
+        "You must upload an Excel file containing the following headings" => "You must upload an Excel file containing the following headings",
+        "System settings" => "System settings",
+        "Registration" => "Registration",
+        "Confirmation make synchronization" => "Confirmation make synchronization",
+        "Are you sure you want to make synchronization between the Excel file and the database?" => "Are you sure you want to make synchronization between the Excel file and the database?",
+        "Confirmation" => "Confirmation",
         "Choose field" => "Choose field",
         "Major number" => "Major number",
         "Course number" => "Course number",
