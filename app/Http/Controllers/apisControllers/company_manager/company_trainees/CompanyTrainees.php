@@ -4,6 +4,7 @@ namespace App\Http\Controllers\apisControllers\company_manager\company_trainees;
 
 use App\Http\Controllers\Controller;
 use App\Models\CompanyBranch;
+use App\Models\Major;
 use App\Models\StudentAttendance;
 use App\Models\StudentCompany;
 use App\Models\StudentReport;
@@ -47,7 +48,13 @@ class CompanyTrainees extends Controller
         // $trainees = $trainees->pluck('managerOf.studentCompanies.*')->flatten();
 
         $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
-        $students_companies = StudentCompany::whereIn('sc_branch_id', $company_branches_id)->with('users')->paginate(10);
+        $students_companies = StudentCompany::whereIn('sc_branch_id', $company_branches_id)->with('users')
+            ->orderBy('created_at', 'desc')->paginate(10);
+
+        $students_companies->getCollection()->transform(function ($student_company) {
+            $student_company->users->major_name = Major::where('m_id', $student_company->users->u_major_id)->pluck('m_name')->first();
+            return $student_company;
+        });
 
         // // Filter out null values
         // $trainees = $trainees->filter(function ($item) {

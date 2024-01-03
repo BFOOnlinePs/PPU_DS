@@ -28,7 +28,7 @@ class StudentController extends Controller
 
         $trainings = StudentCompany::where('sc_student_id', $student_id)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(5);
 
         if ($trainings->isEmpty()) {
             return response()->json([
@@ -38,7 +38,7 @@ class StudentController extends Controller
         }
 
         // add company name, branch address, mentor name, and assistant name for each training object
-        $trainings = $trainings->map(function ($training) {
+        $trainings->getCollection()->transform(function ($training) {
             $training->company_name = Company::where('c_id', $training->sc_company_id)->pluck('c_name')->first();
             $training->branch_name = CompanyBranch::where('b_id', $training->sc_branch_id)->pluck('b_address')->first();
             $training->mentor_trainer_name = User::where('u_id', $training->sc_mentor_trainer_id)->pluck('name')->first();
@@ -47,7 +47,15 @@ class StudentController extends Controller
         });
 
 
-        return response()->json(['student_companies' => $trainings], 200);
+        return response()->json([
+            'pagination' => [
+                'current_page' => $trainings->currentPage(),
+                'last_page' => $trainings->lastPage(),
+                'per_page' => $trainings->perPage(),
+                'total_items' => $trainings->total(),
+            ],
+            'student_companies' => $trainings->items(),
+        ], 200);
     }
 }
 

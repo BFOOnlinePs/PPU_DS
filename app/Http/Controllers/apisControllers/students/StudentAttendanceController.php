@@ -144,13 +144,13 @@ class StudentAttendanceController extends Controller
 
         $today_attendance = StudentAttendance::where('sa_student_company_id', $student_company_id)
             ->whereDate('sa_in_time', $today)
-            // ->whereDoesntHave('report')
             ->get();
 
         // if last check in is today and different sc_id and did not checked out
         // then he can not checkin in different training (return true true)
         if ($student_attendance_in_all_companies) {
             $lastCheckInAllCompaniesDate = Carbon::parse($student_attendance_in_all_companies->sa_in_time)->toDateString();
+
             if (
                 $lastCheckInAllCompaniesDate === $today
                 && $student_attendance_in_all_companies->sa_out_time == null
