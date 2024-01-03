@@ -47,6 +47,7 @@
                             <label for="f1-first-name">{{__('translate.Upload excel file')}}:{{-- رفع ملف إكسل --}}</label>
                             <div class="input-container">
                                 <input class="form-control" type="file" id="excel_file" name="excel_file" required="" onchange="upload_excel_file(this)" accept=".xlsx, .xls">
+                                <input type="hidden" id="name_file_hidden">
                             </div>
                             <div id="progress-container" style="display: none;">
                                 <div class="progress">
@@ -55,22 +56,25 @@
                                 <span id="progress-text">{{__('translate.Uploading')}}...{{-- جارٍ التحميل --}}</span>
                             </div>
                             <br>
-                            <ul>
-                                <li>
-                                    {{__('translate.You must upload an Excel file containing the following headings')}}{{-- يجب رفع ملف إكسل تحتوي على العناوين التالية --}} :
-                                </li>
-                                <ul style="list-style-type: circle">
-                                    <li>{{__('translate.Year')}}{{-- السنة --}}</li>
-                                    <li>{{__('translate.The semester (1 means the first semester, 2 means the second semester, 3 means the summer semester)')}}{{-- الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي) --}}</li>
-                                    <li>{{__('translate.Student ID number')}}{{-- الرقم الجامعي للطالب --}}</li>
-                                    <li>{{__("translate.Student's name")}}{{-- اسم الطالب --}}</li>
-                                    <li>{{__('translate.Course number')}}{{-- رقم المساق --}}</li>
-                                    <li>{{__('translate.Course name')}}{{-- اسم المساق --}}</li>
-                                    <li>{{__('translate.Major number')}}{{-- رقم التخصص --}}</li>
-                                    <li>{{__("translate.Major's name")}}{{-- اسم التخصص --}}</li>
+                            <div class="card" style="background-color: #fff891">
+                                <ul>
+                                    <li>
+                                        {{__('translate.You must upload an Excel file containing the following headings')}}{{-- يجب رفع ملف إكسل تحتوي على العناوين التالية --}} :
+                                    </li>
+                                    <ul style="list-style-type: circle">
+                                        <li>{{__('translate.Year')}}{{-- السنة --}}</li>
+                                        <li>{{__('translate.The semester (1 means the first semester, 2 means the second semester, 3 means the summer semester)')}}{{-- الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي) --}}</li>
+                                        <li>{{__('translate.Student ID number')}}{{-- الرقم الجامعي للطالب --}}</li>
+                                        <li>{{__("translate.Student's name")}}{{-- اسم الطالب --}}</li>
+                                        <li>{{__('translate.Course number')}}{{-- رقم المساق --}}</li>
+                                        <li>{{__('translate.Course name')}}{{-- اسم المساق --}}</li>
+                                        <li>{{__('translate.Major number')}}{{-- رقم التخصص --}}</li>
+                                        <li>{{__("translate.Major's name")}}{{-- اسم التخصص --}}</li>
+                                    </ul>
                                 </ul>
-                            </ul>
-                            <br>
+                            </div>
+                            <a href="{{ asset('storage/excel/samplesData.xlsx') }}" download>تحميل مثال لملف</a>
+                            <br><br>
                             <ul>
                                 <li>
                                     {{__('translate.Example')}}{{-- مثال --}} :
@@ -237,10 +241,12 @@
         data.push('major_name');
         data.push(document.getElementById('major_name').value);
         let file = document.getElementById('excel_file').files[0];
+        let name_file_hidden = document.getElementById('name_file_hidden').value;
         if (file) {
             let formData = new FormData();
             formData.append('input-file', file);
             formData.append('data' , data);
+            formData.append('name_file_hidden' , name_file_hidden);
             $.ajax({
                 beforeSend: function() {
                     $('#confirmIntegrationModal').modal('hide');
@@ -399,6 +405,7 @@
                         document.getElementById('errorPageOne').innerHTML = ``;
                     }
                     $(`#progress-container`).hide();
+                    document.getElementById('name_file_hidden').value = response.name_file_hidden;
                     let headers = response.headers;
                     create_options(headers , 'year');
                     create_options(headers , 'semester');

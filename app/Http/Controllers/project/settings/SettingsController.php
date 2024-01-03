@@ -11,6 +11,7 @@ use App\Models\Registration;
 use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SettingsController extends Controller
@@ -48,12 +49,16 @@ class SettingsController extends Controller
         if ($request->hasFile('input-file')) {
             $file = $request->file('input-file');
             $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->storeAs('excel', $filename, 'public'); // to save file temporarily in excel folder
+
             // Allowed Excel extensions
             $allowedExtensions = ['xlsx', 'xls'];
             if (in_array($extension, $allowedExtensions)) {
                 // Read the first row of the Excel file
-                $firstRow = Excel::toCollection([], $file)->first()->first();
-                return response()->json(['status' => 1 ,'headers' => $firstRow]);
+                $path = public_path('storage/excel/' . $filename);
+                $firstRow = Excel::toCollection([], $path)->first()->first();
+                return response()->json(['status' => 1 ,'headers' => $firstRow , 'name_file_hidden' => $filename]);
             }
             else {
                 return response()->json(['status' => 0]);
@@ -63,7 +68,7 @@ class SettingsController extends Controller
     public function submitForm(Request $request)
     {
         if ($request->hasFile('input-file')) {
-            $file = $request->file('input-file');
+            $path = public_path('storage/excel/' . $request->input('name_file_hidden'));
             $decodedMap = explode(',', $request->input('data'));
             $result = null;
             for ($i = 0; $i < count($decodedMap) - 1; $i += 2) {
@@ -75,10 +80,10 @@ class SettingsController extends Controller
             $major_object = new MajorsImport($result);
             $user_object = new UsersImport($result);
             $registration_object = new RegistrationsImport($result);
-            Excel::import($course_object, $file);
-            Excel::import($major_object, $file);
-            Excel::import($user_object, $file);
-            Excel::import($registration_object, $file);
+            Excel::import($course_object, $path);
+            Excel::import($major_object, $path);
+            Excel::import($user_object, $path);
+            Excel::import($registration_object, $path);
             return response()->json([
                 'registration_object' => $registration_object->getCount() ,
                 'major_object' => $major_object->getCount() ,
