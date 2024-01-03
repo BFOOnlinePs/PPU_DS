@@ -90,7 +90,7 @@
                                     data-feather="briefcase"></i><span> {{__('translate.Companies')}} {{-- الشركات --}}</span></a></li>
 
                         <li class=""><a class="nav-link" href="{{ route('admin.registration.index') }}"><i
-                            data-feather="user-check"></i><span> التسجيل {{-- الشركات --}}</span></a></li>
+                            data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
 
                         <li class="dropdown"><a class="nav-link" href="{{route('admin.settings')}}"><i data-feather="settings"></i><span> {{__('translate.Settings')}} {{-- الإعدادات --}}</span></a></li>
                     @endif

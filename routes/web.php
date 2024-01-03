@@ -93,6 +93,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::group(['prefix'=>'company_manager'],function(){
                 Route::post('/searchStudentByName' , [App\Http\Controllers\UserController::class , 'searchStudentByName'])->name('users.company_manager.searchStudentByName');
             });
+            Route::group(['prefix'=>'supervisor_assistatns'],function(){
+                Route::post('/create' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'create'])->name('admin.assistant.create');
+                Route::post('/showSelectSupervisor' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'show_select_for_supervisor'])->name('admin.assistant.showSelectSupervisor');
+                Route::post('/deleteSupervisor' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'deleteSupervisor'])->name('admin.assistant.deleteSupervisor');
+            });
         });
 
 
@@ -146,6 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('/integration',[App\Http\Controllers\project\settings\SettingsController::class,'integration'])->name('integration');
             Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\SettingsController::class,'uploadFileExcel'])->name('integration.uploadFileExcel');
+            Route::post('/validateStepOne',[App\Http\Controllers\project\settings\SettingsController::class,'validateStepOne'])->name('integration.validateStepOne');
             Route::post('/submitForm',[App\Http\Controllers\project\settings\SettingsController::class,'submitForm'])->name('integration.submitForm');
 
             Route::get('/systemSettings',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettings'])->name('admin.settings.systemSettings');

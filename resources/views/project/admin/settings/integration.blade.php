@@ -39,12 +39,14 @@
                 </div>
             </div>
             <fieldset>
+                <div id="errorPageOne">
+                </div>
                 <div class="row" id="step1">
                     <div class="col-md-6">
                         <div class="mb-3 form-group">
                             <label for="f1-first-name">{{__('translate.Upload excel file')}}:{{-- رفع ملف إكسل --}}</label>
                             <div class="input-container">
-                                <input class="form-control" type="file" id="excel_file" name="excel_file" required="" onchange="upload_excel_file(this)">
+                                <input class="form-control" type="file" id="excel_file" name="excel_file" required="" onchange="upload_excel_file(this)" accept=".xlsx, .xls">
                             </div>
                             <div id="progress-container" style="display: none;">
                                 <div class="progress">
@@ -52,18 +54,45 @@
                                 </div>
                                 <span id="progress-text">{{__('translate.Uploading')}}...{{-- جارٍ التحميل --}}</span>
                             </div>
+                            <br>
+                            <ul>
+                                <li>
+                                    {{__('translate.You must upload an Excel file containing the following headings')}}{{-- يجب رفع ملف إكسل تحتوي على العناوين التالية --}} :
+                                </li>
+                                <ul style="list-style-type: circle">
+                                    <li>{{__('translate.Year')}}{{-- السنة --}}</li>
+                                    <li>{{__('translate.The semester (1 means the first semester, 2 means the second semester, 3 means the summer semester)')}}{{-- الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي) --}}</li>
+                                    <li>{{__('translate.Student ID number')}}{{-- الرقم الجامعي للطالب --}}</li>
+                                    <li>{{__("translate.Student's name")}}{{-- اسم الطالب --}}</li>
+                                    <li>{{__('translate.Course number')}}{{-- رقم المساق --}}</li>
+                                    <li>{{__('translate.Course name')}}{{-- اسم المساق --}}</li>
+                                    <li>{{__('translate.Major number')}}{{-- رقم التخصص --}}</li>
+                                    <li>{{__("translate.Major's name")}}{{-- اسم التخصص --}}</li>
+                                </ul>
+                            </ul>
+                            <br>
+                            <ul>
+                                <li>
+                                    {{__('translate.Example')}}{{-- مثال --}} :
+                                    @if (app()->getLocale() == 'en')
+                                        <img src="{{asset('storage/excel/excelEn.PNG')}}" alt="">
+                                    @else
+                                        <img src="{{asset('storage/excel/excelAr.PNG')}}" alt="">
+                                    @endif
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
                 <div class="f1-buttons">
-                    <button class="btn btn-primary btn-next" onclick="nextStep()" type="button">{{__('translate.Next')}}{{-- التالي --}}</button>
+                    <button class="btn btn-primary btn-next" onclick="validate_step_one()" type="button" id="next1">{{__('translate.Next')}}{{-- التالي --}}</button>
                 </div>
             </fieldset>
             <fieldset>
                 <div class="row" id="step2">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translte.Year')}}{{-- السنة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Year')}}{{-- السنة --}}</label>
                             <select id="year" name="year"  class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
@@ -107,7 +136,6 @@
                     </div>
                 </div>
                 <div class="f1-buttons">
-                    {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
                     <button class="btn btn-primary btn-next" type="button" onclick="nextStep()">{{__('translate.Next')}}{{-- التالي --}}</button>
                 </div>
             </fieldset>
@@ -118,13 +146,17 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <h6>{{__("translate.In this section, when clicking on 'Synchronize', the fields are synchronized, establishing integration between the database and the Excel file")}}{{-- في هذا القسم عند الضغط على مزامنة يتم مزامنة الحقول وعمل تكامل ما بين قاعدة البيانات وملف إكسل --}}</h6>
+                                    <div id="progress" style="height: 200px; background-color: #fff891 ;overflow: scroll; ">
+                                    </div>
+                                    <div id="summary">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                @include('project.admin.users.modals.loading')
                 <div class="f1-buttons">
-                    {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
                     <button class="btn btn-primary" onclick="show_confirm_alert()" type="button">{{__('translate.Synchronization')}}{{-- مزامنة --}}</button>
                 </div>
             </fieldset>
@@ -139,6 +171,49 @@
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 <script>
+    function validate_step_one()
+    {
+        let file = document.getElementById('excel_file').files[0];
+        let nextButton = document.getElementById('next1');
+        if (file) {
+            let formData = new FormData();
+            formData.append('input-file', file);
+            $.ajax({
+                url: "{{ route('integration.validateStepOne') }}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if(response.status === 0) {
+                        nextButton.disabled = true;
+                        document.getElementById('errorPageOne').innerHTML = `
+                            <div class="alert alert-danger">
+                                يُرجى اختيار ملف إكسل فقط
+                            </div>
+                        `;
+                    }
+                    else {
+                        nextButton.disabled = false;
+                        document.getElementById('errorPageOne').innerHTML = ``;
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        }
+        else {
+            nextButton.disabled = true;
+            document.getElementById('errorPageOne').innerHTML = `
+                <div class="alert alert-danger">
+                    يُرجى اختيار ملف إكسل فقط
+                </div>
+            `;
+        }
+    }
     function show_confirm_alert()
     {
         $('#confirmIntegrationModal').modal('show');
@@ -167,6 +242,10 @@
             formData.append('input-file', file);
             formData.append('data' , data);
             $.ajax({
+                beforeSend: function() {
+                    $('#confirmIntegrationModal').modal('hide');
+                    $('#LoadingModal').modal('show');
+                },
                 url: "{{ route('integration.submitForm') }}",
                 method: 'POST',
                 headers: {
@@ -176,9 +255,88 @@
                 contentType: false,
                 processData: false,
                 success: function (response) {
-                    $('#confirmIntegrationModal').modal('hide');
+                    $('#LoadingModal').modal('hide');
+                    const locale = "{{ app()->getLocale() }}";
+                    let progress = '';
+                    let courses_array = response.courses_array;
+                    let majors_array = response.majors_array;
+                    let students_numbers = response.students_numbers_array;
+                    let students_names = response.students_names_array;
+                    let registration_array = response.registration_array;
+                    if(locale === 'ar') {
+                        document.getElementById("summary").innerHTML = `
+                        <div class="alert alert-success">
+                        تم إضافة عدد ${response.user_object} من الطلاب
+                        </div>
+                        <div class="alert alert-success">
+                            تم إضافة عدد ${response.course_object} من المساقات
+                        </div>
+                        <div class="alert alert-success">
+                            تم إضافة عدد ${response.major_object} من التخصصات
+                        </div>
+                        <div class="alert alert-success">
+                            تم تسجيل ${response.registration_object} من الطلاب
+                        </div>
+                        `;
+                        for(let i = 0; i < courses_array.length; i += 2) {
+                            progress += `<p>تم تسجيل مساق ${courses_array[i + 1]} ، رقمه ${courses_array[i]}</p>`;
+                        }
+                        for(let i = 0; i < majors_array.length; i += 2) {
+                            progress += `<p>تم تسجيل تخصص ${majors_array[i + 1]} ، رقمه ${majors_array[i]}</p>`;
+                        }
+                        for(let i = 0; i < students_numbers.length; i++) {
+                            progress += `<p>تم إضافة طالب اسمه ${students_names[i]} ، و رقمه الجامعي هو ${students_numbers[i]}</p>`;
+                        }
+                        for(let i = 0; i < registration_array.length; i += 5) {
+                            let semester = `الصيفي`;
+                            if(registration_array[i + 3] == 1) {
+                                semester = `الأول`;
+                            }
+                            else if(registration_array[i + 3] == 2) {
+                                semester = `الثاني`;
+                            }
+                            progress += `<p>تم تسجيل الطالب ${registration_array[i]} الّذي يحمل الرقم الجامعي ${registration_array[i + 1]} ، في مساق ${registration_array[i + 2]} لسنة ${registration_array[i + 4]} في الفصل ${semester}</p>`;
+                        }
+                        document.getElementById('progress').innerHTML = progress;
+                    }
+                    else {
+                        document.getElementById("summary").innerHTML = `
+                        <div class="alert alert-success">
+                            Added ${response.user_object} students
+                        </div>
+                        <div class="alert alert-success">
+                            Added ${response.course_object} courses
+                        </div>
+                        <div class="alert alert-success">
+                            Added ${response.major_object} majors
+                        </div>
+                        <div class="alert alert-success">
+                            Registered ${response.registration_object} students
+                        </div>
+                        `;
+                        for (let i = 0; i < courses_array.length; i += 2) {
+                            progress += `<p>A course with number ${courses_array[i]} titled ${courses_array[i + 1]} has been registered.</p>`;
+                        }
+                        for (let i = 0; i < majors_array.length; i += 2) {
+                            progress += `<p>A major with number ${majors_array[i]} titled ${majors_array[i + 1]} has been registered.</p>`;
+                        }
+                        for (let i = 0; i < students_numbers.length; i++) {
+                            progress += `<p>A student named ${students_names[i]} with university ID ${students_numbers[i]} has been added.</p>`;
+                        }
+                        for (let i = 0; i < registration_array.length; i += 5) {
+                            let semester = `Summer`;
+                            if (registration_array[i + 3] == 1) {
+                                semester = `First`;
+                            } else if (registration_array[i + 3] == 2) {
+                                semester = `Second`;
+                            }
+                            progress += `<p>Student ${registration_array[i]} with university ID ${registration_array[i + 1]} has been registered in course ${registration_array[i + 2]} for the year ${registration_array[i + 4]} in the ${semester} semester.</p>`;
+                        }
+                        document.getElementById('progress').innerHTML = progress;
+                    }
                 },
                 error: function (error) {
+                    $('#LoadingModal').modal('hide');
                 }
             });
         }
@@ -200,6 +358,7 @@
     }
     function upload_excel_file(input) {
         let file = input.files[0];
+        let nextButton = document.getElementById('next1');
         if (file) {
             let formData = new FormData();
             formData.append('input-file', file);
@@ -227,6 +386,18 @@
                     return xhr;
                 },
                 success: function (response) {
+                    if(response.status === 0) {
+                        nextButton.disabled = true;
+                        document.getElementById('errorPageOne').innerHTML = `
+                            <div class="alert alert-danger">
+                                يُرجى اختيار ملف إكسل فقط
+                            </div>
+                        `;
+                    }
+                    else {
+                        nextButton.disabled = false;
+                        document.getElementById('errorPageOne').innerHTML = ``;
+                    }
                     $(`#progress-container`).hide();
                     let headers = response.headers;
                     create_options(headers , 'year');
@@ -239,8 +410,6 @@
                     create_options(headers , 'major_name');
                 },
                 error: function (error) {
-                    // Handle error, if needed
-                    console.error(error);
                     $('#progress-container').hide();
                 }
             });
