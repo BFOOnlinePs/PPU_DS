@@ -70,6 +70,14 @@
                         <li class=""><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>{{__('translate.Track records')}}{{-- سجلات المتابعة --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{route('company_manager.payments.index')}}"><i data-feather="dollar-sign"></i><span>{{__('translate.Payments')}} {{-- الدفعات --}}</span></a></li>
+
+                    @elseif (auth()->user()->u_role_id == 5) {{-- M&E --}}
+                        <li class="back-btn">
+                            <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                        </li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.index')}}"><i data-feather="users"></i><span>الرئيسية</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="users"></i><span>تقرير فصل</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.companiesReport')}}"><i data-feather="users"></i><span>تقرير الشركات</span></a></li>
                     @else
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"

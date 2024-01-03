@@ -772,15 +772,15 @@ function completeCompany(index){
     document.getElementById('company_id').value = uncompletedCompany[index].c_id;
 
 
-    branchesNum = document.getElementById('branchesNum').value;
-    if(branchesNum<2){
-        //cause adress2 and phone1 are required inputs in the wizard and it will not continue to the
-        //next step even they are hidden, so when choose 1 branch they are actully exists but whithout values
-        //so the wizard will not continue to next step
-        //so this is the temp solution for this issue
-        document.getElementById('address2').value = 0;
-        document.getElementById('phone1_2').value = 0;
-    }
+    // branchesNum = document.getElementById('branchesNum').value;
+    // if(branchesNum<2){
+    //     //cause adress2 and phone1 are required inputs in the wizard and it will not continue to the
+    //     //next step even they are hidden, so when choose 1 branch they are actully exists but whithout values
+    //     //so the wizard will not continue to next step
+    //     //so this is the temp solution for this issue
+    //     document.getElementById('address2').value = 0;
+    //     document.getElementById('phone1_2').value = 0;
+    // }
 
     $('#uncompletedCompanyModal').modal('hide');
 
