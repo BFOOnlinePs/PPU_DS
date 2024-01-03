@@ -160,7 +160,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'company_trainer'], function () {
     });
 
-    Route::group(['prefix' => 'mnd'], function () {
+    Route::group(['prefix' => 'monitor_evaluation'], function () {
+        Route::get('/index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'index'])->name('monitor_evaluation.index');
+        Route::get('/semesterReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'semesterReport'])->name('monitor_evaluation.semesterReport');
+        Route::get('/companiesReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReport'])->name('monitor_evaluation.companiesReport');
+        Route::post('/semesterReportAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'semesterReportAjax'])->name('monitor_evaluation.semesterReportAjax');
+        Route::post('/companiesReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReportSearch'])->name('monitor_evaluation.companiesReportSearch');
+
     });
 
     Route::group(['prefix' => 'company_manager'], function () {

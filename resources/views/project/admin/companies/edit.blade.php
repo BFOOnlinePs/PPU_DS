@@ -70,6 +70,8 @@
       padding-bottom:10px;
       margin-bottom: 5px; /* Remove default margin-bottom */
       }
+
+
 </style>
 
 @endsection
@@ -93,24 +95,38 @@
 
         </div>
         <div class="f1"  id="companyForm">
-            <div class="f1-steps">
+            {{-- <div class="f1-steps">
                 <div class="f1-progress">
                     <div class="f1-progress-line"></div>
                 </div>
 
                 <div class="f1-step"onclick="info()">
                     <div class="f1-step-icon"><i class="fa fa-file-text-o" ></i></div>
-                    <p>{{__('translate.Company information')}}{{-- معلومات الشركة --}}</p>
+                    <p>{{__('translate.Company information')}}</p>
                 </div>
                 <div class="f1-step" onclick="department()">
                     <div class="f1-step-icon"><i class="fa fa-th-large" ></i></div>
-                    <p>{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</p>
+                    <p>{{__('translate.Company departments')}}</p>
                 </div>
                 <div class="f1-step" onclick="branch()">
                     <div class="f1-step-icon"><i class="fa fa-sitemap" ></i></div>
-                    <p>{{__('translate.Company branches')}}{{-- فروع الشركة --}}</p>
+                    <p>{{__('translate.Company branches')}}</p>
                 </div>
 
+            </div> --}}
+
+            <div class="stepwizard mt-5">
+                <div class="stepwizard-row setup-panel">
+                  <div class="stepwizard-step"><button class="btn btn-primary" id="btn1" onclick="info()"><i class="fa fa-file-text-o" ></i></button>
+                    <p>معلومات الشركة</p>
+                  </div>
+                  <div class="stepwizard-step"><button class="btn btn-light" id="btn2" onclick="department()"><i class="fa fa-th-large" ></i></button>
+                    <p>أقسام الشركة</p>
+                  </div>
+                  <div class="stepwizard-step"><button class="btn btn-light" id="btn3" onclick="branch()"><i class="fa fa-sitemap" ></i></button>
+                    <p>فروع الشركة</p>
+                  </div>
+                </div>
             </div>
 
 
@@ -119,7 +135,7 @@
             <div id ="info">
                 <form id="EditCompanyInfo" method="post">
 
-            <div class="row">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-first-name"> {{__('translate.Company name')}} {{-- اسم الشركة --}}</label>
@@ -143,35 +159,31 @@
                         </div>
                     </div>
 
-              <div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}}</label>
                             <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" value="{{$company->manager->u_phone1}}" required="">
                         </div>
 
-
+                    </div>
                 </div>
 
-
-
-
-
-
-
-    <div class="row">
-                <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4">
                         <div class=" mb-3 form-group">
                             <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} </label>
                             <input class="form-control" id="email" type="text" name="email" value="{{$company->manager->email}}" required="h">
                         </div>
 
-                 </div>
-                       <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Password')}} {{-- كلمة المرور --}}</label>
                             <input class="f1-password form-control" id="password" type="password" name="password" >
                         </div>
                     </div>
+
                     <div class="col-md-4">
                             <div class="form-group">
                                 <label for="f1-last-name">{{__('translate.Company address')}}{{-- عنوان الشركة --}}</label>
@@ -179,11 +191,8 @@
                             </div>
                     </div>
                 </div>
-    </div>
 
                 <div class="row">
-
-
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</label>
@@ -204,208 +213,163 @@
                             </select>
                         </div>
                     </div>
-   <div class="col-md-4">
+
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Website')}}{{-- الموقع الإلكتروني --}}</label>
                             <input  class="form-control" id="c_website" name="c_website" value="{{$company->c_website}}">
                         </div>
                     </div>
-
-
                 </div>
-                 <div class="row">
 
-
-
+                <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Company description')}}{{-- وصف الشركة --}}</label>
                             <textarea  class="form-control" id="c_description" name="c_description" rows="6" >{{$company->c_description}}</textarea>
                         </div>
                     </div>
-
-
-
-    </div>
-
-
+                </div>
 
                 <input hidden id="manager_id" name="manager_id" value="{{$company->manager->u_id}}">
                 <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
                 <div class="f1-buttons">
                     <button type="submit" id="submit" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
-                                </div>
-
-    </form>
                 </div>
 
-
-
-
-
-
-
-
-
-                <div id="department" hidden>
-                <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                    <form id="addDepartment" method="post">
-
-                                        <label for="f1-first-name"> {{__('translate.Department Name')}}{{-- اسم القسم --}}</label>
-                                        <input class="form-control" id="d_name" name="d_name">
-                                        <input class="form-control" id="d_company_id" name="d_company_id" value="{{$company->c_id}}" hidden>
-    </form>
-                                    </div>
-                                </div>
-                                <div class="col-md-4" style="margin-top: 26px;">
-                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add department')}}{{-- إضافة القسم --}}</button>
-                                </div>
-                            </div>
-                            <div class="row" id="departmentsArea">
-
-                            </div>
-                        </div>
-
-
-                <!--أقسام الشركة-->
-
-
-                <div class="col-md-8" >
-                    <div class="ribbon-wrapper-right card"  id="departments_summary_area_company" >
-                      <div class="card-body">
-                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</div>
-                        <div id="departments">
-                             <div class="row">
-                                        <form id="EditCompanyDepartments" method="post">
-                                            <div id="noor12121">
-
-                                            <input id="companyDepartments" name="companyDepartments" value="{{$companyDepartments}}" hidden>
-                                        @foreach($companyDepartments as $key1)
-                                        <input hidden id="d_id" name="d_id" value="{{$key1->d_id}}">
-                               <div class="col-md-4">
-                                <input class="f1-last-name form-control" name="d_name_{{$key1->d_id}}" id="d_name_{{$key1->d_id}}" value="{{$key1->d_name}}">
-      </div>
-
-
-                                    @endforeach
-
-                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
-                  </div>
-       <div class="f1-buttons" id="formButtons" hidden>
-                    <button type="submit" id="submit" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
-                                </div>
-
-
-  </form>
-    </div>
-    <div id="addedDepartment" >
-
-    </div>
-
-
-    </div>
-                        </div>
-                    </div>
-
-
-
+                </form>
             </div>
 
 
-    </div>
-
-
-
-
-
-
-
-
-
-            <div id="branch" hidden>
-            <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='addBranch()'><span class="fa fa-plus"></span> {{__('translate.Add Branch')}}{{-- إضافة فرع --}}</button>
-</div>
-    <div class="row" id="companyBranches">
-            @foreach($company->companyBranch as $key)
-
-
-                    <div class="col-md-6">
-                        <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
-                          <div class="card-body">
-                            <form id="EditCompanyBranches_{{$key->b_id}}" method="POST">
-                            <div class="ribbon ribbon-primary ribbon-right">@if($key->b_main_branch == 1) {{__('translate.Main Branch')}}{{-- الفرع الرئيسي --}} @else {{__('translate.Branch')}} {{-- الفرع --}} {{ $loop->index  ++  }}@endif</div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone1">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
-                                        <input class="f1-last-name form-control" id="phone1_{{$key->b_id}}" type="text" name="phone1_{{$key->b_id}}" value="{{$key->b_phone1}}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone2">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
-                                        <input class="f1-last-name form-control" id="phone2_{{$key->b_id}}"  name="phone2_{{$key->b_id}}"  value="{{$key->b_phone2}}" >
-                                    </div>
-                                </div>
+            <div id="department" hidden>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <form id="addDepartment" method="post">
+                                <label for="f1-first-name"> {{__('translate.Department Name')}}{{-- اسم القسم --}}</label>
+                                <input class="form-control" id="d_name" name="d_name">
+                                <input class="form-control" id="d_company_id" name="d_company_id" value="{{$company->c_id}}" hidden>
+                                </form>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="address">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
-                                        <input class="f1-last-name form-control" id="address_{{$key->b_id}}" type="text" name="address_{{$key->b_id}}"   value="{{$key->b_address}}" >
-                                    </div>
-                                </div>
-                                <input hidden id="department_for_1_{{$key->b_id}}" name="department_for_1_{{$key->b_id}}">
-                                <input hidden id="c_id_{{$key->b_id}}" name="c_id_{{$key->b_id}}" value="{{$company->c_id}}">
-                                <input hidden id="manager_id_{{$key->b_id}}" name="manager_id_{{$key->b_id}}" value="{{$company->c_manager_id}}">
-                                <input hidden id="b_id" name="b_id" value="{{$key->b_id}}">
-                                <input hidden id="branches" name="branches" value="{{$company->companyBranch}}">
-                                <div class="col-md-6">
-                                    <div class="form-group" id="departments_group1_{{$key->b_id}}" >
-                                        <input hidden id="branchesNumber_{{$key->b_id}}" name="branchedNumber_{{$key->b_id}}" value="{{count($company->companyBranch)}}">
-                                        <label for="departments_{{$key->b_id}}">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
-                                        <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments_{{$key->b_id}}"  multiple></select>
+                        </div>
 
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                <div class="f1-buttons" >
-                    <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
-                                </div>
-  </form>
-                          </div>
+                        <div class="col-md-4" style="margin-top: 26px;">
+                            <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add department')}}{{-- إضافة القسم --}}</button>
                         </div>
 
                     </div>
 
-
-
-            @endforeach
-     </div>
-
-
-
-                <div id="branches">
-
+                    <div class="row" id="departmentsArea">
+                    </div>
                 </div>
 
 
+                <!--أقسام الشركة-->
+                <div class="col-md-8" >
+                    <div class="ribbon-wrapper-right card"  id="departments_summary_area_company" >
+                        <div class="card-body">
+                            <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</div>
+                                <div id="departments">
+                                    <div class="row">
+                                        <form id="EditCompanyDepartments" method="post">
+                                        <div id="noor12121">
+                                            <input id="companyDepartments" name="companyDepartments" value="{{$companyDepartments}}" hidden>
+                                            @foreach($companyDepartments as $key1)
+                                                <input hidden id="d_id" name="d_id" value="{{$key1->d_id}}">
+                                                <div class="col-md-4">
+                                                    <input class="f1-last-name form-control" name="d_name_{{$key1->d_id}}" id="d_name_{{$key1->d_id}}" value="{{$key1->d_name}}">
+                                                </div>
+                                            @endforeach
+
+                                            <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
+                                        </div>
+
+                                        <div class="f1-buttons" id="formButtons" hidden>
+                                            <button type="submit" id="submit" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
+                                        </div>
 
 
+                                        </form>
+                                    </div>
 
-    </div>
-    </div>
+                                    <div id="addedDepartment" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div id="branch" hidden>
+                <div>
+                    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='addBranch()'><span class="fa fa-plus"></span> {{__('translate.Add Branch')}}{{-- إضافة فرع --}}</button>
+                </div>
 
+                <div class="row" id="companyBranches">
+                    @foreach($company->companyBranch as $key)
+                        <div class="col-md-6">
+                            <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
+                                <div class="card-body">
+                                    <form id="EditCompanyBranches_{{$key->b_id}}" method="POST">
+                                    <div class="ribbon ribbon-primary ribbon-right">@if($key->b_main_branch == 1) {{__('translate.Main Branch')}}{{-- الفرع الرئيسي --}} @else {{__('translate.Branch')}} {{-- الفرع --}} {{ $loop->index  ++  }}@endif</div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="phone1">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
+                                                    <input class="f1-last-name form-control" id="phone1_{{$key->b_id}}" type="text" name="phone1_{{$key->b_id}}" value="{{$key->b_phone1}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="phone2">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
+                                                    <input class="f1-last-name form-control" id="phone2_{{$key->b_id}}"  name="phone2_{{$key->b_id}}"  value="{{$key->b_phone2}}" >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="address">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
+                                                    <input class="f1-last-name form-control" id="address_{{$key->b_id}}" type="text" name="address_{{$key->b_id}}"   value="{{$key->b_address}}" >
+                                                </div>
+                                            </div>
+                                            <input hidden id="department_for_1_{{$key->b_id}}" name="department_for_1_{{$key->b_id}}">
+                                            <input hidden id="c_id_{{$key->b_id}}" name="c_id_{{$key->b_id}}" value="{{$company->c_id}}">
+                                            <input hidden id="manager_id_{{$key->b_id}}" name="manager_id_{{$key->b_id}}" value="{{$company->c_manager_id}}">
+                                            <input hidden id="b_id" name="b_id" value="{{$key->b_id}}">
+                                            <input hidden id="branches" name="branches" value="{{$company->companyBranch}}">
+                                        <div class="col-md-6">
+                                            <div class="form-group" id="departments_group1_{{$key->b_id}}" >
+                                                <input hidden id="branchesNumber_{{$key->b_id}}" name="branchedNumber_{{$key->b_id}}" value="{{count($company->companyBranch)}}">
+                                                <label for="departments_{{$key->b_id}}">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
+                                                <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments_{{$key->b_id}}"  multiple></select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="f1-buttons" >
+                                        <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    @endforeach
+                </div>
+
+                <div id="branches">
+                </div>
+
+            </div>
+        </div>
     </div>
 
 
@@ -419,6 +383,7 @@
     @include('project.admin.companies.modals.addBranchModal')
 
     @include('layouts.loader')
+
 </div>
 
 @endsection
@@ -445,6 +410,38 @@ let branchesNumber = 1;
 let departments = JSON.parse(document.getElementById('companyDepartments').value);
 let uncompletedCompanySize = 0;
 let uncompletedCompany;
+
+// function updateProgressBar(step) {
+//     const progressLine = document.querySelector('.f1-progress-line');
+//     const stepWidth = 100 / 3; // Assuming you have 3 steps
+//     const progressWidth = step * stepWidth + '%';
+//     progressLine.style.width = progressWidth;
+
+//     // Remove the 'active' class from all steps
+//     const steps = document.querySelectorAll('.f1-step');
+//     steps.forEach((stepElement) => {
+//       stepElement.classList.remove('active');
+//     });
+
+//     // Add the 'active' class to the clicked step
+//     steps[step - 1].classList.add('active');
+// }
+
+function updateButtonClasses(activeBtnId) {
+    const buttons = document.querySelectorAll('.stepwizard-step button');
+
+    buttons.forEach((button) => {
+      button.classList.remove('btn-primary');
+      button.classList.add('btn-light');
+    });
+
+    const activeBtn = document.getElementById(activeBtnId);
+    activeBtn.classList.remove('btn-light');
+    activeBtn.classList.add('btn-primary');
+}
+
+
+
 $(document).ready(function()  {
 if(document.getElementById('branches').value != null )
 {
@@ -477,7 +474,7 @@ console.log(multiselect);
          }
 
 
-}); 
+});
 }
 
 
@@ -488,11 +485,19 @@ console.log(multiselect);
 //noor
 function info(){
 
+    // updateProgressBar(1);
+    updateButtonClasses('btn1');
+
     document.getElementById('info').hidden = false ;
     document.getElementById('department').hidden = true ;
     document.getElementById('branch').hidden = true ;
 }
 function department(){
+
+    // updateProgressBar(2);
+
+    updateButtonClasses('btn2');
+
     document.getElementById('info').hidden = true ;
     document.getElementById('department').hidden = false ;
     document.getElementById('branch').hidden = true ;
@@ -512,6 +517,12 @@ function department(){
 
 }
 function branch(){
+
+    updateButtonClasses('btn3');
+
+    // updateProgressBar(3);
+
+
     document.getElementById('info').hidden = true ;
     document.getElementById('department').hidden = true ;
     document.getElementById('branch').hidden = false ;
