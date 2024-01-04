@@ -111,7 +111,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
     Route::post('getBranchDepartments', [studentTrainingsController::class, 'getBranchDepartments']);
-    Route::get('getAllCompaniesAndAssistants', [studentTrainingsController::class, 'getAllCompaniesAndAssistants']);
+    Route::get('getAllCompaniesWithSearch', [studentTrainingsController::class, 'getAllCompaniesWithSearch']);
+    Route::get('getAllAssistants', [studentTrainingsController::class, 'getAllAssistants']);
 
     // courses => for supervisor
     Route::get('availableCourses', [sharedController::class, 'availableCourses']);

@@ -28,7 +28,6 @@ class CompaniesController extends Controller
                 'total_items' => $companies->total(),
             ],
             'companies' => $companies->items()
-            // 'companies' => $companies
         ]);
     }
 }

@@ -188,14 +188,27 @@ class studentTrainingsController extends Controller
         ]);
     }
 
-    public function getAllCompaniesAndAssistants()
+    // with search as query param.
+    public function getAllCompaniesWithSearch(Request $request)
     {
-        $companies = Company::get();
-        $assistants = User::where('u_role_id', 4)->get();
+        $company_name_search = $request->input('company_name_search');
+        // $companies = Company::get();
+        $companies = Company::where('c_name', 'like', '%' . $company_name_search . '%')->get();
+
+        // $assistants = User::where('u_role_id', 4)->get();
 
         return response()->json([
             'status' => true,
             'companies' => $companies,
+            // 'assistants' => $assistants,
+        ]);
+    }
+
+    public function getAllAssistants(){
+        $assistants = User::where('u_role_id', 4)->get();
+
+        return response()->json([
+            'status' => true,
             'assistants' => $assistants,
         ]);
     }
