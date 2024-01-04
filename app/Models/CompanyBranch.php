@@ -31,6 +31,6 @@ class CompanyBranch extends Model
     }
 
     public function manager(){
-        return $this->hasOne(User::class, 'u_id', 'b_manager_id');
+        return $this->belongsTo(User::class, 'b_manager_id', 'u_id');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
+use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
@@ -106,6 +107,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
+    Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']);
+    Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
+    Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
+    Route::post('getBranchDepartments', [studentTrainingsController::class, 'getBranchDepartments']);
+    Route::get('getAllCompaniesWithSearch', [studentTrainingsController::class, 'getAllCompaniesWithSearch']);
+    Route::get('getAllAssistants', [studentTrainingsController::class, 'getAllAssistants']);
 
     // courses => for supervisor
     Route::get('availableCourses', [sharedController::class, 'availableCourses']);
@@ -115,6 +122,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('addCompanyCategory', [CompaniesCategoriesController::class, 'addCompanyCategory']);
     Route::post('editCompanyCategory', [CompaniesCategoriesController::class, 'editCompanyCategory']);
 
+    // companies
+    Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
 
     // file test
     Route::post('/fileUpload', [sharedController::class, 'fileUpload']);

@@ -10,6 +10,7 @@ class companyBranchDepartments extends Model
     use HasFactory;
     protected $table = 'company_branches_departments';
     protected $primaryKey = 'cbd_id';
+
     public function studentCompany()
     {
         return $this->hasMany(StudentCompany::class, 'sc_department_id', 'cbd_id');

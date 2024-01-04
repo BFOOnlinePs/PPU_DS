@@ -65,7 +65,6 @@ class SupervisorStudentsTrainingsController extends Controller
         }
 
         $studentsInCompany = $studentsInCompany->map(function ($student) {
-            // $student->newAttribute = 'Your New Value';
             $major_name = Major::where('m_id', $student->u_major_id)->pluck('m_name')->first();
             $student['major_name'] = $major_name;
             return $student;

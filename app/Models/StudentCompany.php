@@ -12,6 +12,17 @@ class StudentCompany extends Model
     protected $table = 'students_companies';
     protected $primaryKey = 'sc_id';
 
+    protected $fillable = [
+        'sc_student_id',
+        'sc_company_id',
+        'sc_branch_id',
+        'sc_department_id',
+        'sc_status',
+        'sc_mentor_trainer_id',
+        'sc_assistant_id',
+        'sc_agreement_file',
+    ];
+
     // student (trainee)
     public function users()
     {

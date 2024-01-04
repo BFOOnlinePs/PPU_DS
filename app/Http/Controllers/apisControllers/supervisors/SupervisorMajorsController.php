@@ -11,15 +11,17 @@ use Illuminate\Support\Facades\Auth;
 class SupervisorMajorsController extends Controller
 {
     // for the supervisor who logged in
-    public function getSupervisorsMajors(){
+    // majors with number of students in each major
+    public function getSupervisorsMajors()
+    {
         $supervisorId = auth()->user()->u_id;
-        $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id',$supervisorId)->pluck('ms_major_id');
-        $supervisorMajorsNamesList = Major::whereIn('m_id', $supervisorMajorsIdList)->get();
+        $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
+        $supervisorMajorsList = Major::whereIn('m_id', $supervisorMajorsIdList)->withCount('majorStudent')->get();
+        // $supervisorMajorsList->number_of_students = 15;
 
         return response()->json([
             'status' => true,
-            'majors' => $supervisorMajorsNamesList
+            'majors' => $supervisorMajorsList,
         ]);
     }
-
 }
