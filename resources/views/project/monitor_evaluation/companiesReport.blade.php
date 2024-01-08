@@ -189,7 +189,7 @@ window.addEventListener("load", (event) => {
         document.getElementById(`${element}`).addEventListener("change", function() {
             //console.log($(this).value)
             data = $('#companiesReportSearchForm').serialize();
-            //console.log(data)
+            // console.log(data)
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
