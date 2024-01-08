@@ -1,5 +1,5 @@
 @if ($student_attendances->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد سجلات لعرضها</h6>
+    <h6 class="alert alert-danger">{{__('translate.There are no records to display')}}{{-- لا يوجد سجلات لعرضها --}}</h6>
 @else
 <div class="container-fluid">
     <div class="row ui-sortable" id="draggableMultiple">

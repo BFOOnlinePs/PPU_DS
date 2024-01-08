@@ -15,7 +15,16 @@ class RecordsController extends Controller
 {
     public function index()
     {
-        return view('project.company_manager.records.index' , ['records' => null]);
+        $company_id = Company::where('c_manager_id', auth()->user()->u_id)
+                            ->pluck('c_id')
+                            ->first();
+        $students_company = StudentCompany::where('sc_company_id', $company_id)
+                                        ->pluck('sc_student_id')
+                                        ->toArray();
+        $records = StudentAttendance::whereIn('sa_student_id', $students_company)
+                                    ->orderBy('created_at', 'desc')
+                                    ->get();
+        return view('project.company_manager.records.index' , ['records' => $records]);
     }
     public function search(Request $request)
     {
@@ -23,13 +32,12 @@ class RecordsController extends Controller
                             ->pluck('c_id')
                             ->first();
         $students_company = StudentCompany::where('sc_company_id', $company_id)
-                                        ->where('sc_status', 1)
                                         ->pluck('sc_student_id')
                                         ->toArray();
         $records = StudentAttendance::whereIn('sa_student_id', $students_company)
                                     ->orderBy('created_at', 'desc')
                                     ->whereBetween(DB::raw('DATE(sa_in_time)'), [$request->from, $request->to]) // Filter by date range (ignoring time)
-                                    ->paginate(5);
+                                    ->get();
         if($request->searchByName !== null)
         {
             $users_id = User::where('name', 'like', '%' . $request->searchByName . '%')
@@ -39,10 +47,10 @@ class RecordsController extends Controller
                                     ->whereIn('sa_student_id' , $users_id)
                                     ->whereBetween(DB::raw('DATE(sa_in_time)'), [$request->from, $request->to]) // Filter by date range (ignoring time)
                                     ->orderBy('created_at', 'desc')
-                                    ->paginate(5);
+                                    ->get();
         }
-        $view = view('project.company_manager.records.ajax.foreachRecordsList' , ['records' => $records])->render();
-        return Response::json(['html' => $view , 'nextPageUrl' => $records->nextPageUrl()]);
+        $view = view('project.company_manager.records.includes.recordsList' , ['records' => $records])->render();
+        return response()->json(['html' => $view]);
     }
 
 }

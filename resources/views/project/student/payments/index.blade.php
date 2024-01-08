@@ -24,7 +24,7 @@
     <script>
         function showAlert(element , title) {
             document.getElementById('header').innerHTML = title;
-            document.getElementById('explain').innerHTML = `في هذا القسم يمكنك استعراض ${title}`;
+            document.getElementById('explain').innerHTML = `{{__('translate.In this section, you can review')}} ${title}`;
             document.getElementById('textinput').textContent= element.getAttribute('title');
             document.getElementById('notes').innerHTML = title;
             $('#NotesModal').modal('show');

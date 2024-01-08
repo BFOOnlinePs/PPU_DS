@@ -1,5 +1,5 @@
 @if ($payments->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد دفعات لهذا الطالب</h6>
+    <h6 class="alert alert-danger">{{__('translate.There are no payments for this student')}}{{-- لا يوجد دفعات لهذا الطالب --}}</h6>
 @else
     <table class="table table-bordered table-striped">
         <thead>

@@ -12,7 +12,7 @@
                                 @if(app()->getLocale() == 'en')
                                     {{$name_student}} {{__('translate.Add payment to')}}{{-- إضافة دفعة ل --}}
                                 @else
-                                    {{__('translate.Add payment for')}}{{$name_student}}{{-- إضافة دفعة ل --}}
+                                    {{__('translate.Add payment to')}}{{$name_student}}{{-- إضافة دفعة ل --}}
                                 @endif
                             </h6>
                             <hr>

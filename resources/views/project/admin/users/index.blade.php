@@ -29,6 +29,8 @@
                 {{__('translate.Company manager')}} {{-- مدير شركة --}}
             @elseif($role_name == 'مسؤول تدريب')
                 {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+            @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
             @endif
         </h1>
     @endif
@@ -51,6 +53,8 @@
                             {{__('translate.Company manager')}} {{-- مدير شركة --}}
                         @elseif($role->r_name == 'مسؤول تدريب')
                             {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                        @elseif($role->r_name == 'مسؤول التواصل مع الشركات')
+                            {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
                         @endif
                     </a>
                 @endforeach
@@ -81,6 +85,8 @@
                             {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
                         @elseif($role_name == 'مسؤول تدريب')
                             {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                        @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                            {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
                         @endif
                 </button>
             @else

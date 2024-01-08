@@ -14,17 +14,18 @@
             <input type="hidden" value="{{$id}}" name="student_id" id="student_id">
             <h4 class="card-title mb-0">{{__('translate.Record attendance and departure')}} {{-- سِجل الحضور و المغادرة --}}</h4>
         </div>
+        <br>
         <div class="row">
             <div class="col-md-3">
-                <input type="date" class="form-control digits" id="from">
+                <label class="from-control digits">{{__('translate.From')}}{{-- من --}}:</label>
+                <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()">
             </div>
             <div class="col-md-3">
-                <input type="date" class="form-control digits" id="to">
+                <label class="from-control digits">{{__('translate.To')}}{{-- إلى --}}:</label>
+                <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()">
             </div>
         </div>
-        <div class="row" id="error" style="display: none">
-            <h6 class="alert alert-danger">لا يوجد سجلات لعرضها</h6>
-        </div>
+        <br>
         <div id="content">
             @include('project.company_manager.students.attendance.includes.attendanceList')
         </div>
@@ -35,65 +36,40 @@
 @endsection
 @section('script')
 <script>
-    $(document).ready(function () {
-        let nextPageUrl = "{{ route('company_manager.students.attendance.index_ajax') }}";
+    function function_to_filltering()
+    {
+        let from = $('#from').val();
+        let to = $('#to').val();
         let student_id = document.getElementById('student_id').value;
-        loadMoreStudentAttendances();
-        // Function to load more student attendances
-        function loadMoreStudentAttendances() {
-            let from = $('#from').val();
-            let to = $('#to').val();
-            $.ajax({
-                url: nextPageUrl,
-                method: 'post',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                beforeSend: function () {
-                    nextPageUrl = '';
-                    document.getElementById('loading').style.display = '';
-                },
-                data: {
-                    'from': from,
-                    'to': to,
-                    'student_id': student_id
-                },
-                success: function (data) {
-                    nextPageUrl = data.nextPageUrl;
-                    // alert(data.x); // alert
-                    if(data.html == '') {
-                        document.getElementById('error').style.display = '';
-                        document.getElementById('content').style.display = 'none';
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                    else {
-                        document.getElementById('error').style.display = 'none';
-                        document.getElementById('content').style.display = '';
-                        $('table tbody').append(data.html);
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error loading more student attendances:", error);
-                    // document.getElementById('loading').style.display = 'none';
+        $.ajax({
+            url: "{{ route('company_manager.students.attendance.index_ajax') }}",
+            method: 'post',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            beforeSend: function () {
+                document.getElementById('loading').style.display = '';
+            },
+            data: {
+                'from': from,
+                'to': to,
+                'student_id': student_id
+            },
+            success: function (data) {
+                if(data.html == '') {
+                    document.getElementById('content').style.display = 'none';
+                    document.getElementById('loading').style.display = 'none';
                 }
-            });
-        }
-        $('#to, #from').change(function () {
-            // Your action when the date changes goes here
-            $('table tbody').empty();
-            nextPageUrl = "{{ route('company_manager.students.attendance.index_ajax') }}";
-            loadMoreStudentAttendances();
-        });
-        // Scroll event listener for loading more data
-        $(window).scroll(function () {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-                if (nextPageUrl) {
-                    loadMoreStudentAttendances();
+                else {
+                    document.getElementById('content').style.display = '';
+                    $('#content').html(data.html);
+                    document.getElementById('loading').style.display = 'none';
                 }
+            },
+            error: function (xhr, status, error) {
             }
         });
-    });
+    }
 
     // Put 1 / 1 / current_year in input from
     const currentDate = new Date();

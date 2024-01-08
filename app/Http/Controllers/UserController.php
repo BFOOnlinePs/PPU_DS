@@ -42,7 +42,6 @@ class UserController extends Controller
     public function student_training_list($id)
     {
         $student_companies = StudentCompany::where('sc_student_id', $id)
-                                            ->where('sc_status' , 1)
                                             ->get();
         return view('project.admin.users.studentCompanyList' , ['student_companies' => $student_companies]);
     }
@@ -149,7 +148,6 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $student_company = StudentCompany::where('sc_student_id' , $id)
-                            ->where('sc_status' , 1)
                             ->pluck('sc_id')
                             ->toArray();
         $student_attendances = StudentAttendance::where('sa_student_id', $id )
@@ -160,7 +158,10 @@ class UserController extends Controller
     public function training_place_delete_file_agreement($sc_id)
     {
         $studentCompany = StudentCompany::find($sc_id);
-        // Storage::delete();
+        if(Storage::exists('public/uploads/' . $studentCompany->sc_agreement_file))
+        {
+            Storage::delete('public/uploads/' . $studentCompany->sc_agreement_file);
+        }
         $studentCompany->sc_agreement_file = null;
         if($studentCompany->save()) {
             return redirect()->back();
@@ -335,7 +336,6 @@ class UserController extends Controller
                                 ->toArray();
         $company = Company::where('c_manager_id' , $id)->first();
         $students = StudentCompany::whereIn('sc_company_id', $company_id)
-                                    ->where('sc_status' , 1)
                                     ->get();
         $supervisors_assistant = null;
         if($user->u_role_id == 4) {
@@ -550,7 +550,6 @@ class UserController extends Controller
                                 ->toArray();
         $students = StudentCompany::whereIn('sc_company_id', $company_id)
                                     ->whereIn('sc_student_id' , $users)
-                                    ->where('sc_status' , 1)
                                     ->get();
         $html = view('project.admin.users.includes.student' , ['students' => $students])->render();
         return response()->json(['html' => $html]);
