@@ -27,6 +27,7 @@ class MonitorEvaluationController extends Controller
 
         $semester = $systemSettings->ss_semester_type;
         $year = $systemSettings->ss_year;
+        $companies = Company::where('c_id',0)->get();
 
         $data = Company::with('manager','companyCategories')->get();
 
@@ -58,6 +59,7 @@ class MonitorEvaluationController extends Controller
         $semester = $request->semester;
         $companyType = null;
         $companyCategory = null;
+        $companies = Company::where('c_id',0)->get();
 
         $systemSettings = SystemSetting::first();
         $year = $systemSettings->ss_year;
