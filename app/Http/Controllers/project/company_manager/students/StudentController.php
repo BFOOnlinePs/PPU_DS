@@ -13,7 +13,6 @@ class StudentController extends Controller
     {
         $company = Company::where('c_manager_id', '=' , auth()->user()->u_id)->first();
         $students_company = StudentCompany::where('sc_company_id', $company->c_id)
-                                        ->where('sc_status' , 1)
                                         ->select('sc_student_id')
                                         ->groupBy('sc_student_id')
                                         ->get();

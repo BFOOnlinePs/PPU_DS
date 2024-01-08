@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label class="from-control digits"></label>
-                            <select autofocus class="js-example-basic-single col-sm-12" id="sc_id">
+                            <select autofocus class="js-example-basic-single col-sm-12" id="sc_id" onchange="function_to_filltering()">
                                 @if (isset($student_company->company->c_name))
                                 <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.The section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 <option value="">جميع الشركات</option>
@@ -42,16 +42,16 @@
 
                         <div class="col-md-3">
                                 <label class="from-control digits">{{__('translate.From')}}{{-- من --}}:</label>
-                                <input type="date" class="form-control digits" id="from">
+                                <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()">
                             </div>
                             <div class="col-md-3">
                                 <label class="from-control digits">{{__('translate.To')}}{{-- إلى --}}:</label>
-                                <input type="date" class="form-control digits" id="to">
+                                <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()">
                             </div>
                         </div>
                     <hr style="background: white">
                     <div class="row" id="error" style="display: none">
-                        <h6 class="alert alert-danger">لا يوجد سجلات لعرضها</h6>
+                        <h6 class="alert alert-danger">{{__('translate.There are no records to display')}}{{-- لا يوجد سجلات لعرضها --}}</h6>
                     </div>
                     <div class="row" id="content">
                         @include('project.student.attendance.ajax.attendanceList')
@@ -67,100 +67,43 @@
     <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            let nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
-            loadMoreStudentAttendances();
-            // Function to load more student attendances
-            function loadMoreStudentAttendances() {
-                let sc_id = $('#sc_id').val();
-                let from = $('#from').val();
-                let to = $('#to').val();
-                $.ajax({
-                    url: nextPageUrl,
-                    method: 'post',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    beforeSend: function () {
-                        nextPageUrl = '';
-                        document.getElementById('loading').style.display = '';
-                    },
-                    data: {
-                        'sc_id': sc_id,
-                        'from': from,
-                        'to': to
-                    },
-                    success: function (data) {
-                        console.log("ajax success");
-                        nextPageUrl = data.nextPageUrl;
-                        if(data.html == '') {
-                            document.getElementById('error').style.display = '';
-                            document.getElementById('content').style.display = 'none';
-                            document.getElementById('loading').style.display = 'none';
-                        }
-                        else {
-                            document.getElementById('error').style.display = 'none';
-                            document.getElementById('content').style.display = '';
-                            $('table tbody').append(data.html);
-                            document.getElementById('loading').style.display = 'none';
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error loading more student attendances:", error);
+        function function_to_filltering()
+        {
+            let sc_id = $('#sc_id').val();
+            let from = $('#from').val();
+            let to = $('#to').val();
+            $.ajax({
+                url: "{{ route('students.attendance.ajax_company_from_to') }}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                beforeSend: function () {
+                    document.getElementById('loading').style.display = '';
+                },
+                data: {
+                    'sc_id': sc_id,
+                    'from': from,
+                    'to': to
+                },
+                success: function (data) {
+                    if(data.html == '') {
+                        document.getElementById('error').style.display = '';
+                        document.getElementById('content').style.display = 'none';
                         document.getElementById('loading').style.display = 'none';
                     }
-                });
-            }
-            // Initialize Select2
-            $('#sc_id').select2();
-            // Listen for Select2 select event
-            $('#sc_id').on("select2:select", function (e) {
-                // Your onchange logic goes here
-                $('table tbody').empty();
-                nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
-                loadMoreStudentAttendances();
-            });
-            /*
-            *   This function helps delay the execution of another function until a certain
-            *   amount of time has passed since the last invocation of the debounced function.
-            */
-            function debounce(func, delay) {
-                let timer;
-                return function () {
-                    const context = this;
-                    const args = arguments;
-                    clearTimeout(timer);
-                    timer = setTimeout(() => {
-                        func.apply(context, args);
-                    }, delay);
-                };
-            }
-
-            // Wrap the function that triggers the AJAX call with debounce
-            const debouncedLoadMoreAttendances = debounce(loadMoreStudentAttendances, 500);
-
-            // Event listeners using the debounced function
-            $('#from').change(function () {
-                $('table tbody').empty();
-                nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
-                debouncedLoadMoreAttendances();
-            });
-
-            $('#to').change(function () {
-                $('table tbody').empty();
-                nextPageUrl = "{{ route('students.attendance.ajax_company_from_to') }}";
-                debouncedLoadMoreAttendances();
-            });
-            // Scroll event listener for loading more data
-            $(window).scroll(function () {
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-                    if (nextPageUrl) {
-                        loadMoreStudentAttendances();
+                    else {
+                        document.getElementById('error').style.display = 'none';
+                        document.getElementById('content').style.display = '';
+                        $('#content').html(data.html);
+                        document.getElementById('loading').style.display = 'none';
                     }
+                },
+                error: function (xhr, status, error) {
+                    document.getElementById('loading').style.display = 'none';
                 }
             });
-        });
-
+        }
         // Put 1 / 1 / current_year in input from
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();

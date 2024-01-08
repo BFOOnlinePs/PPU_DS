@@ -97,8 +97,8 @@
 
 
                     <div class="column">
-                        <h1 class="text">الدراسات الثنائية</h1>
-                        <h3 class="text">جامعة بوليتكنك فلسطين</h3>
+                        <h1 class="text">{{__('translate.Dual studies')}}{{-- الدراسات الثنائية --}}</h1>
+                        <h3 class="text">{{__('translate.Palestine Polytechnic University')}}{{-- جامعة بوليتكنك فلسطين --}}</h3>
                         <img class="photo" src="{{ asset('assets/images/ds-ppu.png') }}" alt="Centered Photo">
                         <br>
                     </div>
@@ -122,7 +122,7 @@
     padding-top: 40px;
 ">
                 @csrf
-                <h4>تسجيل الدخول</h4>
+                <h4>{{__('translate.Login')}}{{-- تسجيل الدخول --}}</h4>
                 <h6></h6>
                 <div class="form-group">
                   <label>{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</label>
@@ -169,7 +169,7 @@
 
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary" style="margin-left: 0px;">
-                        تسجيل الدخول
+                        {{__('translate.Login')}}{{-- تسجيل الدخول --}}
                     </button>
                 </div>
             </div>

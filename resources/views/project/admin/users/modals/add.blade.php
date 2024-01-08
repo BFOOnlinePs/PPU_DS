@@ -155,6 +155,8 @@
                             {{__('translate.Company manager')}} {{-- مدير شركة --}}
                         @elseif($role_name == 'مسؤول تدريب')
                             {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                        @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                            {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
                         @endif
                     </button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">

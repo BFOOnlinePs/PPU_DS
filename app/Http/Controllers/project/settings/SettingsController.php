@@ -7,10 +7,16 @@ use App\Imports\CoursesImport;
 use App\Imports\MajorsImport;
 use App\Imports\RegistrationsImport;
 use App\Imports\UsersImport;
+use App\Models\Payment;
 use App\Models\Registration;
 use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
+use App\Models\StudentAttendance;
+use App\Models\StudentCompany;
+use App\Models\StudentReport;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -131,6 +137,73 @@ class SettingsController extends Controller
         ->get();
 
         return view('project.admin.settings.systemSettings' , ['year' => $year, 'semester' => $semester, 'studentsNum'=>count($studentsNum), 'coursesNum'=>count($coursesNum)]);
+    }
+    public function deleteData() {
+        return view('project.admin.settings.deleteData');
+    }
+    public function confirmDelete(Request $request)
+    {
+        // Make date range
+        $from = Carbon::parse($request->from)->format('Y-m-d H:i:s');
+        $to = Carbon::parse($request->to)->format('Y-m-d H:i:s');
+        // Get student ids
+        $students_id = User::whereBetween('created_at', [$from , $to])
+                        ->where('u_role_id' , 2)
+                        ->pluck('u_id')
+                        ->toArray();
+        // Delete payments and its files
+        $payment_p_file = Payment::whereIn('p_student_id' , $students_id)
+                                    ->pluck('p_file')
+                                    ->toArray();
+        for($i = 0; $i < count($payment_p_file); $i++) {
+            if(Storage::exists('public/payments/' . $payment_p_file[$i]))
+            {
+                Storage::delete('public/payments/' . $payment_p_file[$i]);
+            }
+        }
+        $payment_delete = Payment::whereIn('p_student_id' , $students_id)
+                            ->delete();
+        // Delete registration
+        $registration_delete = Registration::whereIn('r_student_id' , $students_id)
+                                ->delete();
+        // Delete students attendance
+        $student_attendance_delete = StudentAttendance::whereIn('sa_student_id' , $students_id)
+                                    ->delete();
+        // Delete student company
+        $student_company_sc_agreement_file = StudentCompany::whereIn('sc_student_id' , $students_id)
+                                    ->pluck('sc_agreement_file')
+                                    ->toArray();
+        for($i = 0; $i < count($student_company_sc_agreement_file); $i++) {
+            if(Storage::exists('public/uploads/' . $student_company_sc_agreement_file[$i]))
+            {
+                Storage::delete('public/uploads/' . $student_company_sc_agreement_file[$i]);
+            }
+        }
+        $student_company_delete = StudentCompany::whereIn('sc_student_id' , $students_id)
+                                    ->delete();
+        // Delete student report
+        $student_report_sr_attached_file = StudentReport::whereIn('sr_student_id' , $students_id)
+                                            ->pluck('sr_attached_file')
+                                            ->toArray();
+        for($i = 0; $i < count($student_report_sr_attached_file); $i++) {
+            if(Storage::exists('public/student_reports/' . $student_report_sr_attached_file[$i]))
+            {
+                Storage::delete('public/student_reports/' . $student_report_sr_attached_file[$i]);
+            }
+        }
+        $student_report_delete = StudentReport::whereIn('sr_student_id', $students_id)
+                                ->delete();
+        // Delete students from user table
+        $student_users_delete = User::whereIn('u_id' , $students_id)
+                        ->where('u_role_id', 2)
+                        ->delete();
+
+        if($payment_delete > 0 || $registration_delete > 0 || $student_attendance_delete > 0 || $student_company_delete > 0 || $student_report_delete > 0 || $student_users_delete > 0) {
+            return response()->json(['status' => 1]);
+        }
+        else {
+            return response()->json(['status' => 0]);
+        }
     }
 
     public function systemSettingsUpdate(Request $request){

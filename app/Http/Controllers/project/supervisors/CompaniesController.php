@@ -18,7 +18,6 @@ class CompaniesController extends Controller
                             ->toArray();
         $user = User::whereIn('u_major_id' , $major_supervisor)
                 ->where('u_role_id' , 2)
-                ->where('u_status' , 1)
                 ->pluck('u_id')
                 ->toArray();
         $students_companies = StudentCompany::whereIn('sc_student_id', $user)

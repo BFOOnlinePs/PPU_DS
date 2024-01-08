@@ -157,6 +157,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/systemSettings',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettings'])->name('admin.settings.systemSettings');
             Route::post('/systemSettingsUpdate',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettingsUpdate'])->name('admin.settings.systemSettingsUpdate');
 
+            Route::get('/deleteData',[App\Http\Controllers\project\settings\SettingsController::class,'deleteData'])->name('admin.settings.deleteData');
+            Route::post('/confirmDelete',[App\Http\Controllers\project\settings\SettingsController::class,'confirmDelete'])->name('admin.settings.confirmDelete');
         });
     });
 
@@ -164,6 +166,16 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'company_trainer'], function () {
+    });
+    Route::group(['prefix' => 'communications_manager_with_companies'], function () {
+        Route::group(['prefix' => 'students'], function () {
+            Route::get('/index' , [App\Http\Controllers\project\communications_manager_with_companies\students\StudentsController::class, 'index'])->name('communications_manager_with_companies.students.index');
+            Route::post('/search' , [App\Http\Controllers\project\communications_manager_with_companies\students\StudentsController::class, 'search'])->name('communications_manager_with_companies.students.search');
+        });
+        Route::group(['prefix' => 'companies'], function () {
+            Route::get('/index' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class, 'index'])->name('communications_manager_with_companies.companies.index');
+            Route::get('/students/{id}' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class , 'students'])->name('communications_manager_with_companies.companies.students'); // To display students
+        });
     });
 
     Route::group(['prefix' => 'monitor_evaluation'], function () {
