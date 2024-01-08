@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AdminController::class, 'register']);
 Route::post('/login', [sharedController::class, 'login']);
 
-Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
+Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink'])->middleware('testMiddleware');
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
 
 // FCM
@@ -89,14 +89,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     // Supervisor
-    Route::get('getSupervisorsMajors', [SupervisorMajorsController::class, 'getSupervisorsMajors']);
-    Route::post('getSupervisorStudentsDependOnMajor', [SupervisorStudentsController::class, 'getSupervisorStudentsDependOnMajor']);
+    Route::get('getSupervisorsMajors', [SupervisorMajorsController::class, 'getSupervisorsMajors'])->middleware('CheckUserRole:3');
+    Route::post('getSupervisorStudentsDependOnMajor', [SupervisorStudentsController::class, 'getSupervisorStudentsDependOnMajor'])->middleware('CheckUserRole:3');
     Route::post('getStudentInfo', [SupervisorStudentsController::class, 'getStudentInfo']);
-    Route::post('supervisorAddOrEditReportNote', [SupervisorNotesController::class, 'supervisorAddOrEditReportNote']);
-    Route::get('getAllSupervisorStudentsAttendanceLog', [SupervisorStudentsController::class, 'getAllSupervisorStudentsAttendanceLog']);
-    Route::get('getAllSupervisorStudentsReportsLog', [SupervisorStudentsController::class, 'getAllSupervisorStudentsReportsLog']);
-    Route::get('getSupervisorStudentsCompanies', [SupervisorStudentsTrainingsController::class, 'getSupervisorStudentsCompanies']); // training places
-    Route::post('getSupervisorStudentsInCompany', [SupervisorStudentsTrainingsController::class, 'getSupervisorStudentsInCompany']);
+    Route::post('supervisorAddOrEditReportNote', [SupervisorNotesController::class, 'supervisorAddOrEditReportNote'])->middleware('CheckUserRole:3');
+    Route::get('getAllSupervisorStudentsAttendanceLog', [SupervisorStudentsController::class, 'getAllSupervisorStudentsAttendanceLog'])->middleware('CheckUserRole:3');
+    Route::get('getAllSupervisorStudentsReportsLog', [SupervisorStudentsController::class, 'getAllSupervisorStudentsReportsLog'])->middleware('CheckUserRole:3');
+    Route::get('getSupervisorStudentsCompanies', [SupervisorStudentsTrainingsController::class, 'getSupervisorStudentsCompanies'])->middleware('CheckUserRole:3'); // training places
+    Route::post('getSupervisorStudentsInCompany', [SupervisorStudentsTrainingsController::class, 'getSupervisorStudentsInCompany'])->middleware('CheckUserRole:3');
 
     // student courses
     Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']);

@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Validator;
 
 class SupervisorStudentsTrainingsController extends Controller
 {
+    // training places for all supervisor's students
     public function getSupervisorStudentsCompanies()
     {
         $supervisorId = auth()->user()->u_id;
         $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
         $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
         $companiesIdList = StudentCompany::whereIn('sc_student_id', $studentsIdList)->pluck('sc_company_id')->unique()->values();
-        $companies = Company::whereIn('c_id', $companiesIdList)->get();
+        $companies = Company::whereIn('c_id', $companiesIdList)->withCount('trainings')->paginate(8);
 
         if ($companies->isEmpty()) {
             return response()->json([
@@ -30,7 +31,13 @@ class SupervisorStudentsTrainingsController extends Controller
 
         return response()->json([
             'status' => true,
-            'companies' => $companies,
+            'pagination' => [
+                'current_page' => $companies->currentPage(),
+                'last_page' => $companies->lastPage(),
+                'per_page' => $companies->perPage(),
+                'total_items' => $companies->total(),
+            ],
+            'companies' => $companies->items(),
         ]);
     }
 
@@ -60,7 +67,7 @@ class SupervisorStudentsTrainingsController extends Controller
         if ($studentsInCompany->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد طلاب في الشركة حاليا'
+                'message' => 'لا يوجد طلاب للمشرف في الشركة حاليا'
             ]);
         }
 
