@@ -72,6 +72,7 @@
                                         </div>
 
                                         <input id="edit_m_id" name="m_id" hidden type="text" class="form-control btn-square input-md">
+                                        <input id="oldRefCode" name="oldRefCode" hidden type="text" class="form-control btn-square input-md">
                                 </div>
 
                             </div>

@@ -138,10 +138,8 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
-<script>
 
+<script>
     let AddMajorForm = document.getElementById("addMajorForm");
     let EditMajorForm = document.getElementById("editMajorForm");
     let AddSuperVisorForm = document.getElementById("AddSuperVisorForm");
@@ -244,6 +242,7 @@
         document.getElementById('edit_m_name').value = data.m_name
         document.getElementById('edit_m_description').value = data.m_description
         document.getElementById('edit_m_reference_code').value = data.m_reference_code
+        document.getElementById('oldRefCode').value = data.m_reference_code;
 
         // document.getElementById('edited_supervisor').value = data
 
@@ -460,11 +459,14 @@
 
     function checkMajorCode(data,page){
         console.log("hi reeem")
+        old= document.getElementById('oldRefCode').value;
+        console.log(old)
+        console.log(data)
         if(page=="edit"){
 
             document.getElementById('edit_ok_icon').hidden = true;
 
-                if(data!=""){
+                if(data!="" && data!=old){
 
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
