@@ -42,10 +42,9 @@ class MajorsController extends Controller
         $majorSuperVisor=new MajorSupervisor;
         $majorSuperVisor->ms_super_id=$superVisor[$i];
         $majorSuperVisor->ms_major_id=$request->selected_m_id;
-        $user=User::where('u_id',$superVisor[$i])->first();
-        $user->u_major_id=$request->selected_m_id;
+    
         $majorSuperVisor->save();
-        $user->save();
+     
     }
     $data = Major::with('majorSupervisors.users')->get();
     $superVisors=User::where('u_role_id',3)->where('u_status',1)->get();
@@ -70,10 +69,7 @@ class MajorsController extends Controller
             if($uniqueCollection1[$i] != $majorSuperVisor1[$i])
             {
             $majorSuperVisor[$i]->ms_super_id=$uniqueCollection1[$i];
-            $user=User::where('u_id',$uniqueCollection1[$i])->first();
-            $user->u_major_id=$request->selected_m_id;
             $majorSuperVisor[$i]->save();
-            $user->save();
 
         }
     }
@@ -82,10 +78,7 @@ class MajorsController extends Controller
                         $majorSuperVisor=new MajorSupervisor;
                         $majorSuperVisor->ms_super_id=$uniqueCollection1[$i];
                         $majorSuperVisor->ms_major_id=$request->selected_m_id;
-                        $user=User::where('u_id',$uniqueCollection1[$i])->first();
-                        $user->u_major_id=$request->selected_m_id;
                         $majorSuperVisor->save();
-                        $user->save();
 
                             }
                             for($i = 0 ; $i<count($uniqueCollection2) ; $i++)
