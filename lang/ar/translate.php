@@ -1,5 +1,10 @@
 <?php
     return [
+        "Major is a required field" => "التخصص حقل مطلوب",
+        "new" => "جديد",
+        "Password is a required field" => "كلمة المرور حقل مطلوب",
+        "Email should only contain English letters, numbers, and underscores" => "يجب أن يحتوي البريد الإلكتروني على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط",
+        "Username should only contain English letters, numbers, and underscores" => "يجب أن يحتوي اسم المستخدم على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط",
         "Login" => "تسجيل الدخول",
         "Palestine Polytechnic University" => "جامعة بوليتكنك فلسطين",
         "Dual studies" => "الدراسات الثنائية",

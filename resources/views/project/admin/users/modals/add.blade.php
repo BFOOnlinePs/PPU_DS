@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="border: none;">
             <div class="modal-header" style="height: 73px;">
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" onclick="close_add_modal()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row p-3 m-5">
@@ -29,7 +29,9 @@
                             <hr>
                             <p id="p_modal_add_user">
                                 {{__('translate.In this section, you can add')}} {{-- في هذا القسم يمكنك إضافة --}}
-                                {{__('translate.New')}} {{-- جديد --}}
+                                @if (app()->getLocale() == 'en')
+                                    {{__('translate.new')}} {{-- جديد --}}
+                                @endif
                                 @if ($role_name == 'أدمن')
                                     {{__('translate.Administrator')}} {{-- أدمن --}}
                                 @elseif($role_name == 'طالب')
@@ -44,6 +46,9 @@
                                     {{__('translate.Company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
                                     {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                @endif
+                                @if (app()->getLocale() == 'ar')
+                                    {{__('translate.new')}} {{-- جديد --}}
                                 @endif
                                 </p>
                         </div>
@@ -76,12 +81,13 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="selectbasic"> {{__('translate.Major')}} {{-- التخصص --}}</label>
                                                 <div class="col-lg-12">
-                                                    <select id="u_major_id" name="u_major_id" class="form-control btn-square col-sm-12" tabindex="10" autofocus>
+                                                    <select autofocus class="js-example-basic-single col-sm-12" id="u_major_id" name="u_major_id" tabindex="10" required>
+                                                        <option value=""></option>
                                                         @foreach ($major as $item)
                                                             <option value="{{$item->m_id}}">{{$item->m_name}}</option>
                                                         @endforeach
-                                                </select>
-                                            </div>
+                                                    </select>
+                                                </div>
                                             </div>
                                             @endif
                                         </div>
@@ -159,7 +165,7 @@
                             {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
                         @endif
                     </button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="close_add_modal()">
                         {{__('translate.Cancel')}} {{-- إلغاء --}}
                     </button>
                 </div>
