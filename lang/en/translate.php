@@ -1,5 +1,10 @@
 <?php
     return [
+        "Major is a required field" => "Major is a required field",
+        "new" => "new",
+        "Password is a required field"  => "Password is a required field" ,
+        "Email should only contain English letters, numbers, and underscores" => "Email should only contain English letters, numbers, and underscores",
+        "Username should only contain English letters, numbers, and underscores" => "Username should only contain English letters, numbers, and underscores",
         "Login" => "Login",
         "Palestine Polytechnic University" => "Palestine Polytechnic University",
         "Dual studies" => "Dual studies",

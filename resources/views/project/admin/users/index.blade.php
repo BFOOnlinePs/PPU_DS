@@ -11,6 +11,9 @@
 @section('header_link')
     <a href="{{route('admin.users.index')}}">إدارة المستخدمين</a>
 @endsection
+@section('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+@endsection
 @section('navbar')
 <div class="row p-2">
     @if (isset($u_role_id))
@@ -63,9 +66,6 @@
     </div>
 </div>
 @endsection
-@section('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-@endsection
 @section('content')
 <div class="col-sm-12" id="main">
     <div class="card">
@@ -105,8 +105,15 @@
 @section('script')
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        function close_add_modal()
+        {
+            document.getElementById('addUserForm').reset();
+            document.getElementById('email_duplicate_message').style.display = 'none';
+            const errorContainer = document.getElementById('error-container');
+            errorContainer.innerHTML = '';
+            $('#u_major_id').val(null).trigger('change');
+        }
         $(document).ready(function() {
             const table = document.getElementById('users_table');
             if(table === null) {
@@ -141,6 +148,9 @@
                     document.getElementById('addUserForm').reset();
                     $('#user-table').html(response.html);
                     document.getElementById('search_input').style.display = '';
+                    const errorContainer = document.getElementById('error-container');
+                    errorContainer.innerHTML = ''; // Clear previous errors
+                    $('#u_major_id').val(null).trigger('change');
                 },
                 complete: function(){
                     $('#LoadingModal').modal('hide');
