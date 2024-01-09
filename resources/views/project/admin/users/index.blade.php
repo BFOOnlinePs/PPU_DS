@@ -41,23 +41,30 @@
         <div class="container-fluid">
             <div class="col-md-12 row p-2 text-center">
                 @foreach ($roles as $role)
-                    <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}">
                         @if ($role->r_name == 'أدمن')
-                            {{__('translate.Administrator')}} {{-- أدمن --}}
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Administrator')}}">
+                            {{__('translate.Admin')}} {{-- أدمن --}}
                         @elseif($role->r_name == 'طالب')
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Student')}}">
                             {{__('translate.Student')}} {{-- طالب --}}
                         @elseif($role->r_name == 'مشرف أكاديمي')
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic supervisor')}}">
                             {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
                         @elseif($role->r_name == 'مساعد إداري')
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Supervisor assistant')}}">
                             {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
                         @elseif($role->r_name == 'مسؤول متابعة وتقييم')
-                            {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Monitoring and evaluation officer')}}">
+                            {{__('translate.M&E')}} {{-- مسؤول متابعة وتقييم --}}
                         @elseif($role->r_name == 'مدير شركة')
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Company manager')}}">
                             {{__('translate.Company manager')}} {{-- مدير شركة --}}
                         @elseif($role->r_name == 'مسؤول تدريب')
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Training officer')}}">
                             {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
                         @elseif($role->r_name == 'مسؤول التواصل مع الشركات')
-                            {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Communications manager with companies')}}">
+                            {{__('translate.Communications officer')}} {{-- مسسؤول التواصل مع الشركات --}}
                         @endif
                     </a>
                 @endforeach
@@ -71,23 +78,35 @@
     <div class="card">
         <div class="card-body">
             @if (isset($u_role_id) && $u_role_id != 6)
-                <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user"><span class="fa fa-plus"></span>
+                @if ($role_name == 'أدمن')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Administrator')}}"><span class="fa fa-plus"></span>
+                        {{__('translate.Add')}} {{-- إضافة --}}
+                        {{__('translate.admin')}}{{-- أدمن --}}
+                @elseif($role_name == 'طالب')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Student')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
-                        @if ($role_name == 'أدمن')
-                            {{__('translate.Administrator')}} {{-- أدمن --}}
-                        @elseif($role_name == 'طالب')
-                            {{__('translate.Student')}} {{-- طالب --}}
-                        @elseif($role_name == 'مشرف أكاديمي')
-                            {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
-                        @elseif($role_name == 'مساعد إداري')
-                            {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
-                        @elseif($role_name == 'مسؤول متابعة وتقييم')
-                            {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
-                        @elseif($role_name == 'مسؤول تدريب')
-                            {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
-                        @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                            {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
-                        @endif
+                    {{__('translate.student')}} {{-- طالب --}}
+                @elseif($role_name == 'مشرف أكاديمي')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic supervisor')}}"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                    {{__('translate.academic supervisor')}} {{-- مشرف أكاديمي --}}
+                @elseif($role_name == 'مساعد إداري')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Supervisor assistant')}}"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                    {{__('translate.supervisor assistant')}} {{-- مساعد إداري --}}
+                @elseif($role_name == 'مسؤول متابعة وتقييم')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Monitoring and evaluation officer')}}"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                    {{__('translate.M&E')}} {{-- مسؤول متابعة وتقييم --}}
+                @elseif($role_name == 'مسؤول تدريب')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Training officer')}}"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                    {{__('translate.training officer')}} {{-- مسؤول تدريب --}}
+                @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Communications officer')}}"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                    {{__('translate.communications officer')}} {{-- مسسؤول التواصل مع الشركات --}}
+                @endif
                 </button>
             @else
                 <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
