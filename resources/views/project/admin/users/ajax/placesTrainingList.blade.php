@@ -1,16 +1,18 @@
-@if ($data->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</h6>
-@else
-    <table class="table table-bordered table-striped">
-        <thead>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+            <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
+            <th>{{__('translate.Attachment file')}} {{-- الملف المرفق --}}</th>
+            <th>{{__('translate.Operations')}} {{-- العمليات --}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if ($data->isEmpty())
             <tr>
-                <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
-                <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
-                <th>{{__('translate.Attachment file')}} {{-- الملف المرفق --}}</th>
-                <th>{{__('translate.Operations')}} {{-- العمليات --}}</th>
+                <td colspan="4" class="text-center"><span>{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
             </tr>
-        </thead>
-        <tbody>
+        @else
             @foreach($data as $studentCompany)
                 <tr>
                     <td>{{$studentCompany->company->c_name}}</td>
@@ -47,7 +49,7 @@
                     </td>
                 </tr>
             @endforeach
-        </tbody>
-    </table>
-@endif
+            @endif
+    </tbody>
+</table>
 
