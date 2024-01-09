@@ -29,7 +29,7 @@ class studentTrainingsController extends Controller
 
         $trainings = StudentCompany::where('sc_student_id', $student_id)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(6);
 
         if ($trainings->isEmpty()) {
             return response()->json([
@@ -39,7 +39,7 @@ class studentTrainingsController extends Controller
         }
 
         // add company name, branch address, mentor name, and assistant name for each training object
-        $trainings = $trainings->map(function ($training) {
+        $trainings->getCollection()->transform(function ($training) {
             $training->company_name = Company::where('c_id', $training->sc_company_id)->pluck('c_name')->first();
             $training->branch_name = CompanyBranch::where('b_id', $training->sc_branch_id)->pluck('b_address')->first();
             $training->mentor_trainer_name = User::where('u_id', $training->sc_mentor_trainer_id)->pluck('name')->first();
@@ -47,7 +47,16 @@ class studentTrainingsController extends Controller
             return $training;
         });
 
-        return response()->json(['status' => true, 'student_companies' => $trainings], 200);
+        return response()->json([
+            'status' => true,
+            'pagination' => [
+                'current_page' => $trainings->currentPage(),
+                'last_page' => $trainings->lastPage(),
+                'per_page' => $trainings->perPage(),
+                'total_items' => $trainings->total(),
+            ],
+            'student_companies' => $trainings->items(),
+        ], 200);
     }
 
     public function registerStudentInTraining(Request $request)
@@ -204,7 +213,8 @@ class studentTrainingsController extends Controller
         ]);
     }
 
-    public function getAllAssistants(){
+    public function getAllAssistants()
+    {
         $assistants = User::where('u_role_id', 4)->get();
 
         return response()->json([
