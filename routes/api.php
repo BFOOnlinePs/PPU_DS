@@ -5,10 +5,13 @@ use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
+use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
+use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
@@ -41,7 +44,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AdminController::class, 'register']);
 Route::post('/login', [sharedController::class, 'login']);
 
-Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink'])->middleware('testMiddleware');
+Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
 
 // FCM
@@ -121,6 +124,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getCompaniesCategories', [CompaniesCategoriesController::class, 'getCompaniesCategories']); // with search
     Route::post('addCompanyCategory', [CompaniesCategoriesController::class, 'addCompanyCategory']);
     Route::post('editCompanyCategory', [CompaniesCategoriesController::class, 'editCompanyCategory']);
+
+    // payments => for manager
+    Route::post('addTraineePayment', [TraineePaymentsController::class, 'addTraineePayment']);
+    Route::post('getTraineePayments', [TraineePaymentsController::class, 'getTraineePayments']);
+    Route::get('getAllTraineesPayments', [AllTraineesPaymentsController::class, 'getAllTraineesPayments']);
+
+    // payments => for student
+    Route::get('getAllStudentPayments', [StudentPaymentsController::class, 'getAllStudentPayments']);
+    Route::post('studentChangePaymentStatus', [StudentPaymentsController::class, 'studentChangePaymentStatus']);
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
