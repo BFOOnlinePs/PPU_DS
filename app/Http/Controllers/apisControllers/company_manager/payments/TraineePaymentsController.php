@@ -41,10 +41,11 @@ class TraineePaymentsController extends Controller
         $manager_id = auth()->user()->u_id;
         $company_id = Company::where('c_manager_id', $manager_id)->pluck('c_id')->first();
         $payments = Payment::where('p_student_id', $student_id)->where('p_company_id', $company_id)
-        ->paginate(7);
+            -> orderBy('created_at', 'desc')
+            ->paginate(7);
         // ->get();
 
-        $payments->getCollection()->transform(function($payment) use($manager_id){
+        $payments->getCollection()->transform(function ($payment) use ($manager_id) {
             $payment->inserted_by_name = User::where('u_id', $manager_id)->pluck('name')->first();
             $payment->currency_symbol = Currency::where('c_id', $payment->p_currency_id)->pluck('c_symbol')->first();
             return $payment;

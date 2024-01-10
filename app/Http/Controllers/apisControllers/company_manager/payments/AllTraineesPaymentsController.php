@@ -18,6 +18,7 @@ class AllTraineesPaymentsController extends Controller
             $manager_id = auth()->user()->u_id;
             $company_id = Company::where('c_manager_id', $manager_id)->pluck('c_id')->first();
             $payments = Payment::where('p_company_id', $company_id)
+            ->orderBy('created_at', 'desc')
             ->paginate(7);
             // ->get();
 
