@@ -12,7 +12,7 @@ use App\Models\Registration;
 use App\Models\StudentAttendance;
 use Carbon\Carbon;
 use App\Models\CompaniesCategory;
-
+use PDF;
 
 class MonitorEvaluationController extends Controller
 {
@@ -85,7 +85,6 @@ class MonitorEvaluationController extends Controller
             $data = Company::with('manager','companyCategories')->get();
         }
 
-
         foreach($data as $key){
             if($semester != 0){
                 $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
@@ -122,6 +121,7 @@ class MonitorEvaluationController extends Controller
 
         return response()->json([
             'success'=>'true',
+            'data'=> base64_encode(serialize($companies)),
             'view'=>view('project.monitor_evaluation.ajax.companiesReportTable',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories])->render()
         ]);
 
@@ -133,7 +133,6 @@ class MonitorEvaluationController extends Controller
 
         $semester = $systemSettings->ss_semester_type;
         $year = $systemSettings->ss_year;
-
 
         $coursesStudentsTotal = count(Registration::where('r_year',$year)
         ->where('r_semester',$semester)
@@ -153,7 +152,6 @@ class MonitorEvaluationController extends Controller
 
 
 
-
         $semesterCompanies = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
             $query->select('r_student_id')
                 ->from('registration')
@@ -166,7 +164,6 @@ class MonitorEvaluationController extends Controller
         ->get();
 
         $semesterCompaniesTotal = count(Company::whereIn('c_id',$semesterCompanies)->get());
-
 
         $semesterCoursesTotal = count(SemesterCourse::where('sc_semester',$semester)->where('sc_year',$year)->get());
 
@@ -193,7 +190,6 @@ class MonitorEvaluationController extends Controller
 
         }
 
-
         $hoursFromMinutes = (int)($minutes/60);
         $trainingHoursTotal= $hours + $hoursFromMinutes;
         $trainingMinutesTotal= $minutes - ($hoursFromMinutes*60);
@@ -215,9 +211,25 @@ class MonitorEvaluationController extends Controller
         ->distinct()
         ->get());
 
+        $semesterText = ($semester==1?' الأول ':($semester == 2 ? ' الثاني ': ' الصيفي '));
+        $concatenatedText = "تقرير الفصل الدراسي " . $semesterText . " للعام الدراسي " . $year;
+
+        $data = [
+            'title' => $concatenatedText,
+            'semesterCompaniesTotal' => $semesterCompaniesTotal,
+            'coursesStudentsTotal' => $coursesStudentsTotal,
+            'companiesTotal'=>$companiesTotal,
+            'semesterCoursesTotal'=>$semesterCoursesTotal,
+            'traineesTotal'=>$traineesTotal,
+            'trainingMinutesTotal'=>$trainingMinutesTotal,
+            'trainingHoursTotal'=>$trainingHoursTotal
+        ];
+
+        //$data = json_encode($data);
+
         return view('project.monitor_evaluation.semesterReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'semesterCompaniesTotal'=>$semesterCompaniesTotal,
         'coursesStudentsTotal'=>$coursesStudentsTotal,'companiesTotal'=>$companiesTotal,'semesterCoursesTotal'=>$semesterCoursesTotal,
-        'traineesTotal'=>$traineesTotal,'trainingMinutesTotal'=>$trainingMinutesTotal, 'trainingHoursTotal'=>$trainingHoursTotal]);
+        'traineesTotal'=>$traineesTotal,'trainingMinutesTotal'=>$trainingMinutesTotal, 'trainingHoursTotal'=>$trainingHoursTotal, 'pdf'=> $data]);
     }
 
     public function semesterReportAjax(Request $request){
@@ -233,7 +245,6 @@ class MonitorEvaluationController extends Controller
 
         $companiesTotal = count(Company::get());
 
-
         $semesterCompanies = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
             $query->select('r_student_id')
                 ->from('registration')
@@ -246,7 +257,6 @@ class MonitorEvaluationController extends Controller
         ->get();
 
         $semesterCompaniesTotal = count(Company::whereIn('c_id',$semesterCompanies)->get());
-
 
         $semesterCoursesTotal = count(SemesterCourse::where('sc_semester',$semester)->where('sc_year',$year)->get());
 
@@ -273,7 +283,6 @@ class MonitorEvaluationController extends Controller
 
         }
 
-
         $hoursFromMinutes = (int)($minutes/60);
         $trainingHoursTotal= $hours + $hoursFromMinutes;
         $trainingMinutesTotal= $minutes - ($hoursFromMinutes*60);
@@ -295,13 +304,62 @@ class MonitorEvaluationController extends Controller
         ->distinct()
         ->get());
 
+        // $semesterText = ($semester==1?' الأول ':($semester == 2 ? ' الثاني ': ' الصيفي '));
+        if($semester == 1){
+            $semesterText = 'الأول';
+        }
+        if($semester == 2){
+            $semesterText = 'الثاني';
+        }
+        else{
+            $semesterText = 'الصيفي';
+        }
+        $concatenatedText = "تقرير الفصل الدراسي " . $semesterText . " للعام الدراسي " . $year;
+        // $concatenatedText = "تقرير الفصل الدراسي ";
+
+        $data = [
+            'title' => $concatenatedText,
+            'semesterCompaniesTotal' => $semesterCompaniesTotal,
+            'coursesStudentsTotal' => $coursesStudentsTotal,
+            'companiesTotal'=>$companiesTotal,
+            'semesterCoursesTotal'=>$semesterCoursesTotal,
+            'traineesTotal'=>$traineesTotal,
+            'trainingMinutesTotal'=>$trainingMinutesTotal,
+            'trainingHoursTotal'=>$trainingHoursTotal
+        ];
+
+        $data = base64_encode(serialize($data));
+
         return response()->json([
             'success'=>'true',
             'view'=>view('project.monitor_evaluation.ajax.semesterReportTable',[
             'coursesStudentsTotal'=>$coursesStudentsTotal,'companiesTotal'=>$companiesTotal,'semesterCoursesTotal'=>$semesterCoursesTotal,'semesterCompaniesTotal'=>$semesterCompaniesTotal,
             'traineesTotal'=>$traineesTotal,'trainingMinutesTotal'=>$trainingMinutesTotal, 'trainingHoursTotal'=>$trainingHoursTotal])->render(),
-            'semester'=>$semester,'year'=>$year
+            'semester'=>$semester,'year'=>$year, 'pdf'=> $data
         ]);
 
     }
+
+    public function semesterReportPDF($data){
+
+        $pdfData = unserialize(base64_decode($data));
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', $pdfData);
+
+        // Use the stream method to open the PDF in a new tab
+        return $pdf->stream('semesterReport.pdf');
+    }
+
+    public function companiesReportPDF(Request $request){
+        //return $request->test;
+
+        $pdfData = unserialize(base64_decode($request->test));
+        //return $pdfData;
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.companiesReportPDF', ['data'=>$pdfData]);
+
+        // Use the stream method to open the PDF in a new tab
+        return $pdf->stream('semesterReport.pdf');
+    }
+
+
+
 }
