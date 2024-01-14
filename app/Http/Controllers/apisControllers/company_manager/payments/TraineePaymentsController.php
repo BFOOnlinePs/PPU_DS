@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Payment;
+use App\Models\StudentCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -70,10 +71,12 @@ class TraineePaymentsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'student_id' => 'required',
+            'student_company_id' => 'required',
             'payment_value' => 'required',
             'currency_id' => 'required',
         ], [
             'student_id.required' => 'الرجاء ارسال رقم الطالب',
+            'student_company_id.required' => 'الرجاء ارسال رقم التدريب',
             'payment_value.required' => 'الرجاء ارسال قيمة الدفعة',
             'currency_id.required' => 'الرجاء ارسال رقم العملة',
         ]);
@@ -91,6 +94,15 @@ class TraineePaymentsController extends Controller
             return response()->json([
                 'status' => false,
                 "message" => 'رقم الطالب غير موجود',
+            ]);
+        }
+
+        $student_company_id = $request->input('student_company_id');
+        $student_company = StudentCompany::where('sc_id', $student_company_id)->first();
+        if (!$student_company) {
+            return response()->json([
+                'status' => false,
+                "message" => 'رقم التدريب غير موجود',
             ]);
         }
 
@@ -118,6 +130,7 @@ class TraineePaymentsController extends Controller
         $payment = Payment::create([
             'p_student_id' => $student_id,
             'p_company_id' => $company_id,
+            'p_student_company_id' => $student_company_id,
             'p_reference_id' => $request->input('reference_id'),
             'p_payment_value' => $request->input('payment_value'),
             'p_file' => $fileName ?? null,

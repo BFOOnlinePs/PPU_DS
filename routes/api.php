@@ -9,6 +9,7 @@ use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPay
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
+use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
@@ -102,15 +103,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getSupervisorStudentsInCompany', [SupervisorStudentsTrainingsController::class, 'getSupervisorStudentsInCompany'])->middleware('CheckUserRole:3');
 
     // student courses
-    Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']);
+    Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']); // all student courses, for supervisor
     Route::post('addStudentCourse', [StudentCoursesController::class, 'addStudentCourse']);
     Route::post('deleteStudentCourse', [StudentCoursesController::class, 'deleteStudentCourse']);
     Route::post('availableCoursesForStudent', [StudentCoursesController::class, 'availableCoursesForStudent']);
+    Route::post('getStudentCourseRegistrations', [StudentCoursesController::class, 'getStudentCourseRegistrations']);
 
 
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
-    Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']);
+    Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']);// for supervisor
     Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
     Route::post('getBranchDepartments', [studentTrainingsController::class, 'getBranchDepartments']);
@@ -134,8 +136,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getAllStudentPayments', [StudentPaymentsController::class, 'getAllStudentPayments']);
     Route::post('studentChangePaymentStatus', [StudentPaymentsController::class, 'studentChangePaymentStatus']);
 
+    // payments => for manager, supervisor and student
+    Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);
+
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
+
+    // currencies
+    Route::get('getCurrencies', [CurrenciesController::class, 'getCurrencies']);
 
     // file test
     Route::post('/fileUpload', [sharedController::class, 'fileUpload']);

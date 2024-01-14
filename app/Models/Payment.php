@@ -13,6 +13,7 @@ class Payment extends Model
 
     protected $fillable = [
         'p_student_id',
+        'p_student_company_id',
         'p_company_id',
         'p_reference_id',
         'p_payment_value',
