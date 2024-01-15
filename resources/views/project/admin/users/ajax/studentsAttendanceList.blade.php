@@ -1,6 +1,3 @@
-@if ($student_attendances->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.There are no records to display')}}{{-- لا يوجد سجلات لعرضها --}}</h6>
-@else
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -11,6 +8,11 @@
             </tr>
         </thead>
         <tbody>
+            @if ($student_attendances->isEmpty())
+                <tr>
+                    <td colspan="4" class="text-center"><span>{{__('translate.There are no records to display')}}{{-- لا يوجد سجلات لعرضها --}}</span></td>
+                </tr>
+            @else
             @foreach($student_attendances as $student_attendance)
                 <tr>
                     <td>{{$student_attendance->training->company->c_name}}</td>
@@ -30,8 +32,8 @@
                     </td>
                 </tr>
             @endforeach
+            @endif
         </tbody>
     </table>
-@endif
 
 

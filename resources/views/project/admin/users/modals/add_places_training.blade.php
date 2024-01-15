@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="border: none;">
             <div class="modal-header" style="height: 73px;">
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" onclick="clear_modal_add()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row p-3 m-5">
@@ -20,7 +20,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
                                             <label for="">{{__('translate.The company')}} {{--  الشركة --}}</label>
-                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-companies" onchange="checkSelectedCompany(this.value)" name="company" required>
+                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-companies" onchange="change_company(this.value)" name="company" required>
                                                 <option value=""></option>
                                                 @foreach ($companies as $company)
                                                     <option value="{{$company->c_id}}">{{$company->c_name}}</option>
@@ -30,25 +30,18 @@
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="">{{__('translate.Branch')}} {{-- الفرع --}}</label>
-                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-branches" onchange="checkSelectedBranch(this.value)" name="branch" disabled>
+                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-branches" name="branch" onchange="change_branch(this.value)" disabled>
                                                 @if ($branches != null)
                                                     <option value=""></option>
                                                     @foreach ($branches as $branch)
-                                                        <option value="{{$branch->b_id}}">{{$branches->b_address}}</option>
+                                                        <option value="{{$branch->b_id}}">{{$branch->b_address}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.The department affiliated with the branch')}} {{-- القسم التابع للفرع --}}</label>
-                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-departments" name="department" disabled>
-                                                @if ($departments != null)
-                                                    <option value=""></option>
-                                                    @foreach ($departments as $department)
-                                                        <option value="{{$department->d_id}}">{{$department->d_name}}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                            <label for="approval_file">{{__('translate.Approval file')}} {{-- ملف الموافقة --}}</label>
+                                            <input type="file" id="approval_file" name="file">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -63,27 +56,40 @@
                                                     @endif
                                             </select>
                                         </div>
+                                        <br>
                                         <div class="mb-3 row">
-                                            <label for="textinput">{{__('translate.The administrative assistant (from the university)')}} {{-- المساعد الإداري من الجامعة --}}</label>
-                                            <select autofocus class="js-example-basic-single col-sm-12" name="manager_assistant">
-                                                <option value=""></option>
-                                                @foreach ($manager_assistants as $manager_assistant)
-                                                    <option value="{{$manager_assistant->u_id}}">{{$manager_assistant->name}}</option>
-                                                @endforeach
+                                            <label for="">{{__('translate.The department affiliated with the branch')}} {{-- القسم التابع للفرع --}}</label>
+                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-departments" name="department" disabled>
+                                                @if ($departments != null)
+                                                    <option value=""></option>
+                                                    @foreach ($departments as $department)
+                                                        <option value="{{$department->d_id}}">{{$department->d_name}}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="approval_file">{{__('translate.Approval file')}} {{-- ملف الموافقة --}}</label>
-                                            <input type="file" id="approval_file" name="file">
+                                            <label for="textinput">{{__('translate.Course')}} {{-- المساق --}}</label>
+                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-course" name="course">
+                                                @if ($registrations != null)
+                                                    <option value=""></option>
+                                                    @foreach ($registrations as $registration)
+                                                        <option value="{{$registration->r_id}}">{{$registration->courses->c_name}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                                <div id="error-container">
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <div class="modal-footer ">
                     <button type="submit" class="btn btn-primary">{{__('translate.Register the student in training')}} {{-- تسجيل الطالب في تدريب --}}</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}} {{-- إلغاء --}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="clear_modal_add()">{{__('translate.Cancel')}} {{-- إلغاء --}}</button>
                 </div>
             </form>
         </div>

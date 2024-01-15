@@ -26,4 +26,8 @@ class Registration extends Model
     public function users(){
         return $this->belongsTo(User::class, 'r_student_id','u_id');
     }
+    public function studentCompany()
+    {
+        return $this->belongsTo(StudentCompany::class, 'r_id', 'sc_registration_id');
+    }
 }

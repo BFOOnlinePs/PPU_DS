@@ -12,6 +12,7 @@ use App\Models\SystemSetting;
 use App\Models\Registration;
 use App\Models\Company;
 use App\Models\CompanyBranch;
+use App\Models\companyBranchDepartments;
 use App\Models\CompanyDepartment;
 use App\Models\StudentAttendance;
 use App\Models\StudentCompany;
@@ -185,28 +186,81 @@ class UserController extends Controller
             return response()->json(['html' => $html]);
         }
     }
-    public function training_place_delete(Request $request)
+    public function places_training_edit_branch(Request $request)
     {
-        $student_company = StudentCompany::where('sc_id', $request->sc_id)->first();
-        $student_company->sc_status = 0;
+        $company_branch_department = companyBranchDepartments::where('cbd_company_branch_id' , $request->branch_id)
+                                    ->pluck('cbd_d_id')
+                                    ->toArray();
+        $departments = CompanyDepartment::whereIn('d_id' , $company_branch_department)->get();
+        return response()->json(['departments' => $departments]);
+    }
+    public function places_training_edit(Request $request)
+    {
+        $student_company = StudentCompany::where('sc_id' , $request->sc_id)->first();
+        $trainers = User::where('u_company_id' , $student_company->sc_company_id)
+                    ->whereNot('u_id' , $student_company->sc_mentor_trainer_id)
+                    ->get();
+        $branches = CompanyBranch::where('b_company_id' , $student_company->sc_company_id)
+                    ->whereNot('b_id' , $student_company->sc_branch_id)
+                    ->get();
+        $branches_department = companyBranchDepartments::where('cbd_company_branch_id' , $student_company->sc_branch_id)
+                                ->whereNot('cbd_d_id' , $student_company->sc_department_id)
+                                ->pluck('cbd_d_id')
+                                ->toArray();
+        $departments = CompanyDepartment::whereIn('d_id' , $branches_department)
+                        ->get();
+        $courses = Registration::where('r_student_id' , $student_company->sc_student_id)
+                    ->whereNot('r_id' , $student_company->sc_registration_id)
+                    ->with('courses')
+                    ->get();
+        return response()->json(['courses' => $courses , 'departments' => $departments , 'student_company' => $student_company , 'branches' => $branches , 'trainers' => $trainers]);
+    }
+    public function places_training_update(Request $request)
+    {
+        $student_company = StudentCompany::find($request->sc_id);
+        $student_company->sc_branch_id = $request->sc_branch_id;
+        if($request->sc_department_id == "null") {
+            // return response()->json(['x' => $request->sc_department_id]);
+            $student_company->sc_department_id = null;
+        }
+        else {
+            $student_company->sc_department_id = $request->sc_department_id;
+        }
+        $student_company->sc_status = $request->sc_status;
+        if($request->sc_mentor_trainer_id == "null") {
+            $student_company->sc_mentor_trainer_id = null;
+        }
+        else {
+            $student_company->sc_mentor_trainer_id = $request->sc_mentor_trainer_id;
+        }
+        $student_company->sc_registration_id = $request->sc_registration_id;
         if($student_company->save()) {
-            $data = StudentCompany::where('sc_student_id' , $request->sc_student_id)
-                                    ->where('sc_status', 1)
-                                    ->get();
+            $data = StudentCompany::where('sc_student_id' , $student_company->sc_student_id)->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
-            return response()->json(['html' => $html]);
+            return response()->json(['html'=>$html]);
         }
     }
     public function places_training_add(Request $request)
     {
+        $validatedData = $request->validate([
+            'company' => 'required' ,
+            'course' => 'required'
+        ],
+        [
+            'company.required' => __('translate.Company name is a required field') // اسم الشركة حقل مطلوب
+            ,
+            'course.required' => __('translate.Course name is a required field') // اسم المساق حقل مطلوب
+            ]
+        );
+
         $studentCompany = new StudentCompany;
         $studentCompany->sc_student_id = $request->id;
         $studentCompany->sc_company_id = $request->input('company');
         $studentCompany->sc_branch_id = $request->input('branch');
         $studentCompany->sc_department_id = $request->input('department');
         $studentCompany->sc_mentor_trainer_id = $request->input('trainer');
-        $studentCompany->sc_assistant_id = $request->input('manager_assistant');
         $studentCompany->sc_status = 1;
+        $studentCompany->sc_registration_id = $request->input('course');
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
@@ -218,33 +272,44 @@ class UserController extends Controller
         // Save the data to the database
         if($studentCompany->save()) {
             $data = StudentCompany::where('sc_student_id' , $request->id)
-                                ->where('sc_status', 1)
                                 ->get();
             $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
+        return response()->json(['errors' => $validatedData]);
     }
     public function places_training_departments(Request $request)
     {
-        $departments = CompanyDepartment::where('d_company_branch_id' , $request->branch_id)->get();
+        $company_branch_department = companyBranchDepartments::where('cbd_company_branch_id' , $request->branch_id)
+                                    ->pluck('cbd_d_id')
+                                    ->toArray();
+        $departments = CompanyDepartment::whereIn('d_id' , $company_branch_department)->get();
         return response()->json(['departments' => $departments]);
     }
     public function places_training_branches(Request $request)
     {
-        $branches = CompanyBranch::where('b_company_id' , $request->company_id)->get();
         $trainers = User::where('u_company_id' , $request->company_id)->get();
-        return response()->json(['branches' => $branches , 'trainers' => $trainers]);
+        $branches = CompanyBranch::where('b_company_id' , $request->company_id)->get();
+        $branch = $branches->first();
+        $company_branch_department = companyBranchDepartments::where('cbd_company_branch_id' , $branch->b_id)
+                                    ->pluck('cbd_d_id')
+                                    ->toArray();
+        $departments = CompanyDepartment::whereIn('d_id' , $company_branch_department)->get();
+        return response()->json(['departments' => $departments , 'branches' => $branches , 'trainers' => $trainers]);
     }
     public function places_training($id)
     {
         $user = User::find($id);
         $companies = Company::get();
-        // to get المساعد الإداري
-        $manager_assistants = User::where('u_role_id' , 4)->get();
         $data = StudentCompany::where('sc_student_id' , $id)
-                            ->where('sc_status', 1)
+                            ->with('registrations.courses')
                             ->get();
-        return view('project.admin.users.places_training' , ['user' => $user , 'companies' => $companies , 'branches' => null , 'departments' => null , 'trainers' => null , 'manager_assistants' => $manager_assistants , 'data' => $data]);
+        $system_setting = SystemSetting::first();
+        $registrations = Registration::where('r_student_id' , $id)
+                        ->where('r_semester' , $system_setting->ss_semester_type)
+                        ->where('r_year' , $system_setting->ss_year)
+                        ->get();
+        return view('project.admin.users.places_training' , ['registrations' => $registrations , 'user' => $user , 'companies' => $companies , 'branches' => null , 'departments' => null , 'trainers' => null , 'data' => $data]);
     }
     public function courses_student_delete(Request $request)
     {

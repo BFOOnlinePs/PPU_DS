@@ -54,6 +54,7 @@
       </div>
     </div>
     @include('project.admin.users.modals.add_places_training')
+    @include('project.admin.users.modals.edit_places_training')
     @include('project.admin.users.modals.loading')
     @include('project.admin.users.modals.agreement_file')
   </div>
@@ -62,6 +63,373 @@
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     <script>
+        function active()
+        {
+            let status = document.getElementById('select_status');
+            let option = document.createElement('option');
+            option.value = 1;
+            option.text = `نشط`;
+            status.appendChild(option);
+        }
+        function deactive()
+        {
+            let status = document.getElementById('select_status');
+            let option = document.createElement('option');
+            option.value = 2;
+            option.text = `منتهي`;
+            status.appendChild(option);
+        }
+        function Delete()
+        {
+            let status = document.getElementById('select_status');
+            let option = document.createElement('option');
+            option.value = 3;
+            option.text = `محذوف`;
+            status.appendChild(option);
+        }
+        function branch_change_editing(branch_id)
+        {
+            $.ajax({
+                url: "{{route('admin.users.places.training.edit.branch')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'branch_id' : branch_id
+                },
+                success: function(response) {
+                    {
+                        let departmentSelect = document.getElementById('selectEditDepartment');
+                        departmentSelect.removeAttribute('disabled'); // Enable the select
+                        // Loop through all options and remove them
+                        while (departmentSelect.options.length > 0) {
+                            departmentSelect.remove(0);
+                        }
+                        {
+                            let option = document.createElement('option');
+                            option.value = null;
+                            option.text = "";
+                            departmentSelect.appendChild(option);
+                        }
+                        response.departments.forEach(function(department) {
+                            let option = document.createElement('option');
+                            option.value = department.d_id;
+                            option.text = department.d_name;
+                            departmentSelect.appendChild(option);
+                        });
+                    }
+                },
+                error: function() {
+                }
+            });
+        }
+        function open_edit_modal(studentCompany , branch_name , status , trainer , department_name , course_name)
+        {
+            {
+                // To set company name
+                let company = document.getElementById('c_name');
+                let option = document.createElement('option');
+                option.value = studentCompany.sc_company_id;
+                option.text = studentCompany.company.c_name;
+                company.appendChild(option);
+            }
+            {
+                // To set training status
+                let statusSelect = document.getElementById('select_status');
+                // Loop through all options and remove them
+                while (statusSelect.options.length > 0) {
+                    statusSelect.remove(0);
+                }
+                if(status === 1) {
+                    active();
+                    deactive();
+                    Delete();
+                }
+                else if (status === 2) {
+                    deactive();
+                    active();
+                    Delete();
+                }
+                else {
+                    Delete();
+                    active();
+                    deactive();
+                }
+            }
+            document.getElementById('sc_id').value = studentCompany.sc_id;
+            $.ajax({
+                url: "{{route('admin.users.places.training.edit')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'sc_id' : studentCompany.sc_id
+                },
+                success: function(response) {
+                    {
+                        let courseSelect = document.getElementById('selectEditCourse');
+                        // Loop through all options and remove them
+                        while (courseSelect.options.length > 0) {
+                            courseSelect.remove(0);
+                        }
+                        {
+                            let option = document.createElement('option');
+                            option.value = studentCompany.sc_registration_id;
+                            option.text = course_name;
+                            courseSelect.appendChild(option);
+                        }
+                        response.courses.forEach(function(course) {
+                            let option = document.createElement('option');
+                            option.value = course.r_id;
+                            option.text = course.courses.c_name;
+                            courseSelect.appendChild(option);
+                        });
+                    }
+                    {
+                        let trainerSelect = document.getElementById('selectEditTrainer');
+                        // Loop through all options and remove them
+                        while (trainerSelect.options.length > 0) {
+                            trainerSelect.remove(0);
+                        }
+                        {
+                            let option = document.createElement('option');
+                            if(trainer != null) {
+                                option.value = studentCompany.sc_mentor_trainer_id;
+                                option.text = trainer;
+                            }
+                            trainerSelect.appendChild(option);
+                            {
+                                let option = document.createElement('option');
+                                option.value = null;
+                                option.text = "";
+                                trainerSelect.appendChild(option);
+                            }
+                        }
+                        response.trainers.forEach(function(trainer) {
+                            let option = document.createElement('option');
+                            option.value = trainer.u_id;
+                            option.text = trainer.name;
+                            trainerSelect.appendChild(option);
+                        });
+                    }
+
+                    // To set branch name
+                    {
+                        let branchSelect = document.getElementById('selectEditBranch');
+                        // Loop through all options and remove them
+                        while (branchSelect.options.length > 0) {
+                            branchSelect.remove(0);
+                        }
+                        {
+                            let branch = document.getElementById('selectEditBranch');
+                            let option = document.createElement('option');
+                            option.value = studentCompany.sc_branch_id;
+                            option.text = branch_name;
+                            branch.appendChild(option);
+                        }
+                        response.branches.forEach(function(branch) {
+                            let option = document.createElement('option');
+                            option.value = branch.b_id;
+                            option.text = branch.b_address;
+                            branchSelect.appendChild(option);
+                        });
+                    }
+
+                    // To set department name
+                    {
+                        let departmentSelect = document.getElementById('selectEditDepartment');
+                        departmentSelect.removeAttribute('disabled');
+                        // Loop through all options and remove them
+                        while (departmentSelect.options.length > 0) {
+                            departmentSelect.remove(0);
+                        }
+                        if(department_name != null){
+                            let department = document.getElementById('selectEditDepartment');
+                            let option = document.createElement('option');
+                            option.value = studentCompany.sc_department_id;
+                            option.text = department_name;
+                            department.appendChild(option);
+                        }
+                        let option = document.createElement('option');
+                        option.value = null;
+                        option.text = "";
+                        departmentSelect.appendChild(option);
+                        response.departments.forEach(function(department) {
+                            let option = document.createElement('option');
+                            option.value = department.d_id;
+                            option.text = department.d_name;
+                            departmentSelect.appendChild(option);
+                        });
+                    }
+                },
+                error: function() {
+                }
+            });
+            $('#EditPlacesTrainingModal').modal('show');
+        }
+        function change_branch(branch_id)
+        {
+            $.ajax({
+                url: "{{route('admin.users.places.training.departments')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'branch_id': branch_id
+                },
+                success: function(response) {
+                    {
+                        let departmentSelect = document.getElementById('select-departments');
+                        departmentSelect.removeAttribute('disabled'); // Enable the select
+                        // Loop through all options and remove them
+                        while (departmentSelect.options.length > 0) {
+                            departmentSelect.remove(0);
+                        }
+                        {
+                            let option = document.createElement('option');
+                            option.text = "";
+                            departmentSelect.appendChild(option);
+                        }
+                        response.departments.forEach(function(department) {
+                            let option = document.createElement('option');
+                            option.value = department.d_id;
+                            option.text = department.d_name;
+                            departmentSelect.appendChild(option);
+                        });
+                    }
+                },
+                error: function() {
+                }
+            });
+        }
+        function change_company(company_id)
+        {
+            $.ajax({
+                url: "{{route('admin.users.places.training.branches')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'company_id': company_id
+                },
+                success: function(response) {
+                    {
+                        let branchSelect = document.getElementById('select-branches');
+                        branchSelect.removeAttribute('disabled'); // Enable the select
+                        // Loop through all options and remove them
+                        while (branchSelect.options.length > 0) {
+                            branchSelect.remove(0);
+                        }
+                        response.branches.forEach(function(branch) {
+                            let option = document.createElement('option');
+                            option.value = branch.b_id;
+                            option.text = branch.b_address;
+                            branchSelect.appendChild(option);
+                        });
+                    }
+                    {
+                        let trainerSelect = document.getElementById('select-trainers');
+                        trainerSelect.removeAttribute('disabled'); // Enable the select
+                        // Loop through all options and remove them
+                        while (trainerSelect.options.length > 0) {
+                            trainerSelect.remove(0);
+                        }
+                        {
+                            let option = document.createElement('option');
+                            option.text = "";
+                            trainerSelect.appendChild(option);
+                        }
+                        response.trainers.forEach(function(trainer) {
+                            let option = document.createElement('option');
+                            option.value = trainer.u_id;
+                            option.text = trainer.name;
+                            trainerSelect.appendChild(option);
+                        });
+                    }
+                    {
+                        let departmentSelect = document.getElementById('select-departments');
+                        departmentSelect.removeAttribute('disabled'); // Enable the select
+                        // Loop through all options and remove them
+                        while (departmentSelect.options.length > 0) {
+                            departmentSelect.remove(0);
+                        }
+                        {
+                            let option = document.createElement('option');
+                            option.text = "";
+                            departmentSelect.appendChild(option);
+                        }
+                        response.departments.forEach(function(department) {
+                            let option = document.createElement('option');
+                            option.value = department.d_id;
+                            option.text = department.d_name;
+                            departmentSelect.appendChild(option);
+                        });
+                    }
+                },
+                error: function() {
+                }
+            });
+        }
+        function clear_modal_add()
+        {
+            let form = ['addPlacesTrainingForm'];
+            let selects = ['select-companies' , 'select-branches' , 'select-trainers' , 'select-departments'];
+            for(let i = 0; i < form.length; i++)
+            {
+                document.getElementById(form[i]).reset();
+            }
+            for(let i = 0; i < selects.length; i++)
+            {
+                $('#' + selects[i]).select2('destroy').val('').select2();
+            }
+            for(let i = 1; i < selects.length; i++)
+            {
+                $('#' + selects[i]).prop('disabled', true);
+            }
+            const errorContainer = document.getElementById('error-container');
+            errorContainer.innerHTML = ''; // Clear previous errors
+        }
+        function update_places_training()
+        {
+            let sc_id = document.getElementById('sc_id').value;
+            let sc_branch_id = document.getElementById('selectEditBranch').value;
+            let sc_department_id = document.getElementById('selectEditDepartment').value;
+            let sc_status = document.getElementById('select_status').value;
+            let sc_mentor_trainer_id = document.getElementById('selectEditTrainer').value;
+            let sc_registration_id = document.getElementById('selectEditCourse').value;
+            $.ajax({
+                beforeSend: function(){
+                    $('#EditPlacesTrainingModal').modal('hide');
+                    $('#LoadingModal').modal('show');
+                },
+                url: "{{route('admin.users.places.training.update')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'sc_id' : sc_id,
+                    'sc_branch_id' : sc_branch_id,
+                    'sc_department_id' : sc_department_id,
+                    'sc_status' : sc_status,
+                    'sc_mentor_trainer_id' : sc_mentor_trainer_id,
+                    'sc_registration_id' : sc_registration_id
+                },
+                success: function(response) {
+                    $('#EditPlacesTrainingModal').modal('hide');
+                    $('#content').html(response.html);
+                },
+                complete: function(){
+                    $('#LoadingModal').modal('hide');
+                },
+                error: function(jqXHR) {
+                }
+            });
+        }
         function submitFile(input, sc_id) {
             let file = input.files[0];
             if (file) {
@@ -111,33 +479,6 @@
             document.getElementById('view_attachment_result').src = url;
             $('#AgreementFileModal').modal('show');
         }
-        function delete_training_place_for_student(sc_id) {
-            sc_student_id = document.getElementById('u_id').value;
-            $.ajax({
-                beforeSend: function(){
-                    $('#LoadingModal').modal('show');
-                },
-                url: "{{route('admin.users.training.place.delete')}}",
-                method: 'post',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                data: {
-                    'sc_id':sc_id,
-                    'sc_student_id':sc_student_id
-                },
-                success: function(response) {
-                    $('#content').html(response.html);
-                },
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(jqXHR) {
-                    alert(jqXHR.responseText);
-                    alert('Error fetching user data.');
-                }
-            });
-        }
     $(document).ready(function() {
         $('#addPlacesTrainingForm').submit(function(e) {
             e.preventDefault();
@@ -147,7 +488,7 @@
             formData.append('id', id);
             $.ajax({
                 beforeSend: function(){
-                    $('#AddPlacesTrainingModal').modal('hide');
+                    // $('#AddPlacesTrainingModal').modal('hide');
                     $('#LoadingModal').modal('show');
                 },
                 url: "{{route('admin.users.places.training.add')}}",
@@ -159,113 +500,32 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
+                    clear_modal_add();
+                    $('#LoadingModal').modal('hide');
                     $('#AddPlacesTrainingModal').modal('hide');
                     $('#content').html(response.html);
                 },
-                complete: function(){
+                error: function(xhr) {
                     $('#LoadingModal').modal('hide');
-                },
-                error: function(jqXHR) {
-                    alert(jqXHR.responseText);
-                    alert('Error fetching user data.');
-                }
-            });})});
-        function checkSelectedBranch(branch_id) {
-            $.ajax({
-                url: "{{route('admin.users.places.training.departments')}}",
-                method: 'post',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                data: {
-                    'branch_id': branch_id
-                },
-                success: function(response) {
-                    var selectDepartments = document.getElementById('select-departments');
-                    selectDepartments.removeAttribute('disabled'); // Enable the select
+                    clear_modal_add();
+                    const errorContainer = document.getElementById('error-container');
+                    errorContainer.innerHTML = ''; // Clear previous errors
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        let errors = xhr.responseJSON.errors;
 
-                    // Remove existing options
-                    while (selectDepartments.firstChild) {
-                        selectDepartments.removeChild(selectDepartments.firstChild);
+                        Object.values(errors).forEach(errorMessage => {
+                            const errorDiv = document.createElement('div');
+                            errorDiv.style = 'color: red';
+                            errorDiv.textContent = '• ' + errorMessage;
+                            errorContainer.appendChild(errorDiv);
+                        });
+                    } else {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.textContent = 'Error: ' + xhr.statusText;
+                        errorContainer.appendChild(errorDiv);
                     }
-
-                    var option = document.createElement('option');
-                        option.value = "";
-                        option.text = "";
-                        selectDepartments.appendChild(option);
-
-                    // Populate the select with departments
-                    response.departments.forEach(function(department) {
-                        var option = document.createElement('option');
-                        option.value = department.d_id;
-                        option.text = department.d_name;
-                        selectDepartments.appendChild(option);
-                    });
-                },
-                error: function() {
-                    alert('Error fetching user data.');
                 }
             });
-        }
-        function checkSelectedCompany(company_id) {
-            $.ajax({
-                url: "{{route('admin.users.places.training.branches')}}",
-                method: 'post',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                data: {
-                    'company_id': company_id
-                },
-                success: function(response) {
-                    var departmentSelect = document.getElementById("select-departments");
-                    // Loop through all options and remove them
-                    while (departmentSelect.options.length > 0) {
-                        departmentSelect.remove(0);
-                    }
-                    departmentSelect.disabled = true;
-
-                    var selectBranches = document.getElementById('select-branches');
-                    selectBranches.removeAttribute('disabled'); // Enable the select
-
-                    // Remove existing options
-                    while (selectBranches.firstChild) {
-                        selectBranches.removeChild(selectBranches.firstChild);
-                    }
-
-                    // Populate the select with branches
-                    var option = document.createElement('option');
-                        option.value = "";
-                        option.text = "";
-                        selectBranches.appendChild(option);
-
-                    response.branches.forEach(function(branch) {
-                        var option = document.createElement('option');
-                        option.value = branch.b_id;
-                        option.text = branch.b_address;
-                        selectBranches.appendChild(option);
-                    });
-
-
-                    var selectTrainers = document.getElementById('select-trainers');
-                    selectTrainers.removeAttribute('disabled'); // Enable the select
-
-                    // Remove existing options
-                    while (selectTrainers.firstChild) {
-                        selectTrainers.removeChild(selectTrainers.firstChild);
-                    }
-
-                    response.trainers.forEach(function(trainer) {
-                        var option = document.createElement('option');
-                        option.value = trainer.u_id;
-                        option.text = trainer.name;
-                        selectTrainers.appendChild(option);
-                    });
-                },
-                error: function() {
-                    alert('Error fetching user data.');
-                }
-            });
-        }
+        })});
     </script>
     @endsection
