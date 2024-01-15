@@ -57,12 +57,43 @@
     @include('project.admin.users.modals.edit_places_training')
     @include('project.admin.users.modals.loading')
     @include('project.admin.users.modals.agreement_file')
+    @include('project.admin.users.modals.alertToConfirmDelete')
   </div>
 @endsection
 @section('script')
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     <script>
+        function openAlertDelete(sc_id)
+        {
+            document.getElementById('student_company_id').value = sc_id;
+            $('#confirmDeleteTraining').modal('show');
+        }
+        function confirmDeleteTraining()
+        {
+            let sc_id = document.getElementById('student_company_id').value;
+            $.ajax({
+                beforeSend: function(){
+                    $('#LoadingModal').modal('show');
+                },
+                url: "{{route('admin.users.places.training.delete')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'sc_id': sc_id
+                },
+                success: function(response) {
+                    $('#LoadingModal').modal('hide');
+                    $('#confirmDeleteTraining').modal('hide');
+                    $('#content').html(response.html);
+                },
+                error: function() {
+                    $('#LoadingModal').modal('hide');
+                }
+            });
+        }
         function active()
         {
             let status = document.getElementById('select_status');
@@ -77,14 +108,6 @@
             let option = document.createElement('option');
             option.value = 2;
             option.text = `منتهي`;
-            status.appendChild(option);
-        }
-        function Delete()
-        {
-            let status = document.getElementById('select_status');
-            let option = document.createElement('option');
-            option.value = 3;
-            option.text = `محذوف`;
             status.appendChild(option);
         }
         function branch_change_editing(branch_id)
@@ -144,17 +167,10 @@
                 if(status === 1) {
                     active();
                     deactive();
-                    Delete();
                 }
                 else if (status === 2) {
                     deactive();
                     active();
-                    Delete();
-                }
-                else {
-                    Delete();
-                    active();
-                    deactive();
                 }
             }
             document.getElementById('sc_id').value = studentCompany.sc_id;

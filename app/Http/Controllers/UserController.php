@@ -240,6 +240,17 @@ class UserController extends Controller
             return response()->json(['html'=>$html]);
         }
     }
+    public function places_training_delete(Request $request)
+    {
+        $student_company = StudentCompany::find($request->sc_id);
+        $student_company->sc_status = 3;
+        if($student_company->save()) {
+            $data = StudentCompany::where('sc_student_id' , $student_company->sc_student_id)
+                                ->get();
+            $html = view('project.admin.users.ajax.placesTrainingList' , ['data' => $data])->render();
+            return response()->json(['html' => $html]);
+        }
+    }
     public function places_training_add(Request $request)
     {
         $validatedData = $request->validate([
