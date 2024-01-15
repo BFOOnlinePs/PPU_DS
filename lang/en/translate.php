@@ -1,5 +1,7 @@
 <?php
     return [
+        "Course name is a required field" => "Course name is a required field",
+        "Company name is a required field" => "Company name is a required field",
         "Communications officer" => "Communications officer",
         "communications officer" => "communications officer",
         "Major is a required field" => "Major is a required field",

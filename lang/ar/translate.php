@@ -1,5 +1,7 @@
 <?php
     return [
+        "Course name is a required field" => "اسم المساق حقل مطلوب",
+        "Company name is a required field" => "اسم الشركة حقل مطلوب",
         "Communications officer" => 'مسؤول التواصل مع الشركات',
         "communications officer" => 'مسؤول التواصل مع الشركات',
         "Major is a required field" => "التخصص حقل مطلوب",
