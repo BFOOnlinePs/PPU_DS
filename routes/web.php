@@ -78,6 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/places/training/branches' , [App\Http\Controllers\UserController::class, 'places_training_branches'])->name('admin.users.places.training.branches');
             Route::post('/places/training/departments' , [App\Http\Controllers\UserController::class, 'places_training_departments'])->name('admin.users.places.training.departments');
             Route::post('/places/training/add' , [App\Http\Controllers\UserController::class, 'places_training_add'])->name('admin.users.places.training.add');
+            Route::post('/places/training/delete' , [App\Http\Controllers\UserController::class, 'places_training_delete'])->name('admin.users.places.training.delete');
             Route::post('/places/training/edit' , [App\Http\Controllers\UserController::class, 'places_training_edit'])->name('admin.users.places.training.edit');
             Route::post('/places/training/edit/branch' , [App\Http\Controllers\UserController::class, 'places_training_edit_branch'])->name('admin.users.places.training.edit.branch');
             Route::post('/places/training/update' , [App\Http\Controllers\UserController::class, 'places_training_update'])->name('admin.users.places.training.update');

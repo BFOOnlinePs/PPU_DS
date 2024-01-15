@@ -145,7 +145,7 @@ class SettingsController extends Controller
     {
         // Make date range
         $from = Carbon::parse($request->from)->format('Y-m-d H:i:s');
-        $to = Carbon::parse($request->to)->format('Y-m-d H:i:s');
+        $to = Carbon::parse($request->to)->addDay()->format('Y-m-d H:i:s');
         // Get student ids
         $students_id = User::whereBetween('created_at', [$from , $to])
                         ->where('u_role_id' , 2)

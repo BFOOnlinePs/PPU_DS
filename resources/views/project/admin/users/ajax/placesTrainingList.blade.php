@@ -12,11 +12,11 @@
     <tbody>
         @if ($data->isEmpty())
             <tr>
-                <td colspan="5" class="text-center"><span>{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
+                <td colspan="6" class="text-center"><span>{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
             </tr>
         @else
             @foreach($data as $studentCompany)
-                <tr>
+                <tr class="@if ($studentCompany->sc_status == 3) table-danger @endif">
                     <td>{{$studentCompany->registrations[0]->courses->c_name}}</td>
                     <td>{{$studentCompany->company->c_name}}</td>
                     @if ($studentCompany->sc_branch_id == null)
@@ -57,18 +57,23 @@
                         @endif
                     </td>
                     <td>
-                        @if ($studentCompany->sc_mentor_trainer_id)
-                            @if ($studentCompany->sc_department_id)
-                                <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , '{{$studentCompany->userMentorTrainer->name}}' , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                        @if ($studentCompany->sc_status != 3)
+                            @if ($studentCompany->sc_mentor_trainer_id)
+                                @if ($studentCompany->sc_department_id)
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , '{{$studentCompany->userMentorTrainer->name}}' , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @else
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , '{{$studentCompany->userMentorTrainer->name}}' , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @endif
                             @else
-                                <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , '{{$studentCompany->userMentorTrainer->name}}' , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @if ($studentCompany->sc_department_id)
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @else
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @endif
                             @endif
+                            <button class="btn btn-danger btn-xs" onclick="openAlertDelete({{$studentCompany->sc_id}})" type="button"><span class="fa fa-trash"></span></button>
                         @else
-                            @if ($studentCompany->sc_department_id)
-                                <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
-                            @else
-                                <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
-                            @endif
+
                         @endif
                     </td>
                 </tr>

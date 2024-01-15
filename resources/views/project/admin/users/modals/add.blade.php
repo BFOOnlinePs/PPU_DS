@@ -23,7 +23,9 @@
                                 @elseif($role_name == 'مدير شركة')
                                     {{__('translate.Company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
-                                {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
                                 @endif
                             </h1>
                             <hr>
@@ -46,6 +48,8 @@
                                     {{__('translate.Company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
                                     {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
                                 @endif
                                 @if (app()->getLocale() == 'ar')
                                     {{__('translate.new')}} {{-- جديد --}}
@@ -101,7 +105,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Email')}}* {{-- البريد الإلكتروني --}}</label>
                                             <div class="col-lg-12">
-                                                <input @if ($u_role_id >= 1 && $u_role_id <= 5) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
+                                                <input @if (($u_role_id >= 1 && $u_role_id <= 5) || $u_role_id == 8) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
                                                 <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.The email already exists')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
                                             </div>
                                         </div>
@@ -162,7 +166,7 @@
                         @elseif($role_name == 'مسؤول تدريب')
                             {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
                         @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                            {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
+                            {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
                         @endif
                     </button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="close_add_modal()">
