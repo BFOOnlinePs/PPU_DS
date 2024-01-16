@@ -12,7 +12,11 @@ use App\Models\Registration;
 use App\Models\StudentAttendance;
 use Carbon\Carbon;
 use App\Models\CompaniesCategory;
+use App\Models\Payment;
+use App\Models\Currency;
 use PDF;
+use Illuminate\Support\Collection;
+use App\Models\User;
 
 class MonitorEvaluationController extends Controller
 {
@@ -360,6 +364,475 @@ class MonitorEvaluationController extends Controller
         return $pdf->stream('semesterReport.pdf');
     }
 
+    // public function companiesPaymentsReport(){
+    //     $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+    //     $systemSettings = SystemSetting::first();
 
+    //     $semester = $systemSettings->ss_semester_type;
+    //     $year = $systemSettings->ss_year;
+
+
+    //     $companiesID = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+    //         $query->select('r_student_id')
+    //             ->from('registration')
+    //             ->where('r_year', $year)
+    //             ->where('r_semester', $semester)
+    //             ->distinct();
+    //     })
+    //     ->where('sc_status', 1)
+    //     ->select('sc_company_id')
+    //     ->distinct()
+    //     ->get();
+
+    //     $trainingID = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+    //         $query->select('r_student_id')
+    //             ->from('registration')
+    //             ->where('r_year', $year)
+    //             ->where('r_semester', $semester)
+    //             ->distinct();
+    //     })
+    //     ->where('sc_status', 1)
+    //     ->select('sc_id')
+    //     ->distinct()
+    //     ->get();
+
+    //     $companies = Company::whereIn('c_id', $companiesID)->get();
+
+    //     // $companiesPayments = Payment::with('userStudent','payments')->whereIn('p_student_company_id', $trainingID)->get();
+
+    //     $companiesPayments = Payment::with('userStudent', 'payments')
+    //     ->whereIn('p_student_company_id', $trainingID)
+    //     ->get()
+    //     ->unique('p_student_company_id')
+    //     ->pluck('p_id');
+
+    //     // $trainingPayments = Payment::with('userStudent', 'payments')->where()
+
+
+    //     $paymentCollection = new Collection();
+
+    //     foreach($companiesPayments as $key){ //هون الدفعات حيث التدريب مميز ومش مكرر
+    //         $trainID = Payment::where('p_id',$key)->select('p_student_company_id')->get()->first()->p_student_company_id;
+
+    //         $payments = Payment::where('p_student_company_id',$trainID)->get();
+
+    //         //return $key;
+
+    //         $objectToreturnView = Payment::with('userStudent', 'payments','currency')->where('p_id',$key)->get()->first();
+
+    //         //return $objectToreturnView;
+
+
+
+    //         //مبدئيا بدنا نجمعهم كلهم بعدها بصير اعمل جمع بالاعتماد على العملة
+    //         $paymentsShekelTotal = 0;
+    //         $paymentsDollarTotal = 0;
+    //         $paymentsDinarTotal = 0;
+
+    //         $paymentsShekelApprovedTotal = 0;
+    //         $paymentsDollarApprovedTotal = 0;
+    //         $paymentsDinarApprovedTotal = 0;
+
+    //         foreach($payments as $payment){ //هون الدفعات لكل تدريب
+    //             if($payment->p_currency_id==1){
+    //                 $paymentsShekelTotal += $payment->p_payment_value;
+    //                 if($payment->p_status == 1){
+    //                     $paymentsShekelApprovedTotal += $payment->p_payment_value;
+    //                 }
+    //             }
+    //             elseif($payment->p_currency_id==2){
+    //                 $paymentsDollarTotal += $payment->p_payment_value;
+    //                 if($payment->p_status == 1){
+    //                     $paymentsDollarApprovedTotal += $payment->p_payment_value;
+    //                 }
+    //             }
+    //             else{
+    //                 $paymentsDinarTotal += $payment->p_payment_value;
+    //                 if($payment->p_status == 1){
+    //                     $paymentsDinarApprovedTotal += $payment->p_payment_value;
+    //                 }
+    //             }
+
+    //         }
+
+    //         $shekelSympol = Currency::where('c_id',1)->select('c_symbol')->first()->c_symbol;
+    //         $dollarSympol = Currency::where('c_id',2)->select('c_symbol')->first()->c_symbol;
+    //         $dinarSympol = Currency::where('c_id',3)->select('c_symbol')->first()->c_symbol;
+
+
+    //         if($paymentsShekelTotal!=0){
+    //             $objectToreturnView->paymentsShekelTotal = $paymentsShekelTotal." ".$shekelSympol;
+    //         }
+    //         if($paymentsDollarTotal!=0){
+    //             $objectToreturnView->paymentsDollarTotal = $paymentsDollarTotal." ".$dollarSympol;
+    //         }
+    //         if($paymentsDinarTotal!=0){
+    //             $objectToreturnView->paymentsDinarTotal = $dinarSympol." ".$paymentsDinarTotal;
+    //         }
+    //         //foreach($objectToreturnView as $key){
+
+    //         if($paymentsShekelApprovedTotal!=0){
+    //             $objectToreturnView->paymentsShekelApprovedTotal = $paymentsShekelApprovedTotal." ".$shekelSympol;
+    //         }
+    //         if($paymentsDollarApprovedTotal!=0){
+    //             $objectToreturnView->paymentsDollarApprovedTotal = $paymentsDollarApprovedTotal." ".$dollarSympol;
+    //         }
+    //         if($paymentsDinarApprovedTotal!=0){
+    //             $objectToreturnView->paymentsDinarApprovedTotal = $dinarSympol.$paymentsDinarApprovedTotal;
+    //         }
+
+    //         $paymentCollection->add($objectToreturnView);
+
+    //     }
+
+
+    //     // return $paymentCollection;
+    //     // return $companiesPayments;
+
+    //     return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'companies'=>$companies,'companiesPayments'=>$paymentCollection]);
+    // }
+
+    public function companiesPaymentsReport(){
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+
+        $companiesID = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                        $query->select('r_id')
+                        ->from('registration')
+                        ->where('r_year', $year)
+                        ->where('r_semester', $semester)
+                        ->distinct();
+                    })
+                    ->where('sc_status', 1)
+                    ->select('sc_company_id')
+                    ->distinct()
+                    ->get();
+
+        $companies = Company::whereIn('c_id', $companiesID)->get();
+
+        $trainingIDs = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester);
+        })
+        ->select('sc_id')
+        ->get();
+
+        $endIDs = Payment::whereIn('p_student_company_id', $trainingIDs)
+        ->get()
+        ->unique('p_student_company_id')
+        ->pluck('p_student_company_id');
+
+        $shekelSympol = Currency::where('c_id',1)->select('c_symbol')->first()->c_symbol;
+        $dollarSympol = Currency::where('c_id',2)->select('c_symbol')->first()->c_symbol;
+        $dinarSympol = Currency::where('c_id',3)->select('c_symbol')->first()->c_symbol;
+
+        $paymentCollection = new Collection();
+
+        foreach($endIDs as $test){
+
+            //هون عندي كل الدفعات اللي للتدريب هاد
+            $paymentsForTrain = Payment::with('userStudent', 'payments')->where('p_student_company_id', $test)->get();
+
+            $objectToreturnView = $paymentsForTrain->first();
+
+
+            $paymentsSumByCurrency = $paymentsForTrain->groupBy('p_currency_id')->map(function ($groupedPayments) {
+                return $groupedPayments->sum('p_payment_value');
+            });
+
+            $paymentsSumApproved = $paymentsForTrain
+            ->where('p_status', 1)
+            ->groupBy('p_currency_id')
+            ->map(function ($groupedPayments) {
+                return $groupedPayments->sum('p_payment_value');
+            });
+
+
+            $keysToCheck = [1, 2, 3];
+            $keys = $paymentsSumByCurrency->keys();
+            $missingKeys = collect($keysToCheck)->diff($keys);
+            foreach($missingKeys as $miss){
+                $paymentsSumByCurrency->put($miss, 0);
+            }
+
+            $keys2 = $paymentsSumApproved->keys();
+            $missingKeys2 = collect($keysToCheck)->diff($keys2);
+            foreach($missingKeys2 as $miss){
+                $paymentsSumApproved->put($miss, 0);
+            }
+
+            $objectToreturnView->paymentsShekelTotal = $paymentsSumByCurrency[1] == 0 ? 0 : $paymentsSumByCurrency[1]." ".$shekelSympol;
+            $objectToreturnView->paymentsDollarTotal = $paymentsSumByCurrency[2] == 0 ? 0 : $paymentsSumByCurrency[2]." ".$dollarSympol;
+            $objectToreturnView->paymentsDinarTotal = $paymentsSumByCurrency[3] == 0 ? 0 : $dinarSympol." ".$paymentsSumByCurrency[3];
+
+            $objectToreturnView->paymentsShekelApprovedTotal = $paymentsSumApproved[1] == 0 ? 0 : $paymentsSumApproved[1]." ".$shekelSympol;
+            $objectToreturnView->paymentsDollarApprovedTotal = $paymentsSumApproved[2] == 0 ? 0 : $paymentsSumApproved[2]." ".$dollarSympol;
+            $objectToreturnView->paymentsDinarApprovedTotal = $paymentsSumApproved[3] == 0 ? 0 : $dinarSympol.$paymentsSumApproved[3];
+
+
+            $paymentCollection->add($objectToreturnView);
+
+        }
+
+        return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'companies'=>$companies,'companiesPayments'=>$paymentCollection]);
+
+
+    }
+
+    public function companyPaymentDetailes(Request $request){
+
+        $trainingPayment = unserialize(base64_decode($request->test));
+
+        $trainingID = Payment::where('p_id',$trainingPayment->p_id)->select('p_student_company_id')->get()->first()->p_student_company_id;
+
+        $trainingPayments = Payment::with('userStudent', 'payments','currency')->where('p_student_company_id',$trainingID)->get();
+
+
+        return view('project.monitor_evaluation.companyPaymentDetailes',['payments'=>$trainingPayments,'trainingPayment'=>$trainingPayment]);
+    }
+
+    public function companiesPaymentsSearch(Request $request){
+
+        $company_id = $request->company;
+        $semester = $request->semester;
+        $year = $request->year;
+
+        if($company_id != 0){//يعني هون ببحث عن شركة
+
+            //التدريبات التي تنتمي إلى هذا الفصل والعام والشركة
+            $trainingIDs = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                    ->from('registration')
+                    ->where('r_year', $year)
+                    ->where('r_semester', $semester);
+            })
+            ->where('sc_company_id', $company_id)
+            ->select('sc_id')
+            ->get();
+
+
+
+        }else{
+            $trainingIDs = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                    ->from('registration')
+                    ->where('r_year', $year)
+                    ->where('r_semester', $semester);
+            })
+            ->select('sc_id')
+            ->get();
+        }
+
+        $endIDs = Payment::whereIn('p_student_company_id', $trainingIDs)
+        ->get()
+        ->unique('p_student_company_id')
+        ->pluck('p_student_company_id');
+
+        $shekelSympol = Currency::where('c_id',1)->select('c_symbol')->first()->c_symbol;
+        $dollarSympol = Currency::where('c_id',2)->select('c_symbol')->first()->c_symbol;
+        $dinarSympol = Currency::where('c_id',3)->select('c_symbol')->first()->c_symbol;
+
+        $paymentCollection = new Collection();
+
+        foreach($endIDs as $test){
+
+            //هون عندي كل الدفعات اللي للتدريب هاد
+            $paymentsForTrain = Payment::with('userStudent', 'payments')->where('p_student_company_id', $test)->get();
+
+            $objectToreturnView = $paymentsForTrain->first();
+
+
+            $paymentsSumByCurrency = $paymentsForTrain->groupBy('p_currency_id')->map(function ($groupedPayments) {
+                return $groupedPayments->sum('p_payment_value');
+            });
+
+            $paymentsSumApproved = $paymentsForTrain
+            ->where('p_status', 1)
+            ->groupBy('p_currency_id')
+            ->map(function ($groupedPayments) {
+                return $groupedPayments->sum('p_payment_value');
+            });
+
+
+            $keysToCheck = [1, 2, 3];
+            $keys = $paymentsSumByCurrency->keys();
+            $missingKeys = collect($keysToCheck)->diff($keys);
+            foreach($missingKeys as $miss){
+                $paymentsSumByCurrency->put($miss, 0);
+            }
+
+            $keys2 = $paymentsSumApproved->keys();
+            $missingKeys2 = collect($keysToCheck)->diff($keys2);
+            foreach($missingKeys2 as $miss){
+                $paymentsSumApproved->put($miss, 0);
+            }
+
+            $objectToreturnView->paymentsShekelTotal = $paymentsSumByCurrency[1] == 0 ? 0 : $paymentsSumByCurrency[1]." ".$shekelSympol;
+            $objectToreturnView->paymentsDollarTotal = $paymentsSumByCurrency[2] == 0 ? 0 : $paymentsSumByCurrency[2]." ".$dollarSympol;
+            $objectToreturnView->paymentsDinarTotal = $paymentsSumByCurrency[3] == 0 ? 0 : $dinarSympol." ".$paymentsSumByCurrency[3];
+
+            $objectToreturnView->paymentsShekelApprovedTotal = $paymentsSumApproved[1] == 0 ? 0 : $paymentsSumApproved[1]." ".$shekelSympol;
+            $objectToreturnView->paymentsDollarApprovedTotal = $paymentsSumApproved[2] == 0 ? 0 : $paymentsSumApproved[2]." ".$dollarSympol;
+            $objectToreturnView->paymentsDinarApprovedTotal = $paymentsSumApproved[3] == 0 ? 0 : $dinarSympol.$paymentsSumApproved[3];
+
+
+            $paymentCollection->add($objectToreturnView);
+
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'data'=>$paymentCollection,
+            'view'=>view('project.monitor_evaluation.ajax.companiesPaymentsReportTable',['companiesPayments'=>$paymentCollection])->render(),
+        ]);
+    }
+
+
+    public function paymentsReport(){
+
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+
+        $trainingIDs = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->where('sc_status', 1)
+        ->select('sc_id')
+        ->distinct()
+        ->get();
+
+        $companiesID = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->where('sc_status', 1)
+        ->select('sc_company_id')
+        ->distinct()
+        ->get();
+
+        $companies = Company::whereIn('c_id', $companiesID)->get();
+        $payments = Payment::with('userStudent', 'payments','currency')->whereIn('p_student_company_id',$trainingIDs)->get();
+
+        $students = User::whereIn('u_id', function ($query) use ($year, $semester) {
+            $query->select('r_student_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->get();
+
+        return view('project.monitor_evaluation.paymentsReport',['years'=>$years,'year'=>$year,
+        'semester'=>$semester,'payments'=>$payments,'companies'=>$companies,'students'=>$students]);
+    }
+
+    public function paymentsReportSearch(Request $request){
+
+        $semester = $request->semester;
+        $year = $request->year;
+        $trainings = StudentCompany::where('sc_id',0)->get();
+
+        $trainingIDs = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        // ->select('sc_id')
+        // ->distinct()
+        ->get();
+
+        $trainingsFilterCompany = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->where('sc_status', 1)
+        ->select('sc_id')
+        ->distinct()
+        ->get();
+
+        if($request->company!=0 && $request->student!=0){
+
+            $trainingsFilterCompany = $trainingIDs->filter(function ($item) use ($request){
+                return ($item->sc_company_id == $request->company && $item->sc_student_id == $request->student);
+            })->pluck('sc_id')->toArray();
+
+        }
+
+
+
+        if($request->company!=0&&$request->student==0){
+            //do filter according to company
+            $trainingsFilterCompany = $trainingIDs->filter(function ($item) use ($request) {
+                return $item->sc_company_id == $request->company;
+            })->pluck('sc_id')->toArray();
+            // ->pluck('sc_id')->toArray();
+        }
+        if($request->student!=0&&$request->company==0){
+            //do filter according to student
+            // $trainingsFilterStudent = $trainingIDs->filter(function ($item) {
+            //     return $item->sc_student_id == $request->student;
+            // })->pluck('sc_id')->toArray();
+
+            // if($request->company!=0&&){
+
+                $trainingsFilterCompany = $trainingIDs->filter(function ($item) use ($request){
+                    return $item->sc_student_id == $request->student;
+                })->pluck('sc_id')->toArray();
+
+            // }else{
+            //     $trainingsFilterCompany = $trainingIDs->filter(function ($item) {
+            //         return $item == $request->student;
+            //     });
+            // }
+
+            ////////////////////////////////////////
+            //if $request->company != 0, do the filter according to company also
+            //else do the filter according to students only
+            ////////////////////////////////////////
+
+
+        }
+
+        // $payments = Payment::with('userStudent', 'payments','currency')->whereIn('p_student_company_id',$trainings)->get();
+        if($request->company==0&&$request->student==0){
+            $payments = Payment::with('userStudent', 'payments','currency')->whereIn('p_student_company_id',$trainingsFilterCompany)->get();
+        }else{
+            $payments = Payment::with('userStudent', 'payments','currency')->whereIn('p_student_company_id',$trainingsFilterCompany)->get();
+        }
+
+        if($request->status!=2){
+            //do filter according to status
+            $payments = Payment::with('userStudent', 'payments','currency')
+            ->whereIn('p_student_company_id',$trainingsFilterCompany)
+            ->where('p_status',$request->status)
+            ->get();
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'trainings'=>$payments,
+            'view'=>view('project.monitor_evaluation.ajax.paymentsReportTable',['payments'=>$payments])->render(),
+        ]);
+    }
 
 }

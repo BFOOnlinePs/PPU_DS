@@ -36,4 +36,9 @@ class Company extends Model
         return $this->belongsTo(User::class, 'c_manager_id', 'u_id');
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'p_company_id', 'c_id');
+    }
+
 }

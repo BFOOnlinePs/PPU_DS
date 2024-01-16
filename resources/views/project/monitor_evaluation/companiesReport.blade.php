@@ -57,7 +57,7 @@
             @csrf
             <div>
             <input hidden id="test" name="test" value="{{base64_encode(serialize($data))}}">
-            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-file-pdf-o"></i> ملف التقرير </button>
+            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-print"></i> </button>
         </div>
         </form>
 

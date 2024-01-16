@@ -191,6 +191,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/semesterReportPDF/{data}' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'semesterReportPDF'])->name('monitor_evaluation.semesterReportPDF');
         Route::post('/companiesReportPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReportPDF'])->name('monitor_evaluation.companiesReportPDF');
         Route::post('/companiesReportPDFPost' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReportPDFPost'])->name('monitor_evaluation.companiesReportPDFPost');
+        Route::get('/companiesPaymentsReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesPaymentsReport'])->name('monitor_evaluation.companiesPaymentsReport');
+        Route::post('/companyPaymentDetailes' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyPaymentDetailes'])->name('monitor_evaluation.companyPaymentDetailes');
+        Route::post('/companiesPaymentsSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesPaymentsSearch'])->name('monitor_evaluation.companiesPaymentsSearch');
+        Route::get('/paymentsReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'paymentsReport'])->name('monitor_evaluation.paymentsReport');
+        Route::post('/paymentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'paymentsReportSearch'])->name('monitor_evaluation.paymentsReportSearch');
     });
 
     Route::group(['prefix' => 'company_manager'], function () {
