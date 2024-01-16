@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyTrainees extends Controller
 {
-    // get the trainees in the company (branch) of a manager
+    // get the trainees (student company) in the company (branch) of a manager
     public function getTrainees(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -248,5 +248,42 @@ class CompanyTrainees extends Controller
             'trainees_reports' => $paginatedTraineesReports->items(),
 
         ], 200);
+    }
+
+
+    // get trainees of company branch manager with search on trainee name
+    public function getTraineesWithSearch(Request $request)
+    {
+        $trainee_name_search = $request->input('trainee_name_search');
+        $validator = Validator::make($request->all(), [
+            'manager_id' => 'required',
+        ], [
+            'manager_id.required' => 'الرجاء ارسال رقم مدير الفرع'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        };
+
+        $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
+        $unique_trainees_ids = StudentCompany::whereIn('sc_branch_id', $company_branches_id)
+            ->select('sc_student_id')
+            ->distinct()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->pluck('sc_student_id');
+
+        $trainees = User::whereIn('u_id', $unique_trainees_ids)
+            ->where('name', 'like', '%' . $trainee_name_search . '%')
+            ->select('u_id', 'name')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'trainees' => $trainees,
+        ]);
     }
 }

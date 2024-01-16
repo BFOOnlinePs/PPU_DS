@@ -20,6 +20,7 @@ use App\Http\Controllers\apisControllers\students\StudentCoursesController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
 use App\Http\Controllers\apisControllers\students\studentReportController;
 use App\Http\Controllers\apisControllers\students\studentTrainingsController;
+use App\Http\Controllers\apisControllers\supervisors\payments\PaymentsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
@@ -81,14 +82,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // add middleware
     // manager
-    Route::post('getTrainees', [CompanyTrainees::class, 'getTrainees']);
+    Route::post('getTrainees', [CompanyTrainees::class, 'getTrainees']); // return student company
     Route::post('getTraineeAttendanceLog', [CompanyTrainees::class, 'getTraineeAttendanceLog']);
     Route::post('getTraineeReportsLog', [CompanyTrainees::class, 'getTraineeReportsLog']);
+    Route::post('getTraineesWithSearch', [CompanyTrainees::class, 'getTraineesWithSearch']);
+
 
     Route::get('getAllTraineesAttendanceLog', [CompanyTrainees::class, 'getAllTraineesAttendanceLog']);
     Route::get('getAllTraineesReportsLog', [CompanyTrainees::class, 'getAllTraineesReportsLog']);
 
     Route::post('managerAddOrEditReportNote', [ManagerNotes::class, 'managerAddOrEditReportNote']);
+
     // Route::post('managerEditNote', [ManagerNotes::class, 'managerEditNote']);
 
 
@@ -130,11 +134,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // payments => for manager
     Route::post('addTraineePayment', [TraineePaymentsController::class, 'addTraineePayment']);
     Route::post('getTraineePayments', [TraineePaymentsController::class, 'getTraineePayments']);
-    Route::get('getAllTraineesPayments', [AllTraineesPaymentsController::class, 'getAllTraineesPayments']);
+    Route::post('getAllTraineesPayments', [AllTraineesPaymentsController::class, 'getAllTraineesPayments']);
 
     // payments => for student
     Route::get('getAllStudentPayments', [StudentPaymentsController::class, 'getAllStudentPayments']);
     Route::post('studentChangePaymentStatus', [StudentPaymentsController::class, 'studentChangePaymentStatus']);
+    Route::post('studentAddPaymentNote', [StudentPaymentsController::class, 'studentAddPaymentNote']);
+
+    // payments => for supervisor
+    Route::post('getStudentPayments', [PaymentsController::class, 'getStudentPayments']);
+    Route::post('supervisorAddPaymentNote', [PaymentsController::class, 'supervisorAddPaymentNote']);
 
     // payments => for manager, supervisor and student
     Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);

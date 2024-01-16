@@ -146,4 +146,25 @@ class StudentPaymentsController extends Controller
             'payment' => $payment
         ]);
     }
+
+    public function studentAddPaymentNote(Request $request){
+        $payment_id = $request->input('payment_id');
+        $payment = Payment::where('p_id', $payment_id)->first();
+        if (!$payment) {
+            return response()->json([
+                'status' => false,
+                "message" => 'رقم الدفعة غير موجود',
+            ]);
+        }
+
+        $payment->update([
+            'p_student_notes' => $request->input('p_student_notes'),
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم اضافة الملاحظة بنجاح',
+            'payment' => $payment
+        ]);
+    }
 }

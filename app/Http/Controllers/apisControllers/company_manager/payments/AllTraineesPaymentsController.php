@@ -15,14 +15,22 @@ use Illuminate\Support\Facades\Validator;
 class AllTraineesPaymentsController extends Controller
 {
     // all trainees payment in the manager's company
+    // filter with trainee id
     public function getAllTraineesPayments(Request $request)
     {
         $manager_id = auth()->user()->u_id;
         $company_id = Company::where('c_manager_id', $manager_id)->pluck('c_id')->first();
         $payments = Payment::where('p_company_id', $company_id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(7);
+            ->orderBy('created_at', 'desc');
+        // ->paginate(7);
         // ->get();
+
+        if ($request->has('trainee_id')) {
+            $trainee_id = $request->input('trainee_id');
+            $payments->where('p_student_id', $trainee_id);
+        }
+
+        $payments = $payments->paginate(7);
 
         $payments->getCollection()->transform(function ($payment) use ($manager_id) {
             $payment->inserted_by_name = User::where('u_id', $manager_id)->pluck('name')->first();
