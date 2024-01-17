@@ -23,8 +23,8 @@
                         <td>{{$key->payments->c_name}}</td>
                         <td>{{$key->userStudent->name}}</td>
                         <td>{{ \Carbon\Carbon::parse($key->created_at)->format('Y-m-d') }}</td>
-                        <td>{{$key->currency->c_symbol}}{{ $key->p_payment_value}}</td>
-                        <td @if ($key->p_status == 0) style="background-color: #d22d3dc9; color:white" @else style="background-color: #24695ca8; color:white" @endif >@if ($key->p_status == 0) غير مؤكدة @else مؤكدة @endif</td>
+                        <td>{{$key->currency->c_symbol}} {{ $key->p_payment_value}}</td>
+                        <td  >@if ($key->p_status == 0) <span class="badge rounded-pill badge-danger">غير مؤكدة</span>  @else <span class="badge rounded-pill badge-primary">مؤكدة</span> @endif</td>
                     </tr>
                     @endforeach
                 @endif
