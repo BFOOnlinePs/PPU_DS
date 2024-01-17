@@ -527,9 +527,8 @@ class MonitorEvaluationController extends Controller
         ->unique('p_student_company_id')
         ->pluck('p_student_company_id');
 
-        $shekelSympol = Currency::where('c_id',1)->select('c_symbol')->first()->c_symbol;
-        $dollarSympol = Currency::where('c_id',2)->select('c_symbol')->first()->c_symbol;
-        $dinarSympol = Currency::where('c_id',3)->select('c_symbol')->first()->c_symbol;
+
+        $currencies = Currency::select('c_id','c_symbol')->get();
 
         $paymentCollection = new Collection();
 
@@ -538,49 +537,30 @@ class MonitorEvaluationController extends Controller
             //هون عندي كل الدفعات اللي للتدريب هاد
             $paymentsForTrain = Payment::with('userStudent', 'payments')->where('p_student_company_id', $test)->get();
 
+            //بدي احط اوبجيكت جديد عشان احط فيه حقول جديدة
             $objectToreturnView = $paymentsForTrain->first();
 
+            $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
 
-            $paymentsSumByCurrency = $paymentsForTrain->groupBy('p_currency_id')->map(function ($groupedPayments) {
-                return $groupedPayments->sum('p_payment_value');
-            });
+            $paymentsTotalCollection = new Collection();
+            $approvedPaymentsTotalCollection = new Collection();
 
-            $paymentsSumApproved = $paymentsForTrain
-            ->where('p_status', 1)
-            ->groupBy('p_currency_id')
-            ->map(function ($groupedPayments) {
-                return $groupedPayments->sum('p_payment_value');
-            });
+            foreach($currunciesKeysToCheck as $key){
+                $currencyTotal = $paymentsForTrain->where('p_currency_id',$key)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+                $paymentsTotalCollection->add(['c_id' => $key, 'total' => $currencyTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
 
-
-            $keysToCheck = [1, 2, 3];
-            $keys = $paymentsSumByCurrency->keys();
-            $missingKeys = collect($keysToCheck)->diff($keys);
-            foreach($missingKeys as $miss){
-                $paymentsSumByCurrency->put($miss, 0);
+                $currencyApprovedTotal = $paymentsForTrain->where('p_currency_id',$key)->where('p_status',1)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+                $approvedPaymentsTotalCollection->add(['c_id' => $key, 'total' => $currencyApprovedTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
             }
 
-            $keys2 = $paymentsSumApproved->keys();
-            $missingKeys2 = collect($keysToCheck)->diff($keys2);
-            foreach($missingKeys2 as $miss){
-                $paymentsSumApproved->put($miss, 0);
-            }
-
-            $objectToreturnView->paymentsShekelTotal = $paymentsSumByCurrency[1] == 0 ? 0 : $paymentsSumByCurrency[1]." ".$shekelSympol;
-            $objectToreturnView->paymentsDollarTotal = $paymentsSumByCurrency[2] == 0 ? 0 : $paymentsSumByCurrency[2]." ".$dollarSympol;
-            $objectToreturnView->paymentsDinarTotal = $paymentsSumByCurrency[3] == 0 ? 0 : $dinarSympol." ".$paymentsSumByCurrency[3];
-
-            $objectToreturnView->paymentsShekelApprovedTotal = $paymentsSumApproved[1] == 0 ? 0 : $paymentsSumApproved[1]." ".$shekelSympol;
-            $objectToreturnView->paymentsDollarApprovedTotal = $paymentsSumApproved[2] == 0 ? 0 : $paymentsSumApproved[2]." ".$dollarSympol;
-            $objectToreturnView->paymentsDinarApprovedTotal = $paymentsSumApproved[3] == 0 ? 0 : $dinarSympol.$paymentsSumApproved[3];
-
+            $objectToreturnView->paymentsTotalCollection = $paymentsTotalCollection;
+            $objectToreturnView->approvedPaymentsTotalCollection = $approvedPaymentsTotalCollection;
 
             $paymentCollection->add($objectToreturnView);
 
         }
 
         return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'companies'=>$companies,'companiesPayments'=>$paymentCollection]);
-
 
     }
 
@@ -633,9 +613,8 @@ class MonitorEvaluationController extends Controller
         ->unique('p_student_company_id')
         ->pluck('p_student_company_id');
 
-        $shekelSympol = Currency::where('c_id',1)->select('c_symbol')->first()->c_symbol;
-        $dollarSympol = Currency::where('c_id',2)->select('c_symbol')->first()->c_symbol;
-        $dinarSympol = Currency::where('c_id',3)->select('c_symbol')->first()->c_symbol;
+
+        $currencies = Currency::select('c_id','c_symbol')->get();
 
         $paymentCollection = new Collection();
 
@@ -644,46 +623,29 @@ class MonitorEvaluationController extends Controller
             //هون عندي كل الدفعات اللي للتدريب هاد
             $paymentsForTrain = Payment::with('userStudent', 'payments')->where('p_student_company_id', $test)->get();
 
+            //بدي احط اوبجيكت جديد عشان احط فيه حقول جديدة
             $objectToreturnView = $paymentsForTrain->first();
 
+            $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
 
-            $paymentsSumByCurrency = $paymentsForTrain->groupBy('p_currency_id')->map(function ($groupedPayments) {
-                return $groupedPayments->sum('p_payment_value');
-            });
+            $paymentsTotalCollection = new Collection();
+            $approvedPaymentsTotalCollection = new Collection();
 
-            $paymentsSumApproved = $paymentsForTrain
-            ->where('p_status', 1)
-            ->groupBy('p_currency_id')
-            ->map(function ($groupedPayments) {
-                return $groupedPayments->sum('p_payment_value');
-            });
+            foreach($currunciesKeysToCheck as $key){
+                $currencyTotal = $paymentsForTrain->where('p_currency_id',$key)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+                $paymentsTotalCollection->add(['c_id' => $key, 'total' => $currencyTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
 
-
-            $keysToCheck = [1, 2, 3];
-            $keys = $paymentsSumByCurrency->keys();
-            $missingKeys = collect($keysToCheck)->diff($keys);
-            foreach($missingKeys as $miss){
-                $paymentsSumByCurrency->put($miss, 0);
+                $currencyApprovedTotal = $paymentsForTrain->where('p_currency_id',$key)->where('p_status',1)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+                $approvedPaymentsTotalCollection->add(['c_id' => $key, 'total' => $currencyApprovedTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
             }
 
-            $keys2 = $paymentsSumApproved->keys();
-            $missingKeys2 = collect($keysToCheck)->diff($keys2);
-            foreach($missingKeys2 as $miss){
-                $paymentsSumApproved->put($miss, 0);
-            }
-
-            $objectToreturnView->paymentsShekelTotal = $paymentsSumByCurrency[1] == 0 ? 0 : $paymentsSumByCurrency[1]." ".$shekelSympol;
-            $objectToreturnView->paymentsDollarTotal = $paymentsSumByCurrency[2] == 0 ? 0 : $paymentsSumByCurrency[2]." ".$dollarSympol;
-            $objectToreturnView->paymentsDinarTotal = $paymentsSumByCurrency[3] == 0 ? 0 : $dinarSympol." ".$paymentsSumByCurrency[3];
-
-            $objectToreturnView->paymentsShekelApprovedTotal = $paymentsSumApproved[1] == 0 ? 0 : $paymentsSumApproved[1]." ".$shekelSympol;
-            $objectToreturnView->paymentsDollarApprovedTotal = $paymentsSumApproved[2] == 0 ? 0 : $paymentsSumApproved[2]." ".$dollarSympol;
-            $objectToreturnView->paymentsDinarApprovedTotal = $paymentsSumApproved[3] == 0 ? 0 : $dinarSympol.$paymentsSumApproved[3];
-
+            $objectToreturnView->paymentsTotalCollection = $paymentsTotalCollection;
+            $objectToreturnView->approvedPaymentsTotalCollection = $approvedPaymentsTotalCollection;
 
             $paymentCollection->add($objectToreturnView);
 
         }
+
 
         return response()->json([
             'success'=>'true',

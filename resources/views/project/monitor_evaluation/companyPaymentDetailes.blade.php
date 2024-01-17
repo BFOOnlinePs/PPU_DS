@@ -50,28 +50,16 @@
             <tfoot>
                 <tr>
                     <td>إجمالي الدفعات</td>
-                    <td>@if($trainingPayment->paymentsShekelTotal != 0){{$trainingPayment->paymentsShekelTotal}} @endif
-                        @if ($trainingPayment->paymentsDollarTotal != 0)@if($trainingPayment->paymentsShekelTotal != 0) ,@endif {{$trainingPayment->paymentsDollarTotal}}  @endif
-                        @if ($trainingPayment->paymentsDinarTotal != 0)@if($trainingPayment->paymentsDollarTotal != 0 || $trainingPayment->paymentsShekelTotal != 0) ,@endif {{$trainingPayment->paymentsDinarTotal}} @endif</td>
+                    <td>
+                        @foreach ($trainingPayment->paymentsTotalCollection as $item)
+                            @if($item["total"] != 0)
+                                <span class="badge rounded-pill badge-danger">{{$item["symbol"]}} {{$item["total"]}}</span>
+                            @endif
+                        @endforeach
                     <td></td>
                 </tr>
             </tfoot>
         </table>
-
-        {{-- <br>
-        <div>
-            إجمالي الدفعات: @if($trainingPayment->paymentsShekelTotal != 0){{$trainingPayment->paymentsShekelTotal}} @endif
-            @if ($trainingPayment->paymentsDollarTotal != 0)@if($trainingPayment->paymentsShekelTotal != 0) ,@endif {{$trainingPayment->paymentsDollarTotal}}  @endif
-            @if ($trainingPayment->paymentsDinarTotal != 0)@if($trainingPayment->paymentsDollarTotal != 0 || $trainingPayment->paymentsShekelTotal != 0) ,@endif {{$trainingPayment->paymentsDinarTotal}} @endif</div>
-        <div>
-            إجمالي الدفعات المؤكد عليها: @if($trainingPayment->paymentsShekelApprovedTotal != 0){{$trainingPayment->paymentsShekelApprovedTotal}}@endif
-            @if ($trainingPayment->paymentsDollarApprovedTotal != 0)@if($trainingPayment->paymentsShekelApprovedTotal != 0) ,@endif{{$trainingPayment->paymentsDollarApprovedTotal}} @endif
-            @if ($trainingPayment->paymentsDinarApprovedTotal != 0)@if($trainingPayment->paymentsShekelApprovedTotal != 0 || $trainingPayment->paymentsDollarApprovedTotal != 0) ,@endif{{$trainingPayment->paymentsDinarApprovedTotal}}  @endif
-            @if($trainingPayment->paymentsShekelApprovedTotal ==0 && $trainingPayment->paymentsDinarApprovedTotal == 0 && $trainingPayment->paymentsDinarApprovedTotal == 0) لا يوجد دفعات مؤكد عليها@endif
-            </div>
-
-        <br> --}}
-
 
     </div>
 
