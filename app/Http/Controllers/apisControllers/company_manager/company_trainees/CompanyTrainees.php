@@ -47,10 +47,24 @@ class CompanyTrainees extends Controller
         // // (add .users if you want the users inside the studentCompanies as well)
         // $trainees = $trainees->pluck('managerOf.studentCompanies.*')->flatten();
 
+
         $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
         $students_companies = StudentCompany::whereIn('sc_branch_id', $company_branches_id)->with('users')
-            ->orderBy('created_at', 'desc')
-            ->paginate(7);
+            ->orderBy('created_at', 'desc');
+
+        // for filter
+        if ($request->has('trainee_id')) {
+            $trainee_id = $request->input('trainee_id');
+            $students_companies->where('sc_student_id', $trainee_id);
+        }
+
+        // for filter
+        if ($request->has('trainings_status')) {
+            $trainings_status = $request->input('trainings_status');
+            $students_companies->where('sc_status', $trainings_status);
+        }
+
+        $students_companies = $students_companies->paginate(7);
 
         $students_companies->getCollection()->transform(function ($student_company) {
             $student_company->users->major_name = Major::where('m_id', $student_company->users->u_major_id)->pluck('m_name')->first();

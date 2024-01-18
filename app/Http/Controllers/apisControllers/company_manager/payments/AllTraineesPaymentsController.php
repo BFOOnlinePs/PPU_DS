@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 class AllTraineesPaymentsController extends Controller
 {
     // all trainees payment in the manager's company
-    // filter with trainee id
+    // filter search with trainee id
     public function getAllTraineesPayments(Request $request)
     {
         $manager_id = auth()->user()->u_id;
@@ -28,6 +28,11 @@ class AllTraineesPaymentsController extends Controller
         if ($request->has('trainee_id')) {
             $trainee_id = $request->input('trainee_id');
             $payments->where('p_student_id', $trainee_id);
+        }
+
+        if ($request->has('payment_status')) {
+            $payment_status = $request->input('payment_status');
+            $payments->where('p_status', $payment_status);
         }
 
         $payments = $payments->paginate(7);
