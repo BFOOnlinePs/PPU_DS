@@ -141,7 +141,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/createDepartments',[App\Http\Controllers\project\admin\CompaniesController::class,'createDepartments'])->name('admin.companies.createDepartments');
             Route::post('/updateBranches',[App\Http\Controllers\project\admin\CompaniesController::class,'updateBranches'])->name('admin.companies.updateBranches');
             Route::post('/checkEmailEdit',[App\Http\Controllers\project\admin\CompaniesController::class,'checkEmailEdit'])->name('admin.companies.check_email_not_duplicate_edit');
-
         });
 
         });
