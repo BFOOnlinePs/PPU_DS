@@ -393,7 +393,7 @@
                                     </div>
 
                                     <div class="f1-buttons" >
-                                        <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
+                                        <button  id="submit_{{$key->b_id}}" onclick="submitEditCompanyBranches({{ $key->b_id}})" type='button' class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
                                     </div>
                                     </form>
                                 </div>
