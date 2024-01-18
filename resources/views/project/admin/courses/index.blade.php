@@ -93,7 +93,7 @@
                                         @if( $key->c_course_type == 1) <td>{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
                                         @if( $key->c_course_type == 2) <td>{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</td>@endif
                                         <td id="table_buttons_{{$key->c_id}}">
-                                            {{-- <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-info"></i></button> --}}
+                                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-info"></i></button>
                                             <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
                                         </td>
                                     </tr>
@@ -214,7 +214,7 @@
 
                             cell5.innerHTML = `
                                 <button class="btn btn-info" onclick="showCourseModal(${jsonToHTML})">
-                                    <i class="fa fa-search"></i>
+                                    <i class="fa fa-info"></i>
                                 </button>
                                 <button class="btn btn-primary" onclick="showEditCourseModal(${jsonToHTML})">
                                     <i class="fa fa-edit"></i>
@@ -248,10 +248,10 @@
         function validateEngNumInput(inputElement) {
 
             var cleanedValue = inputElement.value.replace(/[^a-zA-Z0-9]/g, '');
-            if (!/^[a-zA-Z0-9]{6}$/.test(cleanedValue)) {
+            if (!/^[a-zA-Z0-9]{9}$/.test(cleanedValue)) {
                 inputElement.value = cleanedValue;
             } else {
-                inputElement.value = cleanedValue.slice(0, 5);
+                inputElement.value = cleanedValue.slice(0, 9);
             }
 
         }
@@ -262,12 +262,12 @@
             var cleanedValue = inputElement.value.replace(/\D/g, '');
 
             // Ensure the input is exactly 4 digits long
-            if (/^\d{4}$/.test(cleanedValue)) {
+            if (/^\d{9}$/.test(cleanedValue)) {
                 // Update the input value
                 inputElement.value = cleanedValue;
             } else {
                 // If input is not 4 digits, clear the input
-                inputElement.value = cleanedValue.slice(0, 4);;
+                inputElement.value = cleanedValue.slice(0, 9);;
             }
         }
 
@@ -520,7 +520,7 @@
                         var jsonToHTML = JSON.stringify(response.data).replace(/"/g, "&quot;");
                         $(`#table_buttons_${course_id}`).html(`
                                 <button class="btn btn-info" onclick="showCourseModal(${jsonToHTML})">
-                                    <i class="fa fa-search"></i>
+                                    <i class="fa fa-info"></i>
                                 </button>
                                 <button class="btn btn-primary" onclick="showEditCourseModal(${jsonToHTML})">
                                     <i class="fa fa-edit"></i>

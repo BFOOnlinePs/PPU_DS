@@ -33,7 +33,6 @@
 
 @section('content')
 
-
 <div class="card" style="padding-left:0px; padding-right:0px;">
 
     <div class="card-body" >
@@ -48,12 +47,25 @@
         <hr>
         {{-- <br> --}}
 
+        {{-- <a href="{{ route('monitor_evaluation.companiesReportPDF', ['data' => base64_encode(serialize($data))]) }}">Go to View 2</a> --}}
+
+        {{-- <div>
+            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" onclick="showCompaniesPDF()"><i class="fa fa-file-pdf-o"></i> ملف التقرير </button>
+        </div> --}}
+
+        <form id="companiesReportAjax" action="{{route('monitor_evaluation.companiesReportPDF')}}" method="POST" enctype="multipart/form-data" target="_blank">
+            @csrf
+            <div>
+            <input hidden id="test" name="test" value="{{base64_encode(serialize($data))}}">
+            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-print"></i> </button>
+        </div>
+        </form>
+
+        <br>
+
         <form id="companiesReportSearchForm" action="" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
-
-
-
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Semester')}}{{-- الفصل الدراسي --}}</label>
@@ -68,8 +80,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="col-form-label pt-0" for="exampleInputEmail1">نوع الشركة</label>
@@ -109,10 +119,8 @@
                 </div> --}}
 
 
-
             </div>
         </form>
-
 
         <div id="companiesReportTable">
             <div class="table-responsive">
@@ -154,20 +162,38 @@
         </div>
 
 
-
     </div>
-
 
 
 
 
 </div>
 
-
 @endsection
 @section('script')
 
 <script>
+
+// var dataPDF = {!! json_encode($data, JSON_HEX_APOS) !!};
+
+// var dataPDF = "<?php echo base64_encode(serialize($data)); ?>";
+// console.log(dataPDF)
+
+function pdfLink(data){
+    var editLink = "{{ route('monitor_evaluation.companiesReportPDF', ['data' => 'dataArr']) }}";
+
+    editLink = editLink.replace('dataArr', data);
+
+    return editLink
+}
+
+function showCompaniesPDF(){
+
+    editLink = pdfLink(dataPDF);
+    window.open(editLink, '_blank');
+
+}
+
 
 window.addEventListener("load", (event) => {
 
@@ -189,7 +215,7 @@ window.addEventListener("load", (event) => {
         document.getElementById(`${element}`).addEventListener("change", function() {
             //console.log($(this).value)
             data = $('#companiesReportSearchForm').serialize();
-            //console.log(data)
+            // console.log(data)
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
@@ -212,6 +238,7 @@ window.addEventListener("load", (event) => {
                     //console.log("all has done")
                     document.getElementById('loaderContainer').hidden = true;
                     semester = document.getElementById('semester').value;
+                    document.getElementById('test').value = response.data;
                     reportTitle=""
                     if(semester==0){
                         reportTitle = `تقرير الشركات لجميع الفصول`

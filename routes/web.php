@@ -78,7 +78,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/places/training/branches' , [App\Http\Controllers\UserController::class, 'places_training_branches'])->name('admin.users.places.training.branches');
             Route::post('/places/training/departments' , [App\Http\Controllers\UserController::class, 'places_training_departments'])->name('admin.users.places.training.departments');
             Route::post('/places/training/add' , [App\Http\Controllers\UserController::class, 'places_training_add'])->name('admin.users.places.training.add');
-            Route::post('/training/place/delete' , [App\Http\Controllers\UserController::class, 'training_place_delete'])->name('admin.users.training.place.delete');
+            Route::post('/places/training/delete' , [App\Http\Controllers\UserController::class, 'places_training_delete'])->name('admin.users.places.training.delete');
+            Route::post('/places/training/edit' , [App\Http\Controllers\UserController::class, 'places_training_edit'])->name('admin.users.places.training.edit');
+            Route::post('/places/training/edit/branch' , [App\Http\Controllers\UserController::class, 'places_training_edit_branch'])->name('admin.users.places.training.edit.branch');
+            Route::post('/places/training/update' , [App\Http\Controllers\UserController::class, 'places_training_update'])->name('admin.users.places.training.update');
             Route::post('/training/place/update/file_agreement' , [App\Http\Controllers\UserController::class, 'training_place_update_file_agreement'])->name('admin.users.training.place.update.file_agreement');
             Route::get('/training/place/delete/file_agreement/{sc_id}' , [App\Http\Controllers\UserController::class, 'training_place_delete_file_agreement'])->name('admin.users.training.place.delete.file_agreement');
             Route::get('/students/attendance/{id}' , [App\Http\Controllers\UserController::class, 'students_attendance'])->name('admin.users.students.attendance');
@@ -184,7 +187,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/companiesReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReport'])->name('monitor_evaluation.companiesReport');
         Route::post('/semesterReportAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'semesterReportAjax'])->name('monitor_evaluation.semesterReportAjax');
         Route::post('/companiesReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReportSearch'])->name('monitor_evaluation.companiesReportSearch');
-
+        Route::get('/semesterReportPDF/{data}' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'semesterReportPDF'])->name('monitor_evaluation.semesterReportPDF');
+        Route::post('/companiesReportPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReportPDF'])->name('monitor_evaluation.companiesReportPDF');
+        Route::post('/companiesReportPDFPost' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReportPDFPost'])->name('monitor_evaluation.companiesReportPDFPost');
+        Route::get('/companiesPaymentsReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesPaymentsReport'])->name('monitor_evaluation.companiesPaymentsReport');
+        Route::post('/companyPaymentDetailes' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyPaymentDetailes'])->name('monitor_evaluation.companyPaymentDetailes');
+        Route::post('/companiesPaymentsSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesPaymentsSearch'])->name('monitor_evaluation.companiesPaymentsSearch');
+        Route::get('/paymentsReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'paymentsReport'])->name('monitor_evaluation.paymentsReport');
+        Route::post('/paymentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'paymentsReportSearch'])->name('monitor_evaluation.paymentsReportSearch');
     });
 
     Route::group(['prefix' => 'company_manager'], function () {

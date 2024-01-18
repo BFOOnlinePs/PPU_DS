@@ -22,4 +22,8 @@ class Payment extends Model
     {
         return $this->belongsTo(Currency::class, 'p_currency_id' , 'c_id');
     }
+    public function payments()
+    {
+        return $this->belongsTo(Company::class, 'p_company_id' , 'c_id');
+    }
 }

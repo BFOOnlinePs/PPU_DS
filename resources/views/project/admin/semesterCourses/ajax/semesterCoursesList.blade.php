@@ -5,7 +5,7 @@
                 <tr>
                     <th scope="col" style="display:none;">id</th>
                     <th scope="col"> {{__('translate.Academic year')}}{{-- العام الدراسي --}}</th>
-                    <th scope="col">{{__('translate.Term')}}{{-- الفصل --}}</th>
+                    <th scope="col">{{__('translate.Semester')}}{{-- الفصل الدراسي--}}</th>
                     <th scope="col">{{__('translate.Course name')}} {{-- اسم المساق --}}</th>
                     <th scope="col">{{__('translate.Course code')}}{{-- رمز المساق --}}</th>
                     <th scope="col">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</th>

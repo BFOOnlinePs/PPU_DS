@@ -27,7 +27,7 @@
                         @if( $key->c_course_type == 1) <td>{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
                         @if( $key->c_course_type == 2) <td>{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</td>@endif
                         <td id="table_buttons_{{$key->c_id}}">
-                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-info"></i></button>
                             <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
                         </td>
                     </tr>

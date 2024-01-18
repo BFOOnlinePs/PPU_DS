@@ -1,24 +1,38 @@
-@if ($data->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</h6>
-@else
-    <table class="table table-bordered table-striped">
-        <thead>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{{__('translate.Course')}}{{-- المساق --}}</th>
+            <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+            <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
+            <th>حالة التدريب</th>
+            <th>{{__('translate.Approval file')}} {{-- ملف الموافقة --}}</th>
+            <th>{{__('translate.Operations')}} {{-- العمليات --}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if ($data->isEmpty())
             <tr>
-                <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
-                <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
-                <th>{{__('translate.Attachment file')}} {{-- الملف المرفق --}}</th>
-                <th>{{__('translate.Operations')}} {{-- العمليات --}}</th>
+                <td colspan="6" class="text-center"><span>{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
             </tr>
-        </thead>
-        <tbody>
+        @else
             @foreach($data as $studentCompany)
-                <tr>
+                <tr class="@if ($studentCompany->sc_status == 3) table-danger @endif">
+                    <td>{{$studentCompany->registrations[0]->courses->c_name}}</td>
                     <td>{{$studentCompany->company->c_name}}</td>
                     @if ($studentCompany->sc_branch_id == null)
-                    <td></td>
+                        <td></td>
                     @else
                         <td>{{$studentCompany->companyBranch->b_address}}</td>
                     @endif
+                    <td>
+                        @if ($studentCompany->sc_status == 1)
+                            نشط
+                        @elseif ($studentCompany->sc_status == 2)
+                            منتهي
+                        @else
+                            محذوف
+                        @endif
+                    </td>
                     <td>
                         @if (!empty($studentCompany->sc_agreement_file))
                             <a href="{{ asset('storage/uploads/'.$studentCompany->sc_agreement_file) }}" class="btn btn-primary fa fa-download btn-xs"  type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="تنزيل ملف الموافقة" download></a>
@@ -43,11 +57,27 @@
                         @endif
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-xs" onclick="delete_training_place_for_student({{$studentCompany->sc_id}})" type="button"><span class="fa fa-trash"></span></button>
+                        @if ($studentCompany->sc_status != 3)
+                            @if ($studentCompany->sc_mentor_trainer_id)
+                                @if ($studentCompany->sc_department_id)
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , '{{$studentCompany->userMentorTrainer->name}}' , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @else
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , '{{$studentCompany->userMentorTrainer->name}}' , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @endif
+                            @else
+                                @if ($studentCompany->sc_department_id)
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @else
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                @endif
+                            @endif
+                            <button class="btn btn-danger btn-xs" onclick="openAlertDelete({{$studentCompany->sc_id}})" type="button"><span class="fa fa-trash"></span></button>
+                        @else
+
+                        @endif
                     </td>
                 </tr>
             @endforeach
-        </tbody>
-    </table>
-@endif
-
+            @endif
+    </tbody>
+</table>

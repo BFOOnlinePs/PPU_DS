@@ -70,6 +70,7 @@
       padding-bottom:10px;
       margin-bottom: 5px; /* Remove default margin-bottom */
       }
+
 </style>
 
 @endsection
@@ -77,6 +78,7 @@
 
 <div class="card" style="padding-left:0px; padding-right:0px; padding-top:0px">
 {{-- <div style="position: absolute; top: 10px; right: 40px;"> <h2>{{$company->c_name}}</h2></div> --}}
+
 <!-- <h3 class="c_name"> {{$company->c_name}}</h3> -->
 
     {{-- <div class="card-header pb-0">
@@ -84,6 +86,10 @@
     </div> --}}
     <div class="card-body" >
     <div class="row text-center">
+            <h2><b>{{$company->c_name}}</b></h2>
+        </div>
+
+        <div class="row text-center">
             <h2><b>{{$company->c_name}}</b></h2>
         </div>
 
@@ -317,6 +323,7 @@
                                   </div>
 
                                   <div class="f1-buttons" id="formButtons" hidden>
+
                                       <button type="submit" id="submit_departments" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
                                   </div>
 
@@ -351,7 +358,9 @@
     <div class="row" id="companyBranches">
     <input hidden id="branches" name="branches" value="{{$company->companyBranch}}">
 
+
             @foreach($company->companyBranch as $key)
+
 
 
                     <div class="col-md-6">
@@ -426,24 +435,26 @@
 
 
 
-    </div>
-    </div>
 
-
+    </div>
     </div>
 
 
-
-    <!-- </div>
-    </div> -->
+    </div>
 
 
-    @include('project.admin.companies.modals.uncompletedCompanyModal')
 
-    @include('project.admin.companies.modals.addBranchModal')
+
+
+        @include('project.admin.companies.modals.uncompletedCompanyModal')
+
+        @include('project.admin.companies.modals.addBranchModal')
+
+        @include('layouts.loader')
 
     @include('layouts.loader')
 </div>
+
 
 @endsection
 
@@ -652,6 +663,7 @@ function info(){
     document.getElementById('department').hidden = true ;
     document.getElementById('branch').hidden = true ;
 }
+
 function department(){
     updateButtonClasses('btn2');
 
@@ -669,7 +681,7 @@ function department(){
     // for(i=0;i<departmentsArray.length;i++){
     //     departments.push(departmentsArray[i]);
     // }
- console.log("departments")
+    console.log("departments")
     console.log(departments)
 
 }
@@ -694,10 +706,9 @@ function branch(){
 
 
 }
+
 function addBranch(){
-
-         $('#AddBranchModal').modal('show');
-
+    $('#AddBranchModal').modal('show');
 }
 EditCompanyInfoForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -746,6 +757,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                     
 
 
+    console.log(requiredInputs)
 
                 },
                 //new
@@ -758,36 +770,56 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
             });
         }
 
+    requiredInputs.forEach(function(currentElement) {
+        // Do something with the current element
+        console.log(currentElement.value);  // You can access properties like 'value', 'id', etc.
+
+        if(currentElement.value==""){
+            if_submit = false;
+            $(currentElement).addClass('input-error');
+        }
+        else{
+            $(currentElement).removeClass('input-error');
+        }
+
+    });
+
+
+
+    if(if_submit){
+        // Send an AJAX request with the CSRF token
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
         });
-        addBranchForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            depArr=[];
-            ms_departments = $('#departments1').val();
-            console.log(ms_departments)
-            depArr = JSON.stringify($('#departments1').val());
 
-            console.log("ms_departments")
+        // Send an AJAX request
+        $.ajax({
+            //new
+            beforeSend: function(){
+                $('#LoadingModal').modal('show');
+            },
+            type: 'POST',
+            url: "{{ route('admin.companies.update') }}",
+            data: data,
+            success: function(response) {
+                company = response.company1
+                console.log("company");
+                console.log(company.c_name);
+                $('#info').html(response.view);
+            },
+            //new
+            complete: function(){
+                $('#LoadingModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
 
-                document.getElementById("departmentsList").value = depArr;
-
-
-
-            console.log("data55555")
-            data = $('#addBranchForm').serialize();
-            console.log(data);
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Send an AJAX request with the CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-            // Send an AJAX request
-            $.ajax({
-                //new
-                beforeSend: function(){
+});
 
                     $('#AddBranchModal').modal('hide');
                     $('#LoadingModal').modal('show');
@@ -803,17 +835,37 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                      document.getElementById('address_addB').value ="";
                      document.getElementById('departments1').value ="";
 
+    // Send an AJAX request with the CSRF token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    });
 
+            // Send an AJAX request
+    $.ajax({
+        //new
+        beforeSend: function(){
+            $('#AddBranchModal').modal('hide');
+            $('#LoadingModal').modal('show');
+        },
+        type: 'POST',
+        url: "{{ route('admin.companies.createBranchesEdit') }}",
+        data: data,
+       // dataType: 'json',
+        success: function(response) {
+             $('#companyBranches').html(response.view);
+        },
+        //new
+        complete: function(){
+            $('#LoadingModal').modal('hide');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
 
-                },
-                //new
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
+});
 
         });
         function submitEditCompanyBranches(data){
@@ -873,7 +925,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
 
 
 
-        EditCompanyDepartments.addEventListener("submit", (e) => {
+EditCompanyDepartments.addEventListener("submit", (e) => {
             e.preventDefault();
             data = $('#EditCompanyDepartments').serialize();
             console.log(data);
@@ -913,6 +965,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
             });
 
         });
+
 
 function completeCompany(index){
 

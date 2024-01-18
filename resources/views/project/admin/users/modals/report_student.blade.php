@@ -24,17 +24,22 @@
                                                 @if (!empty($student_report->sr_attached_file))
                                                     <a href="{{ asset('storage/student_reports/'.$student_report->sr_attached_file) }}" type="button" download>{{__('translate.Download attachment file with report')}}{{-- تنزيل الملف المرفق مع التقرير --}}</a>
                                                 @endif
-                                                <label>ملاحظات المشرف</label>
-                                                <textarea cols="100" rows="5" id="sr_notes">{{$student_report->sr_notes}}</textarea>
+                                                <br>
+                                                @if (auth()->user()->u_role_id == 3)
+                                                    <label>ملاحظات المشرف</label>
+                                                    <textarea cols="100" rows="5" id="sr_notes">{{$student_report->sr_notes}}</textarea>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                         </div>
                     </div>
-                    <div class="modal-footer ">
-                        <button type="submit" class="btn btn-primary" onclick="submit_notes_supervisor({{$student_report->sr_id}})">إرسال ملاحظات المشرف</button>
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
-                    </div>
+                    @if (auth()->user()->u_role_id == 3)
+                        <div class="modal-footer ">
+                            <button type="submit" class="btn btn-primary" onclick="submit_notes_supervisor({{$student_report->sr_id}})">إرسال ملاحظات المشرف</button>
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
+                        </div>
+                    @endif
                 </form>
             </div>
         </div>

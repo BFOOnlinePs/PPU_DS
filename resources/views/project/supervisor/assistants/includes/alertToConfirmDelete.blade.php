@@ -1,4 +1,4 @@
-<div class="modal" id="confirmDeleteModal">
+<div class="modal" id="confirmDeleteTraining">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

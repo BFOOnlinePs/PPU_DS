@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="border: none;">
             <div class="modal-header" style="height: 73px;">
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" onclick="close_add_modal()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row p-3 m-5">
@@ -23,13 +23,17 @@
                                 @elseif($role_name == 'مدير شركة')
                                     {{__('translate.Company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
-                                {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
                                 @endif
                             </h1>
                             <hr>
                             <p id="p_modal_add_user">
                                 {{__('translate.In this section, you can add')}} {{-- في هذا القسم يمكنك إضافة --}}
-                                {{__('translate.New')}} {{-- جديد --}}
+                                @if (app()->getLocale() == 'en')
+                                    {{__('translate.new')}} {{-- جديد --}}
+                                @endif
                                 @if ($role_name == 'أدمن')
                                     {{__('translate.Administrator')}} {{-- أدمن --}}
                                 @elseif($role_name == 'طالب')
@@ -44,6 +48,11 @@
                                     {{__('translate.Company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
                                     {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                @elseif($role_name == 'مسؤول التواصل مع الشركات')
+                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
+                                @endif
+                                @if (app()->getLocale() == 'ar')
+                                    {{__('translate.new')}} {{-- جديد --}}
                                 @endif
                                 </p>
                         </div>
@@ -76,12 +85,13 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="selectbasic"> {{__('translate.Major')}} {{-- التخصص --}}</label>
                                                 <div class="col-lg-12">
-                                                    <select id="u_major_id" name="u_major_id" class="form-control btn-square col-sm-12" tabindex="10" autofocus>
+                                                    <select autofocus class="js-example-basic-single col-sm-12" id="u_major_id" name="u_major_id" tabindex="10" required>
+                                                        <option value=""></option>
                                                         @foreach ($major as $item)
                                                             <option value="{{$item->m_id}}">{{$item->m_name}}</option>
                                                         @endforeach
-                                                </select>
-                                            </div>
+                                                    </select>
+                                                </div>
                                             </div>
                                             @endif
                                         </div>
@@ -95,7 +105,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Email')}}* {{-- البريد الإلكتروني --}}</label>
                                             <div class="col-lg-12">
-                                                <input @if ($u_role_id >= 1 && $u_role_id <= 5) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
+                                                <input @if (($u_role_id >= 1 && $u_role_id <= 5) || $u_role_id == 8) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
                                                 <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.The email already exists')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
                                             </div>
                                         </div>
@@ -156,10 +166,10 @@
                         @elseif($role_name == 'مسؤول تدريب')
                             {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
                         @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                            {{__('translate.Communications manager with companies')}} {{-- مسسؤول التواصل مع الشركات --}}
+                            {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
                         @endif
                     </button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="close_add_modal()">
                         {{__('translate.Cancel')}} {{-- إلغاء --}}
                     </button>
                 </div>

@@ -463,6 +463,20 @@ class CompaniesController extends Controller
         ]);
     }
 
+    public function checkEmailEdit(Request $request)
+    {
+        $user_email = User::where('email', $request->email)->first();
+        if($user_email && ($user_email->email != $request->existEmail)) {
+        // if($user_email) {
+            return response()->json([
+                'status' => 'true'
+            ]);
+        }
+        else {
+            return response()->json(['status' => 'false']);
+        }
+    }
+
 
 
 public function branch(Request $request){

@@ -15,6 +15,4 @@ class CompanyDepartment extends Model
     // {
     //     return $this->hasMany(StudentCompany::class, 'sc_department_id', 'd_id');
     // }
-
-
 }

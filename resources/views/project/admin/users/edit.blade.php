@@ -57,13 +57,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">{{__('translate.Username')}} {{-- اسم المستخدم --}} * </label>
-                                    <input class="form-control" type="text" name="u_username" value="{{ $user->u_username }}" required @if (auth()->user()->u_role_id == 2) readonly @endif>
+                                    <input class="form-control" type="text" name="u_username" id="username" value="{{ $user->u_username }}" required @if (auth()->user()->u_role_id == 2) readonly @endif @if ($role_id->r_id != 7 && $role_id->r_id != 6 && $role_id->r_id != 1) onchange="ppu_edu_ps()" @endif>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">{{__('translate.Email')}} {{-- البريد الإلكتروني --}} * </label>
-                                    <input class="form-control" type="email" name="email" value="{{ $user->email }}" required @if (auth()->user()->u_role_id == 2) readonly @endif>
+                                    <input class="form-control" type="email" id="email" name="email" value="{{ $user->email }}" required @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -126,51 +126,6 @@
                                 @endif
                                     </div>
                             </div>
-                            @if (auth()->user()->u_role_id != 2)
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="form-label">{{__('translate.Role')}} {{-- الدور --}}</label>
-                                        <select  class="form-control" name="u_role_id" id="">
-                                            <option value="{{$role_id->r_id}}">
-                                                @if ($role_id->r_name == 'أدمن')
-                                                    {{__('translate.Administrator')}} {{-- أدمن --}}
-                                                @elseif($role_id->r_name == 'طالب')
-                                                    {{__('translate.Student')}} {{-- طالب --}}
-                                                @elseif($role_id->r_name == 'مشرف أكاديمي')
-                                                    {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
-                                                @elseif($role_id->r_name == 'مساعد إداري')
-                                                    {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
-                                                @elseif($role_id->r_name == 'مسؤول متابعة وتقييم')
-                                                    {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
-                                                @elseif($role_id->r_name == 'مدير شركة')
-                                                    {{__('translate.Company manager')}} {{-- مدير شركة --}}
-                                                @elseif($role_id->r_name == 'مسؤول تدريب')
-                                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
-                                                @endif
-                                            </option>
-                                            @foreach ($roles as $role)
-                                                <option value="{{$role->r_id}}">
-                                                    @if ($role->r_name == 'أدمن')
-                                                        {{__('translate.Administrator')}} {{-- أدمن --}}
-                                                    @elseif($role->r_name == 'طالب')
-                                                        {{__('translate.Student')}} {{-- طالب --}}
-                                                    @elseif($role->r_name == 'مشرف أكاديمي')
-                                                        {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
-                                                    @elseif($role->r_name == 'مساعد إداري')
-                                                        {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
-                                                    @elseif($role->r_name == 'مسؤول متابعة وتقييم')
-                                                        {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
-                                                    @elseif($role->r_name == 'مدير شركة')
-                                                        {{__('translate.Company manager')}} {{-- مدير شركة --}}
-                                                    @elseif($role->r_name == 'مسؤول تدريب')
-                                                        {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
-                                                    @endif
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            @endif
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">{{__('translate.Home address')}} {{-- عنوان السكن --}}</label>
@@ -184,7 +139,7 @@
                                         @if (auth()->user()->u_role_id == 2)
                                             <input class="form-control" type="text" value="{{$major_id->m_name}}" readonly>
                                         @else
-                                            <select  class="form-control" name="u_major_id" id="">
+                                            <select name="u_major_id" class="js-example-basic-single col-sm-12 form-control">
                                                 <option value="{{$major_id->m_id}}">{{$major_id->m_name}}</option>
                                                 @foreach ($majors as $major)
                                                     <option value="{{$major->m_id}}">{{$major->m_name}}</option>
@@ -196,6 +151,7 @@
                             </div>
                             @if (auth()->user()->u_role_id != 2)
                                 <div class="card-footer text-end">
+                                    <input type="hidden" name="u_role_id" value="{{$role_id->r_id}}">
                                     <button class="btn btn-primary" type="submit">{{__('translate.Save changes')}} {{-- حفظ التعديلات --}}</button>
                                 </div>
                             @endif
@@ -208,5 +164,13 @@
 </div>
 @endsection
 @section('script')
+    <script>
+        function ppu_edu_ps()
+        {
+            let email = document.getElementById('email');
+            let username = document.getElementById('username');
+            email.value = username.value + "@ppu.edu.ps";
+        }
+    </script>
 
 @endsection

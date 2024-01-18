@@ -56,6 +56,10 @@ class StudentCompany extends Model
     {
         return $this->hasMany(StudentAttendance::class, 'sa_student_company_id', 'sc_id');
     }
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class, 'r_id', 'sc_registration_id');
+    }
 
 
 }

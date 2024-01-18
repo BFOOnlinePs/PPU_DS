@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Term')}}{{-- الفصل --}}</label>
+                            <label for="f1-last-name">{{__('translate.Semester')}}{{-- الفصل الدراسي--}}</label>
                             <select id="semester" name="semester" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>

@@ -33,10 +33,14 @@
 
 @section('content')
 
-
 <div class="card" style="padding-left:0px; padding-right:0px;">
 
     <div class="card-body" >
+
+        <div class="mb-3">
+            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" onclick="showSemesterPDF()"><i class="fa fa-file-pdf-o"></i> ملف التقرير </button>
+            {{-- <a href="{{ route('monitor_evaluation.semesterReportPDF', ['data' => base64_encode(serialize($pdf))]) }}" class="btn btn-primary">Generate PDF</a> --}}
+        </div>
 
         <!--loading whole page-->
         <div class="loader-container loader-box" id="loaderContainer" hidden>
@@ -47,7 +51,6 @@
         <form id="searchForm" action="" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
-
 
 
                 <div class="col-md-5">
@@ -63,7 +66,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="col-md-5">
                     <div class="form-group">
@@ -121,12 +123,10 @@
                         {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
 
-
                   </tbody>
                 </table>
             </div>
         </div>
-
 
 
     </div>
@@ -134,16 +134,37 @@
 
 
 
-
 </div>
-
 
 @endsection
 @section('script')
 
 <script>
 
+    var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
+
+    function pdfLink(data){
+
+        //href="{{ route('monitor_evaluation.semesterReportPDF', ['data' => base64_encode(serialize($pdf))]) }}"
+        var encodedPdfData = "<?php echo base64_encode(serialize($pdf)); ?>";
+
+        var editLink = "{{ route('monitor_evaluation.semesterReportPDF', ['data' => 'dataArr']) }}";
+
+        //var encodedData = encodeURIComponent(JSON.stringify(pdfData));
+
+        editLink = editLink.replace('dataArr', data);
+        //document.getElementById("pdfButton").setAttribute("href",editLink);
+        return editLink
+    }
+
+    function showSemesterPDF(){
+        editLink = pdfLink(dataPDF);
+        window.open(editLink, '_blank');
+    }
+
     window.addEventListener("load", (event) => {
+        // dataPDF = {!! json_encode($pdf, JSON_HEX_APOS) !!}
+
         var semester = {!! json_encode($semester, JSON_HEX_APOS) !!}
         //console.log(semesterNum)
         //var semester;
@@ -183,6 +204,8 @@
                 dataType: 'json',
                 success: function(response) {
                     console.log("all has done")
+                    dataPDF = response.pdf;
+                    console.log(dataPDF)
                     document.getElementById('loaderContainer').hidden = true;
                     $('#semsterReportTable').html(response.view);
 
@@ -198,15 +221,15 @@
 
                     x = `تقرير الفصل ${semester} للعام الدراسي ${year}`
                     $('#semsterReportTableTitle').html(x);
+
+
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 }
             });
 
-
     });
-
 
 
 
