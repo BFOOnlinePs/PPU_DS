@@ -22,7 +22,7 @@
                         </div>
 
                          <div class="col-md-6">
-                            <form class="form-horizontal" id="addBranchForm" action="" method="POST" enctype="multipart/form-data">
+                            <form class="form-horizontal" id="addBranchForm"  enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-8">
@@ -52,7 +52,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
                                             <div class="col-lg-12">
-                                                <input  tabindex="4" id="address" type="text" name="address"
+                                                <input  tabindex="4" id="address_addB" type="text" name="address_addB"
                                                     class="form-control btn-square input-md">
 
                                             </div>

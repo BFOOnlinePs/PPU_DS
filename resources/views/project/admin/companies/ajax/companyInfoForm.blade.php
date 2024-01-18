@@ -1,8 +1,5 @@
 
-
-<div id ="info">
-                <form id="EditCompanyInfo" method="post">
-
+<div id="editCompanyForm">
             <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -36,7 +33,7 @@
 
                 </div>
 
-
+    </div>
 
 
 
@@ -63,7 +60,8 @@
                             </div>
                     </div>
                 </div>
-    </div>
+    
+  
 
                 <div class="row">
 
@@ -116,14 +114,5 @@
 
                 <input hidden id="manager_id" name="manager_id" value="{{$company->manager->u_id}}">
                 <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
-                <div class="f1-buttons">
-                    <button type="submit" id="submit" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
-                                </div>
-
-    </form>
-                </div>
-
-
-
+</div>
 
