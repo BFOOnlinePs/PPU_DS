@@ -97,7 +97,7 @@
 
 
                     <div class="column">
-                        <h1 class="text">{{__('translate.Dual studies')}}{{-- الدراسات الثنائية --}}</h1>
+                        <h1 class="text">{{__('translate.Dual Studies')}}{{-- الدراسات الثنائية --}}</h1>
                         <h3 class="text">{{__('translate.Palestine Polytechnic University')}}{{-- جامعة بوليتكنك فلسطين --}}</h3>
                         <img class="photo" src="{{ asset('assets/images/ds-ppu.png') }}" alt="Centered Photo">
                         <br>
