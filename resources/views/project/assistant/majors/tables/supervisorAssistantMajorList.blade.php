@@ -5,7 +5,7 @@
         <thead>
             <tr>
                 <th>{{__('translate.Majors')}} {{-- التخصص --}}</th>
-                <th>{{__('translate.Displaying students of major')}} {{-- عرض طلاب التخصص --}}</th>
+                <th>{{__('translate.Display Major Students')}} {{-- عرض طلاب التخصص --}}</th>
             </tr>
         </thead>
         <tbody>

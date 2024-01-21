@@ -5,9 +5,9 @@
                 <tr>
                     <th scope="col" style="display:none;">id</th>
                     <th scope="col">{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
-                    <th scope="col">{{__('translate.Manager of the company')}}{{-- مدير الشركة --}}</th>
+                    <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                     <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
-                    <th scope="col">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</th>
+                    <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
                     <th scope="col">إجمالي الطلاب</th>
 
                 </tr>

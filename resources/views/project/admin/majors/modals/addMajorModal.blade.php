@@ -26,7 +26,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="mb-3 row">
-                                                <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major's name")}} {{-- اسم التخصص --}}<span style="color: red">*</span></label>
+                                                <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major Name")}} {{-- اسم التخصص --}}<span style="color: red">*</span></label>
                                                 <div class="col-lg-12">
                                                    <input id="m_name" type="text"  class="form-control btn-square input-md" name="m_name" autofocus oninput="validateInput(this)">
                                                 </div>

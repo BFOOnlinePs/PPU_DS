@@ -9,9 +9,9 @@
                         <div class="row p-3 m-5">
                             <div class="col-md-4 text-center" >
                                 <h1><span class="fa fa-file-text" style="text-align: center; font-size:80px; "></span></h1>
-                                <h3>{{__('translate.View student report')}}{{-- عرض تقرير الطالب --}}</h3>
+                                <h3>{{__('translate.Display Student Report')}}{{-- عرض تقرير الطالب --}}</h3>
                                 <hr>
-                                <p>{{__('translate.In this section, you can view student report')}}{{-- في هذا القسم يمكنك عرض تقرير الطالب --}}</p>
+                                <p>{{__("translate.In this section, you can display student's report")}}{{-- في هذا القسم يمكنك عرض تقرير الطالب --}}</p>
                             </div>
                             <div class="col-md-8">
                                 <form class="form-horizontal" id="editStudentReportForm" enctype="multipart/form-data">
@@ -19,10 +19,10 @@
                                     @method('post')
                                     <div class="row">
                                             <div class="col-md-6">
-                                                <label>{{__('translate.The report')}}{{-- التقرير --}}</label>
+                                                <label>{{__('translate.Report')}}{{-- التقرير --}}</label>
                                                 <textarea name="" id="" cols="100" rows="5" readonly>{{$student_report->sr_report_text}}</textarea>
                                                 @if (!empty($student_report->sr_attached_file))
-                                                    <a href="{{ asset('storage/student_reports/'.$student_report->sr_attached_file) }}" type="button" download>{{__('translate.Download attachment file with report')}}{{-- تنزيل الملف المرفق مع التقرير --}}</a>
+                                                    <a href="{{ asset('storage/student_reports/'.$student_report->sr_attached_file) }}" type="button" download>{{__('translate.Download Report Attachment')}}{{-- تنزيل الملف المرفق مع التقرير --}}</a>
                                                 @endif
                                                 <br>
                                                 @if (auth()->user()->u_role_id == 3)

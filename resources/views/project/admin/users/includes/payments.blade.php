@@ -1,12 +1,12 @@
 @if ($payments->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.There are no payments for this student')}}{{-- لا يوجد دفعات لهذا الطالب --}}</h6>
+    <h6 class="alert alert-danger">{{__('translate.This student has no payments')}}{{-- لا يوجد دفعات لهذا الطالب --}}</h6>
 @else
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>{{__('translate.The username that added a payment')}} {{-- اسم المستخدم الذي قام بإضافة دفعة --}}</th>
-                <th>{{__('translate.Amount value')}} {{-- قيمة المبلغ --}}</th>
-                <th>{{__('translate.The reference number')}} {{-- الرقم المرجعي --}}</th>
+                <th>{{__('translate.User who added payment')}} {{-- اسم المستخدم الذي قام بإضافة دفعة --}}</th>
+                <th>{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</th>
+                <th>{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</th>
                 <th>{{__('translate.Payment status')}} {{-- حالة الدفعة --}}</th>
                 <th>{{__('translate.Student notes')}} {{-- ملاحظات الطالب --}}</th>
                 <th>{{__('translate.Company manager notes')}} {{-- ملاحظات مدير الشركة --}}</th>

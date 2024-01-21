@@ -11,7 +11,7 @@
         @if(session('success'))
             <div class="alert alert-success">
                 @if (session('success') == 'تم تعديل بيانات هذا المستخدم بنجاح')
-                    {{__('translate.The user data has been successfully edited')}}
+                    {{__('translate.User data changes saved')}}
                 @endif
             </div>
         @endif
@@ -35,7 +35,7 @@
                         @if (auth()->user()->u_role_id == 2) {{-- Student --}}
                             <h4 class="card-title mb-0">{{__('translate.Profile')}} {{-- الملف الشخصي --}}</h4>
                         @else
-                            <h4 class="card-title mb-0">{{__('translate.User information modification')}} {{-- تعديل معلومات المستخدم --}} | {{ $user->u_username }}</h4>
+                            <h4 class="card-title mb-0">{{__('translate.Edit User Information')}} {{-- تعديل معلومات المستخدم --}} | {{ $user->u_username }}</h4>
                         @endif
                         <div class="card-options">
                             <a class="card-options-collapse" href="#" data-bs-toggle="card-collapse">
@@ -82,13 +82,13 @@
                             @endif
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">{{__('translate.Phone number')}} {{-- رقم الجوال --}} * </label>
+                                    <label class="form-label">{{__('translate.Phone Number')}} {{-- رقم الجوال --}} * </label>
                                     <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}" required @if (auth()->user()->u_role_id == 2) readonly @endif pattern="[0-9]{10}" minlength="10" maxlength="10">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">{{__('translate.Reserve phone number')}} {{-- رقم جوال احتياطي --}}</label>
+                                    <label class="form-label">{{__('translate.Alternative Phone Number')}} {{-- رقم جوال احتياطي --}}</label>
                                     <input class="form-control" type="text" name="u_phone2" value="{{ $user->u_phone2 }}" @if (auth()->user()->u_role_id == 2) readonly @endif pattern="[0-9]{10}" minlength="10" maxlength="10">
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="media">
-                                            <label class="col-form-label m-r-10">{{__('translate.Account activation or deactivation')}} {{-- تفعيل أو تعطيل الحساب --}}</label>
+                                            <label class="col-form-label m-r-10">{{__('translate.Activate or Deactivate Account')}} {{-- تفعيل أو تعطيل الحساب --}}</label>
                                             <div class="media-body text-end">
                                             <label class="switch">
                                                 <input type="checkbox" name="u_status" @if($user->u_status == 1) checked @endif><span class="switch-state"></span>
@@ -128,7 +128,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">{{__('translate.Home address')}} {{-- عنوان السكن --}}</label>
+                                    <label class="form-label">{{__('translate.Residential Address')}} {{-- عنوان السكن --}}</label>
                                     <input class="form-control" type="text" name="u_address" value="{{ $user->u_address }}" @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>

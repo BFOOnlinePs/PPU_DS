@@ -96,7 +96,7 @@
 
         </div>
         <div class="f1"  id="companyForm">
-     
+
 
 <div class="stepwizard mt-5">
                 <div class="stepwizard-row setup-panel">
@@ -190,15 +190,15 @@
                             </div>
                     </div>
                 </div>
-    
-  
+
+
 
                 <div class="row">
 
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Type of company')}} <span style="color: red">*</span>{{-- نوع الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Type')}} <span style="color: red">*</span>{{-- نوع الشركة --}}</label>
                             <select id="c_type" name="c_type" class="form-control btn-square" value="{{$company->c_type}}">
                                 <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
                                 <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
@@ -273,9 +273,9 @@
     </form>
     <div id="similarCompanyDepMessage" style="color:#dc3545" hidden>
                                 <span>يوجد قسم بنفس الاسم الذي قمت بادخاله</span>
-                             
+
                             </div>
-   
+
                                     </div>
                                 </div>
                                 <div class="col-md-4" style="margin-top: 26px;">
@@ -392,7 +392,7 @@
                                         <input hidden id="branchesNumber_{{$key->b_id}}" name="branchedNumber_{{$key->b_id}}" value="{{count($company->companyBranch)}}">
                                         <label for="departments_{{$key->b_id}}">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                                         <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments_{{$key->b_id}}"  multiple>
-                                        @foreach($companyDepartments as $key2)  
+                                        @foreach($companyDepartments as $key2)
                                                       <option value="{{$key2->d_id}}"@foreach($key->companyBranchDepartments as $key3) @if($key3->cbd_d_id==$key2->d_id) selected @endif  @endforeach >{{$key2->d_name}} </option>
                                                    @endforeach
                                                 </select>
@@ -480,7 +480,7 @@ let branches = JSON.parse(document.getElementById('branches').value);
 //                 console.log('Select2 dropdown opened!');
 
 //                 // Your custom code when the dropdown is opened
-              
+
 // //                 var multiselect = this;
 // //                  $(multiselect).empty();
 // //                 console.log("hi");
@@ -497,14 +497,14 @@ let branches = JSON.parse(document.getElementById('branches').value);
 // //                     console.log("f");
 // //                     console.log(options[r]);
 // //                     option.value = options[r].d_id; // Use the actual value from options array
-// //                     // option.selected = true; 
-// //                     $(multiselect).append(option); 
+// //                     // option.selected = true;
+// //                     $(multiselect).append(option);
 // //                     for(x of companyDepValues ){
-                     
+
 // // if(option.value == x.d_id)
 // // option.selected = true;
 // //                     }
-                    
+
 // //                 }
 //             });
 //         });
@@ -681,7 +681,7 @@ function branch(){
     document.getElementById('branch').hidden = false ;
     console.log("fbbb")
     console.log(departments)
-    
+
         //  var multiselect = document.getElementById('departments1');
         //  var options = departments;
         //  for (var r = 0; r < options.length; r++) {
@@ -743,7 +743,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 success: function(response) {
                     $('#editCompanyForm').html(response.view);
                     $('#companyBranches').html(response.branchView);
-                    
+
 
 
 
@@ -830,11 +830,11 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
             console.log("selectedDepartments")
             console.log(selectedDepartments)
             console.log(depArr)
-             document.getElementById("departmentSelectedList_"+data).value = depArr; 
+             document.getElementById("departmentSelectedList_"+data).value = depArr;
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             data = $(editBranchFormIDser).serialize();
             console.log(data);
-            
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
@@ -897,7 +897,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 data: data,
                 success: function(response) {
 
-                                
+
                     $('#DepartmentList').html(response.view);
                     $('#companyBranches').html(response.branchView);
 
@@ -947,7 +947,7 @@ function completeCompany(index){
 function checkCompany(data){
 
     document.getElementById('ok_icon').hidden = true;
-   
+
 
     if(data!="" ){
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -1130,7 +1130,7 @@ function secondStep(){
 function addDepartment()
   {
     document.getElementById('similarCompanyDepMessage').hidden = true;
-    departmentName = document.getElementById('d_name').value;  
+    departmentName = document.getElementById('d_name').value;
     companyDepartments=JSON.parse(document.getElementById('companyDepartments').value);
     let departmentNames =  companyDepartments.map(companyDepartment => companyDepartment.d_name);
 console.log("departmentNames")
@@ -1143,7 +1143,7 @@ console.log("departmentNames")
         console.log("departmentNames")
     console.log(departmentNames)
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    
+
 
 // Send an AJAX request with the CSRF token
 $.ajaxSetup({
@@ -1166,9 +1166,9 @@ $.ajax({
     success: function(response) {
          $('#DepartmentList').html(response.view);
          $('#companyBranches').html(response.branchView);
-      
+
         document.getElementById('d_name').value = "";
-     
+
     //      departments = JSON.parse(document.getElementById('companyDepartments').value);
     //      console.log("departmentsdepartmentsdepartments")
     //      console.log(departments)
@@ -1183,7 +1183,7 @@ $.ajax({
     //            console.log("option")
     //            multiselect.add(option);
     // }
-   
+
     },
     //new
     complete: function(){
@@ -1197,7 +1197,7 @@ $.ajax({
     }
     else {
       if(departmentName==""){
-      
+
            document.getElementById('similarCompanyDepMessage').hidden = false;
          document.querySelector('#similarCompanyDepMessage span').textContent ="الرجاء ملء الحقل*";
 
@@ -1208,12 +1208,12 @@ $.ajax({
          document.querySelector('#similarCompanyDepMessage span').textContent ="يوجد قسم بنفس الاسم الذي قمت بادخاله";
       }
     }
-   
 
 
 
-   
-  
+
+
+
 
 
 

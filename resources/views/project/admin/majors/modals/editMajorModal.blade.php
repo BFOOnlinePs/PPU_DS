@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-edit" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                        <h3>{{__('translate.Modify major')}}{{-- تعديل التخصص --}}</h3>
+                                        <h3>{{__('translate.Edit Major')}}{{-- تعديل التخصص --}}</h3>
 
                                         <hr>
-                                        <p>{{__('translate.In this section, you can modify the desired major')}}{{-- في هذا القسم يمكنك تعديل التخصص المراد --}}</p>
+                                        <p>{{__('translate.In this section, you can edit the major')}}{{-- في هذا القسم يمكنك تعديل التخصص المراد --}}</p>
 
 
                                 </div>
@@ -27,7 +27,7 @@
 
                                         <div class="row">
                                             <div class="mb-3 row">
-                                                <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major's name")}} {{-- اسم التخصص --}}</label>
+                                                <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major Name")}} {{-- اسم التخصص --}}</label>
                                                 <div class="col-lg-12">
                                                    <input id="edit_m_name" type="text" class="form-control btn-square input-md" name="m_name"  autofocus oninput="validateInput(this)">
 
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="modal-footer ">
-                            <button type="submit" class="btn btn-primary" id="edit_major">{{__('translate.Modify major')}}{{-- تعديل التخصص --}}</button>
+                            <button type="submit" class="btn btn-primary" id="edit_major">{{__('translate.Edit Major')}}{{-- تعديل التخصص --}}</button>
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                         </div>
                     </form>

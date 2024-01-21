@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th>{{__('translate.Date')}}{{-- التاريخ --}}</th>
-                    <th>{{__('translate.View report')}} {{-- عرض التقرير --}}</th>
+                    <th>{{__('translate.Display Report')}} {{-- عرض التقرير --}}</th>
                     <th>كتابة ملاحظات</th>
                 </tr>
             </thead>

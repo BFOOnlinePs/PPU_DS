@@ -8,9 +8,9 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-clipboard" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>{{__('translate.Register the student in training')}} {{-- تسجيل الطالب في تدريب --}}</h3>
+                            <h3>{{__('translate.Enroll student in training')}} {{-- تسجيل الطالب في تدريب --}}</h3>
                             <hr>
-                            <p>{{__('translate.In this section, you can register the student in training')}} {{-- في هذا القسم يمكنك تسجيل الطالب في تدريب --}}</p>
+                            <p>{{__('translate.In this section, you can enroll the student in a training')}} {{-- في هذا القسم يمكنك تسجيل الطالب في تدريب --}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addPlacesTrainingForm" enctype="multipart/form-data">
@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.The company')}} {{--  الشركة --}}</label>
+                                            <label for="">{{__('translate.Company')}} {{--  الشركة --}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" id="select-companies" onchange="change_company(this.value)" name="company" required>
                                                 <option value=""></option>
                                                 @foreach ($companies as $company)
@@ -58,7 +58,7 @@
                                         </div>
                                         <br>
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.The department affiliated with the branch')}} {{-- القسم التابع للفرع --}}</label>
+                                            <label for="">{{__('translate.Department Associated with this Branch')}} {{-- القسم التابع للفرع --}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" id="select-departments" name="department" disabled>
                                                 @if ($departments != null)
                                                     <option value=""></option>
@@ -82,13 +82,13 @@
                                     </div>
                                 </div>
                                 <div id="error-container">
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary">{{__('translate.Register the student in training')}} {{-- تسجيل الطالب في تدريب --}}</button>
+                    <button type="submit" class="btn btn-primary">{{__('translate.Enroll student in training')}} {{-- تسجيل الطالب في تدريب --}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="clear_modal_add()">{{__('translate.Cancel')}} {{-- إلغاء --}}</button>
                 </div>
             </form>

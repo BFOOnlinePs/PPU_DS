@@ -21,7 +21,7 @@
 
 <div>
     <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> مساقات الفصل الحالي</button>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span>{{__('translate.The students of the current semester')}}{{-- طلاب الفصل الحالي --}}</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span>{{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -36,7 +36,7 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">{{__('translate.Student ID number')}}{{-- رقم الطالب الجامعي --}}</th>
+                            <th scope="col">{{__('translate.Student University ID')}}{{-- رقم الطالب الجامعي --}}</th>
                             <th scope="col">{{__("translate.Student's name")}}{{-- اسم الطالب --}}</th>
                             <th scope="col">تفاصيل الطالب</th>
                         </tr>

@@ -2,15 +2,15 @@
         <thead>
             <tr>
                 <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
-                <th>{{__('translate.The username that added a payment')}}{{-- اسم المستخدم الَّذي قام بإضافة دفعة --}}</th>
-                <th>{{__('translate.Amount value')}} {{-- قيمة المبلغ --}}</th>
-                <th>{{__('translate.The reference number')}} {{-- الرقم المرجعي --}}</th>
+                <th>{{__('translate.User who added payment')}}{{-- اسم المستخدم الَّذي قام بإضافة دفعة --}}</th>
+                <th>{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</th>
+                <th>{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</th>
             </tr>
         </thead>
         <tbody>
             @if ($payments->isEmpty())
                 <tr>
-                    <td colspan="4" class="text-center"><span>{{__('translate.There are no payments for this student')}}{{-- لا يوجد دفعات لهذا الطالب --}}</span></td>
+                    <td colspan="4" class="text-center"><span>{{__('translate.This student has no payments')}}{{-- لا يوجد دفعات لهذا الطالب --}}</span></td>
                 </tr>
             @else
                 @foreach($payments as $payment)

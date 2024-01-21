@@ -23,9 +23,9 @@
                                 @elseif($role_name == 'مدير شركة')
                                     {{__('translate.Company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
-                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                    {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}
                                 @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
+                                    {{__('translate.Program Coordinator')}} {{-- مسؤول التواصل مع الشركات --}}
                                 @endif
                             </h1>
                             <hr>
@@ -47,9 +47,9 @@
                                 @elseif($role_name == 'مدير شركة')
                                     {{__('translate.Company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
-                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                    {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}
                                 @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
+                                    {{__('translate.Program Coordinator')}} {{-- مسؤول التواصل مع الشركات --}}
                                 @endif
                                 @if (app()->getLocale() == 'ar')
                                     {{__('translate.new')}} {{-- جديد --}}
@@ -106,11 +106,11 @@
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Email')}}* {{-- البريد الإلكتروني --}}</label>
                                             <div class="col-lg-12">
                                                 <input @if (($u_role_id >= 1 && $u_role_id <= 5) || $u_role_id == 8) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
-                                                <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.The email already exists')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
+                                                <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.Email address has already been used')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label" for="textinput"> {{__('translate.Home address')}} {{-- عنوان السكن --}}</label>
+                                            <label class="col-lg-12 form-label" for="textinput"> {{__('translate.Residential Address')}} {{-- عنوان السكن --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_address" name="u_address" type="text" class="form-control btn-square input-md" tabindex="8">
                                             </div>
@@ -124,7 +124,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput"> {{__('translate.Reserve phone number')}} {{-- رقم جوال احتياطي --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput"> {{__('translate.Alternative Phone Number')}} {{-- رقم جوال احتياطي --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_phone2" name="u_phone2" type="text" class="form-control btn-square input-md" tabindex="6" pattern="[0-9]{10}" minlength="10" maxlength="10">
                                             </div>
@@ -164,9 +164,9 @@
                         @elseif($role_name == 'مدير شركة')
                             {{__('translate.Company manager')}} {{-- مدير شركة --}}
                         @elseif($role_name == 'مسؤول تدريب')
-                            {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                            {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}
                         @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                            {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
+                            {{__('translate.Program Coordinator')}} {{-- مسؤول التواصل مع الشركات --}}
                         @endif
                     </button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="close_add_modal()">

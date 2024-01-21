@@ -231,7 +231,7 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Type of company')}}{{-- نوع الشركة --}} <span style="color: red">*</span></label>
+                            <label for="f1-last-name">{{__('translate.Company Type')}}{{-- نوع الشركة --}} <span style="color: red">*</span></label>
                             <select id="c_type" name="c_type" class="form-control btn-square">
                                 <option selected="" disabled="" value="">--اختيار--</option>
                                 <option value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
@@ -482,7 +482,7 @@
                           <td id="category_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</td>
+                          <td class="col-md-3">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</td>
                           <td id="type_summary"></td>
                         </tr>
                         <tr id="description_summary_area" hidden>
