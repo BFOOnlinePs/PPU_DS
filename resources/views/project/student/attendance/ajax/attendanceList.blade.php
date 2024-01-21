@@ -4,10 +4,10 @@
             <th>{{__('translate.Day')}}{{-- اليوم --}}</th>
             <th>{{__('translate.Date')}}{{-- التاريخ --}}</th>
             <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
-            <th>{{__('translate.Departure time')}} {{-- وقت المغادرة --}}</th>
-            <th>{{__('translate.The company')}}{{-- الشركة --}}</th>
-            <th>{{__('translate.View supervisor notes')}}{{-- عرض ملاحظات المشرف --}}</th>
-            <th>{{__('translate.Report submission')}}{{-- تسليم التقرير --}}</th>
+            <th>{{__('translate.Leaving Time')}} {{-- وقت المغادرة --}}</th>
+            <th>{{__('translate.Company')}}{{-- الشركة --}}</th>
+            <th>{{__('translate.Display Supervisor Notes')}}{{-- عرض ملاحظات المشرف --}}</th>
+            <th>{{__('translate.Submit Report')}}{{-- تسليم التقرير --}}</th>
         </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
             <td>{{date("Y-m-d", strtotime($student_attendance->sa_in_time))}}</td>
             <td>{{$student_attendance->sa_in_time}}</td>
             @if (!isset($student_attendance->sa_out_time))
-                <td>{{__('translate.Did not record departure')}} {{-- لم يسجل مغادرة --}}</td>
+                <td>{{__("translate.Didn't Check-Out")}} {{-- لم يسجل مغادرة --}}</td>
             @else
                 <td>{{$student_attendance->sa_out_time}}</td>
             @endif

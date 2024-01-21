@@ -12,7 +12,7 @@
     <tbody>
         @if ($data->isEmpty())
             <tr>
-                <td colspan="6" class="text-center"><span>{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
+                <td colspan="6" class="text-center"><span>{{__('translate.No enrolled trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
             </tr>
         @else
             @foreach($data as $studentCompany)

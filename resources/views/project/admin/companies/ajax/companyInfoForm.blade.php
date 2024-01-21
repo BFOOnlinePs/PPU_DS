@@ -69,15 +69,16 @@
                             </div>
                     </div>
                 </div>
-    
-  
+
+
 
                 <div class="row">
 
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Type of company')}} <span style="color: red">*</span>{{-- نوع الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</label>
+
                             <select id="c_type" name="c_type" class="form-control btn-square" value="{{$company->c_type}}">
                                 <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
                                 <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>

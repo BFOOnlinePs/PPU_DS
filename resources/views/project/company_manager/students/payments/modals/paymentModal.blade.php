@@ -16,7 +16,7 @@
                                 @endif
                             </h6>
                             <hr>
-                            <p>{{__('translate.In this section, you can add payment for student')}}{{-- في هذا القسم يمكنك إضافة دفعة لطالب --}}</p>
+                            <p>{{__('translate.In this section, you can add payment for a student')}}{{-- في هذا القسم يمكنك إضافة دفعة لطالب --}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addPaymentsForm" enctype="multipart/form-data">
@@ -26,11 +26,11 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.Amount value')}} {{-- قيمة المبلغ --}}</label>
+                                            <label for="">{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</label>
                                             <input type="number" step="0.01" name="p_payment_value" id="p_payment_value" class="form-control">
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.The currency')}}{{-- العملة --}}</label>
+                                            <label for="">{{__('translate.Currency')}}{{-- العملة --}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" name="p_currency_id" id="p_currency_id">
                                                 @foreach ($currencies as $currency)
                                                     <option value="{{$currency->c_id}}">{{$currency->c_name}} {{$currency->c_symbol}}</option>
@@ -38,7 +38,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.The reference number')}} {{-- الرقم المرجعي --}}</label>
+                                            <label for="">{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</label>
                                             <input type="text" name="p_reference_id" id="p_reference_id" class="form-control">
                                         </div>
                                     </div>

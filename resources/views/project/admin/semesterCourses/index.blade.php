@@ -41,7 +41,7 @@
                             {{-- <input class="form-control" id="semester" name="semester"> --}}
                             <div class="col-lg-12">
                                 <select id="semester" name="semester" class="form-control btn-square">
-                                    <option value="0">{{__('translate.All semesters')}}{{-- جميع الفصول --}}</option>
+                                    <option value="0">{{__('translate.Semesters')}}{{-- جميع الفصول --}}</option>
                                     <option value="1" @if($semester==1) selected @endif>{{__('translate.First')}}{{-- أول --}}</option>
                                     <option value="2" @if($semester==2) selected @endif>{{__('translate.Second')}}{{-- ثاني --}}</option>
                                     <option value="3" @if($semester==3) selected @endif>{{__('translate.Summer')}}{{-- صيفي --}}</option>

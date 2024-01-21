@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-list" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h1>{{__('translate.Review course')}}{{-- استعراض مساق --}}</h1>
+                                <h1>{{__('translate.Display Course')}}{{-- استعراض مساق --}}</h1>
 
                                 <hr>
-                                <p>{{__('translate.In this section, you can review course data')}} {{-- في هذا القسم يمكنك استعراض البيانات الخاصة بالمساقات --}}</p>
+                                <p>{{__('translate.In this section, you can display course data')}} {{-- في هذا القسم يمكنك استعراض البيانات الخاصة بالمساقات --}}</p>
 
 
                         </div>

@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-edit" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h1>{{__('translate.Modify course')}}{{-- تعديل المساق --}}</h1>
+                                <h1>{{__('translate.Edit Course')}}{{-- تعديل المساق --}}</h1>
 
                                 <hr>
-                                <p>{{__('translate.In this section, you can modify course data')}} {{-- في هذا القسم يمكنك تعديل البيانات الخاصة بالمساق --}}</p>
+                                <p>{{__('translate.In this section, you can Edit Course data')}} {{-- في هذا القسم يمكنك تعديل البيانات الخاصة بالمساق --}}</p>
 
 
                         </div>
@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary" id="edit_course">{{__('translate.Modify course')}}{{-- تعديل المساق --}}</button>
+                    <button type="submit" class="btn btn-primary" id="edit_course">{{__('translate.Edit Course')}}{{-- تعديل المساق --}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>

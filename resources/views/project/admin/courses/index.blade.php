@@ -47,7 +47,7 @@
 
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add course')}}{{-- إضافة مساق --}}</button>
-        <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route("admin.semesterCourses.index")}}"' type="button"><span class="fa fa-book"></span> {{__('translate.Current semester courses')}}{{-- مساقات الفصل الحالي --}}</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route("admin.semesterCourses.index")}}"' type="button"><span class="fa fa-book"></span> {{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}</button>
     </div>
 
 

@@ -55,13 +55,13 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">{{__('translate.Phone number')}} {{-- رقم الجوال --}}</label>
+                                        <label class="form-label">{{__('translate.Phone Number')}} {{-- رقم الجوال --}}</label>
                                         <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">{{__('translate.Reserve phone number')}} {{-- رقم جوال احتياطي --}}</label>
+                                        <label class="form-label">{{__('translate.Alternative Phone Number')}} {{-- رقم جوال احتياطي --}}</label>
                                         <input class="form-control" type="text" name="u_phone2" value="{{ $user->u_phone2 }}" readonly>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">{{__('translate.Home address')}} {{-- عنوان السكن --}}</label>
+                                        <label class="form-label">{{__('translate.Residential Address')}} {{-- عنوان السكن --}}</label>
                                         <input class="form-control" type="text" name="u_address" value="{{ $user->u_address }}" readonly>
                                     </div>
                                 </div>

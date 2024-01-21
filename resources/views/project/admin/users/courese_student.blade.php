@@ -41,7 +41,7 @@
               <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Register a course for the student')}} {{-- تسجيل مساق للطالب --}}</button>
+                            <button class="btn btn-primary btn-sm" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Enroll student in a course')}} {{-- تسجيل مساق للطالب --}}</button>
                         </div>
                     </div>
               </div>

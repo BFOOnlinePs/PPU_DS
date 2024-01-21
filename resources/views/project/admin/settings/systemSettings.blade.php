@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    {{__('translate.System settings')}}{{-- إعدادات النظام --}}
+    {{__('translate.System Settings')}}{{-- إعدادات النظام --}}
 @endsection
 @section('header_title')
-    {{__('translate.System settings')}}{{-- إعدادات النظام --}}
+    {{__('translate.System Settings')}}{{-- إعدادات النظام --}}
 @endsection
 @section('header_title_link')
-    {{__('translate.System settings')}}{{-- إعدادات النظام --}}
+    {{__('translate.System Settings')}}{{-- إعدادات النظام --}}
 @endsection
 @section('header_link')
-    {{__('translate.System settings')}}{{-- إعدادات النظام --}}
+    {{__('translate.System Settings')}}{{-- إعدادات النظام --}}
 @endsection
 
 @section('style')
@@ -48,7 +48,7 @@
         </div>
         <!--//////////////////-->
 
-        <h1>{{__('translate.System settings')}}{{-- إعدادات النظام --}}</h1>
+        <h1>{{__('translate.System Settings')}}{{-- إعدادات النظام --}}</h1>
         <hr>
         <br>
 

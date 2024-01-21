@@ -20,7 +20,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3 row">
-                                                <label for="">{{__('translate.The company')}} {{--  الشركة --}}</label>
+                                                <label for="">{{__('translate.Company')}} {{--  الشركة --}}</label>
                                                 <select autofocus class="js-example-basic-single col-sm-12" id="c_name" name="c_name" disabled>
                                                 </select>
                                             </div>
@@ -42,7 +42,7 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 row">
-                                                <label for="">{{__('translate.The department affiliated with the branch')}} {{-- القسم التابع للفرع --}}</label>
+                                                <label for="">{{__('translate.Department Associated with this Branch')}} {{-- القسم التابع للفرع --}}</label>
                                                 <select autofocus class="js-example-basic-single col-sm-12" id="selectEditDepartment" name="department"  disabled>
                                                 </select>
                                             </div>

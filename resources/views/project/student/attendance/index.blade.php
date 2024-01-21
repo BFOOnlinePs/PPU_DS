@@ -13,7 +13,7 @@
         <div class="col-xl-12">
             <form class="card">
                 <div class="card-header pb-0">
-                    <h4 class="card-title mb-0">{{__('translate.Record attendance and departure')}} {{-- سِجل الحضور و المغادرة --}}</h4>
+                    <h4 class="card-title mb-0">{{__('translate.Attendance Logs')}} {{-- سِجل الحضور و المغادرة --}}</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -26,15 +26,15 @@
                             <label class="from-control digits"></label>
                             <select autofocus class="js-example-basic-single col-sm-12" id="sc_id" onchange="function_to_filltering()">
                                 @if (isset($student_company->company->c_name))
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.The section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 <option value="">جميع الشركات</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.The section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @else
                                 <option value="">جميع الشركات</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.The section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @endif
                             </select>
@@ -51,7 +51,7 @@
                         </div>
                     <hr style="background: white">
                     <div class="row" id="error" style="display: none">
-                        <h6 class="alert alert-danger">{{__('translate.There are no records to display')}}{{-- لا يوجد سجلات لعرضها --}}</h6>
+                        <h6 class="alert alert-danger">{{__('translate.No data to display')}}{{-- لا يوجد سجلات لعرضها --}}</h6>
                     </div>
                     <div class="row" id="content">
                         @include('project.student.attendance.ajax.attendanceList')

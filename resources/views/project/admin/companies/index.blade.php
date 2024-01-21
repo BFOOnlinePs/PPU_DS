@@ -15,8 +15,8 @@
 @section('content')
 
 <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies.company")}}"'><span class="fa fa-plus"></span> {{__('translate.Adding a company')}}{{-- إضافة شركة --}}</button>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies_categories.index")}}"'><span class="fa fa-briefcase"></span> {{__('translate.Categories of companies')}}{{-- تصنيف الشركات --}}</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies.company")}}"'><span class="fa fa-plus"></span> {{__('translate.Add Company')}}{{-- إضافة شركة --}}</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies_categories.index")}}"'><span class="fa fa-briefcase"></span> {{__('translate.Companies Categories')}}{{-- تصنيف الشركات --}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -35,9 +35,9 @@
                         <tr>
                             <th scope="col" style="display:none;">id</th>
                             <th scope="col">{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
-                            <th scope="col">{{__('translate.Manager of the company')}}{{-- مدير الشركة --}}</th>
+                            <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                             <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
-                            <th scope="col">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</th>
+                            <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
                             <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
 
                         </tr>

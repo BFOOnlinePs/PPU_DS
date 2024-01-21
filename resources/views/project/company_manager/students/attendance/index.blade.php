@@ -12,7 +12,7 @@
     <div class="card p-4" >
         <div class="card-header pb-0">
             <input type="hidden" value="{{$id}}" name="student_id" id="student_id">
-            <h4 class="card-title mb-0">{{__('translate.Record attendance and departure')}} {{-- سِجل الحضور و المغادرة --}}</h4>
+            <h4 class="card-title mb-0">{{__('translate.Attendance Logs')}} {{-- سِجل الحضور و المغادرة --}}</h4>
         </div>
         <br>
         <div class="row">
