@@ -1,14 +1,14 @@
 
-<div id="editCompanyForm">
+                <div id="editCompanyForm">
             <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-first-name"> {{__('translate.Company name')}} {{-- اسم الشركة --}}</label>
+                            <label for="f1-first-name"> {{__('translate.Company name')}}  <span style="color: red">*</span> {{-- اسم الشركة --}}</label>
 
                             <div class="input-container">
                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                 <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
-                                <input class="form-control" type="text" id="c_name" name="c_name" value="{{$company->c_name}}" required="" onkeyup="checkCompany(this.value)">
+                                <input class="form-control required" type="text" id="c_name" name="c_name" value="{{$company->c_name}}"  onkeyup="checkCompany(this.value)">
                             </div>
 
                             <div id="similarCompanyMessage" style="color:#dc3545" hidden>
@@ -19,15 +19,16 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Owner')}}{{-- الشخص المسؤول --}}</label>
-                            <input class="f1-last-name form-control" id="name" type="text" name="name" value="{{$company->manager->name}}" required="">
+                            <label for="f1-last-name">{{__('translate.Owner')}}  <span style="color: red">*</span> {{-- الشخص المسؤول --}}</label>
+                            <input class="f1-last-name form-control required" id="name" type="text" name="name" value="{{$company->manager->name}}" >
                         </div>
                     </div>
 
               <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}}</label>
-                            <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" value="{{$company->manager->u_phone1}}" required="">
+                            <label for="f1-last-name">{{__('translate.Company phone number')}} <span style="color: red">*</span>{{-- رقم هاتف الشركة --}}</label>
+                            <input class="f1-last-name form-control required" id="phoneNum" type="text" name="phoneNum" value="{{$company->manager->u_phone1}}" oninput="validateInput(this)">
+                            <div id="errorMessage_phoneNum" style="color:#dc3545" class="error-message"></div>
                         </div>
 
 
@@ -42,21 +43,29 @@
     <div class="row">
                 <div class="col-md-4">
                         <div class=" mb-3 form-group">
-                            <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} </label>
-                            <input class="form-control" id="email" type="text" name="email" value="{{$company->manager->email}}" required="h">
+                            <label for="f1-first-name"> {{__('translate.Email')}} <span style="color: red">*</span>  {{-- البريد الإلكتروني --}} </label>
+                            {{--<input class="form-control required" id="email" type="text" name="email" value="{{$company->manager->email}}"  oninput="validateEmail(this)">--}}
+                            <div class="input-container">
+                                <i id="email_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                <i id="email_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
+                                <input class="form-control required" id="email" type="text" name="email" value="{{$company->manager->email}}" oninput="validateEmail(this)">
+                            </div>
+                            <div id="similarEmailMessage" style="color:#dc3545" hidden>
+                                <span>البريد الإلكتروني موجود بالفعل</span>
+                            </div>
                         </div>
 
                  </div>
                        <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Password')}} {{-- كلمة المرور --}}</label>
-                            <input class="f1-password form-control" id="password" type="password" name="password" >
+                            <input class="f1-password form-control " id="password" type="password" name="password" >
                         </div>
                     </div>
                     <div class="col-md-4">
                             <div class="form-group">
-                                <label for="f1-last-name">{{__('translate.Company address')}}{{-- عنوان الشركة --}}</label>
-                                <input class="f1-last-name form-control" id="address" type="text" name="address" value="{{$company->manager->u_address}}" required="">
+                                <label for="f1-last-name">{{__('translate.Company address')}}<span style="color: red">*</span>{{-- عنوان الشركة --}} </label>
+                                <input class="f1-last-name form-control required" id="address" type="text" name="address" value="{{$company->manager->u_address}}">
                             </div>
                     </div>
                 </div>
@@ -69,6 +78,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</label>
+
                             <select id="c_type" name="c_type" class="form-control btn-square" value="{{$company->c_type}}">
                                 <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
                                 <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
@@ -78,7 +88,7 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company category')}} <span style="color: red">*</span> {{-- تصنيف الشركة --}}</label>
                             <select id="c_category" name="c_category" class="form-control btn-square" value="{{$company->c_category_id}}">
                                 @foreach($categories as $key)
                                    <option value="{{$key->cc_id}}" @if($company->c_category_id == $key->cc_id) selected @endif>{{$key->cc_name}}</option>
@@ -89,7 +99,7 @@
    <div class="col-md-4">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Website')}}{{-- الموقع الإلكتروني --}}</label>
-                            <input  class="form-control" id="c_website" name="c_website" value="{{$company->c_website}}">
+                            <input  class="form-control" id="c_website" name="c_website" value="{{$company->c_website}}" oninput="validateArabicText(this)">
                         </div>
                     </div>
 
@@ -109,10 +119,4 @@
 
 
     </div>
-
-
-
-                <input hidden id="manager_id" name="manager_id" value="{{$company->manager->u_id}}">
-                <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
-</div>
-
+    </div>
