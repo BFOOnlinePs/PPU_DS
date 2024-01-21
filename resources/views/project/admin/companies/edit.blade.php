@@ -854,7 +854,8 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 data: data,
                 dataType: 'json',
                 success: function(response) {
-                    //  $('#companyBranches').html(response.view);
+                     $('#companyBranches').html(response.view);
+                     $('#editCompanyForm').html(response.companyInfoView);
 
 
 
