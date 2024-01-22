@@ -37,7 +37,7 @@
                         <tr>
                             <th scope="col" style="display:none;">id</th>
                             <th scope="col">{{__('translate.Student University ID')}}{{-- رقم الطالب الجامعي --}}</th>
-                            <th scope="col">{{__("translate.Student's name")}}{{-- اسم الطالب --}}</th>
+                            <th scope="col">{{__("translate.Student Name")}}{{-- اسم الطالب --}}</th>
                             <th scope="col">تفاصيل الطالب</th>
                         </tr>
                     </thead>

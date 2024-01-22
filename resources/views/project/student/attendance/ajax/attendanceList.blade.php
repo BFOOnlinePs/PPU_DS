@@ -3,10 +3,10 @@
         <tr>
             <th>{{__('translate.Day')}}{{-- اليوم --}}</th>
             <th>{{__('translate.Date')}}{{-- التاريخ --}}</th>
-            <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
+            <th>{{__('translate.Arrival Time')}} {{-- وقت الوصول --}}</th>
             <th>{{__('translate.Leaving Time')}} {{-- وقت المغادرة --}}</th>
             <th>{{__('translate.Company')}}{{-- الشركة --}}</th>
-            <th>{{__('translate.Display Supervisor Notes')}}{{-- عرض ملاحظات المشرف --}}</th>
+            <th>{{__('translate.Display Academic Supervisor Notes')}}{{-- عرض ملاحظات المشرف --}}</th>
             <th>{{__('translate.Submit Report')}}{{-- تسليم التقرير --}}</th>
         </tr>
     </thead>

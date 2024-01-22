@@ -8,8 +8,8 @@
             <tr>
                 <th scope="col" style="display:none;">id</th>
                 <th scope="col">{{__("translate.Major Name")}} {{-- اسم التخصص --}}</th>
-                <th scope="col">{{__('translate.Major reference code')}} {{-- الرمز المرجعي للتخصص --}}</th>
-                <th scope="col">{{__('translate.Supervisor')}} {{-- المشرف --}}</th>
+                <th scope="col">{{__('translate.Major Reference Code')}} {{-- الرمز المرجعي للتخصص --}}</th>
+                <th scope="col">{{__('translate.Academic Supervisor')}} {{-- المشرف --}}</th>
                 <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
 
             </tr>

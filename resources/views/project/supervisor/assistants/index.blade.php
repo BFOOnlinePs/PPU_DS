@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm" onclick="show_modal_add_assistant()" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Academic Supervisor Assistantt to the Academic Supervisor')}}{{-- إضافة مساعد إداري للمشرف الأكاديمي --}}</button>
+                            <button class="btn btn-primary btn-sm" onclick="show_modal_add_assistant()" type="button"><span class="fa fa-plus"></span>{{__('translate.Assigne assistant to the Academic Supervisor')}}{{-- إضافة مساعد إداري للمشرف الأكاديمي --}}</button>
                         </div>
                     </div>
                 </div>

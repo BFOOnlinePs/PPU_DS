@@ -16,13 +16,13 @@
         <div class="col-md-12">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label class="form-label">{{__('translate.Background color')}}{{-- لون الخلفية --}}:</label>
+                    <label class="form-label">{{__('translate.Background Color')}}{{-- لون الخلفية --}}:</label>
                     <input class="form-control" type="text" id="primary_background_color" onchange="primary_background_color(this.value)" value="{{$background_color}}">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label class="form-label">{{__('translate.Text color')}}{{-- لون الخط --}}:</label>
+                    <label class="form-label">{{__('translate.Text Color')}}{{-- لون الخط --}}:</label>
                     <input class="form-control" type="color" id="primary_font_color" onchange="primary_font_color(this.value)" value="{{$text_color}}">
                 </div>
             </div>

@@ -4,7 +4,7 @@
 <a class=" col m-1 btn btn-primary btn-sm" href="{{route('admin.users.places.training' , ['id'=>$user->u_id])}}">
     <h1 style="font-size: 25px; " class="fa fa-map-marker" ></h1>
     <br>
-{{__('translate.Training places')}} {{-- أماكن التدريب --}}</a>
+{{__('translate.Training Places')}} {{-- أماكن التدريب --}}</a>
 <a class=" col m-1 btn btn-primary btn-sm" href="{{route('admin.users.students.attendance' , ['id'=>$user->u_id])}}">
     <h1 style="font-size: 25px; " class="fa fa-check-square" ></h1>
     <br>

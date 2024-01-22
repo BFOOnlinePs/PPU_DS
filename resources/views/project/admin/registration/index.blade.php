@@ -34,10 +34,10 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">{{__('translate.Course code')}}{{-- رمز المساق --}}</th>
-                            <th scope="col">{{__('translate.Course name')}}{{-- اسم المساق --}}</th>
-                            <th scope="col">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</th>
-                            <th scope="col">{{__('translate.Course type')}}{{-- نوع المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Code')}}{{-- رمز المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Name')}}{{-- اسم المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Type')}}{{-- نوع المساق --}}</th>
                             <th scope="col">{{__("translate.Course's Students")}}{{-- طلاب المساق --}}</th>
                         </tr>
                     </thead>

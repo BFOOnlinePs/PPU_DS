@@ -10,9 +10,9 @@
                             <h1><span class="fa fa-clipboard" style="text-align: center; font-size:80px; "></span></h1>
                             <h6>
                                 @if(app()->getLocale() == 'en')
-                                    {{$name_student}} {{__('translate.Add payment to')}}{{-- إضافة دفعة ل --}}
+                                    {{$name_student}} {{__('translate.Add Payment to')}}{{-- إضافة دفعة ل --}}
                                 @else
-                                    {{__('translate.Add payment to')}}{{$name_student}}{{-- إضافة دفعة ل --}}
+                                    {{__('translate.Add Payment to')}}{{$name_student}}{{-- إضافة دفعة ل --}}
                                 @endif
                             </h6>
                             <hr>
@@ -45,7 +45,7 @@
                                     <div class="col-md-1"></div>
                                     <div class="col-md-5">
                                         <div class="mb-3 row">
-                                            <label for="p_file">{{__('translate.Attachment file')}} {{-- الملف المرفق --}}</label>
+                                            <label for="p_file">{{__('translate.Attachment File')}} {{-- الملف المرفق --}}</label>
                                             <input type="file" name="p_file" id="p_file" class="form-control">
                                         </div>
                                         <div class="mb-3 row">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary">{{__('translate.Add payment')}}{{-- إضافة دفعة --}}</button>
+                    <button type="submit" class="btn btn-primary">{{__('translate.Add Payment')}}{{-- إضافة دفعة --}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>

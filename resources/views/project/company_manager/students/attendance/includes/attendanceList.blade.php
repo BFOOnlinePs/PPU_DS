@@ -3,7 +3,7 @@
         <tr>
             <th>{{__('translate.Day')}}{{-- اليوم --}}</th>
             <th>{{__('translate.Date')}}{{-- التاريخ --}}</th>
-            <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
+            <th>{{__('translate.Arrival Time')}} {{-- وقت الوصول --}}</th>
             <th>{{__('translate.Leaving Time')}} {{-- وقت المغادرة --}}</th>
         </tr>
     </thead>

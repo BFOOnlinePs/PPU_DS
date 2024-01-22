@@ -18,7 +18,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+                        <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
                         <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
                         <th>{{__('translate.Section')}} {{-- القسم --}}</th>
                         <th>{{__('translate.The trainer (from the company)')}}{{-- (المدرب (من الشركة --}}</th>

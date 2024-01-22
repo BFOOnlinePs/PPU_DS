@@ -55,7 +55,7 @@
 @section('content')
 
     <div>
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button" id="openAddModalButton"><span class="fa fa-plus"></span>{{__('translate.Add major')}} {{-- إضافة تخصص --}}</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button" id="openAddModalButton"><span class="fa fa-plus"></span>{{__('translate.Add Major')}} {{-- إضافة تخصص --}}</button>
     </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -83,8 +83,8 @@
                         <tr>
                             <th scope="col" style="display:none;">id</th>
                             <th scope="col">{{__("translate.Major Name")}} {{-- اسم التخصص --}}</th>
-                            <th scope="col">{{__('translate.Major reference code')}} {{-- الرمز المرجعي للتخصص --}}</th>
-                            <th scope="col">{{__('translate.Supervisor')}} {{-- المشرف --}}</th>
+                            <th scope="col">{{__('translate.Major Reference Code')}} {{-- الرمز المرجعي للتخصص --}}</th>
+                            <th scope="col">{{__('translate.Academic Supervisor')}} {{-- المشرف --}}</th>
                             <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
 
                         </tr>

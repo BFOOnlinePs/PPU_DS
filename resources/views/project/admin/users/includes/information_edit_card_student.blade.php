@@ -2,7 +2,7 @@
     <input type="hidden" value="{{$user->u_id}}" id="u_id">
     <div class="card-header pb-0">
         <a href="{{route('admin.users.edit' , ['id'=>$user->u_id])}}" class="fa fa-edit" style="font-size: x-large;"><span></span></a>
-        <h6 class="card-title mb-0">{{__('translate.Main information')}} {{-- المعلومات الأساسية --}}</h6>
+        <h6 class="card-title mb-0">{{__('translate.Main Information')}} {{-- المعلومات الأساسية --}}</h6>
         <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
     </div>
     <div class="card-body">
@@ -40,7 +40,7 @@
             <input class="form-control" value="{{$user->u_address}}" readonly>
         </div>
         <div class="mb-3">
-            <label class="form-label">{{__('translate.Birth date')}} {{-- تاريخ الميلاد --}}</label>
+            <label class="form-label">{{__('translate.Birth Date')}} {{-- تاريخ الميلاد --}}</label>
             <input class="form-control" value="{{$user->u_date_of_birth}}" readonly>
         </div>
         <div class="form-footer">
