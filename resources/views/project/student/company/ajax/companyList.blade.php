@@ -13,7 +13,7 @@
                     <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
                     <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
                     <th>{{__('translate.Section')}} {{-- القسم --}}</th>
-                    <th>{{__('translate.The trainer (from the company)')}}{{-- المدرب (من الشركة) --}}</th>
+                    <th>{{__('translate.Trainer (from the company)')}}{{-- المدرب (من الشركة) --}}</th>
                     <th>{{__('translate.Academic Supervisor Assistant (from the university)')}}{{-- المساعد الإداري (من الجامعة) --}}</th>
                     <th>{{__('translate.Attendance Logs')}}{{-- سِجل الحضور و المغادرة --}}</th>
                     <th id="attendance_id">

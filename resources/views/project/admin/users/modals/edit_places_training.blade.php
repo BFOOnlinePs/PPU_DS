@@ -37,7 +37,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3 row">
-                                                <label for="">{{__('translate.The trainer (from the company)')}} {{-- المدرب من الشركة --}}</label>
+                                                <label for="">{{__('translate.Trainer (from the company)')}} {{-- المدرب من الشركة --}}</label>
                                                 <select autofocus class="js-example-basic-single col-sm-12" id="selectEditTrainer" name="Trainer">
                                                 </select>
                                             </div>
