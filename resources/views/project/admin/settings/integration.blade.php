@@ -27,11 +27,11 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-file-excel-o"></i></div>
-                    <p>{{__('translate.Upload excel file')}}{{-- رفع ملف إكسل --}}</p>
+                    <p>{{__('translate.Upload Excel File')}}{{-- رفع ملف إكسل --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-database"></i></div>
-                    <p>{{__('translate.Columns selection')}}{{-- تحديد الأعمدة --}}</p>
+                    <p>{{__('translate.Columns Selection')}}{{-- تحديد الأعمدة --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-refresh"></i></div>
@@ -44,7 +44,7 @@
                 <div class="row" id="step1">
                     <div class="col-md-6">
                         <div class="mb-3 form-group">
-                            <label for="f1-first-name">{{__('translate.Upload excel file')}}:{{-- رفع ملف إكسل --}}</label>
+                            <label for="f1-first-name">{{__('translate.Upload Excel File')}}:{{-- رفع ملف إكسل --}}</label>
                             <div class="input-container">
                                 <input class="form-control" type="file" id="excel_file" name="excel_file" required="" onchange="upload_excel_file(this)" accept=".xlsx, .xls">
                                 <input type="hidden" id="name_file_hidden">
@@ -59,17 +59,17 @@
                             <div class="card" style="background-color: #fff891">
                                 <ul>
                                     <li>
-                                        {{__('translate.You must upload an Excel file containing the following headings')}}{{-- يجب رفع ملف إكسل تحتوي على العناوين التالية --}} :
+                                        {{__('translate.You must upload Excel file contains the following headings')}}{{-- يجب رفع ملف إكسل تحتوي على العناوين التالية --}} :
                                     </li>
                                     <ul style="list-style-type: circle">
                                         <li>{{__('translate.Year')}}{{-- السنة --}}</li>
-                                        <li>{{__('translate.The semester (1 means the first semester, 2 means the second semester, 3 means the summer semester)')}}{{-- الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي) --}}</li>
-                                        <li>{{__('translate.Student ID number')}}{{-- الرقم الجامعي للطالب --}}</li>
-                                        <li>{{__("translate.Student's name")}}{{-- اسم الطالب --}}</li>
-                                        <li>{{__('translate.Course number')}}{{-- رقم المساق --}}</li>
-                                        <li>{{__('translate.Course name')}}{{-- اسم المساق --}}</li>
-                                        <li>{{__('translate.Major number')}}{{-- رقم التخصص --}}</li>
-                                        <li>{{__("translate.Major's name")}}{{-- اسم التخصص --}}</li>
+                                        <li>{{__('translate.The semester (1 means first semester, 2 means second semester, 3 means summer semester)')}}{{-- الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي) --}}</li>
+                                        <li>{{__('translate.Student University ID')}}{{-- الرقم الجامعي للطالب --}}</li>
+                                        <li>{{__("translate.Student Name")}}{{-- اسم الطالب --}}</li>
+                                        <li>{{__('translate.Course ID')}}{{-- رقم المساق --}}</li>
+                                        <li>{{__('translate.Course Name')}}{{-- اسم المساق --}}</li>
+                                        <li>{{__('translate.Major ID')}}{{-- رقم التخصص --}}</li>
+                                        <li>{{__("translate.Major Name")}}{{-- اسم التخصص --}}</li>
                                     </ul>
                                 </ul>
                             </div>
@@ -101,17 +101,17 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Student ID number')}}{{-- رقم الطالب الجامعي --}}</label>
+                            <label for="f1-last-name">{{__('translate.Student University ID')}}{{-- رقم الطالب الجامعي --}}</label>
                             <select id="student_id" name="student_id" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Course number')}}{{-- رقم المساق --}}</label>
+                            <label for="f1-last-name">{{__('translate.Course ID')}}{{-- رقم المساق --}}</label>
                             <select id="course_id" name="course_id" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Major number')}}{{-- رقم التخصص --}}</label>
+                            <label for="f1-last-name">{{__('translate.Major ID')}}{{-- رقم التخصص --}}</label>
                             <select id="major_id" name="major_id" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
@@ -123,17 +123,17 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__("translate.Student's name")}}{{-- اسم الطالب --}}</label>
+                            <label for="f1-last-name">{{__("translate.Student Name")}}{{-- اسم الطالب --}}</label>
                             <select id="student_name" name="student_name" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Course name')}}{{-- اسم المساق --}}</label>
+                            <label for="f1-last-name">{{__('translate.Course Name')}}{{-- اسم المساق --}}</label>
                             <select id="course_name" name="course_name" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__("translate.Major's name")}}{{-- اسم التخصص --}}</label>
+                            <label for="f1-last-name">{{__("translate.Major Name")}}{{-- اسم التخصص --}}</label>
                             <select id="major_name" name="major_name" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
@@ -149,7 +149,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <h6>{{__("translate.In this section, when clicking on 'Synchronize', the fields are synchronized, establishing integration between the database and the Excel file")}}{{-- في هذا القسم عند الضغط على مزامنة يتم مزامنة الحقول وعمل تكامل ما بين قاعدة البيانات وملف إكسل --}}</h6>
+                                    <h6>{{__("translate.In this section, clicking on 'Synchronize' will update the fields, establishing a seamless integration between the database and the Excel file")}}{{-- في هذا القسم عند الضغط على مزامنة يتم مزامنة الحقول وعمل تكامل ما بين قاعدة البيانات وملف إكسل --}}</h6>
                                     <div id="progress" style="height: 200px; background-color: #fff891 ;overflow: scroll; ">
                                     </div>
                                     <div id="summary">
@@ -353,7 +353,7 @@
         selectOptions.innerHTML = '';
         let option = document.createElement('option');
         option.value = -1;
-        option.text = `{{__('translate.Choose field')}}`; // اختر الحقل
+        option.text = `{{__('translate.Choose Field')}}`; // اختر الحقل
         selectOptions.appendChild(option);
         headers.forEach(function (header) {
             let option = document.createElement('option');

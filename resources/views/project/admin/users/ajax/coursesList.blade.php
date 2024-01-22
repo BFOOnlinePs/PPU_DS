@@ -1,11 +1,11 @@
 @if ($data->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.There are no registered courses')}}{{-- لا يوجد مساقات مسجلة --}}</h6>
+    <h6 class="alert alert-danger">{{__('translate.No courses are currently enrolled')}}{{-- لا يوجد مساقات مسجلة --}}</h6>
 @else
 
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>{{__('translate.Course name')}} {{-- اسم المساق --}}</th>
+            <th>{{__('translate.Course Name')}} {{-- اسم المساق --}}</th>
             <th>{{__('translate.Operations')}} {{--  العمليات --}}</th>
         </tr>
     </thead>

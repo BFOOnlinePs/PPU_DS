@@ -5,7 +5,7 @@
                 {{-- <a href="index.html">
                 <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="">
                 </a> --}}
-                <h6 style="margin-bottom: 0px;">{{__('translate.College of Dual Studies')}}</h6>
+                <h6 style="margin-bottom: 0px;">{{__('translate.Dual Studies College')}}</h6>
             </div>
             <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid"
                         src="{{ asset('assets/images/logo/dark-logo.png') }}" alt=""></a></div>

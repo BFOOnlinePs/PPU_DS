@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th scope="col" style="display:none;">id</th>
-                <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
+                <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                 <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
             </tr>
         </thead>

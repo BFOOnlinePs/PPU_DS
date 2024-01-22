@@ -46,8 +46,8 @@
 @section('content')
 
     <div>
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add course')}}{{-- إضافة مساق --}}</button>
-        <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route("admin.semesterCourses.index")}}"' type="button"><span class="fa fa-book"></span> {{__('translate.Current semester courses')}}{{-- مساقات الفصل الحالي --}}</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course')}}{{-- إضافة مساق --}}</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route("admin.semesterCourses.index")}}"' type="button"><span class="fa fa-book"></span> {{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}</button>
     </div>
 
 
@@ -70,10 +70,10 @@
                         <thead>
                             <tr>
                                 <th scope="col" style="display:none;">id</th>
-                                <th scope="col">{{__('translate.Course name')}} {{-- اسم المساق --}}</th>
-                                <th scope="col">{{__('translate.Course code')}}{{-- رمز المساق --}}</th>
-                                <th scope="col">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</th>
-                                <th scope="col">{{__('translate.Course type')}}{{-- نوع المساق --}}</th>
+                                <th scope="col">{{__('translate.Course Name')}} {{-- اسم المساق --}}</th>
+                                <th scope="col">{{__('translate.Course Code')}}{{-- رمز المساق --}}</th>
+                                <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</th>
+                                <th scope="col">{{__('translate.Course Type')}}{{-- نوع المساق --}}</th>
                                 <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
                             </tr>
                         </thead>

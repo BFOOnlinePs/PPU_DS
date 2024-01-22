@@ -10,17 +10,17 @@
     <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+                    <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
                     <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
-                    <th>{{__('translate.The section')}} {{-- القسم --}}</th>
-                    <th>{{__('translate.The trainer (from the company)')}}{{-- المدرب (من الشركة) --}}</th>
-                    <th>{{__('translate.The administrative assistant (from the university)')}}{{-- المساعد الإداري (من الجامعة) --}}</th>
-                    <th>{{__('translate.Record attendance and departure')}}{{-- سِجل الحضور و المغادرة --}}</th>
+                    <th>{{__('translate.Section')}} {{-- القسم --}}</th>
+                    <th>{{__('translate.Trainer (from the company)')}}{{-- المدرب (من الشركة) --}}</th>
+                    <th>{{__('translate.Academic Supervisor Assistant (from the university)')}}{{-- المساعد الإداري (من الجامعة) --}}</th>
+                    <th>{{__('translate.Attendance Logs')}}{{-- سِجل الحضور و المغادرة --}}</th>
                     <th id="attendance_id">
                         @if ($show_in_buttons)
-                            {{__('translate.Attendance record')}}{{-- تسجيل حضور --}}
+                            {{__('translate.Training Check-In')}}{{-- تسجيل حضور --}}
                         @else
-                            {{__('translate.Departure record')}}{{-- تسجيل مغادرة --}}
+                            {{__('translate.Training Check-Out')}}{{-- تسجيل مغادرة --}}
                         @endif
                     </th>
                 </tr>
@@ -53,9 +53,9 @@
                         <td><a href="{{route('students.company.attendance.index_for_specific_student' , ['id' => $student_company->sc_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-check"></span></a></td>
                         <td>
                             @if ($show_in_buttons)
-                                <button class="btn btn-primary btn-sm" onclick="AttendanceRegistration({{$student_company->sc_id}})" type="button"><span class="fa fa-plus"></span>{{__('translate.Attendance record')}}{{-- تسجيل حضور --}}</button>
+                                <button class="btn btn-primary btn-sm" onclick="AttendanceRegistration({{$student_company->sc_id}})" type="button"><span class="fa fa-plus"></span>{{__('translate.Training Check-In')}}{{-- تسجيل حضور --}}</button>
                             @elseif($sa_student_company_id == $student_company->sc_id)
-                                <button class="btn btn-primary btn-sm" onclick="DepartureRegistration({{$student_company->sc_id}})" type="button"><span class="fa fa-sign-out"></span> {{__('translate.Departure record')}}{{-- تسجيل مغادرة --}} </button>
+                                <button class="btn btn-primary btn-sm" onclick="DepartureRegistration({{$student_company->sc_id}})" type="button"><span class="fa fa-sign-out"></span> {{__('translate.Training Check-Out')}}{{-- تسجيل مغادرة --}} </button>
                             @endif
                         </td>
                     </tr>

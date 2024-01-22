@@ -1,10 +1,10 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
-            <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
-            <th>{{__('translate.Departure time')}} {{-- وقت المغادرة --}}</th>
-            <th>{{__('translate.View report')}} {{-- عرض التقرير --}}</th>
+            <th>{{__("translate.Student Name")}} {{-- اسم الطالب --}}</th>
+            <th>{{__('translate.Arrival Time')}} {{-- وقت الوصول --}}</th>
+            <th>{{__('translate.Leaving Time')}} {{-- وقت المغادرة --}}</th>
+            <th>{{__('translate.Display Report')}} {{-- عرض التقرير --}}</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +18,7 @@
                     <td>{{$record->training->users->name}}</td>
                     <td>{{$record->sa_in_time}}</td>
                     @if (!isset($record->sa_out_time))
-                        <td>{{__('translate.Did not record departure')}}{{-- لم يُسجل مغادرة --}}</td>
+                        <td>{{__("translate.Didn't Check-Out")}}{{-- لم يُسجل مغادرة --}}</td>
                     @else
                         <td>{{$record->sa_out_time}}</td>
                     @endif
@@ -27,7 +27,7 @@
                             <button class="btn btn-primary" onclick="openReportModal('{{$record->report->sr_id}}')"><i class="fa fa-file-text"></i></button>
                         </td>
                     @else
-                        <td>{{__('translate.The student did not submit the report')}}{{-- لم يُسلم الطالب تقرير --}}</td>
+                        <td>{{__("translate.Student didn't submit report")}}{{-- لم يُسلم الطالب تقرير --}}</td>
                     @endif
                 </tr>
             @endforeach

@@ -96,7 +96,7 @@
 
         </div>
         <div class="f1"  id="companyForm">
-     
+
 
 <div class="stepwizard mt-5">
                 <div class="stepwizard-row setup-panel">
@@ -124,7 +124,7 @@
             <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-first-name"> {{__('translate.Company name')}}  <span style="color: red">*</span> {{-- اسم الشركة --}}</label>
+                            <label for="f1-first-name"> {{__('translate.Company Name')}}  <span style="color: red">*</span> {{-- اسم الشركة --}}</label>
 
                             <div class="input-container">
                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
@@ -147,7 +147,7 @@
 
               <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company phone number')}} <span style="color: red">*</span>{{-- رقم هاتف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Phone Number')}} <span style="color: red">*</span>{{-- رقم هاتف الشركة --}}</label>
                             <input class="f1-last-name form-control required" id="phoneNum" type="text" name="phoneNum" value="{{$company->manager->u_phone1}}" oninput="validateInput(this)">
                             <div id="errorMessage_phoneNum" style="color:#dc3545" class="error-message"></div>
                         </div>
@@ -185,30 +185,30 @@
                     </div>
                     <div class="col-md-4">
                             <div class="form-group">
-                                <label for="f1-last-name">{{__('translate.Company address')}}<span style="color: red">*</span>{{-- عنوان الشركة --}} </label>
+                                <label for="f1-last-name">{{__('translate.Company Address')}}<span style="color: red">*</span>{{-- عنوان الشركة --}} </label>
                                 <input class="f1-last-name form-control required" id="address" type="text" name="address" value="{{$company->manager->u_address}}">
                             </div>
                     </div>
                 </div>
-    
-  
+
+
 
                 <div class="row">
 
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Type of company')}} <span style="color: red">*</span>{{-- نوع الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Type')}} <span style="color: red">*</span>{{-- نوع الشركة --}}</label>
                             <select id="c_type" name="c_type" class="form-control btn-square" value="{{$company->c_type}}">
-                                <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
-                                <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
+                                <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</option>
+                                <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company category')}} <span style="color: red">*</span> {{-- تصنيف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Category')}} <span style="color: red">*</span> {{-- تصنيف الشركة --}}</label>
                             <select id="c_category" name="c_category" class="form-control btn-square" value="{{$company->c_category_id}}">
                                 @foreach($categories as $key)
                                    <option value="{{$key->cc_id}}" @if($company->c_category_id == $key->cc_id) selected @endif>{{$key->cc_name}}</option>
@@ -231,7 +231,7 @@
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company description')}}{{-- وصف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Description')}}{{-- وصف الشركة --}}</label>
                             <textarea  class="form-control" id="c_description" name="c_description" rows="6" >{{$company->c_description}}</textarea>
                         </div>
                     </div>
@@ -273,13 +273,13 @@
     </form>
     <div id="similarCompanyDepMessage" style="color:#dc3545" hidden>
                                 <span>يوجد قسم بنفس الاسم الذي قمت بادخاله</span>
-                             
+
                             </div>
-   
+
                                     </div>
                                 </div>
                                 <div class="col-md-4" style="margin-top: 26px;">
-                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add department')}}{{-- إضافة القسم --}}</button>
+                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add Department')}}{{-- إضافة القسم --}}</button>
                                 </div>
                             </div>
                             <div class="row" id="departmentsArea">
@@ -392,7 +392,7 @@
                                         <input hidden id="branchesNumber_{{$key->b_id}}" name="branchedNumber_{{$key->b_id}}" value="{{count($company->companyBranch)}}">
                                         <label for="departments_{{$key->b_id}}">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                                         <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments_{{$key->b_id}}"  multiple>
-                                        @foreach($companyDepartments as $key2)  
+                                        @foreach($companyDepartments as $key2)
                                                       <option value="{{$key2->d_id}}"@foreach($key->companyBranchDepartments as $key3) @if($key3->cbd_d_id==$key2->d_id) selected @endif  @endforeach >{{$key2->d_name}} </option>
                                                    @endforeach
                                                 </select>
@@ -480,7 +480,7 @@ let branches = JSON.parse(document.getElementById('branches').value);
 //                 console.log('Select2 dropdown opened!');
 
 //                 // Your custom code when the dropdown is opened
-              
+
 // //                 var multiselect = this;
 // //                  $(multiselect).empty();
 // //                 console.log("hi");
@@ -497,14 +497,14 @@ let branches = JSON.parse(document.getElementById('branches').value);
 // //                     console.log("f");
 // //                     console.log(options[r]);
 // //                     option.value = options[r].d_id; // Use the actual value from options array
-// //                     // option.selected = true; 
-// //                     $(multiselect).append(option); 
+// //                     // option.selected = true;
+// //                     $(multiselect).append(option);
 // //                     for(x of companyDepValues ){
-                     
+
 // // if(option.value == x.d_id)
 // // option.selected = true;
 // //                     }
-                    
+
 // //                 }
 //             });
 //         });
@@ -681,7 +681,7 @@ function branch(){
     document.getElementById('branch').hidden = false ;
     console.log("fbbb")
     console.log(departments)
-    
+
         //  var multiselect = document.getElementById('departments1');
         //  var options = departments;
         //  for (var r = 0; r < options.length; r++) {
@@ -743,7 +743,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 success: function(response) {
                     $('#editCompanyForm').html(response.view);
                     $('#companyBranches').html(response.branchView);
-                    
+
 
 
 
@@ -830,11 +830,11 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
             console.log("selectedDepartments")
             console.log(selectedDepartments)
             console.log(depArr)
-             document.getElementById("departmentSelectedList_"+data).value = depArr; 
+             document.getElementById("departmentSelectedList_"+data).value = depArr;
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             data = $(editBranchFormIDser).serialize();
             console.log(data);
-            
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
@@ -898,7 +898,7 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                 data: data,
                 success: function(response) {
 
-                                
+
                     $('#DepartmentList').html(response.view);
                     $('#companyBranches').html(response.branchView);
 
@@ -948,7 +948,7 @@ function completeCompany(index){
 function checkCompany(data){
 
     document.getElementById('ok_icon').hidden = true;
-   
+
 
     if(data!="" ){
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -1131,7 +1131,7 @@ function secondStep(){
 function addDepartment()
   {
     document.getElementById('similarCompanyDepMessage').hidden = true;
-    departmentName = document.getElementById('d_name').value;  
+    departmentName = document.getElementById('d_name').value;
     companyDepartments=JSON.parse(document.getElementById('companyDepartments').value);
     let departmentNames =  companyDepartments.map(companyDepartment => companyDepartment.d_name);
 console.log("departmentNames")
@@ -1144,7 +1144,7 @@ console.log("departmentNames")
         console.log("departmentNames")
     console.log(departmentNames)
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    
+
 
 // Send an AJAX request with the CSRF token
 $.ajaxSetup({
@@ -1167,9 +1167,9 @@ $.ajax({
     success: function(response) {
          $('#DepartmentList').html(response.view);
          $('#companyBranches').html(response.branchView);
-      
+
         document.getElementById('d_name').value = "";
-     
+
     //      departments = JSON.parse(document.getElementById('companyDepartments').value);
     //      console.log("departmentsdepartmentsdepartments")
     //      console.log(departments)
@@ -1184,7 +1184,7 @@ $.ajax({
     //            console.log("option")
     //            multiselect.add(option);
     // }
-   
+
     },
     //new
     complete: function(){
@@ -1198,7 +1198,7 @@ $.ajax({
     }
     else {
       if(departmentName==""){
-      
+
            document.getElementById('similarCompanyDepMessage').hidden = false;
          document.querySelector('#similarCompanyDepMessage span').textContent ="الرجاء ملء الحقل*";
 
@@ -1209,12 +1209,12 @@ $.ajax({
          document.querySelector('#similarCompanyDepMessage span').textContent ="يوجد قسم بنفس الاسم الذي قمت بادخاله";
       }
     }
-   
 
 
 
-   
-  
+
+
+
 
 
 

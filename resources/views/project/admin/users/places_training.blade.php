@@ -34,14 +34,14 @@
         <div class="col-xl-9">
           <form class="card">
             <div class="card-header pb-0">
-              <h4 class="card-title mb-0">{{__('translate.Training places')}} {{-- أماكن التدريب --}}</h4>
+              <h4 class="card-title mb-0">{{__('translate.Training Places')}} {{-- أماكن التدريب --}}</h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
               <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm custom-btn" onclick="$('#AddPlacesTrainingModal').modal('show')" type="button"><span class="fa fa-plus"></span> {{__('translate.Register the student in training')}} {{-- تسجيل الطالب في تدريب --}}</button>
+                            <button class="btn btn-primary btn-sm custom-btn" onclick="$('#AddPlacesTrainingModal').modal('show')" type="button"><span class="fa fa-plus"></span> {{__('translate.Enroll student in training')}} {{-- تسجيل الطالب في تدريب --}}</button>
                         </div>
                     </div>
               </div>

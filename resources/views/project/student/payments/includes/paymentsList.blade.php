@@ -1,17 +1,17 @@
 @if ($payments->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.There are no payments for this student')}}{{-- لا يوجد دفعات لهذا الطالب --}}</h6>
+    <h6 class="alert alert-danger">{{__('translate.This student has no payments')}}{{-- لا يوجد دفعات لهذا الطالب --}}</h6>
 @else
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>{{__('translate.The username that added a payment')}} {{-- اسم المستخدم الَّذي قام بإضافة دفعة --}}</th>
-                <th>{{__('translate.Amount value')}} {{-- قيمة المبلغ --}}</th>
-                <th>{{__('translate.The reference number')}} {{-- الرقم المرجعي --}}</th>
-                <th>{{__('translate.Payment status')}}{{-- حالة الدفعة --}}</th>
-                <th>{{__('translate.Company manager notes')}}{{-- ملاحظات مدير الشركة --}}</th>
-                <th>{{__('translate.Supervisor notes')}}{{-- ملاحظات المشرف الأكاديمي --}}</th>
-                <th>{{__('translate.Student notes')}}{{-- ملاحظات الطالب --}}</th>
-                <th>{{__('translate.Confirm receipt of payment')}}{{-- تأكيد استلام الدفعة --}}</th>
+                <th>{{__('translate.User who added payment')}} {{-- اسم المستخدم الَّذي قام بإضافة دفعة --}}</th>
+                <th>{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</th>
+                <th>{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</th>
+                <th>{{__('translate.Payment Status')}}{{-- حالة الدفعة --}}</th>
+                <th>{{__('translate.Company Manager Notes')}}{{-- ملاحظات مدير الشركة --}}</th>
+                <th>{{__('translate.Supervisor Notes')}}{{-- ملاحظات المشرف الأكاديمي --}}</th>
+                <th>{{__('translate.Student Notes')}}{{-- ملاحظات الطالب --}}</th>
+                <th>{{__('translate.Confirm Payment Receipt')}}{{-- تأكيد استلام الدفعة --}}</th>
             </tr>
         </thead>
         <tbody>
@@ -22,12 +22,12 @@
                     <td>{{$payment->p_reference_id}}</td>
                     <td>
                         @if ($payment->p_status == 1)
-                            {{__('translate.Receipt confirmed')}}{{-- تم تأكيد الاستلام --}}
+                            {{__('translate.Receipt Confirmed')}}{{-- تم تأكيد الاستلام --}}
                         @else
-                            {{__('translate.The student did not confirm its receipt')}}{{-- لم يُؤكد الطالب استلامها --}}
+                            {{__("translate.Student hasn't confirmed receipt yet")}}{{-- لم يُؤكد الطالب استلامها --}}
                         @endif
                     </td>
-                    <td title="{{$payment->p_company_notes}}" onclick="showAlert(this , '{{__('translate.Company manager notes')}}')" style="cursor: pointer; font-size: smaller;">
+                    <td title="{{$payment->p_company_notes}}" onclick="showAlert(this , '{{__('translate.Company Manager Notes')}}')" style="cursor: pointer; font-size: smaller;">
                         @php
                             $notes = $payment->p_company_notes;
                             $truncated_notes = str_word_count($notes, 1);
@@ -35,7 +35,7 @@
                         @endphp
                         {{$truncated_notes}}
                     </td>
-                    <td title="{{$payment->p_supervisor_notes}}" onclick="showAlert(this , '{{__('translate.Supervisor notes')}}')" style="cursor: pointer; font-size: smaller;">
+                    <td title="{{$payment->p_supervisor_notes}}" onclick="showAlert(this , '{{__('translate.Supervisor Notes')}}')" style="cursor: pointer; font-size: smaller;">
                         @php
                             $supervisorNotes = $payment->p_supervisor_notes;
                             $truncatedSupervisorNotes = str_word_count($supervisorNotes, 1);
@@ -43,7 +43,7 @@
                         @endphp
                         {{$truncatedSupervisorNotes}}
                     </td>
-                    <td title="{{$payment->p_student_notes}}" onclick="showAlert(this , '{{__('translate.Student notes')}}')" style="cursor: pointer; font-size: smaller;">
+                    <td title="{{$payment->p_student_notes}}" onclick="showAlert(this , '{{__('translate.Student Notes')}}')" style="cursor: pointer; font-size: smaller;">
                         @php
                             $studentNotes = $payment->p_student_notes;
                             $truncatedStudentNotes = str_word_count($studentNotes, 1);
@@ -52,9 +52,9 @@
                         {{$truncatedStudentNotes}}
                     </td>
                     @if ($payment->p_status == 1)
-                        <td><span>{{__('translate.Receipt confirmed')}}{{-- تم تأكيد الاستلام --}}</span></td>
+                        <td><span>{{__('translate.Receipt Confirmed')}}{{-- تم تأكيد الاستلام --}}</span></td>
                     @else
-                        <td><button class="btn btn-primary btn-sm" onclick="showModal({{$payment->p_id}})" type="button" id="confirm_payment_btn_{{$payment->p_id}}"><span class="fa fa-plus"></span>{{__('translate.Confirm receipt of payment')}}{{-- تأكيد استلام الدفعة --}}</button></td>
+                        <td><button class="btn btn-primary btn-sm" onclick="showModal({{$payment->p_id}})" type="button" id="confirm_payment_btn_{{$payment->p_id}}"><span class="fa fa-plus"></span>{{__('translate.Confirm Payment Receipt')}}{{-- تأكيد استلام الدفعة --}}</button></td>
                     @endif
                 </tr>
             @endforeach

@@ -51,9 +51,9 @@
                         <input type="hidden" value="{{$user->u_id}}" id="user_id">
                         <h4 class="card-title mb-0">
                             @if(app()->getLocale() == 'en')
-                                {{$company->c_name}} {{__("translate.Company's interns")}}
+                                {{$company->c_name}} {{__("translate.Company's Interns")}}
                             @else
-                                {{__("translate.Company's interns")}} {{$company->c_name}}
+                                {{__("translate.Company's Interns")}} {{$company->c_name}}
                             @endif
                         </h4>
                         @if (isset($students))

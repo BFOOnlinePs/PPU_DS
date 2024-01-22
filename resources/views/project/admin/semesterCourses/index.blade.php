@@ -20,7 +20,7 @@
 
 
 <div>
-    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add course to current semester')}}{{-- إضافة مساق إلى الفصل الحالي --}}</button>
+    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course to Current Semester')}}{{-- إضافة مساق إلى الفصل الحالي --}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -41,7 +41,7 @@
                             {{-- <input class="form-control" id="semester" name="semester"> --}}
                             <div class="col-lg-12">
                                 <select id="semester" name="semester" class="form-control btn-square">
-                                    <option value="0">{{__('translate.All semesters')}}{{-- جميع الفصول --}}</option>
+                                    <option value="0">{{__('translate.Semesters')}}{{-- جميع الفصول --}}</option>
                                     <option value="1" @if($semester==1) selected @endif>{{__('translate.First')}}{{-- أول --}}</option>
                                     <option value="2" @if($semester==2) selected @endif>{{__('translate.Second')}}{{-- ثاني --}}</option>
                                     <option value="3" @if($semester==3) selected @endif>{{__('translate.Summer')}}{{-- صيفي --}}</option>
@@ -53,7 +53,7 @@
 
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic year')}}{{-- العام الدراسي --}}</label>
+                            <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic Year')}}{{-- العام الدراسي --}}</label>
                             <div class="col-lg-12">
                                 <select id="year" name="year" class="form-control btn-square">
                                     <option value="0">جميع الأعوام</option>
@@ -75,7 +75,7 @@
                 </div>
             </form>
             <div class="mb-3">
-                <input class="form-control" onkeyup="courseNameSearch(this.value)" id="courseName" name="courseName" placeholder="{{__('translate.Search for course name')}}"> {{-- البحث عن اسم المساق --}}
+                <input class="form-control" onkeyup="courseNameSearch(this.value)" id="courseName" name="courseName" placeholder="{{__('translate.Search for Course Name')}}"> {{-- البحث عن اسم المساق --}}
             </div>
 
         <div id="showTable">
@@ -84,12 +84,12 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col"> {{__('translate.Academic year')}}{{-- العام الدراسي --}}</th>
+                            <th scope="col"> {{__('translate.Academic Year')}}{{-- العام الدراسي --}}</th>
                             <th scope="col">{{__('translate.Semester')}}{{-- الفصل الدراسي --}}</th>
-                            <th scope="col">{{__('translate.Course name')}} {{-- اسم المساق --}}</th>
-                            <th scope="col">{{__('translate.Course code')}}{{-- رمز المساق --}}</th>
-                            <th scope="col">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</th>
-                            <th scope="col">{{__('translate.Course type')}}{{-- نوع المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Name')}} {{-- اسم المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Code')}}{{-- رمز المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Type')}}{{-- نوع المساق --}}</th>
                             <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
                         </tr>
                     </thead>

@@ -13,7 +13,7 @@
                                         <h1><span class="fa fa-plus" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                        <h3>{{__('translate.Add major')}} {{-- إضافة تخصص --}}</h3>
+                                        <h3>{{__('translate.Add Major')}} {{-- إضافة تخصص --}}</h3>
 
                                         <hr>
                                         <p>{{__('translate.In this section, you can add a new major')}} {{-- في هذا القسم يمكنك إضافة تخصص جديد --}}</p>
@@ -26,7 +26,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="mb-3 row">
-                                                <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major's name")}} {{-- اسم التخصص --}}<span style="color: red">*</span></label>
+                                                <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major Name")}} {{-- اسم التخصص --}}<span style="color: red">*</span></label>
                                                 <div class="col-lg-12">
                                                    <input id="m_name" type="text"  class="form-control btn-square input-md" name="m_name" autofocus oninput="validateInput(this)">
                                                 </div>
@@ -35,7 +35,7 @@
                                         <div class="row">
 
                                             <div class="mb-3 row">
-                                                <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major reference code')}} {{-- الرمز المرجعي للتخصص --}}<span style="color: red">*</span></label>
+                                                <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major Reference Code')}} {{-- الرمز المرجعي للتخصص --}}<span style="color: red">*</span></label>
                                                 <div class="input-container">
                                                     <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                                     <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -60,7 +60,7 @@
 
                                         <div class="row">
                                             <div class="mb-3 row">
-                                                <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major description')}}{{-- وصف التخصص --}}<span style="color: red">*</span></label>
+                                                <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major Description')}}{{-- وصف التخصص --}}<span style="color: red">*</span></label>
                                                 <div class="col-lg-12">
                                                 <textarea id="m_description" type="text"  class="form-control btn-square input-md" name="m_description"rows="6"></textarea>
                                                 </div>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="modal-footer ">
-                            <button type="submit" class="btn btn-primary" id="add_major">{{__('translate.Add major')}} {{-- إضافة تخصص --}}</button>
+                            <button type="submit" class="btn btn-primary" id="add_major">{{__('translate.Add Major')}} {{-- إضافة تخصص --}}</button>
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                         </div>
                     </form>

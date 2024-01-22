@@ -4,11 +4,11 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>{{__('translate.Majors')}} {{-- التخصص --}}</th>
-                <th>{{__('translate.Displaying students of major')}} {{-- عرض طلاب التخصص --}}</th>
+                <th>{{__('translate.Major')}} {{-- التخصص --}}</th>
+                <th>{{__('translate.Display Major Students')}} {{-- عرض طلاب التخصص --}}</th>
                 @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
                     <th>
-                        {{__('translate.Removing major for the supervisor')}} {{-- حذف التخصص للمشرف --}}
+                        {{__('translate.Remove major for supervisor')}} {{-- حذف التخصص للمشرف --}}
                     </th>
                 @endif
             </tr>

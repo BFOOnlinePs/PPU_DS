@@ -10,13 +10,13 @@
                             <h1><span class="fa fa-clipboard" style="text-align: center; font-size:80px; "></span></h1>
                             <h6>
                                 @if(app()->getLocale() == 'en')
-                                    {{$name_student}} {{__('translate.Add payment to')}}{{-- إضافة دفعة ل --}}
+                                    {{$name_student}} {{__('translate.Add Payment to')}}{{-- إضافة دفعة ل --}}
                                 @else
-                                    {{__('translate.Add payment to')}}{{$name_student}}{{-- إضافة دفعة ل --}}
+                                    {{__('translate.Add Payment to')}}{{$name_student}}{{-- إضافة دفعة ل --}}
                                 @endif
                             </h6>
                             <hr>
-                            <p>{{__('translate.In this section, you can add payment for student')}}{{-- في هذا القسم يمكنك إضافة دفعة لطالب --}}</p>
+                            <p>{{__('translate.In this section, you can add payment for a student')}}{{-- في هذا القسم يمكنك إضافة دفعة لطالب --}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addPaymentsForm" enctype="multipart/form-data">
@@ -26,11 +26,11 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.Amount value')}} {{-- قيمة المبلغ --}}</label>
+                                            <label for="">{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</label>
                                             <input type="number" step="0.01" name="p_payment_value" id="p_payment_value" class="form-control">
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.The currency')}}{{-- العملة --}}</label>
+                                            <label for="">{{__('translate.Currency')}}{{-- العملة --}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" name="p_currency_id" id="p_currency_id">
                                                 @foreach ($currencies as $currency)
                                                     <option value="{{$currency->c_id}}">{{$currency->c_name}} {{$currency->c_symbol}}</option>
@@ -38,14 +38,14 @@
                                             </select>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="">{{__('translate.The reference number')}} {{-- الرقم المرجعي --}}</label>
+                                            <label for="">{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</label>
                                             <input type="text" name="p_reference_id" id="p_reference_id" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-5">
                                         <div class="mb-3 row">
-                                            <label for="p_file">{{__('translate.Attachment file')}} {{-- الملف المرفق --}}</label>
+                                            <label for="p_file">{{__('translate.Attachment File')}} {{-- الملف المرفق --}}</label>
                                             <input type="file" name="p_file" id="p_file" class="form-control">
                                         </div>
                                         <div class="mb-3 row">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary">{{__('translate.Add payment')}}{{-- إضافة دفعة --}}</button>
+                    <button type="submit" class="btn btn-primary">{{__('translate.Add Payment')}}{{-- إضافة دفعة --}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>

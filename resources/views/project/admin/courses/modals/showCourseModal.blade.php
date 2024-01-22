@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-list" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h1>{{__('translate.Review course')}}{{-- استعراض مساق --}}</h1>
+                                <h1>{{__('translate.Display Course')}}{{-- استعراض مساق --}}</h1>
 
                                 <hr>
-                                <p>{{__('translate.In this section, you can review course data')}} {{-- في هذا القسم يمكنك استعراض البيانات الخاصة بالمساقات --}}</p>
+                                <p>{{__('translate.In this section, you can display course data')}} {{-- في هذا القسم يمكنك استعراض البيانات الخاصة بالمساقات --}}</p>
 
 
                         </div>
@@ -27,7 +27,7 @@
                                     <div class="col-md-12">
                                         <!-- Text input-->
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course name')}} {{-- اسم المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Name')}} {{-- اسم المساق --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="show_c_name" name="c_name" disabled type="text" class="form-control btn-square input-md">
 
@@ -39,7 +39,7 @@
 
                                         <!-- Text input-->
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course code')}}{{-- رمز المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Code')}}{{-- رمز المساق --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="show_c_course_code" name="c_course_code" disabled type="text" class="form-control btn-square input-md">
 
@@ -48,7 +48,7 @@
 
                                         <!-- Text input-->
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="show_c_hours" name="c_hours" disabled type="text" class="form-control btn-square input-md">
 
@@ -64,7 +64,7 @@
                                     <div class="col-md-6">
 
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course type')}}{{-- نوع المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course Type')}}{{-- نوع المساق --}}</label>
                                             <div class="col-lg-12">
                                             <select id="show_c_course_type" name="c_course_type" disabled class="form-control btn-square">
                                                 <option value="-1">اختيار</option>
@@ -86,7 +86,7 @@
 
 
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course reference code')}}{{-- الرمز المرجعي للمساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Reference Code')}}{{-- الرمز المرجعي للمساق --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="show_c_reference_code" name="c_reference_code" disabled type="text" class="form-control btn-square input-md">
 
@@ -97,7 +97,7 @@
 
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course description')}}{{-- وصف المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Description')}}{{-- وصف المساق --}}</label>
                                             <div class="col-lg-12">
                                                 <textarea id="show_c_description" name="c_description" disabled type="text"
                                                 class="form-control btn-square input-md" rows="6">

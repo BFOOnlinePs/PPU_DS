@@ -11,7 +11,7 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center">
                             <h1><span class="fa fa-briefcase" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>{{__('translate.Add category to the company')}}{{-- إضافة تصنيف للشركة --}}</h3>
+                            <h3>{{__('translate.Add Category to the Company')}}{{-- إضافة تصنيف للشركة --}}</h3>
                             <hr>
                             <p>{{__('translate.In this section, you can add a category to the company')}}{{-- في هذا القسم يمكنك إضافة تصنيف للشركة --}}</p>
                         </div>
@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</label>
+                                        <label for="">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</label>
                                         <input autocomplete="off" name="cc_name" id="edit_cc_name" type="text" class="form-control">
                                     </div>
                                 </div>

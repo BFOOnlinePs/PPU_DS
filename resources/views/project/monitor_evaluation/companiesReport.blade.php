@@ -86,7 +86,9 @@
                         <div class="col-lg-12">
                             <select id="companyType" name="companyType" class="form-control btn-square">
                                 {{-- <option selected="" disabled="" value="">--اختيار--</option> --}}
+
                                 <option selected="" value="0">--{{__('translate.Choose')}}{{--اختيار--}}--</option>
+
                                 <option value="1">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</option>
                                 <option value="2">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</option>
                             </select>
@@ -132,7 +134,9 @@
                             <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
+
                             <th scope="col">{{__('translate.Total Students')}}{{-- إجمالي الطلاب--}} </th>
+
 
                         </tr>
                     </thead>

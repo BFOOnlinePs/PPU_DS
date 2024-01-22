@@ -94,15 +94,15 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-file-text-o"></i></div>
-                    <p>{{__('translate.Company information')}}{{-- معلومات الشركة --}}</p>
+                    <p>{{__('translate.Company Information')}}{{-- معلومات الشركة --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-th-large"></i></div>
-                    <p>{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</p>
+                    <p>{{__('translate.Company Departments')}}{{-- أقسام الشركة --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-sitemap"></i></div>
-                    <p>{{__('translate.Company branches')}}{{-- فروع الشركة --}}</p>
+                    <p>{{__('translate.Company Branches')}}{{-- فروع الشركة --}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-file-text"></i></div>
@@ -164,7 +164,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
 
-                            <label for="f1-last-name">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}} <span style="color: red">*</span></label>
+                            <label for="f1-last-name">{{__('translate.Company Phone Number')}}{{-- رقم هاتف الشركة --}} <span style="color: red">*</span></label>
                             <input class="f1-last-name form-control" id="phoneNum" type="text" name="phoneNum" required="" oninput="validateInput(this)">
                             <div id="errorMessage_phoneNum" style="color:#dc3545" class="error-message"></div>
                         </div>
@@ -172,7 +172,7 @@
                     <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="f1-last-name">{{__('translate.Company address')}}{{-- عنوان الشركة --}} <span style="color: red">*</span></label>
+                                <label for="f1-last-name">{{__('translate.Company Address')}}{{-- عنوان الشركة --}} <span style="color: red">*</span></label>
                                 <input class="f1-last-name form-control" id="address" type="text" name="address" required="">
                             </div>
                     </div>
@@ -231,11 +231,11 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Type of company')}}{{-- نوع الشركة --}} <span style="color: red">*</span></label>
+                            <label for="f1-last-name">{{__('translate.Company Type')}}{{-- نوع الشركة --}} <span style="color: red">*</span></label>
                             <select id="c_type" name="c_type" class="form-control btn-square">
                                 <option selected="" disabled="" value="">--اختيار--</option>
-                                <option value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
-                                <option value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
+                                <option value="1">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</option>
+                                <option value="2">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</option>
                             </select>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company description')}}{{-- وصف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Description')}}{{-- وصف الشركة --}}</label>
                             <textarea  class="form-control" id="c_description" name="c_description" rows="6"></textarea>
                         </div>
                     </div>
@@ -303,7 +303,7 @@
                                 <h1><span class="fa fa-th" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h3>{{__('translate.Add Department to Company')}}{{-- إضافة قسم إلى الشركة --}}</h3>
+                                <h3>{{__('translate.Add Department to the Company')}}{{-- إضافة قسم إلى الشركة --}}</h3>
 
                                 <hr>
                                 <p>في هذا القسم يمكنك إضافة الأقسام الخاصة بالشركة الحالية</p>
@@ -321,7 +321,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4" style="margin-top: 26px;">
-                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add department')}}{{-- إضافة القسم --}}</button>
+                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add Department')}}{{-- إضافة القسم --}}</button>
                                 </div>
                             </div>
                             <div class="row" id="departmentsArea">
@@ -466,7 +466,7 @@
                           <td id="email_sammury"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">{{__('translate.Company phone number')}}{{-- رقم هاتف الشركة --}}</td>
+                          <td class="col-md-3">{{__('translate.Company Phone Number')}}{{-- رقم هاتف الشركة --}}</td>
                           <td id="phone_summary"></td>
                         </tr>
                         <tr id="phone2_summary_area" hidden>
@@ -474,19 +474,19 @@
                           <td id="phone2_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">{{__('translate.Company address')}}{{-- عنوان الشركة --}}</td>
+                          <td class="col-md-3">{{__('translate.Company Address')}}{{-- عنوان الشركة --}}</td>
                           <td id="address_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</td>
+                          <td class="col-md-3">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</td>
                           <td id="category_summary"></td>
                         </tr>
                         <tr>
-                          <td class="col-md-3">{{__('translate.Type of company')}}{{-- نوع الشركة --}}</td>
+                          <td class="col-md-3">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</td>
                           <td id="type_summary"></td>
                         </tr>
                         <tr id="description_summary_area" hidden>
-                          <td class="col-md-3">{{__('translate.Company description')}}{{-- وصف الشركة --}}</td>
+                          <td class="col-md-3">{{__('translate.Company Description')}}{{-- وصف الشركة --}}</td>
                           <td id="description_summary"></td>
                         </tr>
                         <tr id="main_branch_departments_area" hidden>
@@ -507,7 +507,7 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
-                                <th style="background-color: #ecf0ef82;" colspan="2">{{__('translate.Company departments')}}{{-- أقسام الشركة --}}</th>
+                                <th style="background-color: #ecf0ef82;" colspan="2">{{__('translate.Company Departments')}}{{-- أقسام الشركة --}}</th>
                             </tr>
                         <tbody>
                             <tr>

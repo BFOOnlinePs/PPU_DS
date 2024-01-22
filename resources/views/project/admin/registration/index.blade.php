@@ -3,7 +3,7 @@
     مساقات الفصل الحالي
 @endsection
 @section('header_title')
-{{__('translate.Current semester courses')}}
+{{__('translate.Current Semester Courses')}}
 @endsection
 @section('header_title_link')
     التسجيل
@@ -21,7 +21,7 @@
 
 <div>
     {{-- <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> مساقات الفصل الحالي</button> --}}
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span> {{__('translate.The students of the current semester')}}{{-- طلاب الفصل الحالي --}}</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span> {{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -34,17 +34,17 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">{{__('translate.Course code')}}{{-- رمز المساق --}}</th>
-                            <th scope="col">{{__('translate.Course name')}}{{-- اسم المساق --}}</th>
-                            <th scope="col">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</th>
-                            <th scope="col">{{__('translate.Course type')}}{{-- نوع المساق --}}</th>
-                            <th scope="col">{{__('translate.The students of the course')}}{{-- طلاب المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Code')}}{{-- رمز المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Name')}}{{-- اسم المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Type')}}{{-- نوع المساق --}}</th>
+                            <th scope="col">{{__("translate.Course's Students")}}{{-- طلاب المساق --}}</th>
                         </tr>
                     </thead>
                     <tbody>
                     @if ($data->isEmpty())
                         <tr>
-                            <td colspan="6" class="text-center"><span>{{__('translate.No data available')}}{{-- لا توجد بيانات --}}</span></td>
+                            <td colspan="6" class="text-center"><span>{{__('translate.No available data')}}{{-- لا توجد بيانات --}}</span></td>
                         </tr>
                     @else
                         @foreach ($data as $key)

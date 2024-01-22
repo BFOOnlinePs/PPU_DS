@@ -4,10 +4,10 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>{{__('translate.Name of the Administrative Assistant')}}{{-- اسم المساعد الإداري --}}</th>
+                <th>{{__('translate.Academic Supervisor Assistant Name')}}{{-- اسم المساعد الإداري --}}</th>
                 @if (auth()->user()->u_role_id == 1)
                     <th>
-                        {{__('translate.Delete the administrative assistant for this supervisor')}} {{-- حذف المساعد الإداري لهذا المشرف --}}
+                        {{__('translate.Remove the assistant assigned to this supervisor')}} {{-- حذف المساعد الإداري لهذا المشرف --}}
                     </th>
                 @endif
             </tr>

@@ -258,9 +258,9 @@ class UserController extends Controller
             'course' => 'required'
         ],
         [
-            'company.required' => __('translate.Company name is a required field') // اسم الشركة حقل مطلوب
+            'company.required' => __('translate.Company Name is required') // اسم الشركة حقل مطلوب
             ,
-            'course.required' => __('translate.Course name is a required field') // اسم المساق حقل مطلوب
+            'course.required' => __('translate.Course Name is required') // اسم المساق حقل مطلوب
             ]
         );
 
@@ -470,31 +470,31 @@ class UserController extends Controller
             ,
             'u_username.regex' => __('translate.Username should only contain English letters, numbers, and underscores') // يجب أن يحتوي اسم المستخدم على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط
             ,
-            'name.required' => __('translate.Name field is required') // الاسم حقل مطلوب
+            'name.required' => __('translate.Name is required') // الاسم حقل مطلوب
             ,
-            'email.required' => __('translate.Email field is required') // البريد الإلكتروني حقل مطلوب
+            'email.required' => __('translate.Email is required') // البريد الإلكتروني حقل مطلوب
             ,
             'email.email' => __('translate.Email must be a valid email address') // البريد الإلكتروني يجب أن يكون صالحًا
             ,
-            'email.unique' => __('translate.Email is already taken') // البريد الإلكتروني موجود بالفعل
+            'email.unique' => __('translate.Email has already been used') // البريد الإلكتروني موجود بالفعل
             ,
-            'email.regex' => __('translate.Email should only contain English letters, numbers, and underscores') // يجب أن يحتوي البريد الإلكتروني على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط
+            'email.regex' => __('translate.Email should contain English letters, numbers') // يجب أن يحتوي البريد الإلكتروني على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط
             ,
             'password.min' => __('translate.Password must be at least 8 characters long') // يجب أن تتكون كلمة المرور من 8  أرقام أو حروف
             ,
-            'u_date_of_birth.required' => __('translate.Date of Birth field is required') // تاريخ الميلاد حقل مطلوب
+            'u_date_of_birth.required' => __('translate.Date of Birth is required') // تاريخ الميلاد حقل مطلوب
             ,
             'u_date_of_birth.date' => __('translate.Date of Birth is in an invalid format') // صيغة تاريخ الميلاد غير صالحة
             ,
-            'u_date_of_birth.before_or_equal' => __('translate.Date of Birth must be before or equal to today') // يجب أن يكون تاريخ الميلاد في الماضي
+            'u_date_of_birth.before_or_equal' => __("translate.Date of Birth must be before today's date") // يجب أن يكون تاريخ الميلاد في الماضي
             ,
-            'u_phone1.required' => __('translate.Phone number field is required') // رقم الجوال حقل مطلوب
+            'u_phone1.required' => __('translate.Phone Number is required') // رقم الجوال حقل مطلوب
             ,
-            'u_phone1.digits' => __('translate.Phone number must be exactly 10 digits') // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
+            'u_phone1.digits' => __('translate.Phone Number must be exactly 10 digits') // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
             ,
-            'u_phone2.digits' => __('translate.Secondary phone number must be exactly 10 digits') // يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط
+            'u_phone2.digits' => __('translate.Alternative phone number must be exactly 10 digits') // يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط
             ,
-            'u_gender' => __('translate.Gender must be Male or Female') // يجب اختيار ذكر أو أنثى
+            'u_gender' => __('translate.Gender must be selected') // يجب اختيار ذكر أو أنثى
         ]
         );
         $user = User::find($request->u_id);
@@ -584,20 +584,20 @@ class UserController extends Controller
         [
             'u_username.required' => __('translate.Username'), // اسم المستخدم حقل مطلوب
             'u_username.regex' => __('translate.Username should only contain English letters, numbers, and underscores'), // يجب أن يحتوي اسم المستخدم على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط
-            'name.required' => __('translate.Name field is required'), // الاسم حقل مطلوب
-            'email.required' => __('translate.Email field is required'), // البريد الإلكتروني حقل مطلوب
+            'name.required' => __('translate.Name is required'), // الاسم حقل مطلوب
+            'email.required' => __('translate.Email is required'), // البريد الإلكتروني حقل مطلوب
             'email.email' => __('translate.Email must be a valid email address'), // البريد الإلكتروني يجب أن يكون صالحًا
-            'email.unique' => __('translate.Email is already taken'), // البريد الإلكتروني موجود بالفعل
-            'email.regex' => __('translate.Email should only contain English letters, numbers, and underscores'), // يجب أن يحتوي البريد الإلكتروني على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط
-            'password.required' => __('translate.Username field is required'), // كلمة المرور حقل مطلوب
+            'email.unique' => __('translate.Email has already been used'), // البريد الإلكتروني موجود بالفعل
+            'email.regex' => __('translate.Email should contain English letters, numbers'), // يجب أن يحتوي البريد الإلكتروني على أحرف وأرقام وشرطات سفلية باللغة الإنجليزية فقط
+            'password.required' => __('translate.Username is required'), // كلمة المرور حقل مطلوب
             'password.min' => __('translate.Password must be at least 8 characters long'), // يجب أن تتكون كلمة المرور من 8  أرقام أو حروف
-            'u_date_of_birth.required' => __('translate.Date of Birth field is required'), // تاريخ الميلاد حقل مطلوب
+            'u_date_of_birth.required' => __('translate.Date of Birth is required'), // تاريخ الميلاد حقل مطلوب
             'u_date_of_birth.date' => __('translate.Date of Birth is in an invalid format'), // صيغة تاريخ الميلاد غير صالحة
-            'u_date_of_birth.before_or_equal' => __('translate.Date of Birth must be before or equal to today'), // يجب أن يكون تاريخ الميلاد في الماضي
-            'u_phone1.required' => __('translate.Phone number field is required'), // رقم الجوال حقل مطلوب
-            'u_phone1.digits' => __('translate.Phone number must be exactly 10 digits'), // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
-            'u_phone2.digits' => __('translate.Secondary phone number must be exactly 10 digits'), // يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط
-            'u_gender' => __('translate.Gender must be Male or Female') // يجب اختيار ذكر أو أنثى
+            'u_date_of_birth.before_or_equal' => __("translate.Date of Birth must be before today's date"), // يجب أن يكون تاريخ الميلاد في الماضي
+            'u_phone1.required' => __('translate.Phone Number is required'), // رقم الجوال حقل مطلوب
+            'u_phone1.digits' => __('translate.Phone Number must be exactly 10 digits'), // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
+            'u_phone2.digits' => __('translate.Alternative phone number must be exactly 10 digits'), // يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط
+            'u_gender' => __('translate.Gender must be selected') // يجب اختيار ذكر أو أنثى
         ]
         );
         $user = new User();
@@ -622,7 +622,7 @@ class UserController extends Controller
                 'u_major_id' => 'required'
             ],
             [
-                'u_major_id.required' => __('translate.Major is a required field') // التخصص حقل مطلوب
+                'u_major_id.required' => __('translate.Major is required') // التخصص حقل مطلوب
             ]
         );
         }

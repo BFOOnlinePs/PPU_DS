@@ -2,17 +2,17 @@
     <thead>
         <tr>
             <th>{{__('translate.Course')}}{{-- المساق --}}</th>
-            <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+            <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
             <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
             <th>حالة التدريب</th>
-            <th>{{__('translate.Approval file')}} {{-- ملف الموافقة --}}</th>
+            <th>{{__('translate.Approval File')}} {{-- ملف الموافقة --}}</th>
             <th>{{__('translate.Operations')}} {{-- العمليات --}}</th>
         </tr>
     </thead>
     <tbody>
         @if ($data->isEmpty())
             <tr>
-                <td colspan="6" class="text-center"><span>{{__('translate.No recorded trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
+                <td colspan="6" class="text-center"><span>{{__('translate.No enrolled trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
             </tr>
         @else
             @foreach($data as $studentCompany)

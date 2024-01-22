@@ -13,10 +13,10 @@
                                         <h1><span class="fa fa-list" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                        <h3>{{__('translate.Review major')}}{{-- استعراض التخصص --}}</h3>
+                                        <h3>{{__('translate.Display Major')}}{{-- استعراض التخصص --}}</h3>
 
                                         <hr>
-                                        <p>{{__('translate.In this section, you can review the major data')}}{{-- في هذا القسم، يمكنك مراجعة بيانات التخصص  --}}</p>
+                                        <p>{{__('translate.In this section, you can display major information')}}{{-- في هذا القسم، يمكنك مراجعة بيانات التخصص  --}}</p>
 
 
                                 </div>
@@ -25,7 +25,7 @@
 
                                     <div class="row">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major's name")}} {{-- اسم التخصص --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__("translate.Major Name")}} {{-- اسم التخصص --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="show_m_name" name="m_name" disabled type="text" class="form-control btn-square input-md">
 
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major reference code')}} {{-- الرمز المرجعي للتخصص --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major Reference Code')}} {{-- الرمز المرجعي للتخصص --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="show_m_reference_code" name="m_reference_code" disabled type="text" class="form-control btn-square input-md">
 
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major description')}}{{-- وصف التخصص --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major Description')}}{{-- وصف التخصص --}}</label>
                                             <div class="col-lg-12">
                                                 <textarea id="show_m_description" name="m_description"
                                                 disabled type="text" class="form-control btn-square input-md" rows="6"></textarea>

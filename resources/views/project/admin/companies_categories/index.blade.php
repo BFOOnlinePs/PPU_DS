@@ -22,7 +22,7 @@
 @section('content')
     <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCompaniesCategoriesModal').modal('show')" type="button"><span
-                class="fa fa-plus"></span>{{__('translate.Add company category')}}{{--  إضافة تصنيف شركات--}}</button>
+                class="fa fa-plus"></span>{{__('translate.Add Company Category')}}{{--  إضافة تصنيف شركات--}}</button>
     </div>
 
     <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -45,7 +45,7 @@
                         <thead>
                             <tr>
                                 <th scope="col" style="display:none;">id</th>
-                                <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
+                                <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                                 <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
                             </tr>
                         </thead>

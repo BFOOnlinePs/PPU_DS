@@ -15,44 +15,44 @@
                                 @elseif($role_name == 'طالب')
                                     {{__('translate.Student')}} {{-- طالب --}}
                                 @elseif($role_name == 'مشرف أكاديمي')
-                                    {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                                    {{__('translate.Academic Supervisor')}} {{-- مشرف أكاديمي --}}
                                 @elseif($role_name == 'مساعد إداري')
-                                    {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                                    {{__('translate.Academic Supervisor Assistant')}} {{-- مساعد إداري --}}
                                 @elseif($role_name == 'مسؤول متابعة وتقييم')
-                                    {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                                    {{__('translate.Monitoring and Evaluation Officer')}} {{-- مسؤول متابعة وتقييم --}}
                                 @elseif($role_name == 'مدير شركة')
-                                    {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                                    {{__('translate.Company Manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
-                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                    {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}
                                 @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
+                                    {{__('translate.Program Coordinator')}} {{-- مسؤول التواصل مع الشركات --}}
                                 @endif
                             </h1>
                             <hr>
                             <p id="p_modal_add_user">
                                 {{__('translate.In this section, you can add')}} {{-- في هذا القسم يمكنك إضافة --}}
                                 @if (app()->getLocale() == 'en')
-                                    {{__('translate.new')}} {{-- جديد --}}
+                                    {{__('translate.New')}} {{-- جديد --}}
                                 @endif
                                 @if ($role_name == 'أدمن')
-                                    {{__('translate.Administrator')}} {{-- أدمن --}}
+                                    {{__('translate.administrator')}} {{-- أدمن --}}
                                 @elseif($role_name == 'طالب')
-                                    {{__('translate.Student')}} {{-- طالب --}}
+                                    {{__('translate.student')}} {{-- طالب --}}
                                 @elseif($role_name == 'مشرف أكاديمي')
-                                    {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                                    {{__('translate.academic supervisor')}} {{-- مشرف أكاديمي --}}
                                 @elseif($role_name == 'مساعد إداري')
-                                    {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                                    {{__('translate.academic supervisor assistant')}} {{-- مساعد إداري --}}
                                 @elseif($role_name == 'مسؤول متابعة وتقييم')
-                                    {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                                    {{__('translate.monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
                                 @elseif($role_name == 'مدير شركة')
-                                    {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                                    {{__('translate.company manager')}} {{-- مدير شركة --}}
                                 @elseif($role_name == 'مسؤول تدريب')
-                                    {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                                    {{__('translate.training supervisor')}} {{-- مسؤول تدريب --}}
                                 @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                                    {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
+                                    {{__('translate.program coordinator')}} {{-- مسؤول التواصل مع الشركات --}}
                                 @endif
                                 @if (app()->getLocale() == 'ar')
-                                    {{__('translate.new')}} {{-- جديد --}}
+                                    {{__('translate.New')}} {{-- جديد --}}
                                 @endif
                                 </p>
                         </div>
@@ -97,7 +97,7 @@
                                         </div>
                                     <div class="col-md-4">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Birth date')}}* {{-- تاريخ الميلاد --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Birth Date')}}* {{-- تاريخ الميلاد --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_date_of_birth" name="u_date_of_birth" type="date" class="form-control btn-square input-md" tabindex="2" required>
                                             </div>
@@ -106,11 +106,11 @@
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Email')}}* {{-- البريد الإلكتروني --}}</label>
                                             <div class="col-lg-12">
                                                 <input @if (($u_role_id >= 1 && $u_role_id <= 5) || $u_role_id == 8) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
-                                                <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.The email already exists')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
+                                                <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.Email address has already been used')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label" for="textinput"> {{__('translate.Home address')}} {{-- عنوان السكن --}}</label>
+                                            <label class="col-lg-12 form-label" for="textinput"> {{__('translate.Residential Address')}} {{-- عنوان السكن --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_address" name="u_address" type="text" class="form-control btn-square input-md" tabindex="8">
                                             </div>
@@ -118,13 +118,13 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Phone number')}}*  {{-- رقم الجوال --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Phone Number')}}*  {{-- رقم الجوال --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_phone1" name="u_phone1" type="text" class="form-control btn-square input-md" tabindex="3" required pattern="[0-9]{10}" minlength="10" maxlength="10">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput"> {{__('translate.Reserve phone number')}} {{-- رقم جوال احتياطي --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput"> {{__('translate.Alternative Phone Number')}} {{-- رقم جوال احتياطي --}}</label>
                                             <div class="col-lg-12">
                                                 <input id="u_phone2" name="u_phone2" type="text" class="form-control btn-square input-md" tabindex="6" pattern="[0-9]{10}" minlength="10" maxlength="10">
                                             </div>
@@ -156,17 +156,17 @@
                         @elseif($role_name == 'طالب')
                             {{__('translate.Student')}} {{-- طالب --}}
                         @elseif($role_name == 'مشرف أكاديمي')
-                            {{__('translate.Academic supervisor')}} {{-- مشرف أكاديمي --}}
+                            {{__('translate.Academic Supervisor')}} {{-- مشرف أكاديمي --}}
                         @elseif($role_name == 'مساعد إداري')
-                            {{__('translate.Supervisor assistant')}} {{-- مساعد إداري --}}
+                            {{__('translate.Academic Supervisor Assistant')}} {{-- مساعد إداري --}}
                         @elseif($role_name == 'مسؤول متابعة وتقييم')
-                            {{__('translate.Monitoring and evaluation officer')}} {{-- مسؤول متابعة وتقييم --}}
+                            {{__('translate.Monitoring and Evaluation Officer')}} {{-- مسؤول متابعة وتقييم --}}
                         @elseif($role_name == 'مدير شركة')
-                            {{__('translate.Company manager')}} {{-- مدير شركة --}}
+                            {{__('translate.Company Manager')}} {{-- مدير شركة --}}
                         @elseif($role_name == 'مسؤول تدريب')
-                            {{__('translate.Training officer')}} {{-- مسؤول تدريب --}}
+                            {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}
                         @elseif($role_name == 'مسؤول التواصل مع الشركات')
-                            {{__('translate.Communications manager with companies')}} {{-- مسؤول التواصل مع الشركات --}}
+                            {{__('translate.Program Coordinator')}} {{-- مسؤول التواصل مع الشركات --}}
                         @endif
                     </button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="close_add_modal()">

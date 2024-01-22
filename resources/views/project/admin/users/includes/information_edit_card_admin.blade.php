@@ -2,7 +2,7 @@
     <input type="hidden" value="{{$user->u_id}}" id="u_id">
     <div class="card-header pb-0">
         <a href="{{route('admin.users.edit' , ['id'=>$user->u_id])}}" class="fa fa-edit" style="font-size: x-large;"><span></span></a>
-        <h6 class="card-title mb-0"> {{__('translate.Main information')}} {{-- المعلومات الأساسية --}}</h6>
+        <h6 class="card-title mb-0"> {{__('translate.Main Information')}} {{-- المعلومات الأساسية --}}</h6>
         <div class="card-options">
             <a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
             <a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
@@ -27,7 +27,7 @@
                         <input class="form-control" value="{{$user->u_username}}" readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">{{__('translate.Phone number')}} {{-- رقم الجوال --}}</label>
+                        <label class="form-label">{{__('translate.Phone Number')}} {{-- رقم الجوال --}}</label>
                         <input class="form-control" value="{{$user->u_phone1}}" readonly>
                     </div>
                     <!-- Add other inputs for the second column -->
@@ -38,7 +38,7 @@
                         <input class="form-control" type="text" value="{{$user->email}}" readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label"> {{__('translate.Reserve phone number')}} {{-- رقم الجوال الاحتياط --}}</label>
+                        <label class="form-label"> {{__('translate.Alternative Phone Number')}} {{-- رقم الجوال الاحتياط --}}</label>
                         <input class="form-control" value="{{$user->u_phone2}}" readonly>
                     </div>
                     <!-- Add other inputs for the third column -->
@@ -50,13 +50,13 @@
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">{{__('translate.Birth date')}} {{-- تاريخ الميلاد --}}</label>
+                        <label class="form-label">{{__('translate.Birth Date')}} {{-- تاريخ الميلاد --}}</label>
                         <input class="form-control" value="{{$user->u_date_of_birth}}" readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">{{__('translate.Home address')}} {{-- عنوان السكن --}}</label>
+                        <label class="form-label">{{__('translate.Residential Address')}} {{-- عنوان السكن --}}</label>
                         <input class="form-control" value="{{$user->u_address}}" readonly>
                     </div>
                 </div>
