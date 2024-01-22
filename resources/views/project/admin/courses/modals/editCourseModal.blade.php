@@ -16,7 +16,7 @@
                                 <h1>{{__('translate.Edit Course')}}{{-- تعديل المساق --}}</h1>
 
                                 <hr>
-                                <p>{{__('translate.In this section, you can Edit Course data')}} {{-- في هذا القسم يمكنك تعديل البيانات الخاصة بالمساق --}}</p>
+                                <p>{{__('translate.In this section, you can edit course information')}} {{-- في هذا القسم يمكنك تعديل البيانات الخاصة بالمساق --}}</p>
 
 
                         </div>
