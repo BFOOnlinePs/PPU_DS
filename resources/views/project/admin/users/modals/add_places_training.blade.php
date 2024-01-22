@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label for="textinput">{{__('translate.The trainer (from the company)')}} {{-- المدرب من الشركة --}}</label>
+                                            <label for="textinput">{{__('translate.Trainer (from the company)')}} {{-- المدرب من الشركة --}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" id="select-trainers" name="trainer" disabled>
                                                     @if ($trainers != null)
                                                     <option value=""></option>
