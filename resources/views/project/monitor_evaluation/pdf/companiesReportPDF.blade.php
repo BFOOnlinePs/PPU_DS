@@ -4,8 +4,8 @@
 @endsection
 @section('content')
 
-    <h4 class="text-center">جامعة بوليتكنك فلسطين</h4>
-    <h4 class="text-center">كلية الدراسات الثنائية</h4>
+    <h4 class="text-center">{{__('translate.Palestine Polytechnic University')}}{{-- جامعة بوليتكنك فلسطين --}}</h4>
+    <h4 class="text-center">{{__('translate.Dual Studies College')}}{{-- كلية الدراسات الثنائية --}}</h4>
     <hr>
     <br>
 
@@ -14,18 +14,18 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
-                        <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
-                        <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
-                        <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
-                        <th scope="col">إجمالي الطلاب</th>
+                            <th scope="col">{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
+                            <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
+                            <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
+                            <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
+                            <th scope="col">{{__('translate.Total Students')}}{{-- إجمالي الطلاب--}} </th>
 
                     </tr>
                 </thead>
                 <tbody>
                 @if ($data->isEmpty())
                     <tr>
-                        <td colspan="6" class="text-center"><span>لا توجد بيانات</span></td>
+                    <td colspan="6" class="text-center"><span>{{__('translate.No available data')}} {{-- لا توجد بيانات  --}}</span></td>
                     </tr>
                 @else
                     @foreach ($data as $key)

@@ -55,7 +55,7 @@
                         <label class="col-form-label pt-0" for="exampleInputEmail1">الشركة</label>
                         <div class="col-lg-12">
                             <select id="company" name="company" class="form-control btn-square">
-                                <option selected="" value="0">--اختيار--</option>
+                                <option selected="" value="0">--{{__('translate.Choose')}}--    {{--اختيار--}}</option>
                                 @foreach($companies as $key)
                                 <option value={{$key->c_id}}> {{$key->c_name}} </option>
                                 @endforeach
@@ -81,7 +81,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">العام الدراسي</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic Year')}} {{-- العام الدراسي --}}</label>
                         <div class="col-lg-12">
                             <select id="year" name="year" class="form-control btn-square">
                                 @foreach($years as $key)
@@ -101,18 +101,18 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">الشركة</th>
-                            <th scope="col">المتدرب</th>
-                            <th scope="col">إجمالي الدفعات</th>
-                            <th scope="col">إجمالي الدفعات المؤكد عليها</th>
-                            <th scope="col">تفاصيل الدفعات</th>
+                            <th scope="col">{{__('translate.Company')}} {{-- الشركة --}}</th>
+                            <th scope="col">{{__('translate.The Trainee')}} {{-- المتدرب --}}</th>
+                            <th scope="col">{{__('translate.Payment Total')}} {{--إجمالي الدفعات --}}</th>
+                            <th scope="col">{{__('translate.Total of Confirmed Payments')}} {{--  إجمالي الدفعات المؤكد عليها  --}}</th>
+                            <th scope="col">{{__('translate.The Payment Details')}} {{-- تفاصيل الدفعات  --}}</th>
 
                         </tr>
                     </thead>
                     <tbody>
                     @if ($companiesPayments->isEmpty())
                         <tr>
-                            <td colspan="6" class="text-center"><span>لا توجد بيانات</span></td>
+                            <td colspan="6" class="text-center"><span>{{__('translate.No available data')}} {{-- لا توجد بيانات  --}}</span></td>
                         </tr>
                     @else
                         @foreach ($companiesPayments as $key)
@@ -126,7 +126,6 @@
                                         <span class="badge rounded-pill badge-danger">{{$item["symbol"]}} {{$item["total"]}}</span>
                                         @endif
                                     @endforeach
-
                                 </td>
                                 <td>
                                     @foreach ($key->approvedPaymentsTotalCollection as $item)

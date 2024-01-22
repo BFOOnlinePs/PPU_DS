@@ -22,7 +22,7 @@
 
     <div class="card-body" >
 
-        <h5>تفاصيل دفعات شركة: {{$payments[0]->payments->c_name}}، إلى الطالب: {{$payments[0]->userStudent->name}}</h5>
+        <h5>{{__('translate.Payment Details')}} {{-- تفاصيل دفعات  --}} {{__('translate.Company')}} {{-- شركة --}} : {{$payments[0]->payments->c_name}}، {{__('translate.For student')}} {{--  إلى الطالب--}}: {{$payments[0]->userStudent->name}}</h5>
         {{-- <hr> --}}
         {{-- <h6>الشركة</h6> --}}
 
@@ -32,9 +32,9 @@
 
             <thead>
                 <tr>
-                    <th scope="col">تاريخ الدفعة</th>
-                    <th scope="col">قيمة الدفعة</th>
-                    <th scope="col">حالة الدفعة</th>
+                    <th scope="col">{{__('translate.Payment Date')}} {{-- تاريخ الدفعة --}} </th>
+                    <th scope="col">{{__('translate.Payment Amount')}} {{-- قيمة الدفعة --}} </th>
+                    <th scope="col">{{__('translate.Payment Status')}} {{-- حالة الدفعة --}}  </th>
 
                 </tr>
             </thead>
@@ -43,7 +43,7 @@
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($key->created_at)->format('Y-m-d') }}</td>
                     <td>{{$key->currency->c_symbol}}{{ $key->p_payment_value}}</td>
-                    <td>@if ($key->p_status == 0) غير مؤكدة @else مؤكدة @endif</td>
+                    <td>@if ($key->p_status == 0) {{__('translate.Not Confirmed')}} {{-- غير مؤكدة --}}@else {{__('translate.Confirmed')}} {{-- مؤكدة --}} @endif</td>
                 </tr>
                 @endforeach
             </tbody>

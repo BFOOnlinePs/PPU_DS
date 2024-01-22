@@ -72,7 +72,7 @@
                         {{-- <input class="form-control" id="semester" name="semester"> --}}
                         <div class="col-lg-12">
                             <select id="semester" name="semester" class="form-control btn-square">
-                                <option value="0">جميع الفصول</option>
+                                <option value="0">{{__('translate.Semesters')}}{{-- جميع الفصول  --}}</option>
                                 <option value="1" @if($semester==1) selected @endif>{{__('translate.First')}}{{-- أول --}}</option>
                                 <option value="2" @if($semester==2) selected @endif>{{__('translate.Second')}}{{-- ثاني --}}</option>
                                 <option value="3" @if($semester==3) selected @endif>{{__('translate.Summer')}}{{-- صيفي --}}</option>
@@ -82,11 +82,13 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">نوع الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1"> {{__('translate.Company Type')}}{{-- نوع الشركة --}}</label>
                         <div class="col-lg-12">
                             <select id="companyType" name="companyType" class="form-control btn-square">
                                 {{-- <option selected="" disabled="" value="">--اختيار--</option> --}}
-                                <option selected="" value="0">--اختيار--</option>
+
+                                <option selected="" value="0">--{{__('translate.Choose')}}{{--اختيار--}}--</option>
+
                                 <option value="1">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</option>
                                 <option value="2">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</option>
                             </select>
@@ -96,11 +98,11 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">تصنيف الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}} </label>
                         <div class="col-lg-12">
                             <select id="companyCategory" name="companyCategory" class="form-control btn-square">
                                 {{-- <option selected="" disabled="" value="">--اختيار--</option> --}}
-                                <option selected="" value="0">--اختيار--</option>
+                                <option selected="" value="0">--{{__('translate.Choose')}}--    {{--اختيار--}}</option>
                                 @foreach($categories as $key)
                                     <option value="{{$key->cc_id}}">{{$key->cc_name}}</option>
                                 @endforeach
@@ -132,14 +134,16 @@
                             <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
-                            <th scope="col">إجمالي الطلاب</th>
+
+                            <th scope="col">{{__('translate.Total Students')}}{{-- إجمالي الطلاب--}} </th>
+
 
                         </tr>
                     </thead>
                     <tbody>
                     @if ($data->isEmpty())
                         <tr>
-                            <td colspan="6" class="text-center"><span>لا توجد بيانات</span></td>
+                            <td colspan="6" class="text-center"><span>{{__('translate.No available data')}} {{-- لا توجد بيانات  --}}</span></td>
                         </tr>
                     @else
                         @foreach ($data as $key)
@@ -200,13 +204,13 @@ window.addEventListener("load", (event) => {
     //console.log({!! json_encode($data, JSON_HEX_APOS) !!})
 
     semester = {!! json_encode($semester, JSON_HEX_APOS) !!}
-    reportTitle=""
+    reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}};";
     if(semester==1){
-        reportTitle = `تقرير الشركات للفصل الدراسي الأول`
+        reportTitle = "{{__('translate.The First')}}";
     }else if(semester==2){
-        reportTitle = `تقرير الشركات للفصل الدراسي الثاني`
+        reportTitle = "{{__('translate.The Second')}}"
     }else if(semester==3){
-        reportTitle = `تقرير الشركات للفصل الدراسي الصيفي`
+        reportTitle ="{{__('translate.The Summer')}}"
     }
     $('#companiesReportTitle').html(reportTitle);
 
@@ -239,16 +243,17 @@ window.addEventListener("load", (event) => {
                     document.getElementById('loaderContainer').hidden = true;
                     semester = document.getElementById('semester').value;
                     document.getElementById('test').value = response.data;
-                    reportTitle=""
+                    reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}}";
                     if(semester==0){
-                        reportTitle = `تقرير الشركات لجميع الفصول`
+                        reportTitle = "{{__('translate.Semesters')}}"
                     }else if(semester==1){
-                        reportTitle = `تقرير الشركات للفصل الدراسي الأول`
+                        reportTitle = "{{__('translate.The First')}}";
                     }else if(semester==2){
-                        reportTitle = `تقرير الشركات للفصل الدراسي الثاني`
+                        reportTitle = "{{__('translate.The Second')}}"
                     }else if(semester==3){
-                        reportTitle = `تقرير الشركات للفصل الدراسي الصيفي`
+                        reportTitle ="{{__('translate.The Summer')}}"
                     }
+            
                     $('#companiesReportTitle').html(reportTitle);
                     $('#companiesReportTable').html(response.view);
                 },
