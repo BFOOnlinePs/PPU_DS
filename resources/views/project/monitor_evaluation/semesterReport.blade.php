@@ -38,7 +38,7 @@
     <div class="card-body" >
 
         <div class="mb-3">
-            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" onclick="showSemesterPDF()"><i class="fa fa-file-pdf-o"></i> ملف التقرير </button>
+            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" onclick="showSemesterPDF()"><i class="fa fa-file-pdf-o"></i> {{__('translate.Report File')}} {{-- ملف التقرير --}}</button>
             {{-- <a href="{{ route('monitor_evaluation.semesterReportPDF', ['data' => base64_encode(serialize($pdf))]) }}" class="btn btn-primary">Generate PDF</a> --}}
         </div>
 
@@ -69,7 +69,7 @@
 
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic year')}}{{-- العام الدراسي --}}</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic Year')}}{{-- العام الدراسي --}}</label>
                         <div class="col-lg-12">
                             <select id="year" name="year" class="form-control btn-square">
                                 @foreach($years as $key)
@@ -83,7 +83,7 @@
                 <div class="col-md-2 d-flex justify-content-center">
                     <div class="form-group">
                         <div style="margin-top:27px;" style="width: 100%">
-                        <button class="btn btn-info  mb-2 btn-s" style="width: 120px" type="submit">عرض {{-- بحث --}}</button>
+                        <button class="btn btn-info  mb-2 btn-s" style="width: 120px" type="submit"> {{__('translate.View')}} {{-- عرض  --}} </button>
                         </div>
                     </div>
                 </div>
@@ -98,27 +98,27 @@
                     </tr>
                   <tbody>
                     <tr>
-                      <td class="col-md-4">إجمالي الطلاب المسجلين في المساقات خلال هذا الفصل</td>
+                      <td class="col-md-4">{{__('translate.Total of registered students this semester')}} {{--  إجمالي الطلاب المسجلين في المساقات خلال هذا الفصل --}}</td>
                       <td id="manager_summary">{{$coursesStudentsTotal}}</td>
-                      {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
+                      {{-- <td><button class="btn btn-primary"> استعراض</button></td> --}}
                     </tr>
                     <tr>
-                      <td class="col-md-4">إجمالي المساقات لهذا الفصل</td>
+                      <td class="col-md-4">{{__('translate.Total of Semester Courses')}} {{--إجمالي المساقات لهذا الفصل--}}</td>
                       <td id="phone_summary">{{$semesterCoursesTotal}}</td>
                       {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
                     <tr id="phone2_summary_area">
-                      <td class="col-md-4">إجمالي ساعات التدريب لجميع الطلاب خلال هذا الفصل</td>
-                      <td id="phone2_summary">{{$trainingHoursTotal}} ساعات، {{$trainingMinutesTotal}} دقائق</td>
+                      <td class="col-md-4"> {{__('translate.Total of Traning Hours for all students this semester')}} {{--إجمالي ساعات التدريب لجميع الطلاب خلال هذا الفصل--}}</td>
+                      <td id="phone2_summary"> {{$trainingHoursTotal}}{{--ساعات--}}{{__('translate.Hours')}}،{{$trainingMinutesTotal}}{{--دقائق--}} {{__('translate.Minutes')}} </td>
                       {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
                     <tr>
-                      <td class="col-md-4">إجمالي الطلاب المسجلين في الشركات خلال هذاالفصل</td>
+                      <td class="col-md-4">{{__("translate.Total of Companies' Trainees this semester")}} {{--إجمالي الطلاب المسجلين في الشركات خلال هذاالفصل--}}</td>
                       <td id="address_summary">{{$traineesTotal}}</td>
                       {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
                     <tr>
-                        <td class="col-md-4">إجمالي الشركات المسجل بها خلال هذا الفصل</td>
+                        <td class="col-md-4"> {{__('translate.Total of Companies have trainees this semester')}}{{--إجمالي الشركات المسجل بها خلال هذا الفصل--}}</td>
                         <td id="address_summary">{{$semesterCompaniesTotal}}</td>
                         {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
@@ -141,6 +141,15 @@
 
 <script>
 
+var currentLocale = "{{ app()->getLocale() }}"
+
+console.log(currentLocale) 
+if(currentLocale=="en") console.log("ii")
+    First = "{{__('translate.The First')}}";
+    Summer = "{{__('translate.The Summer')}}";
+    Semester_Report = "{{__('translate.Semester Report')}}";
+    For_Academic_Year = "{{__('translate.For Academic Year')}}";
+    Second = "{{__('translate.The First')}}";
     var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
 
     function pdfLink(data){
@@ -169,14 +178,15 @@
         //console.log(semesterNum)
         //var semester;
         if(semester==1){
-            semester = "الأول"
+            semester = First
         }else if(semester==2){
-            semester = "الثاني"
+            semester = Second
         }else{
-            semester = "الصيفي"
+            semester = Summer
         }
         var year = {!! json_encode($year, JSON_HEX_APOS) !!}
-        x = `تقرير الفصل ${semester} للعام الدراسي ${year}`
+      if(currentLocale=="ar") {x = `  ${Semester_Report}  ${semester} ${For_Academic_Year}  ${year}`}
+      else if(currentLocale=="en")  {x = ` ${semester}  ${Semester_Report}  ${For_Academic_Year}  ${year}`}
         $('#semsterReportTableTitle').html(x);
     });
 
@@ -212,16 +222,16 @@
                     var semester = response.semester
                     var year = response.year
                     if(semester==1){
-                        semester = "الأول"
+                        semester = First
                     }else if(semester==2){
-                        semester = "الثاني"
+                        semester = Second
                     }else{
-                        semester = "الصيفي"
+                        semester = Summer
                     }
 
-                    x = `تقرير الفصل ${semester} للعام الدراسي ${year}`
-                    $('#semsterReportTableTitle').html(x);
-
+                    if(currentLocale=="ar")  x = `  ${Semester_Report}  ${semester} ${For_Academic_Year}  ${year}`
+                    else if(currentLocale=="en")  x = ` ${semester}  ${Semester_Report}  ${For_Academic_Year}  ${year}`                  
+                      $('#semsterReportTableTitle').html(x);
 
                 },
                 error: function(xhr, status, error) {

@@ -300,7 +300,7 @@
         // 'The student did not submit the report' => 'لم يُسلم الطالب تقرير' ,
         "Student didn't submit report" => 'لم يُسلم الطالب تقرير' ,
         // 'Amount value' => 'قيمة المبلغ',
-        'Payment Amount' => 'قيمة المبلغ',
+        'Payment Amount' => 'قيمة الدفعة',
         // 'The reference number' => 'الرقم المرجعي',
         'Reference Number' => 'الرقم المرجعي',
         'Payment Status' => 'حالة الدفعة',
@@ -389,6 +389,37 @@
         'Phone 2' => 'هاتف 2',
         'Main Branch' => 'الفرع الرئيسي',
         'Branch Address' => 'عنوان الفرع',
-        'Branch Departments' => 'أقسام الفرع'
+        'Branch Departments' => 'أقسام الفرع',
+        //nooor
+        'The student'=>'الطالب',
+        'Payment Date'=>'تاريخ الدفعة',
+        'Not Confirmed'=>'غير مؤكدة',
+        'Confirmed'=>'مؤكدة',
+        'Report File'=>'ملف التقرير',
+        'View'=>'عرض',
+        'Total of registered students this semester'=>'إجمالي الطلاب المسجلين في المساقات خلال هذا الفصل',
+        'Total of Semester Courses'=>'إجمالي المساقات لهذا الفصل',
+        'Total of Traning Hours for all students this semester'=>'إجمالي ساعات التدريب لجميع الطلاب خلال هذا الفصل',
+        'Hours'=>'ساعات',
+        'Minutes'=>'دقائق',    
+        'Total of Companies have trainees this semester'=>'إجمالي الشركات المسجل بها خلال هذا الفصل',
+        "Total of Companies' Trainees this semester"=>'إجمالي الطلاب المسجلين في الشركات خلال هذاالفصل',
+        'Semester Report'=>'تقرير الفصل',
+        'For Academic Year'=>'للعام الدراسي',
+        'The First'=>'الأول',
+        'The Second'=>'الثاني',
+        'The Summer'=>'الصيفي',
+        'Payment Details'=>'تفاصيل دفعات ',
+        'The Payment Details'=>'تفاصيل الدفعات ',
+        'For student'=>'إلى الطالب',
+        'The Trainee'=>'المتدرب',
+        'Payment Total'=>'إجمالي الدفعات',
+        'Total of Confirmed Payments'=>'إجمالي الدفعات المؤكد عليها',
+        'Company Report For'=>' تقرير الشركات ل',
+        'Total Students'=>'إجمالي الطلاب',
+
+       
+
+
     ];
 ?>

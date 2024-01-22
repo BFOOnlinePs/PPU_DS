@@ -45,10 +45,10 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1"> {{__('translate.Company')}} {{-- الشركة --}}</label>
                         <div class="col-lg-12">
                             <select id="company" name="company" class="form-control btn-square">
-                                <option selected="" value="0">--اختيار--</option>
+                                <option selected="" value="0">--{{__('translate.Choose')}}--    {{--اختيار--}}</option>
                                 @foreach($companies as $key)
                                 <option value={{$key->c_id}}> {{$key->c_name}} </option>
                                 @endforeach
@@ -59,16 +59,11 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الطالب</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Student')}} {{-- الطالب --}}</label>
                         <div class="col-lg-12">
-                            {{-- <select id="student" name="student" class="form-control btn-square">
-                                <option selected="" value="0">--اختيار--</option>
-                                @foreach($students as $key)
-                                <option value={{$key->u_id}}> {{$key->name}} </option>
-                                @endforeach
-                            </select> --}}
+                            
                             <select class="js-example-basic-single col-sm-12" id="student" name="student" onchange="selectChange()">
-                                <option selected="" value="0">--اختيار--</option>
+                                <option selected="" value="0">--{{__('translate.Choose')}}--    {{--اختيار--}}</option>
                                 @foreach($students as $key)
                                 <option value={{$key->u_id}}> {{$key->name}} </option>
                                 @endforeach
@@ -96,7 +91,7 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">العام الدراسي</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic Year')}} {{-- العام الدراسي --}} </label>
                         <div class="col-lg-12">
                             <select id="year" name="year" class="form-control btn-square">
                                 @foreach($years as $key)
@@ -109,12 +104,12 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">حالة الدفعة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1"> {{__('translate.Payment Status')}} {{-- حالة الدفعة --}}</label>
                         <div class="col-lg-12">
                             <select id="status" name="status" class="form-control btn-square">
-                                <option selected="" value="2">--اختيار--</option>
-                                <option value='0'> غير مؤكدة </option>
-                                <option value='1'>مؤكدة </option>
+                                <option selected="" value="2">--{{__('translate.Choose')}}--    {{--اختيار--}}</option>
+                                <option value='0'> {{__('translate.Not Confirmed')}} {{-- غير مؤكدة --}}</option>
+                                <option value='1'>{{__('translate.Confirmed')}} {{-- مؤكدة --}}</option>
                             </select>
                         </div>
                     </div>
@@ -129,18 +124,18 @@
 
                     <thead>
                         <tr>
-                            <th scope="col">الشركة</th>
-                            <th scope="col">الطالب</th>
-                            <th scope="col">تاريخ الدفعة</th>
-                            <th scope="col">قيمة الدفعة</th>
-                            <th scope="col">حالة الدفعة</th>
+                            <th scope="col">{{__('translate.Company')}} {{-- الشركة --}}</th>
+                            <th scope="col">{{__('translate.The student')}} {{-- الطالب --}}</th>
+                            <th scope="col">{{__('translate.Payment Date')}} {{-- تاريخ الدفعة --}}</th>
+                            <th scope="col">{{__('translate.Payment Amount')}} {{-- قيمة الدفعة --}}</th>
+                            <th scope="col">{{__('translate.Payment Status')}} {{-- حالة الدفعة --}} </th>
 
                         </tr>
                     </thead>
                     <tbody>
                         @if ($payments->isEmpty())
                         <tr>
-                            <td colspan="6" class="text-center"><span>لا توجد بيانات</span></td>
+                            <td colspan="6" class="text-center"><span> {{__('translate.No available data')}} {{-- لا توجد بيانات  --}}</span></td>
                         </tr>
                         @else
                             @foreach ($payments as $key)
@@ -149,7 +144,7 @@
                                 <td>{{$key->userStudent->name}}</td>
                                 <td>{{ \Carbon\Carbon::parse($key->created_at)->format('Y-m-d') }}</td>
                                 <td>{{$key->currency->c_symbol}} {{ $key->p_payment_value}}</td>
-                                <td  >@if ($key->p_status == 0) <span class="badge rounded-pill badge-danger">غير مؤكدة</span>  @else <span class="badge rounded-pill badge-primary">مؤكدة</span> @endif</td>
+                                <td  >@if ($key->p_status == 0) <span class="badge rounded-pill badge-danger">{{__('translate.Not Confirmed')}} {{-- غير مؤكدة --}}</span>  @else <span class="badge rounded-pill badge-primary">{{__('translate.Confirmed')}} {{-- مؤكدة --}}</span> @endif</td>
                             </tr>
                             @endforeach
                         @endif
