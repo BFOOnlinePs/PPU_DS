@@ -7,10 +7,10 @@
                 <th>{{__('translate.User who added payment')}} {{-- اسم المستخدم الذي قام بإضافة دفعة --}}</th>
                 <th>{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</th>
                 <th>{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</th>
-                <th>{{__('translate.Payment status')}} {{-- حالة الدفعة --}}</th>
-                <th>{{__('translate.Student notes')}} {{-- ملاحظات الطالب --}}</th>
-                <th>{{__('translate.Company manager notes')}} {{-- ملاحظات مدير الشركة --}}</th>
-                <th>{{__('translate.Supervisor notes')}} {{-- ملاحظات المشرف الأكاديمي --}}</th>
+                <th>{{__('translate.Payment Status')}} {{-- حالة الدفعة --}}</th>
+                <th>{{__('translate.Student Notes')}} {{-- ملاحظات الطالب --}}</th>
+                <th>{{__('translate.Company Manager Notes')}} {{-- ملاحظات مدير الشركة --}}</th>
+                <th>{{__('translate.Supervisor Notes')}} {{-- ملاحظات المشرف الأكاديمي --}}</th>
             </tr>
         </thead>
         <tbody>

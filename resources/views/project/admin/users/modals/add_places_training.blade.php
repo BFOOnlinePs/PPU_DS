@@ -26,7 +26,7 @@
                                                     <option value="{{$company->c_id}}">{{$company->c_name}}</option>
                                                 @endforeach
                                             </select>
-                                            <a href="{{route('admin.companies.index')}}">{{__('translate.Click to add a new company')}} {{-- انقر لإضافة شركة جديدة --}}</a>
+                                            <a href="{{route('admin.companies.index')}}">{{__('translate.Click to Add a New Company')}} {{-- انقر لإضافة شركة جديدة --}}</a>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="">{{__('translate.Branch')}} {{-- الفرع --}}</label>
@@ -40,7 +40,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="approval_file">{{__('translate.Approval file')}} {{-- ملف الموافقة --}}</label>
+                                            <label for="approval_file">{{__('translate.Approval File')}} {{-- ملف الموافقة --}}</label>
                                             <input type="file" id="approval_file" name="file">
                                         </div>
                                     </div>

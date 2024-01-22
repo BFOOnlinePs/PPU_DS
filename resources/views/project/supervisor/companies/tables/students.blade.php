@@ -4,7 +4,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
+            <th>{{__("translate.Student Name")}} {{-- اسم الطالب --}}</th>
             <th>{{__('translate.Display Student Information')}} {{-- عرض معلومات عن الطالب --}}</th>
         </tr>
     </thead>

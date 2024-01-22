@@ -258,9 +258,9 @@ class UserController extends Controller
             'course' => 'required'
         ],
         [
-            'company.required' => __('translate.Company name is required') // اسم الشركة حقل مطلوب
+            'company.required' => __('translate.Company Name is required') // اسم الشركة حقل مطلوب
             ,
-            'course.required' => __('translate.Course name is required') // اسم المساق حقل مطلوب
+            'course.required' => __('translate.Course Name is required') // اسم المساق حقل مطلوب
             ]
         );
 
@@ -488,9 +488,9 @@ class UserController extends Controller
             ,
             'u_date_of_birth.before_or_equal' => __("translate.Date of Birth must be before today's date") // يجب أن يكون تاريخ الميلاد في الماضي
             ,
-            'u_phone1.required' => __('translate.Phone number is required') // رقم الجوال حقل مطلوب
+            'u_phone1.required' => __('translate.Phone Number is required') // رقم الجوال حقل مطلوب
             ,
-            'u_phone1.digits' => __('translate.Phone number must be exactly 10 digits') // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
+            'u_phone1.digits' => __('translate.Phone Number must be exactly 10 digits') // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
             ,
             'u_phone2.digits' => __('translate.Alternative phone number must be exactly 10 digits') // يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط
             ,
@@ -594,8 +594,8 @@ class UserController extends Controller
             'u_date_of_birth.required' => __('translate.Date of Birth is required'), // تاريخ الميلاد حقل مطلوب
             'u_date_of_birth.date' => __('translate.Date of Birth is in an invalid format'), // صيغة تاريخ الميلاد غير صالحة
             'u_date_of_birth.before_or_equal' => __("translate.Date of Birth must be before today's date"), // يجب أن يكون تاريخ الميلاد في الماضي
-            'u_phone1.required' => __('translate.Phone number is required'), // رقم الجوال حقل مطلوب
-            'u_phone1.digits' => __('translate.Phone number must be exactly 10 digits'), // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
+            'u_phone1.required' => __('translate.Phone Number is required'), // رقم الجوال حقل مطلوب
+            'u_phone1.digits' => __('translate.Phone Number must be exactly 10 digits'), // يجب أن يتكون رقم الجوال من عشرة أرقام فقط
             'u_phone2.digits' => __('translate.Alternative phone number must be exactly 10 digits'), // يجب أن يتكون رقم الجوال الاحتياطي من عشرة أرقام فقط
             'u_gender' => __('translate.Gender must be selected') // يجب اختيار ذكر أو أنثى
         ]

@@ -23,7 +23,7 @@
                                     <input id="selected_m_id" name="m_id" hidden type="text"
                                                     class="form-control btn-square input-md">
                                      <div class="form-group">
-                                        <label for="">{{__('translate.Supervisor')}} {{-- المشرف --}}</label>
+                                        <label for="">{{__('translate.Academic Supervisor')}} {{-- المشرف --}}</label>
                                         <select  class="js-example-basic-single col-sm-12" id="supervisor"  multiple="multiple" >
                                             @foreach ($superVisors as $super)
                                                 <option   value="{{$super->u_id }}" >{{$super->name}}</option>

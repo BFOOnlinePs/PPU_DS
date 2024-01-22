@@ -124,7 +124,7 @@
             <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-first-name"> {{__('translate.Company name')}}  <span style="color: red">*</span> {{-- اسم الشركة --}}</label>
+                            <label for="f1-first-name"> {{__('translate.Company Name')}}  <span style="color: red">*</span> {{-- اسم الشركة --}}</label>
 
                             <div class="input-container">
                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
@@ -147,7 +147,7 @@
 
               <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company phone number')}} <span style="color: red">*</span>{{-- رقم هاتف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Phone Number')}} <span style="color: red">*</span>{{-- رقم هاتف الشركة --}}</label>
                             <input class="f1-last-name form-control required" id="phoneNum" type="text" name="phoneNum" value="{{$company->manager->u_phone1}}" oninput="validateInput(this)">
                             <div id="errorMessage_phoneNum" style="color:#dc3545" class="error-message"></div>
                         </div>
@@ -185,7 +185,7 @@
                     </div>
                     <div class="col-md-4">
                             <div class="form-group">
-                                <label for="f1-last-name">{{__('translate.Company address')}}<span style="color: red">*</span>{{-- عنوان الشركة --}} </label>
+                                <label for="f1-last-name">{{__('translate.Company Address')}}<span style="color: red">*</span>{{-- عنوان الشركة --}} </label>
                                 <input class="f1-last-name form-control required" id="address" type="text" name="address" value="{{$company->manager->u_address}}">
                             </div>
                     </div>
@@ -200,15 +200,15 @@
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Company Type')}} <span style="color: red">*</span>{{-- نوع الشركة --}}</label>
                             <select id="c_type" name="c_type" class="form-control btn-square" value="{{$company->c_type}}">
-                                <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public sector')}}{{-- قطاع عام --}}</option>
-                                <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private sector')}}{{-- قطاع خاص --}}</option>
+                                <option @if($company->c_type== 1) selected @endif value="1">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</option>
+                                <option @if($company->c_type== 2) selected @endif value="2">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company category')}} <span style="color: red">*</span> {{-- تصنيف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Category')}} <span style="color: red">*</span> {{-- تصنيف الشركة --}}</label>
                             <select id="c_category" name="c_category" class="form-control btn-square" value="{{$company->c_category_id}}">
                                 @foreach($categories as $key)
                                    <option value="{{$key->cc_id}}" @if($company->c_category_id == $key->cc_id) selected @endif>{{$key->cc_name}}</option>
@@ -231,7 +231,7 @@
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Company description')}}{{-- وصف الشركة --}}</label>
+                            <label for="f1-last-name">{{__('translate.Company Description')}}{{-- وصف الشركة --}}</label>
                             <textarea  class="form-control" id="c_description" name="c_description" rows="6" >{{$company->c_description}}</textarea>
                         </div>
                     </div>
@@ -279,7 +279,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4" style="margin-top: 26px;">
-                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add department')}}{{-- إضافة القسم --}}</button>
+                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add Department')}}{{-- إضافة القسم --}}</button>
                                 </div>
                             </div>
                             <div class="row" id="departmentsArea">

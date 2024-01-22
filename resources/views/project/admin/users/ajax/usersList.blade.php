@@ -1,17 +1,17 @@
 <table class="table table-bordered table-striped" id="users_table">
     <thead>
         <tr>
-            <th>{{__('translate.Full name')}} {{-- الاسم الكامل --}} </th>
+            <th>{{__('translate.Full Name')}} {{-- الاسم الكامل --}} </th>
             <th>{{__('translate.Username')}} {{-- اسم المستخدم --}}</th>
             <th>{{__('translate.Phone Number')}} {{-- رقم الجوال --}}</th>
             <th>{{__('translate.Account Status')}} {{-- حالة الحساب --}}</th>
-            <th>{{__('translate.View details')}} {{-- عرض تفاصيل --}}</th>
+            <th>{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
         </tr>
     </thead>
     <tbody>
 @if ($data->isEmpty())
     <tr>
-        <td colspan="5" class="text-center"><span>{{__('translate.No users to display')}}{{-- لا يوجد مستخدمين لعرضهم --}}</span></td>
+        <td colspan="5" class="text-center"><span>{{__('translate.No Users to Display')}}{{-- لا يوجد مستخدمين لعرضهم --}}</span></td>
     </tr>
 @else
     @foreach($data as $key)

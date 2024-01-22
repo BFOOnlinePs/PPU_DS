@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="form-label">{{__('translate.Birth date')}} {{-- تاريخ الميلاد --}} * </label>
+                                    <label class="form-label">{{__('translate.Birth Date')}} {{-- تاريخ الميلاد --}} * </label>
                                     <input class="form-control" type="date" name="u_date_of_birth" value="{{ $user->u_date_of_birth }}" @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                             @if (auth()->user()->u_role_id != 2)
                                 <div class="card-footer text-end">
                                     <input type="hidden" name="u_role_id" value="{{$role_id->r_id}}">
-                                    <button class="btn btn-primary" type="submit">{{__('translate.Save changes')}} {{-- حفظ التعديلات --}}</button>
+                                    <button class="btn btn-primary" type="submit">{{__('translate.Save Changes')}} {{-- حفظ التعديلات --}}</button>
                                 </div>
                             @endif
                         </div>

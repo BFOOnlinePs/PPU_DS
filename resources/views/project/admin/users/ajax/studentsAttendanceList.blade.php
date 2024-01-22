@@ -1,8 +1,8 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
-                <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
+                <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
+                <th>{{__('translate.Arrival Time')}} {{-- وقت الوصول --}}</th>
                 <th>{{__('translate.Leaving Time')}} {{-- وقت المغادرة --}}</th>
                 <th>{{__('translate.Details')}} {{-- التفاصيل --}}</th>
             </tr>

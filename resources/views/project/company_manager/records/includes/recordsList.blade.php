@@ -1,8 +1,8 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
-            <th>{{__('translate.Arrival time')}} {{-- وقت الوصول --}}</th>
+            <th>{{__("translate.Student Name")}} {{-- اسم الطالب --}}</th>
+            <th>{{__('translate.Arrival Time')}} {{-- وقت الوصول --}}</th>
             <th>{{__('translate.Leaving Time')}} {{-- وقت المغادرة --}}</th>
             <th>{{__('translate.Display Report')}} {{-- عرض التقرير --}}</th>
         </tr>

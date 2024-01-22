@@ -13,7 +13,7 @@
                                 <h1><span class="fa fa-plus" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h3>{{__('translate.Add course to current semester')}}{{-- إضافة مساق إلى الفصل الحالي --}}</h3>
+                                <h3>{{__('translate.Add Course to Current Semester')}}{{-- إضافة مساق إلى الفصل الحالي --}}</h3>
 
                                 <hr>
                                 <p>{{__('translate.In this section, you can add one or more courses to the current semester')}}{{-- في هذا القسم يمكنك إضافة مساق أو عدة مساقات إلى الفصل الحالي --}}</p>

@@ -4,7 +4,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
+                <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
                 <th>{{__("translate.Supervisor Students in this Company")}}{{-- طلاب المشرف في هذه الشركة --}}</th>
             </tr>
         </thead>

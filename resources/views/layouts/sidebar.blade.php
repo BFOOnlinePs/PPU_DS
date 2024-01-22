@@ -30,7 +30,7 @@
                         <li class=""><a class="nav-link" href="{{ route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}"><i
                             data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('supervisors.companies.index') }}"><i
-                                data-feather="briefcase"></i><span> {{__('translate.Training places')}} {{-- أماكن التدريب --}}</span></a></li>
+                                data-feather="briefcase"></i><span> {{__('translate.Training Places')}} {{-- أماكن التدريب --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
                                     data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                     @elseif (auth()->user()->u_role_id == 4) {{--- Asisstant --}}
@@ -58,7 +58,7 @@
                         <li class="">
                         <a class="nav-link" href="{{route('supervisor_assistants.companies.index') }}">
                             <i data-feather="briefcase"></i>
-                            <span> {{__('translate.Training places')}} {{-- أماكن التدريب --}}</span>
+                            <span> {{__('translate.Training Places')}} {{-- أماكن التدريب --}}</span>
                         </a>
                         </li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i
@@ -86,7 +86,7 @@
                         </li>
                         <li class=""><a class="nav-link" href="{{ route('admin.companies.index') }}"><i data-feather="briefcase"></i><span> {{__('translate.Companies')}} {{-- الشركات --}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{route('communications_manager_with_companies.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('communications_manager_with_companies.companies.index') }}"><i data-feather="briefcase"></i><span> {{__('translate.Training places')}} {{-- أماكن التدريب --}}</span></a></li>
+                        <li class=""><a class="nav-link" href="{{ route('communications_manager_with_companies.companies.index') }}"><i data-feather="briefcase"></i><span> {{__('translate.Training Places')}} {{-- أماكن التدريب --}}</span></a></li>
                     @else
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"

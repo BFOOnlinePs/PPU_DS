@@ -6,7 +6,7 @@
                     <th scope="col" style="display:none;">id</th>
                     <th scope="col">{{__('translate.Company name')}} {{-- اسم الشركة --}}</th>
                     <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
-                    <th scope="col">{{__('translate.Company category')}}{{-- تصنيف الشركة --}}</th>
+                    <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                     <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
                     <th scope="col">إجمالي الطلاب</th>
 
@@ -24,8 +24,8 @@
                         <td>{{ $key->c_name }}</td>
                         <td>{{ $key->manager->name }}</td>
                         <td>{{ $key->companyCategories->cc_name}}</td>
-                        @if( $key->c_type == 1) <td>{{__('translate.Public sector')}}{{-- قطاع عام --}}</td>@endif
-                        @if( $key->c_type == 2) <td>{{__('translate.Private sector')}}{{-- قطاع خاص --}}</td>@endif
+                        @if( $key->c_type == 1) <td>{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
+                        @if( $key->c_type == 2) <td>{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
                         <td>
                           {{$key->studentsTotal}}
                         </td>

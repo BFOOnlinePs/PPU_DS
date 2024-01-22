@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">{{__('translate.Birth date')}} {{-- تاريخ الميلاد --}}</label>
+                                        <label class="form-label">{{__('translate.Birth Date')}} {{-- تاريخ الميلاد --}}</label>
                                         <input class="form-control" type="date" name="u_date_of_birth" value="{{ $user->u_date_of_birth }}" readonly>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">{{__('translate.Majors')}} {{-- التخصص --}}</label>
+                                        <label class="form-label">{{__('translate.Major')}} {{-- التخصص --}}</label>
                                         <input class="form-control" type="text" value="{{$major_id->m_name}}" readonly>
                                     </div>
                                 </div>

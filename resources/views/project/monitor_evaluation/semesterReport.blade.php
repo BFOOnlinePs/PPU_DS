@@ -69,7 +69,7 @@
 
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic year')}}{{-- العام الدراسي --}}</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic Year')}}{{-- العام الدراسي --}}</label>
                         <div class="col-lg-12">
                             <select id="year" name="year" class="form-control btn-square">
                                 @foreach($years as $key)

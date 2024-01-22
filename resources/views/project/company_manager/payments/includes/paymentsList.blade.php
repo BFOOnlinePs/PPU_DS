@@ -1,7 +1,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>{{__("translate.Student's name")}} {{-- اسم الطالب --}}</th>
+                <th>{{__("translate.Student Name")}} {{-- اسم الطالب --}}</th>
                 <th>{{__('translate.User who added payment')}}{{-- اسم المستخدم الَّذي قام بإضافة دفعة --}}</th>
                 <th>{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</th>
                 <th>{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</th>

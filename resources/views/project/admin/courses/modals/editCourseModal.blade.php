@@ -27,7 +27,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course name')}} {{-- اسم المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Name')}} {{-- اسم المساق --}}</label>
                                             <div class="col-lg-12">
                                                 <input autofocus id="edit_c_name" tabindex="-2" name="c_name" type="text"
                                                     class="form-control btn-square input-md" oninput="validateInput(this)">
@@ -48,7 +48,7 @@
                                         </div> --}}
 
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course code')}}{{-- رمز المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Code')}}{{-- رمز المساق --}}</label>
                                             <div class="input-container">
                                                 <i id="edit_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                                 <i id="edit_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label" for="selectbasic">{{__('translate.Course type')}}{{-- نوع المساق --}}</label>
+                                            <label class="col-lg-12 form-label" for="selectbasic">{{__('translate.Course Type')}}{{-- نوع المساق --}}</label>
                                             <div class="col-lg-12">
                                             <select tabindex="2" id="edit_c_course_type" name="c_course_type" class="form-control btn-square">
                                                 <option value="0">{{__('translate.Theoretical')}} {{-- نظري --}}</option>
@@ -81,7 +81,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course hours')}}{{-- ساعات المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</label>
                                             <div class="col-lg-12">
                                             <select tabindex="3" id="edit_c_hours" name="c_hours" class="form-control btn-square">
                                                 <option value="0">0</option>
@@ -105,7 +105,7 @@
                                         </div> --}}
 
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course reference code')}}{{-- الرمز المرجعي للمساق --}}<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Reference Code')}}{{-- الرمز المرجعي للمساق --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
                                                 <i id="edit_ref_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                                 <i id="edit_ref_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -129,7 +129,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course description')}}{{-- وصف المساق --}}</label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Description')}}{{-- وصف المساق --}}</label>
                                             <div class="col-lg-12">
                                                 <textarea tabindex="5" id="edit_c_description" name="c_description" type="text"
                                                     rows="6"
