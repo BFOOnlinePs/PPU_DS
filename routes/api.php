@@ -139,11 +139,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // payments => for student
     Route::get('getAllStudentPayments', [StudentPaymentsController::class, 'getAllStudentPayments']);
     Route::post('studentChangePaymentStatus', [StudentPaymentsController::class, 'studentChangePaymentStatus']);
-    Route::post('studentAddPaymentNote', [StudentPaymentsController::class, 'studentAddPaymentNote']);
+    Route::post('studentAddOrEditPaymentNote', [StudentPaymentsController::class, 'studentAddOrEditPaymentNote']);
 
     // payments => for supervisor
     Route::post('getStudentPayments', [PaymentsController::class, 'getStudentPayments']);
-    Route::post('supervisorAddPaymentNote', [PaymentsController::class, 'supervisorAddPaymentNote']);
+    Route::post('supervisorAddOrEditPaymentNote', [PaymentsController::class, 'supervisorAddOrEditPaymentNote']);
 
     // payments => for manager, supervisor and student
     Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);

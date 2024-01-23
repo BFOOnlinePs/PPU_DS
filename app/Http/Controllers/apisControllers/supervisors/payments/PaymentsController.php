@@ -10,6 +10,7 @@ use App\Models\Registration;
 use App\Models\StudentCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PaymentsController extends Controller
 {
@@ -56,7 +57,23 @@ class PaymentsController extends Controller
         ]);
     }
 
-    public function supervisorAddPaymentNote(Request $request){
+    public function supervisorAddOrEditPaymentNote(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'payment_id' => 'required',
+            'supervisor_note' => 'required',
+        ], [
+            'payment_id.required' => 'يجب ارسال رقم الدفعة',
+            'supervisor_note.required' => 'الرجاء كتابة ملاحظة الدفعة',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
         $payment_id = $request->input('payment_id');
         $payment = Payment::where('p_id', $payment_id)->first();
         if (!$payment) {
@@ -67,7 +84,7 @@ class PaymentsController extends Controller
         }
 
         $payment->update([
-            'p_supervisor_notes' => $request->input('supervisor_notes'),
+            'p_supervisor_notes' => $request->input('supervisor_note'),
         ]);
 
         return response()->json([

@@ -147,7 +147,23 @@ class StudentPaymentsController extends Controller
         ]);
     }
 
-    public function studentAddPaymentNote(Request $request){
+    public function studentAddOrEditPaymentNote(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'payment_id' => 'required',
+            'student_note' => 'required',
+        ], [
+            'payment_id.required' => 'يجب ارسال رقم الدفعة',
+            'student_note.required' => 'الرجاء كتابة ملاحظة الدفعة',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
         $payment_id = $request->input('payment_id');
         $payment = Payment::where('p_id', $payment_id)->first();
         if (!$payment) {
@@ -158,7 +174,7 @@ class StudentPaymentsController extends Controller
         }
 
         $payment->update([
-            'p_student_notes' => $request->input('p_student_notes'),
+            'p_student_notes' => $request->input('student_note'),
         ]);
 
         return response()->json([

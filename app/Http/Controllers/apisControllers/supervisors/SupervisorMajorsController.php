@@ -17,7 +17,6 @@ class SupervisorMajorsController extends Controller
         $supervisorId = auth()->user()->u_id;
         $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
         $supervisorMajorsList = Major::whereIn('m_id', $supervisorMajorsIdList)->withCount('majorStudent')->get();
-        // $supervisorMajorsList->number_of_students = 15;
 
         return response()->json([
             'status' => true,
