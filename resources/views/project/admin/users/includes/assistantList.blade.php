@@ -1,14 +1,14 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>اسم المشرف الأكاديمي</th>
-            <th>حذف المشرف الأكاديمي</th>
+            <th>{{__('translate.Academic Supervisor')}} {{__('translate.Name')}}{{--اسم المشرف الأكاديمي--}}</th>
+            <th>{{__('translate.Remove Academic Supervisor')}}{{--حذف المشرف الأكاديمي--}}</th>
         </tr>
     </thead>
     <tbody>
         @if ($supervisors_assistant->isEmpty())
             <tr>
-                <td colspan="4" class="text-center"><span>لا يوجد مشرفيين أكادميين لهذا المساعد الإداري</span></td>
+                <td colspan="4" class="text-center"><span>{{__('translate.No available data')}}{{--لا يوجد مشرفيين أكادميين لهذا المساعد الإداري--}}</span></td>
             </tr>
         @else
             @foreach($supervisors_assistant as $key)
