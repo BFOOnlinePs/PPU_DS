@@ -17,6 +17,7 @@ class StudentCompany extends Model
         'sc_company_id',
         'sc_branch_id',
         'sc_department_id',
+        'sc_registration_id',
         'sc_status',
         'sc_mentor_trainer_id',
         'sc_assistant_id',

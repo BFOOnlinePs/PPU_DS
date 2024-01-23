@@ -5,10 +5,14 @@ use App\Http\Controllers\apisControllers\admin\AdminController;
 use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
+use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
+use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
+use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
@@ -16,6 +20,7 @@ use App\Http\Controllers\apisControllers\students\StudentCoursesController;
 use App\Http\Controllers\apisControllers\students\StudentReportAttendanceController;
 use App\Http\Controllers\apisControllers\students\studentReportController;
 use App\Http\Controllers\apisControllers\students\studentTrainingsController;
+use App\Http\Controllers\apisControllers\supervisors\payments\PaymentsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
@@ -41,7 +46,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AdminController::class, 'register']);
 Route::post('/login', [sharedController::class, 'login']);
 
-Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink'])->middleware('testMiddleware');
+Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
 
 // FCM
@@ -77,14 +82,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // add middleware
     // manager
-    Route::post('getTrainees', [CompanyTrainees::class, 'getTrainees']);
+    Route::post('getTrainees', [CompanyTrainees::class, 'getTrainees']); // return student company
     Route::post('getTraineeAttendanceLog', [CompanyTrainees::class, 'getTraineeAttendanceLog']);
     Route::post('getTraineeReportsLog', [CompanyTrainees::class, 'getTraineeReportsLog']);
+    Route::post('getTraineesWithSearch', [CompanyTrainees::class, 'getTraineesWithSearch']);
+
 
     Route::get('getAllTraineesAttendanceLog', [CompanyTrainees::class, 'getAllTraineesAttendanceLog']);
     Route::get('getAllTraineesReportsLog', [CompanyTrainees::class, 'getAllTraineesReportsLog']);
 
     Route::post('managerAddOrEditReportNote', [ManagerNotes::class, 'managerAddOrEditReportNote']);
+
     // Route::post('managerEditNote', [ManagerNotes::class, 'managerEditNote']);
 
 
@@ -99,15 +107,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getSupervisorStudentsInCompany', [SupervisorStudentsTrainingsController::class, 'getSupervisorStudentsInCompany'])->middleware('CheckUserRole:3');
 
     // student courses
-    Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']);
+    Route::post('getStudentCoursesById', [StudentCoursesController::class, 'getStudentCoursesById']); // all student courses, for supervisor
     Route::post('addStudentCourse', [StudentCoursesController::class, 'addStudentCourse']);
     Route::post('deleteStudentCourse', [StudentCoursesController::class, 'deleteStudentCourse']);
     Route::post('availableCoursesForStudent', [StudentCoursesController::class, 'availableCoursesForStudent']);
+    Route::post('getStudentCourseRegistrations', [StudentCoursesController::class, 'getStudentCourseRegistrations']);
 
 
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
-    Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']);
+    Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']);// for supervisor
     Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
     Route::post('getBranchDepartments', [studentTrainingsController::class, 'getBranchDepartments']);
@@ -122,8 +131,28 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('addCompanyCategory', [CompaniesCategoriesController::class, 'addCompanyCategory']);
     Route::post('editCompanyCategory', [CompaniesCategoriesController::class, 'editCompanyCategory']);
 
+    // payments => for manager
+    Route::post('addTraineePayment', [TraineePaymentsController::class, 'addTraineePayment']);
+    Route::post('getTraineePayments', [TraineePaymentsController::class, 'getTraineePayments']);
+    Route::post('getAllTraineesPayments', [AllTraineesPaymentsController::class, 'getAllTraineesPayments']);
+
+    // payments => for student
+    Route::get('getAllStudentPayments', [StudentPaymentsController::class, 'getAllStudentPayments']);
+    Route::post('studentChangePaymentStatus', [StudentPaymentsController::class, 'studentChangePaymentStatus']);
+    Route::post('studentAddOrEditPaymentNote', [StudentPaymentsController::class, 'studentAddOrEditPaymentNote']);
+
+    // payments => for supervisor
+    Route::post('getStudentPayments', [PaymentsController::class, 'getStudentPayments']);
+    Route::post('supervisorAddOrEditPaymentNote', [PaymentsController::class, 'supervisorAddOrEditPaymentNote']);
+
+    // payments => for manager, supervisor and student
+    Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);
+
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
+
+    // currencies
+    Route::get('getCurrencies', [CurrenciesController::class, 'getCurrencies']);
 
     // file test
     Route::post('/fileUpload', [sharedController::class, 'fileUpload']);

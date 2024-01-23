@@ -10,17 +10,32 @@ use App\Models\StudentCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 class SupervisorStudentsTrainingsController extends Controller
 {
-    // training places for all supervisor's students
+    // training places for all supervisor's students, with number of student in each company
     public function getSupervisorStudentsCompanies()
     {
         $supervisorId = auth()->user()->u_id;
         $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
         $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
-        $companiesIdList = StudentCompany::whereIn('sc_student_id', $studentsIdList)->pluck('sc_company_id')->unique()->values();
-        $companies = Company::whereIn('c_id', $companiesIdList)->withCount('trainings')->paginate(8);
+        // $companiesIdList = StudentCompany::whereIn('sc_student_id', $studentsIdList)->pluck('sc_company_id')->unique()->values();
+        // $companies = Company::whereIn('c_id', $companiesIdList)->withCount('trainings')->paginate(8);
+
+        // to get number of students in each company
+        $companies = StudentCompany::whereIn('sc_student_id', $studentsIdList)
+            ->groupBy('sc_company_id')
+            ->select('sc_company_id', DB::raw('count(distinct sc_student_id) as student_count'))
+            ->paginate(10);
+
+        // to get the whole Company Model instead of only the id
+        $companies->getCollection()->Transform(function($company){
+            $company_model = Company::where('c_id', $company->sc_company_id)->first();
+            $company_model->student_count = $company->student_count;
+            return $company_model;
+        });
 
         if ($companies->isEmpty()) {
             return response()->json([
@@ -38,6 +53,7 @@ class SupervisorStudentsTrainingsController extends Controller
                 'total_items' => $companies->total(),
             ],
             'companies' => $companies->items(),
+            // 'companies' => $companies,
         ]);
     }
 

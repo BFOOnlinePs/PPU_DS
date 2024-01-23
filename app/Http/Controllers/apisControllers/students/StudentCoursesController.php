@@ -52,7 +52,6 @@ class StudentCoursesController extends Controller
             ->pluck('r_course_id');
 
         $student_registered_courses = Course::whereIn('c_id', $student_courses_id_registered)->get();
-        // ->pluck('c_name');
 
         return response()->json([
             'status' => true,
@@ -249,4 +248,47 @@ class StudentCoursesController extends Controller
             'available_courses' => $available_courses_for_student
         ]);
     }
+
+    public function getStudentCourseRegistrations(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            ['student_id' => 'required'],
+            ['student_id.required' => 'الرجاء ارسال رقم الطالب']
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                "message" => $validator->errors()->first(),
+            ]);
+        }
+
+        $student_id = $request->input('student_id');
+
+        $user = User::where('u_id', $student_id)->where('u_role_id', 2)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                "message" => 'الطالب غير موجود',
+            ]);
+        }
+
+        $system_settings = SystemSetting::first();
+
+        $current_year = $system_settings->ss_year;
+        $current_semester = $system_settings->ss_semester_type;
+
+        $student_courses_id_registered = Registration::where('r_student_id', $student_id)
+            ->where('r_year', $current_year)
+            ->where('r_semester', $current_semester)
+            ->with('courses')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'courses_registrations' => $student_courses_id_registered,
+        ]);
+    }
+
 }

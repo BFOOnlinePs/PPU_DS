@@ -36,7 +36,7 @@ class sharedController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'الرجاء التأكد من المعلومات المدخلة'
+                'message' => 'الرجاء التأكد من البيانات المدخلة'
             ], 200);
         }
 
@@ -53,7 +53,7 @@ class sharedController extends Controller
         } else {
             return response([
                 'status' => false,
-                'message' => 'الايميل او كلمة المرور غير صحيحة'
+                'message' => 'الرجاء التأكد من البيانات المدخلة'
             ], 403);
         }
     }

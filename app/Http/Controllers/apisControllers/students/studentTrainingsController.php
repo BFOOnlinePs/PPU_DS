@@ -59,6 +59,8 @@ class studentTrainingsController extends Controller
         ], 200);
     }
 
+    public function getStudentCourseRegistrations(){}
+
     public function registerStudentInTraining(Request $request)
     {
         $validator = Validator::make(
@@ -67,12 +69,14 @@ class studentTrainingsController extends Controller
                 'student_id' => 'required',
                 'company_id' => 'required',
                 'branch_id' => 'required',
+                'registration_id' => 'required',
                 'agreement_file' => 'nullable|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx',
             ],
             [
                 'student_id.required' => 'الرجاء ارسال رقم الطالب',
                 'company_id.required' => 'الرجاء ارسال رقم الشركة',
                 'branch_id.required' => 'الرجاء ارسال رقم الفرع',
+                'registration_id.required' => 'الرجاء ارسال رقم تسجيل الطالب في مساق',
                 'agreement_file.mimes' => 'يجب ان تكون صيغة الملف من احدى الصيغ التالية: jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx'
             ]
         );
@@ -87,6 +91,7 @@ class studentTrainingsController extends Controller
         $student_id = $request->input('student_id');
         $company_id = $request->input('company_id');
         $branch_id = $request->input('branch_id');
+        $registration_id = $request->input('registration_id');
         $department_id = $request->input('department_id');
         $mentor_id = $request->input('mentor_id');
         $assistant_id = $request->input('assistant_id');
@@ -124,6 +129,7 @@ class studentTrainingsController extends Controller
             'sc_student_id' => $student_id,
             'sc_company_id' => $company_id,
             'sc_branch_id' => $branch_id,
+            'sc_registration_id' => $registration_id,
             'sc_department_id' => $department_id,
             'sc_status' => 1,
             'sc_mentor_trainer_id' => $mentor_id,
