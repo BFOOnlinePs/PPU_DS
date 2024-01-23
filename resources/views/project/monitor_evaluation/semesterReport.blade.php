@@ -38,8 +38,8 @@
     <div class="card-body" >
 
         <div class="mb-3">
-            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" onclick="showSemesterPDF()"><i class="fa fa-file-pdf-o"></i> {{__('translate.Report File')}} {{-- ملف التقرير --}}</button>
-            {{-- <a href="{{ route('monitor_evaluation.semesterReportPDF', ['data' => base64_encode(serialize($pdf))]) }}" class="btn btn-primary">Generate PDF</a> --}}
+            {{-- <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" ><i class="fa fa-file-pdf-o"></i> {{__('translate.Report File')}} ملف التقرير</button> --}}
+            <button class="btn btn-primary mb-2 btn-s" onclick="showSemesterPDF()"><i class="fa fa-print"></i> </button>
         </div>
 
         <!--loading whole page-->
@@ -100,27 +100,22 @@
                     <tr>
                       <td class="col-md-4">{{__('translate.Total of registered students this semester')}} {{--  إجمالي الطلاب المسجلين في المساقات خلال هذا الفصل --}}</td>
                       <td id="manager_summary">{{$coursesStudentsTotal}}</td>
-                      {{-- <td><button class="btn btn-primary"> استعراض</button></td> --}}
                     </tr>
                     <tr>
                       <td class="col-md-4">{{__('translate.Total of Semester Courses')}} {{--إجمالي المساقات لهذا الفصل--}}</td>
                       <td id="phone_summary">{{$semesterCoursesTotal}}</td>
-                      {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
                     <tr id="phone2_summary_area">
                       <td class="col-md-4"> {{__('translate.Total of Traning Hours for all students this semester')}} {{--إجمالي ساعات التدريب لجميع الطلاب خلال هذا الفصل--}}</td>
                       <td id="phone2_summary"> {{$trainingHoursTotal}}{{--ساعات--}}{{__('translate.Hours')}}،{{$trainingMinutesTotal}}{{--دقائق--}} {{__('translate.Minutes')}} </td>
-                      {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
                     <tr>
                       <td class="col-md-4">{{__("translate.Total of Companies' Trainees this semester")}} {{--إجمالي الطلاب المسجلين في الشركات خلال هذاالفصل--}}</td>
                       <td id="address_summary">{{$traineesTotal}}</td>
-                      {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
                     <tr>
                         <td class="col-md-4"> {{__('translate.Total of Companies have trainees this semester')}}{{--إجمالي الشركات المسجل بها خلال هذا الفصل--}}</td>
                         <td id="address_summary">{{$semesterCompaniesTotal}}</td>
-                        {{-- <td><button class="btn btn-primary">استعراض</button></td> --}}
                     </tr>
 
                   </tbody>
@@ -141,15 +136,6 @@
 
 <script>
 
-var currentLocale = "{{ app()->getLocale() }}"
-
-console.log(currentLocale) 
-if(currentLocale=="en") console.log("ii")
-    First = "{{__('translate.The First')}}";
-    Summer = "{{__('translate.The Summer')}}";
-    Semester_Report = "{{__('translate.Semester Report')}}";
-    For_Academic_Year = "{{__('translate.For Academic Year')}}";
-    Second = "{{__('translate.The First')}}";
     var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
 
     function pdfLink(data){
@@ -172,21 +158,19 @@ if(currentLocale=="en") console.log("ii")
     }
 
     window.addEventListener("load", (event) => {
-        // dataPDF = {!! json_encode($pdf, JSON_HEX_APOS) !!}
 
         var semester = {!! json_encode($semester, JSON_HEX_APOS) !!}
-        //console.log(semesterNum)
-        //var semester;
+
         if(semester==1){
-            semester = First
+            semester = "{{__('translate.First Semester Report')}} "
         }else if(semester==2){
-            semester = Second
+            semester = "{{__('translate.Second Semester Report')}} "
         }else{
-            semester = Summer
+            semester = "{{__('translate.Summer Semester Report')}} "
         }
         var year = {!! json_encode($year, JSON_HEX_APOS) !!}
-      if(currentLocale=="ar") {x = `  ${Semester_Report}  ${semester} ${For_Academic_Year}  ${year}`}
-      else if(currentLocale=="en")  {x = ` ${semester}  ${Semester_Report}  ${For_Academic_Year}  ${year}`}
+
+        x= semester + "{{__('translate.for Academic Year')}} "+year
         $('#semsterReportTableTitle').html(x);
     });
 
@@ -213,25 +197,22 @@ if(currentLocale=="en") console.log("ii")
                 data: data,
                 dataType: 'json',
                 success: function(response) {
-                    console.log("all has done")
                     dataPDF = response.pdf;
-                    console.log(dataPDF)
                     document.getElementById('loaderContainer').hidden = true;
                     $('#semsterReportTable').html(response.view);
 
                     var semester = response.semester
                     var year = response.year
                     if(semester==1){
-                        semester = First
+                        semester = "{{__('translate.First Semester Report')}} "
                     }else if(semester==2){
-                        semester = Second
+                        semester = "{{__('translate.Second Semester Report')}} "
                     }else{
-                        semester = Summer
+                        semester = "{{__('translate.Summer Semester Report')}} "
                     }
 
-                    if(currentLocale=="ar")  x = `  ${Semester_Report}  ${semester} ${For_Academic_Year}  ${year}`
-                    else if(currentLocale=="en")  x = ` ${semester}  ${Semester_Report}  ${For_Academic_Year}  ${year}`                  
-                      $('#semsterReportTableTitle').html(x);
+                    x= semester + "{{__('translate.for Academic Year')}} "+year
+                    $('#semsterReportTableTitle').html(x);
 
                 },
                 error: function(xhr, status, error) {
