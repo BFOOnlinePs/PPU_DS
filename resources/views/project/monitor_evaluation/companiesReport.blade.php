@@ -72,7 +72,7 @@
                         {{-- <input class="form-control" id="semester" name="semester"> --}}
                         <div class="col-lg-12">
                             <select id="semester" name="semester" class="form-control btn-square">
-                                <option value="0">{{__('translate.Semesters')}}{{-- جميع الفصول  --}}</option>
+                                <option value="0">{{__('translate.All Semesters')}}{{-- جميع الفصول  --}}</option>
                                 <option value="1" @if($semester==1) selected @endif>{{__('translate.First')}}{{-- أول --}}</option>
                                 <option value="2" @if($semester==2) selected @endif>{{__('translate.Second')}}{{-- ثاني --}}</option>
                                 <option value="3" @if($semester==3) selected @endif>{{__('translate.Summer')}}{{-- صيفي --}}</option>
@@ -183,6 +183,8 @@
 // var dataPDF = "<?php echo base64_encode(serialize($data)); ?>";
 // console.log(dataPDF)
 
+space = " ";
+
 function pdfLink(data){
     var editLink = "{{ route('monitor_evaluation.companiesReportPDF', ['data' => 'dataArr']) }}";
 
@@ -204,13 +206,14 @@ window.addEventListener("load", (event) => {
     //console.log({!! json_encode($data, JSON_HEX_APOS) !!})
 
     semester = {!! json_encode($semester, JSON_HEX_APOS) !!}
-    reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}};";
+    // reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}};";
+    reportTitle="";
     if(semester==1){
-        reportTitle = "{{__('translate.The First')}}";
+        reportTitle = "{{__('translate.Company Report for ')}}"+"{{__('translate.The First Semester')}}";
     }else if(semester==2){
-        reportTitle = "{{__('translate.The Second')}}"
+        reportTitle = "{{__('translate.Company Report for ')}}"+"{{__('translate.The Second Semester')}}";
     }else if(semester==3){
-        reportTitle ="{{__('translate.The Summer')}}"
+        reportTitle ="{{__('translate.Company Report for ')}}"+"{{__('translate.The Summer Semester')}}";
     }
     $('#companiesReportTitle').html(reportTitle);
 
@@ -243,17 +246,18 @@ window.addEventListener("load", (event) => {
                     document.getElementById('loaderContainer').hidden = true;
                     semester = document.getElementById('semester').value;
                     document.getElementById('test').value = response.data;
-                    reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}}";
+                    // reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}}";
+                    reportTitle="";
                     if(semester==0){
-                        reportTitle = "{{__('translate.Semesters')}}"
+                        reportTitle = "{{__('translate.Company Report for ')}}" + "{{__('translate.All Semesters')}}"
                     }else if(semester==1){
-                        reportTitle = "{{__('translate.The First')}}";
+                        reportTitle = "{{__('translate.Company Report for ')}}" + "{{__('translate.The First Semester')}}"
                     }else if(semester==2){
-                        reportTitle = "{{__('translate.The Second')}}"
+                        reportTitle = "{{__('translate.Company Report for ')}}" + "{{__('translate.The Second Semester')}}"
                     }else if(semester==3){
-                        reportTitle ="{{__('translate.The Summer')}}"
+                        reportTitle = "{{__('translate.Company Report for ')}}" + "{{__('translate.The Summer Semester')}}"
                     }
-            
+
                     $('#companiesReportTitle').html(reportTitle);
                     $('#companiesReportTable').html(response.view);
                 },

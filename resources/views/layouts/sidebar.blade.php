@@ -75,11 +75,11 @@
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
-                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.index')}}"><i data-feather="home"></i><span>الرئيسية</span></a></li>
-                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i>تقرير فصل</span></a></li>
-                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.companiesReport')}}"><i data-feather="briefcase"></i><span>تقرير الشركات</span></a></li>
-                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.companiesPaymentsReport')}}"><i data-feather="users"></i><span>تقرير دفعات الشركات</span></a></li>
-                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.paymentsReport')}}"><i data-feather="dollar-sign"></i>تقرير الدفعات المالية</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.index')}}"><i data-feather="home"></i><span>{{__('translate.Main')}}{{--الرئيسية--}}</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i>{{__("translate.Semester's Report")}}{{--تقرير فصل--}}</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.companiesReport')}}"><i data-feather="briefcase"></i><span>{{__("translate.Companies' Report")}}{{--تقرير الشركات--}}</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.companiesPaymentsReport')}}"><i data-feather="users"></i><span>{{__("translate.Companies Payments' Report")}}{{--تقرير دفعات الشركات--}}</span></a></li>
+                        <li class=""><a class="nav-link" href="{{route('monitor_evaluation.paymentsReport')}}"><i data-feather="dollar-sign"></i>{{__("translate.Payments' Report")}}{{--تقرير الدفعات المالية--}}</span></a></li>
                         @elseif (auth()->user()->u_role_id == 8) {{-- Communications Manager with Companies --}}
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>

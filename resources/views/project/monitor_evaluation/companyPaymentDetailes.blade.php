@@ -22,7 +22,7 @@
 
     <div class="card-body" >
 
-        <h5>{{__('translate.Payment Details')}} {{-- تفاصيل دفعات  --}} {{__('translate.Company')}} {{-- شركة --}} : {{$payments[0]->payments->c_name}}، {{__('translate.For student')}} {{--  إلى الطالب--}}: {{$payments[0]->userStudent->name}}</h5>
+        <h5>{{__("translate.Company's Payments Details")}} {{-- تفاصيل دفعات  --}} {{-- شركة --}} : {{$payments[0]->payments->c_name}}، {{__('translate.For student')}} {{--  إلى الطالب--}}: {{$payments[0]->userStudent->name}}</h5>
         {{-- <hr> --}}
         {{-- <h6>الشركة</h6> --}}
 
@@ -49,7 +49,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td>إجمالي الدفعات</td>
+                    <td>{{__("translate.Payments' Total")}}{{--إجمالي الدفعات--}}</td>
                     <td>
                         @foreach ($trainingPayment->paymentsTotalCollection as $item)
                             @if($item["total"] != 0)

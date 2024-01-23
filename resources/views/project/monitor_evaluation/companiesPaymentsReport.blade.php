@@ -52,7 +52,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Company')}}{{--الشركة--}}</label>
                         <div class="col-lg-12">
                             <select id="company" name="company" class="form-control btn-square">
                                 <option selected="" value="0">--{{__('translate.Choose')}}--    {{--اختيار--}}</option>
@@ -105,7 +105,7 @@
                             <th scope="col">{{__('translate.The Trainee')}} {{-- المتدرب --}}</th>
                             <th scope="col">{{__('translate.Payment Total')}} {{--إجمالي الدفعات --}}</th>
                             <th scope="col">{{__('translate.Total of Confirmed Payments')}} {{--  إجمالي الدفعات المؤكد عليها  --}}</th>
-                            <th scope="col">{{__('translate.The Payment Details')}} {{-- تفاصيل الدفعات  --}}</th>
+                            <th scope="col">{{__('translate.Payments Details')}} {{-- تفاصيل الدفعات  --}}</th>
 
                         </tr>
                     </thead>

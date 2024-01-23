@@ -215,8 +215,19 @@ class MonitorEvaluationController extends Controller
         ->distinct()
         ->get());
 
-        $semesterText = ($semester==1?' الأول ':($semester == 2 ? ' الثاني ': ' الصيفي '));
-        $concatenatedText = "تقرير الفصل الدراسي " . $semesterText . " للعام الدراسي " . $year;
+        // $semesterText = ($semester==1?' الأول ':($semester == 2 ? ' الثاني ': ' الصيفي '));
+        // $concatenatedText = "تقرير الفصل الدراسي " . $semesterText . " للعام الدراسي " . $year;
+
+        if($semester==1){
+            $semesterText = __('translate.First Semester Report');
+        }else if($semester==2){
+             $semesterText = __('translate.Second Semester Report');
+        }else{
+             $semesterText = __('translate.Summer Semester Report');
+        }
+
+        $yearText = __('translate.for Academic Year') . " " . $year;
+        $concatenatedText = $semesterText . " " . $yearText;
 
         $data = [
             'title' => $concatenatedText,
@@ -308,18 +319,17 @@ class MonitorEvaluationController extends Controller
         ->distinct()
         ->get());
 
-        // $semesterText = ($semester==1?' الأول ':($semester == 2 ? ' الثاني ': ' الصيفي '));
-        if($semester == 1){
-            $semesterText = 'الأول';
+
+        if($semester==1){
+           $semesterText = __('translate.First Semester Report');
+        }else if($semester==2){
+            $semesterText = __('translate.Second Semester Report');
+        }else{
+            $semesterText = __('translate.Summer Semester Report');
         }
-        if($semester == 2){
-            $semesterText = 'الثاني';
-        }
-        else{
-            $semesterText = 'الصيفي';
-        }
-        $concatenatedText = "تقرير الفصل الدراسي " . $semesterText . " للعام الدراسي " . $year;
-        // $concatenatedText = "تقرير الفصل الدراسي ";
+
+        $yearText = __('translate.for Academic Year') . " " . $year;
+        $concatenatedText = $semesterText . " " . $yearText;
 
         $data = [
             'title' => $concatenatedText,

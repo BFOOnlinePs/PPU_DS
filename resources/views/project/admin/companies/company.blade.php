@@ -90,7 +90,7 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
-                    <p>المستخدم</p>
+                    <p>{{__('translate.User')}}{{--المستخدم--}}</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-file-text-o"></i></div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-file-text"></i></div>
-                    <p>الملخص</p>
+                    <p>{{__('translate.Summary')}}{{--الملخص--}}</p>
                 </div>
             </div>
 
@@ -114,7 +114,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3 form-group">
-                            <label for="f1-first-name">اسم الشركة <span style="color: red">*</span></label>
+                            <label for="f1-first-name">{{__("translate.Company Name")}}{{--اسم الشركة--}} <span style="color: red">*</span></label>
 
                             <div class="input-container">
                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
@@ -123,8 +123,8 @@
                             </div>
 
                             <div id="similarCompanyMessage" style="color:#dc3545" hidden>
-                                <span>يوجد شركة بنفس الاسم الذي قمت بادخاله،</span>
-                                <u><a id="companyLink" style="color:#dc3545">للانتقال إلى التعديل قم بالضغط هنا</a></u>
+                                <span>{{__("translate.There is company with the same name you entered,")}}{{--يوجد شركة بنفس الاسم الذي قمت بادخاله،--}}</span>
+                                <u><a id="companyLink" style="color:#dc3545">{{__("translate.To move to the edit click here")}}{{--للانتقال إلى التعديل قم بالضغط هنا--}}</a></u>
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                             </div>
 
                             <div id="similarEmailMessage" style="color:#dc3545" hidden>
-                                <span>البريد الإلكتروني موجود بالفعل</span>
+                                <span>{{__("translate.Email has already been used")}}{{--البريد الإلكتروني موجود بالفعل--}}</span>
                             </div>
 
                         </div>
@@ -181,7 +181,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">عدد فروع الشركة - "يشمل الفرع الرئيسي" <span style="color: red">*</span></label>
+                            <label for="f1-last-name">{{__('translate.Number of Company Branches - including the main branch')}}{{--عدد فروع الشركة - "يشمل الفرع الرئيسي"--}} <span style="color: red">*</span></label>
                             <select id="branchesNum" name="branchesNum" class="form-control btn-square">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -204,7 +204,7 @@
 
 
                 <div class="f1-buttons">
-                    <button class="btn btn-primary" id="firstButton" onclick="firstStep()" type="button">التالي</button>
+                    <button class="btn btn-primary" id="firstButton" onclick="firstStep()" type="button">{{__('translate.Next')}}{{--التالي--}}</button>
                     <button class="btn btn-primary btn-next" id="firstStepButton" type="button" hidden></button>
                 </div>
             </fieldset>
@@ -215,7 +215,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">اسم الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Company Name')}}{{--اسم الشركة--}}</label>
 
                             <input class="f1-last-name form-control" id="companyName" type="text" name="companyName" disabled>
                         </div>
@@ -233,7 +233,7 @@
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Company Type')}}{{-- نوع الشركة --}} <span style="color: red">*</span></label>
                             <select id="c_type" name="c_type" class="form-control btn-square">
-                                <option selected="" disabled="" value="">--اختيار--</option>
+                                <option selected="" disabled="" value="">--{{__('translate.Choose')}}--{{--اختيار--}}</option>
                                 <option value="1">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</option>
                                 <option value="2">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</option>
                             </select>
@@ -242,9 +242,9 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="f1-last-name">تصنيف الشركة <span style="color: red">*</span></label>
+                            <label for="f1-last-name">{{__('translate.Company Category')}}{{--تصنيف الشركة--}} <span style="color: red">*</span></label>
                             <select id="c_category" name="c_category" class="form-control btn-square">
-                                <option selected="" disabled="" value="">--اختيار--</option>
+                                <option selected="" disabled="" value="">--{{__('translate.Choose')}}--{{--اختيار--}}</option>
                                 @foreach($categories as $key)
                                     <option value="{{$key->cc_id}}">{{$key->cc_name}}</option>
                                 @endforeach
@@ -270,7 +270,7 @@
 
                 <div class="f1-buttons">
                     {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
-                    <button class="btn btn-primary" type="button" onclick="secondStep()">التالي</button>
+                    <button class="btn btn-primary" type="button" onclick="secondStep()">{{__('translate.Next')}}{{--التالي--}}</button>
                     <button class="btn btn-primary btn-next" id="secondStepButton" type="button" hidden></button>
                 </div>
             </fieldset>
@@ -306,7 +306,7 @@
                                 <h3>{{__('translate.Add Department to the Company')}}{{-- إضافة قسم إلى الشركة --}}</h3>
 
                                 <hr>
-                                <p>في هذا القسم يمكنك إضافة الأقسام الخاصة بالشركة الحالية</p>
+                                <p>{{__('translate.In this section, you can add departments to the current company')}}{{--في هذا القسم يمكنك إضافة الأقسام الخاصة بالشركة الحالية--}}</p>
 
 
                         </div>
@@ -335,7 +335,7 @@
                 <input hidden id="departmentsList" name="departmentsList">
 
                 <div class="f1-buttons">
-                    <button class="btn btn-primary" onclick="departmentStep()" type="button">التالي</button>
+                    <button class="btn btn-primary" onclick="departmentStep()" type="button">{{__('translate.Next')}}{{--التالي--}}</button>
                     <button class="btn btn-primary btn-next" id="departmentStepButton" type="button" hidden></button>
                 </div>
             </fieldset>
@@ -441,7 +441,7 @@
                 <div class="f1-buttons">
                     {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
                     {{-- <button class="btn btn-primary btn-submit" type="submit">إضافة</button> --}}
-                    <button class="btn btn-primary" id="thirdButton" type="button" onclick="thirdStep()">التالي</button>
+                    <button class="btn btn-primary" id="thirdButton" type="button" onclick="thirdStep()">{{__('translate.Next')}}{{--التالي--}}</button>
                     <button class="btn btn-primary btn-next" id="thirdStepButton" type="button" hidden></button>
                 </div>
             </fieldset>
@@ -454,7 +454,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th style="background-color: #ecf0ef82;" colspan="2">المعلومات الأساسية</th>
+                            <th style="background-color: #ecf0ef82;" colspan="2">{{__('translate.Main Information')}}{{--المعلومات الأساسية--}}</th>
                         </tr>
                       <tbody>
                         <tr>
@@ -490,7 +490,7 @@
                           <td id="description_summary"></td>
                         </tr>
                         <tr id="main_branch_departments_area" hidden>
-                          <td class="col-md-3">أقسام الفرع الرئيسي</td>
+                          <td class="col-md-3">{{__('translate.Main Branch Departments')}}{{--أقسام الفرع الرئيسي--}}</td>
                           <td id="main_branch_departments"></td>
                         </tr>
                         <tr id="website_summary_area" hidden>
@@ -531,7 +531,7 @@
 
                 <div class="f1-buttons">
                     {{-- <button class="btn btn-success" type="button">إنهاء</button> --}}
-                    <a type="button" class="btn btn-success" href="{{ route('admin.companies.index') }}">إنهاء</a>
+                    <a type="button" class="btn btn-success" href="{{ route('admin.companies.index') }}">{{__('translate.Finish')}}{{--إنهاء--}}</a>
                     <a type="button" class="btn btn-info" id="editCompanyLink">{{__('translate.Edit')}}{{-- تعديل --}}</a>
                     {{-- <button class="btn btn-info" type="button">تعديل</button> --}}
                 </div>
@@ -710,7 +710,7 @@ function validateInput(input) {
             // Invalid input
             //input.setCustomValidity('Please enter a 10-digit number.');
             //input.style.borderColor = "#dc3545";
-            errorMessageElement.textContent = 'الرجاء إدخال رقم مكون من 10 خانات';
+            errorMessageElement.textContent = "{{__('translate.Please enter 10 digits number')}}";
             document.getElementById(`${buttonsInFieldset}`).disabled = true;
         } else {
             //input.style.borderColor = "";
@@ -742,7 +742,7 @@ window.addEventListener("load", (event) => {
                         </h6>
                     </div>
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-secondary" onclick="completeCompany(${i})" >إكمال</button>
+                        <button type="button" class="btn btn-secondary" onclick="completeCompany(${i})" >{{__('translate.Complete')}}</button>
                     </div>
                   </div>`
         }
@@ -1100,13 +1100,13 @@ function thirdStep(){
                 }
 
                 //set step 4 values - summary tab
-                document.getElementById("company_name_summary").innerHTML = "اسم الشركة : "+document.getElementById("c_name").value;
+                document.getElementById("company_name_summary").innerHTML = "{{__('translate.Company Name')}} : "+document.getElementById("c_name").value;
                 $('#manager_summary').html(document.getElementById("name").value);
                 $('#email_sammury').html(document.getElementById("email").value);
                 $('#phone_summary').html(document.getElementById("phoneNum").value);
                 $('#address_summary').html(document.getElementById("address").value);
                 $('#category_summary').html(categName);
-                $('#type_summary').html(document.getElementById("c_type").value == 1 ? "قطاع عام" : "قطاع خاص");
+                $('#type_summary').html(document.getElementById("c_type").value == 1 ? "{{__('translate.Public Sector')}}" : "{{__('translate.Private Sector')}}");
 
 
                 x = "";
@@ -1186,23 +1186,23 @@ function thirdStep(){
                         x += `<div class="table-responsive">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th style="background-color: #ecf0ef82;" colspan="2">الفرع ${i+1}</th>
+                                        <th style="background-color: #ecf0ef82;" colspan="2">{{__('translate.Branch')}} ${i+1}</th>
                                     </tr>
                                     <tbody>
                                         <tr>
-                                            <td class="col-md-3">هاتف 1</td>
+                                            <td class="col-md-3">{{__('translate.Phone 1')}}</td>
                                             <td>${branch_phone1}</td>
                                         </tr>
                                         <tr id="branch_phone2_area" ${branch_phone2 == "" ? 'hidden' : ''}>
-                                            <td class="col-md-3">هاتف 2 </td>
+                                            <td class="col-md-3">{{__('translate.Phone 2')}}</td>
                                             <td id="branch_phone2">${branch_phone2}</td>
                                         </tr>
                                         <tr>
-                                            <td class="col-md-3">العنوان</td>
+                                            <td class="col-md-3">{{__('translate.Branch Address')}}</td>
                                             <td>${branch_address}</td>
                                         </tr>
                                         <tr id="branch_departments_area" ${departments.length == 0 ? 'hidden' : ''}>
-                                            <td class="col-md-3">الأقسام</td>
+                                            <td class="col-md-3">{{__('translate.Branch Departments')}}</td>
                                             <td id="branch_departments">${tempB}</td>
                                         </tr>
 
@@ -1300,18 +1300,18 @@ function departmentStep(){
                             <div class="col-md-6">
                             <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
                             <div class="card-body">
-                                <div class="ribbon ribbon-primary ribbon-right">الفرع ${i+1}</div>
+                                <div class="ribbon ribbon-primary ribbon-right">{{__('translate.Branch')}} ${i+1}</div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="phone1_${i+1}">هاتف 1 <span style="color: red">*</span></label>
+                                            <label for="phone1_${i+1}">{{__('translate.Phone 1')}}<span style="color: red">*</span></label>
                                             <input class="f1-last-name form-control" id="phone1_${i+1}" type="text" name="phone1_${i+1}" required="" oninput="validateInput(this)">
                                             <div id="errorMessage_phone1_${i+1}" style="color:#dc3545" class="error-message"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="phone2_${i+1}">هاتف 2</label>
+                                            <label for="phone2_${i+1}">{{__('translate.Phone 2')}}</label>
                                             <input class="f1-last-name form-control" id="phone2_${i+1}" name="phone2_${i+1}" oninput="validateInput(this)">
                                             <div id="errorMessage_phone2_${i+1}" style="color:#dc3545" class="error-message"></div>
                                         </div>
@@ -1320,13 +1320,13 @@ function departmentStep(){
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for=address${i+1}">عنوان الفرع <span style="color: red">*</span></label>
+                                            <label for=address${i+1}">{{__('translate.Branch Address')}}<span style="color: red">*</span></label>
                                             <input class="f1-last-name form-control" id="address${i+1}" type="text" name="address${i+1}" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group" id="departments_group${i+1}" hidden>
-                                            <label for="departments${i+1}">أقسام الفرع <span style="color: red">*</span></label>
+                                            <label for="departments${i+1}">{{__('translate.Branch Departments')}} <span style="color: red">*</span></label>
                                             <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments${i+1}" multiple></select>
                                         </div>
                                     </div>
@@ -1344,18 +1344,18 @@ function departmentStep(){
                             x += `<div class="col-md-6">
                             <div class="ribbon-wrapper card shadow-sm" style="border-radius: 5px;">
                             <div class="card-body">
-                                <div class="ribbon ribbon-primary ribbon-right">الفرع ${i+2}</div>
+                                <div class="ribbon ribbon-primary ribbon-right">{{__('translate.Branch')}} ${i+2}</div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="phone1_${i+2}">هاتف 1</label>
+                                            <label for="phone1_${i+2}">{{__('translate.Phone 1')}}</label>
                                             <input class="f1-last-name form-control" id="phone1_${i+2}" type="text" name="phone1_${i+2}" required="" oninput="validateInput(this)">
                                             <div id="errorMessage_phone1_${i+2}" style="color:#dc3545" class="error-message"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="phone2_${i+2}">هاتف 2</label>
+                                            <label for="phone2_${i+2}">{{__('translate.Phone 2')}}</label>
                                             <input class="f1-last-name form-control" id="phone2_${i+2}" name="phone2_${i+2}" required="" oninput="validateInput(this)">
                                             <div id="errorMessage_phone2_${i+2}" style="color:#dc3545" class="error-message"></div>
                                         </div>
@@ -1364,13 +1364,13 @@ function departmentStep(){
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for=address${i+2}">عنوان الفرع</label>
+                                            <label for=address${i+2}">{{__('translate.Branch Address')}}</label>
                                             <input class="f1-last-name form-control" id="address${i+2}" type="text" name="address${i+2}" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group" id="departments_group${i+2}" hidden>
-                                            <label for="departments${i+2}">أقسام الفرع</label>
+                                            <label for="departments${i+2}">{{__('translate.Branch Departments')}}</label>
                                             <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments${i+2}" multiple></select>
                                         </div>
                                     </div>

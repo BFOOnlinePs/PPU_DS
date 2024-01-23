@@ -101,13 +101,13 @@
 <div class="stepwizard mt-5">
                 <div class="stepwizard-row setup-panel">
                   <div class="stepwizard-step"><button class="btn btn-primary" id="btn1" onclick="info()"><i class="fa fa-file-text-o" ></i></button>
-                    <p>معلومات الشركة</p>
+                    <p>{{__("translate.Company Information")}}{{--معلومات الشركة--}}</p>
                   </div>
                   <div class="stepwizard-step"><button class="btn btn-light" id="btn2" onclick="department()"><i class="fa fa-th-large" ></i></button>
-                    <p>أقسام الشركة</p>
+                    <p>{{__("translate.Company Departments")}}{{--أقسام الشركة--}}</p>
                   </div>
                   <div class="stepwizard-step"><button class="btn btn-light" id="btn3" onclick="branch()"><i class="fa fa-sitemap" ></i></button>
-                    <p>فروع الشركة</p>
+                    <p>{{__("translate.Company Branches")}}{{--فروع الشركة--}}</p>
                   </div>
                 </div>
             </div>
@@ -133,8 +133,8 @@
                             </div>
 
                             <div id="similarCompanyMessage" style="color:#dc3545" hidden>
-                                <span>يوجد شركة بنفس الاسم الذي قمت بادخاله،</span>
-                                <u><a id="companyLink" style="color:#dc3545">للانتقال إلى التعديل قم بالضغط هنا</a></u>
+                                <span>{{__("translate.There is company with the same name you entered,")}}'{{--يوجد شركة بنفس الاسم الذي قمت بادخاله،--}}</span>
+                                <u><a id="companyLink" style="color:#dc3545">{{__("translate.To move to the edit click here")}}'{{--للانتقال إلى التعديل قم بالضغط هنا--}}</a></u>
                             </div>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                                 <input class="form-control required" id="email" type="text" name="email" value="{{$company->manager->email}}" oninput="validateEmail(this)">
                             </div>
                             <div id="similarEmailMessage" style="color:#dc3545" hidden>
-                                <span>البريد الإلكتروني موجود بالفعل</span>
+                                <span>{{__("translate.Email has already been used")}}{{--البريد الإلكتروني موجود بالفعل--}}</span>
                             </div>
                         </div>
 
@@ -272,7 +272,7 @@
                                         <input class="form-control" id="d_company_id" name="d_company_id" value="{{$company->c_id}}" hidden>
     </form>
     <div id="similarCompanyDepMessage" style="color:#dc3545" hidden>
-                                <span>يوجد قسم بنفس الاسم الذي قمت بادخاله</span>
+                                <span>{{__("translate.There is department with the same name you entered")}}{{--يوجد قسم بنفس الاسم الذي قمت بادخاله--}}</span>
 
                             </div>
 
@@ -295,7 +295,7 @@
                     <div class="card card-absolute"  id="departments_summary_area_company" >
                         <div class="card-body">
                           <div class="card-header bg-primary">
-                            <h5 class="text-white">أقسام الشركة</h5>
+                            <h5 class="text-white">{{__("translate.Company Departments")}}{{--أقسام الشركة--}}</h5>
                           </div>
 
                           <div class="card-body">
@@ -1200,13 +1200,13 @@ $.ajax({
       if(departmentName==""){
 
            document.getElementById('similarCompanyDepMessage').hidden = false;
-         document.querySelector('#similarCompanyDepMessage span').textContent ="الرجاء ملء الحقل*";
+         document.querySelector('#similarCompanyDepMessage span').textContent = '{{__("translate.Please fill out the field")}}';
 
 
       }
       else {
          document.getElementById('similarCompanyDepMessage').hidden = false;
-         document.querySelector('#similarCompanyDepMessage span').textContent ="يوجد قسم بنفس الاسم الذي قمت بادخاله";
+         document.querySelector('#similarCompanyDepMessage span').textContent = '{{__("translate.There is department with the same name you entered")}}';
       }
     }
 
