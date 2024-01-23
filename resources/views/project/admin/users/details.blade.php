@@ -51,9 +51,9 @@
                         <input type="hidden" value="{{$user->u_id}}" id="user_id">
                         <h4 class="card-title mb-0">
                             @if(app()->getLocale() == 'en')
-                                {{$company->c_name}} {{__("translate.Company's Interns")}}
+                                {{$company->c_name}} {{__("translate.Interns at")}}
                             @else
-                                {{__("translate.Company's Interns")}} {{$company->c_name}}
+                                {{__("translate.Interns at")}} {{$company->c_name}}
                             @endif
                         </h4>
                         @if (isset($students))
@@ -67,12 +67,12 @@
                                 @include('project.admin.users.includes.student')
                             </div>
                         @else
-                            <span class="text-center">لا يوجد متدربين في هذه الشركة</span>
+                            <span class="text-center">{{__('translate.No Trainee Students in this Company')}}{{--لا يوجد متدربين في هذه الشركة--}}</span>
                         @endif
                     @elseif($user->u_role_id == 4)
-                        <h5>المشرفيين الأكادميين التابعين للمساعد الإداري</h5>
+                        <h5>{{__("translate.Assistant's Supervisors")}}{{--مشرفين المساعد الإداري--}}</h5>
                         <br>
-                        <button class="btn btn-primary  mb-2 btn-s" type="button" onclick="show_AddSupervisorModal({{$user->u_id}})"><span class="fa fa-plus"></span> تسجيل مشرف أكاديمي للمساعد الإداري</button>
+                        <button class="btn btn-primary  mb-2 btn-s" type="button" onclick="show_AddSupervisorModal({{$user->u_id}})"><span class="fa fa-plus"></span>{{__('translate.Assigne Supervisor to the Assistant')}} {{--تسجيل مشرف أكاديمي للمساعد الإداري--}}</button>
                         {{-- @include('project.admin.users.modals.add_supervisor') --}}
                     @endif
                     <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>

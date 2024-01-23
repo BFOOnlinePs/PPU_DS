@@ -20,7 +20,7 @@
 
 
 <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> مساقات الفصل الحالي</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span>{{__('translate.Current Semester Courses')}} {{--مساقات الفصل الحالي--}}</button>
     <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span>{{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}</button>
 </div>
 
@@ -28,7 +28,7 @@
 
     <div class="card-body" >
 
-        <h3>طلاب مساق: {{$course->c_name}}</h3>
+        <h3>{{__('translate.Students Enrolled in:')}} {{$course->c_name}}{{--طلاب مساق: {{$course->c_name}}--}}</h3>
         <br>
         <div id="showTable">
             <div class="table-responsive">
@@ -38,13 +38,13 @@
                             <th scope="col" style="display:none;">id</th>
                             <th scope="col">{{__('translate.Student University ID')}}{{-- رقم الطالب الجامعي --}}</th>
                             <th scope="col">{{__("translate.Student Name")}}{{-- اسم الطالب --}}</th>
-                            <th scope="col">تفاصيل الطالب</th>
+                            <th scope="col">{{__('translate.Student Details')}}{{--تفاصيل الطالب--}}</th>
                         </tr>
                     </thead>
                     <tbody>
                     @if ($data->isEmpty())
                         <tr>
-                            <td colspan="4" class="text-center"><span>لا توجد بيانات</span></td>
+                            <td colspan="4" class="text-center"><span>{{__('translate.No available data')}}{{--لا توجد بيانات--}}</span></td>
                         </tr>
                     @else
                         @foreach ($data as $key)

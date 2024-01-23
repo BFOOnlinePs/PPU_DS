@@ -98,7 +98,7 @@
         'In this section, you can add an assistant to the academic supervisor' => 'In this section, you can add an assistant to the academic supervisor',
         "Remove the assistant assigned to this supervisor" => "Remove the assistant assigned to this supervisor",
         'Academic Supervisor Assistant Name' => 'Academic Supervisor Assistant Name',
-        "Assigne assistant to the Academic Supervisor" => "Assigne assistant to the Academic Supervisor",
+        "Assigne Assistant to the Academic Supervisor" => "Assigne Assistant to the Academic Supervisor",
         "Academic Supervisor's Assistants" => "Academic Supervisor's Assistants",
         "Student Name" => "Student Name",
         'Remove major for supervisor' => 'Remove major for supervisor',
@@ -324,5 +324,15 @@
         'Complete'=>'Complete',
         'Uncompleted Company !'=> 'Uncompleted Company !',
         'Finish'=>'Finish',
+        "Assigne Supervisor to the Assistant" =>"Assigne Supervisor to the Assistant",
+        "Assistant's Supervisors"=>"Assistant's Supervisors",
+        "Remove Academic Supervisor"=>"Remove Academic Supervisor",
+        'In this section, you can add supervisor to the academic supervisor assistant' =>'In this section, you can add supervisor to the academic supervisor assistant',
+        "Assigne Academic Supervisor"=>"Assigne Academic Supervisor",
+        "Are you sure from removing this supervisor?"=>"Are you sure from removing this supervisor?",
+        "Interns at"=>"Interns at",
+        "Are you sure from removing course from current semester?"=>"Are you sure from removing course from current semester?",
+        'Remove'=>'Remove',
+        "Students Enrolled in:"=>"Students Enrolled in:"
     ];
 ?>

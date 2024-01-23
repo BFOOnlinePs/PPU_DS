@@ -100,7 +100,7 @@
         // 'Name of the Administrative Assistant' => 'اسم المساعد الإداري',
         'Academic Supervisor Assistant Name' => 'اسم المساعد الإداري', //not
         // 'Adding an Administrative Assistant to the Academic Supervisor' => 'إضافة مساعد إداري للمشرف الأكاديمي',
-        "Assigne assistant to the Academic Supervisor" => 'إضافة مساعد إداري للمشرف الأكاديمي',//not
+        "Assigne Assistant to the Academic Supervisor" => 'إضافة مساعد إداري للمشرف الأكاديمي',//not
         "Academic Supervisor's Assistants" => 'المساعدين الإداريين للمشرف الأكاديمي',
         "Student Name" => "اسم الطالب" ,//not
         'Remove major for supervisor' => 'حذف التخصص للمشرف' ,
@@ -330,5 +330,15 @@
         'Complete'=>"إكمال",
         'Uncompleted Company !'=>'شركة غير مكتملة !',
         'Finish'=>'إنهاء',
+        "Assigne Supervisor to the Assistant" => 'تسجيل مشرف أكاديمي للمساعد الإداري',
+        "Assistant's Supervisors"=>'مشرفين المساعد الإداري',
+        "Remove Academic Supervisor" => 'حذف المشرف الأكاديمي',
+        'In this section, you can add supervisor to the academic supervisor assistant' => 'في هذا القسم يمكن تسجيل مشرف أكاديمي للمساعد إداري',
+        "Assigne Academic Supervisor"=>'تسجيل مشرف أكاديمي',
+        "Are you sure from removing this supervisor?"=>"هل أنت متأكد من حذف المشرف الأكاديمي للمساعد الإداري؟",
+        "Interns at"=>"المتدربين لدى",
+        "Are you sure from removing course from current semester?"=>"هل أنت متأكد من حذف المساق من الفصل الحالي؟",
+        'Remove'=>'حذف',
+        "Students Enrolled in:"=>'الطلاب المسجلين في مساق:'
     ];
 ?>
