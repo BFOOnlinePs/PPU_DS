@@ -371,7 +371,7 @@
         "No data between these dates, didn't delete any data"=>"لا يوجد بيانات في هذه الفترة ، لم يُحذف أي بيانات",
         "Display Companies"=>"استعراض الشركات",
         "Courses"=>"المساقات",
-        "Semesters' Courses"=>"مساقات الفصول"
+        "Semesters' Courses"=>"مساقات الفصول",
         "In this section, you can write notes about student's report"=>'في هذا القسم يمكن كتابة ملاحظات عن التقرير للطالب',
         'The Notes'=> 'كتابة ملاحظات',
         'Report Notes'=> 'ملاحظات عن التقرير',
@@ -381,7 +381,7 @@
         'All Majors'=> 'جميع التخصصات',
         "All College's Student"=> 'جميع طلاب الكلية',
         "Still Trained"=> 'لا يزال يتدرب',
-        "Completed"=> 'انهى التدريب',                        
+        "Completed"=> 'أنهى التدريب',                        
         "Deleted"=> 'محذوف',
     ];
 ?>

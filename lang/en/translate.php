@@ -365,9 +365,9 @@
         "No data between these dates, didn't delete any data"=>"No data between these dates, didn't delete any data",
         "Display Companies"=>"Display Companies",
         "Courses"=>"Courses",
-        "Semesters' Courses"=>"Semesters' Courses"
-        'The Notes'=> 'كتابة ملاحظات',
-        'Report Notes'=> 'ملاحظات عن التقرير',
+        "Semesters' Courses"=>"Semesters' Courses",
+        'The Notes'=> 'The Notes',
+        'Report Notes'=> 'Report Notes',
         'Deadline Expired'=> 'Deadline Expired',
         'All Companies'=> 'All Companies',
         'Address'=> 'Address',
