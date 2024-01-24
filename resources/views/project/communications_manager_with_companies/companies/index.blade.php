@@ -10,6 +10,7 @@
 @endsection
 @section('header_link')
     <a href="{{route('admin.users.index')}}">{{__('translate.Users Management')}}{{--إدارة المستخدمين--}}</a>
+
 @endsection
 @section('content')
 <div class="col-sm-12">

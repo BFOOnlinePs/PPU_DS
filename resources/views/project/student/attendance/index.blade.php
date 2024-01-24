@@ -4,6 +4,7 @@
 @endsection
 @section('header_title_link')
 {{__('translate.Users')}}{{-- المستخدمين --}}
+
 @endsection
 @section('header_link')
 @endsection
@@ -26,26 +27,26 @@
                             <label class="from-control digits"></label>
                             <select autofocus class="js-example-basic-single col-sm-12" id="sc_id" onchange="function_to_filltering()">
                                 @if (isset($student_company->company->c_name))
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
-                                <option value="">جميع الشركات</option>
+                                <option value="{{$student_company->sc_id}}"> {{$student_company->company->c_name}} {{__("translate.Address")}} | @if(isset($student_company->companyBranch->b_address))   {{--العنوان--}} : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="">{{--جميع الشركات--}} {{__("translate.All Companies")}}</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | {{__("translate.Address")}} {{--العنوان--}}  : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @else
-                                <option value="">جميع الشركات</option>
+                                <option value="">{{--جميع الشركات--}} {{__("translate.All Companies")}}</option>
                                 @foreach ($student_companies as $student_company)
-                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | العنوان : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
+                                <option value="{{$student_company->sc_id}}">{{$student_company->company->c_name}} @if (isset($student_company->companyBranch->b_address)) | {{__("translate.Address")}} {{--العنوان--}}  : {{$student_company->companyBranch->b_address}} @endif @if (isset($student_company->companyDepartment->d_name)) | {{__('translate.Section')}} {{-- القسم --}} : {{$student_company->companyDepartment->d_name}} @endif</option>
                                 @endforeach
                                 @endif
                             </select>
                         </div>
 
                         <div class="col-md-3">
-                                <label class="from-control digits">{{__('translate.From')}}{{-- من --}}:</label>
+                                <label class="from-control digits">{{__('translate.From:')}}{{-- من --}}</label>
                                 <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()">
                             </div>
                             <div class="col-md-3">
-                                <label class="from-control digits">{{__('translate.To')}}{{-- إلى --}}:</label>
+                                <label class="from-control digits">{{__('translate.To:')}}{{-- إلى --}}</label>
                                 <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()">
                             </div>
                         </div>

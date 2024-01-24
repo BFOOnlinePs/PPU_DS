@@ -8,9 +8,9 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-sticky-note" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>كتابة ملاحظات</h3>
+                            <h3>{{__("translate.The Notes ")}} {{--كتابة ملاحظات--}}</h3>
                             <hr>
-                            <p >في هذا القسم يمكن كتابة ملاحظات عن التقرير للطالب</p>
+                            <p>{{__("translate.In this section, you can write notes about student's report")}} {{--في هذا القسم يمكن كتابة ملاحظات عن التقرير للطالب --}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addNoteForm" enctype="multipart/form-data">
@@ -20,7 +20,7 @@
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
                                             <input type="hidden" name="sr_id" id="note_sr_id">
-                                            <label for="">ملاحظات عن التقرير</label>
+                                            <label for=""> {{__("translate.Report Notes")}}{{--ملاحظات عن التقرير--}}</label>
                                             <textarea name="sr_notes_company" id="sr_notes_company" cols="30" rows="10"  class="form-control" required></textarea>
                                         </div>
                                     </div>

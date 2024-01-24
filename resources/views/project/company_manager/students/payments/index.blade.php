@@ -4,6 +4,7 @@
 @endsection
 @section('header_title_link')
 {{__('translate.Users')}}{{-- المستخدمين --}}
+
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">

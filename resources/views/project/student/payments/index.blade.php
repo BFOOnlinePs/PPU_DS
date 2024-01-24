@@ -4,6 +4,7 @@
 @endsection
 @section('header_title_link')
 {{__('translate.Users')}}{{-- المستخدمين --}}
+
 @endsection
 @section('header_link')
 @endsection

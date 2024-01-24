@@ -4,6 +4,7 @@
 @endsection
 @section('header_title_link')
 {{__('translate.Users')}}{{-- المستخدمين --}}
+
 @endsection
 @section('header_link')
 @endsection
@@ -17,11 +18,11 @@
         <br>
         <div class="row">
             <div class="col-md-3">
-                <label class="from-control digits">{{__('translate.From')}}{{-- من --}}:</label>
+                <label class="from-control digits">{{__('translate.From:')}}{{-- من --}}</label>
                 <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()">
             </div>
             <div class="col-md-3">
-                <label class="from-control digits">{{__('translate.To')}}{{-- إلى --}}:</label>
+                <label class="from-control digits">{{__('translate.To:')}}{{-- إلى --}}</label>
                 <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()">
             </div>
         </div>

@@ -1,5 +1,5 @@
 @if ($students_company->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد طلاب لعرضهم</h6>
+    <h6 class="alert alert-danger">{{__('translate.No available data')}} {{-- لا توجد بيانات  --}}<</h6>
 @else
 <table class="table table-bordered table-striped">
     <thead>
@@ -15,11 +15,11 @@
                 <td>{{$student->users->name}}</td>
                 <td>
                     @if ($student->sc_status == 1)
-                        لا يزال يتدرب
-                    @elseif($student->sc_status == 2)
-                        انهى التدريب
+                    {{__('translate.Still Trained')}} {{-- لا يزال يتدرب--}} 
+                     @elseif($student->sc_status == 2)
+                     {{__('translate.Completed')}}{{-- انهى التدريب --}}
                     @else
-                        محذوف
+                   {{__("translate.Deleted")}}  {{--محذوف--}}
                     @endif
                 </td>
                 <td><a href="{{route('admin.users.details' , ['id'=>$student->sc_student_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-search"></span></a></td>
