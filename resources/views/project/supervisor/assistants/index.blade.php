@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_title_link')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_link')
 {{-- تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> --}}
@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm" onclick="show_modal_add_assistant()" type="button"><span class="fa fa-plus"></span>{{__('translate.Assigne assistant to the Academic Supervisor')}}{{-- إضافة مساعد إداري للمشرف الأكاديمي --}}</button>
+                            <button class="btn btn-primary btn-sm" onclick="show_modal_add_assistant()" type="button"><span class="fa fa-plus"></span>{{__('translate.Assigne Assistant to the Academic Supervisor')}}{{-- إضافة مساعد إداري للمشرف الأكاديمي --}}</button>
                         </div>
                     </div>
                 </div>

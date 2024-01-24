@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_title_link')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_link')
 @endsection
@@ -31,7 +31,7 @@
                             @if (isset($major))
                                 <option value="{{$major->m_id}}">{{$major->m_name}}</option>
                             @endif
-                            <option value="{{null}}">جميع التخصصات</option>
+                            <option value="{{null}}">{{__('translate.All Majors')}}{{--جميع التخصصات--}}</option>
                             @foreach ($majors as $key)
                                 <option value="{{$key->m_id}}">{{$key->m_name}}</option>
                             @endforeach

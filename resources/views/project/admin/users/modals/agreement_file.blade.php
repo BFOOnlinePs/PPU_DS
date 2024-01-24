@@ -8,9 +8,9 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-book" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>عرض ملف الموافقة</h3>
+                            <h3>{{__('translate.Display Approval File')}}{{--عرض ملف الموافقة--}}</h3>
                             <hr>
-                            <p>في هذا القسم يمكنك عرض ملف الموافقة</p>
+                            <p>{{__('translate.In this section, you can display')}} {{__('translate.approval file')}}{{--في هذا القسم يمكنك عرض ملف الموافقة--}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="agreementFileForm" enctype="multipart/form-data">

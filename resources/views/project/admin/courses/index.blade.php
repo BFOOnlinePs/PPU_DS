@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    إدارة المساقات
+{{__('translate.Courses Management')}}{{--إدارة المساقات--}}
 @endsection
 @section('header_title')
-    إدارة المساقات
+{{__('translate.Courses Management')}}{{--إدارة المساقات--}}
 @endsection
 @section('header_title_link')
-    إدارة المساقات
+{{__('translate.Courses Management')}}{{--إدارة المساقات--}}
 @endsection
 @section('header_link')
-    المساقات
+{{__('translate.Courses')}}{{--المساقات--}}
 @endsection
 @section('style')
 <style>
@@ -80,7 +80,7 @@
                         <tbody>
                             @if ($data->isEmpty())
                                 <tr>
-                                    <td colspan="5" class="text-center"><span>لا توجد بيانات</span></td>
+                                    <td colspan="5" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
                                 </tr>
                             @else
                                 @foreach ($data as $key)

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    تقرير فصل
+{{__("translate.Semester's Report")}}{{-- تقرير فصل --}}
 @endsection
 @section('header_title')
-    تقرير فصل
+{{__("translate.Semester's Report")}}{{-- تقرير فصل --}}
 @endsection
 @section('header_title_link')
-    تقرير فصل
+{{__("translate.Semester's Report")}}{{-- تقرير فصل --}}
 @endsection
 @section('header_link')
-    تقرير فصل
+{{__("translate.Semester's Report")}}{{-- تقرير فصل --}}
 @endsection
 
 @section('style')

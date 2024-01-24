@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    تقرير الدفعات المالية
+{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}
 @endsection
 @section('header_title')
-    تقرير الدفعات المالية
+{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}
 @endsection
 @section('header_title_link')
-    تقرير الدفعات المالية
+{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}
 @endsection
 @section('header_link')
-    تقرير الدفعات المالية
+{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}
 @endsection
 
 @section('style')
@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Student')}} {{-- الطالب --}}</label>
                         <div class="col-lg-12">
-                            
+
                             <select class="js-example-basic-single col-sm-12" id="student" name="student" onchange="selectChange()">
                                 <option selected="" value="0">--{{__('translate.Choose')}}--    {{--اختيار--}}</option>
                                 @foreach($students as $key)

@@ -8,7 +8,7 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-user-circle" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>{{__('translate.Assigne assistant to the Academic Supervisor')}}{{-- إضافة مساعد إداري للمشرف الأكاديمي --}}</h3>
+                            <h3>{{__('translate.Assigne Assistant to the Academic Supervisor')}}{{-- إضافة مساعد إداري للمشرف الأكاديمي --}}</h3>
                             <hr>
                             <p >{{__('translate.In this section, you can add an assistant to the academic supervisor')}}{{-- في هذا القسم يمكن إضافة مساعد إداري للمشرف الأكاديمي --}}</p>
                         </div>

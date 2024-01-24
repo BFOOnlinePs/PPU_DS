@@ -1,6 +1,6 @@
 @extends('layouts.styleForPDF')
 @section('title')
-    تقرير فصل
+{{__("translate.Semester's Report")}}{{-- تقرير فصل --}}
 @endsection
 @section('content')
 

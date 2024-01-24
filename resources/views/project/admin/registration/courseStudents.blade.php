@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    مساقات الفصل الحالي
+{{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}
 @endsection
 @section('header_title')
-    مساقات الفصل الحالي
+{{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}
 @endsection
 @section('header_title_link')
-    التسجيل
+    {{__('translate.Registration')}}{{-- التسجيل --}}
 @endsection
 @section('header_link')
-    مساقات الفصل الحالي
+{{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}
 @endsection
 
 @section('style')

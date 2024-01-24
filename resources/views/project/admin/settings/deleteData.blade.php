@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    حذف بيانات
+{{__('translate.Delete Data')}}{{-- حذف بيانات --}}
 @endsection
 @section('header_title')
-    حذف بيانات
+{{__('translate.Delete Data')}}{{-- حذف بيانات --}}
 @endsection
 @section('header_title_link')
-    حذف بيانات
+{{__('translate.Delete Data')}}{{-- حذف بيانات --}}
 @endsection
 @section('header_link')
-    حذف بيانات
+{{__('translate.Delete Data')}}{{-- حذف بيانات --}}
 @endsection
 @section('style')
 @endsection
@@ -22,18 +22,18 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">من تاريخ</label>
+                        <label class="form-label">{{__('translate.From')}}{{--من تاريخ--}}</label>
                         <input type="date" class="form-control"  id="from">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">إلى تاريخ</label>
+                        <label class="form-label">{{__('translate.To')}}{{--إلى تاريخ--}}</label>
                         <input type="date" class="form-control" id="to">
                     </div>
                 </div>
             </div>
-            <button class="btn btn-danger" onclick="show_modal_delete()">حذف</button>
+            <button class="btn btn-danger" onclick="show_modal_delete()">{{__('translate.Delete')}}{{--حذف--}}</button>
         </div>
         @include('project.admin.settings.includes.alertToDeleteData')
         @include('layouts.loader')
@@ -67,14 +67,14 @@
                     if(response.status == 1) {
                         document.getElementById('messages').innerHTML = `
                             <div class="alert alert-success">
-                                تم الحذف بنجاح
+                                {{__('translate.Deleted Successfully')}}
                             </div>
                         `;
                     }
                     else {
                         document.getElementById('messages').innerHTML = `
                             <div class="alert alert-danger">
-                                لا يوجد بيانات في هذه الفترة ، لم يُحذف أي بيانات
+                                {{__("translate.No data between these dates, didn't delete any data")}}
                             </div>
                         `;
                     }

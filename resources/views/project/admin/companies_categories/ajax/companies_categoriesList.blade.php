@@ -10,7 +10,7 @@
         <tbody>
             @if ($data->isEmpty())
                 <tr>
-                    <td colspan="2" class="text-center"><span>لا توجد بيانات</span></td>
+                    <td colspan="2" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
                 </tr>
                 @else
                 @foreach ($data as $key)

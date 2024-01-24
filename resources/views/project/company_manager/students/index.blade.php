@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_title_link')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">

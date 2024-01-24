@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    مساقات الفصول
+{{__("translate.Semesters' Courses")}}{{-- مساقات الفصول --}}
 @endsection
 @section('header_title')
-    مساقات الفصول
+{{__("translate.Semesters' Courses")}}{{-- مساقات الفصول --}}
 @endsection
 @section('header_title_link')
-    مساقات الفصول
+{{__("translate.Semesters' Courses")}}{{-- مساقات الفصول --}}
 @endsection
 @section('header_link')
-    مساقات الفصل الحالي
+{{__("translate.Current Semester Courses")}}{{-- مساقات الفصل الحالي --}}
 @endsection
 
 @section('style')
@@ -96,7 +96,7 @@
                     <tbody>
                     @if ($data->isEmpty())
                         <tr>
-                            <td colspan="7" class="text-center"><span>لا توجد بيانات</span></td>
+                            <td colspan="7" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
                         </tr>
                     @else
                         @foreach ($data as $key)

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    طلاب الفصل الحالي
+{{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}
 @endsection
 @section('header_title')
-    طلاب الفصل الحالي
+{{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}
 @endsection
 @section('header_title_link')
-    التسجيل
+{{__('translate.Registration')}}{{-- التسجيل --}}
 @endsection
 @section('header_link')
-    طلاب الفصل الحالي
+{{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}
 @endsection
 
 @section('style')
