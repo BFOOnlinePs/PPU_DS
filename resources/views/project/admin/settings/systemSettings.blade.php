@@ -59,7 +59,7 @@
                     {{-- <div class="row"> --}}
                         {{-- <div class="col-md-4"> --}}
                             {{-- <div class="mb-3 row"> --}}
-                                <label class="col-lg-12 form-label " for="textinput">العام الدراسي الحالي</label>
+                                <label class="col-lg-12 form-label " for="textinput">{{__('translate.Current Academic Year')}}{{--العام الدراسي الحالي--}}</label>
                                 <div class="col-lg-12">
                                     <input id="year" name="year" type="text" class="form-control" value="{{$year}}" oninput="validateInput(this)">
 
@@ -71,12 +71,12 @@
                     {{-- <div class="row"> --}}
                         {{-- <div class="col-md-4"> --}}
                             {{-- <div class="mb-3 row"> --}}
-                                <label class="col-lg-12 form-label " for="selectbasic">الفصل الدراسي الحالي</label>
+                                <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Current Semester')}}{{--الفصل الدراسي الحالي--}}</label>
                                 <div class="col-lg-12">
                                 <select id="semester" name="semester" class="form-control btn-square">
-                                    <option value="1" @if($semester == '1') selected @endif>فصل أول</option>
-                                    <option value="2" @if($semester == '2') selected @endif>فصل ثاني</option>
-                                    <option value="3" @if($semester == '3') selected @endif>فصل صيفي</option>
+                                    <option value="1" @if($semester == '1') selected @endif>{{__('translate.First Semester')}}{{--فصل أول--}}</option>
+                                    <option value="2" @if($semester == '2') selected @endif>{{__('translate.Second Semester')}}{{--فصل ثاني--}}</option>
+                                    <option value="3" @if($semester == '3') selected @endif>{{__('translate.Summer Semester')}}{{--فصل صيفي--}}</option>
                                 </select>
                                 </div>
                             {{-- </div> --}}
@@ -85,7 +85,7 @@
 
                     <br>
 
-                    <button class="btn btn-primary">حفظ</button>
+                    <button class="btn btn-primary">{{__('translate.Save Changes')}}{{--حفظ--}}</button>
 
                     <br>
                 </form>
@@ -95,14 +95,16 @@
                     <div class="card">
                       <div class="card-header b-l-primary border-3">
                         {{-- <h5>عام {{$year}}، فصل {{$semester}}</h5> --}}
-                        <h5 id="systemSettingsTitle">الفصل @if($semester==1) الأول @elseif($semester==2) الثاني @elseif($semester==3) الصيفي@endif لعام {{$year}}</h5>
+                        <h5 id="systemSettingsTitle"> @if($semester==1) {{__('translate.First Semester')}} {{--الأول--}} @elseif($semester==2) {{__('translate.Second Semester')}} {{--الثاني--}} @elseif($semester==3) {{__('translate.Summer Semester')}}{{--الصيفي--}} @endif {{__('translate.For Academic Year')}} {{--لعام--}} {{$year}}</h5>
                       </div>
                       <div class="card-body">
                         <h6 id="totalSemesterCourses">
-                            إجمالي مساقات الفصل: {{$coursesNum}}
+                            {{-- إجمالي مساقات الفصل: {{$coursesNum}} --}}
+                            {{__('translate.Total Semester Courses')}}: {{$coursesNum}}
                         </h6>
                         <h6 id="totalSemesterStudents">
-                            إجمالي طلاب الفصل: {{$studentsNum}}
+                            {{-- إجمالي طلاب الفصل: {{$studentsNum}} --}}
+                            {{__('translate.Total Semester Students')}}: {{$studentsNum}}
                         </h6>
                       </div>
                     </div>
@@ -174,10 +176,9 @@
                 dataType: 'json',
                 success: function(response) {
                     document.getElementById('loaderContainer').hidden = true;
-                    document.getElementById("totalSemesterStudents").innerHTML = `إجمالي طلاب الفصل: ${response.studentsNum}`
-                    document.getElementById("totalSemesterCourses").innerHTML = `إجمالي مساقات الفصل: ${response.coursesNum}`
-                    // document.getElementById("systemSettingsTitle").innerHTML = `الفصل ${if(semester==1){'الأول'}elseif(semester==2){'الثاني'}elseif(semester==3){"الصيفي"}} لعام ${year}`
-                    document.getElementById("systemSettingsTitle").innerHTML = `الفصل ${semester == 1 ? 'الأول' : (semester == 2 ? 'الثاني' : (semester == 3 ? 'الصيفي' : ''))} لعام ${year}`;
+                    document.getElementById("totalSemesterStudents").innerHTML = "{{__('translate.Total Semester Students')}}: "+ `${response.studentsNum}`
+                    document.getElementById("totalSemesterCourses").innerHTML = "{{__('translate.Total Semester Courses')}}: " + `${response.coursesNum}`
+                    document.getElementById("systemSettingsTitle").innerHTML = `${semester == 1 ? "{{__('translate.First Semester')}}" : (semester == 2 ? "{{__('translate.Second Semester')}}" : (semester == 3 ? "{{__('translate.Summer Semester')}}" : ''))} {{__('translate.For Academic Year')}} ${year}`;
 
 
                 },

@@ -26,7 +26,7 @@
                                                 @endif
                                                 <br>
                                                 @if (auth()->user()->u_role_id == 3)
-                                                    <label>ملاحظات المشرف</label>
+                                                    <label>{{__('translate.Supervisor Notes')}}{{--ملاحظات المشرف--}}</label>
                                                     <textarea cols="100" rows="5" id="sr_notes">{{$student_report->sr_notes}}</textarea>
                                                 @endif
                                             </div>
@@ -36,7 +36,7 @@
                     </div>
                     @if (auth()->user()->u_role_id == 3)
                         <div class="modal-footer ">
-                            <button type="submit" class="btn btn-primary" onclick="submit_notes_supervisor({{$student_report->sr_id}})">إرسال ملاحظات المشرف</button>
+                            <button type="submit" class="btn btn-primary" onclick="submit_notes_supervisor({{$student_report->sr_id}})">{{__("translate.Send Supervisor's Notes")}}{{--إرسال ملاحظات المشرف--}</button>
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                         </div>
                     @endif

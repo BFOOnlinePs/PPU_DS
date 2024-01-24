@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_title_link')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_link')
-تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a>
+{{__('translate.Edit User Information')}}{{--تعديل المستخدم--}} / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a>
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
@@ -107,7 +107,7 @@
             let status = document.getElementById('select_status');
             let option = document.createElement('option');
             option.value = 2;
-            option.text = `منتهي`;
+            option.text = `{{__('translate.finished')}}`;
             status.appendChild(option);
         }
         function branch_change_editing(branch_id)

@@ -9,9 +9,9 @@
                         <div class="row p-3 m-5">
                             <div class="col-md-4 text-center" >
                                 <h1><span class="fa fa-clipboard" style="text-align: center; font-size:80px; "></span></h1>
-                                <h3>تعديل معلومات تدريب الطالب</h3>
+                                <h3>{{__("translate.Edit Student's Training Information")}}{{--تعديل معلومات تدريب الطالب--}}</h3>
                                 <hr>
-                                <p>في هذا القسم يمكنك تعديل معلومات تدريب الطالب</p>
+                                <p>{{__("translate.In this section, you can edit student's training information")}}{{--في هذا القسم يمكنك تعديل معلومات تدريب الطالب--}}</p>
                             </div>
                             <div class="col-md-8">
                                 <form class="form-horizontal" id="editPlacesTrainingForm" enctype="multipart/form-data">
@@ -30,7 +30,7 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 row">
-                                                <label for="">حالة التدريب</label>
+                                                <label for="">{{__('translate.Training Status')}}{{--حالة التدريب--}}</label>
                                                 <select autofocus class="js-example-basic-single col-sm-12" id="select_status" name="select_status">
                                                 </select>
                                             </div>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="modal-footer ">
                         <input type="hidden" id="sc_id">
-                        <button type="button" class="btn btn-primary" onclick="update_places_training()">تعديل معلومات تدريب الطالب</button>
+                        <button type="button" class="btn btn-primary" onclick="update_places_training()">{{__("translate.Edit Student's Training Information")}}{{--تعديل معلومات تدريب الطالب--}}</button>
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}} {{-- إلغاء --}}</button>
                     </div>
                 </form>

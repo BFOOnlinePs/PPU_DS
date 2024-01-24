@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    تقرير الشركات
+{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
 @endsection
 @section('header_title')
-    تقرير الشركات
+{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
 @endsection
 @section('header_title_link')
-    تقرير الشركات
+{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
 @endsection
 @section('header_link')
-    تقرير الشركات
+{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
 @endsection
 
 @section('style')

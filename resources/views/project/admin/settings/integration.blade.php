@@ -73,7 +73,7 @@
                                     </ul>
                                 </ul>
                             </div>
-                            <a href="{{ asset('storage/excel/samplesData.xlsx') }}" download>تحميل مثال لملف</a>
+                            <a href="{{ asset('storage/excel/samplesData.xlsx') }}" download>{{__('translate.Download Example File')}}{{--تحميل مثال لملف--}}</a>
                             <br><br>
                             <ul>
                                 <li>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    الرئيسية
+{{__('translate.Main')}}{{-- الرئيسية --}}
 @endsection
 @section('header_title')
 @endsection

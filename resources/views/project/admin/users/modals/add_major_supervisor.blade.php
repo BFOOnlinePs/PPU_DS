@@ -8,9 +8,9 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-book" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>{{__('translate.Register a Major for the Academic Supervisor')}}{{--تسجيل تخصص للمشرف الأكاديمي--}}</h3>
+                            <h3>{{__('translate.Add a Major for the Academic Supervisor')}}{{--تسجيل تخصص للمشرف الأكاديمي--}}</h3>
                             <hr>
-                            <p>{{__('translate.In this section, you can register major for the current supervisor')}} {{-- في هذا القسم يمكن تسجيل تخصص للمشرف الأكاديمي --}}</p>
+                            <p>{{__('translate.In this section, you can add major for the current supervisor')}} {{-- في هذا القسم يمكن تسجيل تخصص للمشرف الأكاديمي --}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addMajorForm" enctype="multipart/form-data">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary" id="button_add_major_in_modal">{{__('translate.Register Major')}}{{--تسجيل التخصص--}}</button>
+                    <button type="submit" class="btn btn-primary" id="button_add_major_in_modal">{{__('translate.Add Major')}}{{--تسجيل التخصص--}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    تقرير دفعات الشركات
+{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
 @endsection
 @section('header_title')
-    تقرير دفعات الشركات
+{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
 @endsection
 @section('header_title_link')
-    تقرير دفعات الشركات
+{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
 @endsection
 @section('header_link')
-    تقرير دفعات الشركات
+{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
 @endsection
 
 @section('style')

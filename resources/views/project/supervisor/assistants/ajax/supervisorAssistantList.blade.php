@@ -1,5 +1,5 @@
 @if ($supervisorAssistants->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد مساعدين إداريين لهذا المشرف</h6>
+    <h6 class="alert alert-danger">{{__('translate.No Assistants Added to This Supervisor')}}{{--لا يوجد مساعدين إداريين لهذا المشرف--}}</h6>
 @else
     <table class="table table-bordered table-striped">
         <thead>

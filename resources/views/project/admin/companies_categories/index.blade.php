@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    تصنيف الشركات
+{{__('translate.Companies Categories')}}{{--تصنيف الشركات--}}
 @endsection
 @section('header_title')
-    تصنيف الشركات
+{{__('translate.Companies Categories')}}{{--تصنيف الشركات--}}
 @endsection
 @section('header_title_link')
-    الرئيسية
+{{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('header_link')
-    تصنيف الشركات
+{{__('translate.Companies Categories')}}{{--تصنيف الشركات--}}
 @endsection
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
@@ -52,7 +52,7 @@
                         <tbody>
                                 @if ($data->isEmpty())
                                 <tr>
-                                    <td colspan="2" class="text-center"><span>لا توجد بيانات</span></td>
+                                    <td colspan="2" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
                                 </tr>
                                 @else
                                     @foreach ($data as $key)

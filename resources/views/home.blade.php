@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    الرئيسية
+    {{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('header_title')
-    الرئيسية
+    {{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('header_title_link')
-    الرئيسية
+    {{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('header_link')
-    الرئيسية
+    {{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('style')
 

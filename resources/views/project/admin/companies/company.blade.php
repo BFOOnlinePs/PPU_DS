@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    إضافة شركة
+{{__('translate.Add Company')}}{{--إضافة شركة--}}
 @endsection
 @section('header_title')
      {{__('translate.Companies')}}{{-- الشركات --}}
 @endsection
 @section('header_title_link')
-    إدارة الشركات
+{{__('translate.Companies Management')}}{{--إدارة الشركات--}}
 @endsection
 @section('header_link')
-    إضافة شركة
+{{__('translate.Add Company')}}{{--إضافة شركة--}}
 @endsection
 @section('style')
 

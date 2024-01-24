@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_title_link')
-المستخدمين
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_link')
 {{-- تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> --}}

@@ -1,5 +1,5 @@
 @if ($data->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد تخصصات مضافة لهذا المشرف لعرضها</h6>
+    <h6 class="alert alert-danger">{{__('translate.No Majors Added to This Supervisor')}}{{--لا يوجد تخصصات مضافة لهذا المشرف لعرضها--}}</h6>
 @else
     <table class="table table-bordered table-striped">
         <thead>

@@ -23,7 +23,7 @@
                         <td>{{$student_attendance->sa_out_time}}</td>
                     @endif
                     <td>
-                        <button class="btn btn-primary fa fa-map-marker" onclick="map({{$student_attendance->sa_start_time_latitude}} , {{$student_attendance->sa_start_time_longitude}} , {{$student_attendance->sa_end_time_latitude}} , {{$student_attendance->sa_end_time_longitude}})" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="عرض موقع الطالب عند تسجيل الحضور و المغادرة"></button>
+                        <button class="btn btn-primary fa fa-map-marker" onclick="map({{$student_attendance->sa_start_time_latitude}} , {{$student_attendance->sa_start_time_longitude}} , {{$student_attendance->sa_end_time_latitude}} , {{$student_attendance->sa_end_time_longitude}})" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Display Student Attendance Location')}}"></button>{{--"عرض موقع الطالب عند تسجيل الحضور و المغادرة"--}}
                         @if (!isset($student_attendance->report->sr_student_attendance_id))
                             {{__("translate.Student didn't submit report")}} {{-- لم يُسلم الطالب تقرير --}}
                         @else

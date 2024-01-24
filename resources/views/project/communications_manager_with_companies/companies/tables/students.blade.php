@@ -5,7 +5,7 @@
     <thead>
         <tr>
             <th>{{__("translate.Student Name")}} {{-- اسم الطالب --}}</th>
-            <th>حالة التدريب</th>
+            <th>{{__('translate.Training Status')}}{{--حالة التدريب--}}</th>
             <th>{{__('translate.Display Student Information')}} {{-- عرض معلومات عن الطالب --}}</th>
         </tr>
     </thead>

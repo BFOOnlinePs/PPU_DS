@@ -1,9 +1,10 @@
 @extends('layouts.app')
 @section('title')
-{{--المستخدمين--}} {{__("translate.Users")}}
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_title_link')
-{{--المستخدمين--}} {{__("translate.Users")}}
+{{__('translate.Users')}}{{-- المستخدمين --}}
+
 @endsection
 @section('header_link')
 @endsection

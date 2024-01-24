@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-{{--المستخدمين--}} {{__("translate.Users")}}
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_title_link')
-{{--المستخدمين--}} {{__("translate.Users")}}
+{{__('translate.Users')}}{{-- المستخدمين --}}
 @endsection
 @section('header_link')
 @endsection
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-4">
                         <select autofocus class="js-example-basic-single col-sm-12" name="m_id" id="select-major" onchange="user_search(document.getElementById('search_by_name').value)">
-                            <option value="{{null}}">{{--جميع التخصصات --}} {{__("translate.All Majors")}} </option>
+                            <option value="{{null}}">{{__('translate.All Majors')}}{{--جميع التخصصات--}}</option>
                             @foreach ($majors as $key)
                                 <option value="{{$key->m_id}}">{{$key->m_name}}</option>
                             @endforeach
