@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
+{{--المستخدمين--}} {{__("translate.Users")}}
 @endsection
 @section('header_title_link')
-المستخدمين
+{{--المستخدمين--}} {{__("translate.Users")}}
 @endsection
 @section('header_link')
 @endsection
@@ -17,7 +17,7 @@
         <div class="col-xl-12">
           <form class="card">
             <div class="card-header pb-0">
-              <h4 class="card-title mb-0">جميع طلاب الكلية</h4>
+              <h4 class="card-title mb-0">{{--جميع طلاب الكلية --}} {{__("translate.All College's Students")}} </h4>
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-4">
                         <select autofocus class="js-example-basic-single col-sm-12" name="m_id" id="select-major" onchange="user_search(document.getElementById('search_by_name').value)">
-                            <option value="{{null}}">جميع التخصصات</option>
+                            <option value="{{null}}">{{--جميع التخصصات --}} {{__("translate.All Majors")}} </option>
                             @foreach ($majors as $key)
                                 <option value="{{$key->m_id}}">{{$key->m_name}}</option>
                             @endforeach

@@ -10,7 +10,7 @@
                             <h1><span class="fa fa-clipboard" style="text-align: center; font-size:80px; "></span></h1>
                             <h6>
                                 @if(app()->getLocale() == 'en')
-                                    {{$name_student}} {{__('translate.Add Payment to')}}{{-- إضافة دفعة ل --}}
+                                    {{__('translate.Add Payment to')}} {{$name_student}}{{-- إضافة دفعة ل --}}
                                 @else
                                     {{__('translate.Add Payment to')}}{{$name_student}}{{-- إضافة دفعة ل --}}
                                 @endif
