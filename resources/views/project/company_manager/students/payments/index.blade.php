@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
+{{--المستخدمين--}} {{__("translate.Users")}}
 @endsection
 @section('header_title_link')
-المستخدمين
+{{--المستخدمين--}} {{__("translate.Users")}}
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">

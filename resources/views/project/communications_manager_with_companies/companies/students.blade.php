@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-المستخدمين
-@endsection
-@section('header_title')
-المستخدمين
+{{--المستخدمين--}} {{__("translate.Users")}}
 @endsection
 @section('header_title_link')
-    <a href="{{route('home')}}">الرئيسية</a>
+{{--المستخدمين--}} {{__("translate.Users")}}
+@endsection
+@section('header_title_link')
+    <a href="{{route('home')}}">{{--الرئيسية--}} {{__("translate.Main")}}</a>
 @endsection
 @section('header_link')
-    <a href="{{route('admin.users.index')}}">إدارة المستخدمين</a>
+    <a href="{{route('admin.users.index')}}">{{--إدارة المستخدمين--}} {{__("translate.Users Management")}}</a>
 @endsection
 @section('content')
 <div class="col-sm-12">

@@ -28,7 +28,7 @@
                     <a href="{{route('students.attendance.report.edit' , ['sa_id' => $student_attendance->sa_id])}}" class="fa fa-edit" style="font-size: x-large;" data-bs-original-title="" title=""><span></span></a>
                 @else
                     <a href="{{route('students.attendance.report.edit' , ['sa_id' => $student_attendance->sa_id])}}" class="fa fa-edit" style="font-size: x-large; pointer-events: none; opacity: 0.6;" data-bs-original-title="" title=""><span></span></a>
-                    <span class="text-danger">انتهى وقت التسليم</span>
+                    <span class="text-danger">{{__("translate.Deadline Expired")}}{{--انتهى وقت التسليم--}}</span>
                 @endif
             </td>
         </tr>
