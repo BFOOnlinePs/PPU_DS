@@ -13,7 +13,7 @@
         <div class="col-xl-12">
             <form class="card">
                 <div class="card-header pb-0">
-                    <h4 class="card-title mb-0">تسجيل الحضور و المغادرة لدى شركة {{$student_company->company->c_name}}</h4>
+                    <h4 class="card-title mb-0">{{__('translate.Attendance At')}}{{--تسجيل الحضور و المغادرة لدى شركة--}} {{$student_company->company->c_name}}</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">

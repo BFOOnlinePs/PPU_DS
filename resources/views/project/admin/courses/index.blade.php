@@ -199,11 +199,11 @@
                             cell3.innerHTML = `${next.c_hours}`;
                             var cell4 = newRow.insertCell(4);
                             if( `${next.c_course_type}` == 0){
-                                cell4.innerHTML = "نظري";
+                                cell4.innerHTML = "{{__('translate.Theoretical')}}";
                             }else if( `${next.c_course_type}` == 1){
-                                cell4.innerHTML = "عملي";
+                                cell4.innerHTML = "{{__('translate.Practical')}}";
                             }else if( `${next.c_course_type}` == 2){
-                                cell4.innerHTML = "نظري - عملي";
+                                cell4.innerHTML = "{{__('translate.Theoretical - Practical')}}";
                             }
 
                             var cell5 = newRow.insertCell(5);
@@ -515,7 +515,7 @@
                         row.cells[2].textContent = response.data.c_course_code
                         row.cells[3].textContent = response.data.c_hours
                         course_type = response.data.c_course_type;
-                        row.cells[4].textContent = (course_type==0) ? "نظري" : (course_type==1) ? "عملي" : "نظري-عملي"
+                        row.cells[4].textContent = (course_type==0) ? "{{__('translate.Theoretical')}}" : (course_type==1) ? "{{__('translate.Practical')}}" : "{{__('translate.Theoretical - Practical')}}"
 
                         var jsonToHTML = JSON.stringify(response.data).replace(/"/g, "&quot;");
                         $(`#table_buttons_${course_id}`).html(`

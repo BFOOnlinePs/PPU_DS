@@ -57,7 +57,7 @@
                                             </div>
 
                                             <div id="edit_similarCourseCodeMessage" style="color:#dc3545" hidden>
-                                                <span>يوجد مساق بنفس الرمز الذي قمت بادخاله</span>
+                                                <span>{{__('translate.There is course with the same code entered')}}{{--يوجد مساق بنفس الرمز الذي قمت بادخاله--}}</span>
                                             </div>
                                         </div>
 
@@ -114,7 +114,7 @@
                                             </div>
 
                                             <div id="edit_similarCourseCodeRefMessage" style="color:#dc3545" hidden>
-                                                <span>يوجد مساق بنفس الرمز المرجعي الذي قمت بادخاله</span>
+                                                <span>{{__('translate.There is course with the same reference code entered')}}{{--يوجد مساق بنفس الرمز المرجعي الذي قمت بادخاله--}}</span>
                                             </div>
                                         </div>
 
