@@ -49,7 +49,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td>{{__("translate.Payments' Total")}}{{--إجمالي الدفعات--}}</td>
+                    <td>{{__("translate.Total Payments")}}{{--إجمالي الدفعات--}}</td>
                     <td>
                         @foreach ($trainingPayment->paymentsTotalCollection as $item)
                             @if($item["total"] != 0)

@@ -9,9 +9,9 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center">
                             <h1><span class="fa fa-briefcase" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>اختيار مشرفين للتخصص</h3>
+                            <h3>{{__('translate.Assigne Supervisors To Major')}}{{--اختيار مشرفين للتخصص--}}</h3>
                             <hr>
-                            <p>في هذا القسم يمكنك اختيار مشرفين لتخصص معين</p>
+                            <p>{{__('translate.In this section, you can assigne supervisors for mojar')}}{{--في هذا القسم يمكنك اختيار مشرفين لتخصص معين--}}</p>
                         </div>
 
 

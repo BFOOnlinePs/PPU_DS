@@ -56,7 +56,7 @@
                             <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic Year')}}{{-- العام الدراسي --}}</label>
                             <div class="col-lg-12">
                                 <select id="year" name="year" class="form-control btn-square">
-                                    <option value="0">جميع الأعوام</option>
+                                    <option value="0">{{__('translate.All Academic Years')}}{{--جميع الأعوام--}}</option>
                                     @foreach($years as $key)
                                     <option value={{$key}} @if($key == $year) selected @endif> {{$key}} </option>
                                     @endforeach
@@ -304,27 +304,18 @@
 
 
             $.ajax({
-                // beforeSend: function(){
-                //     $('#showTable').html('<div class="modal-body text-center"><h2 class="title mb-0 text-center mt-4">الرجاء الانتظار...</h2><div class="loader-box"><div class="loader-3" ></div></div></div>');
-                // },
-                url: "{{ route('admin.semesterCourses.courseNameSearch') }}", // Replace with your own URL
+                url: "{{ route('admin.semesterCourses.courseNameSearch') }}",
                 method: "post",
                 data: {
                     'search': data,
                     'year': document.getElementById("year").value,
                     'semester': document.getElementById("semester").value,
                     _token: '{!! csrf_token() !!}',
-                }, // Specify the expected data type
+                },
                 success: function(data) {
-                    //console.log(data);
                     $('#showTable').html(data.view);
                 },
-                // complete: function(){
-                //     //$('#LoadingModal').modal('hide');
-                //     $('#showTable').html(dataTable.view);
-                // },
                 error: function(xhr, status, error) {
-                    // This function is called when there is an error with the request
                     alert('error');
                 }
             });

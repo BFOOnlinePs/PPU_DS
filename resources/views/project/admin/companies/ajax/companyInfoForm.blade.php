@@ -12,8 +12,8 @@
                             </div>
 
                             <div id="similarCompanyMessage" style="color:#dc3545" hidden>
-                                <span>يوجد شركة بنفس الاسم الذي قمت بادخاله،</span>
-                                <u><a id="companyLink" style="color:#dc3545">للانتقال إلى التعديل قم بالضغط هنا</a></u>
+                                <span>{{__("translate.There is company with the same name you entered,")}}{{--يوجد شركة بنفس الاسم الذي قمت بادخاله،--}}</span>
+                                <u><a id="companyLink" style="color:#dc3545">{{__("translate.To move to the edit click here")}}{{--للانتقال إلى التعديل قم بالضغط هنا--}}</a></u>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                 <input class="form-control required" id="email" type="text" name="email" value="{{$company->manager->email}}" oninput="validateEmail(this)">
                             </div>
                             <div id="similarEmailMessage" style="color:#dc3545" hidden>
-                                <span>البريد الإلكتروني موجود بالفعل</span>
+                                <span>{{__("translate.Email has already been used")}}{{--البريد الإلكتروني موجود بالفعل--}}</span>
                             </div>
                         </div>
 

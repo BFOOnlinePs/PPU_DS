@@ -1,8 +1,8 @@
 <div class="col-md-8">
                     <div class="ribbon-wrapper-right card" id="departments_summary_area" >
                       <div class="card-body">
-                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">أقسام الفرع الرئيسي</div>
-                        <div id="departments"> 
+                        <div class="ribbon ribbon-clip-right ribbon-right ribbon-primary">{{__('translate.Main Branch Departments')}}{{--أقسام الفرع الرئيسي--}}</div>
+                        <div id="departments">
                              <div class="row">
                              @foreach($company->companyBranch as $key)
            @if($key->b_main_branch == 1)
@@ -14,7 +14,7 @@
             @endif
             @endforeach
 
-                                  
+
                         </div>
                     </div>
                     </div>

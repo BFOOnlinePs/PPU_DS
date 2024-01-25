@@ -13,7 +13,7 @@
 @section('content')
     <div class="container-fluid">
         @if ($student_companies->isEmpty())
-            <h6 class="alert alert-danger">لا يوجد شركات مسجل فيها </h6>
+            <h6 class="alert alert-danger">{{__('translate.No Companies Enrolled In')}}{{--لا يوجد شركات مسجل فيها--}} </h6>
         @else
             <table class="table table-bordered table-striped">
                 <thead>

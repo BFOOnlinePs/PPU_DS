@@ -1,8 +1,8 @@
 @if ($student_companies->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد شركات مسجل فيها </h6>
+    <h6 class="alert alert-danger">{{__('translate.No Companies Enrolled In')}} {{--لا يوجد شركات مسجل فيها--}} </h6>
 @else
 <div class="alert alert-danger" style="display: none" id="alert_departure">
-    <span>عذرًا لا يُمكن تسجيل المغادرة بسبب انتهاء الوقت</span>
+    <span>{{__("translate.Sorry, the time running out you can't check out")}}{{--عذرًا لا يُمكن تسجيل المغادرة بسبب انتهاء الوقت--}}</span>
 </div>
 <div class="card">
     <input type="hidden" id="latitude">

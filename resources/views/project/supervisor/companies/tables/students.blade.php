@@ -1,5 +1,5 @@
 @if ($students_company->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد طلاب لعرضهم</h6>
+    <h6 class="alert alert-danger">{{__('translate.No data to display')}}{{--لا يوجد طلاب لعرضهم--}}</h6>
 @else
 <table class="table table-bordered table-striped">
     <thead>

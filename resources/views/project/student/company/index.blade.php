@@ -93,7 +93,7 @@
                                     // alert(response.html);
                                     //alert(response.html);
                                     $('#content').html(response.html);
-                                    document.getElementById('attendance_id').textContent = "تسجيل مغادرة";
+                                    document.getElementById('attendance_id').textContent = "{{__('translate.Training Check-Out')}}";
                                     $('#LoadingModal').modal('hide');
                                 },
                                 complete: function(){

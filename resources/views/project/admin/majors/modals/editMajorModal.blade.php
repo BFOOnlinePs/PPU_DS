@@ -53,7 +53,7 @@
                                                 </div>
 
                                                 <div id="edit_similarMajorCodeMessage" style="color:#dc3545" hidden>
-                                                    <span>يوجد تخصص بنفس الرمز الذي قمت بادخاله</span>
+                                                    <span>{{__('translate.There is major with the same code entered')}}{{--يوجد تخصص بنفس الرمز الذي قمت بادخاله--}}</span>
                                                 </div>
                                             </div>
 
