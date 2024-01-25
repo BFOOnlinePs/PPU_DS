@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
 {
+
+    // for supervisor and coordinator
     public function getAllCompanies(){
 
         $companies = Company::orderBy('created_at', 'desc')->paginate(6);

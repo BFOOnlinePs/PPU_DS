@@ -7,6 +7,9 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\Compan
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
+use App\Http\Controllers\apisControllers\program_coordinator\majors\ProgramCoordinatorMajorsController;
+use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoordinatorStudentsController;
+use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
@@ -147,6 +150,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // payments => for manager, supervisor and student
     Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);
+
+
+    // program coordinator
+    Route::post('getAllStudentsDependOnMajor', [ProgramCoordinatorStudentsController::class, 'getAllStudentsDependOnMajor']);
+    Route::get('getAllMajors', [ProgramCoordinatorMajorsController::class, 'getAllMajors']);
+    Route::get('getStudentsCompanies', [ProgramCoordinatorStudentsTrainingsController::class, 'getStudentsCompanies']);
+
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
