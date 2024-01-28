@@ -56,7 +56,7 @@ class SupervisorStudentsTrainingsController extends Controller
             // 'companies' => $companies,
         ]);
     }
-
+ 
     public function getSupervisorStudentsInCompany(Request $request)
     {
 

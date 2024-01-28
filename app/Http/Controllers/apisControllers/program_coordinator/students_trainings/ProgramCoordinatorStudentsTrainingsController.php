@@ -4,9 +4,12 @@ namespace App\Http\Controllers\apisControllers\program_coordinator\students_trai
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Major;
 use App\Models\StudentCompany;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProgramCoordinatorStudentsTrainingsController extends Controller
 {
@@ -41,6 +44,46 @@ class ProgramCoordinatorStudentsTrainingsController extends Controller
                 'total_items' => $companies->total(),
             ],
             'companies' => $companies->items(),
+        ]);
+    }
+
+    public function getAllStudentsInCompany(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required',
+        ], [
+            'company_id.required' => 'يجب ارسال رقم الشركة',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $companyId = $request->input('company_id');
+        $studentInCompanyIdList = StudentCompany::where('sc_company_id', $companyId)->pluck('sc_student_id');
+        $studentsInCompany = User::whereIn('u_id', $studentInCompanyIdList)->get();
+
+        if ($studentsInCompany->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'لا يوجد طلاب في هذه الشركة حاليا'
+            ]);
+        }
+
+        $studentsInCompany = $studentsInCompany->map(function ($student) {
+            $major_name = Major::where('m_id', $student->u_major_id)->pluck('m_name')->first();
+            $student['major_name'] = $major_name;
+            return $student;
+        });
+
+
+        return response()->json([
+            'status' => true,
+            'students_in_company' => $studentsInCompany,
         ]);
     }
 }
