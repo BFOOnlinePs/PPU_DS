@@ -3,7 +3,7 @@
 {{__("translate.Semester's Report")}}{{-- تقرير فصل --}}
 @endsection
 @section('header_title')
-{{__("translate.Semester's Report")}}{{-- تقرير فصل --}}
+{{__("translate.Semester's Report")}}{{-- تقرير فصل --}}<a href="{{route('monitor_evaluation.semesterReport')}}">
 @endsection
 @section('header_title_link')
 {{__("translate.Semester's Report")}}{{-- تقرير فصل --}}

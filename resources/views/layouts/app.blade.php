@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -70,7 +70,7 @@
     @yield('style')
 </head>
 
-<body class="rtl">
+<body class="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
     @include('project.admin.settings.styles')
     <!-- Loader starts-->
     <div class="loader-wrapper">
@@ -116,11 +116,11 @@
     {{-- <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script> --}}
     <!-- login js-->
     <!-- Plugin used-->
-    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
-
 
     @yield('script')
 </body>

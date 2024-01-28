@@ -383,5 +383,6 @@
         "Still Trained"=> 'لا يزال يتدرب',
         "Completed"=> 'أنهى التدريب',                        
         "Deleted"=> 'محذوف',
+        "All College's Students"=> "جميع طلاب الكلية",
     ];
 ?>

@@ -12,7 +12,7 @@
             <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"
                     id="sidebar-toggle"></i></div>
         </div>
-        <div class="left-menu-header col">
+        <!-- <div class="left-menu-header col">
             <ul>
                 <li>
                     <form class="form-inline search-form">
@@ -22,12 +22,12 @@
                     </form><span class="d-sm-none mobile-search search-bg"><i class="fa fa-search"></i></span>
                 </li>
             </ul>
-        </div>
+        </div> -->
         <div class="nav-right col pull-right right-menu p-0">
             <ul class="nav-menus">
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
                             data-feather="maximize"></i></a></li>
-                <li class="onhover-dropdown">
+                <!-- <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i><span
                             class="dot-animated"></span></div>
                     <ul class="notification-dropdown onhover-show-div">
@@ -68,11 +68,11 @@
                             </div>
                         </li>
                     </ul>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <div class="mode"><i class="fa fa-moon-o"></i></div>
-                </li>
-                <li class="onhover-dropdown"><i data-feather="message-square"></i>
+                </li> -->
+                <!-- <li class="onhover-dropdown"><i data-feather="message-square"></i>
                     <ul class="chat-dropdown onhover-show-div">
                         <li>
                             <div class="media"><img class="img-fluid rounded-circle me-3"
@@ -104,7 +104,7 @@
                         <li class="text-center"> <a class="f-w-700" href="javascript:void(0)">See All </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="onhover-dropdown p-0">
                     {{-- <button class="btn btn-primary-light" type="button"><a href="login_two.html"><i
                                 data-feather="log-out"></i>Log out</a></button> --}}
