@@ -38,8 +38,15 @@ class MonitorEvaluationController extends Controller
         $categories = CompaniesCategory::get();
 
         foreach($data as $key){
-            $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-                $query->select('r_student_id')
+            // $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+            //     $query->select('r_student_id')
+            //         ->from('registration')
+            //         ->where('r_year', $year)
+            //         ->where('r_semester', $semester)
+            //         ->distinct();
+            // })
+            $studentsTotal = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
                     ->from('registration')
                     ->where('r_year', $year)
                     ->where('r_semester', $semester)
@@ -91,8 +98,9 @@ class MonitorEvaluationController extends Controller
 
         foreach($data as $key){
             if($semester != 0){
-                $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-                    $query->select('r_student_id')
+                // $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+                $studentsTotal = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                    $query->select('r_id')
                         ->from('registration')
                         ->where('r_year', $year)
                         ->where('r_semester', $semester)
@@ -104,8 +112,9 @@ class MonitorEvaluationController extends Controller
                 ->distinct()
                 ->get();
             }else{
-                $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-                    $query->select('r_student_id')
+                // $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+                $studentsTotal = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                    $query->select('r_id')
                     ->from('registration')
                     ->distinct();
                 })
@@ -120,8 +129,6 @@ class MonitorEvaluationController extends Controller
                 return $item->studentsTotal > 0;
             });
         }
-
-        // return view('project.monitor_evaluation.ajax.companiesReportTable',['data'=>$data, 'semester'=>$semester,'categories'=>$categories]);
 
         return response()->json([
             'success'=>'true',
@@ -146,18 +153,9 @@ class MonitorEvaluationController extends Controller
 
         $companiesTotal = count(Company::get());
 
-        // $semesterCompaniesTotal = count(Company::whereIn('r_student_id', function ($query) use ($year, $semester) {
-        //     $query->select('r_student_id')
-        //         ->from('registration')
-        //         ->where('r_year', $year)
-        //         ->where('r_semester', $semester)
-        //         ->distinct();
-        // }));
-
-
-
-        $semesterCompanies = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-            $query->select('r_student_id')
+        // $semesterCompanies = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+        $semesterCompanies = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
                 ->from('registration')
                 ->where('r_year', $year)
                 ->where('r_semester', $semester)
@@ -198,14 +196,9 @@ class MonitorEvaluationController extends Controller
         $trainingHoursTotal= $hours + $hoursFromMinutes;
         $trainingMinutesTotal= $minutes - ($hoursFromMinutes*60);
 
-        // $traineesTotal = count(StudentCompany::
-        // where('sc_status',1)
-        // ->select('sc_student_id')
-        // ->distinct()
-        // ->get());
-
-        $traineesTotal = count(StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-            $query->select('r_student_id')
+        // $traineesTotal = count(StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+        $traineesTotal = count(StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
                 ->from('registration')
                 ->where('r_year', $year)
                 ->where('r_semester', $semester)
@@ -214,9 +207,6 @@ class MonitorEvaluationController extends Controller
         ->select('sc_student_id')
         ->distinct()
         ->get());
-
-        // $semesterText = ($semester==1?' الأول ':($semester == 2 ? ' الثاني ': ' الصيفي '));
-        // $concatenatedText = "تقرير الفصل الدراسي " . $semesterText . " للعام الدراسي " . $year;
 
         if($semester==1){
             $semesterText = __('translate.First Semester Report');
@@ -240,8 +230,6 @@ class MonitorEvaluationController extends Controller
             'trainingHoursTotal'=>$trainingHoursTotal
         ];
 
-        //$data = json_encode($data);
-
         return view('project.monitor_evaluation.semesterReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'semesterCompaniesTotal'=>$semesterCompaniesTotal,
         'coursesStudentsTotal'=>$coursesStudentsTotal,'companiesTotal'=>$companiesTotal,'semesterCoursesTotal'=>$semesterCoursesTotal,
         'traineesTotal'=>$traineesTotal,'trainingMinutesTotal'=>$trainingMinutesTotal, 'trainingHoursTotal'=>$trainingHoursTotal, 'pdf'=> $data]);
@@ -260,8 +248,9 @@ class MonitorEvaluationController extends Controller
 
         $companiesTotal = count(Company::get());
 
-        $semesterCompanies = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-            $query->select('r_student_id')
+        // $semesterCompanies = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+        $semesterCompanies = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
                 ->from('registration')
                 ->where('r_year', $year)
                 ->where('r_semester', $semester)
@@ -302,14 +291,9 @@ class MonitorEvaluationController extends Controller
         $trainingHoursTotal= $hours + $hoursFromMinutes;
         $trainingMinutesTotal= $minutes - ($hoursFromMinutes*60);
 
-        // $traineesTotal = count(StudentCompany::
-        // where('sc_status',1)
-        // ->select('sc_student_id')
-        // ->distinct()
-        // ->get());
-
-        $traineesTotal = count(StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-            $query->select('r_student_id')
+        // $traineesTotal = count(StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
+        $traineesTotal = count(StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
                 ->from('registration')
                 ->where('r_year', $year)
                 ->where('r_semester', $semester)
@@ -373,134 +357,6 @@ class MonitorEvaluationController extends Controller
         // Use the stream method to open the PDF in a new tab
         return $pdf->stream('semesterReport.pdf');
     }
-
-    // public function companiesPaymentsReport(){
-    //     $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
-    //     $systemSettings = SystemSetting::first();
-
-    //     $semester = $systemSettings->ss_semester_type;
-    //     $year = $systemSettings->ss_year;
-
-
-    //     $companiesID = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-    //         $query->select('r_student_id')
-    //             ->from('registration')
-    //             ->where('r_year', $year)
-    //             ->where('r_semester', $semester)
-    //             ->distinct();
-    //     })
-    //     ->where('sc_status', 1)
-    //     ->select('sc_company_id')
-    //     ->distinct()
-    //     ->get();
-
-    //     $trainingID = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-    //         $query->select('r_student_id')
-    //             ->from('registration')
-    //             ->where('r_year', $year)
-    //             ->where('r_semester', $semester)
-    //             ->distinct();
-    //     })
-    //     ->where('sc_status', 1)
-    //     ->select('sc_id')
-    //     ->distinct()
-    //     ->get();
-
-    //     $companies = Company::whereIn('c_id', $companiesID)->get();
-
-    //     // $companiesPayments = Payment::with('userStudent','payments')->whereIn('p_student_company_id', $trainingID)->get();
-
-    //     $companiesPayments = Payment::with('userStudent', 'payments')
-    //     ->whereIn('p_student_company_id', $trainingID)
-    //     ->get()
-    //     ->unique('p_student_company_id')
-    //     ->pluck('p_id');
-
-    //     // $trainingPayments = Payment::with('userStudent', 'payments')->where()
-
-
-    //     $paymentCollection = new Collection();
-
-    //     foreach($companiesPayments as $key){ //هون الدفعات حيث التدريب مميز ومش مكرر
-    //         $trainID = Payment::where('p_id',$key)->select('p_student_company_id')->get()->first()->p_student_company_id;
-
-    //         $payments = Payment::where('p_student_company_id',$trainID)->get();
-
-    //         //return $key;
-
-    //         $objectToreturnView = Payment::with('userStudent', 'payments','currency')->where('p_id',$key)->get()->first();
-
-    //         //return $objectToreturnView;
-
-
-
-    //         //مبدئيا بدنا نجمعهم كلهم بعدها بصير اعمل جمع بالاعتماد على العملة
-    //         $paymentsShekelTotal = 0;
-    //         $paymentsDollarTotal = 0;
-    //         $paymentsDinarTotal = 0;
-
-    //         $paymentsShekelApprovedTotal = 0;
-    //         $paymentsDollarApprovedTotal = 0;
-    //         $paymentsDinarApprovedTotal = 0;
-
-    //         foreach($payments as $payment){ //هون الدفعات لكل تدريب
-    //             if($payment->p_currency_id==1){
-    //                 $paymentsShekelTotal += $payment->p_payment_value;
-    //                 if($payment->p_status == 1){
-    //                     $paymentsShekelApprovedTotal += $payment->p_payment_value;
-    //                 }
-    //             }
-    //             elseif($payment->p_currency_id==2){
-    //                 $paymentsDollarTotal += $payment->p_payment_value;
-    //                 if($payment->p_status == 1){
-    //                     $paymentsDollarApprovedTotal += $payment->p_payment_value;
-    //                 }
-    //             }
-    //             else{
-    //                 $paymentsDinarTotal += $payment->p_payment_value;
-    //                 if($payment->p_status == 1){
-    //                     $paymentsDinarApprovedTotal += $payment->p_payment_value;
-    //                 }
-    //             }
-
-    //         }
-
-    //         $shekelSympol = Currency::where('c_id',1)->select('c_symbol')->first()->c_symbol;
-    //         $dollarSympol = Currency::where('c_id',2)->select('c_symbol')->first()->c_symbol;
-    //         $dinarSympol = Currency::where('c_id',3)->select('c_symbol')->first()->c_symbol;
-
-
-    //         if($paymentsShekelTotal!=0){
-    //             $objectToreturnView->paymentsShekelTotal = $paymentsShekelTotal." ".$shekelSympol;
-    //         }
-    //         if($paymentsDollarTotal!=0){
-    //             $objectToreturnView->paymentsDollarTotal = $paymentsDollarTotal." ".$dollarSympol;
-    //         }
-    //         if($paymentsDinarTotal!=0){
-    //             $objectToreturnView->paymentsDinarTotal = $dinarSympol." ".$paymentsDinarTotal;
-    //         }
-    //         //foreach($objectToreturnView as $key){
-
-    //         if($paymentsShekelApprovedTotal!=0){
-    //             $objectToreturnView->paymentsShekelApprovedTotal = $paymentsShekelApprovedTotal." ".$shekelSympol;
-    //         }
-    //         if($paymentsDollarApprovedTotal!=0){
-    //             $objectToreturnView->paymentsDollarApprovedTotal = $paymentsDollarApprovedTotal." ".$dollarSympol;
-    //         }
-    //         if($paymentsDinarApprovedTotal!=0){
-    //             $objectToreturnView->paymentsDinarApprovedTotal = $dinarSympol.$paymentsDinarApprovedTotal;
-    //         }
-
-    //         $paymentCollection->add($objectToreturnView);
-
-    //     }
-
-
-    //     // return $paymentCollection;
-    //     // return $companiesPayments;
-
-    //     return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'companies'=>$companies,'companiesPayments'=>$paymentCollection]);
-    // }
 
     public function companiesPaymentsReport(){
         $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
@@ -664,7 +520,6 @@ class MonitorEvaluationController extends Controller
         ]);
     }
 
-
     public function paymentsReport(){
 
         $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
@@ -757,31 +612,12 @@ class MonitorEvaluationController extends Controller
             $trainingsFilterCompany = $trainingIDs->filter(function ($item) use ($request) {
                 return $item->sc_company_id == $request->company;
             })->pluck('sc_id')->toArray();
-            // ->pluck('sc_id')->toArray();
         }
         if($request->student!=0&&$request->company==0){
-            //do filter according to student
-            // $trainingsFilterStudent = $trainingIDs->filter(function ($item) {
-            //     return $item->sc_student_id == $request->student;
-            // })->pluck('sc_id')->toArray();
 
-            // if($request->company!=0&&){
-
-                $trainingsFilterCompany = $trainingIDs->filter(function ($item) use ($request){
-                    return $item->sc_student_id == $request->student;
-                })->pluck('sc_id')->toArray();
-
-            // }else{
-            //     $trainingsFilterCompany = $trainingIDs->filter(function ($item) {
-            //         return $item == $request->student;
-            //     });
-            // }
-
-            ////////////////////////////////////////
-            //if $request->company != 0, do the filter according to company also
-            //else do the filter according to students only
-            ////////////////////////////////////////
-
+            $trainingsFilterCompany = $trainingIDs->filter(function ($item) use ($request){
+                return $item->sc_student_id == $request->student;
+            })->pluck('sc_id')->toArray();
 
         }
 
