@@ -400,6 +400,8 @@
         "Notes must be written on the report"=>"يجب كتابة ملاحظات عن التقرير",
         "Drag the file here or click to upload"=>"قم بسحب الملف هنا أو انقر للرفع",
         "Remove assistant for academic supervisor confirmation"=>"تأكيد حذف المساعد الإداري للمشرف الأكاديمي",
-        "Are you sure from removing this assistant?"=>"هل أنت متأكد من حذف هذا المساعد الإداري؟"
+        "Are you sure from removing this assistant?"=>"هل أنت متأكد من حذف هذا المساعد الإداري؟",
+        "Academic Supervisor Name"=>"اسم المشرف الأكاديمي",
+        "All College's Students"=>"جميع طلاب الكلية"
     ];
 ?>

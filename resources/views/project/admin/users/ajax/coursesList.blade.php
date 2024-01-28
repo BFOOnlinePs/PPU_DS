@@ -12,7 +12,12 @@
     <tbody>
         @foreach($data as $registration)
             <tr>
-                <td>{{$registration->courses->c_name}}</td>
+                @if (auth()->user()->u_role_id == 1)
+                <td><a href="{{route('admin.courses.index')}}">{{$registration->courses->c_name}}</a></td>
+                @else
+                    <td>{{$registration->courses->c_name}}</td>
+                @endif
+
                 <td><button class="btn btn-danger" onclick="delete_course_for_student({{$registration->r_course_id}})" type="button"><span class="fa fa-trash"></span></button></td>
             </tr>
         @endforeach

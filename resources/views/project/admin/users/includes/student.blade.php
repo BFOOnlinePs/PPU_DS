@@ -14,7 +14,8 @@
         @else
             @foreach($students as $student)
                 <tr>
-                    <td>{{$student->users->name}}</td>
+                    {{-- <td>{{$student->users->name}}</td> --}}
+                    <td><a href="{{route('admin.users.details',['id'=>$student->users->u_id])}}">{{$student->users->name}}</a></td>
 
                     <td>
                         @if (isset($student->companyBranch->b_address))

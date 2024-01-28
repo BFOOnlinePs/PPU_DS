@@ -106,7 +106,7 @@
                                 @if( $key->sc_semester == 1) <td>{{__('translate.First')}}{{-- أول --}}</td>@endif
                                 @if( $key->sc_semester == 2) <td>{{__('translate.Second')}}{{-- ثاني --}}</td>@endif
                                 @if( $key->sc_semester == 3) <td>{{__('translate.Summer')}}{{-- صيفي --}}</td>@endif
-                                <td>{{ $key->courses->c_name }}</td>
+                                <td><a href="{{route('admin.courses.index')}}">{{$key->courses->c_name}}</a></td>
 
                                 <td>{{ $key->courses->c_course_code }}</td>
                                 <td>{{ $key->courses->c_hours }}</td>

@@ -51,7 +51,8 @@
                             <tr>
                                 <td style="display:none;">{{ $key->sc_id }}</td>
                                 <td>{{ $key->courses->c_course_code }}</td>
-                                <td>{{ $key->courses->c_name }}</td>
+                                {{-- <td>{{ $key->courses->c_name }}</td> --}}
+                                <td><a href="{{route('admin.courses.index')}}">{{$key->courses->c_name}}</a></td>
                                 <td>{{ $key->courses->c_hours }}</td>
                                 @if( $key->courses->c_course_type == 0) <td>{{__('translate.Theoretical')}} {{-- نظري --}}</td>@endif
                                 @if( $key->courses->c_course_type == 1) <td>{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
