@@ -23,7 +23,7 @@
                                 <td>{{$key->payments->c_name}}</td>
                                 <td>{{$key->userStudent->name}}</td>
                                 <td>{{ \Carbon\Carbon::parse($key->created_at)->format('Y-m-d') }}</td>
-                                <td>{{$key->currency->c_symbol}} {{ $key->p_payment_value}}</td>
+                                <td>{{ $key->p_payment_value == intval($key->p_payment_value) ? number_format($key->p_payment_value) : number_format(floor($key->p_payment_value * 100) / 100, 2, '.', '') }}  <span>{{$key->currency->c_symbol}}</span></td>
                                 <td  >@if ($key->p_status == 0) <span class="badge rounded-pill badge-danger">{{__('translate.Not Confirmed')}} {{-- غير مؤكدة --}}</span>  @else <span class="badge rounded-pill badge-primary">{{__('translate.Confirmed')}} {{-- مؤكدة --}}</span> @endif</td>
                             </tr>
                             @endforeach

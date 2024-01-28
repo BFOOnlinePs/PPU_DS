@@ -26,14 +26,14 @@
                                 <td>
                                     @foreach ($key->paymentsTotalCollection as $item)
                                         @if($item["total"] != 0)
-                                        <span class="badge rounded-pill badge-danger">{{$item["symbol"]}} {{$item["total"]}}</span>
+                                        <span class="badge rounded-pill badge-danger">{{ $item["total"] == intval($item["total"]) ? number_format($item["total"]) : number_format(floor($item["total"] * 100) / 100, 2, '.', '') }} <span>{{$item["symbol"]}}</span></span>
                                         @endif
                                     @endforeach
                                 </td>
                                 <td>
                                     @foreach ($key->approvedPaymentsTotalCollection as $item)
                                     @if($item["total"] != 0)
-                                    <span class="badge rounded-pill badge-danger">{{$item["symbol"]}} {{$item["total"]}}</span>
+                                        <span class="badge rounded-pill badge-danger">{{ $item["total"] == intval($item["total"]) ? number_format($item["total"]) : number_format(floor($item["total"] * 100) / 100, 2, '.', '') }} <span>{{$item["symbol"]}}</span></span>
                                     @endif
                                     @endforeach
                                 </td>

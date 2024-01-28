@@ -42,7 +42,7 @@
                 @foreach ($payments as $key)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($key->created_at)->format('Y-m-d') }}</td>
-                    <td>{{$key->currency->c_symbol}}{{ $key->p_payment_value}}</td>
+                    <td>{{ $key->p_payment_value == intval($key->p_payment_value) ? number_format($key->p_payment_value) : number_format(floor($key->p_payment_value * 100) / 100, 2, '.', '') }} <span>{{$key->currency->c_symbol}}</span></td>
                     <td>@if ($key->p_status == 0) {{__('translate.Not Confirmed')}} {{-- غير مؤكدة --}}@else {{__('translate.Confirmed')}} {{-- مؤكدة --}} @endif</td>
                 </tr>
                 @endforeach
@@ -53,7 +53,7 @@
                     <td>
                         @foreach ($trainingPayment->paymentsTotalCollection as $item)
                             @if($item["total"] != 0)
-                                <span class="badge rounded-pill badge-danger">{{$item["symbol"]}} {{$item["total"]}}</span>
+                                <span class="badge rounded-pill badge-danger">{{ $item["total"] == intval($item["total"]) ? number_format($item["total"]) : number_format(floor($item["total"] * 100) / 100, 2, '.', '') }} <span>{{$item["symbol"]}}</span></span>
                             @endif
                         @endforeach
                     <td></td>
