@@ -14,7 +14,7 @@
                                 <div class="email-compose">
                                     <div class="email-top compose-border">
                                         <div class="compose-header">
-                                            <h4>تسليم التقرير</h4>
+                                            <h4>{{__('translate.Submit Report')}}{{--تسليم التقرير--}}</h4>
                                         </div>
                                     </div>
                                     <div class="email-wrapper">
@@ -30,13 +30,13 @@
                                         <form action="{{route('students.attendance.report.submit')}}" class="theme-form" method="post" enctype="multipart/form-data" id="myForm">
                                             @csrf
                                             <div class="alert alert-danger" id="error" style="display: none">
-                                                يجب كتابة ملاحظات عن التقرير
+                                                {{__('translate.Notes must be written on the report')}}{{--يجب كتابة ملاحظات عن التقرير--}}
                                             </div>
                                             <input type="hidden" id="latitude" name="latitude">
                                             <input type="hidden" id="longitude" name="longitude">
                                             <input type="text" value="{{$sa_id}}" name="sa_id" id="sa_id" hidden>
                                             <div class="form-group">
-                                                <label class="col-form-label pt-0">ملاحظات عن التقرير</label>
+                                                <label class="col-form-label pt-0">{{__('translate.Report Notes')}}{{--ملاحظات عن التقرير--}}</label>
                                                 <textarea name="sr_report_text" class="form-control" cols="4" rows="4" id="sr_report_text">@if (isset($student_report->sr_report_text)){{$student_report->sr_report_text}}@endif</textarea>
                                             </div>
                                             <div class="form-group">
@@ -44,7 +44,7 @@
                                                     <input type="file" onchange="submitFile(this)" id="input-file" name="file" hidden>
                                                     <div class="dz-message needsclick">
                                                         <i class="icon-cloud-up"></i>
-                                                        <h6>قم بسحب الملف هنا أو انقر للرفع</h6>
+                                                        <h6>{{__('translate.Drag the file here or click to upload')}}{{--قم بسحب الملف هنا أو انقر للرفع--}}</h6>
                                                     </div>
                                                     <div id="progress-container" style="display: none;">
                                                         <div class="progress">
@@ -63,7 +63,7 @@
                                                     @endif
                                                 </label>
                                             </div>
-                                            <button type="submit" class="btn btn-secondary" id="submitButton"><i class="fa fa-paper-plane me-2"></i>تسليم التقرير</button>
+                                            <button type="submit" class="btn btn-secondary" id="submitButton"><i class="fa fa-paper-plane me-2"></i>{{__('translate.Submit Report')}}{{--تسليم التقرير--}}</button>
                                         </form>
                                     </div>
                                 </div>

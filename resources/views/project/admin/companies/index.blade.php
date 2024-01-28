@@ -51,9 +51,14 @@
                         @foreach ($data as $key)
                             <tr>
                                 <td style="display:none;">{{ $key->c_id }}</td>
-                                <td>{{ $key->c_name }}</td>
-                                <td>{{ $key->manager->name }}</td>
-                                <td>{{ $key->companyCategories->cc_name}}</td>
+                                <td><a href="{{route("admin.companies.edit",['id'=>$key->c_id])}}">{{$key->c_name}}</a></td>
+                                @if (auth()->user()->u_role_id == 1)
+                                    <td><a href="{{route('admin.users.details',['id'=>$key->manager->u_id])}}">{{$key->manager->name}}</a></td>
+                                @else
+                                    <td>{{$key->manager->name}}</td>
+                                @endif
+
+                                <td><a href="{{route("admin.companies_categories.index")}}">{{$key->companyCategories->cc_name}}</a></td>
                                 @if( $key->c_type == 1) <td>{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
                                 @if( $key->c_type == 2) <td>{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
                                 <td>

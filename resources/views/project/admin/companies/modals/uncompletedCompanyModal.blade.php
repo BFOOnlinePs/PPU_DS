@@ -11,10 +11,6 @@
 
        </div>
       </div>
-     {{-- <div class="modal-footer">
-      <a type="button" id="companyLink" class="btn btn-primary">الانتقال إلى الشركة</a>
-      <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">إكمال</button>
-      </div> --}}
      </div>
     </div>
 </div>

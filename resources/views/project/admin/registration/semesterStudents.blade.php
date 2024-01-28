@@ -50,7 +50,8 @@
                         @foreach ($data as $key)
                             <tr>
                                 <td style="display:none;">{{ $key->r_id }}</td>
-                                <td>{{ $key->users->u_username }}</td>
+                                {{-- <td>{{ $key->users->u_username }}</td> --}}
+                                <td><a href="{{route('admin.users.details',['id'=>$key->users->u_id])}}">{{$key->users->name}}</a></td>
                                 <td>{{ $key->users->name }}</td>
                                 {{-- <td>{{ $key->courses->c_course_code }}</td>
                                 <td>{{ $key->courses->c_name }}</td> --}}

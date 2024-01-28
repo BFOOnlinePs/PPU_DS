@@ -17,8 +17,8 @@
         @else
             @foreach($data as $studentCompany)
                 <tr class="@if ($studentCompany->sc_status == 3) table-danger @endif">
-                    <td>{{$studentCompany->registrations[0]->courses->c_name}}</td>
-                    <td>{{$studentCompany->company->c_name}}</td>
+                    <td><a href="{{route('admin.courses.index')}}">{{$studentCompany->registrations[0]->courses->c_name}}</a></td>
+                    <td><a href="{{route("admin.companies.edit",['id'=>$studentCompany->company->c_id])}}">{{$studentCompany->company->c_name}}</a></td>
                     @if ($studentCompany->sc_branch_id == null)
                         <td></td>
                     @else

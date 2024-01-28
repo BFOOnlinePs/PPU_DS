@@ -1,5 +1,5 @@
 @if ($students_company->isEmpty())
-    <h6 class="alert alert-danger">لا يوجد طلاب لعرضهم</h6>
+    <h6 class="alert alert-danger">{{__('translate.No data to display')}}{{--لا يوجد طلاب لعرضهم--}}</h6>
 @else
 <table class="table table-bordered table-striped">
     <thead>
@@ -11,7 +11,8 @@
     <tbody>
         @foreach ($students_company as $student)
             <tr>
-                <td>{{$student->users->name}}</td>
+                {{-- <td>{{$student->users->name}}</td> --}}
+                <td><a href="{{route('admin.users.details',['id'=>$student->users->u_id])}}">{{$student->users->name}}</a></td>
                 <td><a href="{{route('admin.users.details' , ['id'=>$student->sc_student_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-search"></span></a></td>
             </tr>
         @endforeach

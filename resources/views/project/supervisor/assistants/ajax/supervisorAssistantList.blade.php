@@ -15,7 +15,8 @@
         <tbody>
             @foreach ($supervisorAssistants as $assistant)
                 <tr>
-                    <td>{{$assistant->assistantUser->name}}</td>
+                    {{-- <td>{{$assistant->assistantUser->name}}</td> --}}
+                    <td><a href="{{route('admin.users.details',['id'=>$assistant->assistantUser->u_id])}}">{{$assistant->assistantUser->name}}</a></td>
                     @if (auth()->user()->u_role_id == 1)
                         <th>
                             <button class="btn btn-lg" onclick="showAlertDelete({{$assistant->sa_id}})" type="button"><span class="fa fa-trash "></span></button>

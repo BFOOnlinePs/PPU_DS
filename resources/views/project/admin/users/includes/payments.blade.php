@@ -16,7 +16,8 @@
         <tbody>
             @foreach($payments as $payment)
                 <tr>
-                    <td>{{$payment->userInsertedById->name}}</td>
+                    {{-- <td>{{$payment->userInsertedById->name}}</td> --}}
+                    <td><a href="{{route('admin.users.details',['id'=>$payment->userInsertedById->u_id])}}">{{$payment->userInsertedById->name}}</a></td>
                     <td>{{$payment->p_payment_value}} {{$payment->currency->c_symbol}}</td>
                     <td>{{$payment->p_reference_id}}</td>
                     <td>{{$payment->p_status}}</td>

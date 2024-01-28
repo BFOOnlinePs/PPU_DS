@@ -1,9 +1,14 @@
 @extends('layouts.app')
+@section('title')
+{{__('translate.Users')}}{{-- المستخدمين --}}
+@endsection
+@section('header_title_link')
+{{__('translate.Users')}}{{-- المستخدمين --}}
+@endsection
+@section('header_link')
+{{__('translate.Edit User Information')}}{{--تعديل المستخدم--}} @endsection
 
-@section('title', 'المستخدمين')
-@section('header_title', 'المستخدمين')
-@section('header_title_link', 'المستخدمين')
-@section('header_link', 'تعديل المستخدم')
+
 
 @section('content')
 <div class="container-fluid">

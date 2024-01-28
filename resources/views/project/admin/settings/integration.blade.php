@@ -196,7 +196,7 @@
                         nextButton.disabled = true;
                         document.getElementById('errorPageOne').innerHTML = `
                             <div class="alert alert-danger">
-                                يُرجى اختيار ملف إكسل فقط
+                                {{__('translate.Please choose Exel file only')}}
                             </div>
                         `;
                     }
@@ -213,7 +213,7 @@
             nextButton.disabled = true;
             document.getElementById('errorPageOne').innerHTML = `
                 <div class="alert alert-danger">
-                    يُرجى اختيار ملف إكسل فقط
+                    {{__('translate.Please choose Exel file only')}}
                 </div>
             `;
         }
@@ -396,7 +396,7 @@
                         nextButton.disabled = true;
                         document.getElementById('errorPageOne').innerHTML = `
                             <div class="alert alert-danger">
-                                يُرجى اختيار ملف إكسل فقط
+                                {{__('translate.Please choose Exel file only')}}
                             </div>
                         `;
                     }

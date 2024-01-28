@@ -15,8 +15,10 @@
         @else
                 @foreach($students as $student)
                 <tr>
-                    <td>{{$student->name}}</td>
-                    <td>{{$student->u_username}}</td>
+                    {{-- <td>{{$student->name}}</td> --}}
+                    {{-- <td>{{$student->u_username}}</td> --}}
+                    <td><a href="{{route('admin.users.details',['id'=>$student->u_id])}}">{{$student->name}}</a></td>
+                    <td><a href="{{route('admin.users.details',['id'=>$student->u_id])}}">{{$student->u_username}}</a></td>
                     <td>{{$student->major->m_name}}</td>
                     <td><a href="{{route('admin.users.details' , ['id'=>$student->u_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-search"></span></a></td>        </tr>
                 @endforeach
