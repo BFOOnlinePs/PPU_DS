@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Companies Management')}}{{--إدارة الشركات--}}
+{{__('translate.Main')}}{{--الرئيسية --}}
 @endsection
 @section('header_title')
 {{__('translate.Companies Management')}}{{--إدارة الشركات--}}
 @endsection
 @section('header_title_link')
-{{__('translate.Companies Management')}}{{--إدارة الشركات--}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Display Companies')}}{{--استعراض الشركات--}}
+<a href="{{ route('admin.companies.index') }}">{{__('translate.Display Companies')}}{{--استعراض الشركات--}}
 @endsection
 
 @section('content')

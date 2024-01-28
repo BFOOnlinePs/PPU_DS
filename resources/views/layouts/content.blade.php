@@ -5,7 +5,7 @@
                 <div class="col-lg-6">
                     <h3>@yield('header_title')</h3>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ asset('ltr/index.html') }}">@yield('header_title_link')</a></li>
+                        <li class="breadcrumb-item">@yield('header_title_link')</a></li>
                         <li class="breadcrumb-item">@yield('header_link')</li>
                         {{-- <li class="breadcrumb-item">Page layout</li>
                         <li class="breadcrumb-item active">Layout RTL</li> --}}

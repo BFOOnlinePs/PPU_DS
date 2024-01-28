@@ -3,7 +3,7 @@
 {{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
 @endsection
 @section('header_title')
-{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
+{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}<a href="{{route('monitor_evaluation.companiesPaymentsReport')}}">
 @endsection
 @section('header_title_link')
 {{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
