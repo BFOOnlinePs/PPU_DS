@@ -394,5 +394,6 @@
         "Drag the file here or click to upload"=>"Drag the file here or click to upload",
         "Remove assistant for academic supervisor confirmation"=>"Remove assistant for academic supervisor confirmation",
         "Are you sure from removing this assistant?"=>"Are you sure from removing this assistant?",
+        "Academic Supervisor Name"=>"Academic Supervisor Name",
     ];
 ?>

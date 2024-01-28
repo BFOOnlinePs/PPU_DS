@@ -133,7 +133,7 @@
             var marker = new google.maps.Marker({
                 position: { lat: latitude1, lng: longitude1 },
                 map: map1,
-                title: "{{__('translate.Student's Check-In Location')}}"
+                title: `{{__("translate.Student's Check-In Location")}}`
             });
 
             var map2 = new google.maps.Map(document.getElementById('map2'), {
@@ -144,7 +144,7 @@
             var marker = new google.maps.Marker({
                 position: { lat: latitude2, lng: longitude2 },
                 map: map2,
-                title: "{{__('translate.Student's Check-Out Location')}}"
+                title: `{{__("translate.Student's Check-Out Location")}}`
             });
         }
     </script>

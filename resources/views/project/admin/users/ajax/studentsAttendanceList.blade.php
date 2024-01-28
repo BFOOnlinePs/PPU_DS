@@ -15,7 +15,7 @@
             @else
             @foreach($student_attendances as $student_attendance)
                 <tr>
-                    <td>{{$student_attendance->training->company->c_name}}</td>
+                    <td><a href="{{route("admin.companies.edit",['id'=>$student_attendance->training->company->c_id])}}">{{$student_attendance->training->company->c_name}}</a></td>
                     <td>{{$student_attendance->sa_in_time}}</td>
                     @if (!isset($student_attendance->sa_out_time))
                         <td>{{__("translate.Didn't Check-Out")}} {{-- لم يسجل مغادرة --}}</td>

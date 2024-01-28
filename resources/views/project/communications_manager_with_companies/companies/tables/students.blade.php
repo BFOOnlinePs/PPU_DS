@@ -12,10 +12,11 @@
     <tbody>
         @foreach ($students_company as $student)
             <tr>
-                <td>{{$student->users->name}}</td>
+                {{-- <td>{{$student->users->name}}</td> --}}
+                <td><a href="{{route('admin.users.details',['id'=>$student->users->u_id])}}">{{$student->users->name}}</a></td>
                 <td>
                     @if ($student->sc_status == 1)
-                    {{__('translate.Still Trained')}} {{-- لا يزال يتدرب--}} 
+                    {{__('translate.Still Trained')}} {{-- لا يزال يتدرب--}}
                      @elseif($student->sc_status == 2)
                      {{__('translate.Completed')}}{{-- انهى التدريب --}}
                     @else
