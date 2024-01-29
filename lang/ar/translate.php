@@ -405,6 +405,8 @@
         "All College's Students"=>"جميع طلاب الكلية",
         "Integration"=>"دمج البيانات",
         "Edit Company"=>"تعديل شركة",
+        "Student Report"=>"تقرير الطالب",
+        "Student's Payments Details"=>"تفاصيل دفعة الطالب",
 
     ];
 ?>

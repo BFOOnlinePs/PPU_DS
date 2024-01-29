@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+{{__('translate.Training Places')}}{{-- أماكن التدريب --}}
 @endsection
-@section('header_title_link')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+@section('header_title')
+{{__('translate.Training Places')}}{{-- أماكن التدريب --}}
 @endsection
 @section('header_title_link')
     <a href="{{route('home')}}">{{__('translate.Main')}}{{--الرئيسية--}}</a>
 @endsection
 @section('header_link')
-    <a href="{{route('admin.users.index')}}">{{__('translate.Users Management')}}{{--إدارة المستخدمين--}}</a>
+<a href="{{route('supervisor_assistants.companies.index')}}">{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</a>
 @endsection
 @section('content')
 <div class="col-sm-12">

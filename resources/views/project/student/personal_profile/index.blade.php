@@ -3,10 +3,13 @@
 {{__('translate.Profile')}} {{-- الملف الشخصي --}}
 @endsection
 @section('header_title')
+{{__('translate.Profile')}} {{-- الملف الشخصي --}}
 @endsection
 @section('header_title_link')
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
+<a href="{{route('students.personal_profile.index')}}">{{__('translate.Profile')}} {{-- الملف الشخصي --}}</a>
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -17,7 +20,6 @@
                         @csrf
                         <input type="hidden" name="u_id" value="{{ $user->u_id }}">
                         <div class="card-header pb-0">
-                            <h4 class="card-title mb-0">{{__('translate.Profile')}} {{-- الملف الشخصي --}}</h4>
                             <div class="card-options">
                                 <a class="card-options-collapse" href="#" data-bs-toggle="card-collapse">
                                     <i class="fe fe-chevron-up"></i>

@@ -9,8 +9,7 @@
     <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-    <a href="{{ route('communications_manager_with_companies.companies.index') }}">{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</a>
-
+<a href="{{ route('communications_manager_with_companies.companies.index') }}">{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</a>
 @endsection
 @section('content')
 <div class="col-sm-12">
