@@ -397,5 +397,10 @@
         "Academic Supervisor Name"=>"Academic Supervisor Name",
         "User's Information"=>"User's Information",
         "Unspecified"=>"Unspecified",
+        "All College's Students"=>"All College's Students",
+        "Integration"=>"Integration",
+        "Edit Company"=>"Edit Company",
+        "Student Report"=>"Student Report",
+        "Student's Payments Details"=>"Student's Payments Details",
     ];
 ?>
