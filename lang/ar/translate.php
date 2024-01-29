@@ -408,5 +408,7 @@
         "Student Report"=>"تقرير الطالب",
         "Student's Payments Details"=>"تفاصيل دفعة الطالب",
 
+        "User's Information"=>"معلومات المستخدم",
+        "Unspecified"=>"غير محدد",
     ];
 ?>

@@ -58,7 +58,12 @@
                                     <td>{{$key->manager->name}}</td>
                                 @endif
 
-                                <td><a href="{{route('admin.companies_categories.index')}}">{{$key->companyCategories->cc_name}}</a></td>
+                                {{-- <td><a href="{{route('admin.companies_categories.index')}}">{{$key->companyCategories->cc_name}}</a></td> --}}
+                                @if($key->companyCategories != null)
+                                    <td><a href="{{route("admin.companies_categories.index")}}">{{$key->companyCategories->cc_name}}</a></td>
+                                @else
+                                    <td>{{__('translate.Unspecified')}}{{--غير محدد--}}</td>
+                                @endif
                                 @if( $key->c_type == 1) <td>{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
                                 @if( $key->c_type == 2) <td>{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
                                 <td>

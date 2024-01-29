@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+{{__("translate.User's Information")}}{{-- معلومات المستخدم --}}
 @endsection
 @section('header_title')
-
+{{__("translate.User's Information")}}{{-- معلومات المستخدم --}}
 @endsection
 @section('header_title_link')
 <a href="{{route('admin.users.index')}}">{{__('translate.Users')}}{{-- المستخدمين --}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Edit User Information')}}
+{{__('translate.Edit User Information')}}{{--تعديل معلومات المستخدم--}} / {{$user->name}}
 @endsection
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
