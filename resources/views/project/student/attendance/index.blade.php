@@ -1,12 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+{{__('translate.Attendance Logs')}} {{-- سِجل الحضور و المغادرة --}}
+@endsection
+@section('header_title')
+{{__('translate.Attendance Logs')}} {{-- سِجل الحضور و المغادرة --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Users')}}{{-- المستخدمين --}}
-
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
+<a href="{{route('students.attendance.index')}}">{{__('translate.Attendance Logs')}} {{-- سِجل الحضور و المغادرة --}}</a>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -14,7 +17,6 @@
         <div class="col-xl-12">
             <form class="card">
                 <div class="card-header pb-0">
-                    <h4 class="card-title mb-0">{{__('translate.Attendance Logs')}} {{-- سِجل الحضور و المغادرة --}}</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">

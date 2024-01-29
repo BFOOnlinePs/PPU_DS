@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+{{__('translate.Payments')}} {{-- الدفعات  --}}
+@endsection
+@section('header_title')
+{{__('translate.Payments')}} {{--  الدفعات --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Users')}}{{-- المستخدمين --}}
-
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-@endsection
-@section('style')
-
+<a href="{{route('students.payments.index')}}">{{__('translate.Payments')}}{{-- الدفعات  --}}</a>
 @endsection
 @section('content')
     <div class="container-fluid">

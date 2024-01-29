@@ -2,12 +2,16 @@
 @section('title')
 {{__('translate.Majors')}}{{-- التخصصات  --}}
 @endsection
-@section('header_title_link')
+@section('header_title')
 {{__('translate.Majors')}}{{-- التخصصات  --}}
 @endsection
-@section('header_link')
-{{-- تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> --}}
+@section('header_title_link')
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
+@section('header_link')
+<a href="{{ route('supervisor_assistants.majors.index' , ['id' => auth()->user()->u_id])}}">{{__('translate.Majors')}}{{-- التخصصات  --}}</a>
+@endsection
+
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endsection
