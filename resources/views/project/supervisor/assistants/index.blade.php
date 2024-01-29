@@ -1,13 +1,18 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+{{__("translate.Academic Supervisor's Assistants")}} {{-- المساعدين الإداريين للمشرف الأكاديمي --}}
+@endsection
+@section('header_title')
+{{__("translate.Academic Supervisor's Assistants")}} {{-- المساعدين الإداريين للمشرف الأكاديمي --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+<a href="{{route('admin.users.index')}}">{{__('translate.Users')}}{{-- المستخدمين --}}</a>
 @endsection
 @section('header_link')
-{{-- تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> --}}
+<a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> / {{__("translate.Academic Supervisor's Assistants")}} {{-- المساعدين الإداريين للمشرف الأكاديمي --}}
 @endsection
+
+
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endsection
@@ -31,7 +36,7 @@
             @endif
           <form class="card">
             <div class="card-header pb-0">
-              <h4 class="card-title mb-0">{{__("translate.Academic Supervisor's Assistants")}} {{-- المساعدين الإداريين للمشرف الأكاديمي --}}</h4>
+              {{-- <h4 class="card-title mb-0">{{__("translate.Academic Supervisor's Assistants")}} المساعدين الإداريين للمشرف الأكاديمي</h4> --}}
               <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">

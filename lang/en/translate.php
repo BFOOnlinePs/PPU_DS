@@ -395,5 +395,7 @@
         "Remove assistant for academic supervisor confirmation"=>"Remove assistant for academic supervisor confirmation",
         "Are you sure from removing this assistant?"=>"Are you sure from removing this assistant?",
         "Academic Supervisor Name"=>"Academic Supervisor Name",
+        "User's Information"=>"User's Information",
+        "Unspecified"=>"Unspecified",
     ];
 ?>
