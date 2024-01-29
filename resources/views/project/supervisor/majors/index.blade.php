@@ -1,12 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+{{__('translate.Majors')}}{{-- التخصصات --}}
+@endsection
+@section('header_title')
+{{__('translate.Majors')}}{{-- التخصصات --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{-- تعديل المستخدم / <a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> --}}
+<a href="{{ route('supervisors.majors.index' , ['id' => auth()->user()->u_id])}}"> {{__('translate.Majors')}}{{-- التخصصات --}}</a>
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">

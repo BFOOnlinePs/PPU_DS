@@ -6,10 +6,10 @@
 {{__("translate.Semesters' Courses")}}{{-- مساقات الفصول --}}
 @endsection
 @section('header_title_link')
-{{__("translate.Semesters' Courses")}}{{-- مساقات الفصول --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__("translate.Current Semester Courses")}}{{-- مساقات الفصل الحالي --}}
+<a href="{{route('admin.courses.index')}}">{{__('translate.Courses')}}{{--المساقات--}}</a>
 @endsection
 
 @section('style')

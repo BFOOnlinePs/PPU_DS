@@ -6,10 +6,10 @@
 {{__('translate.Delete Data')}}{{-- حذف بيانات --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Delete Data')}}{{-- حذف بيانات --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Delete Data')}}{{-- حذف بيانات --}}
+<a href="{{route('admin.settings')}}">{{__('translate.Settings')}}{{-- إعدادات  --}}</a>
 @endsection
 @section('style')
 @endsection

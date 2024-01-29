@@ -6,10 +6,10 @@
 {{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}
 @endsection
 @section('header_title_link')
-    {{__('translate.Registration')}}{{-- التسجيل --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}
+<a href="{{route('admin.registration.index')}}"> {{__('translate.Registration')}}{{-- التسجيل --}}</a>
 @endsection
 
 @section('style')

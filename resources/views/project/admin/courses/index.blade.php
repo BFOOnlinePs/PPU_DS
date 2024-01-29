@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Courses Management')}}{{--إدارة المساقات--}}
+{{__('translate.Main')}}{{-- الرئيسية --}}
 @endsection
 @section('header_title')
 {{__('translate.Courses Management')}}{{--إدارة المساقات--}}
 @endsection
 @section('header_title_link')
-{{__('translate.Courses Management')}}{{--إدارة المساقات--}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Courses')}}{{--المساقات--}}
+<a href="{{route('admin.courses.index')}}">{{__('translate.Courses')}}{{--المساقات--}}</a>
 @endsection
 @section('style')
 <style>

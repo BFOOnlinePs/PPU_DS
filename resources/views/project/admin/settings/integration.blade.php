@@ -1,11 +1,15 @@
 @extends('layouts.app')
 @section('title')
+{{__('translate.Integration')}}{{-- دمج البيانات--}}
 @endsection
 @section('header_title')
+{{__('translate.Integration')}}{{-- دمج البيانات--}}
 @endsection
 @section('header_title_link')
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
+<a href="{{route('admin.settings')}}">{{__('translate.Settings')}}{{-- إعدادات  --}}</a>
 @endsection
 @section('style')
 <style>
