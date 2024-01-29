@@ -405,6 +405,7 @@
         "All College's Students"=>"جميع طلاب الكلية",
         "Integration"=>"دمج البيانات",
         "Edit Company"=>"تعديل شركة",
-
+        "User's Information"=>"معلومات المستخدم",
+        "Unspecified"=>"غير محدد",
     ];
 ?>
