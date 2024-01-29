@@ -3,13 +3,13 @@
 {{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
 @endsection
 @section('header_title')
-{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}<a href="{{route('monitor_evaluation.companiesReport')}}">
+{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
 @endsection
 @section('header_title_link')
-{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}
+<a href="{{route('monitor_evaluation.companiesReport')}}">{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}</a>
 @endsection
 
 @section('style')

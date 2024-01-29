@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Majors Management')}}{{-- إدارة التخصصات --}}
+{{__('translate.Main')}}{{-- الرئيسية  --}}
 @endsection
 @section('header_title')
 {{__('translate.Majors Management')}}{{-- إدارة التخصصات --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Majors Management')}}{{-- إدارة التخصصات --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Majors')}}{{-- التخصصات --}}
+<a href="{{route('admin.majors.index')}}"> {{__('translate.Majors')}}{{-- التخصصات --}}</a>
 @endsection
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">

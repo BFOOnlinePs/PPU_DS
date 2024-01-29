@@ -6,10 +6,10 @@
     {{__('translate.System Settings')}}{{-- إعدادات النظام --}}
 @endsection
 @section('header_title_link')
-    {{__('translate.System Settings')}}{{-- إعدادات النظام --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-    {{__('translate.System Settings')}}{{-- إعدادات النظام --}}
+ <a href="{{route('admin.settings.systemSettings')}}">{{__('translate.System Settings')}}{{-- إعدادات النظام --}}</a>
 @endsection
 
 @section('style')

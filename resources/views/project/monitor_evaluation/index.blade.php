@@ -6,10 +6,10 @@
 {{__('translate.Main')}}{{-- الرئيسية --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Main')}}{{-- الرئيسية --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Main')}}{{-- الرئيسية --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('style')
 

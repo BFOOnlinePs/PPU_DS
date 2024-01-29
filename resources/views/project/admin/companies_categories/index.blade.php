@@ -6,10 +6,10 @@
 {{__('translate.Companies Categories')}}{{--تصنيف الشركات--}}
 @endsection
 @section('header_title_link')
-{{__('translate.Main')}}{{--الرئيسية--}}
+<a href="{{ route('admin.companies.index') }}">{{__('translate.Display Companies')}}{{--استعراض الشركات--}}</a>
 @endsection
 @section('header_link')
-{{__('translate.Companies Categories')}}{{--تصنيف الشركات--}}
+<a href="{{ route('admin.companies_categories.index') }}">{{__('translate.Companies Categories')}}{{--تصنيف الشركات--}}</a>
 @endsection
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">

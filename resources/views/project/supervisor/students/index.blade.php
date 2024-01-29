@@ -1,11 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+{{__("translate.Academic Supervisor's Students")}}{{-- طلاب المشرف --}}
+@endsection
+@section('header_title')
+{{__("translate.Academic Supervisor's Students")}}{{-- طلاب المشرف --}}
 @endsection
 @section('header_title_link')
-{{__('translate.Users')}}{{-- المستخدمين --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
+<a href="{{ route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}">{{__("translate.Academic Supervisor's Students")}}{{-- طلاب المشرف --}}</a>
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">

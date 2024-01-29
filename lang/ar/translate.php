@@ -402,6 +402,9 @@
         "Remove assistant for academic supervisor confirmation"=>"تأكيد حذف المساعد الإداري للمشرف الأكاديمي",
         "Are you sure from removing this assistant?"=>"هل أنت متأكد من حذف هذا المساعد الإداري؟",
         "Academic Supervisor Name"=>"اسم المشرف الأكاديمي",
-        "All College's Students"=>"جميع طلاب الكلية"
+        "All College's Students"=>"جميع طلاب الكلية",
+        "Integration"=>"دمج البيانات",
+        "Edit Company"=>"تعديل شركة",
+
     ];
 ?>

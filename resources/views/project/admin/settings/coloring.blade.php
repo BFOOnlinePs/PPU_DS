@@ -3,10 +3,13 @@
 {{__('translate.Main')}}{{-- الرئيسية --}}
 @endsection
 @section('header_title')
+{{__('translate.Appearance Settings')}}{{--  اعدادات المظهر --}}
 @endsection
 @section('header_title_link')
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
+<a href="{{route('admin.settings')}}">{{__('translate.Settings')}}{{-- الاعدادات  --}}</a>
 @endsection
 @section('style')
 @endsection

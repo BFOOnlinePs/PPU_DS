@@ -6,10 +6,10 @@
 {{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
 @endsection
 @section('header_title_link')
-{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}
+<a href="{{route('monitor_evaluation.companiesPaymentsReport')}}">{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}</a>
 @endsection
 
 @section('style')
