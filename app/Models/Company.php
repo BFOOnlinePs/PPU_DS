@@ -12,6 +12,15 @@ class Company extends Model
     protected $table = 'companies';
     protected $primaryKey = 'c_id';
 
+    protected $fillable = [
+        'c_name',
+        'c_description',
+        'c_website',
+        'c_type',
+        'c_category_id',
+        'c_manager_id',
+    ];
+
     public function companyBranch()
     {
         return $this->hasMany(companyBranch::class, 'b_company_id', 'c_id');
@@ -32,7 +41,8 @@ class Company extends Model
         return $this->hasMany(StudentCompany::class, 'sc_company_id', 'c_id');
     }
 
-    public function manager(){
+    public function manager()
+    {
         return $this->belongsTo(User::class, 'c_manager_id', 'u_id');
     }
 
@@ -40,5 +50,4 @@ class Company extends Model
     {
         return $this->hasMany(Payment::class, 'p_company_id', 'c_id');
     }
-
 }

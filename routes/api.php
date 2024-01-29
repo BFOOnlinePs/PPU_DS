@@ -10,6 +10,7 @@ use App\Http\Controllers\apisControllers\company_manager\payments\TraineePayment
 use App\Http\Controllers\apisControllers\program_coordinator\majors\ProgramCoordinatorMajorsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoordinatorStudentsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
+use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
@@ -160,6 +161,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getStudentsRegisteredForTraining', [ProgramCoordinatorStudentsController::class, 'getStudentsRegisteredForTraining']);
 
 
+    // add company => for supervisor and coordinator
+    Route::post('createManagerAndHisCompany', [AddCompanyController::class, 'createManagerAndHisCompany']);
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
