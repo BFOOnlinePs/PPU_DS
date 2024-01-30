@@ -106,20 +106,22 @@ class MonitorEvaluationController extends Controller
                         ->where('r_semester', $semester)
                         ->distinct();
                 })
-                ->where('sc_status', 1)
+                // ->where('sc_status', 1)
                 ->where('sc_company_id',$key->c_id)
                 ->select('sc_student_id')
                 ->distinct()
                 ->get();
             }else{
                 // $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-                $studentsTotal = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
-                    $query->select('r_id')
-                    ->from('registration')
-                    ->distinct();
-                })
-                ->where('sc_status', 1)
-                ->where('sc_company_id',$key->c_id)
+                $studentsTotal = StudentCompany::
+                // whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                //     $query->select('r_id')
+                //     ->from('registration')
+                //     ->distinct();
+                // })
+                // ->where('sc_status', 1)
+                // ->
+                where('sc_company_id',$key->c_id)
                 ->select('sc_student_id')
                 ->distinct()
                 ->get();

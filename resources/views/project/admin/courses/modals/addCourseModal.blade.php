@@ -75,7 +75,7 @@
                                             <div class="col-lg-12">
                                             <select id="c_hours" name="c_hours" class="form-control btn-square">
                                                 <option selected="" disabled="" value="">--{{__('translate.Choose')}}{{-- اختيار --}}--</option>
-                                                <option value="1">0</option>
+                                                <option value="0">0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>

@@ -23,14 +23,15 @@
 
     .icon {
       position: absolute;
-      left: 20px; /* Adjust the left position to control the icon's placement */
+      /* right: 20px; */
+      left: 20px;
       top: 50%;
       transform: translateY(-50%);
     }
 
     .icon_spinner {
       position: absolute;
-      left: 20px; /* Adjust the left position to control the icon's placement */
+      left: 20px;
       top: 30%;
       transform: translateY(-50%);
     }
@@ -145,6 +146,45 @@
 
 
         let stop= false;
+
+        let language = document.documentElement.lang
+
+        $(document).ready(function () {
+            var iconSpinners = document.querySelectorAll('.icon_spinner');
+            var icons = document.querySelectorAll('.icon');
+
+            iconSpinners.forEach((iconSpinner) => {
+
+                iconSpinner.style.left = 'auto';
+                iconSpinner.style.right = 'auto';
+                iconSpinner.style.position = 'absolute';
+                iconSpinner.style.top = '30%';
+                iconSpinner.style.transform = 'translateY(-50%)';
+
+                if(language=='ar'){
+                    iconSpinner.style.left = '20px';
+                }else{
+                    iconSpinner.style.right = '20px';
+                }
+
+            });
+
+            icons.forEach((icon) => {
+
+                icon.style.left = 'auto';
+                icon.style.right = 'auto';
+                icon.style.position = "absolute";
+                icon.style.top = "50%";
+                icon.style.transform = "translateY(-50%)";
+
+                if(language=='ar'){
+                    icon.style.left = '20px';
+                }else{
+                    icon.style.right = '20px';
+                }
+
+            });
+        });
 
 
         $(window).scroll(function () {

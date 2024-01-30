@@ -380,7 +380,7 @@
         'Address'=> 'العنوان',
         'All Majors'=> 'جميع التخصصات',
         "All College's Student"=> 'جميع طلاب الكلية',
-        "Still Trained"=> 'لا يزال يتدرب',
+        "In-training"=> 'لا يزال يتدرب',
         "Completed"=> 'أنهى التدريب',
         "Deleted"=> 'محذوف',
         "There is course with the same code entered"=>'يوجد مساق بنفس الرمز الذي قمت بادخاله',
