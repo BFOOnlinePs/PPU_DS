@@ -8,7 +8,7 @@
                     <div class="row p-3 m-5">
                         <div class="col-md-4 text-center" >
                             <h1><span class="fa fa-sticky-note" style="text-align: center; font-size:80px; "></span></h1>
-                            <h3>{{__("translate.The Notes ")}} {{--كتابة ملاحظات--}}</h3>
+                            <h3>{{__("translate.The Notes")}} {{--كتابة ملاحظات--}}</h3>
                             <hr>
                             <p>{{__("translate.In this section, you can write notes about student's report")}} {{--في هذا القسم يمكن كتابة ملاحظات عن التقرير للطالب --}}</p>
                         </div>

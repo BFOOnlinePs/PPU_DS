@@ -22,13 +22,13 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">{{__('translate.From')}}{{--من تاريخ--}}</label>
+                        <label class="form-label">{{__('translate.From:')}}{{--من تاريخ--}}</label>
                         <input type="date" class="form-control"  id="from">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">{{__('translate.To')}}{{--إلى تاريخ--}}</label>
+                        <label class="form-label">{{__('translate.To:')}}{{--إلى تاريخ--}}</label>
                         <input type="date" class="form-control" id="to">
                     </div>
                 </div>

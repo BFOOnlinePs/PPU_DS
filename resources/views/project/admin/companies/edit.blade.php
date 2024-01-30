@@ -312,7 +312,6 @@
                                           </div>
                                           <br>
                                       @endforeach
-
                                       <input hidden id="c_id" name="c_id" value="{{$company->c_id}}">
                                   </div>
 
@@ -363,14 +362,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone1">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
-                                        <input class="f1-last-name form-control" id="phone1_{{$key->b_id}}" type="text" name="phone1_{{$key->b_id}}" value="{{$key->b_phone1}}">
+                                        <label for="phone1">{{__('translate.Phone 1')}}<span style="color: red">*</span>{{-- هاتف 1 --}}</label>
+                                        <input class="f1-last-name form-control" id="phone1_{{$key->b_id}}" type="text" name="phone1_{{$key->b_id}}" value="{{$key->b_phone1}}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone2">{{__('translate.Phone 2')}}{{-- هاتف 2 --}}</label>
-                                        <input class="f1-last-name form-control" id="phone2_{{$key->b_id}}"  name="phone2_{{$key->b_id}}"  value="{{$key->b_phone2}}" >
+                                        <input class="f1-last-name form-control" id="phone2_{{$key->b_id}}"  name="phone2_{{$key->b_id}}"  value="{{$key->b_phone2}}">
                                     </div>
                                 </div>
                             </div>
