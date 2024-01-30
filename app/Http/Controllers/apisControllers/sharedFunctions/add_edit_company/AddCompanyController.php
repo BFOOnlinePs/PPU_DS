@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AddCompanyController extends Controller
 {
+    // first step in add company
     public function createManagerAndHisCompany(Request $request)
     {
         $validator = Validator::make($request->all(), [
