@@ -4,6 +4,7 @@ namespace App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\CompanyDepartment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -75,5 +76,87 @@ class AddCompanyController extends Controller
         }
     }
 
-    // public function isCompanyNameUnique(){}
+    // second step in add company
+    // update the Companies table by adding: category, type, website and description
+    public function updateCompanyAddingCategoryAndType(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,c_id',
+            'company_type' => 'required|in:1,2',
+            'category_id' => 'required|exists:companies_categories,cc_id',
+        ], [
+            'company_id.required' => 'الرجاء إرسال رقم الشركة',
+            'company_id.exists' => 'رقم الشركة غير موجود',
+            'company_type.required' => 'الرجاء تحديد نوع الشركة',
+            'company_type.in' => 'يجب أن يكون نوع الشركة من الأنواع المحددة',
+            'category_id.required' => 'الرجاء إرسال رقم التصنيف',
+            'category_id.exists' => 'التصنيف غير موجود',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company = Company::where('c_id', $request->input('company_id'))->first();
+        $company->update([
+            'c_type' =>  $request->input('company_type'),
+            'c_category_id' =>  $request->input('category_id'),
+            'c_description' =>  $request->input('company_description'),
+            'c_website' =>  $request->input('company_website')
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم إضافة تصنيف ونوع للشركة بنجاح',
+            'company' => $company,
+        ], 200);
+    }
+
+    // third step
+    // add company departments (not mandatory)
+    public function addCompanyDepartments(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,c_id',
+
+        ], [
+            'company_id.required' => 'الرجاء إرسال رقم الشركة',
+            'company_id.exists' => 'رقم الشركة غير موجود',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company_id = $request->input('company_id');
+        $departments_names = $request->input('departments_names');
+        // return response()->json([
+        //     'a' => gettype($departments_names)
+        // ]);
+        foreach ($departments_names as $department_name) {
+            $existing_department = CompanyDepartment::where('d_name', $department_name)
+                ->where('d_company_id', $company_id)
+                ->first();
+
+            if (!$existing_department) {
+                // department does not exist, so insert it into the database
+                $department = new CompanyDepartment();
+                $department->d_name = $department_name;
+                $department->d_company_id = $company_id;
+
+                $department->save();
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم إضافة أقسام الشركة بنجاح'
+        ]);
+    }
 }
