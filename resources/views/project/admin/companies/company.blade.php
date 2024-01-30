@@ -44,20 +44,6 @@
       /* width: 300px; Set the width of the input container */
     }
 
-    .icon {
-      position: absolute;
-      left: 10px; /* Adjust the left position to control the icon's placement */
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .icon_spinner {
-      position: absolute;
-      left: 10px; /* Adjust the left position to control the icon's placement */
-      top: 30%;
-      transform: translateY(-50%);
-    }
-
     /* Style the input to provide some spacing for the icon */
     input {
       padding-left: 30px; /* Add padding to the left of the input to make room for the icon */
@@ -571,6 +557,9 @@ let uncompletedCompanySize = 0;
 let uncompletedCompany;
 let continueValidation = true;
 
+let language = document.documentElement.lang
+
+
 function validateArabicText(inputElement) {
     var cleanedValue = inputElement.value.replace(/[\u0600-\u06FF]/g, '');
     if (!/[\u0600-\u06FF]/.test(cleanedValue)) {
@@ -655,22 +644,6 @@ function validateEmail(input) {
 
 }
 
-// $('.f1 #firstButton').on('click', function() {
-//     	var parent_fieldset = $(this).parents('fieldset');
-//     	parent_fieldset.find('input[type="text"], input[type="password"]').each(function() {
-
-
-//             if( $(this).val() == "" ) {
-
-//     			$(this).addClass('input-error');
-//     		}
-//     		else {
-//     			$(this).removeClass('input-error');
-//     		}
-
-//     	});
-// });
-
 
 //for phone number - (accept just 10 digits and only numbers)
 function validateInput(input) {
@@ -727,6 +700,42 @@ function validateInput(input) {
 
 //for uncomleted companies
 window.addEventListener("load", (event) => {
+
+    var iconSpinners = document.querySelectorAll('.icon_spinner');
+    var icons = document.querySelectorAll('.icon');
+
+    iconSpinners.forEach((iconSpinner) => {
+
+        iconSpinner.style.left = 'auto';
+        iconSpinner.style.right = 'auto';
+        iconSpinner.style.position = 'absolute';
+        iconSpinner.style.top = '30%';
+        iconSpinner.style.transform = 'translateY(-50%)';
+
+        if(language=='ar'){
+            iconSpinner.style.left = '10px';
+        }else{
+            iconSpinner.style.right = '10px';
+        }
+
+    });
+
+    icons.forEach((icon) => {
+
+        icon.style.left = 'auto';
+        icon.style.right = 'auto';
+        icon.style.position = "absolute";
+        icon.style.top = "50%";
+        icon.style.transform = "translateY(-50%)";
+
+        if(language=='ar'){
+            icon.style.left = '10px';
+        }else{
+            icon.style.right = '10px';
+        }
+
+    });
+
 
     uncompletedCompanySize = {{count($uncompletedCompany)}}
     if(uncompletedCompanySize != 0){

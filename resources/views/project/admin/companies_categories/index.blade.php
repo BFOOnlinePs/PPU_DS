@@ -151,7 +151,7 @@
     document.getElementById("EditCompaniesCategories").addEventListener("submit", (e) => {
            e.preventDefault();
 
-           if(document.getElementById("cc_name").value == ""){
+           if(document.getElementById("edit_cc_name").value == ""){
                 $('#edit_cc_name').addClass('input-error');
             }else{
 

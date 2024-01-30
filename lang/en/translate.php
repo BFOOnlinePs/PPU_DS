@@ -373,7 +373,7 @@
         'Address'=> 'Address',
         'All Majors'=> 'All Majors',
         "All College's Students"=> "All College's Students",
-        "Still Trained"=> 'Still Trained',
+        "In-training"=> 'In-training',
         "Completed"=> 'Completed',
         "Deleted"=> 'Deleted',
         "There is course with the same code entered"=>"There is course with the same code entered",

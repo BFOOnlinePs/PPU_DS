@@ -44,20 +44,6 @@
       /* width: 300px; Set the width of the input container */
     }
 
-    .icon {
-      position: absolute;
-      left: 10px; /* Adjust the left position to control the icon's placement */
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .icon_spinner {
-      position: absolute;
-      left: 10px; /* Adjust the left position to control the icon's placement */
-      top: 30%;
-      transform: translateY(-50%);
-    }
-
     /* Style the input to provide some spacing for the icon */
     input {
       padding-left: 30px; /* Add padding to the left of the input to make room for the icon */
@@ -471,6 +457,45 @@ let uncompletedCompany;
 let existEmail = document.getElementById('email').value;
 let branches = JSON.parse(document.getElementById('branches').value);
 
+let language = document.documentElement.lang
+
+$(document).ready(function () {
+    var iconSpinners = document.querySelectorAll('.icon_spinner');
+    var icons = document.querySelectorAll('.icon');
+
+    iconSpinners.forEach((iconSpinner) => {
+
+        iconSpinner.style.left = 'auto';
+        iconSpinner.style.right = 'auto';
+        iconSpinner.style.position = 'absolute';
+        iconSpinner.style.top = '30%';
+        iconSpinner.style.transform = 'translateY(-50%)';
+
+        if(language=='ar'){
+            iconSpinner.style.left = '10px';
+        }else{
+            iconSpinner.style.right = '10px';
+        }
+
+    });
+
+    icons.forEach((icon) => {
+
+        icon.style.left = 'auto';
+        icon.style.right = 'auto';
+        icon.style.position = "absolute";
+        icon.style.top = "50%";
+        icon.style.transform = "translateY(-50%)";
+
+        if(language=='ar'){
+            icon.style.left = '10px';
+        }else{
+            icon.style.right = '10px';
+        }
+
+    });
+});
+
  // $(document).ready(function() {
 //     if (document.getElementById('branches').value != null) {
 
@@ -698,6 +723,7 @@ function addBranch(){
          $('#AddBranchModal').modal('show');
 
 }
+
 EditCompanyInfoForm.addEventListener("submit", (e) => {
             e.preventDefault();
             data = $('#EditCompanyInfo').serialize();
@@ -743,7 +769,33 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                     $('#editCompanyForm').html(response.view);
                     $('#companyBranches').html(response.branchView);
 
-
+                    if(language=='ar'){
+                        $('#editCompanyForm .icon_spinner').css({
+                            'position': 'absolute',
+                            'top': '30%',
+                            'transform': 'translateY(-50%)',
+                            'left': '10px',
+                        });
+                        $('#editCompanyForm .icon').css({
+                            'position': 'absolute',
+                            'top': '50%',
+                            'transform': 'translateY(-50%)',
+                            'left': '10px',
+                        });
+                    }else{
+                        $('#editCompanyForm .icon_spinner').css({
+                            'position': 'absolute',
+                            'top': '30%',
+                            'transform': 'translateY(-50%)',
+                            'right': '10px',
+                        });
+                        $('#editCompanyForm .icon').css({
+                            'position': 'absolute',
+                            'top': '50%',
+                            'transform': 'translateY(-50%)',
+                            'right': '10px',
+                        });
+                    }
 
 
                 },
@@ -913,6 +965,8 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
             });
 
         });
+
+
 
 function completeCompany(index){
 
