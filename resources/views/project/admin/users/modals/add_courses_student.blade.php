@@ -10,7 +10,7 @@
                             <h1><span class="fa fa-book" style="text-align: center; font-size:80px; "></span></h1>
                             <h3>{{__('translate.Enroll in a Course')}} {{-- تسجيل مساق --}}</h3>
                             <hr>
-                            <p >{{__('translate.In this section, you can Enroll in a Course to student')}} {{-- في هذا القسم يمكن تسجيل مساق للطالب --}}</p>
+                            <p >{{__('translate.In this section, you can enroll the student in a training')}} {{-- في هذا القسم يمكن تسجيل مساق للطالب --}}</p>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" id="addCoursesStudentForm" enctype="multipart/form-data">

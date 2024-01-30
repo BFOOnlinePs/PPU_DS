@@ -1,4 +1,16 @@
 @extends('layouts.app')
+@section('title')
+{{__('translate.Submit Report')}}{{--تسليم التقرير--}}
+@endsection
+@section('header_title')
+{{__('translate.Submit Report')}}{{--تسليم التقرير--}}
+@endsection
+@section('header_title_link')
+<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
+@endsection
+@section('header_link')
+<a href="{{route('students.attendance.index')}}">{{__('translate.Attendance Logs')}} {{-- سِجل الحضور و المغادرة --}}</a>
+@endsection
 @section('content')
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/dropzone.css') }}">
@@ -12,11 +24,7 @@
                         <div class="email-profile">
                             <div class="email-body">
                                 <div class="email-compose">
-                                    <div class="email-top compose-border">
-                                        <div class="compose-header">
-                                            <h4>{{__('translate.Submit Report')}}{{--تسليم التقرير--}}</h4>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="email-wrapper">
                                         @if(session('success'))
                                             <div class="alert alert-success" id="success">
