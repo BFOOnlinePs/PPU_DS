@@ -132,13 +132,10 @@ class CompaniesController extends Controller
     $companyMainBranch->b_phone1=$request->phoneNum;
     $companyMainBranch->b_address=$request->address;
     $company->c_type = $request->c_type;
+    $company->c_name = $request->c_name;
     $company->c_category_id = $request->c_category;
-    if($request->c_description!=null){
-        $company->c_description = $request->c_description;
-    }
-    if($request->c_website!=null){
-        $company->c_website = $request->c_website;
-    }
+    $company->c_description = $request->c_description;
+    $company->c_website = $request->c_website;
 
     if($user->save() && $company->save() && $companyMainBranch->save() ){
         $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->c_id)->first();       
