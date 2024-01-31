@@ -12,6 +12,15 @@ class CompanyBranch extends Model
     protected $table = 'company_branches';
     protected $primaryKey = 'b_id';
 
+    protected $fillable = [
+        'b_company_id',
+        'b_address',
+        'b_phone1',
+        'b_phone2',
+        'b_main_branch',
+        'b_manager_id',
+    ];
+
     public function studentCompanies()
     {
         return $this->hasMany(StudentCompany::class, 'sc_branch_id', 'b_id');
@@ -34,7 +43,8 @@ class CompanyBranch extends Model
         return $this->hasMany(CompanyBranchLocation::class, 'bl_branch_id', 'b_id');
     }
 
-    public function manager(){
+    public function manager()
+    {
         return $this->belongsTo(User::class, 'b_manager_id', 'u_id');
     }
 }

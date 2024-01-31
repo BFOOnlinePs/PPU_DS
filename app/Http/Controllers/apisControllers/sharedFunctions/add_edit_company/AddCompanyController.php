@@ -4,6 +4,8 @@ namespace App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\CompanyBranch;
+use App\Models\companyBranchDepartments;
 use App\Models\CompanyDepartment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -117,6 +119,7 @@ class AddCompanyController extends Controller
 
     // third step
     // add company departments (not mandatory)
+    // departments_names is a list of Strings
     public function addCompanyDepartments(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -157,6 +160,97 @@ class AddCompanyController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'تم إضافة أقسام الشركة بنجاح'
+        ]);
+    }
+
+    // company_branches is a list of objects
+    // each object is a branch which has:
+    // address, phone1, is_main_branch (mandatory)
+    // b_phone2 (optional)
+    // branch_departments (mandatory if company has departments), if not-> send empty list of branch_departments
+    public function addCompanyBranches(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,c_id',
+
+        ], [
+            'company_id.required' => 'الرجاء إرسال رقم الشركة',
+            'company_id.exists' => 'رقم الشركة غير موجود',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company_id = $request->input('company_id');
+        $manager_id = Company::where('c_id', $company_id)->pluck('c_manager_id')->first();
+        $branches = $request->input('company_branches');
+        // return gettype($branches);
+
+        foreach ($branches as $branch) {
+            // return gettype($branch);
+            $company_branch = new CompanyBranch();
+            $company_branch->b_company_id = $company_id;
+            $company_branch->b_manager_id = $manager_id;
+            $company_branch->b_address = $branch['branch_address'];
+            $company_branch->b_phone1 = $branch['branch_phone1'];
+            $company_branch->b_phone2 = $branch['branch_phone2'];
+            $company_branch->b_main_branch = $branch['is_main_branch']; // 1:yes, 0:no
+
+
+            if ($company_branch->save()) {
+                $branch_departments = $branch['branch_departments'];
+                if ($branch_departments) {
+                    foreach ($branch_departments as $branch_department) {
+                        $company_branch_department = new companyBranchDepartments();
+                        $company_branch_department->cbd_d_id = $branch_department;
+                        $company_branch_department->cbd_company_branch_id = $company_branch->b_id;
+                        if (!$company_branch_department->save())
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'تم إنشاء الفروع ولكن لم يتم إنشاء الأقسام الخاصة بكل فرع'
+                            ]);
+                    }
+                }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'لم يتم إنشاء فروع الشركة'
+                ]);
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم انشاء الفروع وحفظ أقسامهم بنجاح/ان وجدت'
+        ]);
+    }
+
+    public function getCompanyDepartments(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,c_id',
+
+        ], [
+            'company_id.required' => 'الرجاء إرسال رقم الشركة',
+            'company_id.exists' => 'رقم الشركة غير موجود',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company_id = $request->input('company_id');
+        $company_departments = CompanyDepartment::where('d_company_id', $company_id)->get();
+        return response()->json([
+            'status' => true,
+            'company_departments' => $company_departments
         ]);
     }
 }

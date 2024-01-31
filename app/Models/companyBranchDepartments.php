@@ -18,6 +18,5 @@ class companyBranchDepartments extends Model
     public function departments()
     {
         return $this->belongsTo(CompanyDepartment::class, 'd_id', 'cbd_d_id');
-
     }
 }

@@ -165,6 +165,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('createManagerAndHisCompany', [AddCompanyController::class, 'createManagerAndHisCompany']);
     Route::post('updateCompanyAddingCategoryAndType', [AddCompanyController::class, 'updateCompanyAddingCategoryAndType']);
     Route::post('addCompanyDepartments', [AddCompanyController::class, 'addCompanyDepartments']);
+    Route::post('addCompanyBranches', [AddCompanyController::class, 'addCompanyBranches']);
+    Route::post('getCompanyDepartments', [AddCompanyController::class, 'getCompanyDepartments']);
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
