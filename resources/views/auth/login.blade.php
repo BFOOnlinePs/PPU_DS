@@ -151,25 +151,25 @@
                                     <button onclick="login('admin@gmail.com','123456789')" type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Admin')}}{{--ادمن--}}</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('Ezdehar@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Academic Supervisor')}}{{--مشرف أكاديمي--}}</button>
+                                    <button onclick="login('EzdeharJwabreh@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Academic Supervisor')}}{{--مشرف أكاديمي--}}</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('mazen_zalloum@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Academic Supervisor Assistant')}}{{--مساعد اداري--}}</button>
+                                    <button onclick="login('mazen@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Academic Supervisor Assistant')}}{{--مساعد اداري--}}</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('anas_mohtaseb@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.M&E')}}{{--مسؤول المتابعة والتقييم--}}</button>
+                                    <button onclick="login('ayman@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.M&E')}}{{--مسؤول المتابعة والتقييم--}}</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('anas@bfo.com','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</button>
+                                    <button onclick="login('abdelmajeed@jawwal.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</button>
                                 </div>
                                 {{-- <div class="div p-1">
                                     <button onclick="login('mohammad_marqa@gmail.com','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">مسؤول التدريب</button>
                                 </div> --}}
                                 <div class="div p-1">
-                                    <button onclick="login('225656@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Student')}}{{--الطالب--}}</button>
+                                    <button onclick="login('179033@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Student')}}{{--الطالب--}}</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('reemhh@gmail.com','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Program Coordinator')}}{{--مسؤول التواصل مع الشركات--}}</button>
+                                    <button onclick="login('mohamadher@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Program Coordinator')}}{{--مسؤول التواصل مع الشركات--}}</button>
                                 </div>
                             </div>
 

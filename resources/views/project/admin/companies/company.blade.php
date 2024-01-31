@@ -192,6 +192,7 @@
                 <div class="f1-buttons">
                     <button class="btn btn-primary" id="firstButton" onclick="firstStep()" type="button">{{__('translate.Next')}}{{--التالي--}}</button>
                     <button class="btn btn-primary btn-next" id="firstStepButton" type="button" hidden></button>
+                    {{-- <button class="btn btn-primary btn-next" id="firstStepButton" type="button">test</button> --}}
                 </div>
             </fieldset>
 
@@ -203,7 +204,8 @@
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Company Name')}}{{--اسم الشركة--}}</label>
 
-                            <input class="f1-last-name form-control" id="companyName" type="text" name="companyName" disabled>
+                            {{-- <input class="f1-last-name form-control" id="companyName" type="text" name="companyName" disabled> --}}
+                            <input class="f1-last-name form-control" id="companyName" name="companyName" disabled>
                         </div>
                     </div>
 
@@ -258,29 +260,11 @@
                     {{-- <button class="btn btn-primary btn-previous" type="button">رجوع</button> --}}
                     <button class="btn btn-primary" type="button" onclick="secondStep()">{{__('translate.Next')}}{{--التالي--}}</button>
                     <button class="btn btn-primary btn-next" id="secondStepButton" type="button" hidden></button>
+                    {{-- <button class="btn btn-primary btn-next" id="firstStepButton" type="button">test</button> --}}
                 </div>
             </fieldset>
 
             <fieldset>
-                {{-- <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="f1-first-name"> اسم القسم</label>
-                            <input class="form-control" id="d_name"  name="d_name"> --}}
-                            {{-- <input class="form-control" id="d_name" type="text" name="d_name"> --}}
-                        {{-- </div>
-                    </div>
-                    <div class="col-md-6" style="margin-top: 26px;">
-                        <button class="btn btn-info" type="button" onclick="addDepartment()">إضافة القسم</button>
-                    </div>
-                </div> --}}
-
-
-                {{-- <hr>
-                <div id="departmentsArea">
-
-                </div> --}}
-
                 <div class="row p-3 m-5 mt-3">
 
                         <div class="col-md-4 text-center">
@@ -302,16 +286,28 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="f1-first-name">{{__('translate.Department Name')}}{{-- اسم القسم --}}</label>
-                                        <input class="form-control" id="d_name" name="d_name">
+                                        {{-- <label for="f1-first-name">{{__('translate.Department Name')}}اسم القسم</label> --}}
+                                        <input class="form-control" id="d_name" name="d_name" placeholder="{{__('translate.Department Name')}}">
                                     </div>
                                 </div>
-                                <div class="col-md-4" style="margin-top: 26px;">
-                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add Department')}}{{-- إضافة القسم --}}</button>
+                                <div class="col-md-4">
+                                    <button class="btn btn-info" type="button" onclick="addDepartment()">{{__('translate.Add')}}{{-- إضافة  --}}</button>
                                 </div>
                             </div>
-                            <div class="row" id="departmentsArea">
+                            {{-- <div class="row" id="departmentsArea">
 
+                                <div class="col-md-6 mb-1 mr-1" style="background-color: #24695c4e; border-radius:10px">
+                                    <h6>test</h6>
+                                </div>
+
+
+                            </div> --}}
+                            <div class="row" >
+                                <div class="col-md-8" id="departmentsArea">
+
+
+
+                                </div>
                             </div>
                         </div>
 
@@ -1249,8 +1245,14 @@ function addDepartment(){
         departments.push(departmentName);
         x = "";
         for(i=0;i<departments.length;i++){
-            x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
-            '</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
+            // x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
+            // '</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
+            x = x + `<div class="card mb-3 shadow-sm shadow-showcase" style="border-radius: 10px;background-color: #e6edef;">
+                                        <div class="card-body d-flex justify-content-between" style="border-radius: 10px; padding:10px!important;">
+                                            <span>${departments[i]}</span>
+                                            <span onclick="deleteDepartment('${i}')"><i class="fa fa-trash"></i></span>
+                                        </div>
+                    </div>`
         }
         $('#departmentsArea').html(x);
     }
@@ -1262,8 +1264,14 @@ function deleteDepartment(i){
     departments.splice(i, 1);
     x = "";
     for(i=0;i<departments.length;i++){
-        x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
-        '</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
+        //x = x + '<div class="row mb-2"><div class="col-md-6"><h5>'+departments[i]+
+        //'</h5></div><div class="col-md-2"><button class="btn btn-danger" onclick="deleteDepartment('+i+')"><i class="fa fa-trash"></i></button></div></div>'
+        x = x + `<div class="card mb-3 shadow-sm shadow-showcase" style="border-radius: 10px;background-color: #e6edef;">
+                                        <div class="card-body d-flex justify-content-between" style="border-radius: 10px; padding:10px!important;">
+                                            <span>${departments[i]}</span>
+                                            <span onclick="deleteDepartment('${i}')"><i class="fa fa-trash"></i></span>
+                                        </div>
+                    </div>`
     }
     $('#departmentsArea').html(x);
 }
