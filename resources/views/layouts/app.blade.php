@@ -61,10 +61,33 @@
             font-weight: bold;
         } */
 
-
+        .page-main-header .main-header-right .left-menu-header {
+    padding: 24px 10px;
+}
         * {
             font-family: 'Tajawal', sans-serif;
         }
+               
+        /* Add this style to your CSS file or in a style tag in your HTML */
+        .left-menu-header {
+            display: flex;
+            flex-direction: row; /* This makes the children flow horizontally */
+            align-items: center; /* Optional: Align children vertically in the center */
+        }
+   .page-body{
+
+    margin-top:70px !important;
+   }
+    .nav-link:hover{
+        
+    background-color: #0c563d !important;
+    color: #24695c !important;
+}
+.nav-link  svg {
+height:16px ;
+
+}
+
     </style>
 
     @yield('style')
@@ -80,14 +103,15 @@
     </div>
     <!-- Loader ends-->
     <!-- page-wrapper Start-->
-    <div class="page-wrapper" id="pageWrapper">
+    <div class="page-wrapper  horizontal-wrapper  normal-sidebar" id="pageWrapper">
         <!-- Page Header Start-->
         @include('layouts.navbar')
+
         <!-- Page Header Ends                              -->
         <!-- Page Body Start-->
-        <div class="page-body-wrapper horizontal-menu">
+        <div class="page-body-wrapper">
             <!-- Page Sidebar Start-->
-            @include('layouts.sidebar')
+
             <!-- Page Sidebar Ends-->
             @include('layouts.content')
             <!-- footer start-->
@@ -100,7 +124,7 @@
     <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
     <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
     <!-- Sidebar jquery-->
-    <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script> -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
     <!-- Bootstrap js-->
     <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
@@ -122,6 +146,7 @@
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 
+</script>
     @yield('script')
 </body>
 </html>
