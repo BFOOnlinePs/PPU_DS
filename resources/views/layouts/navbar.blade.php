@@ -12,7 +12,12 @@
             <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"
                     id="sidebar-toggle"></i></div>
         </div>
-        <!-- <div class="left-menu-header col">
+                    <!-- Page Sidebar Start-->
+                    <div class="left-menu-header col-md-7"> 
+
+                    @include('layouts.sidebar')   </div> 
+            <!-- Page Sidebar Ends-->
+        <!-- 
             <ul>
                 <li>
                     <form class="form-inline search-form">
@@ -22,9 +27,9 @@
                     </form><span class="d-sm-none mobile-search search-bg"><i class="fa fa-search"></i></span>
                 </li>
             </ul>
-        </div> -->
-        <div class="nav-right col pull-right right-menu p-0">
-            <ul class="nav-menus">
+     -->
+        <div class="nav-right col pull-right right-menu ">
+            <ul class="">
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
                             data-feather="maximize"></i></a></li>
                 <!-- <li class="onhover-dropdown">
@@ -108,10 +113,10 @@
                 <li class="onhover-dropdown p-0">
                     {{-- <button class="btn btn-primary-light" type="button"><a href="login_two.html"><i
                                 data-feather="log-out"></i>Log out</a></button> --}}
-                                <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{__('translate.Log out')}} {{-- تسجيل الخروج --}}</a>
                                 <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'en')}}">English</a>
                                 <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'ar')}}">عربي</a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{__('translate.Log out')}} {{-- تسجيل الخروج --}}</a>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
     </li>
