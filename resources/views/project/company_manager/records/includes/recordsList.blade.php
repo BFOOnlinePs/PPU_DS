@@ -11,7 +11,6 @@
         @if ($records->isEmpty())
         <tr>
             <td colspan="4" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
-
         </tr>
         @else
             @foreach($records as $record)

@@ -14,6 +14,7 @@ class CompanyController extends Controller
     public function index()
     {
         $student_companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
+                            ->where('sc_status' , 1)
                             ->get();
         $now_Hebron = Carbon::now('Asia/Gaza');
         $date_today = $now_Hebron->toDateString();

@@ -11,11 +11,9 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function index($id)
+    public function index($id , $student_company_id)
     {
-        $company = Company::where('c_manager_id' , auth()->user()->u_id)->first();
-        $student_company = StudentCompany::where('sc_student_id', $id)
-                                        ->where('sc_company_id', $company->c_id)
+        $student_company = StudentCompany::where('sc_id' , $student_company_id)
                                         ->where('sc_status', 1)
                                         ->pluck('sc_id')
                                         ->toArray();
@@ -25,7 +23,9 @@ class ReportController extends Controller
         $reports = StudentReport::where('sr_student_id', $id)
                                     ->whereIn('sr_student_attendance_id', $student_attendance)
                                     ->get();
-        return view('project.company_manager.students.reports.index' , ['reports' => $reports]);
+        return view('project.company_manager.students.reports.index' , [
+            'reports' => $reports
+        ]);
     }
     public function addNotes(Request $request)
     {

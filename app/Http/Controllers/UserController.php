@@ -394,6 +394,8 @@ class UserController extends Controller
                                         ->pluck('r_course_id')
                                         ->toArray();
         $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                                            ->where('sc_semester' , $system_setting->ss_semester_type)
+                                            ->where('sc_year' , $system_setting->ss_year)
                                             ->pluck('sc_course_id')
                                             ->toArray();
         $courses = Course::whereIn('c_id' , $semester_courses)->get();

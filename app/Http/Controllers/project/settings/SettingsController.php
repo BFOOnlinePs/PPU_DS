@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\CoursesImport;
 use App\Imports\MajorsImport;
 use App\Imports\RegistrationsImport;
+use App\Imports\SemesterCourseImport;
 use App\Imports\UsersImport;
 use App\Models\Payment;
 use App\Models\Registration;

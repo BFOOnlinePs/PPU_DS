@@ -1,20 +1,22 @@
-@if ($payments->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.This student has no payments')}}{{-- لا يوجد دفعات لهذا الطالب --}}</h6>
-@else
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>{{__('translate.User who added payment')}} {{-- اسم المستخدم الَّذي قام بإضافة دفعة --}}</th>
-                <th>{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</th>
-                <th>{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</th>
-                <th>{{__('translate.Payment Status')}}{{-- حالة الدفعة --}}</th>
-                <th>{{__('translate.Company Manager Notes')}}{{-- ملاحظات مدير الشركة --}}</th>
-                <th>{{__('translate.Supervisor Notes')}}{{-- ملاحظات المشرف الأكاديمي --}}</th>
-                <th>{{__('translate.Student Notes')}}{{-- ملاحظات الطالب --}}</th>
-                <th>{{__('translate.Confirm Payment Receipt')}}{{-- تأكيد استلام الدفعة --}}</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{{__('translate.User who added payment')}} {{-- اسم المستخدم الَّذي قام بإضافة دفعة --}}</th>
+            <th>{{__('translate.Payment Amount')}} {{-- قيمة المبلغ --}}</th>
+            <th>{{__('translate.Reference Number')}} {{-- الرقم المرجعي --}}</th>
+            <th>{{__('translate.Payment Status')}}{{-- حالة الدفعة --}}</th>
+            <th>{{__('translate.Company Manager Notes')}}{{-- ملاحظات مدير الشركة --}}</th>
+            <th>{{__('translate.Supervisor Notes')}}{{-- ملاحظات المشرف الأكاديمي --}}</th>
+            <th>{{__('translate.Student Notes')}}{{-- ملاحظات الطالب --}}</th>
+            <th>{{__('translate.Confirm Payment Receipt')}}{{-- تأكيد استلام الدفعة --}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if ($payments->isEmpty())
+        <tr>
+            <td colspan="8" class="text-center"><span>{{__('translate.This student has no payments')}}{{-- لا يوجد دفعات لهذا الطالب --}}</span></td>
+        </tr>
+        @else
             @foreach($payments as $payment)
                 <tr>
                     <td>{{$payment->userInsertedById->name}}</td>
@@ -58,7 +60,7 @@
                     @endif
                 </tr>
             @endforeach
-        </tbody>
-    </table>
-@endif
+            @endif
+    </tbody>
+</table>
 

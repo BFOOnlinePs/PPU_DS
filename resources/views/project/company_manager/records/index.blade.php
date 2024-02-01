@@ -22,14 +22,13 @@
                     <input type="text" class="form-control" id="searchByName" onkeyup="function_to_filltering()">
                 </div>
                 <div class="col-md-3">
-                    <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()">
+                    <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()" value="{{date('Y-01-01')}}">
                 </div>
                 <div class="col-md-3">
-                    <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()">
+                    <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()" value="{{date('Y-m-d')}}">
                 </div>
             </div>
             <div class="card-body" id="content">
-                @include('project.company_manager.records.includes.recordsList')
             </div>
         </div>
         @include('project.company_manager.students.reports.modals.reportModal')
@@ -38,6 +37,9 @@
 @endsection
 @section('script')
     <script>
+        $(document).ready(function() {
+            function_to_filltering();
+        });
         function function_to_filltering()
         {
             let from = $('#from').val();
@@ -100,17 +102,6 @@
             });
             $('#StudentReportModal').modal('show');
         }
-
-        // Put 1 / 1 / current_year in input from
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const defaultDateString = `${currentYear}-01-01`;
-        document.getElementById('from').value = defaultDateString;
-
-        // Put current date in input to
-        const today = new Date();
-        const formattedDate = today.toISOString().slice(0, 10);
-        document.getElementById('to').value = formattedDate;
     </script>
 @endsection
 

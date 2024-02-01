@@ -12,17 +12,16 @@ use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
-    public function index($id)
+    public function index($id , $student_company_id)
     {
-        $company = Company::where('c_manager_id' , auth()->user()->u_id)->first();
-        $student_company = StudentCompany::where('sc_student_id', $id)
-                            ->where('sc_company_id', $company->c_id)
-                            ->pluck('sc_id')
-                            ->toArray();
-        $student_attendances = StudentAttendance::whereIn('sa_student_company_id', $student_company)
+        $student_attendances = StudentAttendance::where('sa_student_company_id', $student_company_id)
                                 ->orderBy('created_at', 'desc')
                                 ->get();
-        return view('project.company_manager.students.attendance.index' , ['student_attendances' => $student_attendances , 'id' => $id]);
+        return view('project.company_manager.students.attendance.index' ,
+        [
+            'student_attendances' => $student_attendances ,
+            'id' => $id
+        ]);
     }
     public function index_ajax(Request $request)
     {

@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Course;
+use App\Models\SemesterCourse;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class CoursesImport implements ToModel
@@ -29,7 +30,25 @@ class CoursesImport implements ToModel
         $course = Course::where('c_course_code' , $row[$this->additionalData['course_id']])
                         ->where('c_name' , $row[$this->additionalData['course_name']])
                         ->exists();
-        if ($course || empty($row[$this->additionalData['course_id']]) || empty($row[$this->additionalData['course_name']])) {
+        if($course) {
+            $new_course = Course::where('c_course_code' , $row[$this->additionalData['course_id']])
+                ->where('c_name' , $row[$this->additionalData['course_name']])
+                ->first();
+            $exist_semester_coures = SemesterCourse::where('sc_course_id' , $new_course->c_id)
+                ->where('sc_semester' , $row[$this->additionalData['semester']])
+                ->where('sc_year' , $row[$this->additionalData['year']])
+                ->exists();
+            if(!($exist_semester_coures)) {
+                $semester_coures = new SemesterCourse();
+                $semester_coures->sc_course_id = $new_course->c_id;
+                $semester_coures->sc_semester = $row[$this->additionalData['semester']];
+                $semester_coures->sc_year = $row[$this->additionalData['year']];
+                $semester_coures->save();
+            }
+            return null;
+
+        }
+        if (empty($row[$this->additionalData['course_id']]) || empty($row[$this->additionalData['course_name']])) {
             return null; // Skip this row if title or description is empty
         }
         $return_course = new Course([
@@ -42,6 +61,20 @@ class CoursesImport implements ToModel
         ]);
         if($return_course->save()) {
             $this->cnt++;
+            $course = Course::where('c_course_code' , $row[$this->additionalData['course_id']])
+                ->where('c_name' , $row[$this->additionalData['course_name']])
+                ->first();
+            $exist_semester_coures = SemesterCourse::where('sc_course_id' , $course->c_id)
+                ->where('sc_semester' , $row[$this->additionalData['semester']])
+                ->where('sc_year' , $row[$this->additionalData['year']])
+                ->exists();
+            if(!($exist_semester_coures)) {
+                $semester_coures = new SemesterCourse();
+                $semester_coures->sc_course_id = $course->c_id;
+                $semester_coures->sc_semester = $row[$this->additionalData['semester']];
+                $semester_coures->sc_year = $row[$this->additionalData['year']];
+                $semester_coures->save();
+            }
             array_push($this->courses_array , $row[$this->additionalData['course_id']]);
             array_push($this->courses_array , $row[$this->additionalData['course_name']]);
             return $return_course;
