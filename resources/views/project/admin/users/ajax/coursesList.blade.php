@@ -1,7 +1,3 @@
-@if ($data->isEmpty())
-    <h6 class="alert alert-danger">{{__('translate.No courses are currently enrolled')}}{{-- لا يوجد مساقات مسجلة --}}</h6>
-@else
-
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -10,6 +6,11 @@
         </tr>
     </thead>
     <tbody>
+    @if ($data->isEmpty())
+        <tr>
+            <td colspan="2" class="text-center"><span>{{__('translate.No courses are currently enrolled')}}{{-- لا يوجد مساقات مسجلة --}}</span></td>
+        </tr>
+    @else
         @foreach($data as $registration)
             <tr>
                 @if (auth()->user()->u_role_id == 1)
@@ -21,9 +22,9 @@
                 <td><button class="btn btn-danger" onclick="delete_course_for_student({{$registration->r_course_id}})" type="button"><span class="fa fa-trash"></span></button></td>
             </tr>
         @endforeach
+        @endif
     </tbody>
 </table>
-@endif
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 <script>

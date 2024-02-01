@@ -82,7 +82,6 @@
                 },
                 error: function (error) {
                     $('#LoadingModal').modal('hide');
-                    alert("errrrrro");
                 }
             });
         }

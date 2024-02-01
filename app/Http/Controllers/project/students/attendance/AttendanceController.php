@@ -17,12 +17,14 @@ class AttendanceController extends Controller
         $student_company = null;
         if($request->sc_id == null) {
             $student_company = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
+                                            ->where('sc_status' , 1)
                                             ->with('company')
                                             ->pluck('sc_id')
                                             ->toArray();
         }
         else {
             $student_company = StudentCompany::where('sc_id' , $request->sc_id)
+                                            ->where('sc_status' , 1)
                                             ->with('company')
                                             ->pluck('sc_id')
                                             ->toArray();
@@ -50,9 +52,11 @@ class AttendanceController extends Controller
             $lastDate = $date->sa_date;
         }
         $student_companies = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
+                                            ->where('sc_status' , 1)
                                             ->with('company')
                                             ->get();
         $student_company = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
+                            ->where('sc_status' , 1)
                             ->with('company')
                             ->pluck('sc_id')
                             ->toArray();
@@ -60,49 +64,27 @@ class AttendanceController extends Controller
                                 ->whereIn('sa_student_company_id', $student_company)
                                 ->orderBy('created_at', 'desc')
                                 ->get();
-        return view('project.student.attendance.index' , ['student_attendances' => $student_attendances , 'date_today' => $dateToday , 'last_date' => $lastDate , 'student_companies' => $student_companies]);
+        return view('project.student.attendance.index' , [
+            'student_attendances' => $student_attendances ,
+            'date_today' => $dateToday ,
+            'last_date' => $lastDate ,
+            'student_companies' => $student_companies
+        ]);
     }
     public function index_for_specific_company($id)
     {
-        $student_company = StudentCompany::where('sc_id' , $id)->with('company')->first();
-        $student_attendances = [];
-        $nowInHebron = Carbon::now('Asia/Gaza');
-        $date_today = $nowInHebron->toDateString();
-        $date = StudentAttendance::selectRaw('DATE(sa_in_time) as sa_date')
-                                    ->where('sa_student_id', auth()->user()->u_id)
-                                    ->where('sa_student_company_id', $student_company->sc_id)
-                                    ->where('sa_in_time' , 'like' , $date_today . '%')
-                                    ->first();
-        $lastDate = null;
-        if(isset($date)) {
-            $lastDate = $date->sa_date;
-        }
-        $student_companies = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
-                                            ->with('company')
-                                            ->get();
-        $student_companies_id = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
-                                ->pluck('sc_id')
-                                ->toArray();
-        $from_to = StudentAttendance::whereIn('sa_student_company_id' , $student_companies_id)
-                    ->where('sa_student_id' , auth()->user()->u_id)
-                    ->get();
-        $sa_id = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
-                                    ->where('sa_student_company_id', $student_company->sc_id)
-                                    ->latest('created_at')
-                                    ->first();
-        $value = null;
-        if(isset($sa_id)) {
-            $value = $sa_id->sa_id;
-        }
-        $student_company = StudentCompany::where('sc_student_id' , auth()->user()->u_id)
-                            ->where('sc_company_id' , $student_company->sc_company_id)
-                            ->pluck('sc_id')
-                            ->toArray();
-        $student_attendances = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
-                                ->whereIn('sa_student_company_id', $student_company)
-                                ->orderBy('created_at', 'desc')
-                                ->get();
-        return view('project.student.attendance.index' , ['student_company' => $student_company , 'student_attendances' =>  $student_attendances , 'date_today' => $date_today , 'last_date' => $lastDate , 'student_companies' => $student_companies , 'from_to' => $from_to , 'sa_id' => $value]);
+        $student_companies = StudentCompany::where('sc_id', $id)->where('sc_status' , 1);
+
+        $student_companies = $student_companies->union(
+            StudentCompany::where('sc_student_id', auth()->user()->u_id)
+                ->where('sc_id', '!=', $id)
+                ->where('sc_status' , 1)
+        )
+        ->get();
+        return view('project.student.attendance.index' , [
+            'student_companies' => $student_companies ,
+            'all_companies' => 'جميع الشركات'
+        ]);
     }
     public function create_attendance(Request $request)
     {

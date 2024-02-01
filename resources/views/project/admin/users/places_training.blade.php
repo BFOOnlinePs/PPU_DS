@@ -160,6 +160,7 @@
             {
                 // To set company name
                 let company = document.getElementById('c_name');
+                company.innerHTML = "";
                 let option = document.createElement('option');
                 option.value = studentCompany.sc_company_id;
                 option.text = studentCompany.company.c_name;

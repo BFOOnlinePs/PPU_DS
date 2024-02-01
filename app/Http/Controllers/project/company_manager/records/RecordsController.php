@@ -15,40 +15,18 @@ class RecordsController extends Controller
 {
     public function index()
     {
-        $company_id = Company::where('c_manager_id', auth()->user()->u_id)
-                            ->pluck('c_id')
-                            ->first();
-        $students_company = StudentCompany::where('sc_company_id', $company_id)
-                                        ->pluck('sc_student_id')
-                                        ->toArray();
-        $records = StudentAttendance::whereIn('sa_student_id', $students_company)
-                                    ->orderBy('created_at', 'desc')
-                                    ->get();
-        return view('project.company_manager.records.index' , ['records' => $records]);
+        return view('project.company_manager.records.index');
     }
     public function search(Request $request)
     {
-        $company_id = Company::where('c_manager_id', auth()->user()->u_id)
-                            ->pluck('c_id')
-                            ->first();
-        $students_company = StudentCompany::where('sc_company_id', $company_id)
-                                        ->pluck('sc_student_id')
-                                        ->toArray();
-        $records = StudentAttendance::whereIn('sa_student_id', $students_company)
-                                    ->orderBy('created_at', 'desc')
-                                    ->whereBetween(DB::raw('DATE(sa_in_time)'), [$request->from, $request->to]) // Filter by date range (ignoring time)
-                                    ->get();
-        if($request->searchByName !== null)
-        {
-            $users_id = User::where('name', 'like', '%' . $request->searchByName . '%')
-                        ->pluck('u_id')
-                        ->toArray();
-            $records = StudentAttendance::whereIn('sa_student_id', $students_company)
-                                    ->whereIn('sa_student_id' , $users_id)
-                                    ->whereBetween(DB::raw('DATE(sa_in_time)'), [$request->from, $request->to]) // Filter by date range (ignoring time)
-                                    ->orderBy('created_at', 'desc')
-                                    ->get();
-        }
+        $company_id = Company::where('c_manager_id', auth()->user()->u_id)->pluck('c_id')->first();
+        $students_company = StudentCompany::where('sc_company_id', $company_id)->pluck('sc_id')->toArray();
+        $users_id = User::where('name', 'like', '%' . $request->searchByName . '%')->pluck('u_id')->toArray();
+        $records = StudentAttendance::whereIn('sa_student_company_id', $students_company)
+                    ->whereIn('sa_student_id' , $users_id)
+                    ->whereBetween(DB::raw('DATE(sa_in_time)'), [$request->from, $request->to])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
         $view = view('project.company_manager.records.includes.recordsList' , ['records' => $records])->render();
         return response()->json(['html' => $view]);
     }

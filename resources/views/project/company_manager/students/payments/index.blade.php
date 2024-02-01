@@ -44,6 +44,7 @@
         function add_payment() {
             let file = document.getElementById('p_file').files[0];
             let formData = new FormData();
+            formData.append('student_company_id' , document.getElementById('student_company_id').value);
             formData.append('p_student_id', document.getElementById('p_student_id').value);
             formData.append('p_payment_value', document.getElementById('p_payment_value').value);
             formData.append('p_currency_id', document.getElementById('p_currency_id').value);

@@ -22,6 +22,7 @@
                             <form class="form-horizontal" id="addPaymentsForm" enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
+                                <input type="hidden" name="student_company_id" id="student_company_id" value="{{$student_company_id}}">
                                 <input type="hidden" name="p_student_id" id="p_student_id" value="{{$id}}">
                                 <div class="row">
                                     <div class="col-md-5">

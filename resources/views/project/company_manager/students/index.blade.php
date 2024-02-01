@@ -20,7 +20,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-                @include('project.company_manager.students.includes.studentsList')
+            @include('project.company_manager.students.includes.studentsList')
             </div>
         </div>
     </div>

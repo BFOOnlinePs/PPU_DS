@@ -22,11 +22,11 @@
         <div class="row">
             <div class="col-md-3">
                 <label class="from-control digits">{{__('translate.From:')}}{{-- من --}}</label>
-                <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()">
+                <input type="date" class="form-control digits" id="from" onchange="function_to_filltering()" value="{{date('Y-01-01')}}">
             </div>
             <div class="col-md-3">
                 <label class="from-control digits">{{__('translate.To:')}}{{-- إلى --}}</label>
-                <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()">
+                <input type="date" class="form-control digits" id="to" onchange="function_to_filltering()" value="{{date('Y-m-d')}}">
             </div>
         </div>
         <br>
@@ -74,17 +74,6 @@
             }
         });
     }
-
-    // Put 1 / 1 / current_year in input from
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const defaultDateString = `${currentYear}-01-01`;
-    document.getElementById('from').value = defaultDateString;
-
-    // Put current date in input to
-    const today = new Date();
-    const formattedDate = today.toISOString().slice(0, 10);
-    document.getElementById('to').value = formattedDate;
 </script>
 @endsection
 
