@@ -53,10 +53,9 @@
             <div class="row">
 
 
-                <div class="col-md-5">
+                <div class="col-md-1">
                     <div class="form-group">
                         <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Semester')}}{{-- الفصل الدراسي --}}</label>
-                        {{-- <input class="form-control" id="semester" name="semester"> --}}
                         <div class="col-lg-12">
                             <select id="semester" name="semester" class="form-control btn-square">
                                 <option value="1" @if($semester==1) selected @endif>{{__('translate.First')}}{{-- أول --}}</option>
@@ -67,7 +66,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-1">
                     <div class="form-group">
                         <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Academic Year')}}{{-- العام الدراسي --}}</label>
                         <div class="col-lg-12">
@@ -80,13 +79,65 @@
                     </div>
                 </div>
 
-                <div class="col-md-2 d-flex justify-content-center">
+                <div class="col-md-1">
                     <div class="form-group">
-                        <div style="margin-top:27px;" style="width: 100%">
-                        <button class="btn btn-info  mb-2 btn-s" style="width: 120px" type="submit"> {{__('translate.View')}} {{-- عرض  --}} </button>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">الجنس</label>
+                        <div class="col-lg-12">
+                            <select id="gender" name="gender" class="form-control btn-square">
+                                <option value="-1" selected>--{{__('translate.Choose')}}--</option>
+                                <option value="0">{{__('translate.Male')}}{{-- ذكر --}}</option>
+                                <option value="1">{{__('translate.Female')}}{{-- أنثى --}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">التخصص</label>
+                        <div class="col-lg-12">
+                            <select id="major" name="major" class="form-control btn-square">
+                                <option value="-1" selected>--{{__('translate.Choose')}}--</option>
+                                @foreach($majors as $key)
+                                <option value={{$key->m_id}}> {{$key->m_name}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">الشركة</label>
+                        <div class="col-lg-12">
+                            <select id="company" name="company" class="form-control btn-square">
+                                <option value="0" selected>--{{__('translate.Choose')}}--</option>
+                                @foreach($companies as $key)
+                                <option value={{$key->c_id}}> {{$key->c_name}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">فرع الشركة</label>
+                        <div class="col-lg-12">
+                            <select id="branch" name="branch" class="form-control btn-square">
+                                <option value="0" selected>--{{__('translate.Choose')}}--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <div class="col-md-2 d-flex justify-content-center">
+                    <div class="form-group">
+                        <div style="margin-top:27px;" style="width: 100%">
+                        <button class="btn btn-info  mb-2 btn-s" style="width: 120px" type="submit"> {{__('translate.View')}} عرض  </button>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
         </form>
 
@@ -100,22 +151,27 @@
                     <tr>
                       <td class="col-md-4">{{__('translate.Total of registered students this semester')}} {{--  إجمالي الطلاب المسجلين في المساقات خلال هذا الفصل --}}</td>
                       <td id="manager_summary">{{$coursesStudentsTotal}}</td>
+                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr>
                       <td class="col-md-4">{{__('translate.Total of Semester Courses')}} {{--إجمالي المساقات لهذا الفصل--}}</td>
                       <td id="phone_summary">{{$semesterCoursesTotal}}</td>
+                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr id="phone2_summary_area">
                       <td class="col-md-4"> {{__('translate.Total of Traning Hours for all students this semester')}} {{--إجمالي ساعات التدريب لجميع الطلاب خلال هذا الفصل--}}</td>
                       <td id="phone2_summary"> {{$trainingHoursTotal}}{{--ساعات--}}{{__('translate.Hours')}}،{{$trainingMinutesTotal}}{{--دقائق--}} {{__('translate.Minutes')}} </td>
+                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr>
                       <td class="col-md-4">{{__("translate.Total of Companies' Trainees this semester")}} {{--إجمالي الطلاب المسجلين في الشركات خلال هذاالفصل--}}</td>
                       <td id="address_summary">{{$traineesTotal}}</td>
+                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr>
                         <td class="col-md-4"> {{__('translate.Total of Companies have trainees this semester')}}{{--إجمالي الشركات المسجل بها خلال هذا الفصل--}}</td>
                         <td id="address_summary">{{$semesterCompaniesTotal}}</td>
+                        <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
                     </tr>
 
                   </tbody>
@@ -135,6 +191,92 @@
 @section('script')
 
 <script>
+    let companyChanged = false;
+    $('#searchForm').find('select').each(function() {
+        element = `${$(this)[0].id}`
+        document.getElementById(`${element}`).addEventListener("change", function() {
+
+            if($(this)[0].id=='company'){
+                companyChanged = true;
+            }else{
+                companyChanged = false;
+            }
+
+            data = $('#searchForm').serialize();
+            // console.log($(this)[0].id)
+            // console.log(data)
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            $.ajax({
+                beforeSend: function(){
+                    document.getElementById('loaderContainer').hidden = false;
+                },
+                type: 'POST',
+                url: "{{ route('monitor_evaluation.semesterReportAjax') }}",
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    dataPDF = response.pdf;
+                    document.getElementById('loaderContainer').hidden = true;
+
+                    var selectElement = document.getElementById("branch");
+                    // document.getElementById('branch').hidden = true;
+
+                    console.log(response.branches)
+
+                    // while (selectElement.options.length > 0) {
+                    //     selectElement.remove(0);
+                    // }
+
+                    if(companyChanged){
+                        console.log("hi reem from company change")
+                        for (var i = selectElement.options.length - 1; i > 0; i--) {
+                            selectElement.remove(i);
+                        }
+
+                        if(response.branches!=null){
+                            for (var i = 0; i < response.branches.length; i++) {
+                                var option = document.createElement("option");
+                                option.value = response.branches[i].b_id;
+                                option.text = response.branches[i].b_address;
+                                selectElement.appendChild(option);
+                            }
+                        }
+
+                    }
+
+
+                    $('#semsterReportTable').html(response.view);
+
+                    var semester = response.semester
+                    var year = response.year
+                    if(semester==1){
+                        semester = "{{__('translate.First Semester Report')}} "
+                    }else if(semester==2){
+                        semester = "{{__('translate.Second Semester Report')}} "
+                    }else{
+                        semester = "{{__('translate.Summer Semester Report')}} "
+                    }
+
+                    x= semester + "{{__('translate.for Academic Year')}} "+year
+                    $('#semsterReportTableTitle').html(x);
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        })
+    })
+
+
 
     var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
 
