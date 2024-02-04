@@ -141,7 +141,7 @@
         'Dual Studies College' => 'Dual Studies College',
         'Users Management' => 'Users',
         'Majors Management' => 'Majors',
-        'Courses Management' => 'Courses',
+        'Courses Management' => 'Courses Management',
         'Current Semester Courses' => 'Current Semester Courses',
         "Companies Categories" => "Companies Categories",
         'Companies' => 'Companies',

@@ -1,9 +1,33 @@
+<style>
+    .nav-link:hover {
+        border-radius: 8px;
+        background-color: #0c563d !important;
+        color: #ffff !important;
+    }
+
+    .nav-link {
+        border-radius: 10px;
+    }
+
+    .nav-link svg {
+        height: 16px;
+    }
+
+    .dropdown-content a {
+        font-size: 95%;
+    }
+
+    .dropdown-basic .dropdown .dropbtn {
+        padding: 5px;
+    }
+</style>
+
 <div class="page-main-header">
     <div class="main-header-right row m-0">
         <div class="main-header-left">
             <div class="logo-wrapper">
                 {{-- <a href="index.html">
-                <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="">
+                    <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="">
                 </a> --}}
                 <h6 style="margin-bottom: 0px;">{{__('translate.Dual Studies College')}}</h6>
             </div>
@@ -12,12 +36,12 @@
             <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"
                     id="sidebar-toggle"></i></div>
         </div>
-                    <!-- Page Sidebar Start-->
-                    <div class="left-menu-header col-md-7"> 
-
-                    @include('layouts.sidebar')   </div> 
-            <!-- Page Sidebar Ends-->
-        <!-- 
+        <!-- Page Sidebar Start-->
+        <div class="left-menu-header col-md-7">
+            @include('layouts.sidebar')
+        </div>
+        <!-- Page Sidebar Ends-->
+             <!-- 
             <ul>
                 <li>
                     <form class="form-inline search-form">
@@ -32,7 +56,7 @@
             <ul class="">
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
                             data-feather="maximize"></i></a></li>
-                <!-- <li class="onhover-dropdown">
+                              <!-- <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i><span
                             class="dot-animated"></span></div>
                     <ul class="notification-dropdown onhover-show-div">
@@ -111,15 +135,16 @@
                     </ul>
                 </li> -->
                 <li class="onhover-dropdown p-0">
-                    {{-- <button class="btn btn-primary-light" type="button"><a href="login_two.html"><i
-                                data-feather="log-out"></i>Log out</a></button> --}}
-                                <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'en')}}">English</a>
-                                <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'ar')}}">عربي</a>
-                                <a class="btn btn-primary-light" style="font-size: 12px" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{__('translate.Log out')}} {{-- تسجيل الخروج --}}</a>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-        </form>
-    </li>
+                    <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'en')}}">English</a>
+                    <a class="btn btn-primary-light" style="font-size: 12px" href="{{route('language' , 'ar')}}">عربي</a>
+                    <a class="btn btn-primary-light" style="font-size: 12px" href="#"
+                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        {{__('translate.Log out')}} {{-- تسجيل الخروج --}}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                </li>
             </ul>
         </div>
         <div class="d-lg-none mobile-toggle pull-right w-auto"><i data-feather="more-horizontal"></i></div>

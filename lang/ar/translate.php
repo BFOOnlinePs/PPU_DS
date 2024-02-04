@@ -144,7 +144,7 @@
         'Dual Studies College' => 'كلية الدراسات الثنائية' ,
         'Users Management' => 'المستخدمين' ,
         'Majors Management' => 'التخصصات' ,
-        'Courses Management' => 'المساقات' ,
+        'Courses Management' => 'إدارة المساقات' ,
         'Current Semester Courses' => 'مساقات الفصل الحالي',
         "Companies Categories" => 'تصنيف الشركات' ,
         'Companies' => 'الشركات' ,
