@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,7 +46,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         @font-face {
             font-family: 'Tajawal';
@@ -76,18 +77,10 @@
         }
    .page-body{
 
-    margin-top:70px !important;
+    margin-top:90px !important;
    }
-    .nav-link:hover{
-        
-    background-color: #0c563d !important;
-    color: #24695c !important;
-}
-.nav-link  svg {
-height:16px ;
-
-}
-
+  
+   
     </style>
 
     @yield('style')
