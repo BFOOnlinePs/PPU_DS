@@ -1,5 +1,4 @@
-<header class="main-nav">
-    <nav>
+
         <!--
         <div class="sidebar-user text-center">
             <img class="img-90 rounded-circle"
@@ -13,7 +12,7 @@
         -->
         <div class="main-navbar">
             <div id="mainnav">
-                <ul class="nav-menu custom-scrollbar">
+                <ul class="nav-menu custom-scrollbar d-flex">
                     @if(auth()->user()->u_role_id == 2) {{-- Student --}}
                         <li class=""><a class="nav-link" href="{{ route('students.personal_profile.index') }}"><i
                                     data-feather="user"></i><span>{{__('translate.Profile')}}</span></a></li>
@@ -112,11 +111,33 @@
                                 <span>{{__('translate.Main')}}</span>
                             </a>
                         </li>
-                        <li class="dropdown">
-                            <a href="{{ route('admin.users.index') }}" class="nav-link">
-                                <i data-feather="users"></i>
-                                <span>{{__('translate.Users Management')}}</span>
-                            </a>
+                        <li class="dropdown-basic">
+                            <div class="dropdown">
+                                <div class="dropbtn">
+                                    <a class="nav-link" href="{{ route('admin.users.index') }}" >
+                                        <i data-feather="users"></i>
+                                        <span>{{__('translate.Users Management')}}</span>
+                                    </a>
+                                    <div class="dropdown-content">
+                                        <a href="{{route('admin.users.index_id' , ['id'=>1])}}" >
+                                             {{__('translate.Admin')}} {{-- أدمن --}} </a>
+                                        <a href="{{route('admin.users.index_id' , ['id'=>2])}}">
+                                             {{__('translate.Student')}} {{-- طالب --}}</a>
+                                        <a href="{{route('admin.users.index_id' , ['id'=>3])}}">
+                                             {{__('translate.Academic Supervisor')}} {{-- مشرف أكاديمي --}}</a>
+                                        <a href="{{route('admin.users.index_id' , ['id'=>4])}}" >
+                                             {{__('translate.Academic Supervisor Assistant')}} {{-- مساعد إداري --}}</a>
+                                        <a href="{{route('admin.users.index_id' , ['id'=>5])}}" >
+                                             {{__('translate.M&E')}} {{-- مسؤول متابعة وتقييم --}}</a>
+                                        <a href="{{route('admin.users.index_id' , ['id'=>6])}}" >
+                                             {{__('translate.Company Manager')}} {{-- مدير شركة --}}</a>
+                                        <a href="{{route('admin.users.index_id' , ['id'=>7])}}" >
+                                             {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}</a>
+                                        <a href="{{route('admin.users.index_id' , ['id'=>8])}}" >
+                                             {{__('translate.Program Coordinator')}} {{-- مسسؤول التواصل مع الشركات --}}</a>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                         <li class="dropdown">
                             <a class="nav-link" href="{{ route('admin.majors.index') }}">
@@ -177,5 +198,4 @@
                 </ul>
             </div>
         </div>
-    </nav>
-</header>
+ 
