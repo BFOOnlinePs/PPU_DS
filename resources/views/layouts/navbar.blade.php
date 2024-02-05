@@ -18,26 +18,79 @@
     }
 
     .dropdown-basic .dropdown .dropbtn {
-        padding: 5px;
+        padding: 3px;
     }
+
+    .main-header-left{
+        width: 11%  !important;
+        padding: 0px !important;
+  
+       
+
+      }
+    
+      .page-main-header .main-header-right .main-header-left{
+        justify-content: center;
+        display: flex;
+        align-items: center;
+      }
+    @media (max-width: 991px) {
+      li a span {
+        display:none;
+      }
+      li a {
+
+        width:10%;
+      }
+      .main-header-left{
+       width:7%
+       
+
+      }
+      .main-header-left h6{
+      font-size:90%
+       
+
+      }
+     .main-header-left{
+       width:7%
+       
+
+      }
+      .main-header-left h6{
+      font-size:90%
+       
+
+      }
+    }
+     .main-header-left{
+       width:7%
+       
+
+      }
+      .main-header-left h6{
+      font-size:100%
+       
+
+      }
 </style>
 
-<div class="page-main-header">
+<div class="page-main-header d-flex">
     <div class="main-header-right row m-0">
-        <div class="main-header-left">
-            <div class="logo-wrapper">
+        <div class="main-header-left" >
+        
                 {{-- <a href="index.html">
                     <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="">
                 </a> --}}
                 <h6 style="margin-bottom: 0px;">{{__('translate.Dual Studies College')}}</h6>
-            </div>
+            
             <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid"
                         src="{{ asset('assets/images/logo/dark-logo.png') }}" alt=""></a></div>
             <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"
                     id="sidebar-toggle"></i></div>
         </div>
         <!-- Page Sidebar Start-->
-        <div class="left-menu-header col-md-7">
+        <div class="left-menu-header col-md-8">
             @include('layouts.sidebar')
         </div>
         <!-- Page Sidebar Ends-->
