@@ -225,7 +225,7 @@ class AddCompanyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم انشاء الفروع وحفظ أقسامهم بنجاح/ان وجدت'
+            'message' => 'تم انشاء الفروع وحفظ أقسامهم بنجاح / ان وجدت'
         ]);
     }
 
