@@ -49,23 +49,23 @@ class editCompanyController extends Controller
             'manager_id' => 'required|exists:users,u_id',
             'company_name' => 'required',
             'manager_name' => 'required',
-            'manager_email' => 'required|email',
+            'manager_email' => 'email',
             // 'manager_password' => 'required',
             'phone' => 'required', // main branch phone + manager phone
             'address' => 'required', // main branch phone + manager phone
-            'company_type' => 'required|in:1,2',
-            'category_id' => 'required|exists:companies_categories,cc_id',
+            'company_type' => 'in:1,2',
+            'category_id' => 'exists:companies_categories,cc_id',
         ], [
             'company_id.required' => 'الرجاء إرسال رقم الشركة',
             'company_id.exists' => 'رقم الشركة غير موجود',
             'company_id.required' => 'الرجاء إرسال رقم المدير',
             'company_id.exists' => 'رقم المدير غير موجود',
             'company_name.required' => 'الرجاء ارسال اسم الشركة',
-            // 'company_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله',
+            'company_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله',
             'manager_name.required' => 'الرجاء ارسال اسم مدير الشركة',
             'manager_email.required' => 'الرجاء ارسال ايميل مدير الشركة',
             'manager_email.email' => 'يجب ان تكون صيغة البريد الإلكتروني صحيحة',
-            // 'manager_email.unique' => 'البريد الإلكتروني موجود بالفعل',
+            'manager_email.unique' => 'البريد الإلكتروني موجود بالفعل',
             // 'manager_password.required' => 'الرجاء ارسال كلمة سر حساب مدير الشركة',
             'phone.required' => 'الرجاء ارسال رقم هاتف الشركة',
             'address.required' => 'الرجاء ارسال عنوان الشركة',
@@ -87,13 +87,15 @@ class editCompanyController extends Controller
         // $new_company_name = Company::where('c_name', $request->input('company_name'));
         // $email
 
+
         $company_info->update([
-            'c_name' => $request->input('v'),
+            'c_name' => $request->input('company_name'),
             'c_type' =>  $request->input('company_type'),
             'c_category_id' =>  $request->input('category_id'),
-            'c_description' =>  $request->input('company_description'),
-            'c_website' =>  $request->input('company_website')
+            'c_description' =>  $request->input('company_description') ?? $company_info->c_description,
+            'c_website' =>  $request->input('company_website')  ?? $company_info->c_website
         ]);
+
 
         // when update the user update the main branch (phone1, phone2 and address)
         $manager_info = User::where('u_id', $request->input('manager_id'))->first();
@@ -105,7 +107,7 @@ class editCompanyController extends Controller
             'u_address' => $request->input('address'),
         ]);
 
-        if ($request->input('manager_password') != null) {
+        if ($request->has('manager_password')) {
             $manager_info->update([
                 'password' => bcrypt($request->input('manager_password')),
             ]);
