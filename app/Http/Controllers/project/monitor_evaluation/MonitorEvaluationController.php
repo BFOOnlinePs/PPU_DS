@@ -733,4 +733,182 @@ class MonitorEvaluationController extends Controller
         ]);
     }
 
+    public function students_courses_report(){
+
+
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+        $majors = Major::get();
+
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+
+
+        $data = Registration::select('r_student_id')->with('courses','users')->distinct('r_student_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->groupBy('r_student_id')->get();
+
+
+        foreach($data as $key){
+            $key->coursesNum = Registration::select('r_course_id')
+            ->where('r_student_id',$key->r_student_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->get()
+            ->count();
+        }
+
+        return view('project.monitor_evaluation.students_courses_report',['data'=>$data,'semester'=>$semester, 'year'=>$year,'years'=>$years,'majors'=>$majors]);
+
+    }
+    public function courses_registered_report(){
+        //إجمالي المساقات لهذا الفصل
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $data = Registration::select('r_course_id')->with('courses','users')->distinct('r_course_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->groupBy('r_course_id')->get();
+
+        foreach($data as $key){
+            $key->studentsNum = Registration::select('r_student_id')
+            ->where('r_course_id',$key->r_course_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->get()
+            ->count();
+        }
+
+        // return $data;
+
+        return view('project.monitor_evaluation.courses_registered_report',['data'=>$data,'semester'=>$semester, 'year'=>$year,'years'=>$years]);
+    }
+    public function training_hours_report(){
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $students_have_trainings = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->select('sc_student_id')->distinct('sc_student_id')
+        ->groupBy('sc_student_id')
+        ->get();
+
+
+        $students_have_trainings = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')
+        ->get();
+
+        foreach($students_have_trainings as $key){
+            $studentID = $key->sc_student_id;
+
+            //فيها تدريبات الطالب للوقت الحالي
+            $student_companies = StudentCompany::select('sc_id')
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->where('sc_student_id',$studentID)
+            ->select('sc_id')
+            ->pluck('sc_id')
+            ->toArray();
+
+            $attendanceRows = StudentAttendance::whereIn('sa_student_id', function ($query) use ($year, $semester) {
+                $query->select('r_student_id')
+                    ->from('registration')
+                    ->where('r_year', $year)
+                    ->where('r_semester', $semester)
+                    ->distinct();
+            })->whereNotNull('sa_out_time')
+            ->whereIn('sa_student_company_id',$student_companies)
+            ->get();
+
+            $key->attendanceRows = $attendanceRows;
+
+            $hours = 0;
+            $minutes = 0;
+
+            foreach ($attendanceRows as $attendance) {
+                $timeIn = Carbon::parse($attendance->sa_in_time);
+                $timeOut = Carbon::parse($attendance->sa_out_time);
+
+                $duration = $timeOut->diff($timeIn);
+
+                $hours = $hours + $duration->format('%h');
+                $minutes = $minutes + $duration->format('%i');
+
+            }
+
+            $hoursFromMinutes = (int)($minutes/60);
+            $key->trainingHoursTotal = $hours + $hoursFromMinutes;
+            $key->trainingMinutesTotal = $minutes - ($hoursFromMinutes*60);
+        }
+
+
+        $majors = Major::get();
+
+        return view('project.monitor_evaluation.training_hours_report',['data'=>$students_have_trainings,'semester'=>$semester, 'year'=>$year,'years'=>$years,'majors'=>$majors]);
+    }
+    public function students_companies_report(){
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $majors = Major::get();
+
+        $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $key->companiesNum = StudentCompany::select('sc_company_id')
+            ->where('sc_student_id',$key->sc_student_id)
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->distinct('sc_company_id')
+            ->get()
+            ->count();
+        }
+
+        return $data;
+
+        return view('project.monitor_evaluation.students_companies_report',['data'=>$data,'semester'=>$semester, 'year'=>$year,'years'=>$years,'majors'=>$majors]);
+    }
+
 }
