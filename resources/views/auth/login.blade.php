@@ -64,7 +64,7 @@
 
         @font-face {
             font-family: 'Tajawal';
-            src: url(http://localhost/befound/PPU_DS/public/fonts/tajawal/Tajawal-Regular.ttf) format('truetype');
+            src: url({{asset('fonts/tajawal/Tajawal-Regular.ttf')}}) format('truetype');
             font-weight: normal;
         }
 
