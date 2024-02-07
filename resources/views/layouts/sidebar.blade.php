@@ -76,8 +76,25 @@
                     @elseif (auth()->user()->u_role_id == 5) {{-- M&E --}}
                         <li class=""><a class="nav-link" href="{{ route('monitor_evaluation.index') }}"><i
                                     data-feather="home"></i><span>{{__('translate.Main')}}</span></a></li>
-                        <li class=""><a class="nav-link" href="{{ route('monitor_evaluation.semesterReport') }}"><i
-                                    data-feather="calendar"></i><span>{{__("translate.Semester's Report")}}</span></a></li>
+                        {{-- <li class=""><a class="nav-link" href="{{ route('monitor_evaluation.semesterReport') }}"><i
+                                    data-feather="calendar"></i><span>{{__("translate.Semester's Report")}}</span></a></li> --}}
+                        <li class="dropdown-basic">
+                            <div class="dropdown">
+                                <div class="dropbtn">
+                                    <a class="nav-link" href="{{ route('monitor_evaluation.semesterReport') }}">
+                                        <i data-feather="calendar"></i>
+                                        <span>تقارير</span>
+                                    </a>
+                                    <div class="dropdown-content">
+                                        <a href="{{route("monitor_evaluation.semesterReport")}}">{{__("translate.Semester's Report")}}</a>
+                                        <a href="{{route("monitor_evaluation.students_courses_report")}}">تقرير الطلاب المسجلين في المساقات</a>
+                                        <a href="{{ route('monitor_evaluation.courses_registered_report') }}">تقرير المساقات المسجلة</a>
+                                        <a href="{{ route('monitor_evaluation.training_hours_report') }}">تقرير ساعات التدريب للطلاب</a>
+                                        <a href="{{ route('monitor_evaluation.students_companies_report') }}">تقرير المتدربين</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                         <li class=""><a class="nav-link" href="{{ route('monitor_evaluation.companiesReport') }}"><i
                                     data-feather="briefcase"></i><span>{{__("translate.Companies' Report")}}</span></a></li>
                         <li class=""><a class="nav-link" href="{{ route('monitor_evaluation.companiesPaymentsReport') }}"><i
