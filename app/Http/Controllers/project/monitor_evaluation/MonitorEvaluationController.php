@@ -906,9 +906,45 @@ class MonitorEvaluationController extends Controller
             ->count();
         }
 
-        return $data;
+        // return $data;
 
         return view('project.monitor_evaluation.students_companies_report',['data'=>$data,'semester'=>$semester, 'year'=>$year,'years'=>$years,'majors'=>$majors]);
+    }
+
+    public function studentsCoursesAjax(Request $request){
+        $semester = $request->semester;
+        $year = $request->year;
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != 0) {
+            $query->where('u_major_id', $request->major);
+        }
+        $students = $query->select('u_id');
+
+        $data = Registration::select('r_student_id')->with('courses','users')->distinct('r_student_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->whereIn('r_student_id',$students)
+        ->groupBy('r_student_id')->get();
+
+        foreach($data as $key){
+            $key->coursesNum = Registration::select('r_course_id')
+            ->where('r_student_id',$key->r_student_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->get()
+            ->count();
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'view'=>view('project.monitor_evaluation.ajax.studentsCoursesReportTable',['data'=>$data])->render(),
+        ]);
+
+
     }
 
 }

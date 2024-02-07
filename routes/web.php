@@ -199,6 +199,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/courses_registered_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'courses_registered_report'])->name('monitor_evaluation.courses_registered_report');
         Route::get('/training_hours_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'training_hours_report'])->name('monitor_evaluation.training_hours_report');
         Route::get('/students_companies_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'students_companies_report'])->name('monitor_evaluation.students_companies_report');
+        Route::post('/studentsCoursesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCoursesAjax'])->name('monitor_evaluation.studentsCoursesAjax');
+
     });
 
     Route::group(['prefix' => 'company_manager'], function () {
