@@ -947,4 +947,38 @@ class MonitorEvaluationController extends Controller
 
     }
 
+    public function registeredCoursesAjax(Request $request){
+        $semester = $request->semester;
+        $year = $request->year;
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+
+        $students = $query->select('u_id');
+
+        $data = Registration::select('r_course_id')->with('courses','users')->distinct('r_course_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->groupBy('r_course_id')->get();
+
+        foreach($data as $key){
+            $key->studentsNum = Registration::select('r_student_id')
+            ->where('r_course_id',$key->r_course_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->whereIn('r_student_id',$students)
+            ->get()
+            ->count();
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'view'=>view('project.monitor_evaluation.ajax.registeredCoursesReportTable',['data'=>$data])->render(),
+        ]);
+
+
+    }
+
 }
