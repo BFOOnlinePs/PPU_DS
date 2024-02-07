@@ -201,6 +201,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/students_companies_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'students_companies_report'])->name('monitor_evaluation.students_companies_report');
         Route::post('/studentsCoursesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCoursesAjax'])->name('monitor_evaluation.studentsCoursesAjax');
         Route::post('/registeredCoursesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'registeredCoursesAjax'])->name('monitor_evaluation.registeredCoursesAjax');
+        Route::post('/trainingHoursAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'trainingHoursAjax'])->name('monitor_evaluation.trainingHoursAjax');
+        Route::post('/studentsCompaniesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesAjax'])->name('monitor_evaluation.studentsCompaniesAjax');
 
     });
 
