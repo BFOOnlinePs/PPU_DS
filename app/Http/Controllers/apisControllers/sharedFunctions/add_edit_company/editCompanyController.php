@@ -8,6 +8,7 @@ use App\Models\CompanyBranch;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class editCompanyController extends Controller
 {
@@ -47,9 +48,9 @@ class editCompanyController extends Controller
         $validator = Validator::make($request->all(), [
             'company_id' => 'required|exists:companies,c_id',
             'manager_id' => 'required|exists:users,u_id',
-            'company_name' => 'required',
+            'company_name' => ['required', Rule::unique('companies', 'c_name')->ignore($request->input('company_id'), 'c_id')],
             'manager_name' => 'required',
-            'manager_email' => 'email',
+            'manager_email' => ['email', Rule::unique('users', 'email')->ignore($request->input('manager_id'), 'u_id')],
             // 'manager_password' => 'required',
             'phone' => 'required', // main branch phone + manager phone
             'address' => 'required', // main branch phone + manager phone
@@ -84,16 +85,12 @@ class editCompanyController extends Controller
 
         $company_info = Company::where('c_id', $request->input('company_id'))->first();
 
-        // $new_company_name = Company::where('c_name', $request->input('company_name'));
-        // $email
-
-
         $company_info->update([
             'c_name' => $request->input('company_name'),
-            'c_type' =>  $request->input('company_type'),
-            'c_category_id' =>  $request->input('category_id'),
-            'c_description' =>  $request->input('company_description') ?? $company_info->c_description,
-            'c_website' =>  $request->input('company_website')  ?? $company_info->c_website
+            'c_type' => $request->input('company_type'),
+            'c_category_id' => $request->input('category_id'),
+            'c_description' => $request->input('company_description'),
+            'c_website' => $request->input('company_website')
         ]);
 
 
@@ -118,8 +115,8 @@ class editCompanyController extends Controller
         // it should be exists
         if ($main_branch) {
             $main_branch->update([
-                'u_phone1' => $request->input('phone'),
-                'u_address' => $request->input('address'),
+                'b_phone1' => $request->input('phone'),
+                'b_address' => $request->input('address'),
             ]);
         }
 
