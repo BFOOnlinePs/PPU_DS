@@ -55,7 +55,7 @@
 
         <br>
 
-        <form id="companiesReportSearchForm" action="" method="POST" enctype="multipart/form-data">
+        <form id="searchForm" action="" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-3">
@@ -91,7 +91,7 @@
                         <label class="col-form-label pt-0" for="exampleInputEmail1"> {{__('translate.Gender')}}{{--  الجنس --}}</label>
                         <div class="col-lg-12">
                             <select id="gender" name="gender" class="form-control btn-square">
-                                <option selected="" value="0">--{{__('translate.Choose')}}{{--اختيار--}}--</option>
+                                <option selected="" value="-1">--{{__('translate.Choose')}}{{--اختيار--}}--</option>
                                 <option value="0">{{__('translate.Male')}}</option>
                                 <option value="1">{{__('translate.Female')}}</option>
                             </select>
@@ -101,7 +101,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Major')}} {{-- العام الدراسي --}} </label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Major')}} {{-- التخصص --}} </label>
                         <div class="col-lg-12">
                             <select id="major" name="major" class="form-control btn-square">
                                 <option selected="" value="0">--{{__('translate.Choose')}}{{--اختيار--}}--</option>
@@ -117,7 +117,7 @@
             </div>
         </form>
 
-        <div id="companiesReportTable">
+        <div id="studentsCompaniesReportTable">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -162,7 +162,41 @@
 
 <script>
 // console.log({!! json_encode($data, JSON_HEX_APOS) !!});
+$('#searchForm').find('select').each(function() {
+        element = `${$(this)[0].id}`
+        document.getElementById(`${element}`).addEventListener("change", function() {
 
+            data = $('#searchForm').serialize();
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            $.ajax({
+                beforeSend: function(){
+                    document.getElementById('loaderContainer').hidden = false;
+                },
+                type: 'POST',
+                url: "{{ route('monitor_evaluation.studentsCompaniesAjax') }}",
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    // dataPDF = response.pdf;
+                    document.getElementById('loaderContainer').hidden = true;
+
+                    // console.log(response.data);
+                    $('#studentsCompaniesReportTable').html(response.view);
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        })
+})
 
 </script>
 

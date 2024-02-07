@@ -981,4 +981,139 @@ class MonitorEvaluationController extends Controller
 
     }
 
+    public function trainingHoursAjax(Request $request){
+
+        $semester = $request->semester;
+        $year = $request->year;
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != 0) {
+            $query->where('u_major_id', $request->major);
+        }
+
+        $students = $query->select('u_id');
+
+
+
+        $students_have_trainings = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester,$students) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->whereIn('r_student_id',$students)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')
+        ->get();
+
+        foreach($students_have_trainings as $key){
+            $studentID = $key->sc_student_id;
+
+            //فيها تدريبات الطالب للوقت الحالي
+            $student_companies = StudentCompany::select('sc_id')
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester,$students) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->whereIn('r_student_id',$students)
+                ->distinct();
+            })
+            ->where('sc_student_id',$studentID)
+            ->select('sc_id')
+            ->pluck('sc_id')
+            ->toArray();
+
+            $attendanceRows = StudentAttendance::whereIn('sa_student_id', function ($query) use ($year, $semester) {
+                $query->select('r_student_id')
+                    ->from('registration')
+                    ->where('r_year', $year)
+                    ->where('r_semester', $semester)
+                    ->distinct();
+            })->whereNotNull('sa_out_time')
+            ->whereIn('sa_student_company_id',$student_companies)
+            ->get();
+
+            $key->attendanceRows = $attendanceRows;
+
+            $hours = 0;
+            $minutes = 0;
+
+            foreach ($attendanceRows as $attendance) {
+                $timeIn = Carbon::parse($attendance->sa_in_time);
+                $timeOut = Carbon::parse($attendance->sa_out_time);
+
+                $duration = $timeOut->diff($timeIn);
+
+                $hours = $hours + $duration->format('%h');
+                $minutes = $minutes + $duration->format('%i');
+
+            }
+
+            $hoursFromMinutes = (int)($minutes/60);
+            $key->trainingHoursTotal = $hours + $hoursFromMinutes;
+            $key->trainingMinutesTotal = $minutes - ($hoursFromMinutes*60);
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'view'=>view('project.monitor_evaluation.ajax.trainingHoursTable',['data'=>$students_have_trainings])->render(),
+        ]);
+
+
+    }
+
+    public function studentsCompaniesAjax(Request $request){
+        $semester = $request->semester;
+        $year = $request->year;
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != 0) {
+            $query->where('u_major_id', $request->major);
+        }
+        $students = $query->select('u_id');
+
+        $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester, $students) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->whereIn('r_student_id',$students)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $key->companiesNum = StudentCompany::select('sc_company_id')
+            ->where('sc_student_id',$key->sc_student_id)
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->distinct('sc_company_id')
+            ->get()
+            ->count();
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'data'=>$data,
+            'view'=>view('project.monitor_evaluation.ajax.studentsCompaniesReportTable',['data'=>$data])->render(),
+        ]);
+
+
+    }
+
+
 }
