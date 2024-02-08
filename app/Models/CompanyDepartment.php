@@ -13,7 +13,8 @@ class CompanyDepartment extends Model
 
     protected $fillable = [
         'd_name',
-        'd_company_id'
+        'd_company_id',
+        'd_status'
     ];
 
     // public function studentCompany()
