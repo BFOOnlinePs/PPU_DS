@@ -11,6 +11,12 @@ class CompanyDepartment extends Model
     protected $table = 'company_departments';
     protected $primaryKey = 'd_id';
 
+    protected $fillable = [
+        'd_name',
+        'd_company_id',
+        'd_status'
+    ];
+
     // public function studentCompany()
     // {
     //     return $this->hasMany(StudentCompany::class, 'sc_department_id', 'd_id');

@@ -11,6 +11,7 @@ use App\Http\Controllers\apisControllers\program_coordinator\majors\ProgramCoord
 use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoordinatorStudentsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
+use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\editCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
@@ -120,7 +121,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
-    Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']);// for supervisor
+    Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']); // for supervisor
     Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
     Route::post('getBranchDepartments', [studentTrainingsController::class, 'getBranchDepartments']);
@@ -163,6 +164,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // add company => for supervisor and coordinator
     Route::post('createManagerAndHisCompany', [AddCompanyController::class, 'createManagerAndHisCompany']);
+    Route::post('updateCompanyAddingCategoryAndType', [AddCompanyController::class, 'updateCompanyAddingCategoryAndType']);
+    Route::post('addCompanyDepartments', [AddCompanyController::class, 'addCompanyDepartments']);
+    Route::post('addCompanyBranches', [AddCompanyController::class, 'addCompanyBranches']);
+    Route::post('getCompanyDepartments', [AddCompanyController::class, 'getCompanyDepartments']);
+
+    // edit company => for supervisor and coordinator
+    Route::post('getCompanyAndManagerInfo', [editCompanyController::class, 'getCompanyAndManagerInfo']);
+    Route::post('updateCompanyAndManagerInfo', [editCompanyController::class, 'updateCompanyAndManagerInfo']);
+    Route::post('getCompanyDepartments', [editCompanyController::class, 'getCompanyDepartments']);
+    Route::post('addNewCompanyDepartment', [editCompanyController::class, 'addNewCompanyDepartment']);
+
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
