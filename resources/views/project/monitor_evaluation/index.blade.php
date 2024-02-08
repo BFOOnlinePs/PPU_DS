@@ -17,7 +17,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        @if (auth()->user()->u_role_id == 1) {{-- Admin --}}
+
             <div class="col-sm-6 col-xl-3 col-lg-6">
                 <div class="card o-hidden border-0">
                     <a href="{{ route('admin.users.index') }}" class="text-decoration-none">
@@ -103,7 +103,7 @@
                     </a>
                 </div>
             </div>
-        @endif
+
 
     </div>
 </div>
