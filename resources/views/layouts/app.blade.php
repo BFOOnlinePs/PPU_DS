@@ -93,7 +93,7 @@
             <div class="loader-p"></div>
         </div>
     </div>
-    Mohamad Maraqa
+    
     <!-- Loader ends-->
     <!-- page-wrapper Start-->
     <div class="page-wrapper  horizontal-wrapper  normal-sidebar" id="pageWrapper">
@@ -106,7 +106,7 @@
             <!-- Page Sidebar Start-->
 
             <!-- Page Sidebar Ends-->
-            @include('layouts.content')
+            Mohamad Maraqa
             <!-- footer start-->
             @include('layouts.footer')
         </div>
