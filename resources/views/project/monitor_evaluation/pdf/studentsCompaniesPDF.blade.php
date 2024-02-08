@@ -1,6 +1,6 @@
 @extends('layouts.styleForPDF')
 @section('title')
-تقرير الطلاب المسجلين في المساقات
+تقرير الطلاب المسجلين بالشركات
 @endsection
 @section('content')
 

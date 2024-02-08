@@ -74,7 +74,7 @@
                         <li class=""><a class="nav-link" href="{{ route('company_manager.payments.index') }}"><i
                                     data-feather="dollar-sign"></i><span>{{__('translate.Payments')}}</span></a></li>
                     @elseif (auth()->user()->u_role_id == 5) {{-- M&E --}}
-                        <li class=""><a class="nav-link" href="{{ route('monitor_evaluation.index') }}"><i
+                        <li class=""><a class="nav-link" href="{{ route('home') }}"><i
                                     data-feather="home"></i><span>{{__('translate.Main')}}</span></a></li>
                         {{-- <li class=""><a class="nav-link" href="{{ route('monitor_evaluation.semesterReport') }}"><i
                                     data-feather="calendar"></i><span>{{__("translate.Semester's Report")}}</span></a></li> --}}
@@ -215,4 +215,3 @@
                 </ul>
             </div>
         </div>
- 

@@ -9,7 +9,7 @@
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('monitor_evaluation.students_courses_report')}}">تقرير الطلاب المسجلين في المساقات</a>
+<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.students_courses_report')}}">تقرير الطلاب المسجلين في المساقات</a>
 @endsection
 
 @section('style')

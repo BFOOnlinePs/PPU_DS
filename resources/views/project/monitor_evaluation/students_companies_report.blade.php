@@ -9,7 +9,7 @@
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('monitor_evaluation.courses_registered_report')}}">تقرير الطلبة المتدربين</a>
+<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.courses_registered_report')}}">تقرير الطلبة المتدربين</a>
 @endsection
 
 @section('style')
@@ -186,7 +186,7 @@ $('#searchForm').find('select').each(function() {
                 success: function(response) {
                     // dataPDF = response.pdf;
                     document.getElementById('loaderContainer').hidden = true;
-
+                    document.getElementById('test').value = response.data;
                     // console.log(response.data);
                     $('#studentsCompaniesReportTable').html(response.view);
 
