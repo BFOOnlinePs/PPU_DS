@@ -106,7 +106,7 @@
             <!-- Page Sidebar Start-->
 
             <!-- Page Sidebar Ends-->
-            Mohamad Maraqa
+            @include('layouts.content')
             <!-- footer start-->
             @include('layouts.footer')
         </div>
