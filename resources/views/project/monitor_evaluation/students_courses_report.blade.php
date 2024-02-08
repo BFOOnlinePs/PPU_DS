@@ -45,12 +45,12 @@
 
 
 
-        <form id="companiesReportAjax" action="{{route('monitor_evaluation.companiesReportPDF')}}" method="POST" enctype="multipart/form-data" target="_blank">
+        <form action="{{route('monitor_evaluation.studentsCoursesPDF')}}" method="POST" enctype="multipart/form-data" target="_blank">
             @csrf
             <div>
-            {{-- <input hidden id="test" name="test" value="{{base64_encode(serialize($data))}}"> --}}
-            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-print"></i> </button>
-        </div>
+                <input hidden id="test" name="test" value="{{base64_encode(serialize($data))}}">
+                <button class="btn btn-primary mb-2 btn-s" type="submit"><i class="fa fa-print"></i> </button>
+            </div>
         </form>
 
         <br>
@@ -115,6 +115,8 @@
 
             </div>
         </form>
+
+
 
         <div id="studentsCoursesReportTable">
             <div class="table-responsive">
@@ -184,7 +186,7 @@ $('#searchForm').find('select').each(function() {
                 success: function(response) {
                     // dataPDF = response.pdf;
                     document.getElementById('loaderContainer').hidden = true;
-
+                    document.getElementById('test').value = response.data;
                     $('#studentsCoursesReportTable').html(response.view);
 
                 },

@@ -203,6 +203,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/registeredCoursesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'registeredCoursesAjax'])->name('monitor_evaluation.registeredCoursesAjax');
         Route::post('/trainingHoursAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'trainingHoursAjax'])->name('monitor_evaluation.trainingHoursAjax');
         Route::post('/studentsCompaniesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesAjax'])->name('monitor_evaluation.studentsCompaniesAjax');
+        Route::post('/studentsCoursesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCoursesPDF'])->name('monitor_evaluation.studentsCoursesPDF');
+        Route::post('/registeredCoursesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'registeredCoursesPDF'])->name('monitor_evaluation.registeredCoursesPDF');
+        Route::post('/trainingHoursPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'trainingHoursPDF'])->name('monitor_evaluation.trainingHoursPDF');
+        Route::post('/studentsCompaniesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesPDF'])->name('monitor_evaluation.studentsCompaniesPDF');
 
     });
 
