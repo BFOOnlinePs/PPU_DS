@@ -733,6 +733,7 @@ class MonitorEvaluationController extends Controller
         ]);
     }
 
+    //new reports
     public function students_courses_report(){
 
 
@@ -911,6 +912,7 @@ class MonitorEvaluationController extends Controller
         return view('project.monitor_evaluation.students_companies_report',['data'=>$data,'semester'=>$semester, 'year'=>$year,'years'=>$years,'majors'=>$majors]);
     }
 
+    //new reports ajax
     public function studentsCoursesAjax(Request $request){
         $semester = $request->semester;
         $year = $request->year;
@@ -941,6 +943,7 @@ class MonitorEvaluationController extends Controller
 
         return response()->json([
             'success'=>'true',
+            'data'=> base64_encode(serialize($data)),
             'view'=>view('project.monitor_evaluation.ajax.studentsCoursesReportTable',['data'=>$data])->render(),
         ]);
 
@@ -975,6 +978,7 @@ class MonitorEvaluationController extends Controller
 
         return response()->json([
             'success'=>'true',
+            'data'=> base64_encode(serialize($data)),
             'view'=>view('project.monitor_evaluation.ajax.registeredCoursesReportTable',['data'=>$data])->render(),
         ]);
 
@@ -1061,6 +1065,7 @@ class MonitorEvaluationController extends Controller
 
         return response()->json([
             'success'=>'true',
+            'data'=> base64_encode(serialize($students_have_trainings)),
             'view'=>view('project.monitor_evaluation.ajax.trainingHoursTable',['data'=>$students_have_trainings])->render(),
         ]);
 
@@ -1108,12 +1113,49 @@ class MonitorEvaluationController extends Controller
 
         return response()->json([
             'success'=>'true',
-            'data'=>$data,
+            'data'=> base64_encode(serialize($data)),
             'view'=>view('project.monitor_evaluation.ajax.studentsCompaniesReportTable',['data'=>$data])->render(),
         ]);
 
 
     }
 
+    //new reports pdf
+    public function studentsCoursesPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCoursesPDF', ['data'=>$pdfData]);
+
+        // Use the stream method to open the PDF in a new tab
+        return $pdf->stream('studentsCoursesPDF.pdf');
+    }
+
+    public function registeredCoursesPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.registeredCoursesPDF', ['data'=>$pdfData]);
+
+        return $pdf->stream('registeredCoursesPDF.pdf');
+    }
+
+    public function  trainingHoursPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.trainingHoursPDF', ['data'=>$pdfData]);
+
+        return $pdf->stream('trainingHoursPDF.pdf');
+    }
+
+    public function  studentsCompaniesPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCompaniesPDF', ['data'=>$pdfData]);
+
+        return $pdf->stream('studentsCompaniesPDF.pdf');
+    }
 
 }
