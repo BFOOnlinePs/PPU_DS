@@ -167,7 +167,7 @@ class AddCompanyController extends Controller
     // each object is a branch which has:
     // address, phone1, is_main_branch (mandatory)
     // b_phone2 (optional)
-    // branch_departments (mandatory if company has departments), if not-> send empty list of branch_departments
+    // branch_departments, if no departments -> send empty list of branch_departments
     public function addCompanyBranches(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -204,7 +204,7 @@ class AddCompanyController extends Controller
             if ($company_branch->save()) {
                 $branch_departments = $branch['branch_departments'];
                 if ($branch_departments) {
-                    foreach ($branch_departments as $branch_department) {
+                    foreach ($branch_departments as $branch_department) { // each one is department id
                         $company_branch_department = new companyBranchDepartments();
                         $company_branch_department->cbd_d_id = $branch_department;
                         $company_branch_department->cbd_company_branch_id = $company_branch->b_id;
