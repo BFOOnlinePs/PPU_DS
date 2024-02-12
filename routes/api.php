@@ -174,6 +174,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('updateCompanyAndManagerInfo', [editCompanyController::class, 'updateCompanyAndManagerInfo']);
     Route::post('getCompanyDepartments', [editCompanyController::class, 'getCompanyDepartments']);
     Route::post('addNewCompanyDepartment', [editCompanyController::class, 'addNewCompanyDepartment']);
+    Route::post('editCompanyDepartmentName', [editCompanyController::class, 'editCompanyDepartmentName']);
+    Route::post('getCompanyBranches', [editCompanyController::class, 'getCompanyBranches']);
+    Route::post('addNewCompanyBranch', [editCompanyController::class, 'addNewCompanyBranch']);
+    Route::post('editCompanyBranch', [editCompanyController::class, 'editCompanyBranch']);
 
 
     // companies

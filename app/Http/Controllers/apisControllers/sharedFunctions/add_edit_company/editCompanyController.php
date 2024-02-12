@@ -5,6 +5,7 @@ namespace App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\CompanyBranch;
+use App\Models\companyBranchDepartments;
 use App\Models\CompanyDepartment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -112,7 +113,8 @@ class editCompanyController extends Controller
             ]);
         }
 
-        $main_branch = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->where('b_main_branch', 1)->first();
+        $main_branch = CompanyBranch::where('b_manager_id', $request->input('manager_id'))
+            ->where('b_main_branch', 1)->first();
 
         // it should be exists
         if ($main_branch) {
@@ -160,7 +162,12 @@ class editCompanyController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'company_id' => 'required|exists:companies,c_id',
-            'department_name' => 'required|unique:company_departments,d_name'
+            'department_name' => [
+                'required',
+                Rule::unique('company_departments', 'd_name')->where(function ($query) use ($request) {
+                    return $query->where('d_company_id', $request->input('company_id'));
+                })
+            ]
         ], [
             'company_id.required' => 'الرجاء إرسال رقم الشركة',
             'company_id.exists' => 'رقم الشركة غير موجود',
@@ -185,6 +192,224 @@ class editCompanyController extends Controller
             'status' => true,
             'message' => 'تم إضافة قسم الشركة بنجاح',
             'company_department' => $company_department,
+        ]);
+    }
+
+    public function editCompanyDepartmentName(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,c_id',
+            'department_id' => [
+                'required',
+                Rule::exists('company_departments', 'd_id')->where(function ($query) use ($request) {
+                    $query->where('d_company_id', $request->input('company_id'));
+                }),
+            ],
+            'department_name' => [
+                'required',
+                Rule::unique('company_departments', 'd_name')
+                    ->where('d_company_id', $request->input('company_id'))
+                    ->ignore($request->input('department_id'), 'd_id')
+            ]
+        ], [
+            'company_id.required' => 'الرجاء إرسال رقم الشركة',
+            'company_id.exists' => 'رقم الشركة غير موجود',
+            'department_id.required' => 'الرجاء إرسال رقم القسم',
+            'department_id.exists' => 'رقم القسم غير موجود',
+            'department_name.required' => 'الرجاء إرسال إسم القسم الجديد',
+            'department_name.unique' => 'القسم موجود',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company_department = CompanyDepartment::where('d_id', $request->input('department_id'))->first();
+        $company_department->update([
+            'd_name' => $request->input('department_name'),
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم تعديل قسم الشركة بنجاح',
+            'company_department' => $company_department,
+        ]);
+    }
+
+    // step 3
+
+    public function getCompanyBranches(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,c_id',
+
+        ], [
+            'company_id.required' => 'الرجاء إرسال رقم الشركة',
+            'company_id.exists' => 'رقم الشركة غير موجود',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company_id = $request->input('company_id');
+        $company_branches = CompanyBranch::where('b_company_id', $company_id)
+            ->with('companyBranchDepartments.companyDepartment')->get();
+
+        return response()->json([
+            'status' => true,
+            'company_branches' => $company_branches
+        ]);
+    }
+
+    public function addNewCompanyBranch(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,c_id',
+            'manager_id' => 'required|exists:users,u_id',
+            'branch_address' => 'required',
+            'branch_phone1' => 'required',
+
+        ], [
+            'company_id.required' => 'الرجاء إرسال رقم الشركة',
+            'company_id.exists' => 'رقم الشركة غير موجود',
+            'branch_address.required' => 'الرجاء إرسال العنوان',
+            'branch_phone1.required' => 'الرجاء إرسال رقم الهاتف',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company_branch = new CompanyBranch();
+        $company_branch->b_company_id = $request->input('company_id');
+        $company_branch->b_manager_id = $request->input('manager_id');
+        $company_branch->b_address = $request->input('branch_address');
+        $company_branch->b_phone1 = $request->input('branch_phone1');
+        $company_branch->b_phone2 = $request->input('branch_phone2');
+        $company_branch->b_main_branch = 0; // 1:yes, 0:no
+
+        if ($company_branch->save()) {
+            $branch_departments = $request->input('branch_departments');
+            if ($branch_departments) {
+                foreach ($branch_departments as $branch_department) { // each one is department id
+                    $company_branch_department = new companyBranchDepartments();
+                    $company_branch_department->cbd_d_id = $branch_department;
+                    $company_branch_department->cbd_company_branch_id = $company_branch->b_id;
+                    if (!$company_branch_department->save())
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'تم إنشاء الفرع لكن لم يتم إضافة الأقسام الخاصة به'
+                        ]);
+                }
+            }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'لم يتم إنشاء فروع الشركة'
+            ]);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم إنشاء الفرع و إضافة أقسامه بنجاح'
+        ]);
+    }
+
+
+    // the branch_departments is a list of departments id,
+    // ex:
+    // "branch_departments": [
+    //     10,
+    //     11
+    // ]
+    public function editCompanyBranch(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'branch_id' => 'required|exists:company_branches,b_id',
+            'branch_address' => 'required',
+            'branch_phone1' => 'required',
+            'branch_departments' => 'nullable|array',
+        ], [
+            'branch_id.required' => 'الرجاء إرسال رقم الفرع',
+            'branch_id.exists' => 'رقم الفرع غير موجود',
+            'branch_address.required' => 'الرجاء إرسال العنوان',
+            'branch_phone1.required' => 'الرجاء إرسال رقم الهاتف',
+            'branch_departments.array' => 'أقسام الفرع يجب ان تكون قائمة array',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $company_branch = CompanyBranch::where('b_id', $request->input('branch_id'))->first();
+        $company_branch->update([
+            'b_address' => $request->input('branch_address'),
+            'b_phone1' => $request->input('branch_phone1'),
+            'b_phone2' => $request->input('branch_phone2'),
+        ]);
+
+        // if main branch -> update the manager row in users table
+
+        if ($company_branch->b_main_branch == 1) {
+            $manager = User::where('u_role_id', 6)->where('u_id', $company_branch->b_manager_id)->first();
+            $manager->update([
+                'u_address' => $request->input('branch_address'),
+                'u_phone1' => $request->input('branch_phone1'),
+                'u_phone2' => $request->input('branch_phone2'),
+            ]);
+        }
+
+
+        // update departments
+
+        $branch_id = $request->input('branch_id');
+
+        $request_departments = $request->input('branch_departments');
+
+        foreach ($request_departments as $request_department) { // each one is an id
+            $company_branch_department = companyBranchDepartments::where('cbd_d_id', $request_department)
+                ->where('cbd_company_branch_id', $branch_id)->first();
+
+            if ($company_branch_department) {
+                // if exists, make sure it's status will be 1
+                if ($company_branch_department->cbd_status == 2) {
+                    $company_branch_department->update([
+                        'cbd_status' => 1
+                    ]);
+                }
+            } else {
+                // if not exists in the database, add it
+                companyBranchDepartments::create([
+                    'cbd_d_id' => $request_department,
+                    'cbd_company_branch_id' => $branch_id,
+                    'cbd_status' => 1
+                ]);
+            }
+        }
+
+        // exists in database but not in request (change status to delete)
+        companyBranchDepartments::where('cbd_company_branch_id', $branch_id)
+            ->whereNotIn('cbd_d_id', $request_departments)->update([
+                'cbd_status' => 2
+            ]);
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم التعديل بنجاح'
         ]);
     }
 }
