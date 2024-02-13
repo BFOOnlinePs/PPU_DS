@@ -61,9 +61,10 @@
             font-weight: bold;
         } */
 
-        * {
+        /* * {
             font-family: 'Tajawal', sans-serif;
-        }
+        } */
+
     </style>
 
     @yield('style')
@@ -72,6 +73,7 @@
 <body class="rtl">
 
     <div class="page-wrapper" id="pageWrapper">
+
         @yield('content')
     </div>
 
