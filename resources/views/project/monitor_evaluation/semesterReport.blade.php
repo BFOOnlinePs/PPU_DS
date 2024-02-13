@@ -192,6 +192,8 @@
 
 <script>
     let companyChanged = false;
+    var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
+
     $('#searchForm').find('select').each(function() {
         element = `${$(this)[0].id}`
         document.getElementById(`${element}`).addEventListener("change", function() {
@@ -224,6 +226,7 @@
                 dataType: 'json',
                 success: function(response) {
                     dataPDF = response.pdf;
+                    console.log(response.pdf);
                     document.getElementById('loaderContainer').hidden = true;
 
                     var selectElement = document.getElementById("branch");
@@ -278,7 +281,7 @@
 
 
 
-    var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
+
 
     function pdfLink(data){
 
@@ -339,6 +342,7 @@
                 data: data,
                 dataType: 'json',
                 success: function(response) {
+                    // console.log(response.pdf);
                     dataPDF = response.pdf;
                     document.getElementById('loaderContainer').hidden = true;
                     $('#semsterReportTable').html(response.view);

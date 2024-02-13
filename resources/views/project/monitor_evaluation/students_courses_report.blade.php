@@ -49,6 +49,10 @@
             @csrf
             <div>
                 <input hidden id="test" name="test" value="{{base64_encode(serialize($data))}}">
+                <input hidden id="genderText" name="genderText" value="{{$gender}}">
+                <input hidden id="majorText" name="majorText" value="{{$majorText}}">
+                <input hidden id="semesterText" name="semesterText" value="{{$semester}}">
+                <input hidden id="title" name="title" value="{{$title}}">
                 <button class="btn btn-primary mb-2 btn-s" type="submit"><i class="fa fa-print"></i> </button>
             </div>
         </form>
@@ -164,8 +168,10 @@
 <script>
 $('#searchForm').find('select').each(function() {
         element = `${$(this)[0].id}`
+        console.log("hi")
+        console.log(element)
         document.getElementById(`${element}`).addEventListener("change", function() {
-
+            console.log("hi")
             data = $('#searchForm').serialize();
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -187,6 +193,9 @@ $('#searchForm').find('select').each(function() {
                     // dataPDF = response.pdf;
                     document.getElementById('loaderContainer').hidden = true;
                     document.getElementById('test').value = response.data;
+                    document.getElementById('genderText').value = response.gender;
+                    document.getElementById('majorText').value = response.majorText;
+                    document.getElementById('semesterText').value = response.semester;
                     $('#studentsCoursesReportTable').html(response.view);
 
                 },
