@@ -939,13 +939,24 @@ class MonitorEvaluationController extends Controller
             $key->trainingMinutesTotal = $minutes - ($hoursFromMinutes*60);
         }
 
+        $totalHours = 0;
+        $totalMinutes = 0;
+        foreach($students_have_trainings as $key){
+            $totalHours = $totalHours + $key->trainingHoursTotal;
+            $totalMinutes = $totalMinutes + $key->trainingMinutesTotal;
+        }
+
+        $hoursFromMinutes2 = (int)($totalMinutes/60);
+        $totalHours = $totalHours + $hoursFromMinutes2;
+        $totalMinutes = $totalMinutes - ($hoursFromMinutes2*60);
+
 
         $majors = Major::get();
         $title = "تقرير ساعات التدريب للطلاب";
 
         return view('project.monitor_evaluation.training_hours_report',['data'=>$students_have_trainings,'semester'=>$semester
         , 'year'=>$year,'years'=>$years,'majors'=>$majors
-        ,'majorText'=>"جميع التخصصات",'gender'=>"الجميع",'title'=>$title
+        ,'majorText'=>"جميع التخصصات",'gender'=>"الجميع",'title'=>$title,'totalMinutes'=>$totalMinutes,'totalHours'=>$totalHours
         ]);
     }
     public function students_companies_report(){
@@ -1151,10 +1162,21 @@ class MonitorEvaluationController extends Controller
             $key->trainingMinutesTotal = $minutes - ($hoursFromMinutes*60);
         }
 
+        $totalHours = 0;
+        $totalMinutes = 0;
+        foreach($students_have_trainings as $key){
+            $totalHours = $totalHours + $key->trainingHoursTotal;
+            $totalMinutes = $totalMinutes + $key->trainingMinutesTotal;
+        }
+
+        $hoursFromMinutes2 = (int)($totalMinutes/60);
+        $totalHours = $totalHours + $hoursFromMinutes2;
+        $totalMinutes = $totalMinutes - ($hoursFromMinutes2*60);
+
         return response()->json([
             'success'=>'true',
             'data'=> base64_encode(serialize($students_have_trainings)),
-            'view'=>view('project.monitor_evaluation.ajax.trainingHoursTable',['data'=>$students_have_trainings])->render(),
+            'view'=>view('project.monitor_evaluation.ajax.trainingHoursTable',['data'=>$students_have_trainings,'totalMinutes'=>$totalMinutes,'totalHours'=>$totalHours])->render(),
             'gender'=>$request->gender,
             'semester'=>$request->semester,
             'majorText'=>$majorText
