@@ -30,4 +30,9 @@ class Registration extends Model
     {
         return $this->belongsTo(StudentCompany::class, 'r_id', 'sc_registration_id');
     }
+
+//     public function studentCompany2()
+//     {
+//         return $this->hasOne(StudentCompany::class, 'r_id', 'sc_registration_id');
+//     }
 }

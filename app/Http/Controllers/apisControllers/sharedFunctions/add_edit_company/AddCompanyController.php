@@ -57,18 +57,36 @@ class AddCompanyController extends Controller
             'u_role_id' => 6, // company manager
         ]);
 
-        // if the manager user created successfully, create the company (it is always true)
+        // if the manager user created successfully, create the company and the main branch (it is always true)
         if ($manager_user) {
             $company = Company::create([
                 'c_name' => $request->input('company_name'),
                 'c_manager_id' => $manager_user->u_id,
             ]);
-            return response()->json([
-                'status' => true,
-                'message' => 'تم انشاء حساب المدير و الشركة بنجاح',
-                'manager' => $manager_user,
-                'company' => $company
-            ]);
+
+            if ($company) { // always true
+                $main_branch = CompanyBranch::create([
+                    'b_company_id' => $company->c_id,
+                    'b_address' => $request->input('address'),
+                    'b_phone1' => $request->input('phone'),
+                    'b_main_branch' => 1,
+                    'b_manager_id' => $manager_user->u_id,
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'تم انشاء حساب المدير و الشركة و الفرع الرئيسي  بنجاح',
+                    'manager' => $manager_user,
+                    'company' => $company,
+                    'main_branch' => $main_branch,
+                ]);
+            }
+
+            // return response()->json([
+            //     'status' => true,
+            //     'message' => 'تم انشاء حساب المدير و الشركة بنجاح',
+            //     'manager' => $manager_user,
+            //     'company' => $company
+            // ]);
         } else {
             return response()->json([
                 'status' => false,
@@ -163,6 +181,8 @@ class AddCompanyController extends Controller
         ]);
     }
 
+    // fourth step
+
     // company_branches is a list of objects
     // each object is a branch which has:
     // address, phone1, is_main_branch (mandatory)
@@ -187,27 +207,47 @@ class AddCompanyController extends Controller
 
         $company_id = $request->input('company_id');
         $manager_id = Company::where('c_id', $company_id)->pluck('c_manager_id')->first();
+        $manager = User::where('u_id', $manager_id)->first();
+        $main_branch = CompanyBranch::where('b_company_id', $company_id)
+            ->where('b_main_branch', 1)->first();
+        // return $main_branch;
         $branches = $request->input('company_branches');
         // return gettype($branches);
 
         foreach ($branches as $branch) {
             // return gettype($branch);
             $company_branch = new CompanyBranch();
-            $company_branch->b_company_id = $company_id;
-            $company_branch->b_manager_id = $manager_id;
-            $company_branch->b_address = $branch['branch_address'];
-            $company_branch->b_phone1 = $branch['branch_phone1'];
-            $company_branch->b_phone2 = $branch['branch_phone2'];
-            $company_branch->b_main_branch = $branch['is_main_branch']; // 1:yes, 0:no
+            $is_company_branch_save = null;
+            // when main branch
+            if ($branch['is_main_branch'] == 1) {
+                $main_branch->update([
+                    'b_phone2' => $branch['branch_phone2'],
+                ]);
 
+                $manager->update([
+                    'u_phone2' => $branch['branch_phone2'],
+                ]);
+            } else {
+                $company_branch->b_company_id = $company_id;
+                $company_branch->b_manager_id = $manager_id;
+                $company_branch->b_address = $branch['branch_address'];
+                $company_branch->b_phone1 = $branch['branch_phone1'];
+                $company_branch->b_phone2 = $branch['branch_phone2'];
+                $company_branch->b_main_branch = $branch['is_main_branch']; // 1:yes, 0:no
+                $is_company_branch_save = $company_branch->save();
+                // return $is_company_branch_save;
+            }
 
-            if ($company_branch->save()) {
+            if ($is_company_branch_save || $branch['is_main_branch'] == 1) {
                 $branch_departments = $branch['branch_departments'];
                 if ($branch_departments) {
                     foreach ($branch_departments as $branch_department) { // each one is department id
                         $company_branch_department = new companyBranchDepartments();
                         $company_branch_department->cbd_d_id = $branch_department;
-                        $company_branch_department->cbd_company_branch_id = $company_branch->b_id;
+                        $company_branch_department->cbd_company_branch_id =
+                            $branch['is_main_branch'] == 1 ?
+                            $main_branch->b_id :
+                            $company_branch->b_id;
                         if (!$company_branch_department->save())
                             return response()->json([
                                 'status' => false,

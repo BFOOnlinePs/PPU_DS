@@ -259,8 +259,15 @@ class editCompanyController extends Controller
         }
 
         $company_id = $request->input('company_id');
+        // $company_branches = CompanyBranch::where('b_company_id', $company_id)
+        //     ->with('companyBranchDepartments.companyDepartment')->get();
+
         $company_branches = CompanyBranch::where('b_company_id', $company_id)
-            ->with('companyBranchDepartments.companyDepartment')->get();
+            ->with(['companyBranchDepartments' => function ($query) {
+                $query->where('cbd_status', 1)
+                    ->with('companyDepartment');
+            }])
+            ->get();
 
         return response()->json([
             'status' => true,
