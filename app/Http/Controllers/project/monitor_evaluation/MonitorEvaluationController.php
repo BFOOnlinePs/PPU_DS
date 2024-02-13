@@ -65,7 +65,11 @@ class MonitorEvaluationController extends Controller
             });
         }
 
-        return view('project.monitor_evaluation.companiesReport',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories]);
+        $title = 'تقرير الشركات';
+
+        return view('project.monitor_evaluation.companiesReport',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories,
+        'companyCateg'=>"جميع التصنيفات",'companyType'=>'جميع الأنواع','title'=>$title
+        ]);
     }
 
     public function companiesReportSearch(Request $request){
@@ -73,6 +77,8 @@ class MonitorEvaluationController extends Controller
         $companyType = null;
         $companyCategory = null;
         $companies = Company::where('c_id',0)->get();
+        $companyCateg = "جميع التصنيفات";
+        $companyTypeText ='جميع الأنواع';
 
         $systemSettings = SystemSetting::first();
         $year = $systemSettings->ss_year;
@@ -81,17 +87,21 @@ class MonitorEvaluationController extends Controller
 
         if($request->companyType != 0 && $request->companyCategory != 0){ //هون بكون ببحث عن النوع والتصنيف
             $companyType = $request->companyType;
+            $companyTypeText = $request->companyType;
+            $companyCateg = CompaniesCategory::where('cc_id', $request->companyCategory)->value('cc_name');
             $companyCategory = $request->companyCategory;
             $data = Company::with('manager','companyCategories')->where('c_category_id',$companyCategory)
             ->where('c_type',$companyType)
             ->get();
         }
         else if($request->companyCategory != 0){ //هون بكون ببحث عن تصنيف الشركة
+            $companyCateg = CompaniesCategory::where('cc_id', $request->companyCategory)->value('cc_name');
             $companyCategory = $request->companyCategory;
             $data = Company::with('manager','companyCategories')->where('c_category_id',$companyCategory)->get();
         }
         else if($request->companyType != 0){ //هون بكون ببحث عن نوع الشركة
             $companyType = $request->companyType;
+            $companyTypeText = $request->companyType;
             $data = Company::with('manager','companyCategories')->where('c_type',$companyType)->get();
         }
         else if($companyType == 0 && $companyCategory == 0){ //هون بكون ببحث عن الفصل لحال
@@ -137,7 +147,10 @@ class MonitorEvaluationController extends Controller
         return response()->json([
             'success'=>'true',
             'data'=> base64_encode(serialize($companies)),
-            'view'=>view('project.monitor_evaluation.ajax.companiesReportTable',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories])->render()
+            'view'=>view('project.monitor_evaluation.ajax.companiesReportTable',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories])->render(),
+            'semester'=>$semester,
+            'companyCateg'=>$companyCateg,
+            'companyType'=>$companyTypeText
         ]);
 
     }
@@ -487,7 +500,9 @@ class MonitorEvaluationController extends Controller
 
         $pdfData = unserialize(base64_decode($request->test));
         //return $pdfData;
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.companiesReportPDF', ['data'=>$pdfData]);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.companiesReportPDF', ['data'=>$pdfData,
+        'semester'=>$request->semesterText, 'title'=>$request->title, 'companyCateg'=>$request->companyCateg,'companyType'=>$request->companyTypeText,
+        ]);
 
         // Use the stream method to open the PDF in a new tab
         return $pdf->stream('semesterReport.pdf');
@@ -841,9 +856,10 @@ class MonitorEvaluationController extends Controller
             ->count();
         }
 
-        // return $data;
+        $title = "تقرير المساقات المسجلة";
 
-        return view('project.monitor_evaluation.courses_registered_report',['data'=>$data,'semester'=>$semester, 'year'=>$year,'years'=>$years]);
+        return view('project.monitor_evaluation.courses_registered_report',['data'=>$data,'semester'=>$semester
+        , 'year'=>$year,'years'=>$years,'gender'=>"الجميع",'title'=>$title]);
     }
     public function training_hours_report(){
         $systemSettings = SystemSetting::first();
@@ -925,8 +941,12 @@ class MonitorEvaluationController extends Controller
 
 
         $majors = Major::get();
+        $title = "تقرير ساعات التدريب للطلاب";
 
-        return view('project.monitor_evaluation.training_hours_report',['data'=>$students_have_trainings,'semester'=>$semester, 'year'=>$year,'years'=>$years,'majors'=>$majors]);
+        return view('project.monitor_evaluation.training_hours_report',['data'=>$students_have_trainings,'semester'=>$semester
+        , 'year'=>$year,'years'=>$years,'majors'=>$majors
+        ,'majorText'=>"جميع التخصصات",'gender'=>"الجميع",'title'=>$title
+        ]);
     }
     public function students_companies_report(){
         $systemSettings = SystemSetting::first();
@@ -963,8 +983,11 @@ class MonitorEvaluationController extends Controller
         }
 
         // return $data;
+        $title = "تقرير الطلبة المتدربين بالشركات";
 
-        return view('project.monitor_evaluation.students_companies_report',['data'=>$data,'semester'=>$semester, 'year'=>$year,'years'=>$years,'majors'=>$majors]);
+        return view('project.monitor_evaluation.students_companies_report',['data'=>$data,'semester'=>$semester,
+         'year'=>$year,'years'=>$years,'majors'=>$majors
+         ,'majorText'=>"جميع التخصصات",'gender'=>"الجميع",'title'=>$title]);
     }
 
     //new reports ajax
@@ -1004,8 +1027,8 @@ class MonitorEvaluationController extends Controller
             'data'=> base64_encode(serialize($data)),
             'view'=>view('project.monitor_evaluation.ajax.studentsCoursesReportTable',['data'=>$data])->render(),
             'gender'=>$request->gender,
+            'semester'=>$request->semester,
             'majorText'=>$majorText,
-            'semester'=>$request->semester
         ]);
 
 
@@ -1041,6 +1064,8 @@ class MonitorEvaluationController extends Controller
             'success'=>'true',
             'data'=> base64_encode(serialize($data)),
             'view'=>view('project.monitor_evaluation.ajax.registeredCoursesReportTable',['data'=>$data])->render(),
+            'gender'=>$request->gender,
+            'semester'=>$semester
         ]);
 
 
@@ -1050,12 +1075,14 @@ class MonitorEvaluationController extends Controller
 
         $semester = $request->semester;
         $year = $request->year;
+        $majorText="جميع التخصصات";
 
         $query = User::query();
         if ($request->gender != -1) {
             $query->where('u_gender', $request->gender);
         }
         if ($request->major != 0) {
+            $majorText = Major::where('m_id', $request->major)->value('m_name');
             $query->where('u_major_id', $request->major);
         }
 
@@ -1128,6 +1155,9 @@ class MonitorEvaluationController extends Controller
             'success'=>'true',
             'data'=> base64_encode(serialize($students_have_trainings)),
             'view'=>view('project.monitor_evaluation.ajax.trainingHoursTable',['data'=>$students_have_trainings])->render(),
+            'gender'=>$request->gender,
+            'semester'=>$request->semester,
+            'majorText'=>$majorText
         ]);
 
 
@@ -1136,6 +1166,7 @@ class MonitorEvaluationController extends Controller
     public function studentsCompaniesAjax(Request $request){
         $semester = $request->semester;
         $year = $request->year;
+        $majorText="جميع التخصصات";
 
         $query = User::query();
         if ($request->gender != -1) {
@@ -1143,6 +1174,7 @@ class MonitorEvaluationController extends Controller
         }
         if ($request->major != 0) {
             $query->where('u_major_id', $request->major);
+            $majorText = Major::where('m_id', $request->major)->value('m_name');
         }
         $students = $query->select('u_id');
 
@@ -1176,6 +1208,9 @@ class MonitorEvaluationController extends Controller
             'success'=>'true',
             'data'=> base64_encode(serialize($data)),
             'view'=>view('project.monitor_evaluation.ajax.studentsCompaniesReportTable',['data'=>$data])->render(),
+            'gender'=>$request->gender,
+            'semester'=>$request->semester,
+            'majorText'=>$majorText
         ]);
 
 
@@ -1198,7 +1233,8 @@ class MonitorEvaluationController extends Controller
 
         $pdfData = unserialize(base64_decode($request->test));
 
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.registeredCoursesPDF', ['data'=>$pdfData]);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.registeredCoursesPDF', ['data'=>$pdfData,
+        'semester'=>$request->semesterText, 'title'=>$request->title,'gender'=>$request->genderText]);
 
         return $pdf->stream('registeredCoursesPDF.pdf');
     }
@@ -1207,7 +1243,9 @@ class MonitorEvaluationController extends Controller
 
         $pdfData = unserialize(base64_decode($request->test));
 
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.trainingHoursPDF', ['data'=>$pdfData]);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.trainingHoursPDF', ['data'=>$pdfData,
+        'gender'=>$request->genderText,
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title]);
 
         return $pdf->stream('trainingHoursPDF.pdf');
     }
@@ -1216,7 +1254,9 @@ class MonitorEvaluationController extends Controller
 
         $pdfData = unserialize(base64_decode($request->test));
 
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCompaniesPDF', ['data'=>$pdfData]);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCompaniesPDF', ['data'=>$pdfData,
+        'gender'=>$request->genderText,
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title]);
 
         return $pdf->stream('studentsCompaniesPDF.pdf');
     }

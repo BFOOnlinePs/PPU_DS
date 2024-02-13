@@ -57,6 +57,10 @@
             @csrf
             <div>
             <input hidden id="test" name="test" value="{{base64_encode(serialize($data))}}">
+            <input hidden id="semesterText" name="semesterText" value="{{$semester}}">
+            <input hidden id="companyTypeText" name="companyTypeText" value="{{$companyType}}">
+            <input hidden id="companyCateg" name="companyCateg" value="{{$companyCateg}}">
+            <input hidden id="title" name="title" value="{{$title}}">
             <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-print"></i> </button>
         </div>
         </form>
@@ -246,6 +250,9 @@ window.addEventListener("load", (event) => {
                     document.getElementById('loaderContainer').hidden = true;
                     semester = document.getElementById('semester').value;
                     document.getElementById('test').value = response.data;
+                    document.getElementById('semesterText').value = response.semester;
+                    document.getElementById('companyTypeText').value = response.companyType;
+                    document.getElementById('companyCateg').value = response.companyCateg;
                     // reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}}";
                     reportTitle="";
                     if(semester==0){
