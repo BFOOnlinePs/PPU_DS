@@ -8,7 +8,8 @@ use App\Models\SemesterCourse;
 use App\Models\SystemSetting;
 use App\Models\Registration;
 use App\Models\Course;
-
+use App\Models\Major;
+use App\Models\User;
 
 class RegistrationController extends Controller
 {
@@ -42,23 +43,76 @@ class RegistrationController extends Controller
 
     }
 
-    public function SemesterStudents(){
-
+    public function SemesterStudents()
+    {
         $systemSettings = SystemSetting::first();
-
         $semester = $systemSettings->ss_semester_type;
         $year = $systemSettings->ss_year;
 
+        // To get majors
+        $majors = Major::get();
+        // To get semester courses for this semester
+        $semester_courses = SemesterCourse::where('sc_semester' , $semester)
+        ->where('sc_year' , $year)
+        ->get();
 
+        return view('project.admin.registration.semesterStudents',[
+            'semester_courses'=>$semester_courses ,
+            'majors' => $majors
+        ]);
+    }
+    public function FilterSemesterStudents(Request $request)
+    {
+        // To get all users with filtering
+        $users = User::where('name', 'like', '%' . $request->user_name . '%')
+        ->where('u_role_id' , 2)
+        ->pluck('u_id')
+        ->toArray();
+        if($request->user_gender != null && $request->user_major != null) {
+            $users = User::where('name', 'like', '%' . $request->user_name . '%')
+            ->where('u_gender', $request->user_gender)
+            ->where('u_major_id' , $request->user_major)
+            ->where('u_role_id' , 2)
+            ->pluck('u_id')
+            ->toArray();
+        }
+        else if($request->user_gender != null) {
+            $users = User::where('name', 'like', '%' . $request->user_name . '%')
+            ->where('u_gender', $request->user_gender)
+            ->where('u_role_id' , 2)
+            ->pluck('u_id')
+            ->toArray();
+        }
+        else if($request->user_major != null) {
+            $users = User::where('name', 'like', '%' . $request->user_name . '%')
+            ->where('u_major_id' , $request->user_major)
+            ->where('u_role_id' , 2)
+            ->pluck('u_id')
+            ->toArray();
+        }
+        // To get all users on this semester
+        $systemSettings = SystemSetting::first();
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
         $data = Registration::with('users','courses')
-        ->where('r_year',$year)
-        ->where('r_semester',$semester)
+        ->where('r_year', $year)
+        ->where('r_semester', $semester)
+        ->whereIn('r_student_id' , $users)
         ->select('r_student_id')
         ->distinct()
         ->get();
-
-        return view('project.admin.registration.semesterStudents',['data'=>$data]);
-
+        if($request->user_course != null) {
+            $data = Registration::with('users','courses')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->whereIn('r_student_id' , $users)
+            ->where('r_course_id', $request->user_course)
+            ->select('r_student_id')
+            ->distinct()
+            ->get();
+        }
+        $html = view('project.admin.registration.includes.semesterStudentsList' , ['data' => $data])->render();
+        return response()->json(['html' => $html]);
     }
 
 }

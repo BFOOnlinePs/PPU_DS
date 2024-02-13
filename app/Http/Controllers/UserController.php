@@ -384,6 +384,17 @@ class UserController extends Controller
             return response()->json(['html' => $html , 'modal' => $modal]);
         }
     }
+    public function create_or_update_grade(Request $request)
+    {
+        $registration = Registration::find($request->r_id);
+        $registration->r_grade = $request->r_grade;
+        if($registration->save()) {
+            $data = Registration::where('r_student_id', $registration->r_student_id)->get();
+            return response()->json(['x' => $data]);
+            $html = view('project.admin.users.ajax.coursesList' , ['data' => $data]);
+            return response()->json(['html' => $html]);
+        }
+    }
     public function courses_student($id)
     {
         $user = User::find($id);

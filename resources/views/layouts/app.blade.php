@@ -47,6 +47,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
     <style>
         @font-face {
@@ -67,7 +68,7 @@
         * {
             font-family: 'Tajawal', sans-serif;
         }
-               
+
         /* Add this style to your CSS file or in a style tag in your HTML */
         .left-menu-header {
             display: flex;
@@ -79,7 +80,7 @@
     margin-top:70px !important;
    }
     .nav-link:hover{
-        
+
     background-color: #0c563d !important;
     color: #24695c !important;
 }
@@ -145,6 +146,7 @@ height:16px ;
 
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </script>
     @yield('script')

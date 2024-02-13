@@ -1,19 +1,17 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Integration')}}{{-- دمج البيانات--}}
+    دمج بيانات االشركات
 @endsection
 @section('header_title')
-{{__('translate.Integration')}}{{-- دمج البيانات--}}
+    دمج بيانات الشركات
 @endsection
 @section('header_title_link')
-<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
+    <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('admin.settings')}}">{{__('translate.Settings')}}{{-- إعدادات  --}}</a>
+    <a href="{{route('admin.settings')}}">{{__('translate.Settings')}}{{-- إعدادات  --}}</a>
 @endsection
 @section('style')
-<style>
-</style>
 @endsection
 @section('content')
     <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -66,27 +64,25 @@
                                         {{__('translate.You must upload Excel file contains the following headings')}}{{-- يجب رفع ملف إكسل تحتوي على العناوين التالية --}} :
                                     </li>
                                     <ul style="list-style-type: circle">
-                                        <li>{{__('translate.Year')}}{{-- السنة --}}</li>
-                                        <li>{{__('translate.The semester (1 means first semester, 2 means second semester, 3 means summer semester)')}}{{-- الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي) --}}</li>
-                                        <li>{{__('translate.Student University ID')}}{{-- الرقم الجامعي للطالب --}}</li>
-                                        <li>{{__("translate.Student Name")}}{{-- اسم الطالب --}}</li>
-                                        <li>الجنس (ذكر أو أنثى)</li>
-                                        <li>{{__('translate.Course ID')}}{{-- رقم المساق --}}</li>
-                                        <li>{{__('translate.Course Name')}}{{-- اسم المساق --}}</li>
-                                        <li>{{__('translate.Major ID')}}{{-- رقم التخصص --}}</li>
-                                        <li>{{__("translate.Major Name")}}{{-- اسم التخصص --}}</li>
+                                        <li>اسم الشركة</li>
+                                        <li>اسم الشخص المسؤول</li>
+                                        <li>البريد الإلكتروني</li>
+                                        <li>كلمة المرور</li>
+                                        <li>رقم هاتف الشركة (للفرع الرئيسي)</li>
+                                        <li>عنوان الشركة (للفرع الرئيسي)</li>
+                                        <li>نوع الشركة (قطاع عام / قطاع خاص)</li>
                                     </ul>
                                 </ul>
                             </div>
-                            <a href="{{ asset('storage/excel/samplesData.xlsx') }}" download>{{__('translate.Download Example File')}}{{--تحميل مثال لملف--}}</a>
+                            <a href="{{ asset('storage/excel/BeFoundOnline.xlsx') }}" download>{{__('translate.Download Example File')}}{{--تحميل مثال لملف--}}</a>
                             <br><br>
                             <ul>
                                 <li>
                                     {{__('translate.Example')}}{{-- مثال --}} :
                                     @if (app()->getLocale() == 'en')
-                                        <img src="{{asset('storage/excel/excelEN.PNG')}}" alt="">
+                                        <img src="{{asset('storage/excel/BeFoundOnlineEn.PNG')}}" alt="">
                                     @else
-                                        <img src="{{asset('storage/excel/excelAR.PNG')}}" alt="">
+                                        <img src="{{asset('storage/excel/BeFoundOnlineAr.PNG')}}" alt="">
                                     @endif
                                 </li>
                             </ul>
@@ -101,56 +97,46 @@
                 <div class="row" id="step2">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Year')}}{{-- السنة --}}</label>
-                            <select id="year" name="year"  class="js-example-basic-single col-sm-12">
+                            <label for="f1-last-name">اسم الشركة</label>
+                            <select id="company_name" name="company_name"  class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Student University ID')}}{{-- رقم الطالب الجامعي --}}</label>
-                            <select id="student_id" name="student_id" class="js-example-basic-single col-sm-12">
+                            <label for="f1-last-name">اسم الشخص المسؤول</label>
+                            <select id="manager_name" name="manager_name" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Course ID')}}{{-- رقم المساق --}}</label>
-                            <select id="course_id" name="course_id" class="js-example-basic-single col-sm-12">
+                            <label for="f1-last-name">البريد الإلكتروني</label>
+                            <select id="company_email" name="company_email" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Major ID')}}{{-- رقم التخصص --}}</label>
-                            <select id="major_id" name="major_id" class="js-example-basic-single col-sm-12">
+                            <label for="f1-last-name">كلمة المرور</label>
+                            <select id="company_password" name="company_password" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Semester')}}{{-- الفصل الدراسي--}}</label>
-                            <select id="semester" name="semester" class="js-example-basic-single col-sm-12">
+                            <label for="f1-last-name">رقم هاتف الشركة (للفرع الرئيسي)</label>
+                            <select id="phone_number" name="phone_number" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__("translate.Student Name")}}{{-- اسم الطالب --}}</label>
-                            <select id="student_name" name="student_name" class="js-example-basic-single col-sm-12">
+                            <label for="f1-last-name">عنوان الشركة (للفرع الرئيسي)</label>
+                            <select id="company_address" name="company_address" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">الجنس</label>
-                            <select id="student_gender" name="student_gender" class="js-example-basic-single col-sm-12">
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Course Name')}}{{-- اسم المساق --}}</label>
-                            <select id="course_name" name="course_name" class="js-example-basic-single col-sm-12">
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="f1-last-name">{{__("translate.Major Name")}}{{-- اسم التخصص --}}</label>
-                            <select id="major_name" name="major_name" class="js-example-basic-single col-sm-12">
+                            <label for="f1-last-name">نوع الشركة (قطاع عام / قطاع خاص)</label>
+                            <select id="company_type" name="company_type" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="f1-buttons">
-                    <button class="btn btn-primary btn-next" type="button" onclick="nextStep()">{{__('translate.Next')}}{{-- التالي --}}</button>
+                    <button class="btn btn-primary btn-next" type="button">{{__('translate.Next')}}{{-- التالي --}}</button>
                 </div>
             </fieldset>
             <fieldset>
@@ -176,7 +162,7 @@
             </fieldset>
         </form>
     </div>
-        @include('project.admin.settings.includes.alertToConfirmIntegration')
+        @include('project.admin.settings.integration_company.includes.alertToConfirmIntegration')
     </div>
 @endsection
 @section('script')
@@ -234,24 +220,20 @@
     }
     function submit_form() {
         let data = [];
-        data.push('year');
-        data.push(document.getElementById('year').value);
-        data.push('semester');
-        data.push(document.getElementById('semester').value);
-        data.push('student_id');
-        data.push(document.getElementById('student_id').value);
-        data.push('student_name');
-        data.push(document.getElementById('student_name').value);
-        data.push('student_gender');
-        data.push(document.getElementById('student_gender').value);
-        data.push('course_id');
-        data.push(document.getElementById('course_id').value);
-        data.push('course_name');
-        data.push(document.getElementById('course_name').value);
-        data.push('major_id');
-        data.push(document.getElementById('major_id').value);
-        data.push('major_name');
-        data.push(document.getElementById('major_name').value);
+        data.push('company_name');
+        data.push(document.getElementById('company_name').value);
+        data.push('manager_name');
+        data.push(document.getElementById('manager_name').value);
+        data.push('company_email');
+        data.push(document.getElementById('company_email').value);
+        data.push('company_password');
+        data.push(document.getElementById('company_password').value);
+        data.push('phone_number');
+        data.push(document.getElementById('phone_number').value);
+        data.push('company_address');
+        data.push(document.getElementById('company_address').value);
+        data.push('company_type');
+        data.push(document.getElementById('company_type').value);
         let file = document.getElementById('excel_file').files[0];
         let name_file_hidden = document.getElementById('name_file_hidden').value;
         if (file) {
@@ -264,7 +246,7 @@
                     $('#confirmIntegrationModal').modal('hide');
                     $('#LoadingModal').modal('show');
                 },
-                url: "{{ route('integration.submitForm') }}",
+                url: "{{ route('admin.settings.integration_company.submitForm') }}",
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -276,79 +258,26 @@
                     $('#LoadingModal').modal('hide');
                     const locale = "{{ app()->getLocale() }}";
                     let progress = '';
-                    let courses_array = response.courses_array;
-                    let majors_array = response.majors_array;
-                    let students_numbers = response.students_numbers_array;
-                    let students_names = response.students_names_array;
-                    let registration_array = response.registration_array;
+                    let companies = response.user_object_array;
                     if(locale === 'ar') {
                         document.getElementById("summary").innerHTML = `
                         <div class="alert alert-success">
-                        تم إضافة عدد ${response.user_object} من الطلاب
-                        </div>
-                        <div class="alert alert-success">
-                            تم إضافة عدد ${response.course_object} من المساقات
-                        </div>
-                        <div class="alert alert-success">
-                            تم إضافة عدد ${response.major_object} من التخصصات
-                        </div>
-                        <div class="alert alert-success">
-                            تم تسجيل ${response.registration_object} من الطلاب
+                        تم إضافة أو تعديل عدد ${response.cnt} من الشركات
                         </div>
                         `;
-                        for(let i = 0; i < courses_array.length; i += 2) {
-                            progress += `<p>تم تسجيل مساق ${courses_array[i + 1]} ، رقمه ${courses_array[i]}</p>`;
-                        }
-                        for(let i = 0; i < majors_array.length; i += 2) {
-                            progress += `<p>تم تسجيل تخصص ${majors_array[i + 1]} ، رقمه ${majors_array[i]}</p>`;
-                        }
-                        for(let i = 0; i < students_numbers.length; i++) {
-                            progress += `<p>تم إضافة طالب اسمه ${students_names[i]} ، و رقمه الجامعي هو ${students_numbers[i]}</p>`;
-                        }
-                        for(let i = 0; i < registration_array.length; i += 5) {
-                            let semester = `الصيفي`;
-                            if(registration_array[i + 3] == 1) {
-                                semester = `الأول`;
-                            }
-                            else if(registration_array[i + 3] == 2) {
-                                semester = `الثاني`;
-                            }
-                            progress += `<p>تم تسجيل الطالب ${registration_array[i]} الّذي يحمل الرقم الجامعي ${registration_array[i + 1]} ، في مساق ${registration_array[i + 2]} لسنة ${registration_array[i + 4]} في الفصل ${semester}</p>`;
+                        for(let i = 0; i < companies.length; i += 2) {
+                            progress += `<p>تم إضافة أو تعديل شركة (${companies[i]}) وإضافة أو تعديل المدير (${companies[i + 1]}) </p>`;
                         }
                         document.getElementById('progress').innerHTML = progress;
                     }
                     else {
                         document.getElementById("summary").innerHTML = `
                         <div class="alert alert-success">
-                            Added ${response.user_object} students
-                        </div>
-                        <div class="alert alert-success">
-                            Added ${response.course_object} courses
-                        </div>
-                        <div class="alert alert-success">
-                            Added ${response.major_object} majors
-                        </div>
-                        <div class="alert alert-success">
-                            Registered ${response.registration_object} students
+                            A total of ${response.cnt} companies have been added or modified
                         </div>
                         `;
-                        for (let i = 0; i < courses_array.length; i += 2) {
-                            progress += `<p>A course with number ${courses_array[i]} titled ${courses_array[i + 1]} has been registered.</p>`;
-                        }
-                        for (let i = 0; i < majors_array.length; i += 2) {
-                            progress += `<p>A major with number ${majors_array[i]} titled ${majors_array[i + 1]} has been registered.</p>`;
-                        }
-                        for (let i = 0; i < students_numbers.length; i++) {
-                            progress += `<p>A student named ${students_names[i]} with university ID ${students_numbers[i]} has been added.</p>`;
-                        }
-                        for (let i = 0; i < registration_array.length; i += 5) {
-                            let semester = `Summer`;
-                            if (registration_array[i + 3] == 1) {
-                                semester = `First`;
-                            } else if (registration_array[i + 3] == 2) {
-                                semester = `Second`;
-                            }
-                            progress += `<p>Student ${registration_array[i]} with university ID ${registration_array[i + 1]} has been registered in course ${registration_array[i + 2]} for the year ${registration_array[i + 4]} in the ${semester} semester.</p>`;
+                        for(let i = 0; i < companies.length; i += 2) {
+                            progress += `<p>A company named ${companies[i]} has been added or modified, as well as the manager ${companies[i + 1]}</p>`;
                         }
                         document.getElementById('progress').innerHTML = progress;
                     }
@@ -360,6 +289,8 @@
         }
 
     }
+
+    // Done
     function create_options(headers , id) {
         let selectOptions = document.getElementById(id) , cnt = 0;
         selectOptions.innerHTML = '';
@@ -374,6 +305,8 @@
             selectOptions.appendChild(option);
         });
     }
+
+    // Done
     function upload_excel_file(input) {
         let file = input.files[0];
         let nextButton = document.getElementById('next1');
@@ -383,7 +316,7 @@
             $(`#progress-container`).show();
             // Make an AJAX request to submit the file
             $.ajax({
-                url: "{{ route('integration.uploadFileExcel') }}",
+                url: "{{ route('admin.settings.integration_company.uploadFileExcel') }}",
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -419,15 +352,13 @@
                     $(`#progress-container`).hide();
                     document.getElementById('name_file_hidden').value = response.name_file_hidden;
                     let headers = response.headers;
-                    create_options(headers , 'year');
-                    create_options(headers , 'semester');
-                    create_options(headers , 'student_id');
-                    create_options(headers , 'student_name');
-                    create_options(headers , 'student_gender');
-                    create_options(headers , 'course_id');
-                    create_options(headers , 'course_name');
-                    create_options(headers , 'major_id');
-                    create_options(headers , 'major_name');
+                    create_options(headers , 'company_name');
+                    create_options(headers , 'manager_name');
+                    create_options(headers , 'company_email');
+                    create_options(headers , 'company_password');
+                    create_options(headers , 'phone_number');
+                    create_options(headers , 'company_address');
+                    create_options(headers , 'company_type');
                 },
                 error: function (error) {
                     $('#progress-container').hide();
