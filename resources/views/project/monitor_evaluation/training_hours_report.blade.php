@@ -148,6 +148,14 @@
                             @endforeach
                         @endif
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>إجمالي ساعات التدريب</td>
+                            <td>
+                                {{$totalHours}}{{--ساعات--}}{{__('translate.Hours')}} ، {{$totalMinutes}}{{--دقائق--}} {{__('translate.Minutes')}}
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
