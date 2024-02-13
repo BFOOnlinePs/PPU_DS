@@ -7,6 +7,7 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\Compan
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\SemesterReportController;
 use App\Http\Controllers\apisControllers\program_coordinator\majors\ProgramCoordinatorMajorsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoordinatorStudentsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
@@ -179,6 +180,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('addNewCompanyBranch', [editCompanyController::class, 'addNewCompanyBranch']);
     Route::post('editCompanyBranch', [editCompanyController::class, 'editCompanyBranch']);
 
+    // Monitoring and Evaluation Officer
+    Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
