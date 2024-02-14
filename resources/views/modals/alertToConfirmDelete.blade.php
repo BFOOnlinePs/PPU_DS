@@ -2,13 +2,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel-deactive">تأكيد حذف الحدث</h5>
+                <h5 class="modal-title" id="exampleModalLabel-deactive">{{__('translate.Confirm event deletion')}}{{-- تأكيد حذف الحدث --}}</h5>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="e_id">
                 <br>
-                <h6>هل أنت متأكد من حذف الحدث؟</h6>
+                <h6>{{__('translate.Are you sure you want to delete the event?')}}{{-- هل أنت متأكد من حذف الحدث؟ --}}</h6>
                 <br>
             </div>
             <div class="modal-footer">
