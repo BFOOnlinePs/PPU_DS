@@ -18,11 +18,9 @@
     @section('content')
         <div class="card">
             <div class="card-body">
-                <button class="btn btn-primary" onclick="show_add_event_modal()">إضافة حدث</button><br><br>
+                <button class="btn btn-primary" onclick="show_add_event_modal()">{{__('translate.Add event')}}{{-- إضافة حدث --}}</button><br><br>
                 <div id="calendar">
-
                 </div>
-
                 @include('modals.addEvent')
                 @include('modals.showEvent')
                 @include('modals.alertToConfirmDelete')
@@ -37,11 +35,11 @@
             let select = document.getElementById('e_type');
             select.innerHTML = '';
             let array_types = [
-                "الجميع",
-                "طلاب تخصص معين",
-                "طلاب مساق معين",
-                "متدربين شركة معينة",
-                "لكل المشرفين الأكادميين"
+                `{{__('translate.Everyone')}}`, // الجميع
+                `{{__('translate.Students of a specific major')}}`, // طلاب تخصص معين
+                `{{__('translate.Students of a specific course')}}`,//طلاب مساق معين
+                `{{__('translate.Trainees of a specific company')}}`,// متدربين شركة معينة
+                `{{__('translate.For all academic supervisors')}}`,//لكل المشرفين الأكادميين
             ];
             for(let i = 0; i < array_types.length; i++) {
                 let option = document.createElement('option');
@@ -83,14 +81,13 @@
                     'e_end_date' : e_end_date
                 },
                 success: function(response) {
-                    toastr.success(`تم تعديل معلومات الحدث بنجاح`);
+                    toastr.success(`{{__('translate.The event information has been successfully updated')}}`); // تم تعديل معلومات الحدث بنجاح
                     $('#LoadingModal').modal('hide');
                     display_events();
                     clear_function();
                 },
                 error: function(jqXHR) {
                     $('#LoadingModal').modal('hide');
-                    // alert(jqXHR.textContent);
                 }
             });
         }
@@ -108,11 +105,10 @@
                 success: function(response) {
                     $('#confirmDeleteEvent').modal('hide');
                     display_events();
-                    toastr.success(`تم حذف الحدث بنجاح`);
+                    toastr.success(`{{__('translate.The event has been successfully deleted')}}`); // تم حذف الحدث بنجاح
                     clear_function();
                 },
                 error: function(jqXHR) {
-                    // alert(jqXHR.textContent);
                 }
             });
         }
@@ -140,7 +136,6 @@
                 document.getElementById(id).innerHTML = "";
                 document.getElementById(id).disabled = true;
             }
-
         }
         function ajax_to_get_courses(id)
         {
@@ -151,7 +146,6 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-
                 },
                 success: function(response) {
                     let e_id_type = document.getElementById(id);
@@ -177,7 +171,6 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-
                 },
                 success: function(response) {
                     let e_id_type = document.getElementById(id);
@@ -203,7 +196,6 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-
                 },
                 success: function(response) {
                     let e_id_type = document.getElementById(id);
@@ -237,26 +229,26 @@
                     document.getElementById('show_e_description').value = response.event.e_description;
                     let e_type;
                     if(response.event.e_type === 0) {
-                        e_type = `الجميع`;
+                        e_type = `{{__('translate.Everyone')}}`; // الجميع
                     }
                     else if(response.event.e_type === 1) {
-                        e_type = `طلاب تخصص معين`;
+                        e_type = `{{__('translate.Students of a specific major')}}`; // طلاب تخصص معين
                     }
                     else if(response.event.e_type === 2) {
-                        e_type = `طلاب مساق معين`;
+                        e_type = `{{__('translate.Students of a specific course')}}`; // طلاب مساق معين
                     }
                     else if(response.event.e_type === 3) {
-                        e_type = `متدربين شركة معينة`;
+                        e_type = `{{__('translate.Trainees of a specific company')}}`; // متدربين شركة معينة
                     }
                     else if(response.event.e_type === 4) {
-                        e_type = `لكل المشرفين الأكادميين`;
+                        e_type = `{{__('translate.For all academic supervisors')}}`; // لكل المشرفين الأكادميين
                     }
                     let array_types = [
-                        "الجميع",
-                        "طلاب تخصص معين",
-                        "طلاب مساق معين",
-                        "متدربين شركة معينة",
-                        "لكل المشرفين الأكادميين"
+                        `{{__('translate.Everyone')}}`, // الجميع
+                        `{{__('translate.Students of a specific major')}}`, // طلاب تخصص معين
+                        `{{__('translate.Students of a specific course')}}`,//طلاب مساق معين
+                        `{{__('translate.Trainees of a specific company')}}`,// متدربين شركة معينة
+                        `{{__('translate.For all academic supervisors')}}`,//لكل المشرفين الأكادميين
                     ];
                     let select = document.getElementById('show_e_type');
                     select.innerHTML = '';
@@ -274,7 +266,7 @@
                     }
                     let select_type_name = document.getElementById('show_e_id_type');
                     select_type_name.innerHTML = '';
-                    if(response.event_name_type !== null && e_type === `طلاب مساق معين`) {
+                    if(response.event_name_type !== null && e_type === `{{__('translate.Students of a specific course')}}`) { // طلاب مساق معين
                         document.getElementById('show_e_id_type').disabled = false;
                         let option = document.createElement('option');
                         option.value = response.event_id_type;
@@ -287,7 +279,7 @@
                             select_type_name.appendChild(option);
                         }
                     }
-                    else if(response.event_name_type !== null && e_type == `طلاب تخصص معين`) {
+                    else if(response.event_name_type !== null && e_type == `{{__('translate.Students of a specific major')}}`) { // طلاب تخصص معين
                         document.getElementById('show_e_id_type').disabled = false;
                         let option = document.createElement('option');
                         option.value = response.event_id_type;
@@ -300,7 +292,7 @@
                             select_type_name.appendChild(option);
                         }
                     }
-                    else if(response.event_name_type !== null && e_type == `متدربين شركة معينة`) {
+                    else if(response.event_name_type !== null && e_type == `{{__('translate.Trainees of a specific company')}}`) { // متدربين شركة معينة
                         document.getElementById('show_e_id_type').disabled = false;
                         let option = document.createElement('option');
                         option.value = response.event_id_type;
@@ -321,7 +313,6 @@
                     $('#ShowEventModal').modal('show');
                 },
                 error: function(jqXHR) {
-                    // alert(jqXHR.textContent);
                 }
             });
         }
@@ -358,7 +349,7 @@
                     'e_end_date' : e_end_date
                 },
                 success: function(response) {
-                    toastr.success(`تم إضافة الحدث بنجاح`);
+                    toastr.success(`{{__('translate.The event has been successfully added')}}`); // تم إضافة الحدث بنجاح
                     $('#LoadingModal').modal('hide');
                     $('#AddEventModal').modal('hide');
                     display_events();
@@ -380,7 +371,6 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-
                 },
                 success: function(response) {
                     events = response.events;
@@ -394,10 +384,7 @@
                             ajax_to_get_event_information(info.event.id);
                         } ,
                         dateClick: function(info) {
-                            // Show add event modal or perform any action to add an event
-                            // For demonstration purposes, let's show an alert with the clicked date
                             var clickedDate = info.date;
-                            // alert('Clicked date: ' + clickedDate.toLocaleString());
                         }
                     });
                     calendar.render();
@@ -417,8 +404,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-8">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
                         <div id="calendar">
                         </div>
                         @include('modals.showEventForAll')
@@ -446,19 +433,19 @@
                     document.getElementById('show_e_description_for_all').value = response.event.e_description;
                     let e_type;
                     if(response.event.e_type === 0) {
-                        e_type = `الجميع`;
+                        e_type = `{{__('translate.Everyone')}}`; // الجميع
                     }
                     else if(response.event.e_type === 1) {
-                        e_type = `طلاب تخصص معين`;
+                        e_type = `{{__('translate.Students of a specific major')}}`; // طلاب تخصص معين
                     }
                     else if(response.event.e_type === 2) {
-                        e_type = `طلاب مساق معين`;
+                        e_type = `{{__('translate.Students of a specific course')}}`; // طلاب مساق معين
                     }
                     else if(response.event.e_type === 3) {
-                        e_type = `متدربين شركة معينة`;
+                        e_type = `{{__('translate.Trainees of a specific company')}}`; // متدربين شركة معينة
                     }
                     else if(response.event.e_type === 4) {
-                        e_type = `لكل المشرفين الأكادميين`;
+                        e_type = `{{__('translate.For all academic supervisors')}}`; // لكل المشرفين الأكادميين
                     }
                     document.getElementById('show_e_type_for_all').value = e_type;
                     document.getElementById('show_e_id_type_for_all').value = response.event_name_type;
@@ -467,7 +454,6 @@
                     $('#ShowEventModalForAll').modal('show');
                 },
                 error: function(jqXHR) {
-                    // alert(jqXHR.textContent);
                 }
             });
         }
@@ -481,7 +467,6 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-
                 },
                 success: function(response) {
                     events = response.events;
