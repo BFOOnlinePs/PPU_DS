@@ -13,11 +13,14 @@ use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoo
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\editCompanyController;
+use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
+use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
@@ -176,12 +179,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getCompanyDepartments', [editCompanyController::class, 'getCompanyDepartments']);
     Route::post('addNewCompanyDepartment', [editCompanyController::class, 'addNewCompanyDepartment']);
     Route::post('editCompanyDepartmentName', [editCompanyController::class, 'editCompanyDepartmentName']);
-    Route::post('getCompanyBranches', [editCompanyController::class, 'getCompanyBranches']);
+    Route::post('getCompanyBranches', [editCompanyController::class, 'getCompanyBranches']); // + i use it with semester report
     Route::post('addNewCompanyBranch', [editCompanyController::class, 'addNewCompanyBranch']);
     Route::post('editCompanyBranch', [editCompanyController::class, 'editCompanyBranch']);
 
     // Monitoring and Evaluation Officer
     Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
+
+    // system
+    Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
+    Route::get('getCurrentYearAndSemester', [CurrentYearAndSemesterController::class, 'getCurrentYearAndSemester']);
+
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
