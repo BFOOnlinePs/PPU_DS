@@ -140,6 +140,7 @@
                             <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
 
                             <th scope="col">{{__('translate.Total Students')}}{{-- إجمالي الطلاب--}} </th>
+                            <th scope="col">استعراض الطلاب </th>
 
 
                         </tr>
@@ -160,6 +161,10 @@
                                 @if( $key->c_type == 2) <td>{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
                                 <td>
                                   {{$key->studentsTotal}}
+                                </td>
+                                <td>
+                                    {{-- <button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.companyStudentsReport")}}"'><i class="fa fa-search"></i></button> --}}
+                                    <button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.companyStudentsReport",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
                                 </td>
                             </tr>
                         @endforeach

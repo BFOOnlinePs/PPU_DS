@@ -207,6 +207,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/registeredCoursesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'registeredCoursesPDF'])->name('monitor_evaluation.registeredCoursesPDF');
         Route::post('/trainingHoursPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'trainingHoursPDF'])->name('monitor_evaluation.trainingHoursPDF');
         Route::post('/studentsCompaniesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesPDF'])->name('monitor_evaluation.studentsCompaniesPDF');
+        Route::get('/companyStudents/{id}',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class,'companyStudents'])->name('monitor_evaluation.companyStudentsReport');
+        Route::post('/companyStudentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyStudentsReportSearch'])->name('monitor_evaluation.companyStudentsReportSearch');
 
     });
 

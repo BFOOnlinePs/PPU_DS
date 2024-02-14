@@ -1283,4 +1283,104 @@ class MonitorEvaluationController extends Controller
         return $pdf->stream('studentsCompaniesPDF.pdf');
     }
 
+
+    //details
+    public function companyStudents($id){
+
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+
+        // $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $majors = Major::get();
+
+        $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $major = $key->users->u_major_id;
+            $majorText = Major::where('m_id', $major)->value('m_name');
+            $key->major = $majorText;
+        }
+        // return $data;
+
+        $companyName = Company::where('c_id', $id)->value('c_name');
+
+        return view('project.monitor_evaluation.companyStudents',['data'=>$data,'semester'=>$semester,
+        'majors'=>$majors, 'company_name'=>$companyName]);
+    }
+
+    public function companyStudentsReportSearch(Request $request){
+
+
+        $semester = $request->semester;
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != -1) {
+            $query->where('u_major_id', $request->major);
+        }
+        $students = $query->select('u_id');
+
+
+        if($semester==0){
+            $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+            ->whereIn('sc_registration_id', function ($query) use ($semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->distinct();
+            })
+            ->whereIn('sc_student_id',$students)
+            ->groupBy('sc_student_id')->get();
+        }else{
+            $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+            ->whereIn('sc_registration_id', function ($query) use ($semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->whereIn('sc_student_id',$students)
+            ->groupBy('sc_student_id')->get();
+        }
+
+        // $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        // ->whereIn('sc_registration_id', function ($query) use ($semester) {
+        //     $query->select('r_id')
+        //     ->from('registration')
+        //     ->where('r_year', $year)
+        //     ->where('r_semester', $semester)
+        //     ->distinct();
+        // })
+        // ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $major = $key->users->u_major_id;
+            $majorText = Major::where('m_id', $major)->value('m_name');
+            $key->major = $majorText;
+        }
+        // return $data;
+
+        // $companyName = Company::where('c_id', $id)->value('c_name');
+
+        // return view('project.monitor_evaluation.companyStudents',['data'=>$data,'semester'=>$semester,
+        // 'majors'=>$majors, 'company_name'=>$companyName]);
+
+        return response()->json([
+            'success'=>'true',
+            'view'=>view('project.monitor_evaluation.ajax.companyStudentsTable',['data'=>$data])->render()
+        ]);
+    }
+
 }
