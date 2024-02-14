@@ -87,7 +87,7 @@ class SemesterReportController extends Controller
         }
 
 
-        $studentsCompanies = $studentsCompanies->unique('sc_company_id')->values();
+        $studentsCompanies = $studentsCompanies->unique('sc_company_id')->values()->count();
         // $studentsCompanies = StudentCompany::select('sc_company_id')->groupBy('sc_company_id')->get();
         return $studentsCompanies;
     }
