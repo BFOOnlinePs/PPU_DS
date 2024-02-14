@@ -38,25 +38,27 @@
         <div class="col-xl-9">
           <form class="card">
             <div class="card-header pb-0">
-              {{-- <h4 class="card-title mb-0">Edit Profile</h4> --}}
-              <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+                {{-- <h4 class="card-title mb-0">Edit Profile</h4> --}}
+                <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
             </div>
             <div class="card-body">
-              <div class="row">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <button class="btn btn-primary btn-sm" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Enroll student in a course')}} {{-- تسجيل مساق للطالب --}}</button>
                         </div>
                     </div>
-              </div>
-              <div class="row" id="content">
+                </div>
+                <div id="alert" class="row"></div>
+                <div class="row" id="content">
                 @include('project.admin.users.ajax.coursesList')
-              </div>
             </div>
-          </form>
         </div>
-      </div>
-    </div>
+    </form>
+</div>
+</div>
+</div>
+
     <div id="add_courses_student">
         @include('project.admin.users.modals.add_courses_student')
     </div>
@@ -67,6 +69,35 @@
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     <script>
+        function save_grade(r_id , r_student_id , r_grade)
+        {
+            $.ajax({
+                url: "{{route('admin.users.courses.student.create_or_update_grade')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'r_id' : r_id ,
+                    'r_student_id' : r_student_id ,
+                    'r_grade' : r_grade
+                },
+                success: function(response) {
+                    $('#alert').html(`
+                        <div class="alert alert-success">
+                            تم إضافة درجة للمساق المسجل
+                        </div>
+                    `);
+                    setTimeout(function() {
+                        $('#alert').empty(); // Remove the content of the #alert element
+                    }, 5 * 1000); // 5 seconds
+                    $('#content').html(response.html);
+                },
+                error: function(jqXHR) {
+
+                }
+            });
+        }
         function delete_course_for_student(c_id) {
             u_id = document.getElementById('u_id').value;
             $.ajax({

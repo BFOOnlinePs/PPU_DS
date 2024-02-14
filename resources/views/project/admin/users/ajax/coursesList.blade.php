@@ -2,13 +2,14 @@
     <thead>
         <tr>
             <th>{{__('translate.Course Name')}} {{-- اسم المساق --}}</th>
+            <th>الدرجة</th>
             <th>{{__('translate.Operations')}} {{--  العمليات --}}</th>
         </tr>
     </thead>
     <tbody>
     @if ($data->isEmpty())
         <tr>
-            <td colspan="2" class="text-center"><span>{{__('translate.No courses are currently enrolled')}}{{-- لا يوجد مساقات مسجلة --}}</span></td>
+            <td colspan="3" class="text-center"><span>{{__('translate.No courses are currently enrolled')}}{{-- لا يوجد مساقات مسجلة --}}</span></td>
         </tr>
     @else
         @foreach($data as $registration)
@@ -18,8 +19,15 @@
                 @else
                     <td>{{$registration->courses->c_name}}</td>
                 @endif
-
-                <td><button class="btn btn-danger" onclick="delete_course_for_student({{$registration->r_course_id}})" type="button"><span class="fa fa-trash"></span></button></td>
+                <td>
+                    <input class="form-control btn-square w-50" type="number" oninput="save_grade({{$registration->r_id}} , {{$registration->r_student_id}} , this.value)" value="{{$registration->r_grade}}">
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="delete_course_for_student({{$registration->r_course_id}})" type="button">
+                        <span class="fa fa-trash">
+                        </span>
+                    </button>
+                </td>
             </tr>
         @endforeach
         @endif

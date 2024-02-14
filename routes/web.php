@@ -13,7 +13,9 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/test' , function(){
+    return view('test');
+});
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('home');
@@ -36,12 +38,32 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::group(['prefix'=>'project'],function(){
+        Route::group(['prefix'=>'allUsersWithoutAdmin'],function(){
+            Route::group(['prefix'=>'calendar'],function(){
+                Route::post('/display_events',[App\Http\Controllers\project\allUsersWithoutAdmin\CalendarController::class,'display_events'])->name('allUsersWithoutAdmin.calendar.display_events');
+                Route::post('/show_event_information',[App\Http\Controllers\project\allUsersWithoutAdmin\CalendarController::class,'show_event_information'])->name('allUsersWithoutAdmin.calendar.show_event_information');
+            });
+        });
     Route::group(['prefix'=>'admin'],function(){
+        Route::group(['prefix'=>'calendar'],function(){
+            Route::group(['prefix'=>'ajax'],function(){
+                Route::post('/ajax_to_get_courses',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_courses'])->name('admin.calendar.ajax.ajax_to_get_courses');
+                Route::post('/ajax_to_get_majors',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_majors'])->name('admin.calendar.ajax.ajax_to_get_majors');
+                Route::post('/ajax_to_get_companies',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_companies'])->name('admin.calendar.ajax.ajax_to_get_companies');
+                Route::post('/show_event_information',[App\Http\Controllers\project\admin\CalendarController::class,'show_event_information'])->name('admin.calendar.ajax.show_event_information');
+                Route::post('/delete_event',[App\Http\Controllers\project\admin\CalendarController::class,'delete_event'])->name('admin.calendar.ajax.delete_event');
+                Route::post('/edit_event',[App\Http\Controllers\project\admin\CalendarController::class,'edit_event'])->name('admin.calendar.ajax.edit_event');
+            });
+            Route::post('/create_event',[App\Http\Controllers\project\admin\CalendarController::class,'create_event'])->name('admin.calendar.create_event');
+            Route::post('/display_events',[App\Http\Controllers\project\admin\CalendarController::class,'display_events'])->name('admin.calendar.display_events');
+        });
+
 
         Route::group(['prefix'=>'registration'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\RegistrationController::class,'index'])->name('admin.registration.index');
             Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
+            Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
         });
 
 
@@ -73,6 +95,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/details/{id}' , [App\Http\Controllers\UserController::class, 'details'])->name('admin.users.details');
             Route::get('/courses/student/{id}' , [App\Http\Controllers\UserController::class, 'courses_student'])->name('admin.users.courses.student');
             Route::post('/courses/student/add' , [App\Http\Controllers\UserController::class, 'courses_student_add'])->name('admin.users.courses.student.add');
+            Route::post('/courses/student/create_or_update_grade' , [App\Http\Controllers\UserController::class, 'create_or_update_grade'])->name('admin.users.courses.student.create_or_update_grade');
             Route::get('/places/training/{id}' , [App\Http\Controllers\UserController::class, 'places_training'])->name('admin.users.places.training');
             Route::post('/courses/student/delete' , [App\Http\Controllers\UserController::class, 'courses_student_delete'])->name('admin.users.courses.student.delete');
             Route::post('/places/training/branches' , [App\Http\Controllers\UserController::class, 'places_training_branches'])->name('admin.users.places.training.branches');
@@ -156,6 +179,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\SettingsController::class,'uploadFileExcel'])->name('integration.uploadFileExcel');
             Route::post('/validateStepOne',[App\Http\Controllers\project\settings\SettingsController::class,'validateStepOne'])->name('integration.validateStepOne');
             Route::post('/submitForm',[App\Http\Controllers\project\settings\SettingsController::class,'submitForm'])->name('integration.submitForm');
+
+            Route::group(['prefix'=>'integration_company'],function(){
+                Route::get('/index',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'index'])->name('admin.settings.integration_company.index');
+                Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'uploadFileExcel'])->name('admin.settings.integration_company.uploadFileExcel');
+                Route::post('/submitForm',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'submitForm'])->name('admin.settings.integration_company.submitForm');
+            });
 
             Route::get('/systemSettings',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettings'])->name('admin.settings.systemSettings');
             Route::post('/systemSettingsUpdate',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettingsUpdate'])->name('admin.settings.systemSettingsUpdate');
