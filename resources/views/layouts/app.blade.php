@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,6 +48,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         @font-face {
             font-family: 'Tajawal';
@@ -77,7 +81,7 @@
         }
    .page-body{
 
-    margin-top:70px !important;
+    margin-top:90px !important;
    }
     .nav-link:hover{
 
@@ -102,6 +106,7 @@ height:16px ;
             <div class="loader-p"></div>
         </div>
     </div>
+    
     <!-- Loader ends-->
     <!-- page-wrapper Start-->
     <div class="page-wrapper  horizontal-wrapper  normal-sidebar" id="pageWrapper">
@@ -148,7 +153,7 @@ height:16px ;
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-</script>
+
     @yield('script')
 </body>
 </html>

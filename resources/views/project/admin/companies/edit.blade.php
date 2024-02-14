@@ -335,6 +335,7 @@
 </div>
     <div class="row" id="companyBranches">
     <input hidden id="branches" name="branches" value="{{$company->companyBranch}}">
+    <input id="companyDepartments1" name="companyDepartments1" value="{{$companyDepartments}}" hidden>
 
             @foreach($company->companyBranch as $key)
 
@@ -393,24 +394,12 @@
   </form>
                           </div>
                         </div>
-
                     </div>
-
-
-
             @endforeach
      </div>
 
 
 
-                <div id="branches">
-
-                </div>
-
-
-
-
-
     </div>
     </div>
 
@@ -419,8 +408,7 @@
 
 
 
-    <!-- </div>
-    </div> -->
+   
 
 
     @include('project.admin.companies.modals.uncompletedCompanyModal')
@@ -720,7 +708,20 @@ function branch(){
 }
 function addBranch(){
 
+
+
          $('#AddBranchModal').modal('show');
+        var multiselect = document.getElementById('departments_ajax');
+       $(multiselect).empty();
+        console.log("hihi")
+        console.log(multiselect)
+        var options = JSON.parse(document.getElementById('companyDepartments1').value);
+         for (var r = 0; r < options.length; r++) {
+                    var option = document.createElement("option");
+                    option.text = options[r].d_name;
+                    option.value = r;
+                    multiselect.add(option);
+         }
 
 }
 

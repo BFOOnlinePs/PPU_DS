@@ -224,6 +224,21 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/companiesPaymentsSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesPaymentsSearch'])->name('monitor_evaluation.companiesPaymentsSearch');
         Route::get('/paymentsReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'paymentsReport'])->name('monitor_evaluation.paymentsReport');
         Route::post('/paymentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'paymentsReportSearch'])->name('monitor_evaluation.paymentsReportSearch');
+        Route::get('/students_courses_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'students_courses_report'])->name('monitor_evaluation.students_courses_report');
+        Route::get('/courses_registered_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'courses_registered_report'])->name('monitor_evaluation.courses_registered_report');
+        Route::get('/training_hours_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'training_hours_report'])->name('monitor_evaluation.training_hours_report');
+        Route::get('/students_companies_report' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'students_companies_report'])->name('monitor_evaluation.students_companies_report');
+        Route::post('/studentsCoursesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCoursesAjax'])->name('monitor_evaluation.studentsCoursesAjax');
+        Route::post('/registeredCoursesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'registeredCoursesAjax'])->name('monitor_evaluation.registeredCoursesAjax');
+        Route::post('/trainingHoursAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'trainingHoursAjax'])->name('monitor_evaluation.trainingHoursAjax');
+        Route::post('/studentsCompaniesAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesAjax'])->name('monitor_evaluation.studentsCompaniesAjax');
+        Route::post('/studentsCoursesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCoursesPDF'])->name('monitor_evaluation.studentsCoursesPDF');
+        Route::post('/registeredCoursesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'registeredCoursesPDF'])->name('monitor_evaluation.registeredCoursesPDF');
+        Route::post('/trainingHoursPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'trainingHoursPDF'])->name('monitor_evaluation.trainingHoursPDF');
+        Route::post('/studentsCompaniesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesPDF'])->name('monitor_evaluation.studentsCompaniesPDF');
+        Route::get('/companyStudents/{id}',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class,'companyStudents'])->name('monitor_evaluation.companyStudentsReport');
+        Route::post('/companyStudentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyStudentsReportSearch'])->name('monitor_evaluation.companyStudentsReportSearch');
+
     });
 
     Route::group(['prefix' => 'company_manager'], function () {

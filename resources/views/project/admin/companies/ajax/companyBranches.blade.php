@@ -1,5 +1,6 @@
 <div class="row" id="companyBranches">
-   
+<input hidden id="branches" name="branches" value="{{$company->companyBranch}}">
+<input id="companyDepartments1" name="companyDepartments1" value="{{$companyDepartments}}" hidden>
 @foreach($company->companyBranch as $key)
 
 
@@ -63,8 +64,12 @@
 
 
 @endforeach
+
+
      </div>
 
 
 <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+
+

@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
     <head>
@@ -61,10 +62,8 @@
                         <span>الفصل الدراسي الأول</span>
                     @elseif ($semester == 2)
                         <span>الفصل الدراسي الثاني</span>
-                    @elseif ($semester == 3)
+                    @else
                         <span>الفصل الدراسي الصيفي</span>
-                        @else
-                        <span>جميع الفصول</span>
                     @endif
                 </td>
                 {{-- <td><button class="btn btn-primary"> استعراض</button></td> --}}
@@ -88,18 +87,18 @@
         <table class="table">
             <tbody>
                 <tr style="background-color: rgba(185, 178, 178, 0.188)">
-                    <td class="td"><b>نوع الشركة</b></td>
+                    <td class="td"><b>الجنس</b></td>
                     <td class="td">
-                      @if ($companyType == 1)
-                          <span>عام</span>
-                      @elseif ($companyType == 2)
-                          <span>خاص</span>
+                      @if ($gender == 1)
+                          <span>إناث</span>
+                      @elseif ($gender == 0)
+                          <span>ذكور</span>
                       @else
-                          <span>{{$companyType}}</span>
+                          <span>الجميع</span>
                       @endif
                   </td>
-                  <td class="td"><b>تصنيف الشركة</b></td>
-                  <td class="td">{{$companyCateg}}</td>
+                  <td class="td"><b>التخصص</b></td>
+                  <td class="td">{{$majorText}}</td>
                 </tr>
             </tbody>
         </table>
@@ -111,11 +110,9 @@
             <table class="table">
                 <thead>
                     <tr  class="td">
-                        <th class="td" scope="col">{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Total Students')}}{{-- إجمالي الطلاب--}} </th>
+                        <th class="td" scope="col">رقم الطالب</th>
+                        <th class="td" scope="col">اسم الطالب</th>
+                        <th class="td" scope="col">إجمالي أماكن التدريب</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -126,14 +123,9 @@
                 @else
                     @foreach ($data as $key)
                     <tr>
-                        <td class="td">{{ $key->c_name }}</td>
-                        <td class="td">{{ $key->manager->name }}</td>
-                        <td class="td">{{ $key->companyCategories->cc_name}}</td>
-                        @if( $key->c_type == 1) <td class="td">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
-                        @if( $key->c_type == 2) <td class="td">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
-                        <td class="td">
-                          {{$key->studentsTotal}}
-                        </td>
+                        <td class="td">{{ $key->users->u_username }}</td>
+                        <td class="td">{{ $key->users->name }}</td>
+                        <td class="td">{{ $key->companiesNum }}</td>
                     </tr>
                     @endforeach
                 @endif
@@ -160,6 +152,5 @@
 
 </html>
 {{-- @endsection --}}
-
 
 

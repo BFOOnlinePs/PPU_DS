@@ -62,5 +62,8 @@ class StudentCompany extends Model
         return $this->hasMany(Registration::class, 'r_id', 'sc_registration_id');
     }
 
-
+    public function registration()
+    {
+        return $this->hasOne(Registration::class, 'r_id', 'sc_registration_id');
+    }
 }

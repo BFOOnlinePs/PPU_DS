@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
     <head>
@@ -61,10 +59,8 @@
                         <span>الفصل الدراسي الأول</span>
                     @elseif ($semester == 2)
                         <span>الفصل الدراسي الثاني</span>
-                    @elseif ($semester == 3)
+                    @else
                         <span>الفصل الدراسي الصيفي</span>
-                        @else
-                        <span>جميع الفصول</span>
                     @endif
                 </td>
                 {{-- <td><button class="btn btn-primary"> استعراض</button></td> --}}
@@ -88,18 +84,18 @@
         <table class="table">
             <tbody>
                 <tr style="background-color: rgba(185, 178, 178, 0.188)">
-                    <td class="td"><b>نوع الشركة</b></td>
-                    <td class="td">
-                      @if ($companyType == 1)
-                          <span>عام</span>
-                      @elseif ($companyType == 2)
-                          <span>خاص</span>
-                      @else
-                          <span>{{$companyType}}</span>
-                      @endif
-                  </td>
-                  <td class="td"><b>تصنيف الشركة</b></td>
-                  <td class="td">{{$companyCateg}}</td>
+                  <td class="td"><b>الجنس</b></td>
+                  <td class="td">
+                    @if ($gender == 1)
+                        <span>إناث</span>
+                    @elseif ($gender == 0)
+                        <span>ذكور</span>
+                    @else
+                        <span>الجميع</span>
+                    @endif
+                </td>
+                  {{-- <td class="td"><b>التخصص</b></td> --}}
+                  {{-- <td class="td">{{$majorText}}</td> --}}
                 </tr>
             </tbody>
         </table>
@@ -111,29 +107,26 @@
             <table class="table">
                 <thead>
                     <tr  class="td">
-                        <th class="td" scope="col">{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
-                        <th class="td" scope="col">{{__('translate.Total Students')}}{{-- إجمالي الطلاب--}} </th>
+                        <th class="td" scope="col">رقم المساق</th></th>
+                        <th class="td" scope="col">اسم المساق</th>
+                        <th class="td" scope="col">نوع المساق</th>
+                        <th class="td" scope="col">إجمالي الطلاب المسجلين</th>
                     </tr>
                 </thead>
                 <tbody>
                 @if ($data->isEmpty())
                     <tr>
-                    <td  class="td" colspan="3"><span>{{__('translate.No available data')}} {{-- لا توجد بيانات  --}}</span></td>
+                    <td  class="td" colspan="4"><span>{{__('translate.No available data')}} {{-- لا توجد بيانات  --}}</span></td>
                     </tr>
                 @else
                     @foreach ($data as $key)
                     <tr>
-                        <td class="td">{{ $key->c_name }}</td>
-                        <td class="td">{{ $key->manager->name }}</td>
-                        <td class="td">{{ $key->companyCategories->cc_name}}</td>
-                        @if( $key->c_type == 1) <td class="td">{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
-                        @if( $key->c_type == 2) <td class="td">{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
-                        <td class="td">
-                          {{$key->studentsTotal}}
-                        </td>
+                        <td class="td">{{ $key->courses->c_course_code }}</td>
+                        <td class="td">{{ $key->courses->c_name }}</td>
+                        @if( $key->courses->c_course_type == 0) <td class="td">{{__('translate.Theoretical')}} {{-- نظري --}}</td>@endif
+                        @if( $key->courses->c_course_type == 1) <td class="td">{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
+                        @if( $key->courses->c_course_type == 2) <td class="td">{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</td>@endif
+                        <td class="td">{{ $key->studentsNum }}</td>
                     </tr>
                     @endforeach
                 @endif
@@ -160,6 +153,5 @@
 
 </html>
 {{-- @endsection --}}
-
 
 
