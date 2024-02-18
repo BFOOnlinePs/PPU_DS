@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-تقرير المساقات المسجلة
+{{__('translate.enrolled_courses_report')}}{{--تقرير المساقات المسجلة--}}
 @endsection
 @section('header_title')
-تقرير المساقات المسجلة
+{{__('translate.enrolled_courses_report')}}{{--تقرير المساقات المسجلة--}}
 @endsection
 @section('header_title_link')
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.courses_registered_report')}}">تقرير المساقات المسجلة</a>
+<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.courses_registered_report')}}">{{__('translate.enrolled_courses_report')}}{{--تقرير المساقات المسجلة--}}</a>
 @endsection
 
 @section('style')
@@ -52,6 +52,7 @@
                 <input hidden id="genderText" name="genderText" value="{{$gender}}">
                 <input hidden id="semesterText" name="semesterText" value="{{$semester}}">
                 <input hidden id="title" name="title" value="{{$title}}">
+                <input hidden id="yearText" name="yearText" value="{{$year}}">
                 <button class="btn btn-primary mb-2 btn-s" type="submit"><i class="fa fa-print"></i> </button>
             </div>
         </form>
@@ -115,10 +116,10 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">رقم المساق</th>
-                            <th scope="col">اسم المساق</th>
-                            <th scope="col">نوع المساق</th>
-                            <th scope="col">إجمالي الطلاب المسجلين</th>
+                            <th scope="col">{{__('translate.Course ID')}}{{--رقم المساق--}}</th>
+                            <th scope="col">{{__('translate.Course Name')}}{{--اسم المساق--}}</th>
+                            <th scope="col">{{__('translate.Course Type')}}{{--نوع المساق--}}</th>
+                            <th scope="col">{{__('translate.total_enrolled_students')}}{{--إجمالي الطلاب المسجلين--}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,6 +186,7 @@ $('#searchForm').find('select').each(function() {
                     document.getElementById('test').value = response.data;
                     document.getElementById('genderText').value = response.gender;
                     document.getElementById('semesterText').value = response.semester;
+                    document.getElementById('yearText').value = response.year;
                     $('#registeredCoursesReportTable').html(response.view);
 
                 },

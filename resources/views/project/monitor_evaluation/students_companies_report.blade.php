@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-تقرير المتدربين
+{{__('translate.trainees_report')}}{{--تقرير المتدربين--}}
 @endsection
 @section('header_title')
-تقرير المتدربين
+{{__('translate.trainees_report')}}{{--تقرير المتدربين--}}
 @endsection
 @section('header_title_link')
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.courses_registered_report')}}">تقرير الطلبة المتدربين</a>
+<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.courses_registered_report')}}">{{__('translate.trainees_report')}}{{--تقرير المتدربين--}}</a>
 @endsection
 
 @section('style')
@@ -53,6 +53,7 @@
                 <input hidden id="majorText" name="majorText" value="{{$majorText}}">
                 <input hidden id="semesterText" name="semesterText" value="{{$semester}}">
                 <input hidden id="title" name="title" value="{{$title}}">
+                <input hidden id="yearText" name="yearText" value="{{$year}}">
                 <button class="btn btn-primary mb-2 btn-s" type="submit"><i class="fa fa-print"></i> </button>
             </div>
         </form>
@@ -127,9 +128,9 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">رقم الطالب</th>
-                            <th scope="col">اسم الطالب</th>
-                            <th scope="col">إجمالي أماكن التدريب</th>
+                            <th scope="col">{{__('translate.student_id')}}{{--رقم الطالب--}}</th>
+                            <th scope="col">{{__('translate.Student Name')}}{{--اسم الطالب--}}</th>
+                            <th scope="col">{{__('translate.total_training_places')}}{{--إجمالي أماكن التدريب--}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,6 +195,7 @@ $('#searchForm').find('select').each(function() {
                     document.getElementById('genderText').value = response.gender;
                     document.getElementById('semesterText').value = response.semester;
                     document.getElementById('majorText').value = response.majorText;
+                    document.getElementById('yearText').value = response.year;
                     // console.log(response.data);
                     $('#studentsCompaniesReportTable').html(response.view);
 

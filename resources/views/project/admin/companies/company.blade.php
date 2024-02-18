@@ -333,7 +333,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone1_1">{{__('translate.Phone 1')}}{{-- هاتف 1 --}}</label>
-                                        <input class="f1-last-name form-control" id="phone1_1" type="text" name="phone1_1" required="">
+                                        <input class="f1-last-name form-control" id="phone1_1" type="text" name="phone1_1" disabled required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -349,7 +349,7 @@
                                     <div class="form-group">
 
                                         <label for="address1">{{__('translate.Branch Address')}}{{-- عنوان الفرع --}}</label>
-                                        <input class="f1-last-name form-control" id="address1" type="text" name="address1" required="">
+                                        <input class="f1-last-name form-control" id="address1" type="text" disabled name="address1" required="">
 
                                     </div>
                                 </div>
@@ -699,6 +699,9 @@ window.addEventListener("load", (event) => {
 
     var iconSpinners = document.querySelectorAll('.icon_spinner');
     var icons = document.querySelectorAll('.icon');
+
+
+    $('#uncompletedCompanyModal').modal({backdrop: 'static', keyboard: false})
 
     iconSpinners.forEach((iconSpinner) => {
 

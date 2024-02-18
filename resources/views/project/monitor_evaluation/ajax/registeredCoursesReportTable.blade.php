@@ -4,10 +4,10 @@
             <thead>
                 <tr>
                     <th scope="col" style="display:none;">id</th>
-                    <th scope="col">رقم المساق</th>
-                    <th scope="col">اسم المساق</th>
-                    <th scope="col">نوع المساق</th>
-                    <th scope="col">إجمالي الطلاب المسجلين</th>
+                    <th scope="col">{{__('translate.Course ID')}}{{--رقم المساق--}}</th>
+                    <th scope="col">{{__('translate.Course Name')}}{{--اسم المساق--}}</th>
+                    <th scope="col">{{__('translate.Course Type')}}{{--نوع المساق--}}</th>
+                    <th scope="col">{{__('translate.total_enrolled_students')}}{{--إجمالي الطلاب المسجلين--}}</th>
                 </tr>
             </thead>
             <tbody>

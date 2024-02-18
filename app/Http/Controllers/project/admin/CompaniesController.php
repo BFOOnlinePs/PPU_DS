@@ -63,11 +63,21 @@ class CompaniesController extends Controller
             $newCompany->c_name = $request->c_name;
             $newCompany->c_manager_id=$id;//get from added user
             if($newCompany->save()){
-                return response()->json([
-                    'success'=>'true',
-                    'manager_id'=>$id,
-                    'company_id'=>$newCompany->c_id
-                ]);
+                $company_id = $newCompany->c_id;
+                $branch = new CompanyBranch;
+                $branch->b_company_id = $company_id;
+                $branch->b_address = $request->address;
+                $branch->b_phone1 = $request->phoneNum;
+                $branch->b_manager_id = $id;
+                $branch->b_main_branch = 1;
+                if($branch->save()){
+                    return response()->json([
+                        'success'=>'true',
+                        'manager_id'=>$id,
+                        'company_id'=>$newCompany->c_id
+                    ]);
+                }
+
             }
         }
 
@@ -138,7 +148,7 @@ class CompaniesController extends Controller
     $company->c_website = $request->c_website;
 
     if($user->save() && $company->save() && $companyMainBranch->save() ){
-        $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->c_id)->first();       
+        $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->c_id)->first();
         $categories = CompaniesCategory::get();
         $companyDepartments=CompanyDepartment::where('d_company_id',$request->c_id)->get();
    return response()->json([
@@ -189,22 +199,27 @@ class CompaniesController extends Controller
 
         for($i = 1;$i<=$request->branchesNum;$i++)
         {
-            $data = new CompanyBranch;
-            $data->b_company_id = $company_id;
-            $address = 'address'. $i;
-            $data->b_address = $request->$address;
-            $phone1 = 'phone1_'. $i;
-            $data->b_phone1 = $request->$phone1;
-            $phone2 = 'phone2_'. $i;
-            if($request->$phone2 != null){
-                $data->b_phone2 = $request->$phone2;
-            }
-            $data->b_manager_id = $request->manager_id;
             if($i==1){
-                $data->b_main_branch = 1;
+                $data = CompanyBranch::where('b_company_id',$company_id)->first();
+                $phone2 = 'phone2_'. $i;
+                if($request->$phone2 != null){
+                    $data->b_phone2 = $request->$phone2;
+                }
             }else{
+                $data = new CompanyBranch;
+                $data->b_company_id = $company_id;
+                $address = 'address'. $i;
+                $data->b_address = $request->$address;
+                $phone1 = 'phone1_'. $i;
+                $data->b_phone1 = $request->$phone1;
+                $phone2 = 'phone2_'. $i;
+                if($request->$phone2 != null){
+                    $data->b_phone2 = $request->$phone2;
+                }
                 $data->b_main_branch = 0;
+                $data->b_manager_id = $request->manager_id;
             }
+
             if($data->save()){
                 $departments = 'department_for_'. $i;
                 if($request->$departments!=null){
@@ -247,7 +262,7 @@ class CompaniesController extends Controller
 
 
         $departmentsList = json_decode($request->departmentsList);
-        
+
         // $company_id=Company::where('c_id',$request->c_id)->first();
         $mainBranch=CompanyBranch::where('b_company_id',$request->c_id)->where('b_main_branch',1)->first();
         $x= $request->phone2!=null;
@@ -277,9 +292,9 @@ class CompaniesController extends Controller
                 $companyBranchDepartments->cbd_d_id=$departmentsList[$i];
                 $companyBranchDepartments->save();
                 }
-                $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->c_id)->first();       
+                $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->c_id)->first();
                 $categories = CompaniesCategory::get();
-                $companyDepartments=CompanyDepartment::where('d_company_id',$request->c_id)->get();         
+                $companyDepartments=CompanyDepartment::where('d_company_id',$request->c_id)->get();
                 return response()->json([
                     'success'=>'true',
                     'view'=>view('project.admin.companies.ajax.companyBranches',['company'=>$company,'categories'=>$categories,'companyDepartments'=>$companyDepartments])->render()
@@ -291,10 +306,10 @@ class CompaniesController extends Controller
 
     }
 
-  
+
     //noor
     public function updateBranches(Request $request){
-        
+
         $departmentSelectedListName = "departmentSelectedList_".$request->b_id;
         $departmentSelectedList = json_decode($request->$departmentSelectedListName, true);
         $existDepartmentList1 = companyBranchDepartments::where('cbd_company_branch_id', $request->b_id)->pluck('cbd_d_id')->toArray();
@@ -316,18 +331,18 @@ class CompaniesController extends Controller
 }
     else {
         if(count($existDepartmentList)== 0 ){
-         
-           for($i = 0 ; $i < count($departmentSelectedList) ; $i++){ 
-           $branchDepartments=new companyBranchDepartments; 
+
+           for($i = 0 ; $i < count($departmentSelectedList) ; $i++){
+           $branchDepartments=new companyBranchDepartments;
            $branchDepartments->cbd_company_branch_id = $request->b_id;
            $branchDepartments->cbd_d_id=$departmentSelectedList[$i];
            $branchDepartments->save();
            }
         }
-        else 
+        else
         {
             for($i = 0 ; $i <count($uniqueCollection1) ; $i++){
-                $branchDepartments=new companyBranchDepartments; 
+                $branchDepartments=new companyBranchDepartments;
                 $branchDepartments->cbd_d_id=$uniqueCollection1[$i];
                 $branchDepartments->cbd_company_branch_id = $request->b_id;
                 $branchDepartments->save();
@@ -341,12 +356,12 @@ class CompaniesController extends Controller
 
                     $branchDepartmentForDelete[$i]->delete();
 
-                        } 
+                        }
                     }
 
 
                     }
-      
+
         $data=CompanyBranch::where('b_id',$request->b_id)->first();
         $address = 'address_'. $request->b_id;
         $phone1 = 'phone1_'. $request->b_id;
@@ -364,12 +379,12 @@ class CompaniesController extends Controller
             $companyMainBranch = User::where('u_id',$request->$manager_id)->first();
             $companyMainBranch->u_phone1=$request->$phone1;
             $companyMainBranch->u_address=$request->$address;
-            
+
         }
         if($data->save() && $companyMainBranch->save()){
-            $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->$c_id)->first();      
+            $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->$c_id)->first();
             $categories = CompaniesCategory::get();
-            $companyDepartments=CompanyDepartment::where('d_company_id',$request->$c_id)->get();  
+            $companyDepartments=CompanyDepartment::where('d_company_id',$request->$c_id)->get();
             return response()->json([
             'success'=>'true',
             'view'=>view('project.admin.companies.ajax.companyBranches',['company'=>$company,'categories'=>$categories,'companyDepartments'=>$companyDepartments])->render(),
@@ -479,9 +494,9 @@ class CompaniesController extends Controller
 
 public function branch(Request $request){
 
-    $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->c_id)->first();      
+    $company =Company::with('manager','companyCategories','companyBranch.companyBranchDepartments.departments','companyDepartments')->where('c_id',$request->c_id)->first();
     $categories = CompaniesCategory::get();
-    $companyDepartments=CompanyDepartment::where('d_company_id',$request->c_id)->get();  
+    $companyDepartments=CompanyDepartment::where('d_company_id',$request->c_id)->get();
       return response()->json([
         'success'=>'true',
         'view'=>view('project.admin.companies.ajax.companyBranches',['company'=>$company,'categories'=>$categories,'companyDepartments'=>$companyDepartments])->render()

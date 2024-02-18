@@ -65,10 +65,10 @@ class MonitorEvaluationController extends Controller
             });
         }
 
-        $title = 'تقرير الشركات';
+        $title = __("translate.Companies' Report");
 
         return view('project.monitor_evaluation.companiesReport',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories,
-        'companyCateg'=>"جميع التصنيفات",'companyType'=>'جميع الأنواع','title'=>$title
+        'companyCateg'=>__('translate.all_categories'),'companyType'=>__('translate.all_types'),'title'=>$title, 'year'=>$year
         ]);
     }
 
@@ -77,8 +77,8 @@ class MonitorEvaluationController extends Controller
         $companyType = null;
         $companyCategory = null;
         $companies = Company::where('c_id',0)->get();
-        $companyCateg = "جميع التصنيفات";
-        $companyTypeText ='جميع الأنواع';
+        $companyCateg = __('translate.all_categories');
+        $companyTypeText =__('translate.all_types');
 
         $systemSettings = SystemSetting::first();
         $year = $systemSettings->ss_year;
@@ -124,6 +124,7 @@ class MonitorEvaluationController extends Controller
                 ->distinct()
                 ->get();
             }else{
+                $year = __('translate.All Academic Years');
                 // $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
                 $studentsTotal = StudentCompany::
                 // whereIn('sc_registration_id', function ($query) use ($year, $semester) {
@@ -150,7 +151,8 @@ class MonitorEvaluationController extends Controller
             'view'=>view('project.monitor_evaluation.ajax.companiesReportTable',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories])->render(),
             'semester'=>$semester,
             'companyCateg'=>$companyCateg,
-            'companyType'=>$companyTypeText
+            'companyType'=>$companyTypeText,
+            'year'=>$year
         ]);
 
     }
@@ -252,7 +254,7 @@ class MonitorEvaluationController extends Controller
 
 
         $data = [
-            'title' => $concatenatedText,
+            'title' => __('translate.Semester Report'),
             'semesterCompaniesTotal' => $semesterCompaniesTotal,
             'coursesStudentsTotal' => $coursesStudentsTotal,
             'companiesTotal'=>$companiesTotal,
@@ -260,11 +262,12 @@ class MonitorEvaluationController extends Controller
             'traineesTotal'=>$traineesTotal,
             'trainingMinutesTotal'=>$trainingMinutesTotal,
             'trainingHoursTotal'=>$trainingHoursTotal,
-            'gender'=>"الجميع",
+            'gender'=>__('translate.all'),
             'semester'=>0,
-            'company'=>"جميع الشركات",
-            'branch'=>"جميع الفروع",
-            'major'=>"جميع التخصصات",
+            'company'=>__('translate.All Companies'),
+            'branch'=>__('translate.all_branches'),
+            'major'=>__('translate.All Majors'),
+            'year'=>$year
         ];
 
         $majors = Major::get();
@@ -281,10 +284,10 @@ class MonitorEvaluationController extends Controller
 
         $semester = $request->semester;
         $year = $request->year;
-        $genderText = "الجميع";
-        $majorText = "جميع التخصصات";
-        $companyText = "جميع الشركات";
-        $branchText = "جميع الفروع";
+        $genderText = __('translate.all');
+        $majorText = __('translate.All Majors');
+        $companyText = __('translate.All Companies');
+        $branchText = __('translate.all_branches');
 
 
 
@@ -453,7 +456,7 @@ class MonitorEvaluationController extends Controller
         $concatenatedText = $semesterText . " " . $yearText;
 
         $data = [
-            'title' => $concatenatedText,
+            'title' => __('translate.Semester Report'),
             'semesterCompaniesTotal' => $semesterCompaniesTotal,
             'coursesStudentsTotal' => $coursesStudentsTotal,
             'companiesTotal'=>$companiesTotal,
@@ -465,6 +468,7 @@ class MonitorEvaluationController extends Controller
             'company'=>$companyText,
             'branch'=>$branchText,
             'major'=>$majorText,
+            'year'=>$year
             // 'hi'=>0
         ];
 
@@ -486,10 +490,12 @@ class MonitorEvaluationController extends Controller
 
     }
 
-    public function semesterReportPDF($data){
+    public function semesterReportPDF(Request $request){
 
-        $pdfData = unserialize(base64_decode($data));
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', $pdfData);
+        // $pdfData = unserialize(base64_decode($data));
+        $pdfData = unserialize(base64_decode($request->test));
+        // $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', $pdfData);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', ['data'=>$pdfData,'semester'=>$request->semesterText]);
 
         // Use the stream method to open the PDF in a new tab
         return $pdf->stream('semesterReport.pdf');
@@ -502,6 +508,7 @@ class MonitorEvaluationController extends Controller
         //return $pdfData;
         $pdf = PDF::loadView('project.monitor_evaluation.pdf.companiesReportPDF', ['data'=>$pdfData,
         'semester'=>$request->semesterText, 'title'=>$request->title, 'companyCateg'=>$request->companyCateg,'companyType'=>$request->companyTypeText,
+        'year'=>$request->yearText
         ]);
 
         // Use the stream method to open the PDF in a new tab
@@ -548,6 +555,8 @@ class MonitorEvaluationController extends Controller
 
         $paymentCollection = new Collection();
 
+
+        $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
         foreach($endIDs as $test){
 
             //هون عندي كل الدفعات اللي للتدريب هاد
@@ -556,7 +565,7 @@ class MonitorEvaluationController extends Controller
             //بدي احط اوبجيكت جديد عشان احط فيه حقول جديدة
             $objectToreturnView = $paymentsForTrain->first();
 
-            $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
+
 
             $paymentsTotalCollection = new Collection();
             $approvedPaymentsTotalCollection = new Collection();
@@ -576,7 +585,26 @@ class MonitorEvaluationController extends Controller
 
         }
 
-        return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'companies'=>$companies,'companiesPayments'=>$paymentCollection]);
+        $allPayments = Payment::whereIn('p_student_company_id', $trainingIDs)
+        ->get();
+
+        $totalCollection = new Collection();
+        $totalApprovedCollection = new Collection();
+
+        foreach($currunciesKeysToCheck as $key){
+            $currencyTotal = $allPayments->where('p_currency_id',$key)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalCollection->add(['c_id' => $key, 'total' => $currencyTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+
+            $currencyApprovedTotal = $allPayments->where('p_currency_id',$key)->where('p_status',1)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalApprovedCollection->add(['c_id' => $key, 'total' => $currencyApprovedTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+        }
+
+        // return $totalApprovedCollection;
+
+        return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,
+        'companies'=>$companies,'companiesPayments'=>$paymentCollection,'totalApprovedCollection'=>$totalApprovedCollection,
+        'totalCollection'=>$totalCollection
+        ]);
 
     }
 
@@ -634,6 +662,8 @@ class MonitorEvaluationController extends Controller
 
         $paymentCollection = new Collection();
 
+
+        $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
         foreach($endIDs as $test){
 
             //هون عندي كل الدفعات اللي للتدريب هاد
@@ -642,7 +672,7 @@ class MonitorEvaluationController extends Controller
             //بدي احط اوبجيكت جديد عشان احط فيه حقول جديدة
             $objectToreturnView = $paymentsForTrain->first();
 
-            $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
+
 
             $paymentsTotalCollection = new Collection();
             $approvedPaymentsTotalCollection = new Collection();
@@ -662,11 +692,27 @@ class MonitorEvaluationController extends Controller
 
         }
 
+        $allPayments = Payment::whereIn('p_student_company_id', $trainingIDs)
+        ->get();
+
+        $totalCollection = new Collection();
+        $totalApprovedCollection = new Collection();
+
+        foreach($currunciesKeysToCheck as $key){
+            $currencyTotal = $allPayments->where('p_currency_id',$key)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalCollection->add(['c_id' => $key, 'total' => $currencyTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+
+            $currencyApprovedTotal = $allPayments->where('p_currency_id',$key)->where('p_status',1)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalApprovedCollection->add(['c_id' => $key, 'total' => $currencyApprovedTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+        }
+
 
         return response()->json([
             'success'=>'true',
             'data'=>$paymentCollection,
-            'view'=>view('project.monitor_evaluation.ajax.companiesPaymentsReportTable',['companiesPayments'=>$paymentCollection])->render(),
+            'view'=>view('project.monitor_evaluation.ajax.companiesPaymentsReportTable',['companiesPayments'=>$paymentCollection
+            ,'totalApprovedCollection'=>$totalApprovedCollection,'totalCollection'=>$totalCollection
+            ])->render(),
         ]);
     }
 
@@ -685,7 +731,7 @@ class MonitorEvaluationController extends Controller
             ->where('r_semester', $semester)
             ->distinct();
         })
-        ->where('sc_status', 1)
+        // ->where('sc_status', 1)
         ->select('sc_id')
         ->distinct()
         ->get();
@@ -697,7 +743,7 @@ class MonitorEvaluationController extends Controller
             ->where('r_semester', $semester)
             ->distinct();
         })
-        ->where('sc_status', 1)
+        // ->where('sc_status', 1)
         ->select('sc_company_id')
         ->distinct()
         ->get();
@@ -742,7 +788,7 @@ class MonitorEvaluationController extends Controller
             ->where('r_semester', $semester)
             ->distinct();
         })
-        ->where('sc_status', 1)
+        // ->where('sc_status', 1)
         ->select('sc_id')
         ->distinct()
         ->get();
@@ -819,7 +865,7 @@ class MonitorEvaluationController extends Controller
         // }
 
 
-        $title = "تقرير الطلاب المسجلين في المساقات";
+        $title = __('translate.student_enrolled_in_courses_report');
 
         foreach($data as $key){
             $key->coursesNum = Registration::select('r_course_id')
@@ -831,7 +877,7 @@ class MonitorEvaluationController extends Controller
         }
 
         return view('project.monitor_evaluation.students_courses_report',['data'=>$data,'semester'=>$semester,
-        'year'=>$year,'years'=>$years,'majors'=>$majors,'majorText'=>"جميع التخصصات",'gender'=>"الجميع",'title'=>$title]);
+        'year'=>$year,'years'=>$years,'majors'=>$majors,'majorText'=>__('translate.All Majors'),'gender'=>__('translate.all'),'title'=>$title]);
 
     }
     public function courses_registered_report(){
@@ -856,10 +902,10 @@ class MonitorEvaluationController extends Controller
             ->count();
         }
 
-        $title = "تقرير المساقات المسجلة";
+        $title = __('translate.enrolled_courses_report');
 
         return view('project.monitor_evaluation.courses_registered_report',['data'=>$data,'semester'=>$semester
-        , 'year'=>$year,'years'=>$years,'gender'=>"الجميع",'title'=>$title]);
+        , 'year'=>$year,'years'=>$years,'gender'=>__('translate.all'),'title'=>$title]);
     }
     public function training_hours_report(){
         $systemSettings = SystemSetting::first();
@@ -952,11 +998,11 @@ class MonitorEvaluationController extends Controller
 
 
         $majors = Major::get();
-        $title = "تقرير ساعات التدريب للطلاب";
+        $title = __('translate.trainees_training_hours_report');
 
         return view('project.monitor_evaluation.training_hours_report',['data'=>$students_have_trainings,'semester'=>$semester
         , 'year'=>$year,'years'=>$years,'majors'=>$majors
-        ,'majorText'=>"جميع التخصصات",'gender'=>"الجميع",'title'=>$title,'totalMinutes'=>$totalMinutes,'totalHours'=>$totalHours
+        ,'majorText'=>__('translate.All Majors'),'gender'=>__('translate.all'),'title'=>$title,'totalMinutes'=>$totalMinutes,'totalHours'=>$totalHours
         ]);
     }
     public function students_companies_report(){
@@ -994,18 +1040,18 @@ class MonitorEvaluationController extends Controller
         }
 
         // return $data;
-        $title = "تقرير الطلبة المتدربين بالشركات";
+        $title = __('translate.trainees_report');
 
         return view('project.monitor_evaluation.students_companies_report',['data'=>$data,'semester'=>$semester,
          'year'=>$year,'years'=>$years,'majors'=>$majors
-         ,'majorText'=>"جميع التخصصات",'gender'=>"الجميع",'title'=>$title]);
+         ,'majorText'=>__('translate.All Majors'),'gender'=>__('translate.all'),'title'=>$title]);
     }
 
     //new reports ajax
     public function studentsCoursesAjax(Request $request){
         $semester = $request->semester;
         $year = $request->year;
-        $majorText="جميع التخصصات";
+        $majorText=__('translate.All Majors');
 
         $query = User::query();
         if ($request->gender != -1) {
@@ -1040,6 +1086,7 @@ class MonitorEvaluationController extends Controller
             'gender'=>$request->gender,
             'semester'=>$request->semester,
             'majorText'=>$majorText,
+            'year'=>$year
         ]);
 
 
@@ -1076,7 +1123,8 @@ class MonitorEvaluationController extends Controller
             'data'=> base64_encode(serialize($data)),
             'view'=>view('project.monitor_evaluation.ajax.registeredCoursesReportTable',['data'=>$data])->render(),
             'gender'=>$request->gender,
-            'semester'=>$semester
+            'semester'=>$semester,
+            'year'=>$year
         ]);
 
 
@@ -1086,7 +1134,7 @@ class MonitorEvaluationController extends Controller
 
         $semester = $request->semester;
         $year = $request->year;
-        $majorText="جميع التخصصات";
+        $majorText=__('translate.All Majors');
 
         $query = User::query();
         if ($request->gender != -1) {
@@ -1179,7 +1227,8 @@ class MonitorEvaluationController extends Controller
             'view'=>view('project.monitor_evaluation.ajax.trainingHoursTable',['data'=>$students_have_trainings,'totalMinutes'=>$totalMinutes,'totalHours'=>$totalHours])->render(),
             'gender'=>$request->gender,
             'semester'=>$request->semester,
-            'majorText'=>$majorText
+            'majorText'=>$majorText,
+            'year'=>$year
         ]);
 
 
@@ -1188,7 +1237,7 @@ class MonitorEvaluationController extends Controller
     public function studentsCompaniesAjax(Request $request){
         $semester = $request->semester;
         $year = $request->year;
-        $majorText="جميع التخصصات";
+        $majorText=__('translate.All Majors');
 
         $query = User::query();
         if ($request->gender != -1) {
@@ -1232,7 +1281,8 @@ class MonitorEvaluationController extends Controller
             'view'=>view('project.monitor_evaluation.ajax.studentsCompaniesReportTable',['data'=>$data])->render(),
             'gender'=>$request->gender,
             'semester'=>$request->semester,
-            'majorText'=>$majorText
+            'majorText'=>$majorText,
+            'year'=>$year
         ]);
 
 
@@ -1245,7 +1295,7 @@ class MonitorEvaluationController extends Controller
 
         $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCoursesPDF'
         , ['data'=>$pdfData,'gender'=>$request->genderText,
-        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title]);
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title, 'year'=>$request->yearText]);
 
         // Use the stream method to open the PDF in a new tab
         return $pdf->stream('studentsCoursesPDF.pdf');
@@ -1256,7 +1306,7 @@ class MonitorEvaluationController extends Controller
         $pdfData = unserialize(base64_decode($request->test));
 
         $pdf = PDF::loadView('project.monitor_evaluation.pdf.registeredCoursesPDF', ['data'=>$pdfData,
-        'semester'=>$request->semesterText, 'title'=>$request->title,'gender'=>$request->genderText]);
+        'semester'=>$request->semesterText, 'title'=>$request->title,'gender'=>$request->genderText, 'year'=>$request->yearText]);
 
         return $pdf->stream('registeredCoursesPDF.pdf');
     }
@@ -1267,7 +1317,7 @@ class MonitorEvaluationController extends Controller
 
         $pdf = PDF::loadView('project.monitor_evaluation.pdf.trainingHoursPDF', ['data'=>$pdfData,
         'gender'=>$request->genderText,
-        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title]);
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title, 'year'=>$request->yearText]);
 
         return $pdf->stream('trainingHoursPDF.pdf');
     }
@@ -1278,7 +1328,7 @@ class MonitorEvaluationController extends Controller
 
         $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCompaniesPDF', ['data'=>$pdfData,
         'gender'=>$request->genderText,
-        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title]);
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title, 'year'=>$request->yearText]);
 
         return $pdf->stream('studentsCompaniesPDF.pdf');
     }
