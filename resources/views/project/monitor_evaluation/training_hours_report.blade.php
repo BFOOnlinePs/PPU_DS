@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-تقرير ساعات التدريب للطلاب
+{{__('translate.trainees_training_hours_report')}}{{--تقرير ساعات التدريب للطلاب--}}
 @endsection
 @section('header_title')
-تقرير ساعات التدريب للطلاب
+{{__('translate.trainees_training_hours_report')}}{{--تقرير ساعات التدريب للطلاب--}}
 @endsection
 @section('header_title_link')
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.training_hours_report')}}">تقرير ساعات التدريب للطلاب</a>
+<a href="{{route('monitor_evaluation.semesterReport')}}">{{__("translate.Semester's Report")}}</a> / <a href="{{route('monitor_evaluation.training_hours_report')}}">{{__('translate.trainees_training_hours_report')}}{{--تقرير ساعات التدريب للطلاب--}}</a>
 @endsection
 
 @section('style')
@@ -53,6 +53,7 @@
                 <input hidden id="majorText" name="majorText" value="{{$majorText}}">
                 <input hidden id="semesterText" name="semesterText" value="{{$semester}}">
                 <input hidden id="title" name="title" value="{{$title}}">
+                <input hidden id="yearText" name="yearText" value="{{$year}}">
                 <button class="btn btn-primary mb-2 btn-s" type="submit"><i class="fa fa-print"></i> </button>
             </div>
         </form>
@@ -126,9 +127,9 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">رقم الطالب</th>
-                            <th scope="col">اسم الطالب</th>
-                            <th scope="col">إجمالي ساعات التدريب</th>
+                            <th scope="col">{{__('translate.student_id')}}{{--رقم الطالب--}}</th>
+                            <th scope="col">{{__('translate.Student Name')}}{{--اسم الطالب--}}</th>
+                            <th scope="col">{{__('translate.total_training_hours')}}{{--إجمالي ساعات التدريب--}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,7 +143,7 @@
                                     <td style="display:none;">{{ $key->r_id }}</td>
                                     <td>{{ $key->users->u_username }}</td>
                                     <td>{{ $key->users->name }}</td>
-                                    <td>{{ $key->trainingHoursTotal }}ساعات,{{ $key->trainingMinutesTotal }}دقائق</td>
+                                    <td>{{ $key->trainingHoursTotal }} {{__('translate.Hours')}} , {{ $key->trainingMinutesTotal }} {{__('translate.Minutes')}}</td>
 
                                 </tr>
                             @endforeach
@@ -150,7 +151,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td>إجمالي ساعات التدريب</td>
+                            <td>{{__('translate.total_training_hours')}}{{--إجمالي ساعات التدريب--}}</td>
                             <td>
                                 {{$totalHours}}{{--ساعات--}}{{__('translate.Hours')}} ، {{$totalMinutes}}{{--دقائق--}} {{__('translate.Minutes')}}
                             </td>
@@ -200,6 +201,7 @@ $('#searchForm').find('select').each(function() {
                     document.getElementById('genderText').value = response.gender;
                     document.getElementById('semesterText').value = response.semester;
                     document.getElementById('majorText').value = response.majorText;
+                    document.getElementById('yearText').value = response.year;
                     $('#trainingHoursTable').html(response.view);
 
                 },

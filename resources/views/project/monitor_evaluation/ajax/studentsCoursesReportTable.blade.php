@@ -4,9 +4,9 @@
             <thead>
                 <tr>
                     <th scope="col" style="display:none;">id</th>
-                    <th scope="col">رقم الطالب</th>
-                    <th scope="col">اسم الطالب</th>
-                    <th scope="col">إجمالي المساقات المسجلة</th>
+                    <th scope="col">{{__('translate.student_id')}}{{--رقم الطالب--}}</th>
+                    <th scope="col">{{__('translate.Student Name')}}{{--اسم الطالب--}}</th>
+                    <th scope="col">{{__('translate.total_enrolled_courses')}}{{--تخصص الطالب--}}</th>
                 </tr>
             </thead>
             <tbody>

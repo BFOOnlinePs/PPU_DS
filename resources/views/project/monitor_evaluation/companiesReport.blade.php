@@ -61,6 +61,7 @@
             <input hidden id="companyTypeText" name="companyTypeText" value="{{$companyType}}">
             <input hidden id="companyCateg" name="companyCateg" value="{{$companyCateg}}">
             <input hidden id="title" name="title" value="{{$title}}">
+            <input hidden id="yearText" name="yearText" value="{{$year}}">
             <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-print"></i> </button>
         </div>
         </form>
@@ -140,7 +141,7 @@
                             <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
 
                             <th scope="col">{{__('translate.Total Students')}}{{-- إجمالي الطلاب--}} </th>
-                            <th scope="col">استعراض الطلاب </th>
+                            <th scope="col">{{__('translate.display_students')}}{{--استعراض الطلاب--}}</th>
 
 
                         </tr>
@@ -258,6 +259,7 @@ window.addEventListener("load", (event) => {
                     document.getElementById('semesterText').value = response.semester;
                     document.getElementById('companyTypeText').value = response.companyType;
                     document.getElementById('companyCateg').value = response.companyCateg;
+                    document.getElementById('yearText').value = response.year;
                     // reportTitle="{{__('translate.Company Report For')}}" + "{{__('translate.Semester')}}";
                     reportTitle="";
                     if(semester==0){

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-طلاب الشركة
+{{__('translate.company_trainees')}}{{--طلاب الشركة--}}
 @endsection
 @section('header_title')
-طلاب الشركة
+{{__('translate.company_trainees')}}{{--طلاب الشركة--}}
 @endsection
 @section('header_title_link')
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('monitor_evaluation.companiesReport')}}">{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}</a> / طلاب الشركة
+<a href="{{route('monitor_evaluation.companiesReport')}}">{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}</a> / {{__('translate.company_trainees')}}{{--طلاب الشركة--}}
 @endsection
 
 @section('style')
@@ -76,7 +76,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الجنس</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Gender')}}{{--الجنس--}}</label>
                         <div class="col-lg-12">
                             <select id="gender" name="gender" class="form-control btn-square">
                                 <option value="-1" selected>--{{__('translate.Choose')}}--</option>
@@ -89,7 +89,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">التخصص</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Major')}}{{--التخصص--}}</label>
                         <div class="col-lg-12">
                             <select id="major" name="major" class="form-control btn-square">
                                 <option value="-1" selected>--{{__('translate.Choose')}}--</option>
@@ -109,9 +109,9 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">رقم الطالب</th>
-                            <th scope="col">اسم الطالب</th>
-                            <th scope="col">تخصص الطالب</th>
+                            <th scope="col">{{__('translate.student_id')}}{{--رقم الطالب--}}</th>
+                            <th scope="col">{{__('translate.Student Name')}}{{--اسم الطالب--}}</th>
+                            <th scope="col">{{__('translate.student_major')}}{{--تخصص الطالب--}}</th>
                         </tr>
                     </thead>
                     <tbody>

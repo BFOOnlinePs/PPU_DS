@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
     <head>
+        <title>{{ $data['title'] }}</title>
        <style>
          @page {
                     header: page-header;
@@ -84,18 +85,18 @@
                 </td>
                 {{-- <td style="width:50%; text-align: center; font-weight: bold;">{{$title}}</td> --}}
                 {{-- <td style="width:59%; text-align: center; font-weight: bold;">تقرير الفصل الإجمالي</td> --}}
-                <td style="width:59%; text-align: center; font-size: 20px;">تقرير الفصل الإجمالي</td>
+                <td style="width:59%; text-align: center; font-size: 20px;">{{ $data['title'] }}</td>
                 <td style="width:21%; text-align: right; font-size: 14px;">
-                    تاريخ التقرير: {{now()->format('Y-m-d')}}
+                    {{__('translate.report_date')}}{{--تاريخ التقرير--}} {{now()->format('Y-m-d')}}
                     <br>
-                    {{-- {{$hi}} --}}
-                    {{-- @if ($semester == 1)
-                        <span>الفصل الدراسي الأول</span>
+                    {{-- {{$semester}} --}}
+                    @if ($semester == 1)
+                        <span>{{__('translate.First Semester')}}{{--الفصل الدراسي الأول--}},  {{$year}}</span>
                     @elseif ($semester == 2)
-                        <span>الفصل الدراسي الثاني</span>
-                    @else
-                        <span>الفصل الدراسي الصيفي</span>
-                    @endif --}}
+                        <span>{{__('translate.Second Semester')}}{{--الفصل الدراسي الثاني--}},  {{$year}}</span>
+                    @elseif ($semester == 3)
+                        <span>{{__('translate.Summer Semester')}}{{--الفصل الدراسي الصيفي--}},  {{$year}}</span>
+                    @endif
                 </td>
                 {{-- <td><button class="btn btn-primary"> استعراض</button></td> --}}
               </tr>
@@ -118,24 +119,24 @@
         <table class="table">
             <tbody>
                 <tr style="background-color: rgba(185, 178, 178, 0.188)">
-                  <td class="td"><b>الجنس</b></td>
+                  <td class="td"><b>{{__('translate.Gender')}}{{--الجنس--}}</b></td>
                   <td class="td">
-                    @if ($gender == 1)
-                        <span>إناث</span>
-                    @elseif ($gender == 0)
-                        <span>ذكور</span>
+                    @if ($data['gender'] == 1)
+                    <span>{{__('translate.females')}}{{--إناث--}}</span>
+                    @elseif ($data['gender'] == 0)
+                        <span>{{__('translate.males')}}{{--ذكور--}}</span>
                         @else
-                        <span>الجميع</span>
+                        <span>{{__('translate.all')}}{{--الجميع--}}</span>
                     @endif
                 </td>
-                  <td class="td"><b>التخصص</b></td>
-                  <td class="td">{{$major}}</td>
+                  <td class="td"><b>{{__('translate.Major')}}{{--التخصص--}}</b></td>
+                  <td class="td">{{$data['major']}}</td>
                 </tr>
                 <tr style="background-color: rgba(185, 178, 178, 0.188)">
-                  <td class="td"><b>الشركة</b></td>
-                  <td class="td">{{$company}}</td>
-                  <td class="td"><b>الفرع</b></td>
-                  <td class="td">{{$branch}}</td>
+                  <td class="td"><b>{{__('translate.company')}}{{--الشركة--}}</b></td>
+                  <td class="td">{{$data['company']}}</td>
+                  <td class="td"><b>{{__('translate.Branch')}}{{--الفرع--}}</b></td>
+                  <td class="td">{{$data['branch']}}</td>
                 </tr>
             </tbody>
         </table>
@@ -149,23 +150,23 @@
               <tbody>
                     <tr>
                       <td class="td">{{__('translate.Total of registered students this semester')}} {{--  إجمالي الطلاب المسجلين في المساقات خلال هذا الفصل --}}</td>
-                      <td class="td" id="manager_summary">{{$coursesStudentsTotal}}</td>
+                      <td class="td" id="manager_summary">{{$data['coursesStudentsTotal']}}</td>
                     </tr>
                     <tr>
                       <td class="td">{{__('translate.Total of Semester Courses')}} {{--إجمالي المساقات لهذا الفصل--}}</td>
-                      <td class="td" id="phone_summary">{{$semesterCoursesTotal}}</td>
+                      <td class="td" id="phone_summary">{{$data['semesterCoursesTotal']}}</td>
                     </tr>
                     <tr id="phone2_summary_area">
                       <td class="td"> {{__('translate.Total of Traning Hours for all students this semester')}} {{--إجمالي ساعات التدريب لجميع الطلاب خلال هذا الفصل--}}</td>
-                      <td class="td"> {{$trainingHoursTotal}}{{--ساعات--}}{{__('translate.Hours')}}،{{$trainingMinutesTotal}}{{--دقائق--}} {{__('translate.Minutes')}} </td>
+                      <td class="td"> {{$data['trainingHoursTotal']}}{{--ساعات--}}{{__('translate.Hours')}}،{{$data['trainingMinutesTotal']}}{{--دقائق--}} {{__('translate.Minutes')}} </td>
                     </tr>
                     <tr>
                       <td class="td">{{__("translate.Total of Companies' Trainees this semester")}} {{--إجمالي الطلاب المسجلين في الشركات خلال هذاالفصل--}}</td>
-                      <td class="td">{{$traineesTotal}}</td>
+                      <td class="td">{{$data['traineesTotal']}}</td>
                     </tr>
                     <tr>
                         <td class="td"> {{__('translate.Total of Companies have trainees this semester')}}{{--إجمالي الشركات المسجل بها خلال هذا الفصل--}}</td>
-                        <td class="td">{{$semesterCompaniesTotal}}</td>
+                        <td class="td">{{$data['semesterCompaniesTotal']}}</td>
                     </tr>
 
               </tbody>
@@ -178,7 +179,7 @@
     <htmlpagefooter name="page-footer">
         {{-- <hr> --}}
         {{-- <div style="display: block;text-align:center; padding: 30px !important;">Page {PAGENO} of {nbpg}</div> --}}
-        <div style="display: block;text-align:center; padding: 30px !important;">صفحة {PAGENO} من {nbpg}</div>
+        <div style="display: block;text-align:center; padding: 30px !important;">{{__('translate.page')}}{{--صفحة--}} {PAGENO} {{__('translate.from')}}{{--من--}} {nbpg}</div>
     </htmlpagefooter>
 
 

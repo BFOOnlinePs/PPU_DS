@@ -4,9 +4,9 @@
             <thead>
                 <tr>
                     <th scope="col" style="display:none;">id</th>
-                    <th scope="col">رقم الطالب</th>
-                    <th scope="col">اسم الطالب</th>
-                    <th scope="col">إجمالي ساعات التدريب</th>
+                    <th scope="col">{{__('translate.student_id')}}{{--رقم الطالب--}}</th>
+                    <th scope="col">{{__('translate.Student Name')}}{{--اسم الطالب--}}</th>
+                    <th scope="col">{{__('translate.total_training_hours')}}{{--تخصص الطالب--}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td>إجمالي ساعات التدريب</td>
+                    <td>{{__('translate.total_training_hours')}}{{--إجمالي ساعات التدريب--}}</td>
                     <td>
                         {{$totalHours}}{{--ساعات--}}{{__('translate.Hours')}} ، {{$totalMinutes}}{{--دقائق--}} {{__('translate.Minutes')}}
                     </td>

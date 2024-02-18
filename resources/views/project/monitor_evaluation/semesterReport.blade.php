@@ -37,10 +37,22 @@
 
     <div class="card-body" >
 
-        <div class="mb-3">
+        {{-- <div class="mb-3"> --}}
             {{-- <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" ><i class="fa fa-file-pdf-o"></i> {{__('translate.Report File')}} ملف التقرير</button> --}}
-            <button class="btn btn-primary mb-2 btn-s" onclick="showSemesterPDF()"><i class="fa fa-print"></i> </button>
+            {{-- <button class="btn btn-primary mb-2 btn-s" onclick="showSemesterPDF()"><i class="fa fa-print"></i> </button> --}}
+        {{-- </div> --}}
+
+        <form id="semesterReportAjax" method="POST" action="{{route('monitor_evaluation.semesterReportPDF')}}" enctype="multipart/form-data" target="_blank">
+            @csrf
+            <div>
+            <input hidden id="test" name="test" value="{{base64_encode(serialize($pdf))}}">
+            <input hidden id="semesterText" name="semesterText" value="{{$semester}}">
+            {{-- <input hidden id="companyTypeText" name="companyTypeText" value="{{$companyType}}">
+            <input hidden id="companyCateg" name="companyCateg" value="{{$companyCateg}}"> --}}
+            {{-- <input hidden id="title" name="title" value="{{$title}}"> --}}
+            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-print"></i> </button>
         </div>
+        </form>
 
         <!--loading whole page-->
         <div class="loader-container loader-box" id="loaderContainer" hidden>
@@ -81,7 +93,7 @@
 
                 <div class="col-md-1">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الجنس</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Gender')}}{{--الجنس--}}</label>
                         <div class="col-lg-12">
                             <select id="gender" name="gender" class="form-control btn-square">
                                 <option value="-1" selected>--{{__('translate.Choose')}}--</option>
@@ -94,7 +106,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">التخصص</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Major')}}{{--التخصص--}}</label>
                         <div class="col-lg-12">
                             <select id="major" name="major" class="form-control btn-square">
                                 <option value="-1" selected>--{{__('translate.Choose')}}--</option>
@@ -108,7 +120,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Company')}}{{--الشركة--}}</label>
                         <div class="col-lg-12">
                             <select id="company" name="company" class="form-control btn-square">
                                 <option value="0" selected>--{{__('translate.Choose')}}--</option>
@@ -122,7 +134,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">فرع الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.company_branch')}}{{--فرع الشركة--}}</label>
                         <div class="col-lg-12">
                             <select id="branch" name="branch" class="form-control btn-square">
                                 <option value="0" selected>--{{__('translate.Choose')}}--</option>
@@ -228,6 +240,8 @@
                     dataPDF = response.pdf;
                     console.log(response.pdf);
                     document.getElementById('loaderContainer').hidden = true;
+                    document.getElementById('semesterText').value = response.semester;
+                    document.getElementById('test').value = response.pdf;
 
                     var selectElement = document.getElementById("branch");
                     // document.getElementById('branch').hidden = true;

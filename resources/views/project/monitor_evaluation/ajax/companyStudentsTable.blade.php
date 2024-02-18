@@ -3,9 +3,9 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th scope="col">رقم الطالب</th>
-                    <th scope="col">اسم الطالب</th>
-                    <th scope="col">تخصص الطالب</th>
+                    <th scope="col">{{__('translate.student_id')}}{{--رقم الطالب--}}</th>
+                    <th scope="col">{{__('translate.Student Name')}}{{--اسم الطالب--}}</th>
+                    <th scope="col">{{__('translate.student_major')}}{{--تخصص الطالب--}}</th>
                 </tr>
             </thead>
             <tbody>

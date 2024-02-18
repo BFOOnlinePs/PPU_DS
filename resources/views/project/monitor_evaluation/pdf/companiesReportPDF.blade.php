@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
     <head>
+        <title>{{ $title }}</title>
        <style>
          @page {
                     header: page-header;
@@ -54,17 +55,17 @@
                 {{-- <td style="width:59%; text-align: center; font-weight: bold;">تقرير الفصل الإجمالي</td> --}}
                 <td style="width:59%; text-align: center; font-size: 20px;">{{$title}}</td>
                 <td style="width:21%; text-align: right; font-size: 14px;">
-                    تاريخ التقرير: {{now()->format('Y-m-d')}}
+                    {{__('translate.report_date')}}{{--تاريخ التقرير--}} {{now()->format('Y-m-d')}}
                     <br>
                     {{-- {{$semester}} --}}
                     @if ($semester == 1)
-                        <span>الفصل الدراسي الأول</span>
+                        <span>{{__('translate.First Semester')}}{{--الفصل الدراسي الأول--}},  {{$year}}</span>
                     @elseif ($semester == 2)
-                        <span>الفصل الدراسي الثاني</span>
+                        <span>{{__('translate.Second Semester')}}{{--الفصل الدراسي الثاني--}},  {{$year}}</span>
                     @elseif ($semester == 3)
-                        <span>الفصل الدراسي الصيفي</span>
+                        <span>{{__('translate.Summer Semester')}}{{--الفصل الدراسي الصيفي--}},  {{$year}}</span>
                         @else
-                        <span>جميع الفصول</span>
+                        <span>{{__('translate.All Semesters')}}{{--جميع الفصول--}},  {{$year}}</span>
                     @endif
                 </td>
                 {{-- <td><button class="btn btn-primary"> استعراض</button></td> --}}
@@ -88,17 +89,17 @@
         <table class="table">
             <tbody>
                 <tr style="background-color: rgba(185, 178, 178, 0.188)">
-                    <td class="td"><b>نوع الشركة</b></td>
+                    <td class="td"><b>{{__('translate.Company Type')}}{{--نوع الشركة--}}</b></td>
                     <td class="td">
                       @if ($companyType == 1)
-                          <span>عام</span>
+                          <span>{{__('translate.Public Sector')}}{{--عام--}}</span>
                       @elseif ($companyType == 2)
-                          <span>خاص</span>
+                          <span>{{__('translate.Private Sector')}}{{--خاص--}}</span>
                       @else
                           <span>{{$companyType}}</span>
                       @endif
                   </td>
-                  <td class="td"><b>تصنيف الشركة</b></td>
+                  <td class="td"><b>{{__('translate.Company Category')}}{{--تصنيف الشركة--}}</b></td>
                   <td class="td">{{$companyCateg}}</td>
                 </tr>
             </tbody>
@@ -148,7 +149,7 @@
     <htmlpagefooter name="page-footer">
         {{-- <hr> --}}
         {{-- <div style="display: block;text-align:center; padding: 30px !important;">Page {PAGENO} of {nbpg}</div> --}}
-        <div style="display: block;text-align:center; padding: 30px !important;">صفحة {PAGENO} من {nbpg}</div>
+        <div style="display: block;text-align:center; padding: 30px !important;">{{__('translate.page')}}{{--صفحة--}} {PAGENO} {{__('translate.from')}}{{--من--}} {nbpg}</div>
     </htmlpagefooter>
 
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
     <head>
+        <title>{{ $title }}</title>
        <style>
          @page {
                     header: page-header;
@@ -52,15 +53,15 @@
                 {{-- <td style="width:59%; text-align: center; font-weight: bold;">تقرير الفصل الإجمالي</td> --}}
                 <td style="width:59%; text-align: center; font-size: 20px;">{{$title}}</td>
                 <td style="width:21%; text-align: right; font-size: 14px;">
-                    تاريخ التقرير: {{now()->format('Y-m-d')}}
+                    {{__('translate.report_date')}}{{--تاريخ التقرير--}} {{now()->format('Y-m-d')}}
                     <br>
                     {{-- {{$semester}} --}}
                     @if ($semester == 1)
-                        <span>الفصل الدراسي الأول</span>
+                        <span>{{__('translate.First Semester')}}{{--الفصل الدراسي الأول--}},  {{$year}}</span>
                     @elseif ($semester == 2)
-                        <span>الفصل الدراسي الثاني</span>
-                    @else
-                        <span>الفصل الدراسي الصيفي</span>
+                        <span>{{__('translate.Second Semester')}}{{--الفصل الدراسي الثاني--}},  {{$year}}</span>
+                    @elseif ($semester == 3)
+                        <span>{{__('translate.Summer Semester')}}{{--الفصل الدراسي الصيفي--}},  {{$year}}</span>
                     @endif
                 </td>
                 {{-- <td><button class="btn btn-primary"> استعراض</button></td> --}}
@@ -84,17 +85,17 @@
         <table class="table">
             <tbody>
                 <tr style="background-color: rgba(185, 178, 178, 0.188)">
-                    <td class="td"><b>الجنس</b></td>
+                    <td class="td"><b>{{__('translate.Gender')}}{{--الجنس--}}</b></td>
                     <td class="td">
-                      @if ($gender == 1)
-                          <span>إناث</span>
-                      @elseif ($gender == 0)
-                          <span>ذكور</span>
-                      @else
-                          <span>الجميع</span>
-                      @endif
+                        @if ($gender == 1)
+                        <span>{{__('translate.females')}}{{--إناث--}}</span>
+                        @elseif ($gender == 0)
+                            <span>{{__('translate.males')}}{{--ذكور--}}</span>
+                        @else
+                            <span>{{__('translate.all')}}{{--الجميع--}}</span>
+                        @endif
                   </td>
-                  <td class="td"><b>التخصص</b></td>
+                  <td class="td"><b>{{__('translate.Major')}}{{--التخصص--}}</b></td>
                   <td class="td">{{$majorText}}</td>
                 </tr>
             </tbody>
@@ -107,9 +108,9 @@
             <table class="table">
                 <thead>
                     <tr  class="td">
-                        <th class="td" scope="col">رقم الطالب</th>
-                        <th class="td" scope="col">اسم الطالب</th>
-                        <th class="td" scope="col">إجمالي ساعات التدريب</th>
+                        <th class="td" scope="col">{{__('translate.student_id')}}{{--رقم الطالب--}}</th>
+                        <th class="td" scope="col">{{__('translate.Student Name')}}{{--اسم الطالب--}}</th>
+                        <th class="td" scope="col">{{__('translate.total_training_hours')}}{{--إجمالي ساعات التدريب--}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -122,12 +123,12 @@
                     <tr>
                         <td class="td">{{ $key->users->u_username }}</td>
                         <td class="td">{{ $key->users->name }}</td>
-                        <td class="td">{{ $key->trainingHoursTotal }}ساعات,{{ $key->trainingMinutesTotal }}دقائق</td>
+                        <td class="td">{{ $key->trainingHoursTotal }} {{__('translate.Hours')}} , {{ $key->trainingMinutesTotal }} {{__('translate.Minutes')}}</td>
                     </tr>
                     @endforeach
                 @endif
                 </tbody>
-                
+
 
             </table>
         </div>
@@ -138,7 +139,7 @@
     <htmlpagefooter name="page-footer">
         {{-- <hr> --}}
         {{-- <div style="display: block;text-align:center; padding: 30px !important;">Page {PAGENO} of {nbpg}</div> --}}
-        <div style="display: block;text-align:center; padding: 30px !important;">صفحة {PAGENO} من {nbpg}</div>
+        <div style="display: block;text-align:center; padding: 30px !important;">{{__('translate.page')}}{{--صفحة--}} {PAGENO} {{__('translate.from')}}{{--من--}} {nbpg}</div>
     </htmlpagefooter>
 
 

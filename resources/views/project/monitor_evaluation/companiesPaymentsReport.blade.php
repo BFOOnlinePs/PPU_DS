@@ -148,6 +148,27 @@
                         @endforeach
                     @endif
                     </tbody>
+                    @if (!$companiesPayments->isEmpty())
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">{{__('translate.total_companies_payments')}}{{--إجمالي دفعات الشركات--}}</td>
+                            <td>
+                                @foreach ($totalCollection as $item)
+                                    @if($item["total"] != 0)
+                                        <span class="badge rounded-pill badge-danger">{{ $item["total"] == intval($item["total"]) ? number_format($item["total"]) : number_format(floor($item["total"] * 100) / 100, 2, '.', '') }} <span>{{$item["symbol"]}}</span></span>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($totalApprovedCollection as $item)
+                                    @if($item["total"] != 0)
+                                        <span class="badge rounded-pill badge-danger">{{ $item["total"] == intval($item["total"]) ? number_format($item["total"]) : number_format(floor($item["total"] * 100) / 100, 2, '.', '') }} <span>{{$item["symbol"]}}</span></span>
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
@@ -184,7 +205,7 @@ window.addEventListener("load", (event) => {
         document.getElementById(`${element}`).addEventListener("change", function() {
             //console.log($(this).value)
             data = $('#companiesPaymentsReportSearchForm').serialize();
-            console.log(data)
+            // console.log(data)
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
@@ -206,22 +227,6 @@ window.addEventListener("load", (event) => {
                 success: function(response) {
                     //console.log("all has done")
                     document.getElementById('loaderContainer').hidden = true;
-                    // semester = document.getElementById('semester').value;
-                    // document.getElementById('test').value = response.data;
-                    // reportTitle=""
-                    // if(semester==0){
-                    //     reportTitle = `تقرير الشركات لجميع الفصول`
-                    // }else if(semester==1){
-                    //     reportTitle = `تقرير الشركات للفصل الدراسي الأول`
-                    // }else if(semester==2){
-                    //     reportTitle = `تقرير الشركات للفصل الدراسي الثاني`
-                    // }else if(semester==3){
-                    //     reportTitle = `تقرير الشركات للفصل الدراسي الصيفي`
-                    // }
-                    // $('#companiesReportTitle').html(reportTitle);
-
-                    console.log(response);
-
                     $('#companiesPaymentsReportTable').html(response.view);
                 },
                 error: function(xhr, status, error) {
