@@ -29,11 +29,10 @@ class SemesterReportController extends Controller
         }
 
 
-
         // 1. Total number of registered students
         // affected by: year, semester, gender, major
 
-        // students ids registers in courses in specific yser and semester
+        // students ids registered in courses in specific yser and semester
         $uniqueStudentsIdsInCourses = Registration::where('r_year', $year)->where('r_semester', $semester)
             ->get()->unique('r_student_id')->values()->pluck('r_student_id');
 

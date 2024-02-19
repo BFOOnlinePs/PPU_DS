@@ -8,6 +8,7 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\manage
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\SemesterReportController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\TrainingHoursReportController;
 use App\Http\Controllers\apisControllers\program_coordinator\majors\ProgramCoordinatorMajorsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoordinatorStudentsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
@@ -185,6 +186,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Monitoring and Evaluation Officer
     Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
+    Route::get('getTrainingHoursReport', [TrainingHoursReportController::class, 'getTrainingHoursReport']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
