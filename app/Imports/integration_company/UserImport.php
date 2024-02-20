@@ -2,6 +2,7 @@
 
 namespace App\Imports\integration_company;
 
+use App\Models\CompaniesCategory;
 use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\User;
@@ -27,7 +28,7 @@ class UserImport implements ToCollection
             if($rowIndex == 0) {
                 continue;
             }
-            if(empty($row[$this->additionalData['company_name']]) || empty($row[$this->additionalData['manager_name']]) || empty($row[$this->additionalData['company_email']]) || empty($row[$this->additionalData['company_password']]) || empty($row[$this->additionalData['phone_number']]) || empty($row[$this->additionalData['company_address']]) || empty($row[$this->additionalData['company_type']])) {
+            if(empty($row[$this->additionalData['company_name']]) || empty($row[$this->additionalData['manager_name']]) || empty($row[$this->additionalData['company_email']]) || empty($row[$this->additionalData['company_password']]) || empty($row[$this->additionalData['company_address']]) || empty($row[$this->additionalData['company_type']])) {
                 continue;
             }
             $user_exists = User::where('email' , $row[$this->additionalData['company_email']])
@@ -39,7 +40,12 @@ class UserImport implements ToCollection
                 $user->u_username = $row[$this->additionalData['manager_name']];
                 $user->name = $row[$this->additionalData['manager_name']];
                 $user->password = bcrypt($row[$this->additionalData['company_password']]);
-                $user->u_phone1 = $row[$this->additionalData['phone_number']];
+                if(empty($row[$this->additionalData['phone_number']])) {
+                    $user->u_phone1 = '0000000000';
+                }
+                else {
+                    $user->u_phone1 = $row[$this->additionalData['phone_number']];
+                }
                 $user->u_address = $row[$this->additionalData['company_address']];
                 $user->u_role_id = 6;
                 $user->u_status = 1;
@@ -50,7 +56,12 @@ class UserImport implements ToCollection
                 $user->name = $row[$this->additionalData['manager_name']];
                 $user->email = $row[$this->additionalData['company_email']];
                 $user->password = bcrypt($row[$this->additionalData['company_password']]);
-                $user->u_phone1 = $row[$this->additionalData['phone_number']];
+                if(empty($row[$this->additionalData['phone_number']])) {
+                    $user->u_phone1 = '0000000000';
+                }
+                else {
+                    $user->u_phone1 = $row[$this->additionalData['phone_number']];
+                }
                 $user->u_address = $row[$this->additionalData['company_address']];
                 $user->u_role_id = 6;
                 $user->u_status = 1;
@@ -65,17 +76,28 @@ class UserImport implements ToCollection
                 else if($row[$this->additionalData['company_type']] == 'قطاع خاص') {
                     $company_type = 2;
                 }
+                $company_category_exists = CompaniesCategory::where('cc_name' , $row[$this->additionalData['company_category']])
+                ->exists();
+                $company_category = null;
+                if(!($company_category_exists)) {
+                    $company_category = new CompaniesCategory();
+                    $company_category->cc_name = $row[$this->additionalData['company_category']];
+                    $company_category->save();
+                }
+                $company_category = CompaniesCategory::where('cc_name' , $row[$this->additionalData['company_category']])->first();
                 if($company_exists) {
                     $company = Company::where('c_manager_id' , $user->u_id)
                     ->first();
                     $company->c_name = $row[$this->additionalData['company_name']];
                     $company->c_type = $company_type;
+                    $company->c_category_id = $company_category->cc_id;
                 }
                 else {
                     $company = new Company();
                     $company->c_manager_id = $user->u_id;
                     $company->c_name = $row[$this->additionalData['company_name']];
                     $company->c_type = $company_type;
+                    $company->c_category_id = $company_category->cc_id;
                 }
                 if($company->save()) {
                     $company_branch_exists = CompanyBranch::where('b_company_id' , $company->c_id)
@@ -87,7 +109,12 @@ class UserImport implements ToCollection
                         ->where('b_manager_id', $user->u_id)
                         ->first();
                         $company_branch->b_address = $row[$this->additionalData['company_address']];
-                        $company_branch->b_phone1 = $row[$this->additionalData['phone_number']];
+                        if(empty($row[$this->additionalData['phone_number']])) {
+                            $company_branch->b_phone1 = '0000000000';
+                        }
+                        else {
+                            $company_branch->b_phone1 = $row[$this->additionalData['phone_number']];
+                        }
                         $company_branch->b_main_branch = 1;
                     }
                     else {
@@ -95,7 +122,12 @@ class UserImport implements ToCollection
                         $company_branch->b_company_id = $company->c_id;
                         $company_branch->b_manager_id = $user->u_id;
                         $company_branch->b_address = $row[$this->additionalData['company_address']];
-                        $company_branch->b_phone1 = $row[$this->additionalData['phone_number']];
+                        if(empty($row[$this->additionalData['phone_number']])) {
+                            $company_branch->b_phone1 = '0000000000';
+                        }
+                        else {
+                            $company_branch->b_phone1 = $row[$this->additionalData['phone_number']];
+                        }
                         $company_branch->b_main_branch = 1;
                     }
                     if($company_branch->save()) {

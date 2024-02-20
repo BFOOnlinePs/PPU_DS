@@ -36,7 +36,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="" class="form-label">{{__('translate.Selecting the category')}}{{-- تحديد الفئة --}}</label>
+                                        <label for="" class="form-label">{{__('translate.The category to which the event appears')}}{{-- الفئة التي يظهر لها الحدث --}}</label>
                                         <select autofocus class="js-example-basic-single col-sm-12" name="e_type" id="e_type" onchange="action_listener_when_choose_option(this.value , 'e_id_type')">
                                             <option value="0">{{__('translate.Everyone')}}{{-- الجميع --}}</option>
                                             <option value="1">{{__('translate.Students of a specific major')}}{{-- طلاب تخصص معين --}}</option>
