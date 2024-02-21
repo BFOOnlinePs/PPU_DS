@@ -3,31 +3,36 @@
     {{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('header_title')
-    {{__('translate.Main')}}{{--الرئيسية--}}
+{{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('header_title_link')
-    {{__('translate.Main')}}{{--الرئيسية--}}
+{{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('header_link')
-    {{__('translate.Main')}}{{--الرئيسية--}}
+{{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/calendar.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-QZFGL0W6qPrIFZdtYjZ3j+Y6OtHcCqHF5+yXvr3A3qoZtefksLyC5/CSlC5J8+h6FHUw0xRSoAFK43Z7Xlp3Hg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive.css')}}"> --}}
 @endsection
 @if(auth()->user()->u_role_id == 1)
-    @section('content')
-        <div class="card">
-            <div class="card-body">
-                <button class="btn btn-primary" onclick="show_add_event_modal()">{{__('translate.Add event')}}{{-- إضافة حدث --}}</button><br><br>
-                <div id="calendar">
-                </div>
-                @include('modals.addEvent')
-                @include('modals.showEvent')
-                @include('modals.alertToConfirmDelete')
-                @include('layouts.loader')
-            </div>
+@section('content')
+<div class="card">
+    <div class="card-body">
+        <button class="btn btn-primary" onclick="show_add_event_modal()">{{__('translate.Add event')}}{{-- إضافة حدث --}}</button><br><br>
+        <div id="calendar">
+
         </div>
-    @endsection
+        @include('modals.addEvent')
+        @include('modals.showEvent')
+        @include('modals.alertToConfirmDelete')
+        @include('layouts.loader')
+    </div>
+</div>
+@endsection
     @section('script')
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script>
@@ -404,7 +409,22 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        @if(auth()->user()->u_role_id == 2) {{-- Student --}}
+                            @include('includes.studentCard')
+                        @elseif (auth()->user()->u_role_id == 3) {{-- Supervisor --}}
+                            @include('includes.academicSupervisorCard')
+                        @elseif (auth()->user()->u_role_id == 4) {{-- Assistant --}}
+                            @include('includes.assistantCard')
+                        @elseif (auth()->user()->u_role_id == 5) {{-- M&E --}}
+                            @include('includes.monitorEvaluationCard')
+                        @elseif (auth()->user()->u_role_id == 6) {{-- Company Manager --}}
+                            @include('includes.companyManagerCard')
+                        @elseif (auth()->user()->u_role_id == 8) {{-- Communications Manager with Companies --}}
+                            @include('includes.communicationsManagerWithCompaniesCard')
+                        @endif
+
+                    </div>
                     <div class="col-md-6">
                         <div id="calendar">
                         </div>
@@ -415,7 +435,10 @@
         </div>
     @endsection
     @section('script')
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src="{{asset('assets/js/jquery-3.5.1.min.js')}}"></script>
+    <script src="{{asset('assets/js/script.js')}}"></script>
     <script>
         function ajax_to_get_event_information(id)
         {

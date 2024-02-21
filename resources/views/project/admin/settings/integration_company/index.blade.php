@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-    دمج بيانات االشركات
+{{__('translate.Companies data integration')}}{{-- تكامل بيانات الشركات --}}
 @endsection
 @section('header_title')
-    دمج بيانات الشركات
+{{__('translate.Companies data integration')}}{{-- تكامل بيانات الشركات --}}
 @endsection
 @section('header_title_link')
     <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
@@ -64,25 +64,26 @@
                                         {{__('translate.You must upload Excel file contains the following headings')}}{{-- يجب رفع ملف إكسل تحتوي على العناوين التالية --}} :
                                     </li>
                                     <ul style="list-style-type: circle">
-                                        <li>اسم الشركة</li>
-                                        <li>اسم الشخص المسؤول</li>
-                                        <li>البريد الإلكتروني</li>
-                                        <li>كلمة المرور</li>
-                                        <li>رقم هاتف الشركة (للفرع الرئيسي)</li>
-                                        <li>عنوان الشركة (للفرع الرئيسي)</li>
-                                        <li>نوع الشركة (قطاع عام / قطاع خاص)</li>
+                                        <li>{{__('translate.Company Name')}}{{-- اسم الشركة --}}</li>
+                                        <li>{{__('translate.Supervisor')}}{{-- اسم الشخص المسؤول --}}</li>
+                                        <li>{{__('translate.Email')}}{{-- البريد الإلكتروني --}}</li>
+                                        <li>{{__('translate.Password')}}{{-- كلمة المرور --}}</li>
+                                        <li>{{__('translate.Company phone number (for the main branch)')}}{{-- رقم هاتف الشركة (للفرع الرئيسي) --}}</li>
+                                        <li>{{__('translate.Company address (for the main branch)')}}{{-- عنوان الشركة (للفرع الرئيسي) --}}</li>
+                                        <li>{{__('translate.Company type (public sector/private sector)')}}{{-- نوع الشركة (قطاع عام / قطاع خاص) --}}</li>
+                                        <li>{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</li>
                                     </ul>
                                 </ul>
                             </div>
-                            <a href="{{ asset('storage/excel/BeFoundOnline.xlsx') }}" download>{{__('translate.Download Example File')}}{{--تحميل مثال لملف--}}</a>
+                            <a href="{{ asset('FileSample/BeFoundOnline.xlsx') }}" download>{{__('translate.Download Example File')}}{{--تحميل مثال لملف--}}</a>
                             <br><br>
                             <ul>
                                 <li>
                                     {{__('translate.Example')}}{{-- مثال --}} :
                                     @if (app()->getLocale() == 'en')
-                                        <img src="{{asset('storage/excel/BeFoundOnlineEn.PNG')}}" alt="">
+                                        <img src="{{asset('FileSample/BeFoundOnlineEN.PNG')}}" alt="">
                                     @else
-                                        <img src="{{asset('storage/excel/BeFoundOnlineAr.PNG')}}" alt="">
+                                        <img src="{{asset('FileSample/BeFoundOnlineAR.PNG')}}" alt="">
                                     @endif
                                 </li>
                             </ul>
@@ -97,40 +98,45 @@
                 <div class="row" id="step2">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">اسم الشركة</label>
+                            <label for="f1-last-name">{{__('translate.Company Name')}}{{-- اسم الشركة --}}</label>
                             <select id="company_name" name="company_name"  class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">اسم الشخص المسؤول</label>
+                            <label for="f1-last-name">{{__('translate.Supervisor')}}{{-- اسم الشخص المسؤول --}}</label>
                             <select id="manager_name" name="manager_name" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">البريد الإلكتروني</label>
+                            <label for="f1-last-name">{{__('translate.Email')}}{{-- البريد الإلكتروني --}}</label>
                             <select id="company_email" name="company_email" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">كلمة المرور</label>
+                            <label for="f1-last-name">{{__('translate.Password')}}{{-- كلمة المرور --}}</label>
                             <select id="company_password" name="company_password" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="f1-last-name">رقم هاتف الشركة (للفرع الرئيسي)</label>
+                            <label for="f1-last-name">{{__('translate.Company phone number (for the main branch)')}}{{-- رقم هاتف الشركة (للفرع الرئيسي) --}}</label>
                             <select id="phone_number" name="phone_number" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">عنوان الشركة (للفرع الرئيسي)</label>
+                            <label for="f1-last-name">{{__('translate.Company address (for the main branch)')}}{{-- عنوان الشركة (للفرع الرئيسي) --}}</label>
                             <select id="company_address" name="company_address" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">نوع الشركة (قطاع عام / قطاع خاص)</label>
+                            <label for="f1-last-name">{{__('translate.Company type (public sector/private sector)')}}{{-- نوع الشركة (قطاع عام / قطاع خاص) --}}</label>
                             <select id="company_type" name="company_type" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</label>
+                            <select id="company_category" name="company_category" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                     </div>
@@ -234,6 +240,8 @@
         data.push(document.getElementById('company_address').value);
         data.push('company_type');
         data.push(document.getElementById('company_type').value);
+        data.push('company_category');
+        data.push(document.getElementById('company_category').value);
         let file = document.getElementById('excel_file').files[0];
         let name_file_hidden = document.getElementById('name_file_hidden').value;
         if (file) {
@@ -281,8 +289,11 @@
                         }
                         document.getElementById('progress').innerHTML = progress;
                     }
+                    toastr.success(`{{__('translate.The integration was completed successfully')}}`); // تم عمل اندماج بنجاح
+
                 },
                 error: function (error) {
+                    alert(error.responseText);
                     $('#LoadingModal').modal('hide');
                 }
             });
@@ -359,6 +370,7 @@
                     create_options(headers , 'phone_number');
                     create_options(headers , 'company_address');
                     create_options(headers , 'company_type');
+                    create_options(headers , 'company_category');
                 },
                 error: function (error) {
                     $('#progress-container').hide();

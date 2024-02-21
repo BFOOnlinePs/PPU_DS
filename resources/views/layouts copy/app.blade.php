@@ -48,6 +48,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -101,56 +102,58 @@ height:16px ;
     @include('project.admin.settings.styles')
     <!-- Loader starts-->
     <div class="loader-wrapper">
-      <div class="theme-loader">
-        <div class="loader-p"></div>
-      </div>
+        <div class="theme-loader">
+            <div class="loader-p"></div>
+        </div>
     </div>
+
     <!-- Loader ends-->
-    <!-- page-wrapper Start       -->
-    <div class="page-wrapper compact-wrapper compact-sidebar" id="pageWrapper">
-      <!-- Page Header Start-->
-      @include('layouts.navbar')
-      <!-- Page Header Ends                              -->
-      <!-- Page Body Start-->
-      <div class="page-body-wrapper sidebar-icon">
-        <!-- Page Sidebar Start-->
-        @include('layouts.sidebar')
-        <!-- Page Sidebar Ends-->
-        @include('layouts.content')
-        <!-- footer start-->
-        @include('layouts.footer')
-      </div>
+    <!-- page-wrapper Start-->
+    <div class="page-wrapper  horizontal-wrapper  normal-sidebar" id="pageWrapper">
+        <!-- Page Header Start-->
+        @include('layouts.navbar')
+
+        <!-- Page Header Ends                              -->
+        <!-- Page Body Start-->
+        <div class="page-body-wrapper">
+            <!-- Page Sidebar Start-->
+
+            <!-- Page Sidebar Ends-->
+            @include('layouts.content')
+            <!-- footer start-->
+            @include('layouts.footer')
+        </div>
     </div>
     <!-- latest jquery-->
-
-    <script src="{{asset('assets/js/jquery-3.5.1.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <!-- feather icon js-->
-    <script src="{{asset('assets/js/icons/feather-icon/feather.min.js')}}"></script>
-    <script src="{{asset('assets/js/icons/feather-icon/feather-icon.js')}}"></script>
+    <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
     <!-- Sidebar jquery-->
-    <script src="{{asset('assets/js/sidebar-menu.js')}}"></script>
-    <script src="{{asset('assets/js/config.js')}}"></script>
+    <!-- <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script> -->
+    <script src="{{ asset('assets/js/config.js') }}"></script>
     <!-- Bootstrap js-->
-    <script src="{{asset('assets/js/bootstrap/popper.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
     <!-- Plugins JS start-->
-    <script src="{{asset('assets/js/tooltip-init.js')}}"></script>
-    <script src="{{asset('assets/js/prism/prism.min.js')}}"></script>
-    <script src="{{asset('assets/js/clipboard/clipboard.min.js')}}"></script>
-    <script src="{{asset('assets/js/custom-card/custom-card.js')}}"></script>
-    <script src="{{asset('assets/js/dashboard/default.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{{ asset('assets/js/prism/prism.min.js') }}"></script>
+    <script src="{{ asset('assets/js/clipboard/clipboard.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-card/custom-card.js') }}"></script>
+    <script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
-    <script src="{{asset('assets/js/script.js')}}"></script>
-    {{-- <script src="{{asset('assets/js/theme-customizer/customizer.js')}}"></script> --}}
-    <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-
+    <script src="{{ asset('assets/js/script.js') }}"></script>
     <!-- login js-->
     <!-- Plugin used-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+
     @yield('script')
-  </body>
+</body>
 </html>
