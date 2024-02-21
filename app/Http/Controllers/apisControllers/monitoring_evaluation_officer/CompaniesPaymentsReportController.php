@@ -45,7 +45,7 @@ class CompaniesPaymentsReportController extends Controller
         // only the student company that has payment
         $studentsCompanies->whereHas('trainingPayments');
 
-        $studentsCompanies = $studentsCompanies->select('sc_id' ,'sc_student_id', 'sc_company_id')->get();
+        $studentsCompanies = $studentsCompanies->select('sc_id', 'sc_student_id', 'sc_company_id')->get();
 
         // Load the 'company' and 'users' relationships
         // $studentsCompanies = $studentsCompanies->load('company', 'users');
@@ -58,7 +58,7 @@ class CompaniesPaymentsReportController extends Controller
         // $studentsCompanies = $studentsCompanies->with('company')->pluck('c_name')
         //     ->with('users')->pluck('u_username');
 
-        // $currencies = Currency::get();
+        $currencies = Currency::get();
         // return $currencies;
 
         foreach ($studentsCompanies as $studentCompany) {
@@ -76,25 +76,36 @@ class CompaniesPaymentsReportController extends Controller
                 $currencyId = $payment->p_currency_id;
                 $paymentValue = $payment->p_payment_value;
 
+                // Fetch currency symbol
+                $currencySymbol = Currency::where('c_id', $currencyId)->pluck('c_symbol')->first();
+
+
                 // Add the payment value to the corresponding currency sum
-                if (!isset($paymentsByCurrency[$currencyId])) {
-                    $paymentsByCurrency[$currencyId] = 0; // Initialize the sum if not present
-                }
-                if (!isset($confirmedPayments[$currencyId])) {
-                    $confirmedPayments[$currencyId] = 0; // Initialize the sum if not present
+                if (!isset($paymentsByCurrency[$currencySymbol])) {
+                    $paymentsByCurrency[$currencySymbol] = 0; // Initialize the sum if not present
                 }
 
-                $paymentsByCurrency[$currencyId] += $paymentValue;
+
+                $paymentsByCurrency[$currencySymbol] += $paymentValue;
 
                 if ($payment->p_status == 1) {
-                    $confirmedPayments[$currencyId] += $paymentValue;
+                    if (!isset($confirmedPayments[$currencySymbol])) {
+                        $confirmedPayments[$currencySymbol] = 0; // Initialize the sum if not present
+                    }
+                    $confirmedPayments[$currencySymbol] += $paymentValue;
                 }
             }
+
+            // change the key from currency id to currency symbol
+
 
             // Now $paymentsByCurrency contains sums of payments by currency for the current StudentCompany
             // You can do whatever you need with this data
             $studentCompany->payments_by_currency = $paymentsByCurrency;
-            $studentCompany->confirmed_payments = $confirmedPayments;
+
+            if ($confirmedPayments) {
+                $studentCompany->confirmed_payments = $confirmedPayments;
+            }
         }
 
         return response()->json([

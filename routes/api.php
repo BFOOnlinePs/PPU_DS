@@ -8,7 +8,9 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\manage
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\CompaniesPaymentsReportController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\PaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\SemesterReportController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\StudentCompanyPaymentsDetailsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\TrainingHoursReportController;
 use App\Http\Controllers\apisControllers\program_coordinator\majors\ProgramCoordinatorMajorsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoordinatorStudentsController;
@@ -189,6 +191,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
     Route::get('getTrainingHoursReport', [TrainingHoursReportController::class, 'getTrainingHoursReport']);
     Route::get('getCompaniesPaymentsReport', [CompaniesPaymentsReportController::class, 'getCompaniesPaymentsReport']);
+    Route::post('getTrainingPaymentsDetails', [StudentCompanyPaymentsDetailsReportController::class, 'getTrainingPaymentsDetails']);
+    Route::get('getAllPayments', [PaymentsReportController::class, 'getAllPayments']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
