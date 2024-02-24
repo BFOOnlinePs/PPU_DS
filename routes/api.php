@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getCompaniesPaymentsReport', [CompaniesPaymentsReportController::class, 'getCompaniesPaymentsReport']);
     Route::post('getTrainingPaymentsDetails', [StudentCompanyPaymentsDetailsReportController::class, 'getTrainingPaymentsDetails']);
     Route::get('getAllPayments', [PaymentsReportController::class, 'getAllPayments']);
+    Route::get('getStudentsNamesWithSearch', [PaymentsReportController::class, 'getStudentsNamesWithSearch']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);

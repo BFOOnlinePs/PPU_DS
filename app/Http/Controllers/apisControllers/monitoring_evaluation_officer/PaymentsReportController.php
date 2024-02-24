@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 class PaymentsReportController extends Controller
 {
     // filter as query parameter
-    public function getAllPayments(Request $request){
+    public function getAllPayments(Request $request)
+    {
 
         if ($request->has('year')) {
             $year = $request->input('year');
@@ -45,7 +46,7 @@ class PaymentsReportController extends Controller
 
         $payments = Payment::whereIn('p_student_company_id', $studentsCompaniesIdList);
 
-        if($request->has('payment_status')){
+        if ($request->has('payment_status')) {
             $payments->where('p_status', $request->input('payment_status'));
         }
 
@@ -61,6 +62,34 @@ class PaymentsReportController extends Controller
         return response()->json([
             'status' => true,
             'payments' => $payments
+        ]);
+    }
+
+
+    // student name filter as query params
+    // students who has training
+    public function getStudentsNamesWithSearch(Request $request)
+    {
+        $student_name_search = $request->input('student_name');
+
+        $unique_students_ids = StudentCompany::select('sc_student_id')
+            ->distinct()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->pluck('sc_student_id');
+
+        // if ($student_name_search) {
+            $students = User::whereIn('u_id', $unique_students_ids)
+                ->where('name', 'like', '%' . $student_name_search . '%')
+                ->select('u_id', 'name')
+                ->limit(5)
+                ->get();
+        // }
+
+
+        return response()->json([
+            'status' => true,
+            'students' => $students,
         ]);
     }
 }
