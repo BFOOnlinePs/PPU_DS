@@ -7,17 +7,24 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\Compan
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\CompaniesPaymentsReportController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\PaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\SemesterReportController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\StudentCompanyPaymentsDetailsReportController;
+use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\TrainingHoursReportController;
 use App\Http\Controllers\apisControllers\program_coordinator\majors\ProgramCoordinatorMajorsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoordinatorStudentsController;
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\editCompanyController;
+use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
+use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
@@ -176,12 +183,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getCompanyDepartments', [editCompanyController::class, 'getCompanyDepartments']);
     Route::post('addNewCompanyDepartment', [editCompanyController::class, 'addNewCompanyDepartment']);
     Route::post('editCompanyDepartmentName', [editCompanyController::class, 'editCompanyDepartmentName']);
-    Route::post('getCompanyBranches', [editCompanyController::class, 'getCompanyBranches']);
+    Route::post('getCompanyBranches', [editCompanyController::class, 'getCompanyBranches']); // + i use it with semester report
     Route::post('addNewCompanyBranch', [editCompanyController::class, 'addNewCompanyBranch']);
     Route::post('editCompanyBranch', [editCompanyController::class, 'editCompanyBranch']);
 
     // Monitoring and Evaluation Officer
     Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
+    Route::get('getTrainingHoursReport', [TrainingHoursReportController::class, 'getTrainingHoursReport']);
+    Route::get('getCompaniesPaymentsReport', [CompaniesPaymentsReportController::class, 'getCompaniesPaymentsReport']);
+    Route::post('getTrainingPaymentsDetails', [StudentCompanyPaymentsDetailsReportController::class, 'getTrainingPaymentsDetails']);
+    Route::get('getAllPayments', [PaymentsReportController::class, 'getAllPayments']);
+    Route::get('getStudentsNamesWithSearch', [PaymentsReportController::class, 'getStudentsNamesWithSearch']);
+
+    // system
+    Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
+    Route::get('getCurrentYearAndSemester', [CurrentYearAndSemesterController::class, 'getCurrentYearAndSemester']);
+
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
