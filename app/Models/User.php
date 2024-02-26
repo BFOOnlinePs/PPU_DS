@@ -139,4 +139,8 @@ class User extends Authenticatable
     public function supervisors(){
         return $this->hasMany(SupervisorAssistant::class, 'sa_supervisor_id', 'u_id');
     }
+    public function surveys(){
+        return $this->hasMany(survey::class, 's_added_by', 'u_id');
+    }
+
 }

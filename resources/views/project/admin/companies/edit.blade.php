@@ -233,7 +233,7 @@
                 <div class="f1-buttons">
                     <button type="submit" id="submit_editCompany" class="btn btn-primary">{{__('translate.Edit')}}{{-- تعديل --}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
-                                </div>
+                 </div>
 
     </form>
                 </div>
