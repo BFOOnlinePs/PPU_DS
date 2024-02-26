@@ -51,6 +51,22 @@
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</span></a></li>
                         @endif
+                        <li><a class="nav-link" href="{{route('admin.survey.index')}}"><i data-feather="clipboard"></i><span>{{__('translate.surveys')}}{{--  الاستبيانات --}}</span></a></li>
+                        <!-- <li class="dropdown-basic">
+                     <div class="dropdown">
+                         <div class="dropbtn">
+                            <a class="nav-link" href="{{ route('admin.survey.index') }}">
+                                <i data-feather="clipboard"></i>
+                                <span>{{__('translate.Survey')}}</span>
+                            </a>
+                            <div class="dropdown-content">                               
+                                <a href="{{ route('admin.survey.index') }}">{{__('translate.surveys')}}</a>
+                                @if(auth()->user()->u_role_id !=2 )    <a href="{{ route('admin.survey.addSurvey') }}">{{__('translate.add_survey')}}</a> @endif
+                                {{-- <a href="{{ route('admin.registration.semesterStudents') }}">{{__("translate.Current Semester's Students")}}</a>--}}
+                            </div>
+                        </div>
+                     </div>
+                 </li> -->
                     </ul>
                 </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
