@@ -43,6 +43,19 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
         });
+        Route::group(['prefix'=>'survey'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\surveyController::class,'index'])->name('admin.survey.index');
+            Route::post('/surveySearch',[App\Http\Controllers\project\admin\surveyController::class,'surveySearch'])->name('admin.survey.surveySearch');
+            Route::get('/addSurvey',[App\Http\Controllers\project\admin\surveyController::class,'addSurvey'])->name('admin.survey.addSurvey');
+            Route::post('/createSurvey',[App\Http\Controllers\project\admin\surveyController::class,'createSurvey'])->name('admin.survey.createSurvey');
+            Route::get('/surveyView/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyView'])->name('admin.survey.surveyView');
+            Route::post('/submitSurvey',[App\Http\Controllers\project\admin\surveyController::class,'submitSurvey'])->name('admin.survey.submitSurvey');
+            Route::post('/deleteSurvey',[App\Http\Controllers\project\admin\surveyController::class,'deleteSurvey'])->name('admin.survey.deleteSurvey');
+            Route::get('/editSurvey/{id}',[App\Http\Controllers\project\admin\surveyController::class,'editSurvey'])->name('admin.survey.editSurvey');
+            Route::get('/surveySubmit/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveySubmit'])->name('admin.survey.surveySubmit');
+            Route::post('/update',[App\Http\Controllers\project\admin\surveyController::class,'update'])->name('admin.survey.update');
+
+        });
 
 
         Route::group(['prefix'=>'courses'],function(){

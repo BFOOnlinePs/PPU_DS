@@ -194,7 +194,23 @@
                                 <span>{{__('translate.Settings')}}</span>
                             </a>
                         </li>
-                    @endif
+                
+                    @endif 
+                    <li class="dropdown-basic">
+                     <div class="dropdown">
+                         <div class="dropbtn">
+                            <a class="nav-link" href="{{ route('admin.survey.index') }}">
+                                <i data-feather="clipboard"></i>
+                                <span>{{__('translate.Survey')}}</span>
+                            </a>
+                            <div class="dropdown-content">                               
+                                <a href="{{ route('admin.survey.index') }}">{{__('translate.surveys')}}</a>
+                                @if(auth()->user()->u_role_id !=2 )    <a href="{{ route('admin.survey.addSurvey') }}">{{__('translate.add_survey')}}</a> @endif
+                                {{-- <a href="{{ route('admin.registration.semesterStudents') }}">{{__("translate.Current Semester's Students")}}</a>--}}
+                            </div>
+                        </div>
+                     </div>
+                 </li>
                 </ul>
             </div>
         </div>
