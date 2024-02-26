@@ -37,10 +37,22 @@
 
     <div class="card-body" >
 
-        <div class="mb-3">
+        {{-- <div class="mb-3"> --}}
             {{-- <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" ><i class="fa fa-file-pdf-o"></i> {{__('translate.Report File')}} ملف التقرير</button> --}}
-            <button class="btn btn-primary mb-2 btn-s" onclick="showSemesterPDF()"><i class="fa fa-print"></i> </button>
+            {{-- <button class="btn btn-primary mb-2 btn-s" onclick="showSemesterPDF()"><i class="fa fa-print"></i> </button> --}}
+        {{-- </div> --}}
+
+        <form id="semesterReportAjax" method="POST" action="{{route('monitor_evaluation.semesterReportPDF')}}" enctype="multipart/form-data" target="_blank">
+            @csrf
+            <div>
+            <input hidden id="test" name="test" value="{{base64_encode(serialize($pdf))}}">
+            <input hidden id="semesterText" name="semesterText" value="{{$semester}}">
+            {{-- <input hidden id="companyTypeText" name="companyTypeText" value="{{$companyType}}">
+            <input hidden id="companyCateg" name="companyCateg" value="{{$companyCateg}}"> --}}
+            {{-- <input hidden id="title" name="title" value="{{$title}}"> --}}
+            <button class="btn btn-primary mb-2 btn-s" id="semsterPDFButton" type="submit"><i class="fa fa-print"></i> </button>
         </div>
+        </form>
 
         <!--loading whole page-->
         <div class="loader-container loader-box" id="loaderContainer" hidden>
@@ -81,7 +93,7 @@
 
                 <div class="col-md-1">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الجنس</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Gender')}}{{--الجنس--}}</label>
                         <div class="col-lg-12">
                             <select id="gender" name="gender" class="form-control btn-square">
                                 <option value="-1" selected>--{{__('translate.Choose')}}--</option>
@@ -94,7 +106,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">التخصص</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Major')}}{{--التخصص--}}</label>
                         <div class="col-lg-12">
                             <select id="major" name="major" class="form-control btn-square">
                                 <option value="-1" selected>--{{__('translate.Choose')}}--</option>
@@ -108,7 +120,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.Company')}}{{--الشركة--}}</label>
                         <div class="col-lg-12">
                             <select id="company" name="company" class="form-control btn-square">
                                 <option value="0" selected>--{{__('translate.Choose')}}--</option>
@@ -122,7 +134,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="col-form-label pt-0" for="exampleInputEmail1">فرع الشركة</label>
+                        <label class="col-form-label pt-0" for="exampleInputEmail1">{{__('translate.company_branch')}}{{--فرع الشركة--}}</label>
                         <div class="col-lg-12">
                             <select id="branch" name="branch" class="form-control btn-square">
                                 <option value="0" selected>--{{__('translate.Choose')}}--</option>
@@ -151,27 +163,27 @@
                     <tr>
                       <td class="col-md-4">{{__('translate.Total of registered students this semester')}} {{--  إجمالي الطلاب المسجلين في المساقات خلال هذا الفصل --}}</td>
                       <td id="manager_summary">{{$coursesStudentsTotal}}</td>
-                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
+                      <td><button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.students_courses_report")}}"'><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr>
                       <td class="col-md-4">{{__('translate.Total of Semester Courses')}} {{--إجمالي المساقات لهذا الفصل--}}</td>
                       <td id="phone_summary">{{$semesterCoursesTotal}}</td>
-                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
+                      <td><button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.courses_registered_report")}}"'><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr id="phone2_summary_area">
                       <td class="col-md-4"> {{__('translate.Total of Traning Hours for all students this semester')}} {{--إجمالي ساعات التدريب لجميع الطلاب خلال هذا الفصل--}}</td>
                       <td id="phone2_summary"> {{$trainingHoursTotal}}{{--ساعات--}}{{__('translate.Hours')}}،{{$trainingMinutesTotal}}{{--دقائق--}} {{__('translate.Minutes')}} </td>
-                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
+                      <td><button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.training_hours_report")}}"'><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr>
                       <td class="col-md-4">{{__("translate.Total of Companies' Trainees this semester")}} {{--إجمالي الطلاب المسجلين في الشركات خلال هذاالفصل--}}</td>
                       <td id="address_summary">{{$traineesTotal}}</td>
-                      <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
+                      <td><button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.students_companies_report")}}"'><i class="fa fa-search"></i></button></td>
                     </tr>
                     <tr>
                         <td class="col-md-4"> {{__('translate.Total of Companies have trainees this semester')}}{{--إجمالي الشركات المسجل بها خلال هذا الفصل--}}</td>
                         <td id="address_summary">{{$semesterCompaniesTotal}}</td>
-                        <td><button class="btn btn-primary"><i class="fa fa-search"></i></button></td>
+                        <td><button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.companiesReport")}}"'><i class="fa fa-search"></i></button></td>
                     </tr>
 
                   </tbody>
@@ -192,6 +204,8 @@
 
 <script>
     let companyChanged = false;
+    var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
+
     $('#searchForm').find('select').each(function() {
         element = `${$(this)[0].id}`
         document.getElementById(`${element}`).addEventListener("change", function() {
@@ -224,7 +238,10 @@
                 dataType: 'json',
                 success: function(response) {
                     dataPDF = response.pdf;
+                    console.log(response.pdf);
                     document.getElementById('loaderContainer').hidden = true;
+                    document.getElementById('semesterText').value = response.semester;
+                    document.getElementById('test').value = response.pdf;
 
                     var selectElement = document.getElementById("branch");
                     // document.getElementById('branch').hidden = true;
@@ -278,7 +295,7 @@
 
 
 
-    var dataPDF = "<?php echo base64_encode(serialize($pdf)); ?>";
+
 
     function pdfLink(data){
 
@@ -339,6 +356,7 @@
                 data: data,
                 dataType: 'json',
                 success: function(response) {
+                    // console.log(response.pdf);
                     dataPDF = response.pdf;
                     document.getElementById('loaderContainer').hidden = true;
                     $('#semsterReportTable').html(response.view);

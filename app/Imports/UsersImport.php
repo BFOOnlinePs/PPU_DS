@@ -29,11 +29,19 @@ class UsersImport implements ToModel
             $this->startRow++;
             return null;
         }
-        if (empty($row[$this->additionalData['student_id']]) || empty($row[$this->additionalData['student_name']])) {
+        if (empty($row[$this->additionalData['student_id']]) || empty($row[$this->additionalData['student_name']]) || empty($row[$this->additionalData['student_gender']])) {
            return null; // Skip this row if student_id or student_name is empty
+        }
+        $gender = null;
+        if($row[$this->additionalData['student_gender']] == "أنثى" || $row[$this->additionalData['student_gender']] == "انثى" || $row[$this->additionalData['student_gender']] == "Female" || $row[$this->additionalData['student_gender']] == "female") {
+            $gender = 1;
+        }
+        else if($row[$this->additionalData['student_gender']] == "ذكر" || $row[$this->additionalData['student_gender']] == "Male" || $row[$this->additionalData['student_gender']] == "male") {
+            $gender = 0;
         }
         $user = User::where('u_username' , $row[$this->additionalData['student_id']])
                     ->where('name' , $row[$this->additionalData['student_name']])
+                    ->where('u_gender' , $gender)
                     ->exists();
         if($user) {
             return null;
@@ -44,6 +52,7 @@ class UsersImport implements ToModel
         $return_user = new User([
             'u_username' => $row[$this->additionalData['student_id']],
             'name' => $row[$this->additionalData['student_name']],
+            'u_gender' => $gender ,
             'password' => bcrypt("123456789"),
             'email' => $row[$this->additionalData['student_id']] . '@ppu.edu.ps',
             'u_role_id' => 2,

@@ -11,6 +11,12 @@ class companyBranchDepartments extends Model
     protected $table = 'company_branches_departments';
     protected $primaryKey = 'cbd_id';
 
+    protected $fillable = [
+        'cbd_d_id',
+        'cbd_company_branch_id',
+        'cbd_status'
+    ];
+
     public function studentCompany()
     {
         return $this->hasMany(StudentCompany::class, 'sc_department_id', 'cbd_id');
@@ -18,6 +24,10 @@ class companyBranchDepartments extends Model
     public function departments()
     {
         return $this->belongsTo(CompanyDepartment::class, 'd_id', 'cbd_d_id');
+    }
 
+    public function companyDepartment()
+    {
+        return $this->belongsTo(CompanyDepartment::class, 'cbd_d_id', 'd_id');
     }
 }

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Integration')}}{{-- دمج البيانات--}}
+{{__('translate.Students data integration')}}{{-- تكامل بيانات الطلاب --}}
 @endsection
 @section('header_title')
-{{__('translate.Integration')}}{{-- دمج البيانات--}}
+{{__('translate.Students data integration')}}{{-- تكامل بيانات الطلاب --}}
 @endsection
 @section('header_title_link')
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
@@ -70,6 +70,7 @@
                                         <li>{{__('translate.The semester (1 means first semester, 2 means second semester, 3 means summer semester)')}}{{-- الفصل (1 تعني الفصل الأول ، 2 تعني الفصل الثاني ، 3 تعني الفصل الصيفي) --}}</li>
                                         <li>{{__('translate.Student University ID')}}{{-- الرقم الجامعي للطالب --}}</li>
                                         <li>{{__("translate.Student Name")}}{{-- اسم الطالب --}}</li>
+                                        <li>{{__('translate.Gender (male or female)')}}{{-- الجنس (ذكر أو أنثى) --}}</li>
                                         <li>{{__('translate.Course ID')}}{{-- رقم المساق --}}</li>
                                         <li>{{__('translate.Course Name')}}{{-- اسم المساق --}}</li>
                                         <li>{{__('translate.Major ID')}}{{-- رقم التخصص --}}</li>
@@ -77,15 +78,15 @@
                                     </ul>
                                 </ul>
                             </div>
-                            <a href="{{ asset('storage/excel/samplesData.xlsx') }}" download>{{__('translate.Download Example File')}}{{--تحميل مثال لملف--}}</a>
+                            <a href="{{ asset('FileSample/samplesData.xlsx') }}" download>{{__('translate.Download Example File')}}{{--تحميل مثال لملف--}}</a>
                             <br><br>
                             <ul>
                                 <li>
                                     {{__('translate.Example')}}{{-- مثال --}} :
                                     @if (app()->getLocale() == 'en')
-                                        <img src="{{asset('storage/excel/excelEn.PNG')}}" alt="">
+                                        <img src="{{asset('FileSample/StudentDataEN.PNG')}}" alt="">
                                     @else
-                                        <img src="{{asset('storage/excel/excelAr.PNG')}}" alt="">
+                                        <img src="{{asset('FileSample/StudentDataAR.PNG')}}" alt="">
                                     @endif
                                 </li>
                             </ul>
@@ -129,6 +130,11 @@
                         <div class="form-group">
                             <label for="f1-last-name">{{__("translate.Student Name")}}{{-- اسم الطالب --}}</label>
                             <select id="student_name" name="student_name" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">{{__('translate.Gender (male or female)')}}{{-- الجنس (ذكر أو أنثى) --}}</label>
+                            <select id="student_gender" name="student_gender" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                         <div class="form-group">
@@ -236,6 +242,8 @@
         data.push(document.getElementById('student_id').value);
         data.push('student_name');
         data.push(document.getElementById('student_name').value);
+        data.push('student_gender');
+        data.push(document.getElementById('student_gender').value);
         data.push('course_id');
         data.push(document.getElementById('course_id').value);
         data.push('course_name');
@@ -415,6 +423,7 @@
                     create_options(headers , 'semester');
                     create_options(headers , 'student_id');
                     create_options(headers , 'student_name');
+                    create_options(headers , 'student_gender');
                     create_options(headers , 'course_id');
                     create_options(headers , 'course_name');
                     create_options(headers , 'major_id');

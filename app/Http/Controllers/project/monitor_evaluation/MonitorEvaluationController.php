@@ -65,7 +65,11 @@ class MonitorEvaluationController extends Controller
             });
         }
 
-        return view('project.monitor_evaluation.companiesReport',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories]);
+        $title = __("translate.Companies' Report");
+
+        return view('project.monitor_evaluation.companiesReport',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories,
+        'companyCateg'=>__('translate.all_categories'),'companyType'=>__('translate.all_types'),'title'=>$title, 'year'=>$year
+        ]);
     }
 
     public function companiesReportSearch(Request $request){
@@ -73,6 +77,8 @@ class MonitorEvaluationController extends Controller
         $companyType = null;
         $companyCategory = null;
         $companies = Company::where('c_id',0)->get();
+        $companyCateg = __('translate.all_categories');
+        $companyTypeText =__('translate.all_types');
 
         $systemSettings = SystemSetting::first();
         $year = $systemSettings->ss_year;
@@ -81,17 +87,21 @@ class MonitorEvaluationController extends Controller
 
         if($request->companyType != 0 && $request->companyCategory != 0){ //هون بكون ببحث عن النوع والتصنيف
             $companyType = $request->companyType;
+            $companyTypeText = $request->companyType;
+            $companyCateg = CompaniesCategory::where('cc_id', $request->companyCategory)->value('cc_name');
             $companyCategory = $request->companyCategory;
             $data = Company::with('manager','companyCategories')->where('c_category_id',$companyCategory)
             ->where('c_type',$companyType)
             ->get();
         }
         else if($request->companyCategory != 0){ //هون بكون ببحث عن تصنيف الشركة
+            $companyCateg = CompaniesCategory::where('cc_id', $request->companyCategory)->value('cc_name');
             $companyCategory = $request->companyCategory;
             $data = Company::with('manager','companyCategories')->where('c_category_id',$companyCategory)->get();
         }
         else if($request->companyType != 0){ //هون بكون ببحث عن نوع الشركة
             $companyType = $request->companyType;
+            $companyTypeText = $request->companyType;
             $data = Company::with('manager','companyCategories')->where('c_type',$companyType)->get();
         }
         else if($companyType == 0 && $companyCategory == 0){ //هون بكون ببحث عن الفصل لحال
@@ -114,6 +124,7 @@ class MonitorEvaluationController extends Controller
                 ->distinct()
                 ->get();
             }else{
+                $year = __('translate.All Academic Years');
                 // $studentsTotal = StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
                 $studentsTotal = StudentCompany::
                 // whereIn('sc_registration_id', function ($query) use ($year, $semester) {
@@ -137,7 +148,11 @@ class MonitorEvaluationController extends Controller
         return response()->json([
             'success'=>'true',
             'data'=> base64_encode(serialize($companies)),
-            'view'=>view('project.monitor_evaluation.ajax.companiesReportTable',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories])->render()
+            'view'=>view('project.monitor_evaluation.ajax.companiesReportTable',['data'=>$companies, 'semester'=>$semester,'categories'=>$categories])->render(),
+            'semester'=>$semester,
+            'companyCateg'=>$companyCateg,
+            'companyType'=>$companyTypeText,
+            'year'=>$year
         ]);
 
     }
@@ -173,13 +188,18 @@ class MonitorEvaluationController extends Controller
 
         $semesterCoursesTotal = count(SemesterCourse::where('sc_semester',$semester)->where('sc_year',$year)->get());
 
-        $attendanceRows = StudentAttendance::whereIn('sa_student_id', function ($query) use ($year, $semester) {
-            $query->select('r_student_id')
+
+        $trainings = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
                 ->from('registration')
                 ->where('r_year', $year)
                 ->where('r_semester', $semester)
                 ->distinct();
-        })->whereNotNull('sa_out_time')
+        })
+        ->pluck('sc_id')
+        ->toArray();
+
+        $attendanceRows = StudentAttendance::whereIn('sa_student_company_id', $trainings)->whereNotNull('sa_out_time')
         ->get();
 
         $hours = 0;
@@ -214,25 +234,40 @@ class MonitorEvaluationController extends Controller
         ->get());
 
         if($semester==1){
-            $semesterText = __('translate.First Semester Report');
+            // $semesterText = __('translate.First Semester Report');
+            $semesterText = "الأول";
         }else if($semester==2){
-             $semesterText = __('translate.Second Semester Report');
+            //  $semesterText = __('translate.Second Semester Report');
+            $semesterText = "الثاني";
         }else{
-             $semesterText = __('translate.Summer Semester Report');
+            //  $semesterText = __('translate.Summer Semester Report');
+            $semesterText = "الصيفي";
         }
+
+
 
         $yearText = __('translate.for Academic Year') . " " . $year;
         $concatenatedText = $semesterText . " " . $yearText;
+        // $concatenatedText = "تقرير الفصل الدراسي"." ".$semesterText.;
+
+
+
 
         $data = [
-            'title' => $concatenatedText,
+            'title' => __('translate.Semester Report'),
             'semesterCompaniesTotal' => $semesterCompaniesTotal,
             'coursesStudentsTotal' => $coursesStudentsTotal,
             'companiesTotal'=>$companiesTotal,
             'semesterCoursesTotal'=>$semesterCoursesTotal,
             'traineesTotal'=>$traineesTotal,
             'trainingMinutesTotal'=>$trainingMinutesTotal,
-            'trainingHoursTotal'=>$trainingHoursTotal
+            'trainingHoursTotal'=>$trainingHoursTotal,
+            'gender'=>__('translate.all'),
+            'semester'=>0,
+            'company'=>__('translate.All Companies'),
+            'branch'=>__('translate.all_branches'),
+            'major'=>__('translate.All Majors'),
+            'year'=>$year
         ];
 
         $majors = Major::get();
@@ -249,12 +284,27 @@ class MonitorEvaluationController extends Controller
 
         $semester = $request->semester;
         $year = $request->year;
+        $genderText = __('translate.all');
+        $majorText = __('translate.All Majors');
+        $companyText = __('translate.All Companies');
+        $branchText = __('translate.all_branches');
+
+
+
+        // if($request->gender === 0){
+        //     return 'REEM';
+        //     $genderText = "ذكور";
+        // }else{
+        //     $genderText = "إناث";
+        // }
 
         $query = User::query();
         if ($request->gender != -1) {
             $query->where('u_gender', $request->gender);
+
         }
         if ($request->major != -1) {
+            $majorText = Major::where('m_id', $request->major)->value('m_name');
             $query->where('u_major_id', $request->major);
         }
         $students = $query->select('u_id');
@@ -300,21 +350,27 @@ class MonitorEvaluationController extends Controller
         //here
         $query2 = StudentCompany::query();
         if ($request->company != 0) {
+            $companyText = Company::where('c_id', $request->company)->value('c_name');
             $query2->where('sc_company_id', $request->company);
         }
         if($request->branch!=0){
+            $branchText = CompanyBranch::where('b_id', $request->branch)->value('b_address');
             $query2->where('sc_branch_id', $request->branch);
         }
         $companyTrainings = $query2->select('sc_id');
 
-        $attendanceRows = StudentAttendance::whereIn('sa_student_id', function ($query) use ($year, $semester,$students) {
-            $query->select('r_student_id')
+        $trainings = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester,$students) {
+            $query->select('r_id')
                 ->from('registration')
                 ->where('r_year', $year)
                 ->where('r_semester', $semester)
                 ->whereIn('r_student_id',$students)
                 ->distinct();
-        })->whereNotNull('sa_out_time')
+        })
+        ->pluck('sc_id')
+        ->toArray();
+
+        $attendanceRows = StudentAttendance::whereIn('sa_student_company_id', $trainings)->whereNotNull('sa_out_time')
         ->whereIn('sa_student_company_id',$companyTrainings)
         ->get();
 
@@ -400,14 +456,20 @@ class MonitorEvaluationController extends Controller
         $concatenatedText = $semesterText . " " . $yearText;
 
         $data = [
-            'title' => $concatenatedText,
+            'title' => __('translate.Semester Report'),
             'semesterCompaniesTotal' => $semesterCompaniesTotal,
             'coursesStudentsTotal' => $coursesStudentsTotal,
             'companiesTotal'=>$companiesTotal,
             'semesterCoursesTotal'=>$semesterCoursesTotal,
             'traineesTotal'=>$traineesTotal,
             'trainingMinutesTotal'=>$trainingMinutesTotal,
-            'trainingHoursTotal'=>$trainingHoursTotal
+            'trainingHoursTotal'=>$trainingHoursTotal,
+            'gender'=>$request->gender,
+            'company'=>$companyText,
+            'branch'=>$branchText,
+            'major'=>$majorText,
+            'year'=>$year
+            // 'hi'=>0
         ];
 
         $data = base64_encode(serialize($data));
@@ -428,10 +490,12 @@ class MonitorEvaluationController extends Controller
 
     }
 
-    public function semesterReportPDF($data){
+    public function semesterReportPDF(Request $request){
 
-        $pdfData = unserialize(base64_decode($data));
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', $pdfData);
+        // $pdfData = unserialize(base64_decode($data));
+        $pdfData = unserialize(base64_decode($request->test));
+        // $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', $pdfData);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', ['data'=>$pdfData,'semester'=>$request->semesterText]);
 
         // Use the stream method to open the PDF in a new tab
         return $pdf->stream('semesterReport.pdf');
@@ -442,7 +506,10 @@ class MonitorEvaluationController extends Controller
 
         $pdfData = unserialize(base64_decode($request->test));
         //return $pdfData;
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.companiesReportPDF', ['data'=>$pdfData]);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.companiesReportPDF', ['data'=>$pdfData,
+        'semester'=>$request->semesterText, 'title'=>$request->title, 'companyCateg'=>$request->companyCateg,'companyType'=>$request->companyTypeText,
+        'year'=>$request->yearText
+        ]);
 
         // Use the stream method to open the PDF in a new tab
         return $pdf->stream('semesterReport.pdf');
@@ -488,6 +555,8 @@ class MonitorEvaluationController extends Controller
 
         $paymentCollection = new Collection();
 
+
+        $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
         foreach($endIDs as $test){
 
             //هون عندي كل الدفعات اللي للتدريب هاد
@@ -496,7 +565,7 @@ class MonitorEvaluationController extends Controller
             //بدي احط اوبجيكت جديد عشان احط فيه حقول جديدة
             $objectToreturnView = $paymentsForTrain->first();
 
-            $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
+
 
             $paymentsTotalCollection = new Collection();
             $approvedPaymentsTotalCollection = new Collection();
@@ -516,7 +585,26 @@ class MonitorEvaluationController extends Controller
 
         }
 
-        return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'companies'=>$companies,'companiesPayments'=>$paymentCollection]);
+        $allPayments = Payment::whereIn('p_student_company_id', $trainingIDs)
+        ->get();
+
+        $totalCollection = new Collection();
+        $totalApprovedCollection = new Collection();
+
+        foreach($currunciesKeysToCheck as $key){
+            $currencyTotal = $allPayments->where('p_currency_id',$key)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalCollection->add(['c_id' => $key, 'total' => $currencyTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+
+            $currencyApprovedTotal = $allPayments->where('p_currency_id',$key)->where('p_status',1)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalApprovedCollection->add(['c_id' => $key, 'total' => $currencyApprovedTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+        }
+
+        // return $totalApprovedCollection;
+
+        return view('project.monitor_evaluation.companiesPaymentsReport',['years'=>$years,'year'=>$year,'semester'=>$semester,
+        'companies'=>$companies,'companiesPayments'=>$paymentCollection,'totalApprovedCollection'=>$totalApprovedCollection,
+        'totalCollection'=>$totalCollection
+        ]);
 
     }
 
@@ -574,6 +662,8 @@ class MonitorEvaluationController extends Controller
 
         $paymentCollection = new Collection();
 
+
+        $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
         foreach($endIDs as $test){
 
             //هون عندي كل الدفعات اللي للتدريب هاد
@@ -582,7 +672,7 @@ class MonitorEvaluationController extends Controller
             //بدي احط اوبجيكت جديد عشان احط فيه حقول جديدة
             $objectToreturnView = $paymentsForTrain->first();
 
-            $currunciesKeysToCheck = Currency::select('c_id')->pluck('c_id')->toArray();
+
 
             $paymentsTotalCollection = new Collection();
             $approvedPaymentsTotalCollection = new Collection();
@@ -602,11 +692,27 @@ class MonitorEvaluationController extends Controller
 
         }
 
+        $allPayments = Payment::whereIn('p_student_company_id', $trainingIDs)
+        ->get();
+
+        $totalCollection = new Collection();
+        $totalApprovedCollection = new Collection();
+
+        foreach($currunciesKeysToCheck as $key){
+            $currencyTotal = $allPayments->where('p_currency_id',$key)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalCollection->add(['c_id' => $key, 'total' => $currencyTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+
+            $currencyApprovedTotal = $allPayments->where('p_currency_id',$key)->where('p_status',1)->sum('p_payment_value');//هون بعطيني المجموع لكل عملة واذا ما كانت موجودة بعطي 0
+            $totalApprovedCollection->add(['c_id' => $key, 'total' => $currencyApprovedTotal, 'symbol'=>$currencies->where('c_id',$key)->first()->c_symbol]);
+        }
+
 
         return response()->json([
             'success'=>'true',
             'data'=>$paymentCollection,
-            'view'=>view('project.monitor_evaluation.ajax.companiesPaymentsReportTable',['companiesPayments'=>$paymentCollection])->render(),
+            'view'=>view('project.monitor_evaluation.ajax.companiesPaymentsReportTable',['companiesPayments'=>$paymentCollection
+            ,'totalApprovedCollection'=>$totalApprovedCollection,'totalCollection'=>$totalCollection
+            ])->render(),
         ]);
     }
 
@@ -625,7 +731,7 @@ class MonitorEvaluationController extends Controller
             ->where('r_semester', $semester)
             ->distinct();
         })
-        ->where('sc_status', 1)
+        // ->where('sc_status', 1)
         ->select('sc_id')
         ->distinct()
         ->get();
@@ -637,7 +743,7 @@ class MonitorEvaluationController extends Controller
             ->where('r_semester', $semester)
             ->distinct();
         })
-        ->where('sc_status', 1)
+        // ->where('sc_status', 1)
         ->select('sc_company_id')
         ->distinct()
         ->get();
@@ -682,7 +788,7 @@ class MonitorEvaluationController extends Controller
             ->where('r_semester', $semester)
             ->distinct();
         })
-        ->where('sc_status', 1)
+        // ->where('sc_status', 1)
         ->select('sc_id')
         ->distinct()
         ->get();
@@ -730,6 +836,600 @@ class MonitorEvaluationController extends Controller
             'success'=>'true',
             'trainings'=>$payments,
             'view'=>view('project.monitor_evaluation.ajax.paymentsReportTable',['payments'=>$payments])->render(),
+        ]);
+    }
+
+    //new reports
+    public function students_courses_report(){
+
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+        $majors = Major::get();
+
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+
+
+        $data = Registration::select('r_student_id')->with('courses','users')->distinct('r_student_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->groupBy('r_student_id')->get();
+
+        // if($semester==1){
+        //     $semesterText =
+        // }else if($semester==2){
+
+        // }else{
+
+        // }
+
+
+        $title = __('translate.student_enrolled_in_courses_report');
+
+        foreach($data as $key){
+            $key->coursesNum = Registration::select('r_course_id')
+            ->where('r_student_id',$key->r_student_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->get()
+            ->count();
+        }
+
+        return view('project.monitor_evaluation.students_courses_report',['data'=>$data,'semester'=>$semester,
+        'year'=>$year,'years'=>$years,'majors'=>$majors,'majorText'=>__('translate.All Majors'),'gender'=>__('translate.all'),'title'=>$title]);
+
+    }
+    public function courses_registered_report(){
+        //إجمالي المساقات لهذا الفصل
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $data = Registration::select('r_course_id')->with('courses','users')->distinct('r_course_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->groupBy('r_course_id')->get();
+
+        foreach($data as $key){
+            $key->studentsNum = Registration::select('r_student_id')
+            ->where('r_course_id',$key->r_course_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->get()
+            ->count();
+        }
+
+        $title = __('translate.enrolled_courses_report');
+
+        return view('project.monitor_evaluation.courses_registered_report',['data'=>$data,'semester'=>$semester
+        , 'year'=>$year,'years'=>$years,'gender'=>__('translate.all'),'title'=>$title]);
+    }
+    public function training_hours_report(){
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $students_have_trainings = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->select('sc_student_id')->distinct('sc_student_id')
+        ->groupBy('sc_student_id')
+        ->get();
+
+
+        $students_have_trainings = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')
+        ->get();
+
+        foreach($students_have_trainings as $key){
+            $studentID = $key->sc_student_id;
+
+            //فيها تدريبات الطالب للوقت الحالي
+            $student_companies = StudentCompany::select('sc_id')
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->where('sc_student_id',$studentID)
+            ->select('sc_id')
+            ->pluck('sc_id')
+            ->toArray();
+
+            $attendanceRows = StudentAttendance::whereIn('sa_student_id', function ($query) use ($year, $semester) {
+                $query->select('r_student_id')
+                    ->from('registration')
+                    ->where('r_year', $year)
+                    ->where('r_semester', $semester)
+                    ->distinct();
+            })->whereNotNull('sa_out_time')
+            ->whereIn('sa_student_company_id',$student_companies)
+            ->get();
+
+            $key->attendanceRows = $attendanceRows;
+
+            $hours = 0;
+            $minutes = 0;
+
+            foreach ($attendanceRows as $attendance) {
+                $timeIn = Carbon::parse($attendance->sa_in_time);
+                $timeOut = Carbon::parse($attendance->sa_out_time);
+
+                $duration = $timeOut->diff($timeIn);
+
+                $hours = $hours + $duration->format('%h');
+                $minutes = $minutes + $duration->format('%i');
+
+            }
+
+            $hoursFromMinutes = (int)($minutes/60);
+            $key->trainingHoursTotal = $hours + $hoursFromMinutes;
+            $key->trainingMinutesTotal = $minutes - ($hoursFromMinutes*60);
+        }
+
+        $totalHours = 0;
+        $totalMinutes = 0;
+        foreach($students_have_trainings as $key){
+            $totalHours = $totalHours + $key->trainingHoursTotal;
+            $totalMinutes = $totalMinutes + $key->trainingMinutesTotal;
+        }
+
+        $hoursFromMinutes2 = (int)($totalMinutes/60);
+        $totalHours = $totalHours + $hoursFromMinutes2;
+        $totalMinutes = $totalMinutes - ($hoursFromMinutes2*60);
+
+
+        $majors = Major::get();
+        $title = __('translate.trainees_training_hours_report');
+
+        return view('project.monitor_evaluation.training_hours_report',['data'=>$students_have_trainings,'semester'=>$semester
+        , 'year'=>$year,'years'=>$years,'majors'=>$majors
+        ,'majorText'=>__('translate.All Majors'),'gender'=>__('translate.all'),'title'=>$title,'totalMinutes'=>$totalMinutes,'totalHours'=>$totalHours
+        ]);
+    }
+    public function students_companies_report(){
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+        $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $majors = Major::get();
+
+        $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $key->companiesNum = StudentCompany::select('sc_company_id')
+            ->where('sc_student_id',$key->sc_student_id)
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->distinct('sc_company_id')
+            ->get()
+            ->count();
+        }
+
+        // return $data;
+        $title = __('translate.trainees_report');
+
+        return view('project.monitor_evaluation.students_companies_report',['data'=>$data,'semester'=>$semester,
+         'year'=>$year,'years'=>$years,'majors'=>$majors
+         ,'majorText'=>__('translate.All Majors'),'gender'=>__('translate.all'),'title'=>$title]);
+    }
+
+    //new reports ajax
+    public function studentsCoursesAjax(Request $request){
+        $semester = $request->semester;
+        $year = $request->year;
+        $majorText=__('translate.All Majors');
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != 0) {
+            $majorText = Major::where('m_id', $request->major)->value('m_name');
+            $query->where('u_major_id', $request->major);
+        }
+        $students = $query->select('u_id');
+
+        $data = Registration::select('r_student_id')->with('courses','users')->distinct('r_student_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->whereIn('r_student_id',$students)
+        ->groupBy('r_student_id')->get();
+
+        foreach($data as $key){
+            $key->coursesNum = Registration::select('r_course_id')
+            ->where('r_student_id',$key->r_student_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->get()
+            ->count();
+        }
+
+
+        return response()->json([
+            'success'=>'true',
+            'data'=> base64_encode(serialize($data)),
+            'view'=>view('project.monitor_evaluation.ajax.studentsCoursesReportTable',['data'=>$data])->render(),
+            'gender'=>$request->gender,
+            'semester'=>$request->semester,
+            'majorText'=>$majorText,
+            'year'=>$year
+        ]);
+
+
+    }
+
+    public function registeredCoursesAjax(Request $request){
+        $semester = $request->semester;
+        $year = $request->year;
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+
+        $students = $query->select('u_id');
+
+        $data = Registration::select('r_course_id')->with('courses','users')->distinct('r_course_id')
+        ->where('r_semester',$semester)
+        ->where('r_year',$year)
+        ->groupBy('r_course_id')->get();
+
+        foreach($data as $key){
+            $key->studentsNum = Registration::select('r_student_id')
+            ->where('r_course_id',$key->r_course_id)
+            ->where('r_semester',$semester)
+            ->where('r_year',$year)
+            ->whereIn('r_student_id',$students)
+            ->get()
+            ->count();
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'data'=> base64_encode(serialize($data)),
+            'view'=>view('project.monitor_evaluation.ajax.registeredCoursesReportTable',['data'=>$data])->render(),
+            'gender'=>$request->gender,
+            'semester'=>$semester,
+            'year'=>$year
+        ]);
+
+
+    }
+
+    public function trainingHoursAjax(Request $request){
+
+        $semester = $request->semester;
+        $year = $request->year;
+        $majorText=__('translate.All Majors');
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != 0) {
+            $majorText = Major::where('m_id', $request->major)->value('m_name');
+            $query->where('u_major_id', $request->major);
+        }
+
+        $students = $query->select('u_id');
+
+
+
+        $students_have_trainings = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester,$students) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->whereIn('r_student_id',$students)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')
+        ->get();
+
+        foreach($students_have_trainings as $key){
+            $studentID = $key->sc_student_id;
+
+            //فيها تدريبات الطالب للوقت الحالي
+            $student_companies = StudentCompany::select('sc_id')
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester,$students) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->whereIn('r_student_id',$students)
+                ->distinct();
+            })
+            ->where('sc_student_id',$studentID)
+            ->select('sc_id')
+            ->pluck('sc_id')
+            ->toArray();
+
+            $attendanceRows = StudentAttendance::whereIn('sa_student_id', function ($query) use ($year, $semester) {
+                $query->select('r_student_id')
+                    ->from('registration')
+                    ->where('r_year', $year)
+                    ->where('r_semester', $semester)
+                    ->distinct();
+            })->whereNotNull('sa_out_time')
+            ->whereIn('sa_student_company_id',$student_companies)
+            ->get();
+
+            $key->attendanceRows = $attendanceRows;
+
+            $hours = 0;
+            $minutes = 0;
+
+            foreach ($attendanceRows as $attendance) {
+                $timeIn = Carbon::parse($attendance->sa_in_time);
+                $timeOut = Carbon::parse($attendance->sa_out_time);
+
+                $duration = $timeOut->diff($timeIn);
+
+                $hours = $hours + $duration->format('%h');
+                $minutes = $minutes + $duration->format('%i');
+
+            }
+
+            $hoursFromMinutes = (int)($minutes/60);
+            $key->trainingHoursTotal = $hours + $hoursFromMinutes;
+            $key->trainingMinutesTotal = $minutes - ($hoursFromMinutes*60);
+        }
+
+        $totalHours = 0;
+        $totalMinutes = 0;
+        foreach($students_have_trainings as $key){
+            $totalHours = $totalHours + $key->trainingHoursTotal;
+            $totalMinutes = $totalMinutes + $key->trainingMinutesTotal;
+        }
+
+        $hoursFromMinutes2 = (int)($totalMinutes/60);
+        $totalHours = $totalHours + $hoursFromMinutes2;
+        $totalMinutes = $totalMinutes - ($hoursFromMinutes2*60);
+
+        return response()->json([
+            'success'=>'true',
+            'data'=> base64_encode(serialize($students_have_trainings)),
+            'view'=>view('project.monitor_evaluation.ajax.trainingHoursTable',['data'=>$students_have_trainings,'totalMinutes'=>$totalMinutes,'totalHours'=>$totalHours])->render(),
+            'gender'=>$request->gender,
+            'semester'=>$request->semester,
+            'majorText'=>$majorText,
+            'year'=>$year
+        ]);
+
+
+    }
+
+    public function studentsCompaniesAjax(Request $request){
+        $semester = $request->semester;
+        $year = $request->year;
+        $majorText=__('translate.All Majors');
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != 0) {
+            $query->where('u_major_id', $request->major);
+            $majorText = Major::where('m_id', $request->major)->value('m_name');
+        }
+        $students = $query->select('u_id');
+
+        $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester, $students) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->whereIn('r_student_id',$students)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $key->companiesNum = StudentCompany::select('sc_company_id')
+            ->where('sc_student_id',$key->sc_student_id)
+            ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->distinct('sc_company_id')
+            ->get()
+            ->count();
+        }
+
+        return response()->json([
+            'success'=>'true',
+            'data'=> base64_encode(serialize($data)),
+            'view'=>view('project.monitor_evaluation.ajax.studentsCompaniesReportTable',['data'=>$data])->render(),
+            'gender'=>$request->gender,
+            'semester'=>$request->semester,
+            'majorText'=>$majorText,
+            'year'=>$year
+        ]);
+
+
+    }
+
+    //new reports pdf
+    public function studentsCoursesPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCoursesPDF'
+        , ['data'=>$pdfData,'gender'=>$request->genderText,
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title, 'year'=>$request->yearText]);
+
+        // Use the stream method to open the PDF in a new tab
+        return $pdf->stream('studentsCoursesPDF.pdf');
+    }
+
+    public function registeredCoursesPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.registeredCoursesPDF', ['data'=>$pdfData,
+        'semester'=>$request->semesterText, 'title'=>$request->title,'gender'=>$request->genderText, 'year'=>$request->yearText]);
+
+        return $pdf->stream('registeredCoursesPDF.pdf');
+    }
+
+    public function  trainingHoursPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.trainingHoursPDF', ['data'=>$pdfData,
+        'gender'=>$request->genderText,
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title, 'year'=>$request->yearText]);
+
+        return $pdf->stream('trainingHoursPDF.pdf');
+    }
+
+    public function  studentsCompaniesPDF(Request $request){
+
+        $pdfData = unserialize(base64_decode($request->test));
+
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.studentsCompaniesPDF', ['data'=>$pdfData,
+        'gender'=>$request->genderText,
+        'majorText'=>$request->majorText, 'semester'=>$request->semesterText, 'title'=>$request->title, 'year'=>$request->yearText]);
+
+        return $pdf->stream('studentsCompaniesPDF.pdf');
+    }
+
+
+    //details
+    public function companyStudents($id){
+
+        $systemSettings = SystemSetting::first();
+
+        $semester = $systemSettings->ss_semester_type;
+        $year = $systemSettings->ss_year;
+
+        // $years = SemesterCourse::distinct()->pluck('sc_year')->toArray();
+
+        $majors = Major::get();
+
+        $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+            $query->select('r_id')
+            ->from('registration')
+            ->where('r_year', $year)
+            ->where('r_semester', $semester)
+            ->distinct();
+        })
+        ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $major = $key->users->u_major_id;
+            $majorText = Major::where('m_id', $major)->value('m_name');
+            $key->major = $majorText;
+        }
+        // return $data;
+
+        $companyName = Company::where('c_id', $id)->value('c_name');
+
+        return view('project.monitor_evaluation.companyStudents',['data'=>$data,'semester'=>$semester,
+        'majors'=>$majors, 'company_name'=>$companyName]);
+    }
+
+    public function companyStudentsReportSearch(Request $request){
+
+
+        $semester = $request->semester;
+
+        $query = User::query();
+        if ($request->gender != -1) {
+            $query->where('u_gender', $request->gender);
+        }
+        if ($request->major != -1) {
+            $query->where('u_major_id', $request->major);
+        }
+        $students = $query->select('u_id');
+
+
+        if($semester==0){
+            $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+            ->whereIn('sc_registration_id', function ($query) use ($semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->distinct();
+            })
+            ->whereIn('sc_student_id',$students)
+            ->groupBy('sc_student_id')->get();
+        }else{
+            $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+            ->whereIn('sc_registration_id', function ($query) use ($semester) {
+                $query->select('r_id')
+                ->from('registration')
+                ->where('r_semester', $semester)
+                ->distinct();
+            })
+            ->whereIn('sc_student_id',$students)
+            ->groupBy('sc_student_id')->get();
+        }
+
+        // $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+        // ->whereIn('sc_registration_id', function ($query) use ($semester) {
+        //     $query->select('r_id')
+        //     ->from('registration')
+        //     ->where('r_year', $year)
+        //     ->where('r_semester', $semester)
+        //     ->distinct();
+        // })
+        // ->groupBy('sc_student_id')->get();
+
+        foreach($data as $key){
+            $major = $key->users->u_major_id;
+            $majorText = Major::where('m_id', $major)->value('m_name');
+            $key->major = $majorText;
+        }
+        // return $data;
+
+        // $companyName = Company::where('c_id', $id)->value('c_name');
+
+        // return view('project.monitor_evaluation.companyStudents',['data'=>$data,'semester'=>$semester,
+        // 'majors'=>$majors, 'company_name'=>$companyName]);
+
+        return response()->json([
+            'success'=>'true',
+            'view'=>view('project.monitor_evaluation.ajax.companyStudentsTable',['data'=>$data])->render()
         ]);
     }
 

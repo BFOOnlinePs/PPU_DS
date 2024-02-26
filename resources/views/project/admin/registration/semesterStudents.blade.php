@@ -27,57 +27,72 @@
 <div class="card" style="padding-left:0px; padding-right:0px;">
 
     <div class="card-body" >
-
-        <div id="showTable">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="display:none;">id</th>
-                            <th scope="col">{{__('translate.Student University ID')}}{{-- رقم الطالب الجامعي --}}</th>
-                            <th scope="col">{{__("translate.Student Name")}}{{-- اسم الطالب --}}</th>
-                            {{-- <th scope="col">رقم المساق</th>
-                            <th scope="col">اسم المساق</th> --}}
-                            <th scope="col">{{__('translate.Student Details')}}{{-- تفاصيل الطالب --}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @if ($data->isEmpty())
-                        <tr>
-                            <td colspan="4" class="text-center"><span>{{__('translate.No available data')}}{{-- لا توجد بيانات --}}</span></td>
-                        </tr>
-                    @else
-                        @foreach ($data as $key)
-                            <tr>
-                                <td style="display:none;">{{ $key->r_id }}</td>
-                                {{-- <td>{{ $key->users->u_username }}</td> --}}
-                                <td><a href="{{route('admin.users.details',['id'=>$key->users->u_id])}}">{{$key->users->name}}</a></td>
-                                <td>{{ $key->users->name }}</td>
-                                {{-- <td>{{ $key->courses->c_course_code }}</td>
-                                <td>{{ $key->courses->c_name }}</td> --}}
-                                <td>
-                                    <button class="btn btn-info" onclick='location.href="{{route("admin.users.details" , ["id"=>$key->users->u_id])}}"'><i class="fa fa-search"></i></button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-                </table>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="search" class="form-control mb-1" placeholder="{{__('translate.Search')}}" aria-label="Search" id="user_name" onkeyup="filter()"/> {{-- بحث --}}
             </div>
+            <div class="col-md-2 mb-2">
+                <select autofocus class="js-example-basic-single col-sm-2" id="user_major" onchange="filter()">
+                    <option value="">جميع التخصصات</option>
+                    @foreach ($majors as $major)
+                        <option value="{{$major->m_id}}">{{$major->m_name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select autofocus class="js-example-basic-single col-sm-2" id="user_course" onchange="filter()">
+                    <option value="">جميع المساقات</option>
+                    @foreach ($semester_courses as $semester_course)
+                        <option value="{{$semester_course->sc_course_id}}">{{$semester_course->courses->c_name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select autofocus class="js-example-basic-single col-sm-2" id="user_gender" onchange="filter()">
+                    <option value="">الكل</option>
+                    <option value="0">ذكر</option>
+                    <option value="1">أنثى</option>
+                </select>
+            </div>
+
         </div>
 
+        <div id="showTable">
+            <div class="table-responsive" id="semester_students">
 
-
+            </div>
+        </div>
     </div>
-
-
-
-
-
 </div>
-
-
 @endsection
 @section('script')
-
+    <script>
+        $(document).ready(function () {
+            filter();
+        });
+        function filter() {
+            let user_name = document.getElementById('user_name').value;
+            let user_major = document.getElementById('user_major').value;
+            let user_course = document.getElementById('user_course').value;
+            let user_gender = document.getElementById('user_gender').value;
+            $.ajax({
+                url: "{{ route('admin.registration.filterSemesterStudents') }}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    'user_name' : user_name ,
+                    'user_major' : user_major ,
+                    'user_course' : user_course ,
+                    'user_gender' : user_gender
+                } ,
+                success: function (response) {
+                    $('#semester_students').html(response.html);
+                },
+                error: function (error) {
+                }
+            });
+        }
+    </script>
 @endsection
