@@ -111,7 +111,8 @@ class AttendanceController extends Controller
                 $show_in_buttons = false;
             }
             $student_companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-                                ->get();
+            ->where('sc_status' , 1)
+            ->get();
             $html = view('project.student.company.ajax.companyList' , ['student_companies' => $student_companies , 'show_in_buttons' => $show_in_buttons , 'sa_student_company_id' => $sa_student_company_id])->render();
             return response()->json(['html' => $html]);
         }
@@ -133,7 +134,8 @@ class AttendanceController extends Controller
                 $sa_student_company_id = null;
                 $show_in_buttons = true;
                 $student_companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-                                    ->get();
+                ->where('sc_status' , 1)
+                ->get();
                 $html = view('project.student.company.ajax.companyList' , ['student_companies' => $student_companies , 'show_in_buttons' => $show_in_buttons , 'sa_student_company_id' => $sa_student_company_id])->render();
                 return response()->json(['html' => $html , 'alert_departure' => false]);
             }
@@ -142,7 +144,8 @@ class AttendanceController extends Controller
             $sa_student_company_id = null;
             $show_in_buttons = true;
             $student_companies = StudentCompany::where('sc_student_id', auth()->user()->u_id)
-                                ->get();
+            ->where('sc_status' , 1)
+            ->get();
             $html = view('project.student.company.ajax.companyList' , ['student_companies' => $student_companies , 'show_in_buttons' => $show_in_buttons , 'sa_student_company_id' => $sa_student_company_id])->render();
             return response()->json(['html' => $html , 'alert_departure' => true]);
         }
