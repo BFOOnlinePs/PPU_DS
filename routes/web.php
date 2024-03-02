@@ -198,6 +198,11 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'uploadFileExcel'])->name('admin.settings.integration_company.uploadFileExcel');
                 Route::post('/submitForm',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'submitForm'])->name('admin.settings.integration_company.submitForm');
             });
+            Route::group(['prefix'=>'integration_students'],function(){
+                Route::get('/index',[App\Http\Controllers\project\settings\IntegrationStudentsController::class,'index'])->name('admin.settings.integration_students.index');
+                Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\IntegrationStudentsController::class,'uploadFileExcel'])->name('admin.settings.integration_students.uploadFileExcel');
+                Route::post('/submitForm',[App\Http\Controllers\project\settings\IntegrationStudentsController::class,'submitForm'])->name('admin.settings.integration_students.submitForm');
+            });
 
             Route::get('/systemSettings',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettings'])->name('admin.settings.systemSettings');
             Route::post('/systemSettingsUpdate',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettingsUpdate'])->name('admin.settings.systemSettingsUpdate');
