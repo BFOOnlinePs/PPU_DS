@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Main')}}{{-- الرئيسية --}}</a>
+{{__('translate.Main')}}{{-- الرئيسية --}}
 @endsection
 @section('header_title')
 {{__('translate.Students')}}{{-- الطلاب --}}
