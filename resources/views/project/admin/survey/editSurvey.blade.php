@@ -161,7 +161,7 @@ align-items: center;
                 <!-- Form Name -->
                 <div class="mb-3 row">
                     <div class="col-lg-12">
-                        <label for="s_title" id="s_title">{{__('translate.survey_title')}}:</label>
+                        <label for="s_title1" id="s_title1">{{__('translate.survey_title')}}:</label>
                         <input id="s_title" value="{{$data->s_title}}" name="s_title" type="text" required placeholder="{{__('translate.survey_title')}} " class="form-control btn-square input-md">
                     </div>
                 </div>
@@ -256,8 +256,10 @@ align-items: center;
                                 </a>
                                 <div class="vl"></div>
                                 <a class="q-link" onclick="toggleRequired({{$question->sq_id}})">
-                                    <i id="toggleIcon{{$question->sq_id}}" data-feather="toggle-right"></i>
-                                    <span id="toggleText{{$question->sq_id}}">{{__('translate.required')}}</span>
+                                @if($question->sq_question_required == 1 )
+                                   <i id="toggleIcon{{$question->sq_id}}"   style="color:red" data-feather="toggle-left" data-state="toggle-left"></i>  <span     style="color:red" id="toggleText{{$question->sq_id}}">{{__('translate.required')}}</span>  
+                                   @else <i id="toggleIcon{{$question->sq_id}}"  data-feather="toggle-right" data-state="toggle-right"> </i> <span   id="toggleText{{$question->sq_id}}">{{__('translate.required')}}</span>  
+                                   @endif
                                 </a>
                             </div>
                             <input hidden id="sq{{$question->sq_id}}_required" name="sq{{$question->sq_id}}_required" value="0">
@@ -343,7 +345,7 @@ titleInput.addEventListener('input', function(event) {
             </a>
             <div class="vl"></div>
             <a class="q-link" onclick="toggleRequired(${questionIndex})">
-                <i id="toggleIcon${questionIndex}" data-feather="toggle-right"></i>
+                <i id="toggleIcon${questionIndex}" data-feather="toggle-right" data-state="toggle-right"></i>
                 <span id="toggleText${questionIndex}">{{__('translate.required')}}</span>
             </a>
 
@@ -372,6 +374,8 @@ function deleteQuestion(questionIndex) {
     if (hrElement) {
         hrElement.parentNode.removeChild(hrElement);
     }
+    
+    questionCounter = questionCounter - 1 ;
 }
 function toggleRequired(questionIndex) {
     const toggleIcon = document.getElementById(`toggleIcon${questionIndex}`);
@@ -380,12 +384,13 @@ function toggleRequired(questionIndex) {
 
     // Get the current state from a custom attribute
     const currentState = toggleIcon.getAttribute('data-state');
-
+console.log("vvvvvvvvvv")
+console.log(currentState)
     // Set an initial state if it's null (first click)
-    const initialState = currentState || 'toggle-right';
+    const initialState = currentState ;
 
     // Toggle between 'toggle-left' and 'toggle-right' on every click
-    if (initialState === 'toggle-right') {
+    if (initialState === 'toggle-right' ) {
         toggleIcon.setAttribute('data-feather', 'toggle-left');
         toggleIcon.setAttribute('data-state', 'toggle-left');
         toggleIcon.style.color = 'red';
@@ -598,12 +603,11 @@ function createRadioButtonOption(placeholderText) {
 
     updateSurveyForm.addEventListener("submit", (e) => {
         
-
     document.getElementById('questionsNumber').value=questionCounter;
     console.log(JSON.parse(document.getElementById("questionsNumber").value))
     for(i = 1 ; i <= questionCounter ; i++){
     const optionsNumber = document.getElementById(`optionsNumber`);
-    radioOptions = document.getElementById('options'+i);  
+    radioOptions = document.getElementById('radio-options'+i);  
     console.log("radioOptions")
     console.log(radioOptions)
     if (radioOptions) {
@@ -611,8 +615,9 @@ function createRadioButtonOption(placeholderText) {
    
     console.log(lastOption)
     if (lastOption) {
+        console.log("hi")
             // Extract the number from the id attribute
-            const lastOptionNumber = getLastOptionNumber(lastOption.id);
+            const lastOptionNumber = radioOptions.querySelectorAll('input').length;
             const questionOptions = document.createElement('input');
             questionOptions.id='q'+i+'optionsNumber';
             questionOptions.name='q'+i+'optionsNumber';
