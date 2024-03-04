@@ -1,5 +1,6 @@
 <?php
     return [
+        "Grade" => "الدرجة",
         "Gender (male or female)" => "الجنس (ذكر أو أنثى)",
         "Company type (public sector/private sector)" => "نوع الشركة (قطاع عام / قطاع خاص)",
         "Company address (for the main branch)" => "عنوان الشركة (للفرع الرئيسي)",

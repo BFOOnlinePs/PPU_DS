@@ -1,5 +1,6 @@
 <?php
     return [
+        "Grade" => "Grade",
         "Gender (male or female)" => "Gender (male or female)",
         "Company address (for the main branch)" => "Company address (for the main branch)",
         "Company phone number (for the main branch)" => "Company phone number (for the main branch)",
