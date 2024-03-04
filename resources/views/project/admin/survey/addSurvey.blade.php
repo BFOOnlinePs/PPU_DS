@@ -158,12 +158,13 @@ label {
 
 <div class="mb-3 row">
   <div class="col-lg-12">
-  <input id="s_title" name="s_title" type="text" required placeholder="{{__('translate.survey_title')}} " class="form-control btn-square input-md">
-    
+    <label for="s_title1" id="s_title1">{{__('translate.survey_title')}}:</label>
+    <input id="s_title" name="s_title" type="text" required placeholder="{{__('translate.survey_title')}} " class="form-control btn-square input-md">
   </div>
 </div>
 <div class="mb-3 row">
   <div class="col-lg-12">
+   <label for="s_target" id="s_target">{{__('translate.target_group')}}{{--  الفئة المستهدفة --}}:</label>
    <select class="js-example-basic-single col-sm-12" id="s_target" name="s_target" required>
    @foreach($targets as $key)
    <option value="{{$key->st_id}}">{{__('translate.target_group')}}{{--  الفئة المستهدفة --}} : {{$key->st_name}}</option>
@@ -175,6 +176,7 @@ label {
 
 <div class="mb-3 row">
   <div class="col-lg-12">
+    <label for="s_description" id="s_description">{{__('translate.survey_description')}}:</label>
     <textarea id="s_description" name="s_description" type="text" required placeholder="{{__('translate.survey_description')}}" class="form-control btn-square"></textarea>
   </div>
 </div>
@@ -256,7 +258,7 @@ titleInput.addEventListener('input', function(event) {
         questionDiv.classList.add('question', 'row', 'mb-3');
         questionDiv.innerHTML = `
             <div class="col-md-6" style="width:70%">
-                
+            <!--   <label>{{__('translate.question')}} ${questionIndex}:</label>-->
                 <textarea class="form-control" style="height:60%" name="sq_question${questionIndex}" id="sq_question${questionIndex}" placeholder="{{__('translate.question')}}{{--  السؤال --}} ${questionIndex}:" required></textarea>
             </div>
             

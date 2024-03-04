@@ -16,7 +16,6 @@
 
 <div>
 @if(auth()->user()->u_role_id != 2)  <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.survey.addSurvey")}}"'><span class="fa fa-plus"></span> {{__('translate.add_survey')}}{{-- إضافة استبيان --}}</button>@endif
-@if(auth()->user()->u_role_id == 1)  <button class="btn btn-primary  mb-2 btn-s" type="button" ><span class="fa fa-briefcase"></span> {{__('translate.surveys_results')}}{{-- نتائج الاستبيانات  --}}</button>@endif
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -61,6 +60,7 @@
                                    <button class="btn btn-info"    onclick='location.href="{{route("admin.survey.surveyView",["id"=>$key->s_id])}}"'><i class="fa fa-info"></i></button>
                                    @if(auth()->user()->u_role_id == 1 || $key->users->u_role_id == auth()->user()->u_role_id)
                                    <button class="btn btn-primary" onclick='location.href="{{route("admin.survey.editSurvey",["id"=>$key->s_id])}}"'><i class="fa fa-edit"></i></button>
+                                   <button class="btn btn-primary" onclick='location.href="{{route("admin.survey.surveyResults",["id"=>$key->s_id])}}"'><i class="fa fa-briefcase"></i></button>
                                    <button class="btn btn-primary" onclick="showDeleteSurveyModal({{ $key->s_id }})"><i class="fa fa-trash"></i></button>
                                 @endif
                                 </td>

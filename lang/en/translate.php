@@ -484,6 +484,7 @@
         'males'=>"Males",
         'all_categories'=>'All Categories',
         'all_types'=>'All Types',
-        'all_branches'=>'All Branches'
+        'all_branches'=>'All Branches',
+        'answers'=>'answers',
     ];
 ?>

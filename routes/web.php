@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/editSurvey/{id}',[App\Http\Controllers\project\admin\surveyController::class,'editSurvey'])->name('admin.survey.editSurvey');
             Route::get('/surveySubmit/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveySubmit'])->name('admin.survey.surveySubmit');
             Route::post('/update',[App\Http\Controllers\project\admin\surveyController::class,'update'])->name('admin.survey.update');
+            Route::get('/surveyResults/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyResults'])->name('admin.survey.surveyResults');
 
         });
 

@@ -492,6 +492,7 @@
         'males'=>"ذكور",
         'all_categories'=>'جميع التصنيفات',
         'all_types'=>'جميع الأنواع',
-        'all_branches'=>'جميع الفروع'
+        'all_branches'=>'جميع الفروع',
+        'answers'=> 'إجابات',
     ];
 ?>
