@@ -27,6 +27,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('privacy_and_policy',[App\Http\Controllers\HomeController::class, 'privacy_and_policy']);
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/language/{locale}', function($locale) {
