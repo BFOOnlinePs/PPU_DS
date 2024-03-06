@@ -29,4 +29,6 @@ class HomeController extends Controller
     public function privacy_and_policy(){
         return view('project.admin.privacy_and_policy');
     }
+
+    // test
 }
