@@ -1,5 +1,7 @@
 <?php
     return [
+        "University number and student name" => "University number and student name",
+        "Student Attendance" => "Student Attendance",
         "Grade" => "Grade",
         "Gender (male or female)" => "Gender (male or female)",
         "Company address (for the main branch)" => "Company address (for the main branch)",
