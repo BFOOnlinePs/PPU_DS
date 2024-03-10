@@ -1,5 +1,7 @@
 <?php
     return [
+        "University number and student name" => "الرقم الجامعي واسم الطالب",
+        "Student Attendance" => "سجل الحضور والمغادرة",
         "Grade" => "الدرجة",
         "Gender (male or female)" => "الجنس (ذكر أو أنثى)",
         "Company type (public sector/private sector)" => "نوع الشركة (قطاع عام / قطاع خاص)",

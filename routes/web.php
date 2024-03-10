@@ -69,6 +69,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
             Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
         });
+        Route::group(['prefix'=>'attendance'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\AttendanceController::class,'index'])->name('admin.attendance.index');
+            Route::post('/fillter',[App\Http\Controllers\project\admin\AttendanceController::class,'fillter'])->name('admin.attendance.fillter');
+            Route::post('/details',[App\Http\Controllers\project\admin\AttendanceController::class,'details'])->name('admin.attendance.details');
+        });
         Route::group(['prefix'=>'survey'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\surveyController::class,'index'])->name('admin.survey.index');
             Route::post('/surveySearch',[App\Http\Controllers\project\admin\surveyController::class,'surveySearch'])->name('admin.survey.surveySearch');
