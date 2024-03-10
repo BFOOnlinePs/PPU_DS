@@ -44,6 +44,7 @@
                         @elseif (auth()->user()->u_role_id == 6) {{-- Company Manager --}}
                             <li><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>{{__('translate.Attendance Logs')}}{{-- سجلات المتابعة --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('company_manager.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('company_manager.payments.index')}}"><i data-feather="dollar-sign"></i><span>{{__('translate.Payments')}}{{-- الدفعات --}}</span></a></li>
                         @elseif (auth()->user()->u_role_id == 8) {{-- Communications Manager with Companies --}}
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
