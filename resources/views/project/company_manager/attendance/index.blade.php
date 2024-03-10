@@ -1,42 +1,33 @@
 @extends('layouts.app')
 @section('title')
-    {{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}
+{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}
 @endsection
 @section('header_title')
-    {{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}
+{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}
 @endsection
 @section('header_title_link')
-    {{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}
+{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}
 @endsection
 @section('header_link')
 @endsection
 @section('style')
 @endsection
 @section('content')
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-primary btn-xs" onclick="exportToExcel()" type="button"><span class="fa fa-file-excel-o"></span></button>
-                    </div>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-11">
                 </div>
-                <br>
-                <div class="row">
+                <div class="col-md-1">
+                    <button class="btn btn-primary btn-xs" onclick="exportToExcel()" type="button"><span class="fa fa-file-excel-o"></span></button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
                     {{-- الاسم --}}
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <input type="search" onkeyup="fillter()" class="form-control" placeholder="{{__('translate.Search')}}" aria-label="Search" id="name_fillter" /> {{-- بحث --}}
-                    </div>
-                    {{-- الشركة --}}
-                    <div class="col-md-6">
-                        <select autofocus class="js-example-basic-single col-sm-12" onchange="fillter()" id="company_fillter">
-                            <option value="">{{__('translate.All Companies')}}{{-- جميع الشركات --}}</option>
-                            @foreach ($companies as $company)
-                                <option value="{{$company->c_id}}">{{$company->c_name}}</option>
-                            @endforeach
-                        </select>
                     </div>
                 </div>
                 <br>
@@ -79,12 +70,12 @@
                 </div>
             </div>
         </div>
-        @include('project.admin.attendance.modals.details')
+        @include('project.company_manager.attendance.modals.details')
     </div>
 @endsection
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script>
         function exportToExcel() {
             const table = document.getElementById("dataTable");
             const ws = XLSX.utils.table_to_sheet(table);
@@ -98,13 +89,12 @@
         function fillter()
         {
             let name = document.getElementById('name_fillter').value;
-            let company = document.getElementById('company_fillter').value;
             let year = document.getElementById('year_fillter').value;
             let semester = document.getElementById('semester_fillter').value;
             let from = document.getElementById('from_fillter').value;
             let to = document.getElementById('to_fillter').value;
             $.ajax({
-                url: "{{route('admin.attendance.fillter')}}",
+                url: "{{route('company_manager.attendance.fillter')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -114,13 +104,13 @@
                 },
                 data: {
                     'name' : name ,
-                    'company' : company ,
                     'year' : year ,
                     'semester' : semester ,
                     'from' : from ,
                     'to' : to ,
                 },
                 success: function (data) {
+                    console.log(data.x);
                     $('#content').html(data.html);
                 },
                 error: function (xhr, status, error) {
@@ -131,7 +121,7 @@
         function details(sa_id)
         {
             $.ajax({
-                url: "{{route('admin.attendance.details')}}",
+                url: "{{route('company_manager.attendance.details')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -144,7 +134,6 @@
                 },
                 success: function (response) {
                     document.getElementById('name_modal').value = response.data.student.name;
-                    document.getElementById('company_modal').value = response.data.company.c_name;
                     document.getElementById('in_time_modal').value = response.data.sa_in_time;
                     document.getElementById('out_time_modal').value = response.data.sa_out_time;
                     if(response.data.report_text != null) {

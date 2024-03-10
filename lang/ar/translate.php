@@ -1,5 +1,9 @@
 <?php
     return [
+        "Report details" => "تفاصيل التقرير",
+        "Attendance details" => "تفاصيل الحضور والمغادرة",
+        "In this section you can view attendance details and report" => "في هذا القسم يمكنك عرض تفاصيل الحضور والمغادرة والتقرير",
+        "View attendance details and report" => "عرض تفاصيل الحضور والمغادرة والتقرير",
         "University number and student name" => "الرقم الجامعي واسم الطالب",
         "Student Attendance" => "سجل الحضور والمغادرة",
         "Grade" => "الدرجة",

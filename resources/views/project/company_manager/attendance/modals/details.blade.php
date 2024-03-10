@@ -19,16 +19,10 @@
                                 <h6>{{__('translate.Attendance details')}}{{-- تفاصيل الحضور والمغادرة --}}</h6>
                                 <br>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label  class="col-form-label pt-0">{{__('translate.Name')}}{{-- الاسم --}}</label>
                                             <input type="text" class="form-control" id="name_modal" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label  class="col-form-label pt-0">{{__('translate.Company')}}{{-- الشركة --}}</label>
-                                            <input type="text" class="form-control" id="company_modal" disabled>
                                         </div>
                                     </div>
                                 </div>
