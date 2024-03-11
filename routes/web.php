@@ -88,6 +88,13 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/surveyResults/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyResults'])->name('admin.survey.surveyResults');
 
         });
+        Route::group(['prefix'=>'announcements'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\announcementController::class,'index'])->name('admin.announcements.index');
+            Route::post('/announcementSearch',[App\Http\Controllers\project\admin\announcementController::class,'announcementSearch'])->name('admin.announcements.announcementSearch');
+            Route::get('/addAnnouncement',[App\Http\Controllers\project\admin\announcementController::class,'addAnnouncement'])->name('admin.announcements.addAnnouncement');
+            Route::post('/create',[App\Http\Controllers\project\admin\announcementController::class,'create'])->name('admin.announcements.create');
+            Route::post('/updateStutas',[App\Http\Controllers\project\admin\announcementController::class,'updateStutas'])->name('admin.announcements.updateStutas');
+        });
 
 
         Route::group(['prefix'=>'courses'],function(){
