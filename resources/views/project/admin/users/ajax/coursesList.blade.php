@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th>{{__('translate.Course Name')}} {{-- اسم المساق --}}</th>
-            <th>الدرجة</th>
+            <th>{{__('translate.Grade')}}{{-- الدرجة --}}</th>
             <th>{{__('translate.Operations')}} {{--  العمليات --}}</th>
         </tr>
     </thead>

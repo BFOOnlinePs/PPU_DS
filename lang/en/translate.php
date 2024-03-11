@@ -1,5 +1,12 @@
 <?php
     return [
+        "Report details" => "Report details",
+        "Attendance details" => "Attendance details",
+        "In this section you can view attendance details and report" => "In this section you can view attendance details and report",
+        "View attendance details and report" => "View attendance details and report",
+        "University number and student name" => "University number and student name",
+        "Student Attendance" => "Student Attendance",
+        "Grade" => "Grade",
         "Gender (male or female)" => "Gender (male or female)",
         "Company address (for the main branch)" => "Company address (for the main branch)",
         "Company phone number (for the main branch)" => "Company phone number (for the main branch)",

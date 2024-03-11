@@ -27,6 +27,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('privacy_and_policy',function(){
+    return view('project.admin.privacy_and_policy');
+});
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/language/{locale}', function($locale) {
@@ -64,6 +68,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
             Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
+        });
+        Route::group(['prefix'=>'attendance'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\AttendanceController::class,'index'])->name('admin.attendance.index');
+            Route::post('/fillter',[App\Http\Controllers\project\admin\AttendanceController::class,'fillter'])->name('admin.attendance.fillter');
+            Route::post('/details',[App\Http\Controllers\project\admin\AttendanceController::class,'details'])->name('admin.attendance.details');
         });
         Route::group(['prefix'=>'survey'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\surveyController::class,'index'])->name('admin.survey.index');
@@ -293,6 +302,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'records'], function () {
             Route::get('/index' , [App\Http\Controllers\project\company_manager\records\RecordsController::class, 'index'])->name('company_manager.records.index');
             Route::post('/search' , [App\Http\Controllers\project\company_Manager\records\RecordsController::class, 'search'])->name('company_manager.records.search');
+        });
+        Route::group(['prefix'=>'attendance'],function(){
+            Route::get('/index',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'index'])->name('company_manager.attendance.index');
+            Route::post('/fillter',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'fillter'])->name('company_manager.attendance.fillter');
+            Route::post('/details',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'details'])->name('company_manager.attendance.details');
         });
 
     });
