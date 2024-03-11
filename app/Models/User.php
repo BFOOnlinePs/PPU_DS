@@ -142,5 +142,8 @@ class User extends Authenticatable
     public function surveys(){
         return $this->hasMany(survey::class, 's_added_by', 'u_id');
     }
+    public function announcements(){
+        return $this->hasMany(announcements::class, 'a_added_by', 'u_id');
+    }
 
 }

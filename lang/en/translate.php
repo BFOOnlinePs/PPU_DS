@@ -486,5 +486,13 @@
         'all_types'=>'All Types',
         'all_branches'=>'All Branches',
         'answers'=>'answers',
+        'announcements'=> 'Announcements',
+        'announcement'=> 'Announcement',
+        'announcement_stutas'=> 'Announcement stutas',
+        'announcement_content'=> 'Announcement content',
+        'announcement_photo'=> 'Announcement photo',
+        'announcement_title'=> 'Announcement title',
+        'add_announcement'=> 'Add announcement',
+        'In this section, you can add a new announcements'=> 'In this section, you can add a new announcements',
     ];
 ?>

@@ -494,5 +494,14 @@
         'all_types'=>'جميع الأنواع',
         'all_branches'=>'جميع الفروع',
         'answers'=> 'إجابات',
+        'announcements'=> 'اعلانات',
+        'announcement'=> 'اعلان',
+        'announcement_stutas'=> 'حالة الاعلان',
+        'announcement_content'=> 'محتوى الاعلان',
+        'announcement_photo'=> ' صورة الاعلان',
+        'announcement_title'=> 'عنوان الاعلان',
+        'add_announcement'=> 'إضافة اعلان',
+        'a_added_by'=> 'منشئ الاستبيان',
+        'In this section, you can add a new announcements'=>'في هذا القسم يمكنك إضافة اعلان جديد ',
     ];
 ?>

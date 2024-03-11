@@ -240,7 +240,7 @@ align-items: center;
                                         </div>
                                             <div id="radio-options{{ $loop->iteration}}" class="radio-options{{ $loop->iteration}}">
                                             
-                                            <div hidden id="optionsNumber" name="optionsNumber" ></div>
+                                            
   
                                             @foreach($question->options as $option)
                                                     <input type="text" value="{{$option->sqo_option_text}}" required id="q{{ $question->sq_id }}option{{ $loop->iteration }}" class="form-control short_answer" name="q{{ $question->sq_id }}option{{ $option->sqo_id }}">
@@ -602,15 +602,19 @@ function createRadioButtonOption(placeholderText) {
 
 
     updateSurveyForm.addEventListener("submit", (e) => {
-        
+        //e.preventDefault();
     document.getElementById('questionsNumber').value=questionCounter;
     console.log(JSON.parse(document.getElementById("questionsNumber").value))
     for(i = 1 ; i <= questionCounter ; i++){
-    const optionsNumber = document.getElementById(`optionsNumber`);
+        
+    const  optionsNumber = document.createElement('div');
+    optionsNumber.id='optionsNumber';
+    optionsNumber.name='optionsNumber';
     radioOptions = document.getElementById('radio-options'+i);  
     console.log("radioOptions")
     console.log(radioOptions)
-    if (radioOptions) {
+    console.log(optionsNumber)
+    if (radioOptions!=null) {
     lastOption = radioOptions.lastElementChild; 
    
     console.log(lastOption)
@@ -623,8 +627,10 @@ function createRadioButtonOption(placeholderText) {
             questionOptions.name='q'+i+'optionsNumber';
             questionOptions.value=lastOptionNumber;
             questionOptions.hidden=true;
-            optionsNumber.appendChild(questionOptions); 
-
+            console.log("here")
+            console.log(questionOptions);
+            //optionsNumber.appendChild(questionOptions); 
+            radioOptions.appendChild(questionOptions);
         
         }
     }

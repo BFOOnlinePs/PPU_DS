@@ -50,6 +50,7 @@
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</span></a></li>
                         @endif
                         <li><a class="nav-link" href="{{route('admin.survey.index')}}"><i data-feather="clipboard"></i><span>{{__('translate.surveys')}}{{--  الاستبيانات --}}</span></a></li>
+                        <li><a class="nav-link" href="{{route('admin.announcements.index')}}"><i data-feather="inbox"></i><span>{{__('translate.announcements')}}{{--  الاعلانات --}}</span></a></li>
                         <!-- <li class="dropdown-basic">
                      <div class="dropdown">
                          <div class="dropbtn">
