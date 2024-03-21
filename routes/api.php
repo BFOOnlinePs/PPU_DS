@@ -17,6 +17,7 @@ use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoo
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\editCompanyController;
+use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_attendance;
 use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
@@ -194,6 +195,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getTrainingPaymentsDetails', [StudentCompanyPaymentsDetailsReportController::class, 'getTrainingPaymentsDetails']);
     Route::get('getAllPayments', [PaymentsReportController::class, 'getAllPayments']);
     Route::get('getStudentsNamesWithSearch', [PaymentsReportController::class, 'getStudentsNamesWithSearch']);
+
+    // all students
+    Route::get('getAllStudentsAttendance', [all_students_attendance::class, 'getAllStudentsAttendance']);
+
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
