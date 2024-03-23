@@ -10,33 +10,22 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class all_students_attendance extends Controller
 {
-    public function getAllStudentsAttendance(Request $request)   {
-        // $supervisorId = auth()->user()->u_id;
-        // $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
-        // $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
+    public function getAllStudentsAttendance(Request $request)
+    {
         $studentsIdList = User::where('u_role_id', 2)->pluck('u_id');
         $allStudentsAttendance = StudentAttendance::whereIn('sa_student_id', $studentsIdList)
-            ->with('user')->with('training.company')
-            ->orderBy('created_at', 'desc')->get();
-
-        $perPage = 8;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentPageItems = $allStudentsAttendance->forPage($currentPage, $perPage);
-        $paginatedAllStudentsAttendance = new LengthAwarePaginator(
-            $currentPageItems->values(),
-            $allStudentsAttendance->count(),
-            $perPage,
-            $currentPage
-        );
+            ->with('user:u_id,u_username,name')
+            ->with(['training.company:c_id,c_name'])
+            ->orderBy('created_at', 'desc')->paginate(8);
 
         return response()->json([
             'pagination' => [
-                'current_page' => $paginatedAllStudentsAttendance->currentPage(),
-                'last_page' => $paginatedAllStudentsAttendance->lastPage(),
-                'per_page' => $paginatedAllStudentsAttendance->perPage(),
-                'total_items' => $paginatedAllStudentsAttendance->total(),
+                'current_page' => $allStudentsAttendance->currentPage(),
+                'last_page' => $allStudentsAttendance->lastPage(),
+                'per_page' => $allStudentsAttendance->perPage(),
+                'total_items' => $allStudentsAttendance->total(),
             ],
-            'students_attendance' => $paginatedAllStudentsAttendance->items(),
+            'students_attendance' => $allStudentsAttendance->items(),
 
         ], 200);
     }

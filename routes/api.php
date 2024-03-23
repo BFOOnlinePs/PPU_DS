@@ -18,6 +18,8 @@ use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\editCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_attendance;
+use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_reports;
+use App\Http\Controllers\apisControllers\sharedFunctions\announcements\AnnouncementsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
@@ -40,6 +42,7 @@ use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsTrainingsController;
+use App\Models\AnnouncementModel;
 use App\Models\StudentCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -198,6 +201,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // all students
     Route::get('getAllStudentsAttendance', [all_students_attendance::class, 'getAllStudentsAttendance']);
+    Route::get('getAllStudentsReports', [all_students_reports::class, 'getAllStudentsReports']);
+
+
+    // announcements
+    Route::get('getAllActiveAnnouncements', [AnnouncementsController::class, 'getAllActiveAnnouncements']);
+    Route::post('addNewAnnouncement', [AnnouncementsController::class, 'addNewAnnouncement']);
 
 
     // system
