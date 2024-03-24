@@ -1,10 +1,11 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>اسم الطالب</th>
-            <th>رقم التدريب</th>
-            <th>وقت الحضور</th>
-            <th>وقت المغادرة</th>
+            <th>{{ __('translate.student_name') }}</th>
+            <th>{{ __('translate.company_name') }}</th>
+            <th>{{ __('translate.in_time') }}</th>
+            <th>{{ __('translate.out_time') }}</th>
+            <th>{{ __('translate.Reports') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +20,13 @@
                     <td>{{ $key->company->c_name }}</td>
                     <td>{{ $key->sa_in_time }}</td>
                     <td>{{ $key->sa_out_time }}</td>
+                    <td>
+                        @if(empty($key->report_attendance->sr_report_text))
+                            {{ __('translate.empty') }}
+                        @else
+                            <button onclick="show_report_from_modal('{{ $key->report_attendance->sr_report_text }}')" class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#show_report_for_attendance_modal"><span class="fa fa-file"></span></button>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         @endif

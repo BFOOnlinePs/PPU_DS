@@ -38,15 +38,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">اسم الطالب</label>
+                            <label for="">{{ __('translate.student_name') }}</label>
                             <input onkeyup="attendance_and_departure_report()" type="text" id="student_search" class="form-control" id="search_student" placeholder="اسم الطالب">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">اسم الشركة</label>
+                            <label for="">{{ __('translate.company_name') }}</label>
                             <select onchange="attendance_and_departure_report()" class="js-example-basic-single" name="" id="company_id">
                                 <option value="">اختر شركة ...</option>
                                 @foreach($comapny as $key)
@@ -57,19 +57,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">من</label>
-                            <input id="from" type="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">الى</label>
-                            <input id="to" type="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="">الفصل</label>
+                            <label for="">{{ __('translate.Semester') }}</label>
                             <select onchange="attendance_and_departure_report()" class="form-control" name="" id="semester">
                                 <option value="">اختر فصل</option>
                                 <option value="1">الفصل الاول</option>
@@ -78,10 +66,22 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">السنة</label>
+                            <label for="">{{ __('translate.Year') }}</label>
                             <input onchange="attendance_and_departure_report()" id="year" type="number" min="1900" max="2099" step="1" value="{{ $system_settings->ss_year ?? date('Y') }}" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">{{ __('translate.in_time') }}</label>
+                            <input id="from" type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">{{ __('translate.out_time') }}</label>
+                            <input id="to" type="date" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -99,12 +99,12 @@
 
                         </div>
                     </div>
-                </div>    
+                </div>
             </div>
         </div>
+        @include('project.monitor_evaluation.modals.show_report_for_attendance_modal')
     </div>
 </div>
-
 @endsection
 @section('script')
 
@@ -133,7 +133,7 @@
                     'student_search' : $('#student_search').val(),
                     'semester' : $('#semester').val(),
                     'year' : $('#year').val(),
-                    
+
                 },
                 dataType: 'json',
                 success: function(response) {
@@ -143,6 +143,10 @@
                     console.error(xhr.responseText);
                 }
             });
+        }
+
+        function show_report_from_modal(text_report) {
+            $('#report_text').html(`${text_report}`);
         }
 </script>
 

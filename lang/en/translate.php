@@ -507,6 +507,12 @@
         'display_announcement'=>"Display announcement",
         'edit_announcement'=>"Edit announcement",
         'In this section, you can edit the announcements'=>"In this section, you can edit the announcements",
-        'the_announcement'=>'The announcement'
+        'the_announcement'=>'The announcement',
+        'empty'=>'Empty',
+        // for attendance report
+        'student_name'=>'Student name',
+        'company_name'=>'Company name',
+        'in_time'=>'In time',
+        'out_time'=>'Out time',
     ];
 ?>
