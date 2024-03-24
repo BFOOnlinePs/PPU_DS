@@ -501,11 +501,12 @@
         'announcement_title'=> 'Announcement title',
         'add_announcement'=> 'Add announcement',
         'In this section, you can add a new announcements'=> 'In this section, you can add a new announcements',
+        // Edit By Mohamad Maraqa
+        'attendance_and_departure_report' => 'Attendance and departure report',
         'In this section, you can display an announcements'=>'In this section, you can display an announcements',
         'display_announcement'=>"Display announcement",
         'edit_announcement'=>"Edit announcement",
         'In this section, you can edit the announcements'=>"In this section, you can edit the announcements",
         'the_announcement'=>'The announcement'
-
     ];
 ?>

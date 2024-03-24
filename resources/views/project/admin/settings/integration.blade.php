@@ -71,8 +71,8 @@
                                         <li>{{__('translate.Student University ID')}}{{-- الرقم الجامعي للطالب --}}</li>
                                         <li>{{__("translate.Student Name")}}{{-- اسم الطالب --}}</li>
                                         <li>{{__('translate.Gender (male or female)')}}{{-- الجنس (ذكر أو أنثى) --}}</li>
-                                        <li>{{__('translate.Course ID')}}{{-- رقم المساق --}}</li>
-                                        <li>{{__('translate.Course Name')}}{{-- اسم المساق --}}</li>
+                                        <li>{{__('translate.Course ID')}}{{-- رقم التدريب العملي --}}</li>
+                                        <li>{{__('translate.Course Name')}}{{-- اسم التدريب العملي --}}</li>
                                         <li>{{__('translate.Major ID')}}{{-- رقم التخصص --}}</li>
                                         <li>{{__("translate.Major Name")}}{{-- اسم التخصص --}}</li>
                                     </ul>
@@ -111,7 +111,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Course ID')}}{{-- رقم المساق --}}</label>
+                            <label for="f1-last-name">{{__('translate.Course ID')}}{{-- رقم التدريب العملي --}}</label>
                             <select id="course_id" name="course_id" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
@@ -138,7 +138,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="f1-last-name">{{__('translate.Course Name')}}{{-- اسم المساق --}}</label>
+                            <label for="f1-last-name">{{__('translate.Course Name')}}{{-- اسم التدريب العملي --}}</label>
                             <select id="course_name" name="course_name" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
@@ -287,7 +287,7 @@
                         تم إضافة عدد ${response.user_object} من الطلاب
                         </div>
                         <div class="alert alert-success">
-                            تم إضافة عدد ${response.course_object} من المساقات
+                            تم إضافة عدد ${response.course_object} من التدريبات العملية
                         </div>
                         <div class="alert alert-success">
                             تم إضافة عدد ${response.major_object} من التخصصات
@@ -297,7 +297,7 @@
                         </div>
                         `;
                         for(let i = 0; i < courses_array.length; i += 2) {
-                            progress += `<p>تم تسجيل مساق ${courses_array[i + 1]} ، رقمه ${courses_array[i]}</p>`;
+                            progress += `<p>تم تسجيل التدريب العملي ${courses_array[i + 1]} ، رقمه ${courses_array[i]}</p>`;
                         }
                         for(let i = 0; i < majors_array.length; i += 2) {
                             progress += `<p>تم تسجيل تخصص ${majors_array[i + 1]} ، رقمه ${majors_array[i]}</p>`;
@@ -313,7 +313,7 @@
                             else if(registration_array[i + 3] == 2) {
                                 semester = `الثاني`;
                             }
-                            progress += `<p>تم تسجيل الطالب ${registration_array[i]} الّذي يحمل الرقم الجامعي ${registration_array[i + 1]} ، في مساق ${registration_array[i + 2]} لسنة ${registration_array[i + 4]} في الفصل ${semester}</p>`;
+                            progress += `<p>تم تسجيل الطالب ${registration_array[i]} الّذي يحمل الرقم الجامعي ${registration_array[i + 1]} ، في التدريب العملي ${registration_array[i + 2]} لسنة ${registration_array[i + 4]} في الفصل ${semester}</p>`;
                         }
                         document.getElementById('progress').innerHTML = progress;
                     }

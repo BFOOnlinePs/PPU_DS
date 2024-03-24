@@ -71,7 +71,7 @@ class StudentCoursesController extends Controller
             ],
             [
                 'student_id.required' => 'الرجاء ارسال رقم الطالب',
-                'course_id.required' => 'الرجاء ارسال رقم المساق'
+                'course_id.required' => 'الرجاء ارسال رقم التدريب العملي'
             ]
         );
 
@@ -100,7 +100,7 @@ class StudentCoursesController extends Controller
         if (!$course) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم المساق غير موجود',
+                'message' => 'رقم التدريب العملي غير موجود',
             ]);
         }
 
@@ -119,7 +119,7 @@ class StudentCoursesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم اضافة المساق للطالب بنجاح',
+            'message' => 'تم اضافة التدريب العملي للطالب بنجاح',
             'course' => $course
         ]);
     }
@@ -135,7 +135,7 @@ class StudentCoursesController extends Controller
             ],
             [
                 'student_id.required' => 'الرجاء ارسال رقم الطالب',
-                'course_id.required' => 'الرجاء ارسال رقم المساق'
+                'course_id.required' => 'الرجاء ارسال رقم التدريب العملي'
             ]
         );
 
@@ -164,7 +164,7 @@ class StudentCoursesController extends Controller
         if (!$course) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم المساق غير موجود',
+                'message' => 'رقم التدريب العملي غير موجود',
             ]);
         }
 
@@ -173,14 +173,14 @@ class StudentCoursesController extends Controller
         if (!$register_course) {
             return response()->json([
                 'status' => true,
-                'message' => 'الطالب غير مسجل في المساق',
+                'message' => 'الطالب غير مسجل في التدريب العملي',
             ]);
         }
 
         $register_course->delete();
         return response()->json([
             'status' => true,
-            'message' => 'تم حذف مساق الطالب بنجاح',
+            'message' => 'تم حذف التدريب العملي للطالب بنجاح',
         ]);
     }
 
@@ -239,7 +239,7 @@ class StudentCoursesController extends Controller
         if ($available_courses_for_student->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد مساقات متوفرة'
+                'message' => 'لا يوجد تدريبات عملية متوفرة'
             ]);
         }
 

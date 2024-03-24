@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}
+{{__('translate.Current Semester Courses')}}{{-- التدريبات العملية للفصل الحالي --}}
 @endsection
 @section('header_title')
-{{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}
+{{__('translate.Current Semester Courses')}}{{-- التدريبات العملية للفصل الحالي --}}
 @endsection
 @section('header_title_link')
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
@@ -20,7 +20,7 @@
 
 
 <div>
-    {{-- <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> مساقات الفصل الحالي</button> --}}
+    {{-- <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> التدريبات العملية للفصل الحالي</button> --}}
     <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span> {{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}</button>
 </div>
 
@@ -34,11 +34,11 @@
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">id</th>
-                            <th scope="col">{{__('translate.Course Code')}}{{-- رمز المساق --}}</th>
-                            <th scope="col">{{__('translate.Course Name')}}{{-- اسم المساق --}}</th>
-                            <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</th>
-                            <th scope="col">{{__('translate.Course Type')}}{{-- نوع المساق --}}</th>
-                            <th scope="col">{{__("translate.Course's Students")}}{{-- طلاب المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Code')}}{{-- رمز التدريب العملي --}}</th>
+                            <th scope="col">{{__('translate.Course Name')}}{{-- اسم التدريب العملي --}}</th>
+                            <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات التدريب العملي --}}</th>
+                            <th scope="col">{{__('translate.Course Type')}}{{-- نوع التدريب العملي --}}</th>
+                            <th scope="col">{{__("translate.Course's Students")}}{{-- طلاب التدريب العملي --}}</th>
                         </tr>
                     </thead>
                     <tbody>

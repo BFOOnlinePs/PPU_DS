@@ -76,7 +76,7 @@ class studentTrainingsController extends Controller
                 'student_id.required' => 'الرجاء ارسال رقم الطالب',
                 'company_id.required' => 'الرجاء ارسال رقم الشركة',
                 'branch_id.required' => 'الرجاء ارسال رقم الفرع',
-                'registration_id.required' => 'الرجاء ارسال رقم تسجيل الطالب في مساق',
+                'registration_id.required' => 'الرجاء ارسال رقم تسجيل الطالب في التدريب العملي',
                 'agreement_file.mimes' => 'يجب ان تكون صيغة الملف من احدى الصيغ التالية: jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx'
             ]
         );

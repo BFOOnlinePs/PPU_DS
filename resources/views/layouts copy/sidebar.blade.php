@@ -87,8 +87,8 @@
                                     </a>
                                     <div class="dropdown-content">
                                         <a href="{{route("monitor_evaluation.semesterReport")}}">{{__("translate.Semester's Report")}}</a>
-                                        <a href="{{route("monitor_evaluation.students_courses_report")}}">تقرير الطلاب المسجلين في المساقات</a>
-                                        <a href="{{ route('monitor_evaluation.courses_registered_report') }}">تقرير المساقات المسجلة</a>
+                                        <a href="{{route("monitor_evaluation.students_courses_report")}}">تقرير الطلاب المسجلين في التدريبات العملية</a>
+                                        <a href="{{ route('monitor_evaluation.courses_registered_report') }}">تقرير التدريبات العملية المسجلة</a>
                                         <a href="{{ route('monitor_evaluation.training_hours_report') }}">تقرير ساعات التدريب للطلاب</a>
                                         <a href="{{ route('monitor_evaluation.students_companies_report') }}">تقرير المتدربين</a>
                                     </div>
