@@ -11,4 +11,8 @@ class AnnouncementModel extends Model
 
     protected $table = 'announcements';
     protected $primaryKey = 'a_id';
+
+    public function addedBy(){
+        return $this->hasOne(user::class, 'u_id', 'a_added_by');
+    }
 }

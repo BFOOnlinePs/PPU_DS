@@ -11,13 +11,45 @@ class AnnouncementsController extends Controller
 {
     public function getAllActiveAnnouncements()
     {
-        $announcements = AnnouncementModel::where('a_status', 1)->get();
+        $announcements = AnnouncementModel::where('a_status', 1)->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'announcements' => $announcements,
         ]);
     }
 
+    public function getAllAnnouncements()
+    {
+        $announcements = AnnouncementModel::orderBy('created_at', 'desc')->with('addedBy:u_id,name')->paginate(50);
+
+        return response()->json([
+            'pagination' => [
+                'current_page' => $announcements->currentPage(),
+                'last_page' => $announcements->lastPage(),
+                'per_page' => $announcements->perPage(),
+                'total_items' => $announcements->total(),
+            ],
+            'announcements' => $announcements->items(),
+        ]);
+    }
+
+
+    public function getUserAnnouncements()
+    {
+        $announcements = AnnouncementModel::where('a_added_by', auth()->user()->u_id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(50);
+
+        return response()->json([
+            'pagination' => [
+                'current_page' => $announcements->currentPage(),
+                'last_page' => $announcements->lastPage(),
+                'per_page' => $announcements->perPage(),
+                'total_items' => $announcements->total(),
+            ],
+            'announcements' => $announcements->items(),
+        ]);
+    }
 
     public function addNewAnnouncement(Request $request)
     {
@@ -47,6 +79,7 @@ class AnnouncementsController extends Controller
         $announcement->a_status = 0; // un active
 
         if ($request->hasFile('image')) {
+            // return $request->file('image');
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '_' . uniqid() . '.' . $extension;

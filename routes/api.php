@@ -207,6 +207,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // announcements
     Route::get('getAllActiveAnnouncements', [AnnouncementsController::class, 'getAllActiveAnnouncements']);
     Route::post('addNewAnnouncement', [AnnouncementsController::class, 'addNewAnnouncement']);
+    Route::get('getAllAnnouncements', [AnnouncementsController::class, 'getAllAnnouncements']);
+    Route::get('getUserAnnouncements', [AnnouncementsController::class, 'getUserAnnouncements']);
 
 
     // system
