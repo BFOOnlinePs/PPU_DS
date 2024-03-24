@@ -508,7 +508,12 @@
         'announcement_photo'=> ' صورة الاعلان',
         'announcement_title'=> 'عنوان الاعلان',
         'add_announcement'=> 'إضافة اعلان',
-        'a_added_by'=> 'منشئ الاستبيان',
+        'a_added_by'=> 'منشئ الاعلان',
         'In this section, you can add a new announcements'=>'في هذا القسم يمكنك إضافة اعلان جديد ',
+        'In this section, you can display an announcements'=>'في هذا القسم يمكنك عرض اعلان جديد ',
+        'display_announcement'=>"عرض الاعلان",
+        'edit_announcement'=>"تعديل الاعلان",
+        'In this section, you can edit the announcements'=>"في هذا القسم يمكنك تعديل الاعلان المراد ",
+        'the_announcement'=>'الاعلان'
     ];
 ?>

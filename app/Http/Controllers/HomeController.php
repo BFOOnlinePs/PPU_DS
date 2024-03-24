@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\announcements;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $announcememts=announcements::where('a_stutas',1)->orderBy('created_at', 'desc')->get();
+        return view('home',['data'=>$announcememts]);
+
     }
 
     // test
