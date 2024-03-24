@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__("translate.Semesters' Courses")}}{{-- مساقات الفصول --}}
+{{__("translate.Semesters' Courses")}}{{-- التدريبات العملية للفصول --}}
 @endsection
 @section('header_title')
-{{__("translate.Semesters' Courses")}}{{-- مساقات الفصول --}}
+{{__("translate.Semesters' Courses")}}{{-- التدريبات العملية للفصول --}}
 @endsection
 @section('header_title_link')
 <a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('admin.courses.index')}}">{{__('translate.Courses')}}{{--المساقات--}}</a>
+<a href="{{route('admin.courses.index')}}">{{__('translate.Courses')}}{{--التدريبات العملية--}}</a>
 @endsection
 
 @section('style')
@@ -20,7 +20,7 @@
 
 
 <div>
-    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course to Current Semester')}}{{-- إضافة مساق إلى الفصل الحالي --}}</button>
+    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course to Current Semester')}}{{-- إضافة التدريب العملي إلى الفصل الحالي --}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
@@ -75,7 +75,7 @@
                 </div>
             </form>
             <div class="mb-3">
-                <input class="form-control" onkeyup="courseNameSearch(this.value)" id="courseName" name="courseName" placeholder="{{__('translate.Search for Course Name')}}"> {{-- البحث عن اسم المساق --}}
+                <input class="form-control" onkeyup="courseNameSearch(this.value)" id="courseName" name="courseName" placeholder="{{__('translate.Search for Course Name')}}"> {{-- البحث عن اسم التدريب العملي --}}
             </div>
 
         <div id="showTable">
@@ -86,10 +86,10 @@
                             <th scope="col" style="display:none;">id</th>
                             <th scope="col"> {{__('translate.Academic Year')}}{{-- العام الدراسي --}}</th>
                             <th scope="col">{{__('translate.Semester')}}{{-- الفصل الدراسي --}}</th>
-                            <th scope="col">{{__('translate.Course Name')}} {{-- اسم المساق --}}</th>
-                            <th scope="col">{{__('translate.Course Code')}}{{-- رمز المساق --}}</th>
-                            <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}</th>
-                            <th scope="col">{{__('translate.Course Type')}}{{-- نوع المساق --}}</th>
+                            <th scope="col">{{__('translate.Course Name')}} {{-- اسم التدريب العملي --}}</th>
+                            <th scope="col">{{__('translate.Course Code')}}{{-- رمز التدريب العملي --}}</th>
+                            <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات التدريب العملي --}}</th>
+                            <th scope="col">{{__('translate.Course Type')}}{{-- نوع التدريب العملي --}}</th>
                             <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
                         </tr>
                     </thead>

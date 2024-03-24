@@ -1,7 +1,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>{{__('translate.Course')}}{{-- المساق --}}</th>
+            <th>{{__('translate.Course')}}{{-- التدريب العملي --}}</th>
             <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
             <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
             <th>{{__('translate.Training Status')}}{{--حالة التدريب--}}</th>

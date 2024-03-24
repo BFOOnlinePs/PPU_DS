@@ -274,7 +274,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/studentsCompaniesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesPDF'])->name('monitor_evaluation.studentsCompaniesPDF');
         Route::get('/companyStudents/{id}',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class,'companyStudents'])->name('monitor_evaluation.companyStudentsReport');
         Route::post('/companyStudentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyStudentsReportSearch'])->name('monitor_evaluation.companyStudentsReportSearch');
-
+        Route::get('/attendance_and_departure_report_index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_index'])->name('monitor_evaluation.attendance_and_departure_report_index');
+        Route::post('/attendance_and_departure_report_table' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_table'])->name('monitor_evaluation.attendance_and_departure_report_table');
     });
 
     Route::group(['prefix' => 'company_manager'], function () {

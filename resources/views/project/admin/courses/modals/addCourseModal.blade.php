@@ -13,10 +13,10 @@
                                 <h1><span class="fa fa-plus" style="text-align: center; font-size:80px; "></span></h1>
 
 
-                                <h1>{{__('translate.Add Course')}}{{-- إضافة مساق --}}</h1>
+                                <h1>{{__('translate.Add Course')}}{{-- إضافة تدريب عملي --}}</h1>
 
                                 <hr>
-                                <p>{{__('translate.In this section, you can add a new course')}}{{-- في هذا القسم يمكنك إضافة مساق جديد --}}</p>
+                                <p>{{__('translate.In this section, you can add a new course')}}{{-- في هذا القسم يمكنك إضافة تدريب عملي جديد --}}</p>
 
 
                         </div>
@@ -28,7 +28,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Name')}} {{-- اسم المساق --}}<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Name')}} {{-- اسم التدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                                 <input id="c_name" name="c_name" type="text"
                                                     class="form-control " autofocus oninput="validateInput(this)">
@@ -41,7 +41,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Code')}}{{-- رمز المساق --}}<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Code')}}{{-- رمز التدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
                                                 <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                                 <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -49,13 +49,13 @@
                                             </div>
 
                                             <div id="similarCourseCodeMessage" style="color:#dc3545" hidden>
-                                                <span>{{__('translate.There is course with the same code entered')}}{{--يوجد مساق بنفس الرمز الذي قمت بادخاله--}}</span>
+                                                <span>{{__('translate.There is course with the same code entered')}}{{--يوجد تدريب عملي بنفس الرمز الذي قمت بادخاله--}}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course Type')}}{{-- نوع المساق --}}<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course Type')}}{{-- نوع التدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                             <select id="c_course_type" name="c_course_type" class="form-control btn-square">
                                                 <option selected="" disabled="" value="">--{{__('translate.Choose')}}{{-- اختيار --}}--</option>
@@ -71,7 +71,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course Hours')}}{{-- ساعات المساق --}}<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Course Hours')}}{{-- ساعات التدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                             <select id="c_hours" name="c_hours" class="form-control btn-square">
                                                 <option selected="" disabled="" value="">--{{__('translate.Choose')}}{{-- اختيار --}}--</option>
@@ -88,7 +88,7 @@
                                     <div class="col-md-6">
 
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Reference Code')}}{{-- الرمز المرجعي للمساق --}}<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Reference Code')}}{{-- الرمز المرجعي للتدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
                                                 <i id="ref_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
                                                 <i id="ref_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
@@ -97,7 +97,7 @@
                                             </div>
 
                                             <div id="similarCourseCodeRefMessage" style="color:#dc3545" hidden>
-                                                <span>{{__('translate.There is course with the same reference code entered')}}{{--يوجد مساق بنفس الرمز المرجعي الذي قمت بادخاله--}}</span>
+                                                <span>{{__('translate.There is course with the same reference code entered')}}{{--يوجد تدريب عملي بنفس الرمز المرجعي الذي قمت بادخاله--}}</span>
                                             </div>
                                         </div>
 
@@ -107,7 +107,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Description')}}{{-- وصف المساق --}}<span style="color: red">*</span></label>
+                                            <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Description')}}{{-- وصف التدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="col-lg-12">
                                                 <textarea id="c_description" name="c_description" type="text"
                                                     class="form-control btn-square input-md" rows="6"></textarea>
@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div class="modal-footer ">
-                    <button type="submit" class="btn btn-primary" id="add_course">{{__('translate.Add Course')}}{{-- إضافة مساق --}}</button>
+                    <button type="submit" class="btn btn-primary" id="add_course">{{__('translate.Add Course')}}{{-- إضافة تدريب عملي --}}</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('translate.Cancel')}}{{-- إلغاء --}}</button>
                 </div>
             </form>

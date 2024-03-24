@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th>{{__("translate.Student Name")}} {{-- اسم الطالب --}}</th>
-                    <th>المساق</th>
+                    <th>التدريب العملي</th>
                     <th>الفرع</th>
                     <th>القسم</th>
                     <th>{{__('translate.Operations')}} {{--  العمليات --}}</th>

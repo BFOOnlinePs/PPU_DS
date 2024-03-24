@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-{{__("translate.Student Courses")}}{{-- مساقات الطالب --}}
+{{__("translate.Student Courses")}}{{-- التدريبات العملية للطالب --}}
 @endsection
 @section('header_title')
-{{__("translate.Student Courses")}}{{-- مساقات الطالب --}}
+{{__("translate.Student Courses")}}{{-- التدريبات العملية للطالب --}}
 @endsection
 @section('header_title_link')
 <a href="{{route('admin.users.index')}}">{{__('translate.Users')}}{{-- المستخدمين --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> / {{__("translate.Student Courses")}}{{-- مساقات الطالب --}}
+<a href="{{route('admin.users.details' , ['id'=>$user->u_id])}}">{{$user->name}}</a> / {{__("translate.Student Courses")}}{{-- التدريبات العملية للطالب --}}
 @endsection
 
 @section('style')
@@ -45,7 +45,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-sm" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Enroll student in a course')}} {{-- تسجيل مساق للطالب --}}</button>
+                            <button class="btn btn-primary btn-sm" onclick="$('#AddCoursesStudentModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Enroll student in a course')}} {{-- تسجيل التدريب العملي للطالب --}}</button>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                 success: function(response) {
                     $('#alert').html(`
                         <div class="alert alert-success">
-                            تم إضافة درجة للمساق المسجل
+                            تم إضافة درجة للتدريب العملي المسجل
                         </div>
                     `);
                     setTimeout(function() {

@@ -20,7 +20,7 @@
 
 
 <div>
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span>{{__('translate.Current Semester Courses')}}{{-- مساقات الفصل الحالي --}}</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span>{{__('translate.Current Semester Courses')}}{{-- التدريبات العملية للفصل الحالي --}}</button>
     {{-- <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.companies_categories.index")}}"'><span class="fa fa-users"></span> طلاب الفصل الحالي</button> --}}
 </div>
 
@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-2">
                 <select autofocus class="js-example-basic-single col-sm-2" id="user_course" onchange="filter()">
-                    <option value="">جميع المساقات</option>
+                    <option value="">جميع التدريبات العملية</option>
                     @foreach ($semester_courses as $semester_course)
                         <option value="{{$semester_course->sc_course_id}}">{{$semester_course->courses->c_name}}</option>
                     @endforeach
