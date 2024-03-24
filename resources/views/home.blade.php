@@ -17,15 +17,49 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-QZFGL0W6qPrIFZdtYjZ3j+Y6OtHcCqHF5+yXvr3A3qoZtefksLyC5/CSlC5J8+h6FHUw0xRSoAFK43Z7Xlp3Hg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive.css')}}"> --}}
-@endsection
+<style>
+    .announcemetsBody{
+        padding-top:8%
+    }
+    .announcement-header{
+    background-color: #24695c;
+    color: white;
+    width: 100%;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    }
+    </style>
+    @endsection
 @if(auth()->user()->u_role_id == 1)
 @section('content')
 <div class="card">
     <div class="card-body">
+        <div class="row">
+        <div class="col-md-6" style="padding-top:3%">
+        <div class="announcement-header">
+        <h2>اعلانات الكلية</h2>
+    </div>
+    <div class="announcemetsBody">
+@foreach($data as $key)
+{{ $key->created_at->format('F') }} 
+{{ $key->created_at->format('d') }}
+
+
+<br>
+<a href='{{ route("admin.announcements.edit",["id"=>$key->a_id])}}'> {{$key->a_title}} </a>
+<hr>
+@endforeach
+</div>
+    </div>
+      <div class="col-md-6">
         <button class="btn btn-primary" onclick="show_add_event_modal()">{{__('translate.Add event')}}{{-- إضافة حدث --}}</button><br><br>
         <div id="calendar">
 
-        </div>
+        </div> 
+     </div>
+     </div>
         @include('modals.addEvent')
         @include('modals.showEvent')
         @include('modals.alertToConfirmDelete')
@@ -429,6 +463,20 @@
                         <div id="calendar">
                         </div>
                         @include('modals.showEventForAll')
+                    </div>
+                </div>
+                <div class="col-md-12" style="padding-top:1%">
+                    <div class="announcement-header">
+                     <h2>اعلانات الكلية</h2>
+                    </div>
+                    <div class="announcemetsBody" style="padding-top:3%">
+                        @foreach($data as $key)
+                        {{ $key->created_at->format('F') }} 
+                        {{ $key->created_at->format('d') }}
+                        <br>
+                        <a href='{{ route("admin.announcements.edit",["id"=>$key->a_id])}}'> {{$key->a_title}} </a>
+                        <hr>
+                        @endforeach
                     </div>
                 </div>
             </div>

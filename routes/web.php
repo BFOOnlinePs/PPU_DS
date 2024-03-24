@@ -93,6 +93,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/announcementSearch',[App\Http\Controllers\project\admin\announcementController::class,'announcementSearch'])->name('admin.announcements.announcementSearch');
             Route::get('/addAnnouncement',[App\Http\Controllers\project\admin\announcementController::class,'addAnnouncement'])->name('admin.announcements.addAnnouncement');
             Route::post('/create',[App\Http\Controllers\project\admin\announcementController::class,'create'])->name('admin.announcements.create');
+            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\announcementController::class,'edit'])->name('admin.announcements.edit');
+            Route::post('/update',[App\Http\Controllers\project\admin\announcementController::class,'update'])->name('admin.announcements.update');
             Route::post('/updateStutas',[App\Http\Controllers\project\admin\announcementController::class,'updateStutas'])->name('admin.announcements.updateStutas');
         });
 

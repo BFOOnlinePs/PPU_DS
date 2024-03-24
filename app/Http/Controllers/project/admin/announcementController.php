@@ -15,6 +15,7 @@ class announcementController extends Controller
     }
 
     public function announcementSearch(Request $request){
+       
         $data = announcements::where('a_title','like','%'.$request->search.'%')->get();
         return response()->json([
             'success'=>'true',
@@ -23,18 +24,21 @@ class announcementController extends Controller
     }
 
     public function create(Request $request){
-        
+         $announcements=new announcements();
         if ($request->hasFile('a_image')) {
             $file = $request->file('a_image');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            $file->storeAs('uploads/announcements', $filename, 'public');           
+            $file->storeAs('uploads/announcements', $filename, 'public');  
+            $announcements->a_image=$filename;         
         }
-      
-        $announcements=new announcements();
+        else {
+            $announcements->a_image=""; 
+
+        }
+
         $announcements->a_title=$request->a_title;
         $announcements->a_content=$request->a_content;
-        $announcements->a_image=$filename;
         $announcements->a_added_by=auth()->user()->u_id;
         if($announcements->save()){
         $data=announcements::get();
@@ -59,4 +63,36 @@ class announcementController extends Controller
     }
    
    }
+   public function update(Request $request){
+// return $request->a_image;
+    $announcement=announcements::where('a_id',$request->a_id)->first();
+    $announcement->a_title=$request->a_title;
+    $announcement->a_content=$request->a_content;
+    // $x=$request->hasFile('a_image');
+    // return $announcement->a_image;
+    if($request->hasFile('a_image') && $announcement->a_image !=0 ) {
+        $file = $request->file('a_image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . '.' . $extension;
+        $file->storeAs('uploads/announcements', $filename, 'public');  
+        $announcement->a_image=$filename;         
+    }
+    else {
+        $announcement->a_image=0; 
+
+    }
+    if($announcement->save()){
+        $data=announcements::with('users')->get();
+        return response()->json([
+                'success'=>'true',
+                'view'=>view('project.admin.announcements.ajax.announcementsList',['data'=>$data])->render()
+            ]);
+    }
+   
+   }
+   public function edit($id){
+
+    $data=announcements::where('a_id',$id)->first();
+    return view('project.admin.announcements.edit', ['data' => $data]);
+}
 }
