@@ -16,6 +16,7 @@
                             <li><a class="nav-link" href="{{route('admin.users.index')}}"><i data-feather="users"></i><span>{{__('translate.Users Management')}}{{-- المستخدمين --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.majors.index')}}"><i data-feather="book-open"></i><span>{{__('translate.Majors Management')}}{{-- التخصصات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.courses.index')}}"><i data-feather="book"></i><span>{{__('translate.Courses')}}{{-- التدريبات العملية --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i data-feather=><span>{{__("translate.attendance_and_departure_report")}}{{-- تقرير الحضور والمغادرة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.registration.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
@@ -55,7 +56,7 @@
                         <li><a class="nav-link" href="{{route('admin.announcements.index')}}"><i data-feather="inbox"></i><span>{{__('translate.announcements')}}{{--  الاعلانات --}}</span></a></li>
                         @endif
                         <li><a class="nav-link" href="{{route('admin.survey.index')}}"><i data-feather="clipboard"></i><span>{{__('translate.surveys')}}{{--  الاستبيانات --}}</span></a></li>
-                       
+
                         <!-- <li class="dropdown-basic">
                      <div class="dropdown">
                          <div class="dropbtn">

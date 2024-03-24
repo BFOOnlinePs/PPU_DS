@@ -279,7 +279,6 @@
         'Semester' => 'الفصل الدراسي',
         'Academic Year' => 'العام الدراسي',
         'Search for Course Name' => 'البحث عن اسم التدريب العملي',
-        'Semester' => 'الفصل',
         'Delete Course' => 'حذف تدريب عملي', //not
         // 'Are you sure you want to delete the course from the current term?' => 'هل أنت متأكد من حذف التدريب العملي من الفصل الحالي؟',
         'Are you sure you want remove this course from current semester?' => 'هل أنت متأكد من حذف التدريب العملي من الفصل الحالي؟', //not
@@ -515,6 +514,12 @@
         'display_announcement'=>"عرض الاعلان",
         'edit_announcement'=>"تعديل الاعلان",
         'In this section, you can edit the announcements'=>"في هذا القسم يمكنك تعديل الاعلان المراد ",
-        'the_announcement'=>'الاعلان'
+        'the_announcement'=>'الاعلان',
+        'empty'=>'فارغ',
+        // for attendance report
+        'student_name'=>'اسم الطالب',
+        'company_name'=>'اسم الشركة',
+        'in_time'=>'وقت الحضور',
+        'out_time'=>'وقت المغادرة',
     ];
 ?>

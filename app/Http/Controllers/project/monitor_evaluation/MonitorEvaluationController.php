@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\project\monitor_evaluation;
 
 use App\Http\Controllers\Controller;
+use App\Models\StudentReport;
 use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
 use App\Models\SystemSetting;
@@ -1440,16 +1441,15 @@ class MonitorEvaluationController extends Controller
         $system_settings = SystemSetting::first();
         return view('project.monitor_evaluation.attendance_and_departure_report_index',['comapny'=>$comapny,'users'=>$users,'system_settings'=>$system_settings]);
     }
-    
+
     public function attendance_and_departure_report_table(Request $request){
-        
+
         // $query = StudentAttendance::query();
         // $query->
         // if($request->filled('student_search')){
-            
+
         // }
         // $data = $query->get();
-        
         $data = StudentAttendance::whereIn('sa_student_id',function($query) use ($request){
             $query->select('u_id')->from('users')->where('name','like','%'.$request->student_search.'%');
         })
@@ -1471,12 +1471,13 @@ class MonitorEvaluationController extends Controller
                   ->when($request->filled('year'),function($query) use ($request){
                     $query->where('r_year',$request->year);
                   });
-                  
-        })->get();      
+
+        })->get();
         foreach($data as $key){
             $key->user = User::where('u_id',$key->sa_student_id)->first();
             $key->company = Company::where('c_id',$key->sa_student_company_id)->first();
-        }  
+            $key->report_attendance = StudentReport::where('sr_student_attendance_id',$key->sa_id)->first();
+        }
         return response()->json([
             'success' => 'true',
             'view' => view('project.monitor_evaluation.ajax.attendance_and_departure_report',['data'=>$data])->render(),
