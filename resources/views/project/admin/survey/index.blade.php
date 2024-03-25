@@ -59,7 +59,8 @@
                                 <td>
                                    <button class="btn btn-info"    onclick='location.href="{{route("admin.survey.surveyView",["id"=>$key->s_id])}}"'><i class="fa fa-info"></i></button>
                                    @if(auth()->user()->u_role_id == 1 || $key->users->u_role_id == auth()->user()->u_role_id)
-                                   <button class="btn btn-primary" onclick='location.href="{{route("admin.survey.editSurvey",["id"=>$key->s_id])}}"'><i class="fa fa-edit"></i></button>
+                                   @if($key->s_start_date >  date('Y-m-d'))
+                                   <button class="btn btn-primary" onclick='location.href="{{route("admin.survey.editSurvey",["id"=>$key->s_id])}}"'><i class="fa fa-edit"></i></button>@endif
                                    <button class="btn btn-primary" onclick='location.href="{{route("admin.survey.surveyResults",["id"=>$key->s_id])}}"'><i class="fa fa-briefcase"></i></button>
                                    <button class="btn btn-primary" onclick="showDeleteSurveyModal({{ $key->s_id }})"><i class="fa fa-trash"></i></button>
                                 @endif
