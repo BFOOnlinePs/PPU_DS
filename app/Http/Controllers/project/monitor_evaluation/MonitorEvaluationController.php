@@ -1443,13 +1443,6 @@ class MonitorEvaluationController extends Controller
     }
 
     public function attendance_and_departure_report_table(Request $request){
-
-        // $query = StudentAttendance::query();
-        // $query->
-        // if($request->filled('student_search')){
-
-        // }
-        // $data = $query->get();
         $data = StudentAttendance::whereIn('sa_student_id',function($query) use ($request){
             $query->select('u_id')->from('users')->where('name','like','%'.$request->student_search.'%');
         })
@@ -1459,8 +1452,7 @@ class MonitorEvaluationController extends Controller
             });
         })
         ->when($request->filled('from') && $request->filled('to'),function($query) use ($request){
-            $query->whereBetween('sa_in_time', [$request->from, $request->to])
-            ->whereBetween('sa_out_time', [$request->from, $request->to]);
+            $query->whereBetween('sa_in_time',[$request->from,$request->to]);
         })
         ->whereIn('sa_student_id', function($query) use ($request) {
             $query->select('r_student_id')

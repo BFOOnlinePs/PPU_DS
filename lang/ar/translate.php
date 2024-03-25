@@ -519,7 +519,7 @@
         // for attendance report
         'student_name'=>'اسم الطالب',
         'company_name'=>'اسم الشركة',
-        'in_time'=>'وقت الحضور',
-        'out_time'=>'وقت المغادرة',
+        'in_time'=>'من تاريخ',
+        'out_time'=>'الى تاريخ',
     ];
 ?>

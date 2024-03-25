@@ -512,7 +512,7 @@
         // for attendance report
         'student_name'=>'Student name',
         'company_name'=>'Company name',
-        'in_time'=>'In time',
-        'out_time'=>'Out time',
+        'in_time'=>'From date',
+        'out_time'=>'To date',
     ];
 ?>
