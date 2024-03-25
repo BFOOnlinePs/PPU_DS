@@ -143,7 +143,7 @@ class sharedController extends Controller
         if ($available_courses->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد مساقات متوفرة للفصل الحالي'
+                'message' => 'لا يوجد تدريبات عملية متوفرة للفصل الحالي'
             ]);
         }
 

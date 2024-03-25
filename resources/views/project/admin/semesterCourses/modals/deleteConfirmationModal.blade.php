@@ -4,7 +4,7 @@
       
       <div class="modal-body">
        <br>
-       <h6 id="p-deactive">{{__('translate.Are you sure from removing course from current semester?')}}{{--هل أنت متأكد من حذف المساق من الفصل الحالي؟--}}</h6>
+       <h6 id="p-deactive">{{__('translate.Are you sure from removing course from current semester?')}}{{--هل أنت متأكد من حذف تدريب عملي من الفصل الحالي؟--}}</h6>
        <br>
        {{-- <p id='deactiveName'></p> --}}
      </div>

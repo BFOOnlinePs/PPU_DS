@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\project\monitor_evaluation;
 
 use App\Http\Controllers\Controller;
+use App\Models\StudentReport;
 use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
 use App\Models\SystemSetting;
@@ -1430,6 +1431,56 @@ class MonitorEvaluationController extends Controller
         return response()->json([
             'success'=>'true',
             'view'=>view('project.monitor_evaluation.ajax.companyStudentsTable',['data'=>$data])->render()
+        ]);
+    }
+
+    // Edit By Mohamad Maraqa
+    public function attendance_and_departure_report_index(){
+        $comapny = Company::get();
+        $users = User::where('u_role_id',2)->get();
+        $system_settings = SystemSetting::first();
+        return view('project.monitor_evaluation.attendance_and_departure_report_index',['comapny'=>$comapny,'users'=>$users,'system_settings'=>$system_settings]);
+    }
+
+    public function attendance_and_departure_report_table(Request $request){
+
+        // $query = StudentAttendance::query();
+        // $query->
+        // if($request->filled('student_search')){
+
+        // }
+        // $data = $query->get();
+        $data = StudentAttendance::whereIn('sa_student_id',function($query) use ($request){
+            $query->select('u_id')->from('users')->where('name','like','%'.$request->student_search.'%');
+        })
+        ->when($request->filled('company_id'),function($query) use ($request){
+            $query->whereIn('sa_student_company_id',function($query) use ($request){
+                $query->select('c_id')->from('companies')->where('c_id',$request->company_id);
+            });
+        })
+        ->when($request->filled('from') && $request->filled('to'),function($query) use ($request){
+            $query->whereBetween('sa_in_time', [$request->from, $request->to])
+            ->whereBetween('sa_out_time', [$request->from, $request->to]);
+        })
+        ->whereIn('sa_student_id', function($query) use ($request) {
+            $query->select('r_student_id')
+                  ->from('registration')
+                  ->when($request->filled('semester'),function($query) use ($request){
+                    $query->where('r_semester',$request->semester);
+                  })
+                  ->when($request->filled('year'),function($query) use ($request){
+                    $query->where('r_year',$request->year);
+                  });
+
+        })->get();
+        foreach($data as $key){
+            $key->user = User::where('u_id',$key->sa_student_id)->first();
+            $key->company = Company::where('c_id',$key->sa_student_company_id)->first();
+            $key->report_attendance = StudentReport::where('sr_student_attendance_id',$key->sa_id)->first();
+        }
+        return response()->json([
+            'success' => 'true',
+            'view' => view('project.monitor_evaluation.ajax.attendance_and_departure_report',['data'=>$data])->render(),
         ]);
     }
 

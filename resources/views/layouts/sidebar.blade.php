@@ -15,7 +15,8 @@
                         @if(auth()->user()->u_role_id == 1) {{-- admin --}}
                             <li><a class="nav-link" href="{{route('admin.users.index')}}"><i data-feather="users"></i><span>{{__('translate.Users Management')}}{{-- المستخدمين --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.majors.index')}}"><i data-feather="book-open"></i><span>{{__('translate.Majors Management')}}{{-- التخصصات --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('admin.courses.index')}}"><i data-feather="book"></i><span>{{__('translate.Courses')}}{{-- المساقات --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('admin.courses.index')}}"><i data-feather="book"></i><span>{{__('translate.Courses')}}{{-- التدريبات العملية --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i data-feather=><span>{{__("translate.attendance_and_departure_report")}}{{-- تقرير الحضور والمغادرة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.registration.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
@@ -38,9 +39,10 @@
                         @elseif (auth()->user()->u_role_id == 5) {{-- M&E --}}
                             <li><a class="nav-link" href="{{route('home')}}"><i data-feather="home"></i><span>{{__('translate.Main')}}{{-- الرئيسية --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesReport')}}"><idata-feather="briefcase"></idata-feather=><span>{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesPaymentsReport')}}"><idata-feather="users"></idata-feather=><span>{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('monitor_evaluation.paymentsReport')}}"><idata-feather="dollar-sign"></idata-feather=><span>{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesReport')}}"><i data-feather="briefcase"></i data-feather=><span>{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i data-feather=><span>{{__("translate.attendance_and_departure_report")}}{{-- تقرير الحضور والمغادرة --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesPaymentsReport')}}"><i data-feather="users"></i data-feather=><span>{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.paymentsReport')}}"><i data-feather="dollar-sign"></i data-feather=><span>{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}</span></a></li>
                         @elseif (auth()->user()->u_role_id == 6) {{-- Company Manager --}}
                             <li><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>{{__('translate.Attendance Logs')}}{{-- سجلات المتابعة --}}</span></a></li>
