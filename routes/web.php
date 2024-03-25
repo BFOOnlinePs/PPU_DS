@@ -278,6 +278,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/companyStudentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyStudentsReportSearch'])->name('monitor_evaluation.companyStudentsReportSearch');
         Route::get('/attendance_and_departure_report_index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_index'])->name('monitor_evaluation.attendance_and_departure_report_index');
         Route::post('/attendance_and_departure_report_table' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_table'])->name('monitor_evaluation.attendance_and_departure_report_table');
+        Route::get('/export_student_attendance' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'export_student_attendance'])->name('monitor_evaluation.export_student_attendance');
     });
 
     Route::group(['prefix' => 'company_manager'], function () {

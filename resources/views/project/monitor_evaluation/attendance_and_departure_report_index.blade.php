@@ -32,12 +32,25 @@
 @endsection
 
 @section('content')
-
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
+                    <div class="col-md-12">
+                        <a class="btn btn-success btn-sm" href="{{ route('monitor_evaluation.export_student_attendance') }}">تصدير الى اكسيل</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">{{ __('translate.student_name') }}</label>

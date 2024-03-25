@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\project\monitor_evaluation;
 
+use App\Exports\StudentAttendanceExport;
 use App\Http\Controllers\Controller;
 use App\Models\StudentReport;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ use Carbon\Carbon;
 use App\Models\CompaniesCategory;
 use App\Models\Payment;
 use App\Models\Currency;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use Illuminate\Support\Collection;
 use App\Models\User;
@@ -1476,4 +1478,7 @@ class MonitorEvaluationController extends Controller
         ]);
     }
 
+    public function export_student_attendance(){
+        return Excel::download(new StudentAttendanceExport,'student_attendance.xlsx');
+    }
 }
