@@ -80,6 +80,7 @@ class surveyController extends Controller
 
     }
     public function createSurvey(Request $request){
+       // return $request;
         $targets= surveyTargetGroup::get();
        // return $request;
         //add survey info
