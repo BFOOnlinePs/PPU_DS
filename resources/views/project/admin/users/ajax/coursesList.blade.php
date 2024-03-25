@@ -1,15 +1,15 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>{{__('translate.Course Name')}} {{-- اسم المساق --}}</th>
-            <th>الدرجة</th>
+            <th>{{__('translate.Course Name')}} {{-- اسم التدريب العملي --}}</th>
+            <th>{{__('translate.Grade')}}{{-- الدرجة --}}</th>
             <th>{{__('translate.Operations')}} {{--  العمليات --}}</th>
         </tr>
     </thead>
     <tbody>
     @if ($data->isEmpty())
         <tr>
-            <td colspan="3" class="text-center"><span>{{__('translate.No courses are currently enrolled')}}{{-- لا يوجد مساقات مسجلة --}}</span></td>
+            <td colspan="3" class="text-center"><span>{{__('translate.No courses are currently enrolled')}}{{-- لا يوجد تدريبات عملية مسجلة --}}</span></td>
         </tr>
     @else
         @foreach($data as $registration)

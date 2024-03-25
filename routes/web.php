@@ -27,6 +27,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('privacy_and_policy',function(){
+    return view('project.admin.privacy_and_policy');
+});
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/language/{locale}', function($locale) {
@@ -64,6 +68,34 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
             Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
+        });
+        Route::group(['prefix'=>'attendance'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\AttendanceController::class,'index'])->name('admin.attendance.index');
+            Route::post('/fillter',[App\Http\Controllers\project\admin\AttendanceController::class,'fillter'])->name('admin.attendance.fillter');
+            Route::post('/details',[App\Http\Controllers\project\admin\AttendanceController::class,'details'])->name('admin.attendance.details');
+        });
+        Route::group(['prefix'=>'survey'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\surveyController::class,'index'])->name('admin.survey.index');
+            Route::post('/surveySearch',[App\Http\Controllers\project\admin\surveyController::class,'surveySearch'])->name('admin.survey.surveySearch');
+            Route::get('/addSurvey',[App\Http\Controllers\project\admin\surveyController::class,'addSurvey'])->name('admin.survey.addSurvey');
+            Route::post('/createSurvey',[App\Http\Controllers\project\admin\surveyController::class,'createSurvey'])->name('admin.survey.createSurvey');
+            Route::get('/surveyView/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyView'])->name('admin.survey.surveyView');
+            Route::post('/submitSurvey',[App\Http\Controllers\project\admin\surveyController::class,'submitSurvey'])->name('admin.survey.submitSurvey');
+            Route::post('/deleteSurvey',[App\Http\Controllers\project\admin\surveyController::class,'deleteSurvey'])->name('admin.survey.deleteSurvey');
+            Route::get('/editSurvey/{id}',[App\Http\Controllers\project\admin\surveyController::class,'editSurvey'])->name('admin.survey.editSurvey');
+            Route::get('/surveySubmit/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveySubmit'])->name('admin.survey.surveySubmit');
+            Route::post('/update',[App\Http\Controllers\project\admin\surveyController::class,'update'])->name('admin.survey.update');
+            Route::get('/surveyResults/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyResults'])->name('admin.survey.surveyResults');
+
+        });
+        Route::group(['prefix'=>'announcements'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\announcementController::class,'index'])->name('admin.announcements.index');
+            Route::post('/announcementSearch',[App\Http\Controllers\project\admin\announcementController::class,'announcementSearch'])->name('admin.announcements.announcementSearch');
+            Route::get('/addAnnouncement',[App\Http\Controllers\project\admin\announcementController::class,'addAnnouncement'])->name('admin.announcements.addAnnouncement');
+            Route::post('/create',[App\Http\Controllers\project\admin\announcementController::class,'create'])->name('admin.announcements.create');
+            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\announcementController::class,'edit'])->name('admin.announcements.edit');
+            Route::post('/update',[App\Http\Controllers\project\admin\announcementController::class,'update'])->name('admin.announcements.update');
+            Route::post('/updateStutas',[App\Http\Controllers\project\admin\announcementController::class,'updateStutas'])->name('admin.announcements.updateStutas');
         });
 
 
@@ -185,6 +217,11 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'uploadFileExcel'])->name('admin.settings.integration_company.uploadFileExcel');
                 Route::post('/submitForm',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'submitForm'])->name('admin.settings.integration_company.submitForm');
             });
+            Route::group(['prefix'=>'integration_students'],function(){
+                Route::get('/index',[App\Http\Controllers\project\settings\IntegrationStudentsController::class,'index'])->name('admin.settings.integration_students.index');
+                Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\IntegrationStudentsController::class,'uploadFileExcel'])->name('admin.settings.integration_students.uploadFileExcel');
+                Route::post('/submitForm',[App\Http\Controllers\project\settings\IntegrationStudentsController::class,'submitForm'])->name('admin.settings.integration_students.submitForm');
+            });
 
             Route::get('/systemSettings',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettings'])->name('admin.settings.systemSettings');
             Route::post('/systemSettingsUpdate',[App\Http\Controllers\project\settings\SettingsController::class,'systemSettingsUpdate'])->name('admin.settings.systemSettingsUpdate');
@@ -239,7 +276,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/studentsCompaniesPDF' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'studentsCompaniesPDF'])->name('monitor_evaluation.studentsCompaniesPDF');
         Route::get('/companyStudents/{id}',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class,'companyStudents'])->name('monitor_evaluation.companyStudentsReport');
         Route::post('/companyStudentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyStudentsReportSearch'])->name('monitor_evaluation.companyStudentsReportSearch');
-
+        Route::get('/attendance_and_departure_report_index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_index'])->name('monitor_evaluation.attendance_and_departure_report_index');
+        Route::post('/attendance_and_departure_report_table' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_table'])->name('monitor_evaluation.attendance_and_departure_report_table');
     });
 
     Route::group(['prefix' => 'company_manager'], function () {
@@ -267,6 +305,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'records'], function () {
             Route::get('/index' , [App\Http\Controllers\project\company_manager\records\RecordsController::class, 'index'])->name('company_manager.records.index');
             Route::post('/search' , [App\Http\Controllers\project\company_Manager\records\RecordsController::class, 'search'])->name('company_manager.records.search');
+        });
+        Route::group(['prefix'=>'attendance'],function(){
+            Route::get('/index',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'index'])->name('company_manager.attendance.index');
+            Route::post('/fillter',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'fillter'])->name('company_manager.attendance.fillter');
+            Route::post('/details',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'details'])->name('company_manager.attendance.details');
         });
 
     });

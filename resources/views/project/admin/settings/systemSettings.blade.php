@@ -99,7 +99,7 @@
                       </div>
                       <div class="card-body">
                         <h6 id="totalSemesterCourses">
-                            {{-- إجمالي مساقات الفصل: {{$coursesNum}} --}}
+                            {{-- إجمالي التدريبات العملية للفصل: {{$coursesNum}} --}}
                             {{__('translate.Total Semester Courses')}}: {{$coursesNum}}
                         </h6>
                         <h6 id="totalSemesterStudents">
