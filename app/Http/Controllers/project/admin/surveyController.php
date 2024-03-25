@@ -230,252 +230,16 @@ else{
    }
 
    public function update(Request $request){
-//   //  return $request;
-//     $questionsArray=[];
-//     $survey = survey::where('s_id',$request->s_id)->first(); 
-//     $survey->s_title=$request->s_title;
-//     $survey->s_description=$request->s_description;
-//     $survey->s_start_date=$request->s_start_date;
-//     $survey->s_end_date=$request->s_end_date;
-//    if($survey->save()){
-//       //update questions     
-//        $questions = surveyQuestions::where('sq_s_id',$request->s_id)->get();// if question exist important to add 
-//        if($request->questionsNumber == 0 ){
-//         if(count($questions)!=0){
-//            for($i = 0 ; $i < count($questions);$i++){
-//                $questions[$i]->delete();
-//             }
-//         }
-//     }
-//     else if(count($questions)==0){
-//                         for($i=0 ; $i < $request->questionsNumber ; $i++ ){
-//                                 $surveyQuestion=new surveyQuestions;
-//                                 $surveyQuestion->sq_s_id=$survey->s_id;
-//                                 $sq='sq_question'.$i+1;
-//                                 $sq_type='sq_question_type'.$i+1;
-//                                 $sq_required='sq'.($i+1).'_required';
-//                                 $surveyQuestion->sq_question_text=$request->$sq;
-//                                 $surveyQuestion->sq_question_type=$request->$sq_type;
-//                                 $surveyQuestion->sq_question_required=$request->$sq_required;
-//                                 if($surveyQuestion->save()){
-//                                     //add options if exist
-//                                     if($request->$sq_type == "multiple_choice" || $request->$sq_type == "single_choice" ){
-//                                         $questionOptionsNumber= 'q'.($i+1).'optionsNumber';
-//                                        // return $request->$questionOptionsNumber;
-//                                         for($j = 1 ; $j < $request->$questionOptionsNumber+1 ; $j++){
-//                                             $optionText='q'.($i+1).'option'.$j;
-//                                             //return $optionText;
-//                                             $sq_options  = new surveyQuestionsOptions;
-//                                             $sq_options->sqo_sq_id=$surveyQuestion->sq_id;
-//                                             $sq_options->sqo_option_text=$request->$optionText; 
-//                                             $sq_options->save(); 
-//                                             // return $sq_options->sqo_option_text;
-//                                         }
-//                                     }
-                                
-//                                 }
-//                             }
-//                         }
-//             else if(count($questions)!=0){
-//             for($i = 0 ; $i < $request->questionsNumber  ; $i++){
-//                 if($i < count($questions)){ //0 < 3
-//                     $questionNumber='questionNumber'.($i+1);//206
-//                     if($request->$questionNumber){ //true
-                
-//                     $questionTextAttribute='sq_question'.$request->$questionNumber;//2
-//                     $questionTypeAttribute='sq_question_type'.$request->$questionNumber;//paragraph
-//                     $questionRequiredAttribute='sq'.$request->$questionNumber.'_required';//0
-//                     $questionsArray[]=$request->$questionNumber;//[206,]
-                   
-//                 if($questions[$i]->sq_id==$request->$questionNumber){//206==206
-//                     $questions[$i]->sq_question_text=$request->$questionTextAttribute;
-//                     $questions[$i]->sq_question_required=$request->$questionRequiredAttribute;
-//                     $questions[$i]->save();//////////////////////////test
-               
-//             //options       //change type
-           
-//             if($request->$questionTypeAttribute!=$questions[$i]->sq_question_type){
-// //return $request; 
-// // return $request->$questionTypeAttribute ;
-//                     $questions[$i]->sq_question_type=$request->$questionTypeAttribute;
-//                 if($questions[$i]->sq_question_type == 'multiple_choice' || $questions[$i]->sq_question_type == 'single_choice')
-//                 {
-//                     $optionsNumberAttribute='q'.($i+1).'optionsNumber';
-//                     $optionsNumber=$request->$optionsNumberAttribute;
-//                     $options = surveyQuestionsOptions::where('sqo_sq_id',$request->$questionNumber)->get();  
-//                     for($j = 0 ; $j < $optionsNumber;$j++){     
-                    
-//                         $options[$j]->delete();
-            
-            
-//                     }
-//                     }  
-                   
 
-//             if($request->$questionTypeAttribute == 'multiple_choice' || $request->$questionTypeAttribute == 'single_choice' ){
-              
-//                 $questionOptionsNumber= 'q'.($i+1).'optionsNumber';
-//                 for($j = 1 ; $j < $request->$questionOptionsNumber+1 ; $j++){
-//                 $optionText='q'.($i+1).'option'.($j);
-//                 $sq_options2 = new surveyQuestionsOptions;
-//                 $sq_options2->sqo_sq_id=$surveyQuestion->sq_id;
-//                 $sq_options2->sqo_option_text=$request->$optionText; 
-//                 $sq_options2->save();
-//                 }
-            
-//             }
-            
-            
-               
-            
-            
-             
-            
-            
-//             }
-//             if($request->$questionTypeAttribute==$questions[$i]->sq_question_type){////////////////////////////change type
-//                 $questions[$i]->sq_question_type=$request->$questionTypeAttribute;
-//                 if($questions[$i]->sq_question_type == 'multiple_choice' || $questions[$i]->sq_question_type == 'single_choice')
-//                 {
-//                     $optionsNumberAttribute='q'.($i+1).'optionsNumber';
-//                     $optionsNumber=$request->$optionsNumberAttribute;
-//                     $options = surveyQuestionsOptions::where('sqo_sq_id',$request->$questionNumber)->get();  
-//                     for($j = 0 ; $j < $optionsNumber;$j++){                
-                    
-//                     if(count($options) == $optionsNumber){// just update 
-//                         $optionsTextAttribute='q'.$questions[$i]->sq_id.'option'.$options[$j]->sqo_id;
-//                     $options[$j]->sqo_option_text=$request->$optionsTextAttribute;
-//                     $options[$j]->save();
-//             }
-//             else if(count($options) > $optionsNumber ){ //update + delete
-//                     if($optionsTextAttribute){
-//                 $optionsTextAttribute='q'.$questions[$i]->sq_id.'option'.$options[$j]->sqo_id;
-//                 $options[$j]->sqo_option_text=$request->$optionsTextAttribute;
-//                 $options[$j]->save();
-//             }
-        
-//             else {
-//             $options[$j]->delete();
-
-
-            
-//         }
-//     }
-
-            
-        
-//             else if(count($options) < $optionsNumber) { //update + add
-//                 if($j+1>count($options)){
-//                 $addedOptionAttribute = 'q'.($i+1).'option'.($j+1);
-//                 $addedOption=new surveyQuestionsOptions;
-//                 $addedOption->sqo_sq_id=$questions[$i]->sq_id;
-//                 $addedOption->sqo_option_text=$request->$addedOptionAttribute;
-//                 $addedOption->save();
-//                 }
-//                 else{
-//                 $optionsTextAttribute='q'.$questions[$i]->sq_id.'option'.$options[$j]->sqo_id;
-//                 $options[$j]->sqo_option_text=$request->$optionsTextAttribute;
-//                 $options[$j]->save();
-//                 }
-//             }
-            
-//             }
-        
-//         }
-
-//         }
-
-
-
-
-//         $questions[$i]->save();       
-//     }
-            
-        
-            
-                
-
-//             }
-     
-            
-            
-
-
-        
-//             }
-//         //add questions
-//         else if($i+1 > count($questions) || count($questions)==0){
-                
-//             $surveyQuestion=new surveyQuestions;
-//             $surveyQuestion->sq_s_id=$survey->s_id;
-//             $sq='sq_question'.$i+1;
-//             $sq_type='sq_question_type'.$i+1;
-//             $sq_required='sq'.($i+1).'_required';
-//             $surveyQuestion->sq_question_text=$request->$sq;
-//             $surveyQuestion->sq_question_type=$request->$sq_type;
-//             $surveyQuestion->sq_question_required=$request->$sq_required;
-//             if($surveyQuestion->save()){
-//             //add options if exist
-//             if($request->$sq_type == "multiple_choice" || $request->$sq_type == "single_choice" ){
-//             $questionOptionsNumber= 'q'.($i+1).'optionsNumber';
-//            // return $request->$questionOptionsNumber;
-//             for($j = 1 ; $j < $request->$questionOptionsNumber+1 ; $j++){
-//             $optionText='q'.($i+1).'option'.$j;
-//           //  return $optionText;
-//             $sq_options1  = new surveyQuestionsOptions;
-//             $sq_options1->sqo_sq_id=$surveyQuestion->sq_id;
-//             $sq_options1->sqo_option_text=$request->$optionText; 
-//             $sq_options1->save(); 
-//             // return $sq_options1->sqo_option_text;
-//             }
-//             }
-            
-//         }
-            
-            
-        
-
-
-//             }
-//             //  return $questionsArray;
-//                 //delete questions
-//                 // if(count($questions) > $request->questionsNumber)
-//                 //     {  
-//         //         for($r = 0 ; $r < count($questions)  ; $r++){
-                
-//         //         if(!in_array($questions[$r]->sq_id,$questionsArray)){
-//         //             //return !in_array($questions[$i]->sq_id,$questionsArray);
-//         //             $deletedQuestion=surveyQuestions::where('sq_s_id',$request->s_id)->where('sq_id',$questions[$r]->sq_id)->first();
-//         //           //  return $deletedQuestion;
-//         //         if($deletedQuestion->delete()){
-//         //             if($questions[$r]->sq_question_type == 'multiple_choice' || $questions[$r]->sq_question_type == 'single_choice')
-//         //             {
-//         //                 $deletedOptions= surveyQuestionsOptions::where('sqo_sq_id',$questions[$r]->sq_id)->get(); 
-//         //                 for($n = 0 ; $n < count($deletedOptions)  ; $n++){
-//         //                     $deletedOptions[$n]->delete();
-//         //                 } 
-                
-//         //             }
-//         //             }
-                
-//         //         // }
-//         //     }
-//         // }
-//             }
-//              }
-//                 return  redirect()->route("admin.survey.surveyView",["id"=>$survey->s_id]); 
-           
-        
-        
-        
-//             }
         $survey = survey::where('s_id',$request->s_id)->first();
         $survey->s_title=$request->s_title;
         $survey->s_description=$request->s_description;
         $survey->s_start_date=$request->s_start_date;
         $survey->s_end_date=$request->s_end_date;
+        $questionsArray=[];
        if($survey->save()){
                 $existingQustions=surveyQuestions::where('sq_s_id',$request->s_id)->get();
+                $existingQustionsIDs = surveyQuestions::where('sq_s_id',$request->s_id)->pluck('sq_id')->toArray();
                 if(count($existingQustions)!=0 && $request->questionsNumber == 0){
                         for($i = 0 ; $i < count($existingQustions);$i++){
                             if($existingQustions[$i]->delete()){
@@ -520,22 +284,165 @@ else{
 
                     if(count($existingQustions)!=0 && $request->questionsNumber != 0){
                             for($i = 0 ; $i < $request->questionsNumber  ; $i++){
-                                if($i < count($questions)){ //0 < 3
-                                  $questionNumber='questionNumber'.($i+1);//206
+                                $questionNumber='questionNumber'.($i+1);
+                                $questionsArray[]=$request->$questionNumber;
+                            }
+                            $questionsArrayCollection = collect($questionsArray);
+                            $existingQustionsCollection = collect($existingQustionsIDs);
+                            $commonItems = $questionsArrayCollection->intersect($existingQustionsCollection)->values()->all();//edit
+                            $uniqueQuestionsArrayCollection = $questionsArrayCollection->diff($existingQustionsCollection)->values()->all();//add
+                            $uniqueExistingQustionsCollection = $existingQustionsCollection->diff($questionsArrayCollection)->values()->all();//delete
+                            if(count($commonItems)!=0){
+                                for($i=0 ; $i < count($commonItems)  ; $i++ ){//edit
+                                    $questionNumber='questionNumber'.($i+1);//206
                                     if($request->$questionNumber){ //true
                                         $questionTextAttribute='sq_question'.$request->$questionNumber;//2
                                         $questionTypeAttribute='sq_question_type'.$request->$questionNumber;//paragraph
                                         $questionRequiredAttribute='sq'.$request->$questionNumber.'_required';//0
-                                        $questionsArray[]=$request->$questionNumber;//[206,]
-                                          if($questions[$i]->sq_id==$request->$questionNumber){//206==206
-                                             $questions[$i]->sq_question_text=$request->$questionTextAttribute;
-                                             $questions[$i]->sq_question_required=$request->$questionRequiredAttribute;
-                                             $questions[$i]->save();//////////////////////////test
+                                        $question=surveyQuestions::where('sq_id',$request->$questionNumber)->first();
+                                        $question->sq_question_text=$request->$questionTextAttribute;
+                                        $question->sq_question_required=$request->$questionRequiredAttribute; 
+                                        //return $request->$questionTypeAttribute == $question->sq_question_type ;
+                                        if($question->save()){
+                                                if($request->$questionTypeAttribute == $question->sq_question_type ){
+                                                    if($request->$questionTypeAttribute == 'multiple_choice' || $request->$questionTypeAttribute == 'single_choice'){
+                                                        $questionOptionsNumber= 'q'.($i+1).'optionsNumber';
+                                                        $sq_options = surveyQuestionsOptions::where('sqo_sq_id',$request->$questionNumber)->get();
+                                                        if(count($sq_options)==$request->$questionOptionsNumber){
+                                                            for($j=0 ; $j < $request->$questionOptionsNumber ; $j++){
+                                                                $optionText='q'.$request->$questionNumber.'option'.$sq_options[$j]->sqo_id;
+                                                                $sq_options[$j]->sqo_sq_id=$request->$questionNumber;
+                                                                $sq_options[$j]->sqo_option_text=$request->$optionText; 
+                                                                $sq_options[$j]->save();
+                                                            }
+                                                        }
+                                                        else{
+                                                            if(count($sq_options) > $request->$questionOptionsNumber){
+                                                                for($j=0 ; $j < count($sq_options) ; $j++){
+                                                                    if($j > $request->$questionOptionsNumber){
+                                                                        $sq_options[$j]->delete();
+                                                                    }
+                                                                    else{
+                                                                        $optionText='q'.$request->$questionNumber.'option'.$sq_options[$j]->sqo_id;
+                                                                        return $optionText;
+                                                                        $sq_options[$j]->sqo_sq_id=$request->$questionNumber;
+                                                                        $sq_options[$j]->sqo_option_text=$request->$optionText; 
+                                                                        $sq_options[$j]->save();
+                                                                        }
+                                                                }
+
+                                                        
+                                                            }
+                                                            else{
+                                                                if(count($sq_options) < $request->$questionOptionsNumber){
+                                                                    for($j=0 ; $j < $request->$questionOptionsNumber ; $j++){
+                                                                        if($j >= count($sq_options)){
+                                                                            $optionText='q'.($i+1).'option'.($j+1);
+                                                                            $sq_options  = new surveyQuestionsOptions;
+                                                                            $sq_options->sqo_sq_id=$request->$questionNumber;
+                                                                            $sq_options->sqo_option_text=$request->$optionText; 
+                                                                            $sq_options->save(); 
+                                                                            
+                                                                        }
+                                                                        else{
+                                                                            $optionText='q'.$request->$questionNumber.'option'.$sq_options[$j]->sqo_id;
+                                                                            $sq_options[$j]->sqo_sq_id=$request->$questionNumber;
+                                                                            $sq_options[$j]->sqo_option_text=$request->$optionText; 
+                                                                            $sq_options[$j]->save();
+                                                                            }
+                                                                    }
+    
+                                                            
+                                                                }
+
+
+
+                                                            }
+                                                        }
+
+
+                                                    }
+
+
+                                                }
+
+                                            else{
+                                                if($question->sq_question_type == 'multiple_choice' || $question->sq_question_type == 'single_choice' ){
+                                                    $questionOptionsNumber=surveyQuestionsOptions::where('sqo_sq_id',$request->$questionNumber)->get();
+                                                    for($j = 0 ; $j < count($questionOptionsNumber) ; $j++){
+                                                        $questionOptionsNumber[$j]->delete();
+
+                                                    }
+                                                }
+                                                    // return $request->$questionTypeAttribute == 'multiple_choice' || $request->$questionTypeAttribute == 'single_choice';
+                                                    if($request->$questionTypeAttribute == 'multiple_choice' || $request->$questionTypeAttribute == 'single_choice'){
+                                                       
+                                                     
+                                                        $questionOptionsNumber= 'q'.($i+1).'optionsNumber';
+                                                        //return $request;
+                                                        //return $request->$questionOptionsNumber;
+                                                        for($j=0 ; $j < $request->$questionOptionsNumber ; $j++){
+                                                            $optionText='q'.$request->$questionNumber.'option'.($j+1);
+                                                            $sq_options  = new surveyQuestionsOptions;
+                                                            $sq_options->sqo_sq_id=$request->$questionNumber;
+                                                            $sq_options->sqo_option_text=$request->$optionText; 
+                                                            $sq_options->save(); 
+
+                                                        }
+                                                    }
+                                                
+
                                             }
+                                        } 
+                                        $question->sq_question_type=$request->$questionTypeAttribute;
+                                        $question->save();
+                                   }
+                               }
+                           }
+                           if(count($uniqueQuestionsArrayCollection) != 0){
+                            for($i=0 ; $i < count($uniqueQuestionsArrayCollection) ; $i++ ){
+                                $surveyQuestion=new surveyQuestions;
+                                $surveyQuestion->sq_s_id=$survey->s_id;
+                                $sq='sq_question'.$uniqueQuestionsArrayCollection[$i];
+                                $sq_type='sq_question_type'.$uniqueQuestionsArrayCollection[$i];
+                                $sq_required='sq'.($uniqueQuestionsArrayCollection[$i]).'_required';
+                                $surveyQuestion->sq_question_text=$request->$sq;
+                                $surveyQuestion->sq_question_type=$request->$sq_type;
+                                $surveyQuestion->sq_question_required=$request->$sq_required;
+                                if($surveyQuestion->save()){
+                                    //add options if exist
+                                    if($request->$sq_type == "multiple_choice" || $request->$sq_type == "single_choice" ){
+                                        $questionOptionsNumber= 'q'.($uniqueQuestionsArrayCollection[$i]).'optionsNumber';
+                                       // return $request->$questionOptionsNumber;
+                                        for($j = 1 ; $j < $request->$questionOptionsNumber+1 ; $j++){
+                                            $optionText='q'.($uniqueQuestionsArrayCollection[$i]).'option'.$j;
+                                            //return $optionText;
+                                            $sq_options  = new surveyQuestionsOptions;
+                                            $sq_options->sqo_sq_id=$surveyQuestion->sq_id;
+                                            $sq_options->sqo_option_text=$request->$optionText; 
+                                            $sq_options->save(); 
+                                            // return $sq_options->sqo_option_text;
+                                        }
                                     }
+                                
                                 }
                             }
-                        }
+                           }
+                           if(count($uniqueExistingQustionsCollection)!=0){
+                            for($i = 0 ; $i < count($uniqueExistingQustionsCollection);$i++){
+                                $deletedQuestion=surveyQuestions::where('sq_id',$uniqueExistingQustionsCollection[$i])->first();
+                                if($deletedQuestion->delete()){
+                                        $options=surveyQuestionsOptions::where("sqo_sq_id",$uniqueExistingQustionsCollection[$i])->get();
+                                        if($options){
+                                            for($j=0 ; $j < count($options);$j++){
+                                                $options[$j]->delete();
+                                            }
+                                        }
+                                }     
+                            }   
+
+                           }
+                       }
         }
         
        return  redirect()->route("admin.survey.surveyView",["id"=>$survey->s_id]); 
