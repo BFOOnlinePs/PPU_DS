@@ -75,13 +75,13 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">{{ __('translate.in_time') }}</label>
-                            <input id="from" type="date" class="form-control">
+                            <input onchange="attendance_and_departure_report()" id="from" type="date" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">{{ __('translate.out_time') }}</label>
-                            <input id="to" type="date" class="form-control">
+                            <input onchange="attendance_and_departure_report()" id="to" type="date" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -133,6 +133,8 @@
                     'student_search' : $('#student_search').val(),
                     'semester' : $('#semester').val(),
                     'year' : $('#year').val(),
+                    'from' : $('#from').val(),
+                    'to' : $('#to').val(),
 
                 },
                 dataType: 'json',
