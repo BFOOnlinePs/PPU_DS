@@ -102,4 +102,8 @@ class AnnouncementsController extends Controller
             ], 500);
         }
     }
+
+    public function changeAnnouncementStatus(Request $request, $announcement_id){
+
+    }
 }
