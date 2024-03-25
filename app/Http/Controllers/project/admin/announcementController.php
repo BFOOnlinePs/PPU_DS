@@ -15,7 +15,7 @@ class announcementController extends Controller
     }
 
     public function announcementSearch(Request $request){
-       
+
         $data = announcements::where('a_title','like','%'.$request->search.'%')->get();
         return response()->json([
             'success'=>'true',
@@ -29,11 +29,11 @@ class announcementController extends Controller
             $file = $request->file('a_image');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            $file->storeAs('uploads/announcements', $filename, 'public');  
-            $announcements->a_image=$filename;         
+            $file->storeAs('uploads/announcements', $filename, 'public');
+            $announcements->a_image=$filename;
         }
         else {
-            $announcements->a_image=""; 
+            $announcements->a_image="";
 
         }
 
@@ -51,9 +51,9 @@ class announcementController extends Controller
     }
    public function updateStutas(Request $request){
     // $requestencode= json_encode($request);
-    //return $request->selected_a_stutas;
+    //return $request->selected_a_status;
     $announcement=announcements::where('a_id',$request->selected_a_id)->first();
-    $announcement->a_stutas=$request->selected_a_stutas;
+    $announcement->a_status=$request->selected_a_status;
     if($announcement->save()){
         $data=announcements::with('users')->get();
         return response()->json([
@@ -61,7 +61,7 @@ class announcementController extends Controller
                 'view'=>view('project.admin.announcements.ajax.announcementsList',['data'=>$data])->render()
             ]);
     }
-   
+
    }
    public function update(Request $request){
 // return $request->a_image;
@@ -74,11 +74,11 @@ class announcementController extends Controller
         $file = $request->file('a_image');
         $extension = $file->getClientOriginalExtension();
         $filename = time() . '.' . $extension;
-        $file->storeAs('uploads/announcements', $filename, 'public');  
-        $announcement->a_image=$filename;         
+        $file->storeAs('uploads/announcements', $filename, 'public');
+        $announcement->a_image=$filename;
     }
     else {
-        $announcement->a_image=0; 
+        $announcement->a_image=0;
 
     }
     if($announcement->save()){
@@ -88,7 +88,7 @@ class announcementController extends Controller
                 'view'=>view('project.admin.announcements.ajax.announcementsList',['data'=>$data])->render()
             ]);
     }
-   
+
    }
    public function edit($id){
 

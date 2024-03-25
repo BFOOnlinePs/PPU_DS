@@ -103,7 +103,19 @@ class AnnouncementsController extends Controller
         }
     }
 
-    public function changeAnnouncementStatus(Request $request, $announcement_id){
+    public function changeAnnouncementStatus(Request $request, $announcement_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+
 
     }
 }
