@@ -9,12 +9,21 @@ use Illuminate\Support\Facades\Validator;
 
 class AnnouncementsController extends Controller
 {
-    public function getAllActiveAnnouncements()
+    public function getAllActiveAnnouncements(Request $request)
     {
-        $announcements = AnnouncementModel::where('a_status', 1)->orderBy('created_at', 'desc')->get();
+        $per_page = $request->input('per_page', 5);
+        $announcements = AnnouncementModel::where('a_status', 1)
+            ->orderBy('created_at', 'desc')
+            ->paginate($per_page);
 
         return response()->json([
-            'announcements' => $announcements,
+            'pagination' => [
+                'current_page' => $announcements->currentPage(),
+                'last_page' => $announcements->lastPage(),
+                'per_page' => $announcements->perPage(),
+                'total_items' => $announcements->total(),
+            ],
+            'announcements' => $announcements->items(),
         ]);
     }
 
@@ -38,7 +47,7 @@ class AnnouncementsController extends Controller
     {
         $announcements = AnnouncementModel::where('a_added_by', auth()->user()->u_id)
             ->orderBy('created_at', 'desc')
-            ->paginate(50);
+            ->paginate(6);
 
         return response()->json([
             'pagination' => [
