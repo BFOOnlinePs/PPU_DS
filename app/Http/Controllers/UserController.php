@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\StudentCompanyNominationModel;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
@@ -670,5 +671,45 @@ class UserController extends Controller
         $html = view('project.admin.users.includes.student' , ['students' => $students])->render();
         return response()->json(['html' => $html]);
     }
+
+    public function students_waiting_to_approve_cv(Request $request){
+        $data = StudentCompanyNominationModel::
+        whereIn('scn_student_id',function ($query) use ($request){
+            $query->select('u_id')->from('users')->where('u_cv_status',0)
+                ->where('name','like','%'.$request->input_search.'%');
+        })
+            ->when($request->filled('company_id'),function ($query) use ($request){
+                $query->whereIn('scn_company_id',function ($query) use ($request){
+                    $query->select('c_id')->from('companies')->where('c_id',$request->company_id);
+                });
+            })
+            ->get();
+        foreach ($data as $key){
+            $key->student = User::where('u_id',$key->scn_student_id)->first();
+            $key->company = Company::where('c_id',$key->scn_company_id)->first();
+        }
+        return response()->json([
+            'success' => 'true',
+            'view' => view('project.users.ajax.training_nominations_list',['data'=>$data])->render()
+        ]);
+    }
+
+    public function change_status_from_cv(Request $request){
+        $data = User::where('u_id',$request->id)->first();
+        $data->u_cv_status = $request->status;
+        if ($data->save()){
+            return response()->json([
+                'success' => ' true',
+                'message' => 'تم تعديل الحالة بنجاح'
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => ' false',
+                'message' => 'هناك خلل ما'
+            ]);
+        }
+    }
+
 }
 

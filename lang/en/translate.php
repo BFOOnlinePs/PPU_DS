@@ -514,5 +514,10 @@
         'company_name'=>'Company name',
         'in_time'=>'From date',
         'out_time'=>'To date',
+        'student_nominations'=>'Student nominations',
+        'cv,s'=>'CV',
+        'cv'=>'CV',
+        'training_nominations'=>'Training nominations',
+        'search'=>'Search',
     ];
 ?>

@@ -7,8 +7,7 @@
                 <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                 <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                 <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
-                <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
-
+                <th scope="col" style="width: 200px">{{__('translate.Operations')}} {{--  العمليات --}}</th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +35,8 @@
                     @if( $key->c_type == 1) <td>{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
                     @if( $key->c_type == 2) <td>{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
                     <td>
-                      <button class="btn btn-info" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
+                          <button class="btn btn-info btn-sm" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
+                          <button class="btn btn-success btn-sm" onclick='show_student_nomination_modal({{ $key }})'>اقتراح طلاب</button>
                     </td>
                 </tr>
             @endforeach

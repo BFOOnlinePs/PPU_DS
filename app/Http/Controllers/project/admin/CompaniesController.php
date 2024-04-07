@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\project\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Major;
+use App\Models\StudentCompanyNominationModel;
+use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\CompaniesCategory;
@@ -17,6 +20,7 @@ class CompaniesController extends Controller
     //
     public function index()
     {
+        $majors = Major::get();
         $data = Company::with('manager','companyCategories')->get();
 
         // $uncompletedCompany = Company::with('manager')->where('c_type',null)->get();
@@ -25,7 +29,7 @@ class CompaniesController extends Controller
 
 
         //return $data;
-        return view('project.admin.companies.index',['data'=>$data]);
+        return view('project.admin.companies.index',['data'=>$data,'majors'=>$majors]);
     }
 
     //add new company page
@@ -503,5 +507,71 @@ public function branch(Request $request){
 
     ]);
 }
+
+    public function search_student_ajax(Request $request){
+            $data = User::where('u_role_id', 2)
+                ->whereNotIn('u_id', function ($query) {
+                    $query->select('scn_student_id')
+                        ->from('student_company_nomination');
+                })
+                ->where(function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->search_student . '%')
+                        ->orWhere('u_major_id', $request->major_id)
+                        ->orWhere('u_username', 'like', '%' . $request->search_student . '%');
+                })
+                ->when($request->filled('major_id'),function ($query) use ($request) {
+                    $query->where('u_major_id', $request->major_id);
+                })
+                ->get();
+            return response()->json([
+                'success' => 'true',
+                'view' => view('project.admin.companies.ajax.searchStudents',['data'=>$data])->render()
+            ]);
+    }
+
+    public function student_nomination_table_ajax(Request $request){
+        $data = StudentCompanyNominationModel::where('scn_company_id',$request->company_id)->get();
+        foreach ($data as $key){
+            $key->student = User::where('u_id',$key->scn_student_id)->first();
+        }
+        return response()->json([
+            'success' => 'true',
+            'view' => view('project.admin.companies.ajax.studentNominationList',['data' => $data])->render()
+        ]);
+    }
+
+    public function add_nomination_table_ajax(Request $request){
+        $data = new StudentCompanyNominationModel();
+        $data->scn_student_id = $request->student_id;
+        $data->scn_company_id = $request->company_id;
+        $data->scn_semester = SystemSetting::first()->ss_semester_type ?? '';
+        $data->scn_year = SystemSetting::first()->ss_year ?? '';
+        if ($data->save()){
+            return response()->json([
+                'success' => 'true',
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => 'fail',
+            ]);
+        }
+    }
+
+    public function delete_nomination_table_ajax(Request $request){
+        $data = StudentCompanyNominationModel::where('scn_id',$request->id)->first();
+        if ($data->delete()){
+            return response()->json([
+                'success' => 'true',
+                'message' => 'تم ازالة الطالب بنجاح'
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => 'fail',
+                'message' => 'هناك خلل ما لم يتم ازالة الطالب'
+            ]);
+        }
+    }
 }
 
