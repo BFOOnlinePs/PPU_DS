@@ -521,5 +521,10 @@
         'company_name'=>'اسم الشركة',
         'in_time'=>'من تاريخ',
         'out_time'=>'الى تاريخ',
+        'student_nominations'=>'ترشيحات الطلاب',
+        'cvs'=>'السير الذاتية',
+        'cv'=>'السيرة الذاتية',
+        'training_nominations'=>'ترشيحات التدريب',
+        'search'=>'بحث',
     ];
 ?>
