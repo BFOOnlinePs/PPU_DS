@@ -56,6 +56,7 @@
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.training_nominations.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.training_nominations')}}{{-- ترشيحات التدريب --}}</span></a></li>
+                            @endif
                         @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 ) 
                         <li><a class="nav-link" href="{{route('admin.announcements.index')}}"><i data-feather="inbox"></i><span>{{__('translate.announcements')}}{{--  الاعلانات --}}</span></a></li>
                          @endif
