@@ -210,7 +210,7 @@ align-items: center;
                                 <textarea class="form-control" style="height:60%" name="sq_question{{$question->sq_id}}" id="sq_question{{$question->sq_id}}" placeholder="{{__('translate.question')}}{{--  السؤال --}} {{$loop->iteration}}:" required>{{$question->sq_question_text}}</textarea>
                             </div>
                             <div class="col-md-6" style="width:30%">
-                                <select class="form-control" style="hieght:100%" name="sq_question_type{{$question->sq_id}}" id="sq_question_type{{$question->sq_id}}"  onchange="addAnswerField(this)">
+                                <select class="form-control" style="hieght:100%" name="sq_question_type{{$question->sq_id}}" id="sq_question_type{{$question->sq_id}}"  onchange="addAnswerField(this,{{ $loop->iteration }})">
                                     <option value="paragraph">{{__('translate.options')}}{{--نوع السؤال--}}</option>
                                     <option @if($question->sq_question_type=='paragraph') selected @endif value="paragraph">{{__('translate.paragraph')}}{{--فقرة--}}</option>
                                     <option @if($question->sq_question_type=='short_answer') selected @endif value="short_answer">{{__('translate.short_answer')}}{{--إجابة قصيرة--}}</option>
@@ -326,7 +326,7 @@ titleInput.addEventListener('input', function(event) {
             
             <div class="col-md-6" style="width:30%" >
             
-                <select class="form-control" style="hieght:100%"  name="sq_question_type${questionIndex}" id="sq_question_type${questionIndex}" onchange="addAnswerField(this)">
+                <select class="form-control" style="hieght:100%"  name="sq_question_type${questionIndex}" id="sq_question_type${questionIndex}" onchange="addAnswerField(this,${questionIndex})">
                     <option value="paragraph">{{__('translate.options')}}{{--نوع السؤال--}}</option>
                     <option value="paragraph">{{__('translate.paragraph')}}{{--فقرة--}}</option>
                     <option value="short_answer">{{__('translate.short_answer')}}{{--إجابة قصيرة--}}</option>
@@ -351,6 +351,7 @@ titleInput.addEventListener('input', function(event) {
 
         </div>
         <input hidden id="sq${questionIndex}_required" name="sq${questionIndex}_required" value="0">
+        <input hidden id="questionNumber${questionIndex}" name="questionNumber${questionIndex}" value="${questionIndex}">
 
     `;
     
@@ -359,11 +360,7 @@ titleInput.addEventListener('input', function(event) {
     questionsContainer.appendChild(hrElement);
     feather.replace(); 
 }
-function deleteOption(element) {
-        const optionContainer = element.parentNode;
-        const radioOptions = optionContainer.parentNode;
-        radioOptions.removeChild(optionContainer);
-    }
+
 function deleteQuestion(questionIndex) {
     console.log("ffff")
     console.log(questionIndex)
@@ -415,7 +412,7 @@ console.log(currentState)
 
 // public/js/survey.js
 
-function addAnswerField(selectElement) {
+function addAnswerField(selectElement,loopIteration) {
     const questionIndex = selectElement.id.replace('sq_question_type', '');
     const answerContainer = document.getElementById(`answerContainer${questionIndex}`);
     const selectedAnswerType = selectElement.value;
@@ -439,10 +436,10 @@ console.log(questionIndex)
             addCheckboxField(answerContainer);
             break;
         case 'multiple_choice':
-            addRadioButtonField(answerContainer,questionIndex);
+            addRadioButtonField(answerContainer,questionIndex,loopIteration);
             break;
         case 'single_choice':
-            addRadioButtonField(answerContainer,questionIndex);
+            addRadioButtonField(answerContainer,questionIndex,loopIteration);
 
             break;
         case 'dropdown':
@@ -493,16 +490,16 @@ function addShortAnswerField(answerContainer) {
 
 
 
-function addRadioButtonField(answerContainer,questionIndex) {
-   
+function addRadioButtonField(answerContainer,questionIndex,loopIteration) {
+
     const questionsContainer = document.getElementById('questions-container');
     const add_icon_div = document.createElement('div');
     add_icon_div.classList.add('optionPlus');
     const radioLabel = document.createElement('label');
     radioLabel.textContent = "{{__('translate.options')}}{{--الخيارات--}} :";
     const radioOptions = document.createElement('div');
-    radioOptions.id = 'radio-options'+questionIndex;
-    radioOptions.className = 'radio-options'+questionIndex;
+    radioOptions.id = 'radio-options'+loopIteration;       
+    radioOptions.className = 'radio-options'+loopIteration;
     for(i=1 ;i<4 ;i++){
     inputField = document.createElement('input');
     inputField.type = 'text';
@@ -513,7 +510,7 @@ function addRadioButtonField(answerContainer,questionIndex) {
     inputField.placeholder = '{{__('translate.option')}}{{-- الخيار--}} '+ i;
     radioOptions.appendChild(inputField)
     }
-   
+    
     const a_element = document.createElement('a');
     const add_icon = document.createElement('i');
     add_icon.setAttribute('data-feather', 'plus-square');
@@ -602,7 +599,7 @@ function createRadioButtonOption(placeholderText) {
 
 
     updateSurveyForm.addEventListener("submit", (e) => {
-        //e.preventDefault();
+       // e.preventDefault();
     document.getElementById('questionsNumber').value=questionCounter;
     console.log(JSON.parse(document.getElementById("questionsNumber").value))
     for(i = 1 ; i <= questionCounter ; i++){
@@ -628,7 +625,7 @@ function createRadioButtonOption(placeholderText) {
             questionOptions.value=lastOptionNumber;
             questionOptions.hidden=true;
             console.log("here")
-            console.log(questionOptions);
+            console.log(questionOptions.name);
             //optionsNumber.appendChild(questionOptions); 
             radioOptions.appendChild(questionOptions);
         

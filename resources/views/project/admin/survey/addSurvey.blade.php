@@ -138,7 +138,11 @@ label {
     width: 35px; 
     margin-right: 1px; 
 }
+.newOption{
 
+display:flex;
+align-items: center;
+}
 </style>
 @endsection
 @section('content')
@@ -298,6 +302,10 @@ titleInput.addEventListener('input', function(event) {
     feather.replace(); 
 }
 
+function deleteOption(optionID) {
+        const optionDiv = document.getElementById('option' + optionID);
+        optionDiv.remove();
+    }
 function deleteQuestion(questionIndex) {
 
     const questionDiv = document.getElementById(`answerContainer${questionIndex}`).parentNode;
@@ -305,6 +313,7 @@ function deleteQuestion(questionIndex) {
     questionDiv.parentNode.removeChild(questionDiv);
     if (hrElement) {
         hrElement.parentNode.removeChild(hrElement);
+        questionCounter=questionCounter-1;
     }
 }
 function toggleRequired(questionIndex) {
@@ -524,6 +533,9 @@ function createRadioButtonOption(placeholderText) {
 
         // Increment the number for the next option
     const newOptionNumber = lastOptionNumber + 1;
+    newOptionDiv = document.createElement('div');
+    newOptionDiv.classList.add('newOption');
+    newOptionDiv.id =`option${newOptionNumber}`;
     newOption = document.createElement('input');
     newOption.required=true;
     newOption.id ='q'+questionIndex+'option'+newOptionNumber;
@@ -531,7 +543,18 @@ function createRadioButtonOption(placeholderText) {
     newOption.className = 'form-control short_answer';
     newOption.name ='q'+questionIndex+'option'+newOptionNumber;
     newOption.placeholder = '{{__('translate.option')}}{{-- خيار --}} '+ newOptionNumber;
+    const del_element = document.createElement('a');
+    const delete_icon = document.createElement('i');
+    delete_icon.setAttribute('data-feather', 'x-square');
+    del_element.addEventListener('click', function() {
+    deleteOption(newOptionNumber);});    
+    del_element.appendChild(delete_icon);
     radioOptions.appendChild(newOption);
+    newOptionDiv.appendChild(newOption);
+    newOptionDiv.appendChild(del_element);
+    radioOptions.appendChild(newOptionDiv);
+
+    feather.replace();
     }
     }
 function createRadioButtonOption(labelText) {
