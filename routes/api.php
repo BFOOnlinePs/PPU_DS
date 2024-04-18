@@ -28,6 +28,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
+use App\Http\Controllers\apisControllers\students\cv\StudentCVController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
@@ -95,6 +96,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // student log
     Route::post('/getAllStudentAttendanceLog', [studentLogController::class, 'getAllStudentAttendanceLog']);
     Route::post('/getAllStudentReportsLog', [studentLogController::class, 'getAllStudentReportsLog']);
+
+    // student cv
+    Route::post('/user/cv', [StudentCVController::class, 'addStudentCV']);
 
 
     // add middleware
@@ -193,6 +197,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Monitoring and Evaluation Officer
     Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
+    Route::get('getAllMatchStudents', [SemesterReportController::class, 'getAllMatchStudents']);
+    Route::get('getAllNonMatchStudents', [SemesterReportController::class, 'getAllNonMatchStudents']);
     Route::get('getTrainingHoursReport', [TrainingHoursReportController::class, 'getTrainingHoursReport']);
     Route::get('getCompaniesPaymentsReport', [CompaniesPaymentsReportController::class, 'getCompaniesPaymentsReport']);
     Route::post('getTrainingPaymentsDetails', [StudentCompanyPaymentsDetailsReportController::class, 'getTrainingPaymentsDetails']);
