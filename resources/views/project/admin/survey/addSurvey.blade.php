@@ -313,6 +313,7 @@ function deleteQuestion(questionIndex) {
     questionDiv.parentNode.removeChild(questionDiv);
     if (hrElement) {
         hrElement.parentNode.removeChild(hrElement);
+        questionCounter=questionCounter-1;
     }
 }
 function toggleRequired(questionIndex) {

@@ -148,6 +148,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/report/student/display' , [App\Http\Controllers\UserController::class , 'report_student_display'])->name('admin.users.report.student.display'); // To show report of student in modal
             Route::post('/report/student/edit' , [App\Http\Controllers\UserController::class , 'report_student_edit'])->name('admin.users.report.student.edit'); // To submit notes of supervisor to student report
             Route::post('/check_email_not_duplicate' , [App\Http\Controllers\UserController::class , 'check_email_not_duplicate'])->name('users.add.check_email_not_duplicate');
+            Route::post('/students_waiting_to_approve_cv' , [App\Http\Controllers\UserController::class , 'students_waiting_to_approve_cv'])->name('users.students_waiting_to_approve_cv');
+            Route::post('/change_status_from_cv' , [App\Http\Controllers\UserController::class , 'change_status_from_cv'])->name('users.change_status_from_cv');
             Route::group(['prefix'=>'company_manager'],function(){
                 Route::post('/searchStudentByName' , [App\Http\Controllers\UserController::class , 'searchStudentByName'])->name('users.company_manager.searchStudentByName');
             });
@@ -196,6 +198,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/createDepartments',[App\Http\Controllers\project\admin\CompaniesController::class,'createDepartments'])->name('admin.companies.createDepartments');
             Route::post('/updateBranches',[App\Http\Controllers\project\admin\CompaniesController::class,'updateBranches'])->name('admin.companies.updateBranches');
             Route::post('/checkEmailEdit',[App\Http\Controllers\project\admin\CompaniesController::class,'checkEmailEdit'])->name('admin.companies.check_email_not_duplicate_edit');
+            Route::post('/search_student_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'search_student_ajax'])->name('admin.companies.search_student_ajax');
+            Route::post('/student_nomination_table_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'student_nomination_table_ajax'])->name('admin.companies.student_nomination_table_ajax');
+            Route::post('/add_nomination_table_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'add_nomination_table_ajax'])->name('admin.companies.add_nomination_table_ajax');
+            Route::post('/delete_nomination_table_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'delete_nomination_table_ajax'])->name('admin.companies.delete_nomination_table_ajax');
         });
 
         });
@@ -278,6 +284,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/companyStudentsReportSearch' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companyStudentsReportSearch'])->name('monitor_evaluation.companyStudentsReportSearch');
         Route::get('/attendance_and_departure_report_index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_index'])->name('monitor_evaluation.attendance_and_departure_report_index');
         Route::post('/attendance_and_departure_report_table' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_table'])->name('monitor_evaluation.attendance_and_departure_report_table');
+        Route::get('/export_student_attendance' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'export_student_attendance'])->name('monitor_evaluation.export_student_attendance');
     });
 
     Route::group(['prefix' => 'company_manager'], function () {
@@ -311,11 +318,15 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/fillter',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'fillter'])->name('company_manager.attendance.fillter');
             Route::post('/details',[App\Http\Controllers\project\company_manager\attendance\AttendanceController::class,'details'])->name('company_manager.attendance.details');
         });
-
+        Route::group(['prefix'=>'student_nomination'],function(){
+            Route::get('/index',[App\Http\Controllers\project\company_manager\student_nominations\StudentNominationsController::class,'index'])->name('company_manager.student_nominations.index');
+            Route::post('/student_nomination_table',[App\Http\Controllers\project\company_manager\student_nominations\StudentNominationsController::class,'student_nomination_table'])->name('company_manager.student_nominations.student_nomination_table');
+        });
     });
     Route::group(['prefix' => 'students'], function () {
         Route::group(['prefix' => 'personal_profile'], function () {
             Route::get('/index' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index');  // To display personal profile for this student
+            Route::post('/add_sv_to_student' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'add_sv_to_student'])->name('students.personal_profile.add_sv_to_student');  // To display personal profile for this student
         });
         Route::group(['prefix' => 'company'], function () {
             Route::get('/index' , [App\Http\Controllers\project\students\company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
@@ -369,6 +380,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/index/{id}' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'index'])->name('supervisors.assistant.index');
             Route::post('/create' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'create'])->name('supervisors.assistant.create');
             Route::post('/delete' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'delete'])->name('supervisors.assistant.delete');
+        });
+        Route::group(['prefix' => 'training_nominations'], function () {
+            Route::get('/index' , [App\Http\Controllers\project\supervisors\TrainingNominationController::class , 'index'])->name('supervisors.training_nominations.index');
         });
     });
 });
