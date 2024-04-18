@@ -54,9 +54,9 @@
                                 <td style="display:none;">{{ $key->a_id }}</td>
                                 <td>{{$key->a_title}}</td>
                                 <td>{{$key->users->name}} </td>
-                                <td> <select class="js-example-basic-single col-sm-12" name="a_stutas_{{$key->a_id}}" id="a_stutas_{{$key->a_id}}" @if($key->users->u_role_id == auth()->user()->u_role_id || auth()->user()->u_role_id ==1) onchange="changeAnnouncementStutas({{$key}})" @endif>
-                                        <option @if($key->a_stutas==1) selected  @endif value="1">مفعل</option>
-                                        <option @if($key->a_stutas==0) selected  @endif value="0">غير مفعل</option>
+                                <td> <select class="js-example-basic-single col-sm-12" name="a_status_{{$key->a_id}}" id="a_status_{{$key->a_id}}" @if($key->users->u_role_id == auth()->user()->u_role_id || auth()->user()->u_role_id ==1) onchange="changeAnnouncementStutas({{$key}})" @endif>
+                                        <option @if($key->a_status==1) selected  @endif value="1">مفعل</option>
+                                        <option @if($key->a_status==0) selected  @endif value="0">غير مفعل</option>
                                      </select></td>
                                 <td><button class="btn btn-info" onclick='location.href="{{route("admin.announcements.edit",["id"=>$key->a_id])}}"'><i class="fa fa-info"></i></button>
                                 @if($key->users->u_role_id == auth()->user()->u_role_id || auth()->user()->u_role_id ==1)<button class="btn btn-primary" onclick="editAnnouncement({{ $key }})"><i class="fa fa-edit"></i></button></td>@endif
@@ -134,7 +134,7 @@ function showAddAnnouncementsModal(){
             let formData = new FormData();
             formData.append('a_title' , document.getElementById('a_title').value);
             formData.append('a_content', document.getElementById('a_content').value);
-            formData.append('a_image', photo); 
+            formData.append('a_image', photo);
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -160,10 +160,10 @@ function showAddAnnouncementsModal(){
                 contentType: false,
                 processData: false,
                 success: function(response) {
-               
+
                     $('#showTable').html(response.view);
-                    
-                  
+
+
                 },
                 complete: function(){
                     $('#LoadingModal').modal('hide');
@@ -183,7 +183,7 @@ function showAnnouncement(data){
    document.getElementById('show_a_image').src = aImageSrc;
    document.getElementById('show_a_content').value=data.a_content;
    $('#showAnnouncementsModal').modal('show');
-  
+
 
 
 }
@@ -194,7 +194,7 @@ function editAnnouncement(data){
    document.getElementById('edit_a_image').src = aImageSrc;
    document.getElementById('edit_a_content').value=data.a_content;
    $('#editAnnouncementsModal').modal('show');
-  
+
 
 
 }
@@ -206,7 +206,7 @@ editAnnouncementsForm.addEventListener("submit", (e) => {
             formData.append('a_id' , document.getElementById('edit_a_id').value);
             formData.append('a_title' , document.getElementById('edit_a_title').value);
             formData.append('a_content', document.getElementById('edit_a_content').value);
-            formData.append('a_image', photo); 
+            formData.append('a_image', photo);
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -229,10 +229,10 @@ editAnnouncementsForm.addEventListener("submit", (e) => {
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                 
+
                     $('#showTable').html(response.view);
-                    
-                  
+
+
                 },
                 complete: function(){
                     $('#LoadingModal').modal('hide');
@@ -247,7 +247,7 @@ editAnnouncementsForm.addEventListener("submit", (e) => {
 
     });
 function changeAnnouncementStutas(data){
-        const selectElement = document.getElementById("a_stutas_"+data.a_id).value;
+        const selectElement = document.getElementById("a_status_"+data.a_id).value;
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         // Send an AJAX request with the CSRF token
         $.ajaxSetup({
@@ -266,16 +266,16 @@ function changeAnnouncementStutas(data){
             url:"{{ route('admin.announcements.updateStutas') }}",
             data: {
                 selected_a_id:data.a_id,
-                selected_a_stutas:selectElement
+                selected_a_status:selectElement
             },
             dataType: 'json',
             success: function (response) {
-              
+
             $('#showTable').html(response.view);
             },
             complete: function(){
                 $('#LoadingModal').modal('hide');
-               
+
                 },
             error: function (xhr, status, error) {
                 console.error("error" + error);
@@ -310,7 +310,7 @@ function changeAnnouncementStutas(data){
 //                 dataType: 'json',
 //                 success: function(response) {
 //                     $('#showTable').html(response.view);
-                   
+
 //                 },
 //                 complete: function(){
 //                     $('#LoadingModal').modal('hide');

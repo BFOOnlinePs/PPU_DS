@@ -18,7 +18,6 @@ class AllTraineesPaymentsController extends Controller
     // filter search with trainee id
     public function getAllTraineesPayments(Request $request)
     {
-       
         $manager_id = auth()->user()->u_id;
         $company_id = Company::where('c_manager_id', $manager_id)->pluck('c_id')->first();
         $payments = Payment::where('p_company_id', $company_id)

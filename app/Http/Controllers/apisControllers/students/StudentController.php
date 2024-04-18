@@ -28,7 +28,7 @@ class StudentController extends Controller
 
         $trainings = StudentCompany::where('sc_student_id', $student_id)
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->paginate(6);
 
         if ($trainings->isEmpty()) {
             return response()->json([
