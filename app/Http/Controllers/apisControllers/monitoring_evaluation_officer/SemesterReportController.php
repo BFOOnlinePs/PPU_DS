@@ -148,9 +148,12 @@ class SemesterReportController extends Controller
     }
 
     // all students enrolled in training
-    // with the filter
+    // with the filter params and search
     public function getAllMatchStudents(Request $request)
     {
+        // search
+        $requestSearch = $request->input('search');
+
         if ($request->has('year')) {
             $year = $request->input('year');
         } else {
@@ -196,8 +199,16 @@ class SemesterReportController extends Controller
             }
         }
 
+
         $studentsInCompanies = User::whereIn('u_id', $studentsCompanies->unique('sc_student_id')->values()->pluck('sc_student_id'))
             ->with('major:m_id,m_name');
+
+        if (!empty($requestSearch)) {
+            $studentsInCompanies->where(function ($query) use ($requestSearch) {
+                $query->where('u_username', 'like', '%' . $requestSearch . '%')
+                    ->orWhere('name', 'like', '%' . $requestSearch . '%');
+            });
+        }
 
         $studentsInCompanies = $studentsInCompanies->select('u_id', 'u_username', 'name', 'u_major_id')->paginate(10);
 
