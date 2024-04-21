@@ -44,6 +44,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'localization'
         ],
     ];
 
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'testMiddleware' => \App\Http\Middleware\MyTestMiddleware::class,
         'CheckUserRole' => \App\Http\Middleware\CheckUserRoleMiddleware::class,
+        'localization' => \App\Http\Middleware\localization::class,
     ];
 }

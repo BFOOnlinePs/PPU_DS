@@ -14,8 +14,8 @@ class ManagerNotes extends Controller
             'sr_id' => 'required',
             'sr_notes_company' => 'required',
         ], [
-            'sr_id.required' => 'يجب ارسال رقم التقرير',
-            'sr_notes_company.required' => 'الرجاء كتابة التقرير',
+            'sr_id.required' => trans('messages.report_id_required'),
+            'sr_notes_company.required' => trans('messages.report_note_required'),
         ]);
 
         if ($validator->fails()) {
@@ -30,7 +30,7 @@ class ManagerNotes extends Controller
         if(!$report){
             return response()->json([
                 'status' => false,
-                'message' => 'رقم التقرير غير موجود',
+                'message' => trans('messages.report_id_not_exits'),
             ], 200);
         }
 
@@ -41,7 +41,7 @@ class ManagerNotes extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم اضافة الملاحظة بنجاح',
+            'message' => trans('messages.report_added_successfully')
             // 'report' => $report
         ]);
     }
@@ -53,8 +53,8 @@ class ManagerNotes extends Controller
             'sr_id' => 'required',
             'sr_notes_company' => 'required',
         ], [
-            'sr_id.required' => 'يجب ارسال رقم التقرير',
-            'sr_notes_company.required' => 'الرجاء كتابة التقرير',
+            'sr_id.required' => trans('messages.report_id_required'),
+            'sr_notes_company.required' => trans('messages.report_note_required'),
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +69,7 @@ class ManagerNotes extends Controller
         if(!$report){
             return response()->json([
                 'status' => false,
-                'message' => 'رقم التقرير غير موجود',
+                'message' => trans('messages.report_id_not_exits'),
             ], 200);
         }
 
@@ -79,7 +79,7 @@ class ManagerNotes extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم اضافة الملاحظة بنجاح',
+            'message' => trans('messages.report_added_successfully'),
             'report' => $report
         ]);
     }

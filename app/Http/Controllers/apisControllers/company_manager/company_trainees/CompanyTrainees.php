@@ -21,7 +21,7 @@ class CompanyTrainees extends Controller
         $validator = Validator::make($request->all(), [
             'manager_id' => 'required',
         ], [
-            'manager_id.required' => 'الرجاء ارسال رقم مدير الفرع'
+            'manager_id.required' => trans('messages.branch_manager_id_require'),
         ]);
 
         if ($validator->fails()) {
