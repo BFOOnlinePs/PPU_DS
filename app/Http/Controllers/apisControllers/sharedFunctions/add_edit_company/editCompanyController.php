@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+
+// this edit company from the stepper
 class editCompanyController extends Controller
 {
     // step one
@@ -97,6 +99,7 @@ class editCompanyController extends Controller
             'c_type' => $request->input('company_type'),
             'c_category_id' => $request->input('category_id'),
             'c_description' => $request->input('company_description'),
+            'c_english_description' => $request->input('company_english_description'),
             'c_website' => $request->input('company_website')
         ]);
 

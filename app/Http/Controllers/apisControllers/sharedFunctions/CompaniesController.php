@@ -14,7 +14,7 @@ class CompaniesController extends Controller
     // for supervisor and coordinator
     public function getAllCompanies(){
 
-        $companies = Company::orderBy('created_at', 'desc')->paginate(6);
+        $companies = Company::orderBy('created_at', 'desc')->paginate(4);
         $companies->getCollection()->transform(function($company){
             $company->manager_name = User::where('u_id', $company->c_manager_id)->pluck('name')->first();
             $company->category_name = CompaniesCategory::where('cc_id', $company->c_category_id)->pluck('cc_name')->first();

@@ -16,10 +16,13 @@ class Company extends Model
         'c_name',
         'c_english_name',
         'c_description',
+        'c_english_description',
         'c_website',
         'c_type',
         'c_category_id',
         'c_manager_id',
+        'c_status',
+        'c_capacity',
     ];
 
     public function companyBranch()

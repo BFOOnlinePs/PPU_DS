@@ -66,6 +66,7 @@ class AddCompanyController extends Controller
                 'c_name' => $request->input('company_name'),
                 'c_english_name' => $request->input('company_english_name'),
                 'c_manager_id' => $manager_user->u_id,
+                'c_status' => 1, // active
             ]);
 
             if ($company) { // always true
@@ -129,6 +130,7 @@ class AddCompanyController extends Controller
             'c_type' =>  $request->input('company_type'),
             'c_category_id' =>  $request->input('category_id'),
             'c_description' =>  $request->input('company_description'),
+            'c_english_description' =>  $request->input('company_english_description'),
             'c_website' =>  $request->input('company_website')
         ]);
 
