@@ -116,13 +116,16 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="f1-last-name">{{__('translate.company_english_name')}} <span style="color: red">*</span></label>
+{{--                            <input class="f1-last-name form-control" id="c_english_name" type="text" name="c_english_name" required="">--}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Owner')}}{{-- الشخص المسؤول --}} <span style="color: red">*</span></label>
                             <input class="f1-last-name form-control" id="name" type="text" name="name" required="">
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} <span style="color: red">*</span></label>
@@ -144,9 +147,6 @@
                             <input class="f1-password form-control" id="password" type="password" name="password" required="">
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
 
@@ -156,15 +156,12 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="form-group">
 
-                                <label for="f1-last-name">{{__('translate.Company Address')}}{{-- عنوان الشركة --}} <span style="color: red">*</span></label>
-                                <input class="f1-last-name form-control" id="address" type="text" name="address" required="">
-                            </div>
+                            <label for="f1-last-name">{{__('translate.Company Address')}}{{-- عنوان الشركة --}} <span style="color: red">*</span></label>
+                            <input class="f1-last-name form-control" id="address" type="text" name="address" required="">
+                        </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.Number of Company Branches - including the main branch')}}{{--عدد فروع الشركة - "يشمل الفرع الرئيسي"--}} <span style="color: red">*</span></label>
@@ -182,9 +179,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
 
-                    </div>
+                <div class="row">
+
+                </div>
+
+                <div class="row">
+
+                </div>
+
+                <div class="row">
+
                 </div>
 
 
@@ -545,6 +551,7 @@
 <script>
 let companyForm = document.getElementById("companyForm");
 let companyName;
+let c_english_name;
 let company_id;
 let branchesNum = document.getElementById('branchesNum').value;
 let branchesNumber = 1;
@@ -736,7 +743,7 @@ window.addEventListener("load", (event) => {
     });
 
 
-    uncompletedCompanySize = {{count($uncompletedCompany)}}
+    uncompletedCompanySize = {{count($uncompletedCompany)}};
     if(uncompletedCompanySize != 0){
 
         uncompletedCompany = {!! json_encode($uncompletedCompany, JSON_HEX_APOS) !!};
@@ -776,9 +783,7 @@ function completeCompany(index){
     document.getElementById('address1').value=uncompletedCompany[index].manager.u_address;
     document.getElementById('manager_id').value = uncompletedCompany[index].manager.u_id;
     document.getElementById('companyName').value = uncompletedCompany[index].c_name;
-
     document.getElementById('company_id').value = uncompletedCompany[index].c_id;
-
 
     // branchesNum = document.getElementById('branchesNum').value;
     // if(branchesNum<2){
@@ -921,7 +926,6 @@ function firstStep(){
                     document.getElementById('company_id').value = response.company_id;
                     companyName = document.getElementById("c_name").value;
                     document.getElementById('companyName').value = companyName;
-
                 },
                 complete: function(){
                     //$('#LoadingModal').modal('hide');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CitiesModel;
+use App\Models\StudentCompanyNominationModel;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
@@ -524,6 +526,9 @@ class UserController extends Controller
         $user->u_gender = $request->u_gender;
         $user->u_major_id = $request->u_major_id;
         $user->u_role_id = $request->u_role_id;
+        $user->u_address_details = $request->u_address_details;
+        $user->u_tawjihi_gpa = $request->u_tawjihi_gpa;
+        $user->u_city_id = $request->u_city_id;
         if(isset($request->u_status)) {
             $user->u_status = 1;
         }
@@ -545,7 +550,8 @@ class UserController extends Controller
         $role_id = Role::where('r_id' , $user->u_role_id)->first();
         $roles = Role::get();
         $majors = Major::get();
-        return view('project.admin.users.edit' , ['user' => $user , 'role_name' => $role_name->r_name , 'major_id' => $major_id , 'roles' => $roles , 'majors' => $majors , 'role_id' => $role_id]);
+        $cities = CitiesModel::get();
+        return view('project.admin.users.edit' , ['user' => $user , 'role_name' => $role_name->r_name , 'major_id' => $major_id , 'roles' => $roles , 'majors' => $majors , 'role_id' => $role_id,'cities'=>$cities]);
     }
     public function index_id($id)
     {
@@ -553,15 +559,18 @@ class UserController extends Controller
         $roles = Role::all();
         $major = Major::all();
         $role = Role::where('r_id' , $id)->first();
+        $cities = CitiesModel::get();
         $role_name = $role->r_name;
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name]);
+        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities]);
     }
     public function index()
     {
         $data = User::with('role')->get();
+        foreach ($data as $key){
+            $key->major = Major::where('m_id',$key->u_major_id)->first();
+        }
         $roles = Role::all();
         $major = Major::all();
-
         return view('project.admin.users.index', [
             'data' => $data,
             'roles' => $roles,
@@ -624,6 +633,9 @@ class UserController extends Controller
         $user->u_date_of_birth = $request->u_date_of_birth;
         $user->u_gender = $request->u_gender;
         $user->u_role_id = $request->u_role_id;
+        $user->u_address_details = $request->u_address_details;
+        $user->u_tawjihi_gpa = $request->u_tawjihi_gpa;
+        $user->u_city_id = $request->u_city_id;
         if (isset($request->u_major_id)) {
             $user->u_major_id = $request->u_major_id;
         }
@@ -641,6 +653,10 @@ class UserController extends Controller
         }
         if($user->save()) {
             $data = User::where('u_role_id', $request->u_role_id)->get();
+            foreach ($data as $key){
+                $key->major = Major::where('m_id',$key->u_major_id)->first();
+            }
+            return 'asd';
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
@@ -670,5 +686,45 @@ class UserController extends Controller
         $html = view('project.admin.users.includes.student' , ['students' => $students])->render();
         return response()->json(['html' => $html]);
     }
+
+    public function students_waiting_to_approve_cv(Request $request){
+        $data = StudentCompanyNominationModel::
+        whereIn('scn_student_id',function ($query) use ($request){
+            $query->select('u_id')->from('users')->where('u_cv_status',0)
+                ->where('name','like','%'.$request->input_search.'%');
+        })
+            ->when($request->filled('company_id'),function ($query) use ($request){
+                $query->whereIn('scn_company_id',function ($query) use ($request){
+                    $query->select('c_id')->from('companies')->where('c_id',$request->company_id);
+                });
+            })
+            ->get();
+        foreach ($data as $key){
+            $key->student = User::where('u_id',$key->scn_student_id)->first();
+            $key->company = Company::where('c_id',$key->scn_company_id)->first();
+        }
+        return response()->json([
+            'success' => 'true',
+            'view' => view('project.users.ajax.training_nominations_list',['data'=>$data])->render()
+        ]);
+    }
+
+    public function change_status_from_cv(Request $request){
+        $data = User::where('u_id',$request->id)->first();
+        $data->u_cv_status = $request->status;
+        if ($data->save()){
+            return response()->json([
+                'success' => ' true',
+                'message' => 'تم تعديل الحالة بنجاح'
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => ' false',
+                'message' => 'هناك خلل ما'
+            ]);
+        }
+    }
+
 }
 

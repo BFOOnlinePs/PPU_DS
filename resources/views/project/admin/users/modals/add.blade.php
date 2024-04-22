@@ -82,18 +82,24 @@
                                             </div>
                                         </div>
                                         @if ($u_role_id == 2)
-                                        <div class="mb-3 row">
-                                            <label class="col-lg-12 form-label " for="selectbasic"> {{__('translate.Major')}} {{-- التخصص --}}</label>
+                                            <div class="mb-3 row">
+                                                <label class="col-lg-12 form-label " for="selectbasic"> {{__('translate.Major')}} {{-- التخصص --}}</label>
+                                                    <div class="col-lg-12">
+                                                        <select autofocus class="js-example-basic-single col-sm-12" id="u_major_id" name="u_major_id" tabindex="10" required>
+                                                            <option value=""></option>
+                                                            @foreach ($major as $item)
+                                                                <option value="{{$item->m_id}}">{{$item->m_name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-lg-12 form-label " for="textinput">{{ __('translate.tawjihi_rate') }}</label>
                                                 <div class="col-lg-12">
-                                                    <select autofocus class="js-example-basic-single col-sm-12" id="u_major_id" name="u_major_id" tabindex="10" required>
-                                                        <option value=""></option>
-                                                        @foreach ($major as $item)
-                                                            <option value="{{$item->m_id}}">{{$item->m_name}}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" class="form-control" name="u_tawjihi_gpa" placeholder="{{ __('translate.tawjihi_rate') }}">
                                                 </div>
                                             </div>
-                                            @endif
+                                        @endif
                                         </div>
                                     <div class="col-md-4">
                                         <div class="mb-3 row">
@@ -115,6 +121,25 @@
                                                 <input id="u_address" name="u_address" type="text" class="form-control btn-square input-md" tabindex="8">
                                             </div>
                                         </div>
+                                        @if($u_role_id == 2)
+                                            <div class="mb-3 row">
+                                                <label class="col-lg-12 form-label" for="textinput"> {{ __('translate.city') }} {{-- المحافظة --}}</label>
+                                                <div class="col-lg-12">
+                                                    <select class="form-control" name="u_city_id" id="">
+                                                        <option value="">{{ __('translate.select_city') }} ...</option>
+                                                        @foreach($cities as $key)
+                                                            <option value="{{ $key->id }}">
+                                                                @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->city_name_en)))
+                                                                    {{ $key->city_name_en }}
+                                                                @else
+                                                                    {{ $key->city_name_ar }}
+                                                                @endif
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3 row">
@@ -129,6 +154,14 @@
                                                 <input id="u_phone2" name="u_phone2" type="text" class="form-control btn-square input-md" tabindex="6" pattern="[0-9]{10}" minlength="10" maxlength="10">
                                             </div>
                                         </div>
+                                        @if($u_role_id == 2)
+                                            <div class="mb-3 row">
+                                                <label class="col-lg-12 form-label" for="textinput">{{ __('translate.address_details') }}</label>
+                                                <div class="col-lg-12">
+                                                    <input id="u_address" name="u_address_details" type="text" class="form-control btn-square input-md" tabindex="8">
+                                                </div>
+                                            </div>
+                                        @endif
                                         <div class="mb-3 row">
                                             <div class="form-group m-t-15 custom-radio-ml">
                                                 <label class="form-label">{{__('translate.Gender')}}* {{-- الجنس --}}</label>
