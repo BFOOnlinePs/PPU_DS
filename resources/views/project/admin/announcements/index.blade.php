@@ -54,9 +54,9 @@
                                 <td style="display:none;">{{ $key->a_id }}</td>
                                 <td>{{$key->a_title}}</td>
                                 <td>{{$key->users->name}} </td>
-                                <td> <select class="js-example-basic-single col-sm-12" name="a_status_{{$key->a_id}}" id="a_status_{{$key->a_id}}" @if($key->users->u_role_id == auth()->user()->u_role_id || auth()->user()->u_role_id ==1) onchange="changeAnnouncementStutas({{$key}})" @endif>
-                                        <option @if($key->a_status==1) selected  @endif value="1">مفعل</option>
-                                        <option @if($key->a_status==0) selected  @endif value="0">غير مفعل</option>
+                                <td> <select class="js-example-basic-single col-sm-12" name="a_stutas_{{$key->a_id}}" id="a_stutas_{{$key->a_id}}" @if($key->users->u_role_id == auth()->user()->u_role_id || auth()->user()->u_role_id ==1) onchange="changeAnnouncementStutas({{$key}})" @endif>
+                                        <option @if($key->a_stutas==1) selected  @endif value="1">مفعل</option>
+                                        <option @if($key->a_stutas==0) selected  @endif value="0">غير مفعل</option>
                                      </select></td>
                                 <td><button class="btn btn-info" onclick='location.href="{{route("admin.announcements.edit",["id"=>$key->a_id])}}"'><i class="fa fa-info"></i></button>
                                 @if($key->users->u_role_id == auth()->user()->u_role_id || auth()->user()->u_role_id ==1)<button class="btn btn-primary" onclick="editAnnouncement({{ $key }})"><i class="fa fa-edit"></i></button></td>@endif
