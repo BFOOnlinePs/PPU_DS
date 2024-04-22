@@ -64,6 +64,7 @@ class CompaniesPaymentsReportController extends Controller
         foreach ($studentsCompanies as $studentCompany) {
             $studentCompany->student_name = User::where('u_id', $studentCompany->sc_student_id)->pluck('name')->first();
             $studentCompany->company_name = Company::where('c_id', $studentCompany->sc_company_id)->pluck('c_name')->first();
+            $studentCompany->company_english_name = Company::where('c_id', $studentCompany->sc_company_id)->pluck('c_english_name')->first();
 
             $paymentsByCurrency = []; // Array to store sums of payments by currency
             $confirmedPayments = [];

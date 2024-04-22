@@ -17,6 +17,8 @@ use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoo
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\editCompanyController;
+use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\EditCompanyInfo;
+use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\EditCompanyInfoController;
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_attendance;
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_reports;
 use App\Http\Controllers\apisControllers\sharedFunctions\announcements\AnnouncementsController;
@@ -28,6 +30,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
+use App\Http\Controllers\apisControllers\students\cv\StudentCVController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
@@ -97,6 +100,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // student log
     Route::post('/getAllStudentAttendanceLog', [studentLogController::class, 'getAllStudentAttendanceLog']);
     Route::post('/getAllStudentReportsLog', [studentLogController::class, 'getAllStudentReportsLog']);
+
+    // student cv
+    Route::post('/user/cv', [StudentCVController::class, 'addStudentCV']);
 
 
     // add middleware
@@ -176,14 +182,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getStudentsRegisteredForTraining', [ProgramCoordinatorStudentsController::class, 'getStudentsRegisteredForTraining']);
 
 
-    // add company => for supervisor and coordinator
+    // add company => for supervisor and coordinator and more
     Route::post('createManagerAndHisCompany', [AddCompanyController::class, 'createManagerAndHisCompany']);
     Route::post('updateCompanyAddingCategoryAndType', [AddCompanyController::class, 'updateCompanyAddingCategoryAndType']);
     Route::post('addCompanyDepartments', [AddCompanyController::class, 'addCompanyDepartments']);
     Route::post('addCompanyBranches', [AddCompanyController::class, 'addCompanyBranches']);
     Route::post('getCompanyDepartments', [AddCompanyController::class, 'getCompanyDepartments']);
 
-    // edit company => for supervisor and coordinator
+    // edit company => for supervisor and coordinator and more
     Route::post('getCompanyAndManagerInfo', [editCompanyController::class, 'getCompanyAndManagerInfo']);
     Route::post('updateCompanyAndManagerInfo', [editCompanyController::class, 'updateCompanyAndManagerInfo']);
     Route::post('getCompanyDepartments', [editCompanyController::class, 'getCompanyDepartments']);
@@ -193,8 +199,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('addNewCompanyBranch', [editCompanyController::class, 'addNewCompanyBranch']);
     Route::post('editCompanyBranch', [editCompanyController::class, 'editCompanyBranch']);
 
+    // edit company status and capacity
+    Route::put('updateCompanyStatus', [EditCompanyInfoController::class, 'updateCompanyStatus']);
+    Route::put('updateCompanyCapacity', [EditCompanyInfoController::class, 'updateCompanyCapacity']);
+
+
     // Monitoring and Evaluation Officer
     Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
+    Route::get('getAllMatchStudents', [SemesterReportController::class, 'getAllMatchStudents']);
+    Route::get('getAllNonMatchStudents', [SemesterReportController::class, 'getAllNonMatchStudents']);
     Route::get('getTrainingHoursReport', [TrainingHoursReportController::class, 'getTrainingHoursReport']);
     Route::get('getCompaniesPaymentsReport', [CompaniesPaymentsReportController::class, 'getCompaniesPaymentsReport']);
     Route::post('getTrainingPaymentsDetails', [StudentCompanyPaymentsDetailsReportController::class, 'getTrainingPaymentsDetails']);

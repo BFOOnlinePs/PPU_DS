@@ -18,6 +18,7 @@ class AddCompanyController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'company_name' => 'required|unique:companies,c_name',
+            'company_english_name' => 'required|unique:companies,c_english_name',
             'manager_name' => 'required',
             'manager_email' => 'required|email|unique:users,email',
             'manager_password' => 'required',
@@ -26,7 +27,9 @@ class AddCompanyController extends Controller
             'address' => 'required', // main branch phone + manager phone
         ], [
             'company_name.required' => 'الرجاء ارسال اسم الشركة',
-            'company_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله',
+            'company_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله باللغة العربية',
+            'company_english_name.required' => 'الرجاء ارسال اسم الشركة باللغة الانجليزية',
+            'company_english_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله باللغة الانجليزية',
             'manager_name.required' => 'الرجاء ارسال اسم مدير الشركة',
             'manager_email.required' => 'الرجاء ارسال ايميل مدير الشركة',
             'manager_email.email' => 'يجب ان تكون صيغة البريد الإلكتروني صحيحة',
@@ -61,7 +64,9 @@ class AddCompanyController extends Controller
         if ($manager_user) {
             $company = Company::create([
                 'c_name' => $request->input('company_name'),
+                'c_english_name' => $request->input('company_english_name'),
                 'c_manager_id' => $manager_user->u_id,
+                'c_status' => 1, // active
             ]);
 
             if ($company) { // always true
@@ -125,6 +130,7 @@ class AddCompanyController extends Controller
             'c_type' =>  $request->input('company_type'),
             'c_category_id' =>  $request->input('category_id'),
             'c_description' =>  $request->input('company_description'),
+            'c_english_description' =>  $request->input('company_english_description'),
             'c_website' =>  $request->input('company_website')
         ]);
 

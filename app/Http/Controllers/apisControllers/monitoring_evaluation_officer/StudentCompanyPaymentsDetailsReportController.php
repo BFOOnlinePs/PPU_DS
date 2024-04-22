@@ -33,6 +33,7 @@ class StudentCompanyPaymentsDetailsReportController extends Controller
         $student_company = StudentCompany::where('sc_id', $student_company_id)->first();
         $student_name = User::where('u_id', $student_company->sc_student_id)->pluck('name')->first();
         $company_name = Company::where('c_id', $student_company->sc_company_id)->pluck('c_name')->first();
+        $company_english_name = Company::where('c_id', $student_company->sc_company_id)->pluck('c_english_name')->first();
 
         $training_payments_with_currency = Payment::where('p_student_company_id', $student_company_id)
             ->with(['currency' => function ($query) {
@@ -45,7 +46,8 @@ class StudentCompanyPaymentsDetailsReportController extends Controller
             'status' => true,
             'student_name' => $student_name,
             'company_name' => $company_name,
-            'training_payments' => $training_payments_with_currency
+            'company_english_name' => $company_english_name,
+            'training_payments' => $training_payments_with_currency,
         ]);
     }
 }

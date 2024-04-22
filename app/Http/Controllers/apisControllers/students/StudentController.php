@@ -40,6 +40,7 @@ class StudentController extends Controller
         // add company name, branch address, mentor name, and assistant name for each training object
         $trainings->getCollection()->transform(function ($training) {
             $training->company_name = Company::where('c_id', $training->sc_company_id)->pluck('c_name')->first();
+            $training->company_english_name = Company::where('c_id', $training->sc_company_id)->pluck('c_english_name')->first();
             $training->branch_name = CompanyBranch::where('b_id', $training->sc_branch_id)->pluck('b_address')->first();
             $training->mentor_trainer_name = User::where('u_id', $training->sc_mentor_trainer_id)->pluck('name')->first();
             $training->assistant_name = User::where('u_id', $training->sc_assistant_id)->pluck('name')->first();

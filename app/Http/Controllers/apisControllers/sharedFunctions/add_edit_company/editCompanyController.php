@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+
+// this edit company from the stepper
 class editCompanyController extends Controller
 {
     // step one
@@ -52,6 +54,7 @@ class editCompanyController extends Controller
             'company_id' => 'required|exists:companies,c_id',
             'manager_id' => 'required|exists:users,u_id',
             'company_name' => ['required', Rule::unique('companies', 'c_name')->ignore($request->input('company_id'), 'c_id')],
+            'company_english_name' => ['required', Rule::unique('companies', 'c_english_name')->ignore($request->input('company_id'), 'c_id')],
             'manager_name' => 'required',
             'manager_email' => ['email', Rule::unique('users', 'email')->ignore($request->input('manager_id'), 'u_id')],
             // 'manager_password' => 'required',
@@ -64,8 +67,10 @@ class editCompanyController extends Controller
             'company_id.exists' => 'رقم الشركة غير موجود',
             'company_id.required' => 'الرجاء إرسال رقم المدير',
             'company_id.exists' => 'رقم المدير غير موجود',
-            'company_name.required' => 'الرجاء ارسال اسم الشركة',
-            'company_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله',
+            'company_name.required' => 'الرجاء ارسال اسم الشركة باللغة العربية',
+            'company_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله باللغة العربية',
+            'company_english_name.required' => 'الرجاء ارسال اسم الشركة باللغة الانجليزية',
+            'company_english_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله باللغة الانجليزية',
             'manager_name.required' => 'الرجاء ارسال اسم مدير الشركة',
             'manager_email.required' => 'الرجاء ارسال ايميل مدير الشركة',
             'manager_email.email' => 'يجب ان تكون صيغة البريد الإلكتروني صحيحة',
@@ -90,9 +95,11 @@ class editCompanyController extends Controller
 
         $company_info->update([
             'c_name' => $request->input('company_name'),
+            'c_english_name' => $request->input('company_english_name'),
             'c_type' => $request->input('company_type'),
             'c_category_id' => $request->input('category_id'),
             'c_description' => $request->input('company_description'),
+            'c_english_description' => $request->input('company_english_description'),
             'c_website' => $request->input('company_website')
         ]);
 

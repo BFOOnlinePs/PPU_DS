@@ -34,6 +34,7 @@ class StudentPaymentsController extends Controller
         $payments->getCollection()->transform(function ($payment) {
             $payment->inserted_by_name = User::where('u_id', $payment->p_inserted_by_id)->pluck('name')->first();
             $payment->company_name = Company::where('c_id', $payment->p_company_id)->pluck('c_name')->first();
+            $payment->company_english_name = Company::where('c_id', $payment->p_company_id)->pluck('c_english_name')->first();
             $payment->currency_symbol = Currency::where('c_id', $payment->p_currency_id)->pluck('c_symbol')->first();
 
             $student_training = StudentCompany::where('sc_id', $payment->p_student_company_id)->first();
