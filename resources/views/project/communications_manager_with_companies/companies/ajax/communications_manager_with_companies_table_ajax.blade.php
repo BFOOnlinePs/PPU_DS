@@ -4,7 +4,7 @@
         <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
         <th>{{__('translate.capacity')}}</th>
         <th>{{--الطلاب في هذه الشركة--}} {{__("translate.Company's Interns")}}</th>
-        <th>{{__("translate.number_of_registered_students")}}</th>number_of_registered_students
+        <th>{{__("translate.number_of_registered_students")}}</th>
     </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@
         @foreach ($data as $students_company)
             <tr>
                 {{-- <td>{{$students_company->company->c_name}}</td> --}}
-                <td @if($students_company->company->c_status == 0) class="bg-danger" @endif>
+                <td class="bg-danger">
                     @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
                         <a class="text-white" href="{{route("admin.companies.edit",['id'=>$students_company->company->c_id])}}">{{$students_company->company->c_english_name}}</a>
                     @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))

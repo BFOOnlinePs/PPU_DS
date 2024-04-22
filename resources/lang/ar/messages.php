@@ -6,6 +6,5 @@ return [
     'report_added_successfully' => 'تم اضافة الملاحظة بنجاح',
     'branch_manager_id_required' => 'الرجاء ارسال رقم مدير الفرع',
     // company trainees file
-
 ];
  ?>
