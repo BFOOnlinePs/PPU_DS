@@ -42,7 +42,7 @@
                     <input hidden id="branchesNumber_{{$key->b_id}}" name="branchedNumber_{{$key->b_id}}" value="{{count($company->companyBranch)}}">
                     <label for="departments_{{$key->b_id}}">{{__('translate.Branch Departments')}}{{-- أقسام الفرع --}}</label>
                     <select class="js-example-basic-single col-sm-12" multiple="multiple" id="departments_{{$key->b_id}}"  multiple>
-                    @foreach($companyDepartments as $key2)  
+                    @foreach($companyDepartments as $key2)
                                   <option value="{{$key2->d_id}}"@foreach($key->companyBranchDepartments as $key3) @if($key3->cbd_d_id==$key2->d_id) selected @endif  @endforeach >{{$key2->d_name}} </option>
                                @endforeach
                             </select>

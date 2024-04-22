@@ -4,6 +4,7 @@ namespace App\Http\Controllers\project\monitor_evaluation;
 
 use App\Exports\StudentAttendanceExport;
 use App\Http\Controllers\Controller;
+use App\Models\MeAttachmentModel;
 use App\Models\StudentReport;
 use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
@@ -16,6 +17,7 @@ use Carbon\Carbon;
 use App\Models\CompaniesCategory;
 use App\Models\Payment;
 use App\Models\Currency;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use Illuminate\Support\Collection;
@@ -1480,5 +1482,66 @@ class MonitorEvaluationController extends Controller
 
     public function export_student_attendance(){
         return Excel::download(new StudentAttendanceExport,'student_attendance.xlsx');
+    }
+
+    public function files_index(){
+        $data = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->where('mea_attachment_id',-1)->get();
+        foreach ($data as $key){
+            $key->versions = MeAttachmentModel::where('mea_attachment_id',$key->mea_id)->get();
+        }
+        return view('project.monitor_evaluation.files.index',['data'=>$data]);
+    }
+
+    public function create_me_attachment(Request $request){
+        $data = new MeAttachmentModel();
+        $data->mea_user_id = auth()->user()->u_id;
+        $data->mea_description = $request->mea_description;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->storeAs('files', $filename, 'public');
+            $data->mea_file = $filename;
+        }
+        $data->mea_attachment_id = $request->mea_attachment_id;
+        if ($data->save()){
+            return redirect()->route('monitor_evaluation.files.files_index')->with(['success' => 'تم اضافة الملف بنجاح']);
+        }
+        else{
+            return redirect()->route('monitor_evaluation.files.files_index')->with(['fail' => 'هناك خلل ما لم يتم اضافة الملف']);
+        }
+    }
+
+    public function create_me_version_attachment(Request $request){
+        $data = new MeAttachmentModel();
+        $data->mea_user_id = auth()->user()->u_id;
+        $data->mea_description = $request->mea_description;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->storeAs('files', $filename, 'public');
+            $data->mea_file = $filename;
+        }
+        $data->mea_attachment_id = $request->mea_attachment_id;
+        $check_if_find = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->where('mea_attachment_id',$request->mea_attachment_id)->get();
+        if (!$check_if_find->isEmpty()){
+//            $data->mea_attachment_id = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->latest('mea_id')->first()->mea_id;
+            if (count($check_if_find) >= 2){
+                $first_file = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->where('mea_attachment_id',$request->mea_attachment_id)->first();
+                $filePath = 'files/' . $first_file->mea_file;
+//                Storage::disk('public')->delete(asset('monitor_trainer/' . $first_file->mea_file));
+                Storage::disk('public')->delete($filePath);
+                $first_file->delete();
+                $last_row =  MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->latest('mea_id')->first();
+                $last_row->save();
+            }
+        }
+        if ($data->save()){
+            return redirect()->route('monitor_evaluation.files.files_index')->with(['success' => 'تم اضافة الملف بنجاح']);
+        }
+        else{
+            return redirect()->route('monitor_evaluation.files.files_index')->with(['fail' => 'هناك خلل ما لم يتم اضافة الملف']);
+        }
     }
 }

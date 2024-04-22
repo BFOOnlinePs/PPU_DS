@@ -41,10 +41,11 @@
                         @elseif (auth()->user()->u_role_id == 5) {{-- M&E --}}
                             <li><a class="nav-link" href="{{route('home')}}"><i data-feather="home"></i><span>{{__('translate.Main')}}{{-- الرئيسية --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesReport')}}"><i data-feather="briefcase"></i data-feather=><span>{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i data-feather=><span>{{__("translate.Student Attendance")}}{{-- تقرير الحضور والمغادرة --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesPaymentsReport')}}"><i data-feather="users"></i data-feather=><span>{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}</span></a></li>
-                            <li><a class="nav-link" href="{{route('monitor_evaluation.paymentsReport')}}"><i data-feather="dollar-sign"></i data-feather=><span>{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesReport')}}"><i data-feather="briefcase"></i><span>{{__("translate.Companies' Report")}}{{-- تقرير الشركات --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i><span>{{__("translate.Student Attendance")}}{{-- تقرير الحضور والمغادرة --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.companiesPaymentsReport')}}"><i data-feather="users"></i><span>{{__("translate.Companies Payments' Report")}}{{-- تقرير دفعات الشركات --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.paymentsReport')}}"><i data-feather="dollar-sign"></i><span>{{__("translate.Payments' Report")}}{{-- تقرير الدفعات المالية --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.files.files_index')}}"><i data-feather="file"></i><span>{{__("translate.files")}}{{-- الملفات --}}</span></a></li>
                         @elseif (auth()->user()->u_role_id == 6) {{-- Company Manager --}}
                             <li><a class="nav-link" href="{{route('company_manager.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('company_manager.records.index')}}"><i data-feather="list"></i><span>{{__('translate.Attendance Logs')}}{{-- سجلات المتابعة --}}</span></a></li>
@@ -57,7 +58,7 @@
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.training_nominations.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.training_nominations')}}{{-- ترشيحات التدريب --}}</span></a></li>
                             @endif
-                        @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 ) 
+                        @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 )
                         <li><a class="nav-link" href="{{route('admin.announcements.index')}}"><i data-feather="inbox"></i><span>{{__('translate.announcements')}}{{--  الاعلانات --}}</span></a></li>
                          @endif
                         <li><a class="nav-link" href="{{route('admin.survey.index')}}"><i data-feather="clipboard"></i><span>{{__('translate.surveys')}}{{--  الاستبيانات --}}</span></a></li>

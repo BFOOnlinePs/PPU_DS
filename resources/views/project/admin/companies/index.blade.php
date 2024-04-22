@@ -38,8 +38,9 @@
                             <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
+                            <th scope="col">{{__('translate.capacity')}}</th>
+                            <th scope="col" style="width: 200px">{{__('translate.company_status')}}</th>
                             <th scope="col" style="width: 200px">{{__('translate.Operations')}} {{--  العمليات --}}</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +52,13 @@
                         @foreach ($data as $key)
                             <tr>
                                 <td style="display:none;">{{ $key->c_id }}</td>
-                                <td><a href="{{route('admin.companies.edit',['id'=>$key->c_id])}}">{{$key->c_name}}</a></td>
+                                <td><a href="{{route('admin.companies.edit',['id'=>$key->c_id])}}">
+                                        @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
+                                            {{ $key->c_english_name }}
+                                        @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
+                                            {{ $key->c_name }}
+                                        @endif
+                                    </a></td>
                                 @if (auth()->user()->u_role_id == 1)
                                     <td><a href="{{route('admin.users.details',['id'=>$key->manager->u_id])}}">{{$key->manager->name}}</a></td>
                                 @else
@@ -64,8 +71,17 @@
                                 @else
                                     <td>{{__('translate.Unspecified')}}{{--غير محدد--}}</td>
                                 @endif
+
                                 @if( $key->c_type == 1) <td>{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
                                 @if( $key->c_type == 2) <td>{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
+                                <td>
+                                    <input type="text" onchange="update_capacity_ajax({{ $key->c_id }},this.value)" class="form-control" value="{{ $key->c_capacity }}" placeholder="">
+                                </td>
+                                <td>
+                                    <label class="switch">
+                                        <input onchange="update_company_status({{ $key->c_id }},this.checked)" type="checkbox" @if($key->c_status == 1) checked="" @endif><span class="switch-state"></span>
+                                    </label>
+                                </td>
                                 <td class="">
                                     <button class="btn btn-info btn-sm" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
                                     <button class="btn btn-success btn-sm" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><i class="fa fa-group"></i></button>
@@ -229,6 +245,75 @@ function delete_nomination_table_ajax(id){
             if(data.success == 'true'){
                 student_nomination_table_ajax($('#company_id').val());
                 search_student_ajax();
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('error');
+        }
+    });
+
+}
+
+function update_capacity_ajax(id,value){
+
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    // Send an AJAX request with the CSRF token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+    // $('#showTable').html('<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>')
+    $.ajax({
+        url: "{{ route('admin.companies.update_capacity_ajax') }}",
+        method: "post",
+        data: {
+            'id' : id,
+            _token: '{!! csrf_token() !!}',
+            'value' : value
+        },
+        success: function(data) {
+            if(data.success == 'true'){
+                student_nomination_table_ajax($('#company_id').val());
+                // search_student_ajax();
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('error');
+        }
+    });
+
+}
+
+function update_company_status(id,status){
+    var checked = 'true';
+    if(status === false){
+        checked = 0;
+    }
+    else{
+        checked = 1;
+    }
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    // Send an AJAX request with the CSRF token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+    // $('#showTable').html('<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>')
+    $.ajax({
+        url: "{{ route('admin.companies.update_company_status') }}",
+        method: "post",
+        data: {
+            'company_id' : id,
+            _token: '{!! csrf_token() !!}',
+            'status' : checked
+        },
+        success: function(data) {
+            if(data.success == 'true'){
+
             }
         },
         error: function(xhr, status, error) {
