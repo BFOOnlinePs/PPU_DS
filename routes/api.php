@@ -28,6 +28,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as 
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
 use App\Http\Controllers\apisControllers\students\cv\StudentCVController;
@@ -215,6 +216,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // all students
     Route::get('getAllStudentsAttendance', [all_students_attendance::class, 'getAllStudentsAttendance']);
     Route::get('getAllStudentsReports', [all_students_reports::class, 'getAllStudentsReports']);
+
+    // students CVs
+    Route::get('getSupervisorStudentsForCVs', [StudentsCVController::class, 'getSupervisorStudentsForCVs']);
+    Route::put('changeStudentCVStatus', [StudentsCVController::class, 'changeStudentCVStatus']);
 
 
     // announcements

@@ -32,6 +32,8 @@ class User extends Authenticatable
         'u_status',
         'u_role_id',
         'u_major_id',
+        'u_cv',
+        'u_cv_status',
         'remember_token',
     ];
 

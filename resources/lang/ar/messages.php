@@ -5,6 +5,8 @@ return [
     'report_id_not_exits' => 'رقم التقرير غير موجود',
     'report_added_successfully' => 'تم اضافة الملاحظة بنجاح',
     'branch_manager_id_required' => 'الرجاء ارسال رقم مدير الفرع',
+    'login_error_message' => 'الرجاء التأكد من البيانات المدخلة',
+    'change_student_cv_status' => 'تم تحديث حالة السيرة الذاتية للطالب بنحاح',
     // company trainees file
 
 ];
