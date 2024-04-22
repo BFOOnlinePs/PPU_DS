@@ -16,15 +16,15 @@
         @foreach ($data as $students_company)
             <tr>
                 {{-- <td>{{$students_company->company->c_name}}</td> --}}
-                <td class="bg-danger">
+                <td @if(empty($students_company->company->c_status)) @if($students_company->c_status == 0) class="bg-danger" @endif @else class="bg-danger" @endif>
                     @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
-                        <a class="text-white" href="{{route("admin.companies.edit",['id'=>$students_company->company->c_id])}}">{{$students_company->company->c_english_name}}</a>
+                        <a @if(empty($students_company->company->c_status)) @if($students_company->c_status == 0) class="text-white" @endif @else class="text-white" @endif href="{{route("admin.companies.edit",['id'=>$students_company->company->c_id ?? $students_company->c_id])}}">{{$students_company->company->c_english_name ?? $students_company->c_english_name}}</a>
                     @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
-                        <a class="text-white" href="{{route("admin.companies.edit",['id'=>$students_company->company->c_id])}}">{{$students_company->company->c_name}}</a>
+                        <a @if(empty($students_company->company->c_status)) @if($students_company->c_status == 0) class="text-white" @endif @else class="text-white" @endif href="{{route("admin.companies.edit",['id'=>$students_company->company->c_id ?? $students_company->c_id])}}">{{$students_company->company->c_name}}</a>
                     @endif
                 </td>
                 <td>
-                    {{ $students_company->company->c_capacity }}
+                    {{ $students_company->company->c_capacity ?? $students_company->c_capacity }}
                 </td>
                 <td>
 {{--                    <a href="{{route('communications_manager_with_companies.companies.students' , ['id'=>$students_company->sc_company_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-users"></span></a>--}}
