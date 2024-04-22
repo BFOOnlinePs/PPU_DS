@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CitiesModel;
 use App\Models\StudentCompanyNominationModel;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -525,6 +526,9 @@ class UserController extends Controller
         $user->u_gender = $request->u_gender;
         $user->u_major_id = $request->u_major_id;
         $user->u_role_id = $request->u_role_id;
+        $user->u_address_details = $request->u_address_details;
+        $user->u_tawjihi_gpa = $request->u_tawjihi_gpa;
+        $user->u_city_id = $request->u_city_id;
         if(isset($request->u_status)) {
             $user->u_status = 1;
         }
@@ -546,7 +550,8 @@ class UserController extends Controller
         $role_id = Role::where('r_id' , $user->u_role_id)->first();
         $roles = Role::get();
         $majors = Major::get();
-        return view('project.admin.users.edit' , ['user' => $user , 'role_name' => $role_name->r_name , 'major_id' => $major_id , 'roles' => $roles , 'majors' => $majors , 'role_id' => $role_id]);
+        $cities = CitiesModel::get();
+        return view('project.admin.users.edit' , ['user' => $user , 'role_name' => $role_name->r_name , 'major_id' => $major_id , 'roles' => $roles , 'majors' => $majors , 'role_id' => $role_id,'cities'=>$cities]);
     }
     public function index_id($id)
     {
@@ -554,15 +559,18 @@ class UserController extends Controller
         $roles = Role::all();
         $major = Major::all();
         $role = Role::where('r_id' , $id)->first();
+        $cities = CitiesModel::get();
         $role_name = $role->r_name;
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name]);
+        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities]);
     }
     public function index()
     {
         $data = User::with('role')->get();
+        foreach ($data as $key){
+            $key->major = Major::where('m_id',$key->u_major_id)->first();
+        }
         $roles = Role::all();
         $major = Major::all();
-
         return view('project.admin.users.index', [
             'data' => $data,
             'roles' => $roles,
@@ -625,6 +633,9 @@ class UserController extends Controller
         $user->u_date_of_birth = $request->u_date_of_birth;
         $user->u_gender = $request->u_gender;
         $user->u_role_id = $request->u_role_id;
+        $user->u_address_details = $request->u_address_details;
+        $user->u_tawjihi_gpa = $request->u_tawjihi_gpa;
+        $user->u_city_id = $request->u_city_id;
         if (isset($request->u_major_id)) {
             $user->u_major_id = $request->u_major_id;
         }
@@ -642,6 +653,10 @@ class UserController extends Controller
         }
         if($user->save()) {
             $data = User::where('u_role_id', $request->u_role_id)->get();
+            foreach ($data as $key){
+                $key->major = Major::where('m_id',$key->u_major_id)->first();
+            }
+            return 'asd';
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }

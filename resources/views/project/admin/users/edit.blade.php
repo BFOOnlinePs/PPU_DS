@@ -137,6 +137,36 @@
                                     <input class="form-control" type="text" name="u_address" value="{{ $user->u_address }}" @if (auth()->user()->u_role_id == 2) readonly @endif>
                                 </div>
                             </div>
+                            @if(auth()->user()->u_role_id != 2)
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">{{ __('translate.address_details') }}</label>
+                                        <input type="text" value="{{ $user->u_address_details }}" placeholder="عنوان السكن التفصيلي" class="form-control" name="u_address_details">
+                                    </div>
+                                </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="">{{ __('translate.city') }}</label>
+                                                    <select class="form-control" name="u_city_id" id="">
+                                                        @foreach($cities as $key)
+                                                            <option @if($key->id == $user->u_city_id) selected @endif value="{{ $key->id }}">
+                                                                @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->city_name_en)))
+                                                                    {{ $key->city_name_en }}
+                                                                @else
+                                                                    {{ $key->city_name_ar }}
+                                                                @endif
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="">{{ __('translate.tawjihi_rate') }}</label>
+                                                    <input type="text" placeholder="{{ __('translate.tawjihi_rate') }}" class="form-control" value="{{ $user->u_tawjihi_gpa }}" name="u_tawjihi_gpa">
+                                                </div>
+                                            </div>
+                            @endif
                             <div class="col-md-3">
                                 <div class="form-group">
                                     @if ($user->u_role_id == 2)
@@ -162,7 +192,6 @@
                             @endif
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>

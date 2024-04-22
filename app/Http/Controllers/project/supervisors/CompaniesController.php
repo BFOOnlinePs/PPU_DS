@@ -25,6 +25,18 @@ class CompaniesController extends Controller
                             ->select('sc_company_id')
                             ->groupBy('sc_company_id')
                             ->get();
+
+        foreach ($students_companies as $key){
+            $key->user = User::whereIn('u_id',function ($query) use ($key){
+                $query->select('sc_student_id')->from('students_companies')->where('sc_status', 1)->where('sc_company_id' , $key->sc_company_id)->groupBy('sc_student_id');
+            })->get();
+//                StudentCompany::whereIn('sc_student_id', $user)
+//                ->where('sc_status', 1)
+//                ->where('sc_company_id' , $key->sc_company_id)
+//                ->select('sc_student_id')
+//                ->groupBy('sc_student_id')
+//                ->get();
+        }
         return view('project.supervisor.companies.index' , ['students_companies' => $students_companies]);
     }
     public function students($id)
@@ -42,6 +54,7 @@ class CompaniesController extends Controller
                             ->select('sc_student_id')
                             ->groupBy('sc_student_id')
                             ->get();
+
         return view('project.supervisor.companies.students' , ['students_company' => $students_company]);
     }
 }

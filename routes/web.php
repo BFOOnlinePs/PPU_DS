@@ -69,6 +69,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
             Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
         });
+        Route::group(['prefix'=>'cities'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\CitiesController::class,'index'])->name('admin.cities.index');
+            Route::post('/create',[App\Http\Controllers\project\admin\CitiesController::class,'create'])->name('admin.cities.create');
+            Route::post('/update',[App\Http\Controllers\project\admin\CitiesController::class,'update'])->name('admin.cities.update');
+        });
         Route::group(['prefix'=>'attendance'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\AttendanceController::class,'index'])->name('admin.attendance.index');
             Route::post('/fillter',[App\Http\Controllers\project\admin\AttendanceController::class,'fillter'])->name('admin.attendance.fillter');
@@ -202,6 +207,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/student_nomination_table_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'student_nomination_table_ajax'])->name('admin.companies.student_nomination_table_ajax');
             Route::post('/add_nomination_table_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'add_nomination_table_ajax'])->name('admin.companies.add_nomination_table_ajax');
             Route::post('/delete_nomination_table_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'delete_nomination_table_ajax'])->name('admin.companies.delete_nomination_table_ajax');
+            Route::post('/update_capacity_ajax',[App\Http\Controllers\project\admin\CompaniesController::class,'update_capacity_ajax'])->name('admin.companies.update_capacity_ajax');
+            Route::post('/update_company_status',[App\Http\Controllers\project\admin\CompaniesController::class,'update_company_status'])->name('admin.companies.update_company_status');
         });
 
         });
@@ -250,6 +257,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'companies'], function () {
             Route::get('/index' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class, 'index'])->name('communications_manager_with_companies.companies.index');
             Route::get('/students/{id}' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class , 'students'])->name('communications_manager_with_companies.companies.students'); // To display students
+            Route::post('communications_manager_with_companies_table_ajax' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class , 'communications_manager_with_companies_table_ajax'])->name('communications_manager_with_companies.companies.communications_manager_with_companies_table_ajax'); // To display students
         });
     });
 
@@ -285,6 +293,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/attendance_and_departure_report_index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_index'])->name('monitor_evaluation.attendance_and_departure_report_index');
         Route::post('/attendance_and_departure_report_table' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'attendance_and_departure_report_table'])->name('monitor_evaluation.attendance_and_departure_report_table');
         Route::get('/export_student_attendance' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'export_student_attendance'])->name('monitor_evaluation.export_student_attendance');
+        Route::group(['prefix'=>'files'],function (){
+            Route::get('index',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class , 'files_index'])->name('monitor_evaluation.files.files_index');
+            Route::post('create_me_attachment',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class , 'create_me_attachment'])->name('monitor_evaluation.files.create_me_attachment');
+            Route::post('create_me_version_attachment',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class , 'create_me_version_attachment'])->name('monitor_evaluation.files.create_me_version_attachment');
+        });
     });
 
     Route::group(['prefix' => 'company_manager'], function () {

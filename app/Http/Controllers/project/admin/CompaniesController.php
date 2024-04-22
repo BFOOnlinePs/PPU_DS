@@ -50,7 +50,6 @@ class CompaniesController extends Controller
     }
 
     public function create(Request $request){
-
         $data = new User;
         $data->u_username = $request->email;
         $data->name = $request->name;
@@ -61,10 +60,12 @@ class CompaniesController extends Controller
         $data->u_role_id = 6;
 
         if($data->save()){
+            dd($request);
             $user = User::where('email',$request->email)->first();
             $id = $user->u_id;
             $newCompany = new Company;
             $newCompany->c_name = $request->c_name;
+//            $newCompany->c_english_name = $request->c_english_name;
             $newCompany->c_manager_id=$id;//get from added user
             if($newCompany->save()){
                 $company_id = $newCompany->c_id;
@@ -84,12 +85,6 @@ class CompaniesController extends Controller
 
             }
         }
-
-        // return response()->json([
-        //     'success'=>'true',
-        //     'data'=>"all has done"
-        // ]);
-
     }
 
     public function edit($id){
@@ -313,7 +308,6 @@ class CompaniesController extends Controller
 
     //noor
     public function updateBranches(Request $request){
-
         $departmentSelectedListName = "departmentSelectedList_".$request->b_id;
         $departmentSelectedList = json_decode($request->$departmentSelectedListName, true);
         $existDepartmentList1 = companyBranchDepartments::where('cbd_company_branch_id', $request->b_id)->pluck('cbd_d_id')->toArray();
@@ -404,10 +398,6 @@ class CompaniesController extends Controller
 
     //noor
     public function addDepartment(Request $request){
-
-
-
-
             $data = new CompanyDepartment;
             $data->d_name = $request->d_name;
             $data->d_company_id = $request->d_company_id;//must be  d_company_id until change the attribute in DB and reems' Tasks
@@ -423,10 +413,6 @@ class CompaniesController extends Controller
 
             ]);
           }
-
-
-
-
     }
 
 
@@ -570,6 +556,26 @@ public function branch(Request $request){
             return response()->json([
                 'success' => 'fail',
                 'message' => 'هناك خلل ما لم يتم ازالة الطالب'
+            ]);
+        }
+    }
+
+    public function update_capacity_ajax(Request $request){
+        $data = Company::where('c_id',$request->id)->first();
+        $data->c_capacity = $request->value;
+        if ($data->save()){
+            return response()->json([
+                'success' => 'true'
+            ]);
+        }
+    }
+
+    public function update_company_status(Request $request){
+        $data = Company::where('c_id',$request->company_id)->first();
+        $data->c_status = $request->status;
+        if ($data->save()){
+            return response()->json([
+                'success' => 'true',
             ]);
         }
     }
