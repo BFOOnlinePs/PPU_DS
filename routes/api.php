@@ -92,6 +92,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/recordStudentCheckOut', [StudentsStudentAttendanceController::class, 'studentCheckOut']);
     Route::post('/checkTodayStudentAttendance', [StudentsStudentAttendanceController::class, 'checkTodayStudentAttendance']);
 
+    // student cv
+
     // student log
     Route::post('/getAllStudentAttendanceLog', [studentLogController::class, 'getAllStudentAttendanceLog']);
     Route::post('/getAllStudentReportsLog', [studentLogController::class, 'getAllStudentReportsLog']);
@@ -209,7 +211,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('addNewAnnouncement', [AnnouncementsController::class, 'addNewAnnouncement']);
     Route::get('getAllAnnouncements', [AnnouncementsController::class, 'getAllAnnouncements']);
     Route::get('getUserAnnouncements', [AnnouncementsController::class, 'getUserAnnouncements']);
-    Route::put('announcements/{announcement_id}/a_status',  [AnnouncementsController::class, 'changeAnnouncementStatus']);
+    Route::put('announcements/{announcement_id}/status',  [AnnouncementsController::class, 'changeAnnouncementStatus']);
+    Route::post('announcements/{announcement_id}',  [AnnouncementsController::class, 'editAnnouncement']);
 
 
     // system

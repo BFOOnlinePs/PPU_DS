@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $announcememts=announcements::where('a_stutas',1)->orderBy('created_at', 'desc')->get();
+        $announcememts=announcements::where('a_status',1)->orderBy('created_at', 'desc')->get();
         return view('home',['data'=>$announcememts]);
 
     }

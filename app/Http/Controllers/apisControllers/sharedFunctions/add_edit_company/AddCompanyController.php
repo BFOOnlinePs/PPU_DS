@@ -170,6 +170,7 @@ class AddCompanyController extends Controller
                 $department = new CompanyDepartment();
                 $department->d_name = $department_name;
                 $department->d_company_id = $company_id;
+                // $department->d_status = 1; // default
 
                 $department->save();
             }
