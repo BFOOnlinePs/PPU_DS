@@ -48,6 +48,15 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">متدربين</label>
+                                <select onchange="communications_manager_with_companies_table_ajax()" name="" id="trainees" class="form-control">
+                                    <option value="yes_trainees">شركات يوجد لها متدربين</option>
+                                    <option value="no_trainees">شركات لا يوجد لها متدربين</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,6 +101,7 @@
                     'company_id' : $('#company_id').val(),
                     'company_status' : $('#company_status').val(),
                     'capacity' : $('#capacity').val(),
+                    'trainees' : $('#trainees').val(),
                 },
                 success: function(response) {
                     if(response.success === 'true'){

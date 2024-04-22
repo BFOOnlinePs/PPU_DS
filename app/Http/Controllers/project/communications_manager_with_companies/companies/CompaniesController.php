@@ -37,39 +37,65 @@ class CompaniesController extends Controller
     }
 
     public function communications_manager_with_companies_table_ajax(Request $request){
-        $data = StudentCompany::whereIn('sc_student_id',function ($query) use ($request){
-            $query->select('u_id')->from('users')->where('u_role_id' , 2);
-        })
-            ->when($request->filled('company_id'), function ($query) use ($request) {
-                $query->whereHas('company', function ($subQuery) use ($request) {
-                    $subQuery->where('c_id', $request->company_id);
-                });
-            })
-            ->when($request->filled('company_status'),function ($query) use ($request){
-                $query->whereIn('sc_company_id',function ($query) use ($request){
-                    $query->select('c_id')->from('companies')->where('c_status',$request->company_status);
-                });
-            })
-            ->when($request->filled('capacity') && $request->capacity == 1, function ($query) use ($request) {
-                $query->whereRaw('(SELECT (c_capacity - COUNT(sc_student_id)) FROM students_companies WHERE sc_company_id = companies.c_id) > 0');
-            })
-            ->when($request->filled('capacity') && $request->capacity == 1, function ($query) {
-                $query->select('sc_company_id')
-                    ->selectRaw('(companies.c_capacity - COUNT(sc_student_id)) as remaining_capacity')
-                    ->from('students_companies') // Corrected table name here
-                    ->leftJoin('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
-                    ->groupBy('sc_company_id', 'companies.c_capacity')
-                    ->havingRaw('(companies.c_capacity - COUNT(sc_student_id)) > 0');
-            })
-            ->when($request->filled('capacity') && $request->capacity == 0, function ($query) {
-                $query->select('sc_company_id')
-                    ->selectRaw('(companies.c_capacity - COUNT(sc_student_id)) as remaining_capacity')
-                    ->from('students_companies') // Corrected table name here
-                    ->leftJoin('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
-                    ->groupBy('sc_company_id', 'companies.c_capacity')
-                    ->havingRaw('(companies.c_capacity - COUNT(sc_student_id)) < 0');
-            })
-            ->get();
+        $data = null;
+        if ($request->filled('trainees')){
+            if ($request->trainees == 'yes_trainees'){
+                $data = StudentCompany::whereIn('sc_student_id',function ($query) use ($request){
+                    $query->select('u_id')->from('users')->where('u_role_id' , 2);
+                })
+                    ->when($request->filled('company_id'), function ($query) use ($request) {
+                        $query->whereHas('company', function ($subQuery) use ($request) {
+                            $subQuery->where('c_id', $request->company_id);
+                        });
+                    })
+                    ->when($request->filled('company_status'),function ($query) use ($request){
+                        $query->whereIn('sc_company_id',function ($query) use ($request){
+                            $query->select('c_id')->from('companies')->where('c_status',$request->company_status);
+                        });
+                    })
+                    ->when($request->filled('capacity') && $request->capacity == 1, function ($query) use ($request) {
+                        $query->whereRaw('(SELECT (c_capacity - COUNT(sc_student_id)) FROM students_companies WHERE sc_company_id = companies.c_id) > 0');
+                    })
+                    ->when($request->filled('capacity') && $request->capacity == 1, function ($query) {
+                        $query->select('sc_company_id')
+                            ->selectRaw('(companies.c_capacity - COUNT(sc_student_id)) as remaining_capacity')
+                            ->from('students_companies') // Corrected table name here
+                            ->leftJoin('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
+                            ->groupBy('sc_company_id', 'companies.c_capacity')
+                            ->havingRaw('(companies.c_capacity - COUNT(sc_student_id)) > 0');
+                    })
+                    ->when($request->filled('capacity') && $request->capacity == 0, function ($query) {
+                        $query->select('sc_company_id')
+                            ->selectRaw('(companies.c_capacity - COUNT(sc_student_id)) as remaining_capacity')
+                            ->from('students_companies') // Corrected table name here
+                            ->leftJoin('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
+                            ->groupBy('sc_company_id', 'companies.c_capacity')
+                            ->havingRaw('(companies.c_capacity - COUNT(sc_student_id)) < 0');
+                    })
+                    ->get();
+            }
+            else{
+                $data = Company::whereNotIn('c_id', function ($query) use ($request){
+                    $query->select('sc_company_id')->from('students_companies')->whereIn('sc_student_id', function ($subQuery) use ($request) {
+                        $subQuery->select('u_id')->from('users')->where('u_role_id', 2);
+                    });
+                })
+                    ->when($request->filled('company_id'), function ($query) use ($request) {
+                        $query->where('c_id', $request->company_id);
+                    })
+                    ->when($request->filled('company_status'),function ($query) use ($request){
+                        $query->where('c_status', $request->company_status);
+                    })
+                    ->when($request->filled('capacity') && $request->capacity == 1, function ($query) {
+                        $query->whereRaw('(c_capacity - (SELECT COUNT(sc_student_id) FROM students_companies WHERE sc_company_id = companies.c_id)) > 0');
+                    })
+                    ->when($request->filled('capacity') && $request->capacity == 0, function ($query) {
+                        $query->whereRaw('(c_capacity - (SELECT COUNT(sc_student_id) FROM students_companies WHERE sc_company_id = companies.c_id)) <= 0');
+                    })
+                    ->get();
+            }
+        }
+
         foreach ($data as $key) {
             $key->company = Company::where('c_id',$key->sc_company_id)->first();
             $key->users = User::whereIn('u_id', function ($query) use ($key) {
