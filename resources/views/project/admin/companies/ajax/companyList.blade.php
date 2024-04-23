@@ -7,8 +7,9 @@
                 <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                 <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
                 <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
-                <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
-
+                <th scope="col">الطاقة الاستيعابية</th>
+                <th scope="col">حالة الشركة</th>
+                <th scope="col" style="width: 200px">{{__('translate.Operations')}} {{--  العمليات --}}</th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +21,15 @@
             @foreach ($data as $key)
                 <tr>
                     <td style="display:none;">{{ $key->c_id }}</td>
-                    <td><a href="{{route('admin.companies.edit',['id'=>$key->c_id])}}">{{$key->c_name}}</a></td>
+                    <td>
+                        <a href="{{route('admin.companies.edit',['id'=>$key->c_id])}}">
+                            @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
+                                {{ $key->c_english_name }}
+                            @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
+                                {{ $key->c_name }}
+                            @endif
+                        </a>
+                    </td>
                     @if (auth()->user()->u_role_id == 1)
                         <td><a href="{{route('admin.users.details',['id'=>$key->manager->u_id])}}">{{$key->manager->name}}</a></td>
                     @else
@@ -36,7 +45,16 @@
                     @if( $key->c_type == 1) <td>{{__('translate.Public Sector')}}{{-- قطاع عام --}}</td>@endif
                     @if( $key->c_type == 2) <td>{{__('translate.Private Sector')}}{{-- قطاع خاص --}}</td>@endif
                     <td>
-                      <button class="btn btn-info" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
+                        <input type="text" onchange="update_capacity_ajax({{ $key->c_id }},this.value)" class="form-control" value="{{ $key->c_capacity }}" placeholder="">
+                    </td>
+                    <td>
+                        <label class="switch">
+                            <input onchange="update_company_status({{ $key->c_id }},this.checked)" type="checkbox" @if($key->c_status == 1) checked="" @endif><span class="switch-state"></span>
+                        </label>
+                    </td>
+                    <td>
+                          <button class="btn btn-info btn-sm" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
+                          <button class="btn btn-success btn-sm" onclick='show_student_nomination_modal({{ $key }})'>اقتراح طلاب</button>
                     </td>
                 </tr>
             @endforeach

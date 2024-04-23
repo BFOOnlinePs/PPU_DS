@@ -15,7 +15,7 @@
     .select2-container--default .select2-selection--multiple .select2-selection__choice,
     .ribbon-primary
     {
-        <?php echo $color_background; ?> !important;
+{{--        <?php echo $color_background; ?> !important;--}}
         color: <?php echo $color_text; ?> !important;
     }
 </style>

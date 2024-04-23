@@ -185,6 +185,11 @@
                         <td id="address_summary">{{$semesterCompaniesTotal}}</td>
                         <td><button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.companiesReport")}}"'><i class="fa fa-search"></i></button></td>
                     </tr>
+                    <tr>
+                        <td class="col-md-4"> الطلاب الغير مسجلين في شركات</td>
+                        <td id="address_summary">{{$coursesStudentsTotal - $semesterCompaniesTotal}}</td>
+                        <td><button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.companiesReport")}}"'><i class="fa fa-search"></i></button></td>
+                    </tr>
 
                   </tbody>
                 </table>

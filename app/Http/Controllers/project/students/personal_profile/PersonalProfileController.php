@@ -20,4 +20,23 @@ class PersonalProfileController extends Controller
         $majors = Major::get();
         return view('project.student.personal_profile.index' , ['user' => $user , 'role_name' => $role_name->r_name , 'major_id' => $major_id , 'roles' => $roles , 'majors' => $majors , 'role_id' => $role_id]);
     }
+
+    public function add_sv_to_student(Request $request){
+        $data = User::where('u_id',$request->id)->first();
+        if ($request->hasFile('cv_file')) {
+            $file = $request->file('cv_file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension; // Unique filename
+            $file->storeAs('uploads', $filename, 'public');
+            $data->u_cv = $filename;
+        }
+        if ($data->save()){
+            return redirect()->route('students.personal_profile.index')->with(['success'=>'تم اضافة ال cv بنجاح']);
+
+        }
+        else{
+            return redirect()->route('students.personal_profile.index')->with(['fail'=>'هناك خلل ما']);
+        }
+    }
+
 }
