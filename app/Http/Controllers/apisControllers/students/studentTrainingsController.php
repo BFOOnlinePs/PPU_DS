@@ -23,7 +23,7 @@ class studentTrainingsController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الطالب غير موجود',
+                "message" => trans('messages.student_id_not_exists'),
             ]);
         }
 
@@ -34,7 +34,7 @@ class studentTrainingsController extends Controller
         if ($trainings->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد تسجيل للطالب في اي شركة حاليا'
+                'message' => trans('messages.no_trainings_for_student')
             ], 200);
         }
 
@@ -76,11 +76,11 @@ class studentTrainingsController extends Controller
                 'agreement_file' => 'nullable|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx',
             ],
             [
-                'student_id.required' => 'الرجاء ارسال رقم الطالب',
-                'company_id.required' => 'الرجاء ارسال رقم الشركة',
-                'branch_id.required' => 'الرجاء ارسال رقم الفرع',
-                'registration_id.required' => 'الرجاء ارسال رقم تسجيل الطالب في التدريب العملي',
-                'agreement_file.mimes' => 'يجب ان تكون صيغة الملف من احدى الصيغ التالية: jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx'
+                'student_id.required' => trans('messages.student_id_required'),
+                'company_id.required' => trans('messages.company_id_required'),
+                'branch_id.required' => trans('messages.branch_id_required'),
+                'registration_id.required' => trans('messages.registration_id_required'),
+                'agreement_file.mimes' => trans('messages.agreement_file_mimes'),
             ]
         );
 
@@ -105,7 +105,7 @@ class studentTrainingsController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الطالب غير موجود',
+                "message" => trans('messages.student_id_required'),
             ]);
         }
 
@@ -114,7 +114,7 @@ class studentTrainingsController extends Controller
         if (!$company) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الشركة غير موجود',
+                "message" => trans('messages.company_id_required'),
             ]);
         }
 
@@ -143,7 +143,7 @@ class studentTrainingsController extends Controller
 
         return response()->json([
             'status' => true,
-            "message" => 'تم تسجيل الطالب بنجاح',
+            "message" => trans('messages.student_reg_in_training'),
             'student_company' => $student_company
         ]);
     }
@@ -158,9 +158,9 @@ class studentTrainingsController extends Controller
                 'agreement_file' => 'nullable|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx',
             ],
             [
-                'sc_id.required' => 'الرجاء ارسال رقم التدريب',
-                'branch_id.required' => 'الرجاء ارسال رقم الفرع',
-                'agreement_file.mimes' => 'يجب ان تكون صيغة الملف من احدى الصيغ التالية: jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx'
+                'sc_id.required' => trans('messages.training_id_required'),
+                'branch_id.required' => trans('messages.branch_id_required'),
+                'agreement_file.mimes' => trans('messages.agreement_file_mimes'),
             ]
         );
 
@@ -175,7 +175,7 @@ class studentTrainingsController extends Controller
         if (!$student_company) {
             return response()->json([
                 'status' => false,
-                "message" => 'التدريب غير موجود',
+                "message" => trans('messages.training_id_not_exists'),
             ]);
         }
 
@@ -202,7 +202,7 @@ class studentTrainingsController extends Controller
 
         return response()->json([
             'status' => true,
-            "message" => 'تم تحديث تسجيل الطالب بنجاح',
+            "message" => trans('messages.student_reg_in_training_updated'),
         ]);
     }
 
@@ -241,7 +241,7 @@ class studentTrainingsController extends Controller
                 'company_id' => 'required',
             ],
             [
-                'company_id.required' => 'الرجاء ارسال رقم الشركة'
+                'company_id.required' => trans('messages.company_id_required'),
             ]
         );
 
@@ -258,7 +258,7 @@ class studentTrainingsController extends Controller
         if (!$company) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الشركة غير موجود',
+                "message" => trans('messages.company_id_not_exists'),
             ]);
         }
 
@@ -287,7 +287,7 @@ class studentTrainingsController extends Controller
                 'branch_id' => 'required',
             ],
             [
-                'branch_id.required' => 'الرجاء ارسال رقم فرع الشركة'
+                'branch_id.required' => trans('messages.branch_id_required'),
             ]
         );
 
@@ -304,7 +304,7 @@ class studentTrainingsController extends Controller
         if (!$branch) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الفرع غير موجود',
+                "message" => trans('messages.branch_id_exists'),
             ]);
         }
 

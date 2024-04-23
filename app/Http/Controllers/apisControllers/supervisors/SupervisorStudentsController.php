@@ -129,7 +129,7 @@ class SupervisorStudentsController extends Controller
         $validator = Validator::make(
             $request->all(),
             ['student_id' => 'required'],
-            ['student_id.required' => 'الرجاء ارسال رقم الطالب']
+            ['student_id.required' => trans('messages.student_id_required')]
         );
 
         if ($validator->fails()) {
@@ -145,7 +145,7 @@ class SupervisorStudentsController extends Controller
         if (!$student_info) {
             return response()->json([
                 'status' => false,
-                'message' => 'الطالب غير موحود'
+                'message' => trans('messages.student_id_not_exists')
             ]);
         }
 

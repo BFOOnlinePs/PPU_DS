@@ -19,11 +19,11 @@ class studentReportController extends Controller
             'sr_submit_longitude' => 'required|string',
             'sr_submit_latitude' => 'required|string',
         ],[
-            'sr_student_attendance_id.required' => 'يجب ان يكون الطالب قد سجل دخوله',
-            'sr_report_text.required' => 'يجب ادخال نص التقرير',
-            'sr_submit_longitude.required' => 'يجب ادخال الموقع',
-            'sr_submit_latitude.required' => 'يجب ادخال الموقع',
-            'sr_attached_file.mimes' =>'صيغة الملف غير مدعومة، جرب ملفًا آخر',
+            'sr_student_attendance_id.required' => trans('messages.student_attendance_id_required'),
+            'sr_report_text.required' => trans('messages.report_text_required'),
+            'sr_submit_longitude.required' => trans('messages.report_submit_location_required'),
+            'sr_submit_latitude.required' => trans('messages.report_submit_location_required'),
+            'sr_attached_file.mimes' => trans('messages.report_attached_file_mimes'),
         ]);
 
         if ($validator->fails()) {
@@ -61,7 +61,7 @@ class studentReportController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم تسليم التقرير بنجاح',
+            'message' => trans('messages.report_submitted'),
             'student_report' => $studentReport,
         ], 200);
     }
@@ -75,11 +75,11 @@ class studentReportController extends Controller
             'sr_submit_longitude' => 'required|string',
             'sr_submit_latitude' => 'required|string',
         ],[
-            'sr_id.required' => 'يجب ادخال رقم التقرير',
-            'sr_report_text.required' => 'يجب ادخال نص التقرير',
-            'sr_submit_longitude.required' => 'يجب ادخال الموقع',
-            'sr_submit_latitude.required' => 'يجب ادخال الموقع',
-            'sr_attached_file.mimes' =>'صيغة الملف غير مدعومة، جرب ملفًا آخر',
+            'sr_id.required' => trans('messages.report_id_required'),
+            'sr_report_text.required' => trans('messages.report_text_required'),
+            'sr_submit_longitude.required' => trans('messages.report_submit_location_required'),
+            'sr_submit_latitude.required' => trans('messages.report_submit_location_required'),
+            'sr_attached_file.mimes' => trans('messages.report_attached_file_mimes'),
         ]);
 
         if ($validator->fails()) {
@@ -94,7 +94,7 @@ class studentReportController extends Controller
         if(!$studentReport){
             return response()->json([
                 'status' => false,
-                'message' => 'رقم التقرير غير موجود',
+                'message' => trans('messages.report_id_not_exists'),
             ], 200);
         }
 
@@ -118,7 +118,7 @@ class studentReportController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم تحديث التقرير بنجاح',
+            'message' => trans('messages.report_updated'),
             'student_report' => $studentReport,
         ], 200);
     }

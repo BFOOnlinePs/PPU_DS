@@ -7,7 +7,6 @@ use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\StudentCompany;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
@@ -22,7 +21,7 @@ class StudentController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الطالب غير موجود',
+                "message" => trans('messages.student_id_not_exists'),
             ]);
         }
 
@@ -33,7 +32,7 @@ class StudentController extends Controller
         if ($trainings->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد تسجيل للطالب في اي شركة حاليا'
+                'message' => trans('messages.no_company_for_student_yet'),
             ], 200);
         }
 

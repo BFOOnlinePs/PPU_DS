@@ -20,7 +20,7 @@ class StudentCoursesController extends Controller
         $validator = Validator::make(
             $request->all(),
             ['student_id' => 'required'],
-            ['student_id.required' => 'الرجاء ارسال رقم الطالب']
+            ['student_id.required' => trans('messages.student_id_required')]
         );
 
         if ($validator->fails()) {
@@ -37,7 +37,7 @@ class StudentCoursesController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الطالب غير موجود',
+                "message" => trans('messages.student_id_required'),
             ]);
         }
 
@@ -70,8 +70,8 @@ class StudentCoursesController extends Controller
                 'course_id' => 'required'
             ],
             [
-                'student_id.required' => 'الرجاء ارسال رقم الطالب',
-                'course_id.required' => 'الرجاء ارسال رقم التدريب العملي'
+                'student_id.required' => trans('messages.student_id_required'),
+                'course_id.required' => trans('messages.course_id_required'),
             ]
         );
 
@@ -89,7 +89,7 @@ class StudentCoursesController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم الطالب غير موجود',
+                'message' =>  trans('messages.student_id_required'),
             ]);
         }
 
@@ -100,7 +100,7 @@ class StudentCoursesController extends Controller
         if (!$course) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم التدريب العملي غير موجود',
+                'message' => trans('messages.course_id_not_exists'),
             ]);
         }
 
@@ -119,7 +119,7 @@ class StudentCoursesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم اضافة التدريب العملي للطالب بنجاح',
+            'message' => trans('messages.course_added_for_student'),
             'course' => $course
         ]);
     }
@@ -134,8 +134,8 @@ class StudentCoursesController extends Controller
                 'course_id' => 'required'
             ],
             [
-                'student_id.required' => 'الرجاء ارسال رقم الطالب',
-                'course_id.required' => 'الرجاء ارسال رقم التدريب العملي'
+                'student_id.required' => trans('messages.student_id_required'),
+                'course_id.required' => trans('messages.course_id_required'),
             ]
         );
 
@@ -153,7 +153,7 @@ class StudentCoursesController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم الطالب غير موجود',
+                'message' => trans('messages.student_id_required'),
             ]);
         }
 
@@ -164,7 +164,7 @@ class StudentCoursesController extends Controller
         if (!$course) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم التدريب العملي غير موجود',
+                'message' => trans('messages.course_id_not_exists'),
             ]);
         }
 
@@ -173,14 +173,14 @@ class StudentCoursesController extends Controller
         if (!$register_course) {
             return response()->json([
                 'status' => true,
-                'message' => 'الطالب غير مسجل في التدريب العملي',
+                'message' => trans('messages.student_not_in_course'),
             ]);
         }
 
         $register_course->delete();
         return response()->json([
             'status' => true,
-            'message' => 'تم حذف التدريب العملي للطالب بنجاح',
+            'message' => trans('messages.delete_course_for_student'),
         ]);
     }
 
@@ -194,7 +194,7 @@ class StudentCoursesController extends Controller
                 'student_id' => 'required',
             ],
             [
-                'student_id.required' => 'الرجاء ارسال رقم الطالب',
+                'student_id.required' => trans('messages.student_id_required'),
             ]
         );
 
@@ -212,7 +212,7 @@ class StudentCoursesController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم الطالب غير موجود',
+                'message' => trans('messages.student_id_required'),
             ]);
         }
 
@@ -239,7 +239,7 @@ class StudentCoursesController extends Controller
         if ($available_courses_for_student->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد تدريبات عملية متوفرة'
+                'message' => trans('messages.no_courses_available'),
             ]);
         }
 
@@ -249,11 +249,12 @@ class StudentCoursesController extends Controller
         ]);
     }
 
-    public function getStudentCourseRegistrations(Request $request){
+    public function getStudentCourseRegistrations(Request $request)
+    {
         $validator = Validator::make(
             $request->all(),
             ['student_id' => 'required'],
-            ['student_id.required' => 'الرجاء ارسال رقم الطالب']
+            ['student_id.required' => trans('messages.student_id_required'),]
         );
 
         if ($validator->fails()) {
@@ -270,7 +271,7 @@ class StudentCoursesController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'الطالب غير موجود',
+                "message" => trans('messages.student_id_not_exists'),
             ]);
         }
 
@@ -290,5 +291,4 @@ class StudentCoursesController extends Controller
             'courses_registrations' => $student_courses_id_registered,
         ]);
     }
-
 }
