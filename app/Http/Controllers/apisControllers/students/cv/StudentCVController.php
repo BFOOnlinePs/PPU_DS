@@ -47,6 +47,7 @@ class StudentCVController extends Controller
             $request->file('cv')->storeAs($folderPath, $fileName, 'public');
 
             $student->u_cv = $fileName;
+            $student->u_cv_updated_at = now();
             $student->u_cv_status = 0; // not approved
 
             if ($student->save()) {

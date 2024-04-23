@@ -5,7 +5,6 @@ namespace App\Http\Controllers\apisControllers\sharedFunctions\all_students;
 use App\Http\Controllers\Controller;
 use App\Models\StudentReport;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class all_students_reports extends Controller
 {

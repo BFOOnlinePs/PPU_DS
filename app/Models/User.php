@@ -33,7 +33,9 @@ class User extends Authenticatable
         'u_role_id',
         'u_major_id',
         'u_cv',
+        'u_cv_updated_at',
         'u_cv_status',
+        'u_city_id',
         'remember_token',
     ];
 

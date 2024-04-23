@@ -37,7 +37,7 @@ class StudentsCVController extends Controller
         }
 
         $studentsList = $studentsList->select('u_id', 'u_username', 'name', 'u_cv', 'u_cv_status')
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('u_cv_updated_at', 'desc')
             ->paginate(8);
         // $studentsList = $studentsList->with('major');
 

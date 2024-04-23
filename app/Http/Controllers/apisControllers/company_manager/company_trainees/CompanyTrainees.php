@@ -111,8 +111,8 @@ class CompanyTrainees extends Controller
             'trainee_id' => 'required',
             'student_company_id' => 'required'
         ], [
-            'trainee_id.required' => 'الرجاء ارسال رقم الطالب/ المتدرب',
-            'student_company_id.required' => 'الرجاء ارسال رقم التدريب'
+            'trainee_id.required' => trans('messages.trainee_id_required'),
+            'student_company_id.required' => trans('messages.training_id_required')
         ]);
 
         if ($validator->fails()) {
@@ -131,7 +131,7 @@ class CompanyTrainees extends Controller
         if (!$allTraineeAttendanceLog) {
             return response()->json([
                 'status' => false,
-                'message' => 'لم يتم تسحيل اي حضور بعد'
+                'message' => trans('messages.no_attendance_yet'),
             ]);
         }
 
@@ -155,8 +155,8 @@ class CompanyTrainees extends Controller
             'trainee_id' => 'required',
             'student_company_id' => 'required'
         ], [
-            'trainee_id.required' => 'الرجاء ارسال رقم الطالب/ المتدرب',
-            'student_company_id.required' => 'الرجاء ارسال رقم التدريب'
+            'trainee_id.required' => trans('messages.trainee_id_required'),
+            'student_company_id.required' => trans('messages.training_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -178,7 +178,7 @@ class CompanyTrainees extends Controller
         if (!$allStudentReportsLog) {
             return response()->json([
                 'status' => false,
-                'message' => 'لم يتم تسليم اي تقرير بعد'
+                'message' => trans('messages.no_submitted_reports_yet'),
             ]);
         }
 
@@ -272,7 +272,7 @@ class CompanyTrainees extends Controller
         $validator = Validator::make($request->all(), [
             'manager_id' => 'required',
         ], [
-            'manager_id.required' => 'الرجاء ارسال رقم مدير الفرع'
+            'manager_id.required' => trans('messages.branch_manager_id_required'),
         ]);
 
         if ($validator->fails()) {

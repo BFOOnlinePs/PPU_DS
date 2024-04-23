@@ -67,10 +67,10 @@ class AnnouncementsController extends Controller
             'content' => 'required',
             'image' => 'image|mimes:jpg,jpeg,png,svg',
         ], [
-            'title.required' => 'الرجاء إرسال العنوان الخاص بالإعلان',
-            'content.required' => 'الرجاء إرسال المحتوى الخاص بالإعلان',
-            'image.image' => 'الحقل يجب أن يكون صورة',
-            'image.mimes' => 'الصورة يجب أن تكون من إحدى الصيغ التالية jpg,jpeg,png,svg',
+            'title.required' => trans('messages.announcement_title_required'),
+            'content.required' => trans('messages.announcement_content_required'),
+            'image.image' => trans('messages.announcement_image_image'),
+            'image.mimes' => trans('messages.announcement_image_mimes'),
         ]);
 
         if ($validator->fails()) {
@@ -101,13 +101,13 @@ class AnnouncementsController extends Controller
         if ($announcement->save()) {
             return response()->json([
                 'status' => true,
-                'message' => 'تم إضافة الإعلان بنحاح',
+                'message' => trans('messages.announcement_added'),
                 'announcement' => $announcement
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'حصل خلل أثناء حفظ المعلومات',
+                'message' => trans('messages.announcement_not_added'),
             ], 500);
         }
     }
@@ -131,7 +131,7 @@ class AnnouncementsController extends Controller
         if (!$announcement) {
             return response()->json([
                 'status' => false,
-                'message' => 'الإعلان غير موجود',
+                'message' => trans('messages.announcement_not_exists'),
             ], 404);
         }
 
@@ -140,7 +140,7 @@ class AnnouncementsController extends Controller
         if ($announcement->save()) {
             return response()->json([
                 'status' => true,
-                'message' => 'تم تحديث حالة الاعلان بنجاح',
+                'message' => trans('messages.announcement_status_updated'),
                 'announcement' => $announcement
             ], 200);
         }
@@ -155,10 +155,10 @@ class AnnouncementsController extends Controller
             'image' => 'image|mimes:jpg,jpeg,png,svg',
             'is_image_deleted' => 'in:true,false'
         ], [
-            'title.required' => 'الرجاء إرسال العنوان الخاص بالإعلان',
-            'content.required' => 'الرجاء إرسال المحتوى الخاص بالإعلان',
-            'image.image' => 'الحقل يجب أن يكون صورة',
-            'image.mimes' => 'الصورة يجب أن تكون من إحدى الصيغ التالية jpg,jpeg,png,svg',
+            'title.required' => trans('messages.announcement_title_required'),
+            'content.required' => trans('messages.announcement_content_required'),
+            'image.image' => trans('messages.announcement_image_image'),
+            'image.mimes' => trans('messages.announcement_image_mimes'),
             // 'is_image_deleted.boolean' => ''
         ]);
 
@@ -175,7 +175,7 @@ class AnnouncementsController extends Controller
         if (!$announcement) {
             return response()->json([
                 'status' => false,
-                'message' => 'الإعلان غير موجود',
+                'message' => trans('messages.announcement_not_exists'),
             ], 404);
         }
 
@@ -204,7 +204,7 @@ class AnnouncementsController extends Controller
         if ($announcement->save()) {
             return response()->json([
                 'status' => true,
-                'message' => 'تم تحديث الإعلان بنجاح',
+                'message' => trans('messages.announcement_updated'),
                 'announcement' => $announcement
             ], 200);
         }

@@ -17,10 +17,10 @@ class EditCompanyInfoController extends Controller
             'company_id' => 'required|exists:companies,c_id',
             'company_status' => 'required|in:0,1',
         ], [
-            'company_id.required' => 'you have to send the company id',
-            'company_id.exists' => 'company dose not exist in database',
-            'company_status.required' => 'you have to send the new company status',
-            'company_status.in' => 'company status should be 0 or 1',
+            'company_id.required' => trans('messages.company_id_required'),
+            'company_id.exists' => trans('messages.company_id_not_exists'),
+            'company_status.required' => trans('messages.company_status_required'),
+            'company_status.in' => trans('messages.company_status_in'),
         ]);
 
         if ($validator->fails()) {
@@ -38,7 +38,7 @@ class EditCompanyInfoController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'company status updated successfully',
+            'message' => trans('messages.company_status_updated'),
             'company' => $company,
         ]);
     }
@@ -49,10 +49,10 @@ class EditCompanyInfoController extends Controller
             'company_id' => 'required|exists:companies,c_id',
             'company_capacity' => 'required|integer',
         ], [
-            'company_id.required' => 'you have to send the company id',
-            'company_id.exists' => 'company dose not exist in database',
-            'company_capacity.required' => 'you have to send the new company capacity',
-            'company_capacity.integer' => 'company capacity should be integer',
+            'company_id.required' => trans('messages.company_id_required'),
+            'company_id.exists' => trans('messages.company_id_not_exists'),
+            'company_capacity.required' => trans('messages.company_capacity_required'),
+            'company_capacity.integer' => trans('messages.company_capacity_integer'),
         ]);
 
         if ($validator->fails()) {
@@ -70,7 +70,7 @@ class EditCompanyInfoController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'company capacity updated successfully',
+            'message' => trans('messages.company_capacity_updated'),
             'company' => $company,
         ]);
     }

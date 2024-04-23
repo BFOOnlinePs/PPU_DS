@@ -20,7 +20,7 @@ class TraineePaymentsController extends Controller
         $validator = Validator::make($request->all(), [
             'student_id' => 'required',
         ], [
-            'student_id.required' => 'الرجاء ارسال رقم الطالب',
+            'student_id.required' => trans('messages.student_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -35,7 +35,7 @@ class TraineePaymentsController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الطالب غير موجود',
+                "message" => trans('messages.student_id_not_exists'),
             ]);
         }
 
@@ -75,10 +75,10 @@ class TraineePaymentsController extends Controller
             'payment_value' => 'required',
             'currency_id' => 'required',
         ], [
-            'student_id.required' => 'الرجاء ارسال رقم الطالب',
-            'student_company_id.required' => 'الرجاء ارسال رقم التدريب',
-            'payment_value.required' => 'الرجاء ارسال قيمة الدفعة',
-            'currency_id.required' => 'الرجاء ارسال رقم العملة',
+            'student_id.required' => trans('messages.student_id_required'),
+            'student_company_id.required' => trans('messages.training_id_required'),
+            'payment_value.required' => trans('messages.student_id_not_exists'),
+            'currency_id.required' => trans('messages.currency_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -93,7 +93,7 @@ class TraineePaymentsController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الطالب غير موجود',
+                "message" => trans('messages.student_id_not_exists'),
             ]);
         }
 
@@ -102,7 +102,7 @@ class TraineePaymentsController extends Controller
         if (!$student_company) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم التدريب غير موجود',
+                "message" => trans('messages.training_id_not_exists'),
             ]);
         }
 
@@ -111,7 +111,7 @@ class TraineePaymentsController extends Controller
         if (!$currency) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم العملة غير موجود',
+                "message" => trans('messages.currency_id_not_exists')
             ]);
         }
 
@@ -142,7 +142,7 @@ class TraineePaymentsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم إضافة الدفعة بنجاح',
+            'message' => trans('messages.payment_added_successfully'),
             'payment' => $payment
         ]);
     }

@@ -17,6 +17,7 @@ class CompanyBranch extends Model
         'b_address',
         'b_phone1',
         'b_phone2',
+        'b_city_id',
         'b_main_branch',
         'b_manager_id',
     ];
