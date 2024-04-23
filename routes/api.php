@@ -218,7 +218,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getAllStudentsReports', [all_students_reports::class, 'getAllStudentsReports']);
 
     // students CVs
-    Route::get('getSupervisorStudentsForCVs', [StudentsCVController::class, 'getSupervisorStudentsForCVs']);
+    Route::get('getStudentsForCVs', [StudentsCVController::class, 'getStudentsForCVs']);
     Route::put('changeStudentCVStatus', [StudentsCVController::class, 'changeStudentCVStatus']);
 
 

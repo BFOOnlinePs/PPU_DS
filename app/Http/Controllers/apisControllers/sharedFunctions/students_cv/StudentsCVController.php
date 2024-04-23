@@ -10,14 +10,22 @@ use Illuminate\Support\Facades\Validator;
 
 class StudentsCVController extends Controller
 {
-    // to get the students of a major that the current supervisor is supervised
-    public function getSupervisorStudentsForCVs(Request $request)
+    // to get the students that has cv
+    // if supervisor: get the students of a major that the current supervisor is supervised
+    public function getStudentsForCVs(Request $request)
     {
-        $supervisorId = auth()->user()->u_id;
-        $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
+        $currentUserId = auth()->user()->u_id;
+        $currentUser = User::where('u_id', $currentUserId)->first();
+
         $studentsList = User::where('u_role_id', 2)
-            ->whereNotNull('u_cv')
-            ->whereIn('u_major_id', $supervisorMajorsIdList);
+            ->whereNotNull('u_cv');
+
+
+        // if supervisor
+        if ($currentUser->u_role_id == 3) {
+            $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $currentUserId)->pluck('ms_major_id');
+            $studentsList = $studentsList->whereIn('u_major_id', $supervisorMajorsIdList);
+        }
 
         // search
         $requestSearch = $request->input('search');
