@@ -31,7 +31,7 @@ class ProgramCoordinatorStudentsTrainingsController extends Controller
         if ($companies->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد شركات حاليا'
+                'message' => trans('messages.no_companies_yet'),
             ]);
         }
 
@@ -53,7 +53,7 @@ class ProgramCoordinatorStudentsTrainingsController extends Controller
         $validator = Validator::make($request->all(), [
             'company_id' => 'required',
         ], [
-            'company_id.required' => 'يجب ارسال رقم الشركة',
+            'company_id.required' => trans('messages.company_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -70,7 +70,7 @@ class ProgramCoordinatorStudentsTrainingsController extends Controller
         if ($studentsInCompany->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد طلاب في هذه الشركة حاليا'
+                'message' => trans('messages.no_students_in_this_company_yet')
             ]);
         }
 

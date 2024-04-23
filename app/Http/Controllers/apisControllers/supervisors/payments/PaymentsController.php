@@ -21,7 +21,7 @@ class PaymentsController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الطالب غير موجود',
+                "message" => trans('messages.student_id_not_exists'),
             ]);
         }
 
@@ -63,8 +63,8 @@ class PaymentsController extends Controller
             'payment_id' => 'required',
             'supervisor_note' => 'required',
         ], [
-            'payment_id.required' => 'يجب ارسال رقم الدفعة',
-            'supervisor_note.required' => 'الرجاء كتابة ملاحظة الدفعة',
+            'payment_id.required' => trans('messages.payment_id_required'),
+            'supervisor_note.required' => trans('messages.supervisor_payment_note_required'),
         ]);
 
         if ($validator->fails()) {
@@ -79,7 +79,7 @@ class PaymentsController extends Controller
         if (!$payment) {
             return response()->json([
                 'status' => false,
-                "message" => 'رقم الدفعة غير موجود',
+                "message" => trans('messages.payment_id_not_exists'),
             ]);
         }
 
@@ -89,7 +89,7 @@ class PaymentsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم اضافة الملاحظة بنجاح',
+            'message' => trans('messages.supervisor_payment_note_added'),
             'payment' => $payment
         ]);
     }

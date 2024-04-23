@@ -41,7 +41,7 @@ class ManagerNotes extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => trans('messages.report_added_successfully')
+            'message' => trans('messages.report_note_added_successfully')
             // 'report' => $report
         ]);
     }
@@ -79,7 +79,7 @@ class ManagerNotes extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => trans('messages.report_added_successfully'),
+            'message' => trans('messages.report_note_edit_successfully'),
             'report' => $report
         ]);
     }

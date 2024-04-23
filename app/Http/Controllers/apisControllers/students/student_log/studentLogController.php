@@ -16,7 +16,7 @@ class studentLogController extends Controller
         $validator = Validator::make($request->all(), [
             'sa_student_id' => 'required'
         ], [
-            'sa_student_id.required' => 'الرجاء ارسال رقم الطالب'
+            'sa_student_id.required' => trans('messages.student_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -36,7 +36,7 @@ class studentLogController extends Controller
         if (!$allStudentAttendanceLog) {
             return response()->json([
                 'status' => false,
-                'message' => 'لم يتم تسحيل اي حضور بعد'
+                'message' => trans('messages.no_attendance_yet'),
             ]);
         }
 
@@ -59,7 +59,7 @@ class studentLogController extends Controller
         $validator = Validator::make($request->all(), [
             'sr_student_id' => 'required'
         ], [
-            'sr_student_id.required' => 'الرجاء ارسال رقم الطالب'
+            'sr_student_id.required' => trans('messages.student_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -79,7 +79,7 @@ class studentLogController extends Controller
         if (!$allStudentReportsLog) {
             return response()->json([
                 'status' => false,
-                'message' => 'لم يتم تسليم اي تقرير بعد'
+                'message' => trans('messages.no_submitted_reports_yet'),
             ]);
         }
 

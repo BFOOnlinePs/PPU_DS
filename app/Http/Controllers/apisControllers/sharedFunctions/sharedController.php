@@ -36,7 +36,7 @@ class sharedController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'الرجاء التأكد من البيانات المدخلة'
+                'message' => trans('messages.login_error_message'),
             ], 200);
         }
 
@@ -46,14 +46,14 @@ class sharedController extends Controller
             $token = $request->user()->createToken('api-token')->plainTextToken;
             return response([
                 'status' => true,
-                'message' => 'تم تسجيل الدخول بنجاح',
+                'message' => trans('message.login_successfully'),
                 'user' => auth()->user(),
                 'token' => $token,
             ], 200);
         } else {
             return response([
                 'status' => false,
-                'message' => 'الرجاء التأكد من البيانات المدخلة'
+                'message' => trans('messages.login_error_message'),
             ], 403);
         }
     }
@@ -67,7 +67,7 @@ class sharedController extends Controller
         // $user->revoke();
 
         return response([
-            'message' => 'تم تسجيل الخروج بنجاح'
+            'message' => trans('message.logout_successfully'),
         ], 200);
     }
 
@@ -77,7 +77,7 @@ class sharedController extends Controller
         $validator = Validator::make($request->all(), [
             'u_id' => 'required',
         ], [
-            'u_id.required' => 'الرجاء ارسال رقم المستخدم'
+            'u_id.required' => trans('messages.user_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -143,7 +143,7 @@ class sharedController extends Controller
         if ($available_courses->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد تدريبات عملية متوفرة للفصل الحالي'
+                'message' => trans('messages.no_trainings_this_semester'),
             ]);
         }
 
