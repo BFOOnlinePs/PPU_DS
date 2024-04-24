@@ -47,11 +47,11 @@ class EditCompanyInfoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'company_id' => 'required|exists:companies,c_id',
-            'company_capacity' => 'required|integer',
+            'company_capacity' => 'nullable|integer',
         ], [
             'company_id.required' => trans('messages.company_id_required'),
             'company_id.exists' => trans('messages.company_id_not_exists'),
-            'company_capacity.required' => trans('messages.company_capacity_required'),
+            // 'company_capacity.required' => trans('messages.company_capacity_required'),
             'company_capacity.integer' => trans('messages.company_capacity_integer'),
         ]);
 

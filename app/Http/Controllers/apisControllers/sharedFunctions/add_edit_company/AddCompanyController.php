@@ -227,12 +227,12 @@ class AddCompanyController extends Controller
             if ($branch['is_main_branch'] == 1) {
                 $main_branch->update([
                     'b_phone2' => $branch['branch_phone2'],
-                    // 'b_city_id' => $branch['branch_city_id'],
+                    'b_city_id' => $branch['branch_city_id'],
                 ]);
 
                 $manager->update([
                     'u_phone2' => $branch['branch_phone2'],
-                    // 'u_city_id' => $branch['branch_city_id'],
+                    'u_city_id' => $branch['branch_city_id'],
                 ]);
             } else {
                 $company_branch->b_company_id = $company_id;
@@ -240,7 +240,7 @@ class AddCompanyController extends Controller
                 $company_branch->b_address = $branch['branch_address'];
                 $company_branch->b_phone1 = $branch['branch_phone1'];
                 $company_branch->b_phone2 = $branch['branch_phone2'];
-                // $company_branch->b_city_id = $branch['branch_city_id'];
+                $company_branch->b_city_id = $branch['branch_city_id'];
                 $company_branch->b_main_branch = $branch['is_main_branch']; // 1:yes, 0:no
                 $is_company_branch_save = $company_branch->save();
                 // return $is_company_branch_save;
@@ -285,7 +285,7 @@ class AddCompanyController extends Controller
 
         ], [
             'company_id.required' => trans('messages.company_id_required'),
-            'company_id.exists' =>trans('messages.company_id_not_exists'),
+            'company_id.exists' => trans('messages.company_id_not_exists'),
         ]);
 
         if ($validator->fails()) {
@@ -302,4 +302,5 @@ class AddCompanyController extends Controller
             'company_departments' => $company_departments
         ]);
     }
+
 }

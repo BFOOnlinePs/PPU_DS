@@ -46,7 +46,7 @@ class sharedController extends Controller
             $token = $request->user()->createToken('api-token')->plainTextToken;
             return response([
                 'status' => true,
-                'message' => trans('message.login_successfully'),
+                'message' => trans('messages.login_successfully'),
                 'user' => auth()->user(),
                 'token' => $token,
             ], 200);

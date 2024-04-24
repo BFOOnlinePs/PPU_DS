@@ -55,6 +55,7 @@ return [
     'department_updated' =>  'تم تعديل قسم الشركة بنجاح',
     'branch_address_required' => 'الرجاء إرسال العنوان',
     'branch_phone1_required' => 'الرجاء إرسال رقم الهاتف',
+    'branch_city_required' => 'الرجاء إرسال مدينة الفرع',
     'branch_created_departments_not' => 'تم إنشاء الفرع لكن لم يتم إضافة الأقسام الخاصة به',
     'branches_departments_created' => 'تم إنشاء الفرع و إضافة أقسامه بنجاح',
     'branch_id_required' => 'الرجاء إرسال رقم الفرع',

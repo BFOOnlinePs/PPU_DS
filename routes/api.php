@@ -22,6 +22,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\EditCo
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_attendance;
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_reports;
 use App\Http\Controllers\apisControllers\sharedFunctions\announcements\AnnouncementsController;
+use App\Http\Controllers\apisControllers\sharedFunctions\cities\CitiesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
@@ -243,6 +244,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // currencies
     Route::get('getCurrencies', [CurrenciesController::class, 'getCurrencies']);
+
+    // cities
+    Route::get('getCities', [CitiesController::class, 'getCities']);
 
     // file test
     Route::post('/fileUpload', [sharedController::class, 'fileUpload']);

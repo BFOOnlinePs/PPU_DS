@@ -55,6 +55,7 @@ return [
     'department_updated' => 'Company department updated successfully',
     'branch_address_required' => 'Please send the address',
     'branch_phone1_required' => 'Please send the phone number',
+    'branch_city_required' => 'Please send the branch city',
     'branch_created_departments_not' => 'Branch created but departments not added',
     'branches_departments_created' => 'Branch created and departments added successfully',
     'branch_id_required' => 'Please send the branch ID',

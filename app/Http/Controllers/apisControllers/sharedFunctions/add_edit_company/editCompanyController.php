@@ -287,12 +287,14 @@ class editCompanyController extends Controller
         $validator = Validator::make($request->all(), [
             'company_id' => 'required|exists:companies,c_id',
             'manager_id' => 'required|exists:users,u_id',
+            'branch_city_id'=>'required',
             'branch_address' => 'required',
             'branch_phone1' => 'required',
 
         ], [
             'company_id.required' => trans('messages.company_id_required'),
             'company_id.exists' => trans('messages.company_id_not_exists'),
+            'branch_city_id.required' => trans('messages.branch_city_required'),
             'branch_address.required' => trans('messages.branch_address_required'),
             'branch_phone1.required' => trans('messages.branch_phone1_required'),
         ]);
@@ -310,6 +312,7 @@ class editCompanyController extends Controller
         $company_branch->b_address = $request->input('branch_address');
         $company_branch->b_phone1 = $request->input('branch_phone1');
         $company_branch->b_phone2 = $request->input('branch_phone2');
+        $company_branch->b_city_id = $request->input('branch_city_id');
         $company_branch->b_main_branch = 0; // 1:yes, 0:no
 
         if ($company_branch->save()) {
@@ -352,12 +355,14 @@ class editCompanyController extends Controller
             'branch_id' => 'required|exists:company_branches,b_id',
             'branch_address' => 'required',
             'branch_phone1' => 'required',
+            'branch_city_id' => 'required',
             'branch_departments' => 'nullable|array',
         ], [
             'branch_id.required' => trans('messages.branch_id_required'),
             'branch_id.exists' => trans('messages.branch_id_exists'),
             'branch_address.required' => trans('messages.branch_address_required'),
             'branch_phone1.required' => trans('messages.branch_phone1_required'),
+            'branch_city_id.required' => trans('messages.branch_city_required'),
             'branch_departments.array' => trans('messages.branch_departments_array'),
         ]);
 
@@ -373,6 +378,7 @@ class editCompanyController extends Controller
             'b_address' => $request->input('branch_address'),
             'b_phone1' => $request->input('branch_phone1'),
             'b_phone2' => $request->input('branch_phone2'),
+            'b_city_id' => $request->input('branch_city_id'),
         ]);
 
         // if main branch -> update the manager row in users table
@@ -383,6 +389,7 @@ class editCompanyController extends Controller
                 'u_address' => $request->input('branch_address'),
                 'u_phone1' => $request->input('branch_phone1'),
                 'u_phone2' => $request->input('branch_phone2'),
+                'u_city_id' => $request->input('branch_city_id'),
             ]);
         }
 
