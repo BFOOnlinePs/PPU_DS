@@ -133,5 +133,8 @@ return [
     'supervisor_report_note_required' => 'Please write the report note',
     'supervisor_report_note_added' => 'Note added successfully',
     'no_companies_for_supervisor_yet' => 'No students for the supervisor in the company currently',
+    'student_preferences_added' => 'Your preferences have been successfully added',
+    'student_preferences_updated' => 'Your preferences have been successfully updated',
+
 ];
 ?>

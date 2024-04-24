@@ -133,6 +133,8 @@ return [
     'supervisor_report_note_required' => 'الرجاء كتابة ملاحظة التقرير',
     'supervisor_report_note_added' => 'تم اضافة الملاحظة بنجاح',
     'no_companies_for_supervisor_yet' => 'لا يوجد طلاب للمشرف في الشركة حاليا',
+    'student_preferences_added' => 'تم إضافة التفضيلات الخاصة بك بنجاح',
+    'student_preferences_updated' => 'تم تحديث التفضيلات الخاصة بك بنجاح',
 ];
 
 ?>

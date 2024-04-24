@@ -34,6 +34,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsCont
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
 use App\Http\Controllers\apisControllers\students\cv\StudentCVController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
+use App\Http\Controllers\apisControllers\students\preferences\StudentPreferencesController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
@@ -223,6 +224,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // students CVs
     Route::get('getStudentsForCVs', [StudentsCVController::class, 'getStudentsForCVs']);
     Route::put('changeStudentCVStatus', [StudentsCVController::class, 'changeStudentCVStatus']);
+
+    // student preferences
+    Route::post('addEditStudentPreferences', [StudentPreferencesController::class, 'addEditStudentPreferences']);
 
 
     // announcements
