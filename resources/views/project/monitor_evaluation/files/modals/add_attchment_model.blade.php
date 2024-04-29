@@ -23,6 +23,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">ghf</div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>

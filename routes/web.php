@@ -154,6 +154,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/report/student/edit' , [App\Http\Controllers\UserController::class , 'report_student_edit'])->name('admin.users.report.student.edit'); // To submit notes of supervisor to student report
             Route::post('/check_email_not_duplicate' , [App\Http\Controllers\UserController::class , 'check_email_not_duplicate'])->name('users.add.check_email_not_duplicate');
             Route::post('/students_waiting_to_approve_cv' , [App\Http\Controllers\UserController::class , 'students_waiting_to_approve_cv'])->name('users.students_waiting_to_approve_cv');
+            Route::get('/student/files/{id}' , [App\Http\Controllers\UserController::class , 'students_files'])->name('admin.users.students.students_files');
+            Route::post('/student/files/create' , [App\Http\Controllers\UserController::class , 'create_students_files'])->name('admin.users.students.create_students_files');
             Route::post('/change_status_from_cv' , [App\Http\Controllers\UserController::class , 'change_status_from_cv'])->name('users.change_status_from_cv');
             Route::group(['prefix'=>'company_manager'],function(){
                 Route::post('/searchStudentByName' , [App\Http\Controllers\UserController::class , 'searchStudentByName'])->name('users.company_manager.searchStudentByName');
@@ -258,6 +260,19 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/index' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class, 'index'])->name('communications_manager_with_companies.companies.index');
             Route::get('/students/{id}' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class , 'students'])->name('communications_manager_with_companies.companies.students'); // To display students
             Route::post('communications_manager_with_companies_table_ajax' , [App\Http\Controllers\project\communications_manager_with_companies\companies\CompaniesController::class , 'communications_manager_with_companies_table_ajax'])->name('communications_manager_with_companies.companies.communications_manager_with_companies_table_ajax'); // To display students
+        });
+        Route::group(['prefix' => 'follow_up_record'], function () {
+            Route::get('/index' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'index'])->name('communications_manager_with_companies.follow_up_record.index');
+            Route::post('/company_table_ajax' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'company_table_ajax'])->name('communications_manager_with_companies.follow_up_record.company_table_ajax');
+            Route::post('/update_company_information' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'update_company_information'])->name('communications_manager_with_companies.follow_up_record.update_company_information');
+            Route::post('/list_contact_company' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'list_contact_company'])->name('communications_manager_with_companies.follow_up_record.list_contact_company');
+            Route::post('/create_contact_company' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'create_contact_company'])->name('communications_manager_with_companies.follow_up_record.create_contact_company');
+            Route::post('/delete_contact_company' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'delete_contact_company'])->name('communications_manager_with_companies.follow_up_record.delete_contact_company');
+            Route::post('/check_email_found' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'check_email_found'])->name('communications_manager_with_companies.follow_up_record.check_email_found');
+            Route::post('/list_branches' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'list_branches'])->name('communications_manager_with_companies.follow_up_record.list_branches');
+            Route::post('/create_branches_ajax' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'create_branches_ajax'])->name('communications_manager_with_companies.follow_up_record.create_branches_ajax');
+            Route::post('/list_student_company_ajax' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'list_student_company_ajax'])->name('communications_manager_with_companies.follow_up_record.list_student_company_ajax');
+            Route::post('/payment_table_ajax' , [App\Http\Controllers\project\communications_manager_with_companies\follow_up_record\FollowUpRecordController::class, 'payment_table_ajax'])->name('communications_manager_with_companies.follow_up_record.payment_table_ajax');
         });
     });
 
@@ -397,6 +412,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'training_nominations'], function () {
             Route::get('/index' , [App\Http\Controllers\project\supervisors\TrainingNominationController::class , 'index'])->name('supervisors.training_nominations.index');
         });
+    });
+
+    Route::group(['prefix'=>'file_attachment'],function (){
+        Route::post('create',[App\Http\Controllers\FileAttachmentController::class , 'create'])->name('file_attachment.create');
+        Route::post('file_attachment_list_ajax',[App\Http\Controllers\FileAttachmentController::class , 'file_attachment_list_ajax'])->name('file_attachment.file_attachment_list_ajax');
     });
 });
 

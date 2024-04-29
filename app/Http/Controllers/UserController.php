@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CitiesModel;
+use App\Models\FileAttachmentModel;
 use App\Models\StudentCompanyNominationModel;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -723,6 +724,33 @@ class UserController extends Controller
                 'success' => ' false',
                 'message' => 'هناك خلل ما'
             ]);
+        }
+    }
+
+    public function students_files($id){
+        $user = User::find($id);
+        $data = FileAttachmentModel::where('table_name','users')->where('table_name_id',$id)->get();
+        return view('project.admin.users.student_file_attachment',['data'=>$data,'user'=>$user]);
+    }
+
+    public function create_students_files(Request $request){
+        $data = new FileAttachmentModel();
+        $data->table_name = 'users';
+        $data->table_name_id = $request->table_name_id;
+        $data->added_by = auth()->user()->u_id;
+        $data->note = $request->note;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension; // Unique filename
+            $file->storeAs('students', $filename, 'public');
+            $data->file = $filename;
+        }
+        if ($data->save()){
+            return redirect()->route('admin.users.students.students_files',['id'=>$request->table_name_id])->with(['success' => 'تم اضافة البيانات بنجاح']);
+        }
+        else{
+            return redirect()->route('admin.users.students.students_files',['id'=>$request->table_name_id])->with(['fail' => 'هناك خلل ما لم يتم اضافة البيانات']);
         }
     }
 

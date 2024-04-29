@@ -22,13 +22,6 @@ class CompaniesController extends Controller
     {
         $majors = Major::get();
         $data = Company::with('manager','companyCategories')->get();
-
-        // $uncompletedCompany = Company::with('manager')->where('c_type',null)->get();
-        // return $uncompletedCompany;
-
-
-
-        //return $data;
         return view('project.admin.companies.index',['data'=>$data,'majors'=>$majors]);
     }
 

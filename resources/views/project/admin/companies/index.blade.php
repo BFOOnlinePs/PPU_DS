@@ -85,6 +85,7 @@
                                 <td class="">
                                     <button class="btn btn-info btn-sm" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
                                     <button class="btn btn-success btn-sm" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><i class="fa fa-group"></i></button>
+                                    <button class="btn btn-success btn-sm" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -96,6 +97,7 @@
 
     </div>
     @include('project.admin.companies.modals.studentNominationModal')
+    @include('project.admin.companies.modals.addAttachmentModal')
 </div>
 
 @endsection
@@ -321,6 +323,44 @@ function update_company_status(id,status){
         }
     });
 
+}
+
+function file_attachment_list_ajax(){
+
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    // Send an AJAX request with the CSRF token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+    $('#file_attachment_list').html('<div class="text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>')
+    $.ajax({
+        url: "{{ route('file_attachment.file_attachment_list_ajax') }}",
+        method: "post",
+        data: {
+            'table_name' : 'companies',
+            'table_name_id' : $('#table_name_id').val(),
+            'view' : 'project.admin.companies.ajax.file_attachment_list',
+            _token: '{!! csrf_token() !!}',
+        },
+        success: function(response) {
+            if(response.success == 'true'){
+                $('#file_attachment_list').html(response.view);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('error');
+        }
+    });
+
+}
+
+function addAttachmentModal(table_name_id) {
+    $('#addAttachmentModal').modal('show');
+    $('#table_name_id').val(table_name_id);
+    file_attachment_list_ajax();
 }
 
 function show_student_nomination_modal(data) {

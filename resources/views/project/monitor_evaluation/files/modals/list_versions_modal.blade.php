@@ -6,22 +6,22 @@
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div>
-                            <table class="table table-sm table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>{{ __('translate.file_name') }}</th>
-                                        <th>{{ __('translate.Notes') }}</th>
-                                        <th>{{ __('translate.insert_at') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="file_table">
+{{--                    <div class="row">--}}
+{{--                        <div>--}}
+{{--                            <table class="table table-sm table-bordered">--}}
+{{--                                <thead>--}}
+{{--                                    <tr>--}}
+{{--                                        <th>{{ __('translate.file_name') }}</th>--}}
+{{--                                        <th>{{ __('translate.Notes') }}</th>--}}
+{{--                                        <th>{{ __('translate.insert_at') }}</th>--}}
+{{--                                    </tr>--}}
+{{--                                </thead>--}}
+{{--                                <tbody id="file_table">--}}
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+{{--                                </tbody>--}}
+{{--                            </table>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>

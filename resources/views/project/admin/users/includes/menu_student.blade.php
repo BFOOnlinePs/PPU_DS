@@ -13,3 +13,7 @@
     <h1 style="font-size: 25px; " class="fa fa-dollar" ></h1>
     <br>
 {{__('translate.Payments')}} {{-- الدفعات --}}</a>
+<a class="col m-1  btn btn-primary btn-sm" href="{{route('admin.users.students.students_files' , ['id'=>$user->u_id])}}">
+    <h1 style="font-size: 25px; " class="fa fa-file" ></h1>
+    <br>
+    ملفات</a>
