@@ -3,7 +3,7 @@
         <div class="modal-content">
             <form action="{{ route('monitor_evaluation.files.create_me_version_attachment') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" id="mea_attachment_id" name="mea_attachment_id" value="">
+                <input type="hidden" id="mea_attachment_id" name="mea_attachment_id" value="-1">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ __('translate.add_copy') }}</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -21,6 +21,22 @@
                                 <label for="">{{ __('translate.Notes') }}</label>
                                 <textarea id="" cols="30" rows="2" name="mea_description" placeholder="ملاحظات" class="form-control"></textarea>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>{{ __('translate.file_name') }}</th>
+                                    <th>{{ __('translate.Notes') }}</th>
+                                    <th>{{ __('translate.insert_at') }}</th>
+                                </tr>
+                                </thead>
+                                <tbody id="file_table">
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

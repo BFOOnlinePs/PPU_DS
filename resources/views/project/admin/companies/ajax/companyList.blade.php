@@ -15,7 +15,7 @@
         <tbody>
         @if ($data->isEmpty())
             <tr>
-                <td colspan="6" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
+                <td colspan="7" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
             </tr>
         @else
             @foreach ($data as $key)
@@ -55,6 +55,7 @@
                     <td>
                           <button class="btn btn-info btn-sm" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
                           <button class="btn btn-success btn-sm" onclick='show_student_nomination_modal({{ $key }})'>اقتراح طلاب</button>
+                        <button class="btn btn-success btn-sm" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button>
                     </td>
                 </tr>
             @endforeach

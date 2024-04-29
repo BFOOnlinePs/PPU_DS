@@ -1513,35 +1513,66 @@ class MonitorEvaluationController extends Controller
     }
 
     public function create_me_version_attachment(Request $request){
-        $data = new MeAttachmentModel();
-        $data->mea_user_id = auth()->user()->u_id;
-        $data->mea_description = $request->mea_description;
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->storeAs('files', $filename, 'public');
-            $data->mea_file = $filename;
-        }
-        $data->mea_attachment_id = $request->mea_attachment_id;
         $check_if_find = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->where('mea_attachment_id',$request->mea_attachment_id)->get();
         if (!$check_if_find->isEmpty()){
 //            $data->mea_attachment_id = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->latest('mea_id')->first()->mea_id;
-            if (count($check_if_find) >= 2){
-                $first_file = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->where('mea_attachment_id',$request->mea_attachment_id)->first();
+            if (count($check_if_find) >= 1){
+                $data = new MeAttachmentModel();
+                $data->mea_user_id = auth()->user()->u_id;
+                $data->mea_description = $request->mea_description;
+                if ($request->hasFile('file')) {
+                    $file = $request->file('file');
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = time() . '.' . $extension;
+                    $file->storeAs('files', $filename, 'public');
+                    $data->mea_file = $filename;
+                }
+                $data->mea_attachment_id = $request->mea_attachment_id;
+                $first_file = MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->where('mea_id',$request->mea_attachment_id)->first();
+                $next_file = MeAttachmentModel::where('mea_user_id', auth()->user()->u_id)
+                    ->where('mea_id', '>', $first_file->mea_id)
+                    ->orderBy('mea_id')
+                    ->first();
+
                 $filePath = 'files/' . $first_file->mea_file;
 //                Storage::disk('public')->delete(asset('monitor_trainer/' . $first_file->mea_file));
                 Storage::disk('public')->delete($filePath);
                 $first_file->delete();
+
+
+                $next_file->mea_attachment_id = -1;
+                $next_file->save();
+
                 $last_row =  MeAttachmentModel::where('mea_user_id',auth()->user()->u_id)->latest('mea_id')->first();
+                $data->mea_attachment_id = $last_row->mea_id;
                 $last_row->save();
+                if ($data->save()){
+                    return redirect()->route('monitor_evaluation.files.files_index')->with(['success' => 'تم اضافة الملف بنجاح']);
+                }
+                else{
+                    return redirect()->route('monitor_evaluation.files.files_index')->with(['fail' => 'هناك خلل ما لم يتم اضافة الملف']);
+                }
             }
         }
-        if ($data->save()){
-            return redirect()->route('monitor_evaluation.files.files_index')->with(['success' => 'تم اضافة الملف بنجاح']);
-        }
         else{
-            return redirect()->route('monitor_evaluation.files.files_index')->with(['fail' => 'هناك خلل ما لم يتم اضافة الملف']);
+            $data = new MeAttachmentModel();
+            $data->mea_user_id = auth()->user()->u_id;
+            $data->mea_description = $request->mea_description;
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $file->storeAs('files', $filename, 'public');
+                $data->mea_file = $filename;
+            }
+            $data->mea_attachment_id = $request->mea_attachment_id;
+            if ($data->save()){
+                return redirect()->route('monitor_evaluation.files.files_index')->with(['success' => 'تم اضافة الملف بنجاح']);
+            }
+            else{
+                return redirect()->route('monitor_evaluation.files.files_index')->with(['fail' => 'هناك خلل ما لم يتم اضافة الملف']);
+            }
         }
+
     }
 }
