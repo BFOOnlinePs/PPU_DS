@@ -16,10 +16,14 @@ class DocumentsController extends Controller
             'parent_attachment_id' => 'required|int', // parent id (-1 if it is the parent)
             'description' => 'nullable',
             'notes' => 'nullable',
-            'file' => 'required',
+            'file' => 'required|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,csv,xlsx',
 
         ], [
-            // add validation messages
+            'parent_attachment_id.required' => trans('messages.parent_attachment_id_required'),
+            'parent_attachment_id.int' => trans('messages.parent_attachment_id_int'),
+            'file.required' => trans('messages.file_required'),
+            'file.file' => trans('messages.file_file'),
+            'file.mimes' => trans('messages.file_mimes'),
         ]);
 
 
@@ -79,40 +83,43 @@ class DocumentsController extends Controller
         if ($document->save()) {
             return response()->json([
                 'status' => true,
-                'message' => 'تمت الاضافة بنجاح'
+                'message' => trans('messages.document_added'),
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'يوجد خلل في الاضافة'
+                'message' => trans('messages.document_not_added'),
             ]);
         }
     }
 
-
-    // get decs
     public function getDocumentsAttachments()
     {
         // Fetch all parent records
-        $parents = MeAttachmentModel::where('mea_attachment_id', -1)->get();
+        $parents = MeAttachmentModel::where('mea_attachment_id', -1)->orderBy('created_at', 'desc')->paginate(6);
 
         $documentsTree = [];
 
-        // Iterate through each parent record
         foreach ($parents as $parent) {
-            // Fetch the child record of the current parent
             $child = MeAttachmentModel::where('mea_attachment_id', $parent->mea_id)->first();
 
             // Only add the child if it exists
             if ($child !== null) {
-                // Append parent and child to the documentsTree array
                 $documentsTree[] = [$parent, $child];
             } else {
-                // Append only the parent if no child exists
                 $documentsTree[] = [$parent];
             }
         }
 
-        return $documentsTree;
+        return response()->json([
+            'status' => true,
+            'pagination' => [
+                'current_page' => $parents->currentPage(),
+                'last_page' => $parents->lastPage(),
+                'per_page' => $parents->perPage(),
+                'total_items' => $parents->total(),
+            ],
+            'documents' => $documentsTree,
+        ]);
     }
 }
