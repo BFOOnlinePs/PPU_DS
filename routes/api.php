@@ -27,6 +27,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
+use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
@@ -227,6 +228,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // student preferences
     Route::post('addEditStudentPreferences', [StudentPreferencesController::class, 'addEditStudentPreferences']);
+    Route::get('getCurrentStudentPreferences', [StudentPreferencesController::class, 'getCurrentStudentPreferences']);
 
 
     // announcements
@@ -237,6 +239,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('announcements/{announcement_id}/status',  [AnnouncementsController::class, 'changeAnnouncementStatus']);
     Route::post('announcements/{announcement_id}',  [AnnouncementsController::class, 'editAnnouncement']);
 
+    // documents attachments
+    Route::post('addNewDocumentAttachment', [DocumentsController::class, 'addNewDocumentAttachment']);
+    Route::get('getDocumentsAttachments', [DocumentsController::class, 'getDocumentsAttachments']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
@@ -245,6 +250,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
+    Route::get('getActiveCompaniesForDropDown', 'App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController@getActiveCompaniesForDropDown');
 
     // currencies
     Route::get('getCurrencies', [CurrenciesController::class, 'getCurrencies']);

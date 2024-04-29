@@ -135,6 +135,8 @@ return [
     'no_companies_for_supervisor_yet' => 'No students for the supervisor in the company currently',
     'student_preferences_added' => 'Your preferences have been successfully added',
     'student_preferences_updated' => 'Your preferences have been successfully updated',
+    'no_preferences_yet' => 'no preferences yet',
+
 
 ];
 ?>

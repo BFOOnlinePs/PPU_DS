@@ -135,6 +135,7 @@ return [
     'no_companies_for_supervisor_yet' => 'لا يوجد طلاب للمشرف في الشركة حاليا',
     'student_preferences_added' => 'تم إضافة التفضيلات الخاصة بك بنجاح',
     'student_preferences_updated' => 'تم تحديث التفضيلات الخاصة بك بنجاح',
+    'no_preferences_yet' => 'لا يوجد تفضيلات بعد',
 ];
 
 ?>

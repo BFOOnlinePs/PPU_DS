@@ -10,6 +10,26 @@ use Illuminate\Support\Facades\Validator;
 
 class StudentPreferencesController extends Controller
 {
+
+    public function getCurrentStudentPreferences()
+    {
+        $student = auth()->user();
+
+        $student_preferences = StudentPreferences::where('sp_student_id', $student->u_id)->first();
+
+        if ($student_preferences) {
+            return response()->json([
+                'status' => true,
+                'student_preference' => $student_preferences,
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'messages' => trans('messages.no_preferences_yet'),
+            ]);
+        }
+    }
+
     public function addEditStudentPreferences(Request $request)
     {
         $student = auth()->user();
