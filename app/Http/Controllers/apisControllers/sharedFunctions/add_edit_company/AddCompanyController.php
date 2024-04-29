@@ -26,18 +26,18 @@ class AddCompanyController extends Controller
             // 'phone' => ['required', 'regex:/^[0-9]{10}$/'], // main branch phone + manager phone
             'address' => 'required', // main branch phone + manager phone
         ], [
-            'company_name.required' => 'الرجاء ارسال اسم الشركة',
-            'company_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله باللغة العربية',
-            'company_english_name.required' => 'الرجاء ارسال اسم الشركة باللغة الانجليزية',
-            'company_english_name.unique' => 'يوجد شركة بنفس الاسم الذي قمت بادخاله باللغة الانجليزية',
-            'manager_name.required' => 'الرجاء ارسال اسم مدير الشركة',
-            'manager_email.required' => 'الرجاء ارسال ايميل مدير الشركة',
-            'manager_email.email' => 'يجب ان تكون صيغة البريد الإلكتروني صحيحة',
-            'manager_email.unique' => 'البريد الإلكتروني موجود بالفعل',
-            'manager_password.required' => 'الرجاء ارسال كلمة سر حساب مدير الشركة',
-            'phone.required' => 'الرجاء ارسال رقم هاتف الشركة',
+            'company_name.required' => trans('messages.company_name_required'),
+            'company_name.unique' => trans('messages.company_name_unique'),
+            'company_english_name.required' => trans('messages.company_english_name_required'),
+            'company_english_name.unique' => trans('messages.company_english_name_unique'),
+            'manager_name.required' => trans('messages.manager_name_required'),
+            'manager_email.required' => trans('messages.manager_email_required'),
+            'manager_email.email' => trans('messages.manager_email_format'),
+            'manager_email.unique' => trans('messages.manager_email_unique'),
+            'manager_password.required' => trans('messages.manager_password_required'),
+            'phone.required' => trans('messages.company_phone_required'),
             // 'phone.regex' => 'صيغة الهاتف غير صحيحة، ويحب ان يتكون من 10 ارقام',
-            'address.required' => 'الرجاء ارسال عنوان الشركة',
+            'address.required' => trans('messages.company_address_required'),
         ]);
 
         if ($validator->fails()) {
@@ -79,7 +79,7 @@ class AddCompanyController extends Controller
                 ]);
                 return response()->json([
                     'status' => true,
-                    'message' => 'تم انشاء حساب المدير و الشركة و الفرع الرئيسي  بنجاح',
+                    'message' => trans('messages.manager_company_branch_created'),
                     'manager' => $manager_user,
                     'company' => $company,
                     'main_branch' => $main_branch,
@@ -95,7 +95,7 @@ class AddCompanyController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'لم يتم إنشاء حساب المدير',
+                'message' => trans('messages.manager_account_not_created'),
                 'manager' => $manager_user,
             ]);
         }
@@ -110,12 +110,12 @@ class AddCompanyController extends Controller
             'company_type' => 'required|in:1,2',
             'category_id' => 'required|exists:companies_categories,cc_id',
         ], [
-            'company_id.required' => 'الرجاء إرسال رقم الشركة',
-            'company_id.exists' => 'رقم الشركة غير موجود',
-            'company_type.required' => 'الرجاء تحديد نوع الشركة',
-            'company_type.in' => 'يجب أن يكون نوع الشركة من الأنواع المحددة',
-            'category_id.required' => 'الرجاء إرسال رقم التصنيف',
-            'category_id.exists' => 'التصنيف غير موجود',
+            'company_id.required' => trans('messages.company_id_required'),
+            'company_id.exists' => trans('messages.company_id_not_exists'),
+            'company_type.required' => trans('messages.company_type_required'),
+            'company_type.in' => trans('messages.company_type_in'),
+            'category_id.required' => trans('messages.category_id_required'),
+            'category_id.exists' => trans('messages.category_id_not_exists'),
         ]);
 
         if ($validator->fails()) {
@@ -136,7 +136,7 @@ class AddCompanyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم إضافة تصنيف ونوع للشركة بنجاح',
+            'message' => trans('messages.company_type_category_added'),
             'company' => $company,
         ], 200);
     }
@@ -150,8 +150,8 @@ class AddCompanyController extends Controller
             'company_id' => 'required|exists:companies,c_id',
 
         ], [
-            'company_id.required' => 'الرجاء إرسال رقم الشركة',
-            'company_id.exists' => 'رقم الشركة غير موجود',
+            'company_id.required' => trans('messages.company_id_required'),
+            'company_id.exists' => trans('messages.company_id_not_exists'),
         ]);
 
         if ($validator->fails()) {
@@ -184,7 +184,7 @@ class AddCompanyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم إضافة أقسام الشركة بنجاح'
+            'message' => trans('messages.company_departments_added'),
         ]);
     }
 
@@ -201,8 +201,8 @@ class AddCompanyController extends Controller
             'company_id' => 'required|exists:companies,c_id',
 
         ], [
-            'company_id.required' => 'الرجاء إرسال رقم الشركة',
-            'company_id.exists' => 'رقم الشركة غير موجود',
+            'company_id.required' => trans('messages.company_id_required'),
+            'company_id.exists' => trans('messages.company_id_not_exists'),
         ]);
 
         if ($validator->fails()) {
@@ -219,20 +219,20 @@ class AddCompanyController extends Controller
             ->where('b_main_branch', 1)->first();
         // return $main_branch;
         $branches = $request->input('company_branches');
-        // return gettype($branches);
 
         foreach ($branches as $branch) {
-            // return gettype($branch);
             $company_branch = new CompanyBranch();
             $is_company_branch_save = null;
             // when main branch
             if ($branch['is_main_branch'] == 1) {
                 $main_branch->update([
                     'b_phone2' => $branch['branch_phone2'],
+                    // 'b_city_id' => $branch['branch_city_id'],
                 ]);
 
                 $manager->update([
                     'u_phone2' => $branch['branch_phone2'],
+                    // 'u_city_id' => $branch['branch_city_id'],
                 ]);
             } else {
                 $company_branch->b_company_id = $company_id;
@@ -240,11 +240,13 @@ class AddCompanyController extends Controller
                 $company_branch->b_address = $branch['branch_address'];
                 $company_branch->b_phone1 = $branch['branch_phone1'];
                 $company_branch->b_phone2 = $branch['branch_phone2'];
+                // $company_branch->b_city_id = $branch['branch_city_id'];
                 $company_branch->b_main_branch = $branch['is_main_branch']; // 1:yes, 0:no
                 $is_company_branch_save = $company_branch->save();
                 // return $is_company_branch_save;
             }
 
+            // for branch departments
             if ($is_company_branch_save || $branch['is_main_branch'] == 1) {
                 $branch_departments = $branch['branch_departments'];
                 if ($branch_departments) {
@@ -258,21 +260,21 @@ class AddCompanyController extends Controller
                         if (!$company_branch_department->save())
                             return response()->json([
                                 'status' => false,
-                                'message' => 'تم إنشاء الفروع ولكن لم يتم إنشاء الأقسام الخاصة بكل فرع'
+                                'message' => trans('messages.branches_created_departments_not'),
                             ]);
                     }
                 }
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'لم يتم إنشاء فروع الشركة'
+                    'message' => trans('messages.branches_not_created'),
                 ]);
             }
         }
 
         return response()->json([
             'status' => true,
-            'message' => 'تم انشاء الفروع وحفظ أقسامهم بنجاح / ان وجدت'
+            'message' => trans('messages.branches_and_departments_created'),
         ]);
     }
 
@@ -282,8 +284,8 @@ class AddCompanyController extends Controller
             'company_id' => 'required|exists:companies,c_id',
 
         ], [
-            'company_id.required' => 'الرجاء إرسال رقم الشركة',
-            'company_id.exists' => 'رقم الشركة غير موجود',
+            'company_id.required' => trans('messages.company_id_required'),
+            'company_id.exists' =>trans('messages.company_id_not_exists'),
         ]);
 
         if ($validator->fails()) {

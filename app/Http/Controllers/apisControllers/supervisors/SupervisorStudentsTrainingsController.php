@@ -40,7 +40,7 @@ class SupervisorStudentsTrainingsController extends Controller
         if ($companies->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد شركات حاليا'
+                'message' => trans('messages.no_companies_yet'),
             ]);
         }
 
@@ -56,14 +56,14 @@ class SupervisorStudentsTrainingsController extends Controller
             // 'companies' => $companies,
         ]);
     }
- 
+
     public function getSupervisorStudentsInCompany(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
             'company_id' => 'required',
         ], [
-            'company_id.required' => 'يجب ارسال رقم الشركة',
+            'company_id.required' => trans('messages.company_id_required')
         ]);
 
         if ($validator->fails()) {
@@ -83,7 +83,7 @@ class SupervisorStudentsTrainingsController extends Controller
         if ($studentsInCompany->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لا يوجد طلاب للمشرف في الشركة حاليا'
+                'message' => trans('messages.no_companies_for_supervisor_yet')
             ]);
         }
 

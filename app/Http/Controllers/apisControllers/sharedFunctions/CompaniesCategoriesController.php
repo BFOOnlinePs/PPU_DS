@@ -27,7 +27,7 @@ class CompaniesCategoriesController extends Controller
         $validator = Validator::make($request->all(), [
             'category_name' => 'required'
         ], [
-            'category_name.required' => 'الرجاء كتابة التصنيف الجديد لإضافته'
+            'category_name.required' => trans('messages.category_name_required'),
         ]);
 
         if ($validator->fails()) {
@@ -45,7 +45,7 @@ class CompaniesCategoriesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم إضافة التصنيف الجديد بنجاح',
+            'message' => trans('messages.category_added'),
             // 'companyCategory' => $company_category,
         ]);
     }
@@ -56,8 +56,8 @@ class CompaniesCategoriesController extends Controller
             'category_id' => 'required',
             'category_name' => 'required'
         ], [
-            'category_id.required' => 'الرجاء إرسال رقم التصنيف المراد تعديله',
-            'category_name.required' => 'الرجاء كتابة التصنيف الجديد لإضافته'
+            'category_id.required' => trans('messages.category_id_required'),
+            'category_name.required' => trans('messages.category_name_required'),
         ]);
 
         if ($validator->fails()) {
@@ -75,7 +75,7 @@ class CompaniesCategoriesController extends Controller
         if (!$company_category) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم التصنيف غير موجود',
+                'message' => trans('messages.category_id_not_exists'),
             ]);
         }
 
@@ -85,7 +85,7 @@ class CompaniesCategoriesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم تعديل التصنيف بنجاح',
+            'message' => trans('messages.category_updated'),
             'companyCategory' => $company_category,
         ]);
     }

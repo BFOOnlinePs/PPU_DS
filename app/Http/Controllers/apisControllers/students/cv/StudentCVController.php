@@ -19,16 +19,16 @@ class StudentCVController extends Controller
         if (!$student) {
             return response()->json([
                 'status' => false,
-                'message' => 'رقم الطالب غير موجود',
+                'message' => trans('messages.student_id_not_exists'),
             ]);
         }
 
         $validator = Validator::make($request->all(), [
             'cv' => 'required|file|mimes:jpg,jpeg,png,svg,pdf,doc,docx,ppt,pptx',
         ], [
-            'cv.required' => 'يجب ارسال السيرة الذاتية',
-            'cv.file' => 'يجب ان يكون ملف',
-            'cv.mimes' => 'الصيغة غير مدعومة، جرب صيغة أخرى'
+            'cv.required' => trans('messages.cv_required'),
+            'cv.file' => trans('messages.cv_file'),
+            'cv.mimes' => trans('messages.cv_mimes'),
         ]);
 
         if ($validator->fails()) {
@@ -47,12 +47,13 @@ class StudentCVController extends Controller
             $request->file('cv')->storeAs($folderPath, $fileName, 'public');
 
             $student->u_cv = $fileName;
+            $student->u_cv_updated_at = now();
             $student->u_cv_status = 0; // not approved
 
             if ($student->save()) {
                 return response()->json([
                     'status' => true,
-                    'message' => 'تم إضافة السيرة الذاتية بنجاح',
+                    'message' => trans('messages.cv_added'),
                     'cvFileName' => $student->u_cv,
                 ]);
             }
@@ -60,7 +61,7 @@ class StudentCVController extends Controller
 
         return response()->json([
             'status' => false,
-            'message' => 'يوجد شيء خاطئ'
+            'message' => trans('messages.something_wrong'),
         ]);
     }
 }

@@ -30,9 +30,9 @@ class StudentAttendanceController extends Controller
             'sa_start_time_longitude' => 'required',
             'sa_description' => 'nullable',
         ], [
-            'sa_start_time_latitude.required' => 'الرجاء ارسال قيمة خط العرض اثناء الدخول',
-            'sa_start_time_longitude.required' => 'الرجاء ارسال قيمة خط الطول اثناء الدخول',
-            'sa_student_company_id.required' => 'الرجاء ارسال رقم التدريب',
+            'sa_start_time_latitude.required' => trans('messages.start_time_latitude_required'),
+            'sa_start_time_longitude.required' => trans('messages.start_time_longitude_required'),
+            'sa_student_company_id.required' => trans('messages.training_id_required'),
         ]);
 
         if ($validator->fails()) {
@@ -52,7 +52,7 @@ class StudentAttendanceController extends Controller
             $today = Carbon::now('Asia/Gaza')->toDateString();
 
             if ($lastCheckInDate === $today && $latestCheckIn->sa_out_time == null) {
-                return response()->json(['message' => 'تم تسجيل الحضور اليوم من قبل']);
+                return response()->json(['message' => trans('messages.attendance_today_done'),]);
             }
         }
 
@@ -67,7 +67,7 @@ class StudentAttendanceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم تسجيل الحضور',
+            'message' => trans('messages.check_in_done'),
             'data' => $studentCheckIn
         ]);
     }
@@ -80,9 +80,9 @@ class StudentAttendanceController extends Controller
             'sa_end_time_latitude' => 'required',
             'sa_description' => 'nullable',
         ], [
-            'sa_id.required' => 'الرجاء ارسال رقم الحضور',
-            'sa_end_time_latitude.required' => 'الرجاء ارسال قيمة خط العرض اثناء الخروج',
-            'sa_end_time_longitude.required' => 'الرجاء ارسال قيمة خط الطول اثناء الخروج',
+            'sa_id.required' => trans('messages.check_in_id_required'),
+            'sa_end_time_latitude.required' => trans('messages.end_time_latitude_required'),
+            'sa_end_time_longitude.required' => trans('messages.end_time_longitude_required'),
         ]);
 
         if ($validator->fails()) {
@@ -100,7 +100,7 @@ class StudentAttendanceController extends Controller
             ->first();
 
         if (!$latestCheckIn) {
-            return response()->json(['message' => 'قم بتسجيل الدخول اولا']);
+            return response()->json(['message' => trans('messages.check_in_required')]);
         }
 
         if ($latestCheckIn) {
@@ -108,7 +108,7 @@ class StudentAttendanceController extends Controller
             $today = Carbon::now('Asia/Gaza')->toDateString();
 
             if ($lastCheckInDate !== $today) {
-                return response()->json(['message' => 'قم بتسجيل الدخول اولا']);
+                return response()->json(['message' => trans('messages.check_in_required')]);
             }
         }
 
@@ -121,7 +121,7 @@ class StudentAttendanceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم تسجيل المغادرة',
+            'message' => trans('messages.check_out_done'),
             'data' => $latestCheckIn
         ]);
     }
@@ -160,7 +160,7 @@ class StudentAttendanceController extends Controller
                     'today_checkin' => true,
                     'today_checkout' => true,
                     'sa_description' => null,
-                    'today_attendance' =>$today_attendance
+                    'today_attendance' => $today_attendance
                 ]);
             }
         }
@@ -192,7 +192,7 @@ class StudentAttendanceController extends Controller
             'today_checkin' => $today_checkin,
             'today_checkout' => $today_checkout,
             'sa_description' => $sa_description,
-            'today_attendance' =>$today_attendance
+            'today_attendance' => $today_attendance
         ]);
     }
 }

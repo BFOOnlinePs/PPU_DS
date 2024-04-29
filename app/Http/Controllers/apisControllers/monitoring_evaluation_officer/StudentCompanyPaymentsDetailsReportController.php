@@ -17,8 +17,8 @@ class StudentCompanyPaymentsDetailsReportController extends Controller
         $validator = Validator::make($request->all(), [
             'student_company_id' => 'required|exists:students_companies,sc_id',
         ], [
-            'student_company_id.required' => 'يجب ارسال رقم التدريب',
-            'student_company_id.exists' => 'رقم التدريب غير موجود',
+            'student_company_id.required' => trans('messages.training_id_required'),
+            'student_company_id.exists' => trans('messages.training_id_not_exists'),
         ]);
 
         if ($validator->fails()) {
