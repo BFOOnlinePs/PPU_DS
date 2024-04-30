@@ -96,12 +96,17 @@ class DocumentsController extends Controller
     public function getDocumentsAttachments()
     {
         // Fetch all parent records
-        $parents = MeAttachmentModel::where('mea_attachment_id', -1)->orderBy('created_at', 'desc')->paginate(6);
+        $parents = MeAttachmentModel::where('mea_attachment_id', -1)
+            ->with('attachmentOwner:u_id,name')
+            ->orderBy('created_at', 'desc')
+            ->paginate(6);
 
         $documentsTree = [];
 
         foreach ($parents as $parent) {
-            $child = MeAttachmentModel::where('mea_attachment_id', $parent->mea_id)->first();
+            $child = MeAttachmentModel::where('mea_attachment_id', $parent->mea_id)
+                ->with('attachmentOwner:u_id,name')
+                ->first();
 
             // Only add the child if it exists
             if ($child !== null) {
