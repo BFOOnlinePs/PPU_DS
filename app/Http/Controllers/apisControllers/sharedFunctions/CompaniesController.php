@@ -12,10 +12,11 @@ class CompaniesController extends Controller
 {
 
     // for supervisor and coordinator
-    public function getAllCompanies(){
+    public function getAllCompanies()
+    {
 
         $companies = Company::orderBy('created_at', 'desc')->paginate(4);
-        $companies->getCollection()->transform(function($company){
+        $companies->getCollection()->transform(function ($company) {
             $company->manager_name = User::where('u_id', $company->c_manager_id)->pluck('name')->first();
             $company->category_name = CompaniesCategory::where('cc_id', $company->c_category_id)->pluck('cc_name')->first();
             return $company;
@@ -30,6 +31,30 @@ class CompaniesController extends Controller
                 'total_items' => $companies->total(),
             ],
             'companies' => $companies->items()
+        ]);
+    }
+
+    // for students dropdown
+    public function getActiveCompaniesForDropDown(Request $request)
+    {
+        $student_name_search = $request->input('search_company');
+
+        $companies = Company::where('c_status', 1); // active company
+
+        if ($student_name_search) {
+            $companies = $companies->where(function ($query) use ($student_name_search) {
+                $query->where('c_name', 'like', '%' . $student_name_search . '%')
+                    ->orWhere('c_english_name', 'like', '%' . $student_name_search . '%');
+            });
+        }
+
+        $companies = $companies->select('c_id', 'c_name', 'c_english_name')
+            // ->limit(6)
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'companies' => $companies,
         ]);
     }
 }

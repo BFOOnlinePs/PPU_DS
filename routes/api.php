@@ -22,10 +22,12 @@ use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\EditCo
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_attendance;
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_reports;
 use App\Http\Controllers\apisControllers\sharedFunctions\announcements\AnnouncementsController;
+use App\Http\Controllers\apisControllers\sharedFunctions\cities\CitiesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
+use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsCont
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
 use App\Http\Controllers\apisControllers\students\cv\StudentCVController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
+use App\Http\Controllers\apisControllers\students\preferences\StudentPreferencesController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
@@ -223,6 +226,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getStudentsForCVs', [StudentsCVController::class, 'getStudentsForCVs']);
     Route::put('changeStudentCVStatus', [StudentsCVController::class, 'changeStudentCVStatus']);
 
+    // student preferences
+    Route::post('addEditStudentPreferences', [StudentPreferencesController::class, 'addEditStudentPreferences']);
+    Route::get('getCurrentStudentPreferences', [StudentPreferencesController::class, 'getCurrentStudentPreferences']);
+
 
     // announcements
     Route::get('getAllActiveAnnouncements', [AnnouncementsController::class, 'getAllActiveAnnouncements']);
@@ -232,6 +239,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('announcements/{announcement_id}/status',  [AnnouncementsController::class, 'changeAnnouncementStatus']);
     Route::post('announcements/{announcement_id}',  [AnnouncementsController::class, 'editAnnouncement']);
 
+    // documents attachments
+    Route::post('addNewDocumentAttachment', [DocumentsController::class, 'addNewDocumentAttachment']);
+    Route::get('getDocumentsAttachments', [DocumentsController::class, 'getDocumentsAttachments']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
@@ -240,9 +250,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
+    Route::get('getActiveCompaniesForDropDown', 'App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController@getActiveCompaniesForDropDown');
 
     // currencies
     Route::get('getCurrencies', [CurrenciesController::class, 'getCurrencies']);
+
+    // cities
+    Route::get('getCities', [CitiesController::class, 'getCities']);
 
     // file test
     Route::post('/fileUpload', [sharedController::class, 'fileUpload']);
