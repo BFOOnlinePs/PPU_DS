@@ -26,24 +26,24 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label for="">اسم الشركة</label>
+                                                        <label for="">{{ __('translate.Company Name') }}</label>
                                                         <input onkeyup="company_table_ajax()" id="company_search" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label for="">حالة الشركة</label>
+                                                        <label for="">{{ __('translate.company_status') }}</label>
                                                         <select onchange="company_table_ajax()" class="form-control" name="" id="company_status">
-                                                            <option value="">الكل</option>
+                                                            <option value="">{{ __('translate.Everyone') }}</option>
                                                             <option value="1">نعم</option>
                                                             <option value="0">لا</option>
                                                         </select>
                                                     </div>
                                                 </div><div class="col">
                                                     <div class="form-group">
-                                                        <label for="">الطاقة الاستيعابية</label>
+                                                        <label for="">{{ __('translate.capacity') }}</label>
                                                         <select onchange="company_table_ajax()" class="form-control" name="" id="capacity">
-                                                            <option value="">الكل</option>
+                                                            <option value="">{{ __('translate.Everyone') }}</option>
                                                             <option value="1">نعم</option>
                                                             <option value="0">لا</option>
                                                         </select>
@@ -168,8 +168,11 @@
                 }
 
                 function company_modal(data) {
-                    console.log(data);
-                    $('#company_name').text(data.c_name)
+                    @if(app()->isLocale('en'))
+                        $('#company_name').text(data.c_english_name)
+                    @elseif(app()->isLocale('ar'))
+                        $('#company_name').text(data.c_name)
+                    @endif
                     $('#company_id').val(data.c_id)
                     $('#company_arabic_name').val(data.c_name)
                     $('#company_english_name').val(data.c_english_name)

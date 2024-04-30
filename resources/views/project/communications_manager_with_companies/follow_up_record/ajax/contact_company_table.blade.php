@@ -1,16 +1,16 @@
 <table class="table table-sm table-hover table-bordered">
     <thead>
         <tr>
-            <th>اسم الشخص المسؤول</th>
-            <th>البريد الالكتروني</th>
-            <th>رقم الهاتف</th>
-            <th>العمليات</th>
+            <th>{{ __('translate.Supervisor') }}</th>
+            <th>{{ __('translate.Email') }}</th>
+            <th>{{ __('translate.phone_number') }}</th>
+            <th>{{ __('translate.Operations') }}</th>
         </tr>
     </thead>
     <tbody>
         @if($data->isEmpty())
             <tr>
-                <td colspan="4" class="text-center">لا توجد بيانات</td>
+                <td colspan="4" class="text-center">{{ __('translate.No available data') }}</td>
             </tr>
         @else
             @foreach($data as $key)

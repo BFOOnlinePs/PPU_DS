@@ -43,6 +43,10 @@
             <label class="form-label">{{__('translate.Birth Date')}} {{-- تاريخ الميلاد --}}</label>
             <input class="form-control" value="{{$user->u_date_of_birth}}" readonly>
         </div>
+              <div class="mb-3">
+                  <label class="form-label">{{__('translate.tawjihi_rate')}} {{-- عنوان السكن --}}</label>
+                  <input class="form-control" value="{{$user->u_tawjihi_gpa}}" readonly>
+              </div>
         <div class="form-footer">
         </div>
       </form>

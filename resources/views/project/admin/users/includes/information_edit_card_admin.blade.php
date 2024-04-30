@@ -60,6 +60,12 @@
                         <input class="form-control" value="{{$user->u_address}}" readonly>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">{{__('translate.tawjihi_rate')}} {{-- عنوان السكن --}}</label>
+                        <input class="form-control" value="{{$user->u_tawjihi_gpa}}" readonly>
+                    </div>
+                </div>
                 <!-- Add other rows or inputs as needed -->
             </div>
             <div class="form-footer">

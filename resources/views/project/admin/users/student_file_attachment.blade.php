@@ -44,15 +44,15 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <button type="button" onclick="AddStudentAttachmentModal()" class="btn btn-primary">اضافة مرفق</button>
+                                    <button type="button" onclick="AddStudentAttachmentModal()" class="btn btn-primary">{{ __('translate.add_attachment') }}</button>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover table-sm">
                                             <thead>
                                                 <tr>
-                                                    <th>الملف</th>
-                                                    <th>ملاحظات</th>
+                                                    <th>{{ __('translate.file') }}</th>
+                                                    <th>{{ __('translate.Notes') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

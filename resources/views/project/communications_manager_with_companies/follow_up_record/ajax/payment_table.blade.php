@@ -1,18 +1,18 @@
 <table class="table table table-sm table-bordered">
     <thead>
     <tr>
-        <th>الرقم المرجعي</th>
-        <th>اسم الطالب</th>
-        <th>ملاحظات</th>
-        <th>تمت الاضافة بواسطة</th>
-        <th>قيمة المبلغ المدفوع</th>
-        <th>العملة</th>
+        <th>{{ __('translate.Reference Number') }}</th>
+        <th>{{ __('translate.student_name') }}</th>
+        <th>{{ __('translate.Notes') }}</th>
+        <th>{{ __('translate.added_by_user') }}</th>
+        <th{{ __('translate.Payment Amount') }}</th>
+        <th>{{ __('translate.Currency') }}</th>
     </tr>
     </thead>
     <tbody>
     @if($data->isEmpty())
         <tr>
-            <td colspan="5" class="text-center">لا توجد بيانات</td>
+            <td colspan="5" class="text-center">{{ __('translate.No available data') }}</td>
         </tr>
     @else
         @foreach($data as $key)
