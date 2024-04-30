@@ -49,6 +49,7 @@ class FollowUpRecordController extends Controller
             $key->student_company = User::whereIn('u_id',function ($query) use ($key){
                 $query->select('sc_student_id')->from('students_companies')->where('sc_company_id',$key->c_id);
             })->get();
+            $key->student_company_count = count($key->student_company);
             $key->student_company_nomination = User::whereIn('u_id',function ($query) use ($key){
                 $query->select('scn_student_id')->from('student_company_nomination')->where('scn_company_id',$key->c_id);
             })->get();

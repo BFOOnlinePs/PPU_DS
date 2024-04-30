@@ -1,15 +1,15 @@
 <table class="table table table-sm table-bordered">
     <thead>
         <tr>
-            <th>عنوان فرع الشركة</th>
-            <th>رقم الهاتف</th>
-            <th>رقم مدير الفرع</th>
+            <th>{{ __('translate.company_branch_address') }}</th>
+            <th>{{ __('translate.phone_number') }}</th>
+            <th>{{ __('translate.branch_manager_number') }}</th>
         </tr>
     </thead>
     <tbody>
         @if($data->isEmpty())
             <tr>
-                <td colspan="3" class="text-center">لا توجد بيانات</td>
+                <td colspan="3" class="text-center">{{ __('translate.No available data') }}</td>
             </tr>
         @else
             @foreach($data as $key)

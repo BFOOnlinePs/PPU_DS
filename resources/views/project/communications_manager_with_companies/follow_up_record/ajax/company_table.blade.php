@@ -3,9 +3,9 @@
     <tr class="bg-primary">
         <th scope="col" style="display:none;">id</th>
         <th scope="col">{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
-        <th scope="col">الطلاب المتدربين</th>
-        <th scope="col">الطلاب المرشحين</th>
-        <th scope="col">ط.استيعابية</th>
+        <th scope="col">{{__('translate.company_trainees')}}</th>
+        <th scope="col">{{__('translate.candidate_students')}}</th>
+        <th scope="col">{{__('translate.capacity')}}</th>
         <th scope="col" style="width: 200px">{{__('translate.company_status')}}</th>
         <th scope="col" style="width: 200px">{{__('translate.Operations')}} {{--  العمليات --}}</th>
     </tr>
@@ -53,7 +53,7 @@
                 </td>
 
                 <td class="text-center">
-                    <input type="text" onchange="update_capacity_ajax({{ $key->c_id }},this.value)" class="" style="width: 30px ; text-align: center; " value="{{ $key->c_capacity }}" placeholder=""> / 5
+                    <input type="text" onchange="update_capacity_ajax({{ $key->c_id }},this.value)" class="" style="width: 30px ; text-align: center; " value="{{ $key->c_capacity }}" placeholder=""> / {{ $key->student_company_count }}
                 </td>
                 <td class="text-center">
                     <label class="switch">
@@ -66,9 +66,9 @@
                     </label>
                 </td>
                 <td class="">
-                    <a class="" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><u>استعراض</u></a>
-                    |<a class="" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><u>ترشيح طلاب</u></a>
-                    |<a class="" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><u class="">اتفاقيات</u></a>
+                    <a class="" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><u>{{__('translate.display')}}</u></a>
+                    |<a class="" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><u>{{__('translate.nominate_students')}}</u></a>
+                    |<a class="" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><u class="">{{__('translate.agreements')}}</u></a>
                 </td>
             </tr>
         @endforeach
