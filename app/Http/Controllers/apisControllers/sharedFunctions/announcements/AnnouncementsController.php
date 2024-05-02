@@ -82,8 +82,8 @@ class AnnouncementsController extends Controller
 
         $announcement = new AnnouncementModel();
 
-        $announcement->a_title = $request->title;
-        $announcement->a_content = $request->content;
+        $announcement->a_title = $request->input('title');
+        $announcement->a_content = $request->input('content');
         $announcement->a_added_by = auth()->user()->u_id;
         $announcement->a_status = 0; // un active
 

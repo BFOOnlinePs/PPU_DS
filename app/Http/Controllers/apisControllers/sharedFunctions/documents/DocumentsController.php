@@ -68,7 +68,7 @@ class DocumentsController extends Controller
                 // }
 
                 // delete parent parent and its file
-                $parent_parent->delete();
+                // $parent_parent->delete();
 
 
                 // make the new one the parent

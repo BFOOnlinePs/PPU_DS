@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\apisControllers\sharedFunctions;
 
 use App\Http\Controllers\Controller;
+use App\Models\CitiesModel;
 use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\CompanyBranchLocation;
@@ -73,7 +74,6 @@ class sharedController extends Controller
 
     public function getUserInfo(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'u_id' => 'required',
         ], [
@@ -88,7 +88,8 @@ class sharedController extends Controller
         };
 
         $user_id = $request->input('u_id');
-        $user = User::where('u_id', $user_id)->first();
+        $user = User::where('u_id', $user_id)->with('userCity:id,city_name_ar,city_name_en')->first();
+
         if ($user->u_role_id == 2) {
             // student
             $user->major_name  = Major::where('m_id', $user->u_major_id)->pluck('m_name')->first();

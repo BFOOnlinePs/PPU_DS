@@ -10,6 +10,7 @@ use App\Models\CompanyDepartment;
 use App\Models\StudentCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class studentTrainingsController extends Controller
@@ -195,6 +196,8 @@ class studentTrainingsController extends Controller
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '_' . uniqid() . '.' . $extension;
             $file->storeAs($folderPath, $fileName, 'public');
+            // delete old file
+            Storage::disk('public')->delete($folderPath . '/' . $student_company->sc_agreement_file);
             $student_company->update([
                 'sc_agreement_file' => $fileName
             ]);

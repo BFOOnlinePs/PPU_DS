@@ -42,7 +42,7 @@ class TraineePaymentsController extends Controller
         $manager_id = auth()->user()->u_id;
         $company_id = Company::where('c_manager_id', $manager_id)->pluck('c_id')->first();
         $payments = Payment::where('p_student_id', $student_id)->where('p_company_id', $company_id)
-            -> orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(7);
         // ->get();
 
@@ -123,8 +123,21 @@ class TraineePaymentsController extends Controller
             $file->storeAs($folderPath, $fileName, 'public');
         }
 
-        $manager_id = auth()->user()->u_id;
-        $company_id = Company::where('c_manager_id', $manager_id)->pluck('c_id')->first();
+        $manager = auth()->user();
+        if ($manager->u_role_id != 6) {
+            return response()->json([
+                'status' => false,
+                'message' => 'unauthorized, you have to be manager',
+            ]);
+        }
+
+        $company_id = Company::where('c_manager_id', $manager->u_id)->pluck('c_id')->first();
+        if (!$company_id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'no company',
+            ]);
+        }
 
 
         $payment = Payment::create([
@@ -134,7 +147,7 @@ class TraineePaymentsController extends Controller
             'p_reference_id' => $request->input('reference_id'),
             'p_payment_value' => $request->input('payment_value'),
             'p_file' => $fileName ?? null,
-            'p_inserted_by_id' => $manager_id,
+            'p_inserted_by_id' => $manager->u_id,
             'p_status' => 0,
             'p_currency_id' => $currency_id,
             'p_company_notes' => $request->input('manager_notes'), // manager notes

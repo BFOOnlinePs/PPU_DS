@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class StudentCVController extends Controller
@@ -45,6 +46,9 @@ class StudentCVController extends Controller
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '_' . uniqid() . '.' . $extension;
             $request->file('cv')->storeAs($folderPath, $fileName, 'public');
+
+            // delete old file
+            Storage::disk('public')->delete($folderPath . '/' . $student->u_cv);
 
             $student->u_cv = $fileName;
             $student->u_cv_updated_at = now();
