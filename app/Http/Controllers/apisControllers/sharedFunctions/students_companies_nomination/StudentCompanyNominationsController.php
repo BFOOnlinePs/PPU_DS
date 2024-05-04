@@ -23,11 +23,17 @@ class StudentCompanyNominationsController extends Controller
 
         $nominated_students = User::whereIn('u_id', $nominated_students_id)
             ->with('major:m_id,m_name,m_academic_plan')
-            ->get();
+            ->paginate(10);
 
         return response()->json([
             'status' => true,
-            'nominated_students' => $nominated_students
+            'pagination' => [
+                'current_page' => $nominated_students->currentPage(),
+                'last_page' => $nominated_students->lastPage(),
+                'per_page' => $nominated_students->perPage(),
+                'total_items' => $nominated_students->total(),
+            ],
+            'nominated_students' => $nominated_students->items()
         ]);
     }
 }
