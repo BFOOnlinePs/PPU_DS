@@ -30,6 +30,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\sharedFunctions\students_companies_nomination\StudentCompanyNominationsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
@@ -242,6 +243,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // documents attachments
     Route::post('addNewDocumentAttachment', [DocumentsController::class, 'addNewDocumentAttachment']);
     Route::get('getDocumentsAttachments', [DocumentsController::class, 'getDocumentsAttachments']);
+
+    // student company nomination
+    Route::get('getNominatedStudents', [StudentCompanyNominationsController::class, 'getNominatedStudentsForCurrentManagerCompany']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
