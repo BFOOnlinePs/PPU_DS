@@ -68,7 +68,7 @@ class sharedController extends Controller
         // $user->revoke();
 
         return response([
-            'message' => trans('message.logout_successfully'),
+            'message' => trans('messages.logout_successfully'),
         ], 200);
     }
 
