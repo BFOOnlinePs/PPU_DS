@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class AnnouncementsController extends Controller
 {
+    // active and the user belongs to the target group
     public function getAllActiveAnnouncements(Request $request)
     {
+        // return auth()->user()->u_role_id;
         $per_page = $request->input('per_page', 5);
         $announcements = AnnouncementModel::where('a_status', 1)
+            ->whereJsonContains('a_target_group', (string)auth()->user()->u_role_id)
             ->orderBy('created_at', 'desc')
             ->paginate($per_page);
 
@@ -29,7 +32,9 @@ class AnnouncementsController extends Controller
 
     public function getAllAnnouncements()
     {
-        $announcements = AnnouncementModel::orderBy('created_at', 'desc')->with('addedBy:u_id,name')->paginate(50);
+        $announcements = AnnouncementModel::orderBy('created_at', 'desc')
+            ->with('addedBy:u_id,name')
+            ->paginate(50);
 
         return response()->json([
             'pagination' => [
@@ -65,10 +70,12 @@ class AnnouncementsController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
+            // 'target_group' => 'required',
             'image' => 'image|mimes:jpg,jpeg,png,svg',
         ], [
             'title.required' => trans('messages.announcement_title_required'),
             'content.required' => trans('messages.announcement_content_required'),
+            // 'target_group.required' => trans('messages.announcement_target_group_required'),
             'image.image' => trans('messages.announcement_image_image'),
             'image.mimes' => trans('messages.announcement_image_mimes'),
         ]);
@@ -85,6 +92,7 @@ class AnnouncementsController extends Controller
         $announcement->a_title = $request->input('title');
         $announcement->a_content = $request->input('content');
         $announcement->a_added_by = auth()->user()->u_id;
+        $announcement->a_target_group = $request->input('target_group');
         $announcement->a_status = 0; // un active
 
         if ($request->hasFile('image')) {
@@ -148,17 +156,19 @@ class AnnouncementsController extends Controller
 
     public function editAnnouncement(Request $request, $announcement_id)
     {
-
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
             'image' => 'image|mimes:jpg,jpeg,png,svg',
+            // 'target_group' => 'required',
             'is_image_deleted' => 'in:true,false'
         ], [
             'title.required' => trans('messages.announcement_title_required'),
             'content.required' => trans('messages.announcement_content_required'),
             'image.image' => trans('messages.announcement_image_image'),
             'image.mimes' => trans('messages.announcement_image_mimes'),
+            // 'target_group.required' => trans('messages.announcement_target_group_required'),
+
             // 'is_image_deleted.boolean' => ''
         ]);
 
@@ -180,9 +190,11 @@ class AnnouncementsController extends Controller
         }
 
 
-        // Update the title and content
+        // Update the title, content, and target group
         $announcement->a_title = $request->input('title');
         $announcement->a_content = $request->input('content');
+        $announcement->a_target_group = $request->input('target_group');
+
 
         if ($request->input('is_image_deleted')) {
             $announcement->a_image = null;

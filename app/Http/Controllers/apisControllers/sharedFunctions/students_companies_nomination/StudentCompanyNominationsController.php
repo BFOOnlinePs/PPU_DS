@@ -7,8 +7,7 @@ use App\Models\Company;
 use App\Models\StudentCompanyNominationModel;
 use App\Models\SystemSetting;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class StudentCompanyNominationsController extends Controller
 {

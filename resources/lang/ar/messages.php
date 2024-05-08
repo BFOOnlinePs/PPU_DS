@@ -70,6 +70,7 @@ return [
     'company_capacity_updated' => 'تم تحديث السعة التخزينية للشركة بنجاح',
     'announcement_title_required' => 'الرجاء إرسال العنوان الخاص بالإعلان',
     'announcement_content_required' => 'الرجاء إرسال المحتوى الخاص بالإعلان',
+    'announcement_target_group_required' => 'الرجاء إرسال الفئة المستهدفة الخاصة بالإعلان',
     'announcement_image_image' => 'الحقل يجب أن يكون صورة',
     'announcement_image_mimes' => 'الصورة يجب أن تكون من إحدى الصيغ التالية jpg,jpeg,png,svg',
     'announcement_added' => 'تم إضافة الإعلان بنحاح',

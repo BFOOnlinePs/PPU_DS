@@ -146,6 +146,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
+    Route::post('getStudentTrainingsForPayments', [studentTrainingsController::class, 'getStudentTrainingsForPayments']);
     Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']); // for supervisor
     Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
@@ -163,6 +164,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // payments => for manager
     Route::post('addTraineePayment', [TraineePaymentsController::class, 'addTraineePayment']);
+    Route::post('addPaymentByCoordinator', [TraineePaymentsController::class, 'addPaymentByCoordinator']);
     Route::post('getTraineePayments', [TraineePaymentsController::class, 'getTraineePayments']);
     Route::post('getAllTraineesPayments', [AllTraineesPaymentsController::class, 'getAllTraineesPayments']);
 

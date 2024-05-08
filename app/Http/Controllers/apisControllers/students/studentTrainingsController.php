@@ -9,6 +9,7 @@ use App\Models\companyBranchDepartments;
 use App\Models\CompanyDepartment;
 use App\Models\StudentCompany;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -44,10 +45,34 @@ class studentTrainingsController extends Controller
             $training->company_name = Company::where('c_id', $training->sc_company_id)->pluck('c_name')->first();
             $training->company_english_name = Company::where('c_id', $training->sc_company_id)->pluck('c_english_name')->first();
             $training->branch_name = CompanyBranch::where('b_id', $training->sc_branch_id)->pluck('b_address')->first();
-            $training->mentor_trainer_name = User::where('u_id', $training->sc_mentor_trainer_id)->pluck('name')->first();
-            $training->assistant_name = User::where('u_id', $training->sc_assistant_id)->pluck('name')->first();
+            // $training->mentor_trainer_name = User::where('u_id', $training->sc_mentor_trainer_id)->pluck('name')->first();
+            // $training->assistant_name = User::where('u_id', $training->sc_assistant_id)->pluck('name')->first();
+
+            $totalTimeDifference = 0;
+            foreach ($training->attendance as $attendance) { // attendance is the relation name
+                if ($attendance->sa_out_time === null) {
+                    continue; // Skip this attendance record
+                }
+
+                $sa_in_time = Carbon::parse($attendance->sa_in_time);
+                $sa_out_time = Carbon::parse($attendance->sa_out_time);
+
+                $timeDifference = $sa_out_time->diffInSeconds($sa_in_time);
+
+                $totalTimeDifference += $timeDifference;
+            }
+            $totalHours = floor($totalTimeDifference / 3600);
+            $totalMinutes = floor(($totalTimeDifference % 3600) / 60);
+            $totalSeconds = $totalTimeDifference % 60;
+
+            $training->total_hours = $totalHours;
+            $training->total_minutes = $totalMinutes;
+            $training->total_seconds = $totalSeconds;
+
+            unset($training->attendance);
             return $training;
         });
+
 
         return response()->json([
             'status' => true,
@@ -61,8 +86,47 @@ class studentTrainingsController extends Controller
         ], 200);
     }
 
-    public function getStudentCourseRegistrations()
+    public function getStudentTrainingsForPayments(Request $request)
     {
+        $student_id = $request->input('student_id');
+
+        $user = User::where('u_id', $student_id)->where('u_role_id', 2)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                "message" => trans('messages.student_id_not_exists'),
+            ]);
+        }
+
+        $trainings = StudentCompany::where('sc_student_id', $student_id)
+            ->where('sc_status', 1) // active
+            ->select('sc_id', 'sc_company_id', 'sc_student_id', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($trainings->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => trans('messages.no_trainings_for_student')
+            ], 200);
+        }
+
+        // add company name, branch address, mentor name, and assistant name for each training object
+        $trainings->transform(function ($training) {
+            $company = Company::where('c_id', $training->sc_company_id)->first();
+            if ($company) {
+                $training->company_name = $company->c_name;
+                $training->company_english_name = $company->c_english_name;
+            }
+            return $training;
+        });
+
+
+        return response()->json([
+            'status' => true,
+            'student_companies' => $trainings,
+        ], 200);
     }
 
     public function registerStudentInTraining(Request $request)

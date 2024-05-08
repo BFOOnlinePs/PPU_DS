@@ -70,6 +70,7 @@ return [
     'company_capacity_updated' => 'Company capacity updated successfully',
     'announcement_title_required' => 'Please send the announcement title',
     'announcement_content_required' => 'Please send the announcement content',
+    'announcement_target_group_required' => 'Please send the announcement target group',
     'announcement_image_image' => 'The field should be an image',
     'announcement_image_mimes' => 'The image should be in one of the following formats: jpg, jpeg, png, svg',
     'announcement_added' => 'Announcement added successfully',
