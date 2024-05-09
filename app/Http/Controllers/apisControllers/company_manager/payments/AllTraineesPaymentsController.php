@@ -38,7 +38,8 @@ class AllTraineesPaymentsController extends Controller
         $payments = $payments->paginate(7);
 
         $payments->getCollection()->transform(function ($payment) use ($manager_id) {
-            $payment->inserted_by_name = User::where('u_id', $manager_id)->pluck('name')->first();
+            // $payment->inserted_by_name = User::where('u_id', $manager_id)->pluck('name')->first();
+            $payment->inserted_by_name = User::where('u_id', $payment->p_inserted_by_id)->pluck('name')->first();
             $payment->student_name = User::where('u_id', $payment->p_student_id)->pluck('name')->first();
             // $payment->student_number = User::where('u_id', $payment->p_student_id)->pluck('u_username')->first();
             $payment->student_email = User::where('u_id', $payment->p_student_id)->pluck('email')->first();
