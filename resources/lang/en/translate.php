@@ -551,5 +551,6 @@
         'company_branch_address'=>'Company branch address',
         'branch_manager_number'=>'Branch manager number',
         'added_by_user'=>'Added By',
+        'add_an_agreement'=>'Add An Agreement',
     ];
 ?>

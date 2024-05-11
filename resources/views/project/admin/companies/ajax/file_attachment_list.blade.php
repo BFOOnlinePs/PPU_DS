@@ -2,7 +2,7 @@
     <tbody>
     @if($data->isEmpty())
         <tr>
-            <td colspan="2" class="text-center">لا توجد اتفاقيات</td>
+            <td colspan="2" class="text-center">{{ __('translate.No available data') }}</td>
         </tr>
     @else
         @foreach($data as $key)

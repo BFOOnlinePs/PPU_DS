@@ -58,7 +58,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="">{{ __('translate.Company Address') }}</label>
-                                                <input type="text" id="company_address" onchange="update_company_information('b_address',this.value)" class="form-control" placeholder="عنوان الشركة">
+                                                <input type="text" id="company_address" onchange="update_company_information('b_address',this.value)" class="form-control" placeholder="{{ __('translate.Company Address') }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -83,13 +83,13 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="">{{ __('translate.Website') }}</label>
-                                                <input onchange="update_company_information('c_website',this.value)" type="text" id="company_website" class="form-control" placeholder="الموقع الالكتروني">
+                                                <input onchange="update_company_information('c_website',this.value)" type="text" id="company_website" class="form-control" placeholder="{{ __('translate.Website') }}">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="">{{ __('translate.Company Description') }}</label>
-                                                <textarea name="" onchange="update_company_information('c_description',this.value)" id="company_description" class="form-control" cols="30" rows="2" placeholder="وصف الشركة"></textarea>
+                                                <textarea name="" onchange="update_company_information('c_description',this.value)" id="company_description" class="form-control" cols="30" rows="2" placeholder="{{ __('translate.Company Description') }}"></textarea>
                                             </div>
                                         </div>
                                     </div>

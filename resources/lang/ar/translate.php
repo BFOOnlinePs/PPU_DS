@@ -558,5 +558,6 @@
         'company_branch_address'=>'عنوان فرع الشركة',
         'branch_manager_number'=>'رقم مدير الفرع',
         'added_by_user'=>'الاضافة بواسطة',
+        'add_an_agreement'=>'اضافة اتفاقية',
     ];
 ?>

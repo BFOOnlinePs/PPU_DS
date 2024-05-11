@@ -7,19 +7,19 @@
                 <input type="hidden" name="table_name_id" id="table_name_id">
                 <div class="modal-header" style="height: 73px;">
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h3>اضافة اتفاقية</h3>
+                    <h3>{{ __('translate.add_an_agreement') }}</h3>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">اضافة اتفاقية</label>
+                                <label for="">{{ __('translate.add_an_agreement') }}</label>
                                 <input type="file" class="form-control" name="file">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">ملاحظات</label>
+                                <label for="">{{ __('translate.Notes') }}</label>
                                 <textarea class="form-control" name="note" id="" cols="30" rows="2"></textarea>
                             </div>
                         </div>
