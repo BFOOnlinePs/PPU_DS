@@ -180,7 +180,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // payments => for manager, supervisor and student
     Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);
 
-
     // program coordinator
     Route::post('getAllStudentsDependOnMajor', [ProgramCoordinatorStudentsController::class, 'getAllStudentsDependOnMajor']);
     Route::get('getAllMajors', [ProgramCoordinatorMajorsController::class, 'getAllMajors']);
