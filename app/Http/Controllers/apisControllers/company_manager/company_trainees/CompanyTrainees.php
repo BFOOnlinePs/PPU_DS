@@ -31,25 +31,10 @@ class CompanyTrainees extends Controller
             ]);
         };
 
-        // // old code:
-        // $trainees = User::where('u_id', $request->input('manager_id'))
-        //     ->with('managerOf.studentCompanies.users')
-        //     ->get();
-
-        // // this works
-        // // ->pluck('managerOf.studentCompanies.*')
-        // // ->flatten()
-        // // ->sortByDesc('created_at')
-        // // ->values();
-
-        // // and this works as well
-        // // to get only the studentCompanies list inside the managerOf
-        // // (add .users if you want the users inside the studentCompanies as well)
-        // $trainees = $trainees->pluck('managerOf.studentCompanies.*')->flatten();
-
-
         $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
-        $students_companies = StudentCompany::whereIn('sc_branch_id', $company_branches_id)->with('users')
+        $students_companies = StudentCompany::whereIn('sc_branch_id', $company_branches_id)
+            ->whereNot('sc_status', 3)
+            ->with('users')
             ->orderBy('created_at', 'desc');
 
         // for filter

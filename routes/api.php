@@ -30,6 +30,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
+use App\Http\Controllers\apisControllers\sharedFunctions\students_companies_nomination\StudentCompanyNominationsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
@@ -145,6 +146,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
+    Route::post('getStudentTrainingsForPayments', [studentTrainingsController::class, 'getStudentTrainingsForPayments']);
     Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']); // for supervisor
     Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
@@ -162,6 +164,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // payments => for manager
     Route::post('addTraineePayment', [TraineePaymentsController::class, 'addTraineePayment']);
+    Route::post('addPaymentByCoordinator', [TraineePaymentsController::class, 'addPaymentByCoordinator']);
     Route::post('getTraineePayments', [TraineePaymentsController::class, 'getTraineePayments']);
     Route::post('getAllTraineesPayments', [AllTraineesPaymentsController::class, 'getAllTraineesPayments']);
 
@@ -177,14 +180,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // payments => for manager, supervisor and student
     Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);
 
-
     // program coordinator
     Route::post('getAllStudentsDependOnMajor', [ProgramCoordinatorStudentsController::class, 'getAllStudentsDependOnMajor']);
     Route::get('getAllMajors', [ProgramCoordinatorMajorsController::class, 'getAllMajors']);
     Route::get('getStudentsCompanies', [ProgramCoordinatorStudentsTrainingsController::class, 'getStudentsCompanies']);
     Route::post('getAllStudentsInCompany', [ProgramCoordinatorStudentsTrainingsController::class, 'getAllStudentsInCompany']);
     Route::post('getStudentsRegisteredForTraining', [ProgramCoordinatorStudentsController::class, 'getStudentsRegisteredForTraining']);
-
 
     // add company => for supervisor and coordinator and more
     Route::post('createManagerAndHisCompany', [AddCompanyController::class, 'createManagerAndHisCompany']);
@@ -242,6 +243,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // documents attachments
     Route::post('addNewDocumentAttachment', [DocumentsController::class, 'addNewDocumentAttachment']);
     Route::get('getDocumentsAttachments', [DocumentsController::class, 'getDocumentsAttachments']);
+
+    // student company nomination
+    Route::get('getNominatedStudents', [StudentCompanyNominationsController::class, 'getNominatedStudentsForCurrentManagerCompany']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);

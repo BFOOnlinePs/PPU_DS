@@ -150,4 +150,9 @@ class User extends Authenticatable
         return $this->hasMany(announcements::class, 'a_added_by', 'u_id');
     }
 
+    public function userCity(){
+        return $this->hasOne(CitiesModel::class, 'id','u_city_id');
+
+    }
+
 }

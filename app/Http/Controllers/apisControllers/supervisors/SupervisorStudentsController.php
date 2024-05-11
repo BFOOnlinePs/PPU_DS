@@ -140,7 +140,7 @@ class SupervisorStudentsController extends Controller
         }
 
         $student_id = $request->input('student_id');
-        $student_info = User::where('u_role_id', 2)->where('u_id', $student_id)->first();
+        $student_info = User::where('u_role_id', 2)->where('u_id', $student_id)->with('userCity:id,city_name_ar,city_name_en')->first();
 
         if (!$student_info) {
             return response()->json([
