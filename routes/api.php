@@ -187,7 +187,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getAllStudentsInCompany', [ProgramCoordinatorStudentsTrainingsController::class, 'getAllStudentsInCompany']);
     Route::post('getStudentsRegisteredForTraining', [ProgramCoordinatorStudentsController::class, 'getStudentsRegisteredForTraining']);
 
-
     // add company => for supervisor and coordinator and more
     Route::post('createManagerAndHisCompany', [AddCompanyController::class, 'createManagerAndHisCompany']);
     Route::post('updateCompanyAddingCategoryAndType', [AddCompanyController::class, 'updateCompanyAddingCategoryAndType']);
