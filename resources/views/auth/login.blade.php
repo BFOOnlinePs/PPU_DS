@@ -1,211 +1,96 @@
+<!doctype html>
 <html lang="en">
+  <head>
+  	<title>Login 08</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="viho admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords"
-        content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <title>صفحة تسجيل الدخول</title>
-    <!-- Google font-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-        rel="stylesheet">
-    <!-- Font Awesome-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/fontawesome.css') }}">
-    <!-- ico-font-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/icofont.css') }}">
-    <!-- Themify icon-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themify.css') }}">
-    <!-- Flag icon-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/flag-icon.css') }}">
-    <!-- Feather icon-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/feather-icon.css') }}">
-    <!-- Plugins css start-->
-    <!-- Plugins css Ends-->
-    <!-- Bootstrap css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.css') }}">
-    <!-- App css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
-    <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
-    <!-- Responsive css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
-    <style>
-        .column {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
-        .text {
-            /* font-size: 24px; */
-            margin-bottom: 20px;
-        }
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{{ asset('assets/login/css/style.css') }}">
 
-        .photo {
-            width: 270px;
-            /* Adjust the width of the photo as needed */
-            height: 270px;
-        }
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-3">
+ 				</div>
+			</div>
+			<div class="row justify-content-center">
+			
+			
+				
+				<div class="col-md-6 col-lg-5">
+					<div class="login-wrap p-4 p-md-5" align="center" >
+					
+					<img src="{{ asset('assets/login/images/ds-ppu.png') }}" width="250"   > 
+					
+			 
+		      	<h3 class="text-center mb-4">Login to your account </h3>
+						<form action="{{ route('login') }}" method='post' class="login-form">
+                            @csrf
+		      		<div class="form-group">
+		      			<input type="email" id="email" name="email" class="form-control rounded-left" placeholder="Email" required>
+		      		</div>
+	            <div class="form-group d-flex">
+	              <input type="password" id="password" class="form-control rounded-left" name="password" placeholder="Password" required>
+	            </div>
+	            <div class="form-group d-md-flex">
+	            	<div class="w-50">
+	            	 
+					</div>		 
+	            </div>
 
-        @font-face {
-            font-family: 'Tajawal';
-            src: url({{asset('fonts/tajawal/Tajawal-Regular.ttf')}}) format('truetype');
-            font-weight: normal;
-        }
-
-        * {
-            font-family: 'Tajawal', sans-serif;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Loader starts-->
-
-    <!-- Loader ends-->
-    <!-- page-wrapper Start-->
-    <section>
-        <div class="container-fluid">
-            <div class="row" style="
-    background-color: red;
-    background-color: #f5f6f9;
-">
-                <div class="col-xl-6 b-center"
-                    style="
-    /* place-items: center; */
-    align-content: center;
-    /* display: flex; */
-    /* justify-content: center; */
-    background-color: white;
-">
-
-
-
-                    <div class="column">
-                        <h1 class="text">{{__('translate.Dual Studies')}}{{-- الدراسات الثنائية --}}</h1>
-                        <h3 class="text">{{__('translate.Palestine Polytechnic University')}}{{-- جامعة بوليتكنك فلسطين --}}</h3>
-                        <img class="photo" src="{{ asset('assets/images/ds-ppu.png') }}" alt="Centered Photo">
-                        <br>
-                    </div>
-
-
-
-
-                </div>
-
-                <div class="col-xl-6 p-0">
-                    <div class="login-card" style="
-    height: 450px; background-color: rgb(36 105 92 / 0%);">
-                        <form class="theme-form login-form shadow-sm mb-5 bg-white" method="POST"
-                            action="{{ route('login') }}"
-                            style="
-    /* padding-bottom: 100px; */
-    /* padding-top: 100px; */
-    height: 350px;
-    border-radius: 10px;
-    /* padding-top: 50px; */
-    padding-top: 40px;
-">
-                @csrf
-                <h4>{{__('translate.Login')}}{{-- تسجيل الدخول --}}</h4>
-                <h6></h6>
-                <div class="form-group">
-                  <label>{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
-                    <input id="email" class="form-control " name="email" type="email" required="" placeholder="Test@gmail.com" value="" autocomplete="email" autofocus="">
-                                      </div>
-                    @error('email')
-                    <span class="text-danger">{{$message}}</span>
-
-                @enderror
-                </div>
-
-                <div class="form-group">
-                  <label>{{__('translate.Password')}} {{-- كلمة المرور --}}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
-                    <input id="password" class="form-control " type="password" name="password" required="" placeholder="*********" autocomplete="current-password">
-                                        <div class="show-hide"><span class="show">                         </span></div>
-                  </div>
-                  @error('password')
-                {{$message}}
-            @enderror
-                </div>
-
-<div class="mt-2">
+                <div class="mt-2">
                                 <div class="div p-1 ">
-                                    <button onclick="login('admin@gmail.com','123456789')" type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Admin')}}{{--ادمن--}}</button>
+                                    <button onclick="login('admin@gmail.com','123456789')" type="button" class="btn btn-info btn-sm form-control">أدمن</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('EzdeharJwabreh@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Academic Supervisor')}}{{--مشرف أكاديمي--}}</button>
+                                    <button onclick="login('EzdeharJwabreh@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">المشرف</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('mazen@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Academic Supervisor Assistant')}}{{--مساعد اداري--}}</button>
+                                    <button onclick="login('mazen@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مساعد إداري</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('ayman@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.M&E')}}{{--مسؤول المتابعة والتقييم--}}</button>
+                                    <button onclick="login('ayman@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول متابعة وتقييم</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('abdelmajeed@jawwal.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</button>
+                                    <button onclick="login('abdelmajeed@jawwal.ps','123456789')" type="button" class="btn  btn-dark btn-sm form-control">مدير الشركة</button>
                                 </div>
-                                {{-- <div class="div p-1">
-                                    <button onclick="login('mohammad_marqa@gmail.com','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">مسؤول التدريب</button>
-                                </div> --}}
+                                
                                 <div class="div p-1">
-                                    <button onclick="login('179033@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Student')}}{{--الطالب--}}</button>
+                                    <button onclick="login('179033@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">طالب</button>
                                 </div>
                                 <div class="div p-1">
-                                    <button onclick="login('mohamadher@ppu.edu.ps','123456789')"  type="button" class="btn text-white btn-info btn-sm form-control">{{__('translate.Program Coordinator')}}{{--مسؤول التواصل مع الشركات--}}</button>
+                                    <button onclick="login('mohamadher@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول التواصل مع الشركات</button>
                                 </div>
                             </div>
+				
+	            <div class="form-group">
+	            	<button type="submit" class="btn btn-primary rounded submit p-3 px-5">  Login </button>
+	            </div>
+            
+	          </form>
+	        </div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary" style="margin-left: 0px;">
-                        {{__('translate.Login')}}{{-- تسجيل الدخول --}}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- page-wrapper end-->
-    <!-- latest jquery-->
-    <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
-    <!-- feather icon js-->
-    <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
-    <!-- Sidebar jquery-->
-    <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
-    <script src="{{ asset('assets/js/config.js') }}"></script>
-    <!-- Bootstrap js-->
-    <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-    <!-- Plugins JS start-->
-    <!-- Plugins JS Ends-->
-    <!-- Theme js-->
-    <script src="{{ asset('assets/js/script.js') }}"></script>
-    <!-- login js-->
-    <!-- Plugin used-->
-    <script>
+	<script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
         function login(username,password) {
             document.getElementById('email').value = username;
             document.getElementById('password').value = password;
         }
     </script>
-
-</body>
-
+	</body>
 </html>
+
