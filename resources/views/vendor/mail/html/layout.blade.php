@@ -50,7 +50,7 @@
                     </td>
                 </tr>
 
-                PPU <DS></DS>
+{{--                {{ $footer ?? '' }}--}}
             </table>
         </td>
     </tr>
