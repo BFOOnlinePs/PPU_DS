@@ -123,6 +123,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('managerAddOrEditReportNote', [ManagerNotes::class, 'managerAddOrEditReportNote']);
 
+    Route::post('managerChangeAttendanceStatus', [CompanyTrainees::class, 'managerChangeAttendanceStatus']);
+
     // Route::post('managerEditNote', [ManagerNotes::class, 'managerEditNote']);
 
 

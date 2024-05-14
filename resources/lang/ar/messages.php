@@ -144,4 +144,5 @@ return [
     'file_mimes' => 'الصيغة غير مدعومة، جرب صيغة اخرى',
     'document_added' => 'تم إضافة الملف بنجاح',
     'document_not_added' => 'حدث خطأ أثناء الاضافة',
+    'attendance_status_updated' => 'تم تعديل حالة الحضور بنجاح'
 ];
