@@ -20,7 +20,8 @@ class StudentAttendance extends Model
         'sa_in_time',
         'sa_end_time_longitude',
         'sa_end_time_latitude',
-        'sa_out_time'
+        'sa_out_time',
+        'sa_status',
     ];
 
     public function report()

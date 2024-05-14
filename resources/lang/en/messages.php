@@ -144,6 +144,7 @@ return [
     'file_mimes' => 'Unsupported file format. Please try another format.',
     'document_added' => 'Document added successfully.',
     'document_not_added' => 'An error occurred while adding the document.',
+    'attendance_status_updated' => 'Attendance status changed successfully',
 
 
 ];

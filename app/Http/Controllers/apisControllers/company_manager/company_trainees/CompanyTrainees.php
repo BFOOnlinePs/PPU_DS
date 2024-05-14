@@ -285,4 +285,30 @@ class CompanyTrainees extends Controller
             'trainees' => $trainees,
         ]);
     }
+
+    public function managerChangeAttendanceStatus(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'attendance_id' => 'required|exists:students_attendance,sa_id',
+            'attendance_status' => 'required|in:1,2,3',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        }
+
+        $attendance = StudentAttendance::where('sa_id', $request->input('attendance_id'))->first();
+        $attendance->update([
+            'sa_status' => $request->input('attendance_status'),
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => trans('messages.attendance_status_updated'),
+            'student_attendance' => $attendance,
+        ]);
+    }
 }
