@@ -8,7 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	
+
 	<link rel="stylesheet" href="{{ asset('assets/login/css/style.css') }}">
 
 	</head>
@@ -20,15 +20,15 @@
  				</div>
 			</div>
 			<div class="row justify-content-center">
-			
-			
-				
+
+
+
 				<div class="col-md-6 col-lg-5">
 					<div class="login-wrap p-4 p-md-5" align="center" >
-					
-					<img src="{{ asset('assets/login/images/ds-ppu.png') }}" width="250"   > 
-					
-			 
+
+					<img src="{{ asset('assets/login/images/ds-ppu.png') }}" width="250"   >
+
+
 		      	<h3 class="text-center mb-4">Login to your account </h3>
 						<form action="{{ route('login') }}" method='post' class="login-form">
                             @csrf
@@ -40,8 +40,8 @@
 	            </div>
 	            <div class="form-group d-md-flex">
 	            	<div class="w-50">
-	            	 
-					</div>		 
+
+					</div>
 	            </div>
 
                 <div class="mt-2">
@@ -60,7 +60,7 @@
                                 <div class="div p-1">
                                     <button onclick="login('abdelmajeed@jawwal.ps','123456789')" type="button" class="btn  btn-dark btn-sm form-control">مدير الشركة</button>
                                 </div>
-                                
+
                                 <div class="div p-1">
                                     <button onclick="login('179033@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">طالب</button>
                                 </div>
@@ -68,11 +68,15 @@
                                     <button onclick="login('mohamadher@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول التواصل مع الشركات</button>
                                 </div>
                             </div>
-				
+                            @if (Route::has('password.request'))
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
+                            @endif
 	            <div class="form-group">
 	            	<button type="submit" class="btn btn-primary rounded submit p-3 px-5">  Login </button>
 	            </div>
-            
+
 	          </form>
 	        </div>
 				</div>
