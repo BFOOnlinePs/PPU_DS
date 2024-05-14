@@ -44,7 +44,7 @@ class NewResetPasswordNotification extends Notification
     {
         return (new MailMessage)
                     ->line('محمد مرقة')
-                    ->action('Reset Password', url('/reset-password',$this->token))
+                    ->action('Reset Password', url('password/reset',$this->token))
                     ->line('Mohamad Maraqa');
     }
 
