@@ -50,6 +50,8 @@ use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsTrainingsController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Models\AnnouncementModel;
 use App\Models\StudentCompany;
 use Illuminate\Http\Request;
@@ -271,3 +273,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
 });
+
+Route::post('/forgot-password', [ForgotPasswordController::class, 'store']);
+Route::post('/reset-password', [ResetPasswordController::class, 'store']);
+
