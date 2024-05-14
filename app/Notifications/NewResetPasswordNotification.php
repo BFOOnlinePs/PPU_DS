@@ -43,9 +43,8 @@ class NewResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('محمد مرقة')
-                    ->action('Reset Password', url('password/reset',$this->token))
-                    ->line('Mohamad Maraqa');
+                    ->line('To reset your password, click the following button:')
+                    ->action('Reset Password', url('password/reset',$this->token));
     }
 
     /**
