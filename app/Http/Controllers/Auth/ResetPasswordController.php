@@ -22,15 +22,12 @@ class ResetPasswordController extends Controller
         );
 
         if ($status === Password::RESET_LINK_SENT) {
-            return $request->wantsJson()
-                ? response()->json(['message' => __($status)])
-                : back()->with('status', __($status));
+            return response()->json(['status' => true, 'message' => __($status)]);
         }
 
-        return $request->wantsJson()
-            ? response()->json(['error' => __($status)], 422)
-            : back()->withErrors(['email' => __($status)]);
+        return response()->json(['status' => false, 'error' => __($status)], 422);
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -43,12 +40,12 @@ class ResetPasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
+    // use ResetsPasswords;
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // /**
+    //  * Where to redirect users after resetting their password.
+    //  *
+    //  * @var string
+    //  */
+    // // protected $redirectTo = RouteServiceProvider::HOME;
 }
