@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\apisController\students\StudentAttendanceController;
 use App\Http\Controllers\apisControllers\admin\AdminController;
-use App\Http\Controllers\apisControllers\company_manager\CompaniesController;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\CompanyTrainees;
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
@@ -17,26 +15,21 @@ use App\Http\Controllers\apisControllers\program_coordinator\students\ProgramCoo
 use App\Http\Controllers\apisControllers\program_coordinator\students_trainings\ProgramCoordinatorStudentsTrainingsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\AddCompanyController;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\editCompanyController;
-use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\EditCompanyInfo;
 use App\Http\Controllers\apisControllers\sharedFunctions\add_edit_company\EditCompanyInfoController;
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_attendance;
 use App\Http\Controllers\apisControllers\sharedFunctions\all_students\all_students_reports;
 use App\Http\Controllers\apisControllers\sharedFunctions\announcements\AnnouncementsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\cities\CitiesController;
-use App\Http\Controllers\apisControllers\sharedFunctions\CollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
-use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
-use App\Http\Controllers\apisControllers\sharedFunctions\students_companies_nomination\StudentCompanyNominationsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
 use App\Http\Controllers\apisControllers\students\cv\StudentCVController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
-use App\Http\Controllers\apisControllers\students\preferences\StudentPreferencesController;
 use App\Http\Controllers\apisControllers\students\student_log\studentLogController;
 use App\Http\Controllers\apisControllers\students\StudentAttendanceController as StudentsStudentAttendanceController;
 use App\Http\Controllers\apisControllers\students\StudentController;
@@ -45,17 +38,15 @@ use App\Http\Controllers\apisControllers\students\StudentReportAttendanceControl
 use App\Http\Controllers\apisControllers\students\studentReportController;
 use App\Http\Controllers\apisControllers\students\studentTrainingsController;
 use App\Http\Controllers\apisControllers\supervisors\payments\PaymentsController;
-use App\Http\Controllers\apisControllers\supervisors\SupervisorMajors;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsTrainingsController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Models\AnnouncementModel;
-use App\Models\StudentCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -125,8 +116,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('managerAddOrEditReportNote', [ManagerNotes::class, 'managerAddOrEditReportNote']);
 
-    Route::post('managerChangeAttendanceStatus', [CompanyTrainees::class, 'managerChangeAttendanceStatus']);
-
     // Route::post('managerEditNote', [ManagerNotes::class, 'managerEditNote']);
 
 
@@ -150,7 +139,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // student trainings
     Route::post('getStudentTrainings', [studentTrainingsController::class, 'getStudentTrainings']);
-    Route::post('getStudentTrainingsForPayments', [studentTrainingsController::class, 'getStudentTrainingsForPayments']);
     Route::post('registerStudentInTraining', [studentTrainingsController::class, 'registerStudentInTraining']); // for supervisor
     Route::post('updateStudentRegistrationInTraining', [studentTrainingsController::class, 'updateStudentRegistrationInTraining']);
     Route::post('getCompanyBranchesWithEmployees', [studentTrainingsController::class, 'getCompanyBranchesWithEmployees']);
@@ -168,7 +156,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // payments => for manager
     Route::post('addTraineePayment', [TraineePaymentsController::class, 'addTraineePayment']);
-    Route::post('addPaymentByCoordinator', [TraineePaymentsController::class, 'addPaymentByCoordinator']);
     Route::post('getTraineePayments', [TraineePaymentsController::class, 'getTraineePayments']);
     Route::post('getAllTraineesPayments', [AllTraineesPaymentsController::class, 'getAllTraineesPayments']);
 
@@ -184,12 +171,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // payments => for manager, supervisor and student
     Route::post('getStudentCompanyPayments', [StudentPaymentsController::class, 'getStudentCompanyPayments']);
 
+
     // program coordinator
     Route::post('getAllStudentsDependOnMajor', [ProgramCoordinatorStudentsController::class, 'getAllStudentsDependOnMajor']);
     Route::get('getAllMajors', [ProgramCoordinatorMajorsController::class, 'getAllMajors']);
     Route::get('getStudentsCompanies', [ProgramCoordinatorStudentsTrainingsController::class, 'getStudentsCompanies']);
     Route::post('getAllStudentsInCompany', [ProgramCoordinatorStudentsTrainingsController::class, 'getAllStudentsInCompany']);
     Route::post('getStudentsRegisteredForTraining', [ProgramCoordinatorStudentsController::class, 'getStudentsRegisteredForTraining']);
+
 
     // add company => for supervisor and coordinator and more
     Route::post('createManagerAndHisCompany', [AddCompanyController::class, 'createManagerAndHisCompany']);
@@ -231,10 +220,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getStudentsForCVs', [StudentsCVController::class, 'getStudentsForCVs']);
     Route::put('changeStudentCVStatus', [StudentsCVController::class, 'changeStudentCVStatus']);
 
-    // student preferences
-    Route::post('addEditStudentPreferences', [StudentPreferencesController::class, 'addEditStudentPreferences']);
-    Route::get('getCurrentStudentPreferences', [StudentPreferencesController::class, 'getCurrentStudentPreferences']);
-
 
     // announcements
     Route::get('getAllActiveAnnouncements', [AnnouncementsController::class, 'getAllActiveAnnouncements']);
@@ -244,12 +229,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('announcements/{announcement_id}/status',  [AnnouncementsController::class, 'changeAnnouncementStatus']);
     Route::post('announcements/{announcement_id}',  [AnnouncementsController::class, 'editAnnouncement']);
 
-    // documents attachments
-    Route::post('addNewDocumentAttachment', [DocumentsController::class, 'addNewDocumentAttachment']);
-    Route::get('getDocumentsAttachments', [DocumentsController::class, 'getDocumentsAttachments']);
-
-    // student company nomination
-    Route::get('getNominatedStudents', [StudentCompanyNominationsController::class, 'getNominatedStudentsForCurrentManagerCompany']);
 
     // system
     Route::get('getCollageYears', [SystemCollageYearsController::class, 'getCollageYears']);
@@ -258,7 +237,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // companies
     Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
-    Route::get('getActiveCompaniesForDropDown', 'App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController@getActiveCompaniesForDropDown');
 
     // currencies
     Route::get('getCurrencies', [CurrenciesController::class, 'getCurrencies']);
@@ -276,4 +254,3 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store']);
 Route::post('/reset-password', [ResetPasswordController::class, 'store']);
-
