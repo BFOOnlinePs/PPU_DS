@@ -64,7 +64,7 @@
                                                     @foreach($data as $key)
                                                         <tr>
                                                             <td>
-                                                                <a target="_blank" href="{{ asset('storage/students/'.$key->file) }}">{{ $key->file }}</a>
+                                                                <a target="_blank" href="{{ asset('public/storage/students/'.$key->file) }}">{{ $key->file }}</a>
                                                             </td>
                                                             <td>{{ $key->note }}</td>
                                                         </tr>

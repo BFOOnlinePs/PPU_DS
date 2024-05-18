@@ -46,7 +46,7 @@
                                             @foreach($data as $key)
                                                 <tr>
                                                     <td>
-                                                        <a href="{{ asset('storage/files/'. $key->mea_file ) }}" target="_blank">{{ $key->mea_file }}</a>
+                                                        <a href="{{ asset('public/storage/files/'. $key->mea_file ) }}" target="_blank">{{ $key->mea_file }}</a>
                                                     </td>
                                                     <td>{{ $key->mea_description }}</td>
                                                     <td>
@@ -77,7 +77,7 @@
             var file_table = $('#file_table');
             file_table.empty();
             if (parent.versions.length === 0) {
-                src = '{{ asset('storage/files') }}' + '/' + parent.mea_file;
+                src = '{{ asset('public/storage/files') }}' + '/' + parent.mea_file;
                 file_table.append(`
             <tr>
                 <td>
@@ -88,9 +88,9 @@
             </tr>
     `);
             } else {
-                parent_src = '{{ asset('storage/files') }}' + '/' + parent.mea_file;
+                parent_src = '{{ asset('public/storage/files') }}' + '/' + parent.mea_file;
                 $.each(parent.versions, function(index, value) {
-                    src = '{{ asset('storage/files') }}' + '/' + value.mea_file;
+                    src = '{{ asset('public/storage/files') }}' + '/' + value.mea_file;
                     file_table.append(`
             <tr>
                 <td>
@@ -115,7 +115,7 @@
             var file_table = $('#file_table');
             file_table.empty();
             if (versions.length === 0) {
-                src = '{{ asset('storage/files') }}' + '/' + parent.mea_file;
+                src = '{{ asset('public/storage/files') }}' + '/' + parent.mea_file;
                 file_table.append(`
             <tr>
                 <td>
@@ -126,9 +126,9 @@
             </tr>
     `);
             } else {
-                parent_src = '{{ asset('storage/files') }}' + '/' + parent.mea_file;
+                parent_src = '{{ asset('public.storage/files') }}' + '/' + parent.mea_file;
                 $.each(versions, function(index, value) {
-                    src = '{{ asset('storage/files') }}' + '/' + value.mea_file;
+                    src = '{{ asset('public/storage/files') }}' + '/' + value.mea_file;
                     file_table.append(`
             <tr>
                 <td>
