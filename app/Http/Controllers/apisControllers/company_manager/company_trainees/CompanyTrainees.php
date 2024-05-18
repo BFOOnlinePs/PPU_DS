@@ -271,9 +271,10 @@ class CompanyTrainees extends Controller
         $unique_trainees_ids = StudentCompany::whereIn('sc_branch_id', $company_branches_id)
             ->select('sc_student_id')
             ->distinct()
-            ->orderBy('created_at', 'desc')
-            ->get()
+            // ->orderBy('created_at', 'desc')
+            // ->get();
             ->pluck('sc_student_id');
+
 
         $trainees = User::whereIn('u_id', $unique_trainees_ids)
             ->where('name', 'like', '%' . $trainee_name_search . '%')

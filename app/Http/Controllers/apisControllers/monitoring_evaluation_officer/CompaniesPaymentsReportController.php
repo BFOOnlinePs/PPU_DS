@@ -98,10 +98,7 @@ class CompaniesPaymentsReportController extends Controller
             }
 
             // change the key from currency id to currency symbol
-
-
             // Now $paymentsByCurrency contains sums of payments by currency for the current StudentCompany
-            // You can do whatever you need with this data
             $studentCompany->payments_by_currency = $paymentsByCurrency;
 
             if ($confirmedPayments) {
