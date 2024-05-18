@@ -94,10 +94,6 @@ class StudentController extends Controller
 
             // change the key from currency id to currency symbol
             // Now $paymentsByCurrency contains sums of payments by currency for the current StudentCompany
-
-            // if($paymentsByCurrency->is_array){
-
-            // }
             $training->payments_by_currency = empty($paymentsByCurrency) ? (object)[] : $paymentsByCurrency;
             unset($training->trainingPayments);
 

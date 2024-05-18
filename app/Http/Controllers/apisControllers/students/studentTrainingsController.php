@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\companyBranchDepartments;
 use App\Models\CompanyDepartment;
+use App\Models\Currency;
 use App\Models\StudentCompany;
 use App\Models\User;
 use Carbon\Carbon;
@@ -70,6 +71,35 @@ class studentTrainingsController extends Controller
             $training->total_seconds = $totalSeconds;
 
             unset($training->attendance);
+
+
+            // training payments
+
+            $paymentsByCurrency = []; // Array to store sums of payments by currency
+
+            // Iterate over the training payments for the current StudentCompany
+            foreach ($training->trainingPayments as $payment) {
+                // Calculate the sum for each currency
+                $currencyId = $payment->p_currency_id;
+                $paymentValue = $payment->p_payment_value;
+
+                // Fetch currency symbol
+                $currencySymbol = Currency::where('c_id', $currencyId)->pluck('c_symbol')->first();
+
+                // Add the payment value to the corresponding currency sum
+                if (!isset($paymentsByCurrency[$currencySymbol])) {
+                    $paymentsByCurrency[$currencySymbol] = 0; // Initialize the sum if not present
+                }
+
+                $paymentsByCurrency[$currencySymbol] += $paymentValue;
+            }
+
+            // change the key from currency id to currency symbol
+            // Now $paymentsByCurrency contains sums of payments by currency for the current StudentCompany
+            $training->payments_by_currency = empty($paymentsByCurrency) ? (object)[] : $paymentsByCurrency;
+            unset($training->trainingPayments);
+
+
             return $training;
         });
 
