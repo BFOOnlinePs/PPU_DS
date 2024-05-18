@@ -420,6 +420,10 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
+Route::get('user_manual',function (){
+    return view('user_manual.index');
+})->name('user_manual');
+
 Route::get('generate', function () {
         \Illuminate\Support\Facades\Artisan::call('storage:link');
         echo 'ok';
