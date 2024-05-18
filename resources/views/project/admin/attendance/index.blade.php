@@ -154,7 +154,7 @@
                         document.getElementById('report_text_modal').value = ``;
                     }
                     if(response.data.attached_file != null) {
-                        document.getElementById('attachment_file_modal').href = `{{asset('storage/student_reports/${response.data.attached_file}')}}`;
+                        document.getElementById('attachment_file_modal').href = `{{asset('public/storage/student_reports/${response.data.attached_file}')}}`;
                     }
                     else {
                         document.getElementById('attachment_file_modal').href = ``;
