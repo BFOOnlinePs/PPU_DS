@@ -22,7 +22,7 @@
                                                 <label>{{__('translate.Report')}}{{-- التقرير --}}</label>
                                                 <textarea name="" id="" cols="100" rows="5" readonly>{{$student_report->sr_report_text}}</textarea>
                                                 @if (!empty($student_report->sr_attached_file))
-                                                    <a href="{{ asset('storage/student_reports/'.$student_report->sr_attached_file) }}" type="button" download>{{__('translate.Download Report Attachment')}}{{-- تنزيل الملف المرفق مع التقرير --}}</a>
+                                                    <a href="{{ asset('public/storage/student_reports/'.$student_report->sr_attached_file) }}" type="button" download>{{__('translate.Download Report Attachment')}}{{-- تنزيل الملف المرفق مع التقرير --}}</a>
                                                 @endif
                                                 <br>
                                                 @if (auth()->user()->u_role_id == 3)

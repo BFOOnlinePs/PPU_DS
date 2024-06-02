@@ -97,7 +97,7 @@
                                             <h6 class="text-center">السيرة الذاتية الخاصة بالطالب</h6>
                                             <div class="text-center">
                                                 @if(!empty($user->u_cv))
-                                                    <a class="btn btn-info btn-sm" download="cv_{{ $user->u_cv }}" href="{{ asset('storage/uploads/'.$user->u_cv) }}"><span class="fa fa-download"></span></a>
+                                                    <a class="btn btn-info btn-sm" download="cv_{{ $user->u_cv }}" href="{{ asset('public/storage/uploads/'.$user->u_cv) }}"><span class="fa fa-download"></span></a>
                                                 @endif
                                                     <form action="{{ route('students.personal_profile.add_sv_to_student') }}" class="mt-2" method="post" enctype="multipart/form-data">
                                                         @csrf

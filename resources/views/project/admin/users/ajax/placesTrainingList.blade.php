@@ -35,12 +35,12 @@
                     </td>
                     <td>
                         @if (!empty($studentCompany->sc_agreement_file))
-                            <a href="{{ asset('storage/uploads/'.$studentCompany->sc_agreement_file) }}" class="btn btn-primary fa fa-download btn-xs"  type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Download Approval File')}}" download></a>{{--"تنزيل ملف الموافقة"--}}
+                            <a href="{{ asset('public/storage/uploads/'.$studentCompany->sc_agreement_file) }}" class="btn btn-primary fa fa-download btn-xs"  type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Download Approval File')}}" download></a>{{--"تنزيل ملف الموافقة"--}}
                             @php
                                 $extension = pathinfo($studentCompany->sc_agreement_file, PATHINFO_EXTENSION);
                             @endphp
                             @if ($extension == 'png' || $extension == 'jpg' || $extension == 'pdf')
-                                <a onclick="viewAttachment('{{ asset('storage/uploads/'.$studentCompany->sc_agreement_file) }}')" class="btn btn-primary fa fa-file btn-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Display Approval File')}}"></a>{{--"عرض ملف الموافقة"--}}
+                                <a onclick="viewAttachment('{{ asset('public/storage/uploads/'.$studentCompany->sc_agreement_file) }}')" class="btn btn-primary fa fa-file btn-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Display Approval File')}}"></a>{{--"عرض ملف الموافقة"--}}
                             @endif
                             <a  href="{{route('admin.users.training.place.delete.file_agreement' , ['sc_id' => $studentCompany->sc_id])}}" class="btn btn-danger fa fa-trash btn-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Delete')}} {{__('translate.Approval File')}}"></a>{{--"حذف ملف الموافقة"--}}
                         @else
