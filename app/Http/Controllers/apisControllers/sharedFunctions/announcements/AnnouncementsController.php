@@ -15,6 +15,7 @@ class AnnouncementsController extends Controller
         // return auth()->user()->u_role_id;
         $per_page = $request->input('per_page', 5);
         $announcements = AnnouncementModel::where('a_status', 1)
+
             ->whereJsonContains('a_target_group', (string)auth()->user()->u_role_id)
             ->orderBy('created_at', 'desc')
             ->paginate($per_page);
