@@ -42,6 +42,7 @@ class User extends Authenticatable
         'u_cv_updated_at',
         'u_cv_status',
         'u_city_id',
+        'u_tawjihi_gpa',
         'remember_token',
     ];
 

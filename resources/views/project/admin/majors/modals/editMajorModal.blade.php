@@ -47,7 +47,7 @@
                                             <div class="mb-3 row">
                                                 <label class="col-lg-12 form-label " for="textinput">{{__('translate.Major Reference Code')}} {{-- الرمز المرجعي للتخصص --}}</label>
                                                 <div class="input-container">
-                                                    <i id="edit_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                                    <i id="edit_ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                                     <i id="edit_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                                     <input class="form-control" type="text" id="edit_m_reference_code" name="m_reference_code" onkeyup="checkMajorCode(this.value,'edit')" oninput="validateEngNumInput(this)">
                                                 </div>

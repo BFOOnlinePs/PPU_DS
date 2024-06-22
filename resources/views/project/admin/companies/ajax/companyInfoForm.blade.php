@@ -6,7 +6,7 @@
                             <label for="f1-first-name"> {{__('translate.Company Name')}}  <span style="color: red">*</span> {{-- اسم الشركة --}}</label>
 
                             <div class="input-container">
-                                <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                <i id="ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                 <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                 <input class="form-control required" type="text" id="c_name" name="c_name" value="{{$company->c_name}}"  onkeyup="checkCompany(this.value)">
                             </div>
@@ -46,7 +46,7 @@
                             <label for="f1-first-name"> {{__('translate.Email')}} <span style="color: red">*</span>  {{-- البريد الإلكتروني --}} </label>
                             {{--<input class="form-control required" id="email" type="text" name="email" value="{{$company->manager->email}}"  oninput="validateEmail(this)">--}}
                             <div class="input-container">
-                                <i id="email_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                <i id="email_ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                 <i id="email_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                 <input class="form-control required" id="email" type="text" name="email" value="{{$company->manager->email}}" oninput="validateEmail(this)">
                             </div>

@@ -57,7 +57,12 @@ class UsersImport implements ToModel
             'email' => $row[$this->additionalData['student_id']] . '@ppu.edu.ps',
             'u_role_id' => 2,
             'u_major_id' => $major->m_id,
-            'u_status' => 1
+            'u_status' => 1,
+            'u_tawjihi_gpa' => $row[$this->additionalData['u_tawjihi_gpa']],
+            'u_company_id' => $row[$this->additionalData['u_company_id']],
+            'u_phone1' => $row[10],
+            'u_date_of_birth' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[11])->format('Y-m-d')
+
         ]);
         if($return_user->save()) {
             $this->cnt++;

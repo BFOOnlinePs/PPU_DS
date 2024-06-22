@@ -22,7 +22,7 @@
         padding-top:8%
     }
     .announcement-header{
-    background-color: #24695c;
+    background-color: #ef681a;
     color: white;
     width: 100%;
     border-radius: 5px;
