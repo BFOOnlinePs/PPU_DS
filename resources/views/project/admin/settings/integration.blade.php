@@ -120,6 +120,26 @@
                             <select id="major_id" name="major_id" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">معدل التوجيهي</label>
+                            <select id="u_tawjihi_gpa" name="u_tawjihi_gpa" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">رقم الجوال</label>
+                            <select id="u_phone1" name="u_phone1" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">تاريخ الميلاد</label>
+                            <select id="u_date_of_birth" name="u_date_of_birth" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">الشركة التي يتدرب بها الطالب</label>
+                            <select id="u_company_id" name="u_company_id" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -251,7 +271,15 @@
         data.push('major_id');
         data.push(document.getElementById('major_id').value);
         data.push('major_name');
-        data.push(document.getElementById('major_name').value);
+        data.push(document.getElementById('major_id').value);
+        data.push('u_tawjihi_gpa');
+        data.push(document.getElementById('u_tawjihi_gpa').value);
+        data.push('u_company_id');
+        data.push(document.getElementById('u_company_id').value);
+        data.push('u_phone1');
+        data.push(document.getElementById('u_phone1').value);
+        data.push('u_date_of_birth');
+        data.push(document.getElementById('u_date_of_birth').value);
         let file = document.getElementById('excel_file').files[0];
         let name_file_hidden = document.getElementById('name_file_hidden').value;
         if (file) {
@@ -428,6 +456,10 @@
                     create_options(headers , 'course_name');
                     create_options(headers , 'major_id');
                     create_options(headers , 'major_name');
+                    create_options(headers , 'u_tawjihi_gpa');
+                    create_options(headers , 'u_company_id');
+                    create_options(headers , 'u_date_of_birth');
+                    create_options(headers , 'u_phone1');
                 },
                 error: function (error) {
                     $('#progress-container').hide();

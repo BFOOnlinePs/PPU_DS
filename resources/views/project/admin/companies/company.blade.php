@@ -103,7 +103,7 @@
                             <label for="f1-first-name">{{__("translate.Company Name")}}{{--اسم الشركة--}} <span style="color: red">*</span></label>
 
                             <div class="input-container">
-                                <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                <i id="ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                 <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                 <input class="form-control" type="text" id="c_name" name="c_name" required="" onkeyup="checkCompany(this.value)">
                             </div>
@@ -130,7 +130,7 @@
                         <div class="form-group">
                             <label for="f1-first-name"> {{__('translate.Email')}} {{-- البريد الإلكتروني --}} <span style="color: red">*</span></label>
                             <div class="input-container">
-                                <i id="email_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                <i id="email_ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                 <i id="email_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                 <input class="form-control" id="email" type="text" name="email" required="" oninput="validateEmail(this)">
                             </div>
@@ -302,7 +302,7 @@
                             </div>
                             {{-- <div class="row" id="departmentsArea">
 
-                                <div class="col-md-6 mb-1 mr-1" style="background-color: #24695c4e; border-radius:10px">
+                                <div class="col-md-6 mb-1 mr-1" style="background-color: #ef681a4e; border-radius:10px">
                                     <h6>test</h6>
                                 </div>
 
