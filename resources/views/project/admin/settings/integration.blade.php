@@ -75,6 +75,15 @@
                                         <li>{{__('translate.Course Name')}}{{-- اسم التدريب العملي --}}</li>
                                         <li>{{__('translate.Major ID')}}{{-- رقم التخصص --}}</li>
                                         <li>{{__("translate.Major Name")}}{{-- اسم التخصص --}}</li>
+                                        <li>معدل التوجيهي</li>
+                                        <li>رقم الجوال</li>
+                                        <li>تاريخ الميلاد</li>
+                                        <li>الشركة التي يتدرب بها</li>
+                                        <li>ايميل المدير</li>
+                                        <li>اسم المدير</li>
+                                        <li>اسم الشخص المسؤول</li>
+                                        <li>رقم هاتف الشخص المسؤول</li>
+                                        <li>كلمة المرور</li>
                                     </ul>
                                 </ul>
                             </div>
@@ -165,6 +174,26 @@
                         <div class="form-group">
                             <label for="f1-last-name">{{__("translate.Major Name")}}{{-- اسم التخصص --}}</label>
                             <select id="major_name" name="major_name" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">ايميل المدير</label>
+                            <select id="email" name="email" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">اسم المدير</label>
+                            <select id="manager_name" name="manager_name" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">رقم الهاتف الخاص بالمدير</label>
+                            <select id="manager_phone" name="manager_phone" class="js-example-basic-single col-sm-12">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f1-last-name">كلمة المرور</label>
+                            <select id="manager_password" name="manager_password" class="js-example-basic-single col-sm-12">
                             </select>
                         </div>
                     </div>
@@ -280,6 +309,14 @@
         data.push(document.getElementById('u_phone1').value);
         data.push('u_date_of_birth');
         data.push(document.getElementById('u_date_of_birth').value);
+        data.push('email');
+        data.push(document.getElementById('email').value);
+        data.push('manager_name');
+        data.push(document.getElementById('manager_name').value);
+        data.push('manager_phone');
+        data.push(document.getElementById('manager_phone').value);
+        data.push('manager_password');
+        data.push(document.getElementById('manager_password').value);
         let file = document.getElementById('excel_file').files[0];
         let name_file_hidden = document.getElementById('name_file_hidden').value;
         if (file) {
@@ -460,6 +497,10 @@
                     create_options(headers , 'u_company_id');
                     create_options(headers , 'u_date_of_birth');
                     create_options(headers , 'u_phone1');
+                    create_options(headers , 'email');
+                    create_options(headers , 'manager_name');
+                    create_options(headers , 'manager_phone');
+                    create_options(headers , 'manager_password');
                 },
                 error: function (error) {
                     $('#progress-container').hide();
