@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Company;
 use App\Models\Major;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -46,6 +47,16 @@ class UsersImport implements ToModel
         if($user) {
             return null;
         }
+
+        $check_company_id_if_exist = Company::where('c_name',$row[12])->first();
+        if (empty($check_company_id_if_exist)) {
+            $new_company = new Company();
+            $new_company->c_name = $row[12];
+            $new_company->save();
+            $company_id = $new_company->c_id;
+        } else {
+            $company_id = $check_company_id_if_exist->c_id;
+        }
         $major = Major::where('m_name' , $row[$this->additionalData['major_name']])
             ->where('m_reference_code' , $row[$this->additionalData['major_id']])
             ->first();
@@ -59,7 +70,7 @@ class UsersImport implements ToModel
             'u_major_id' => $major->m_id,
             'u_status' => 1,
             'u_tawjihi_gpa' => $row[$this->additionalData['u_tawjihi_gpa']],
-            'u_company_id' => $row[$this->additionalData['u_company_id']],
+            'u_company_id' => $company_id,
             'u_phone1' => $row[10],
             'u_date_of_birth' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[11])->format('Y-m-d')
 
