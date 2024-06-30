@@ -1,18 +1,18 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>{{__('translate.Course')}}{{-- التدريب العملي --}}</th>
-            <th>{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
-            <th>{{__('translate.Branch')}} {{-- الفرع --}}</th>
-            <th>{{__('translate.Training Status')}}{{--حالة التدريب--}}</th>
-            <th>{{__('translate.Approval File')}} {{-- ملف الموافقة --}}</th>
-            <th>{{__('translate.Operations')}} {{-- العمليات --}}</th>
+            <th>{{__('translate.Course')}} التدريب العملي </th>
+            <th>{{__('translate.Company Name')}}  اسم الشركة </th>
+            <th>{{__('translate.Branch')}}  الفرع </th>
+            <th>{{__('translate.Training Status')}}حالة التدريب</th>
+            <th>{{__('translate.Approval File')}}  ملف الموافقة </th>
+            <th>{{__('translate.Operations')}}  العمليات </th>
         </tr>
     </thead>
     <tbody>
         @if ($data->isEmpty())
             <tr>
-                <td colspan="6" class="text-center"><span>{{__('translate.No enrolled trainings')}} {{-- لا يوجد تدريبات مسجلة --}}</span></td>
+                <td colspan="6" class="text-center"><span>{{__('translate.No enrolled trainings')}}  لا يوجد تدريبات مسجلة </span></td>
             </tr>
         @else
             @foreach($data as $studentCompany)
@@ -26,23 +26,23 @@
                     @endif
                     <td>
                         @if ($studentCompany->sc_status == 1)
-                            {{__('translate.active')}}{{--نشط--}}
+                            {{__('translate.active')}}نشط
                         @elseif ($studentCompany->sc_status == 2)
-                            {{__('translate.finished')}}{{--منتهي--}}
+                            {{__('translate.finished')}}منتهي
                         @else
-                            {{__('translate.deleted')}}{{--محذوف--}}
+                            {{__('translate.deleted')}}محذوف
                         @endif
                     </td>
                     <td>
                         @if (!empty($studentCompany->sc_agreement_file))
-                            <a href="{{ asset('public/storage/uploads/'.$studentCompany->sc_agreement_file) }}" class="btn btn-primary fa fa-download btn-xs"  type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Download Approval File')}}" download></a>{{--"تنزيل ملف الموافقة"--}}
+                            <a href="{{ asset('public/storage/uploads/'.$studentCompany->sc_agreement_file) }}" class="btn btn-primary fa fa-download btn-xs"  type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Download Approval File')}}" download></a>"تنزيل ملف الموافقة"
                             @php
                                 $extension = pathinfo($studentCompany->sc_agreement_file, PATHINFO_EXTENSION);
                             @endphp
                             @if ($extension == 'png' || $extension == 'jpg' || $extension == 'pdf')
-                                <a onclick="viewAttachment('{{ asset('public/storage/uploads/'.$studentCompany->sc_agreement_file) }}')" class="btn btn-primary fa fa-file btn-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Display Approval File')}}"></a>{{--"عرض ملف الموافقة"--}}
+                                <a onclick="viewAttachment('{{ asset('public/storage/uploads/'.$studentCompany->sc_agreement_file) }}')" class="btn btn-primary fa fa-file btn-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Display Approval File')}}"></a>"عرض ملف الموافقة"
                             @endif
-                            <a  href="{{route('admin.users.training.place.delete.file_agreement' , ['sc_id' => $studentCompany->sc_id])}}" class="btn btn-danger fa fa-trash btn-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Delete')}} {{__('translate.Approval File')}}"></a>{{--"حذف ملف الموافقة"--}}
+                            <a  href="{{route('admin.users.training.place.delete.file_agreement' , ['sc_id' => $studentCompany->sc_id])}}" class="btn btn-danger fa fa-trash btn-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="{{__('translate.Delete')}} {{__('translate.Approval File')}}"></a>"حذف ملف الموافقة"
                         @else
                             <div id="progress-container{{$studentCompany->sc_id}}" style="display: none;">
                             <div class="progress">
@@ -72,8 +72,6 @@
                                 @endif
                             @endif
                             <button class="btn btn-danger btn-xs" onclick="openAlertDelete({{$studentCompany->sc_id}})" type="button"><span class="fa fa-trash"></span></button>
-                        @else
-
                         @endif
                     </td>
                 </tr>

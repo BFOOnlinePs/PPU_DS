@@ -300,7 +300,7 @@
         data.push('major_id');
         data.push(document.getElementById('major_id').value);
         data.push('major_name');
-        data.push(document.getElementById('major_id').value);
+        data.push(document.getElementById('major_name').value);
         data.push('u_tawjihi_gpa');
         data.push(document.getElementById('u_tawjihi_gpa').value);
         data.push('u_company_id');
