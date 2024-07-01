@@ -113,6 +113,8 @@ class CompaniesController extends Controller
                     ->where('sc_company_id', $key->sc_company_id)
                     ->groupBy('sc_student_id');
             })->count();
+
+            $key->student = User::where('u_id',$key->sc_student_id)->first();
         }
         return response()->json([
             'success' => 'true',
