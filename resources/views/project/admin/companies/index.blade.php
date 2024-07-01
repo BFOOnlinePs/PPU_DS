@@ -37,7 +37,7 @@
                             <th scope="col">{{__('translate.Company Name')}} {{-- اسم الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Manager')}}{{-- مدير الشركة --}}</th>
                             <th scope="col">{{__('translate.Company Category')}}{{-- تصنيف الشركة --}}</th>
-                            <th scope="col">{{__('translate.Company Type')}}{{-- نوع الشركة --}}</th>
+{{--                            <th scope="col">{{__('translate.Company Type')}}--}}{{-- نوع الشركة --}}{{--</th>--}}
                             <th scope="col">{{__('translate.capacity')}}</th>
                             <th scope="col" style="width: 200px">{{__('translate.company_status')}}</th>
                             <th scope="col" style="width: 200px">{{__('translate.Operations')}} {{--  العمليات --}}</th>
@@ -83,9 +83,9 @@
                                     </label>
                                 </td>
                                 <td class="">
-                                    <button class="btn btn-info btn-sm" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
-                                    <button class="btn btn-success btn-sm" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><i class="fa fa-group"></i></button>
-                                    <button class="btn btn-success btn-sm" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button>
+                                    <button class="btn btn-dark btn-xs" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
+                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><i class="fa fa-group"></i></button>
+                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button>
                                 </td>
                             </tr>
                         @endforeach

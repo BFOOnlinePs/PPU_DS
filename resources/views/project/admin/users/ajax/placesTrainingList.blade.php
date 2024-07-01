@@ -66,9 +66,9 @@
                                 @endif
                             @else
                                 @if ($studentCompany->sc_department_id)
-                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{ $studentCompany->companyBranch->b_address }}' , {{$studentCompany->sc_status}} , null , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
                                 @else
-                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{$studentCompany->companyBranch->b_address}}' , {{$studentCompany->sc_status}} , null , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{ $studentCompany->companyBranch->b_address ?? '' }}' , {{$studentCompany->sc_status}} , null , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
                                 @endif
                             @endif
                             <button class="btn btn-danger btn-xs" onclick="openAlertDelete({{$studentCompany->sc_id}})" type="button"><span class="fa fa-trash"></span></button>
