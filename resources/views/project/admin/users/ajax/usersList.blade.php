@@ -19,7 +19,7 @@
             <td>{{$key->name}}</td>
             <td>{{$key->u_phone1}}</td>
             <td>{{$key->u_tawjihi_gpa}}</td>
-            <td>{{$key->mojor->u_name ?? 0}}</td>
+            <td>{{$key->major->u_name ?? 0}}</td>
 {{--            @if ($key->u_status == 0)--}}
 {{--            <td class="text-danger" id="td-{{$key->id}}">{{__('translate.Deactivated')}} --}}{{-- غير مفعل --}}{{--</td>--}}
 {{--            <td class="text-success" id="td-{{$key->id}}">{{__('translate.Active')}} --}}{{-- مفعل --}}{{--</td>--}}
