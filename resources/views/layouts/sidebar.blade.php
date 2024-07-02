@@ -19,7 +19,8 @@
                             <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i data-feather=><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.registration.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
-{{--                            <li><a class="nav-link" href="{{route('admin.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}--}}{{-- سجل الحضور والمغادرة --}}{{--</span></a></li>--}}
+                            <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
+                        {{--                            <li><a class="nav-link" href="{{route('admin.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}--}}{{-- سجل الحضور والمغادرة --}}{{--</span></a></li>--}}
                             <li><a class="nav-link" href="{{ route('admin.settings') }}"><i data-feather="settings"></i><span>{{__('translate.Settings')}}{{-- الإعدادات --}}</span></a></li>
                         @elseif(auth()->user()->u_role_id == 2) {{-- Student --}}
                             <li><a class="nav-link" href="{{route('students.personal_profile.index')}}"><i data-feather="user"></i><span>{{__('translate.Profile')}}{{-- الملف الشخصي --}}</span></a></li>
@@ -60,24 +61,24 @@
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
                             @endif
                         @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 )
-                        <li><a class="nav-link" href="{{route('admin.announcements.index')}}"><i data-feather="inbox"></i><span>{{__('translate.announcements')}}{{--  الاعلانات --}}</span></a></li>
+{{--                        <li><a class="nav-link" href="{{route('admin.announcements.index')}}"><i data-feather="inbox"></i><span>{{__('translate.announcements')}}--}}{{--  الاعلانات --}}{{--</span></a></li>--}}
                          @endif
-                        <li><a class="nav-link" href="{{route('admin.survey.index')}}"><i data-feather="clipboard"></i><span>{{__('translate.surveys')}}{{--  الاستبيانات --}}</span></a></li>
-                        <!-- <li class="dropdown-basic">
-                     <div class="dropdown">
-                         <div class="dropbtn">
-                            <a class="nav-link" href="{{ route('admin.survey.index') }}">
-                                <i data-feather="clipboard"></i>
-                                <span>{{__('translate.Survey')}}</span>
-                            </a>
-                            <div class="dropdown-content">
-                                <a href="{{ route('admin.survey.index') }}">{{__('translate.surveys')}}</a>
-                                @if(auth()->user()->u_role_id !=2 )    <a href="{{ route('admin.survey.addSurvey') }}">{{__('translate.add_survey')}}</a> @endif
-                                {{-- <a href="{{ route('admin.registration.semesterStudents') }}">{{__("translate.Current Semester's Students")}}</a>--}}
-                            </div>
-                        </div>
-                     </div>
-                 </li> -->
+{{--                        <li><a class="nav-link" href="{{route('admin.survey.index')}}"><i data-feather="clipboard"></i><span>{{__('translate.surveys')}}--}}{{--  الاستبيانات </span></a></li>--}}
+{{--                         <li class="dropdown-basic">--}}
+{{--                     <div class="dropdown">--}}
+{{--                         <div class="dropbtn">--}}
+{{--                            <a class="nav-link" href="{{ route('admin.survey.index') }}">--}}
+{{--                                <i data-feather="clipboard"></i>--}}
+{{--                                <span>{{__('translate.Survey')}}</span>--}}
+{{--                            </a>--}}
+{{--                            <div class="dropdown-content">--}}
+{{--                                <a href="{{ route('admin.survey.index') }}">{{__('translate.surveys')}}</a>--}}
+{{--                                @if(auth()->user()->u_role_id !=2 )    <a href="{{ route('admin.survey.addSurvey') }}">{{__('translate.add_survey')}}</a> @endif--}}
+{{--                                --}}{{-- <a href="{{ route('admin.registration.semesterStudents') }}">{{__("translate.Current Semester's Students")}}</a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                     </div>--}}
+{{--                 </li>--}}
                     </ul>
                 </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

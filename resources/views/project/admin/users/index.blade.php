@@ -112,7 +112,7 @@
                 <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" style="display: none"><span class="fa fa-plus"></span></button>
             @endif
             <input class="form-control mb-2 " id="search_input" onkeyup="user_search(this.value)" type="search" placeholder="{{__('translate.Search')}}"> {{-- البحث --}}
-            <div id="user-table">
+            <div id="user-table" class="table-responsive">
                 @include('project.admin.users.ajax.usersList')
             </div>
         </div>

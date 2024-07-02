@@ -454,6 +454,9 @@ class UserController extends Controller
                     )->get();
 
         }
+        foreach ($data as $key){
+            $key->major = Major::where('m_id',$key->u_major_id)->first();
+        }
         $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
         return response()->json(['html' => $html]);
     }
