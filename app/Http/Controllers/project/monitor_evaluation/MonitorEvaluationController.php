@@ -1471,7 +1471,7 @@ class MonitorEvaluationController extends Controller
         })->get();
         foreach($data as $key){
             $key->user = User::where('u_id',$key->sa_student_id)->first();
-            $key->company = Company::where('c_id',StudentCompany::where('sc_id',$key->sc_company_id)->first()->sc_company_id)->first();
+            $key->company = Company::where('c_id',StudentCompany::where('sc_id',$key->sa_student_company_id)->first()->sc_company_id)->first();
             $key->report_attendance = StudentReport::where('sr_student_attendance_id',$key->sa_id)->first();
         }
         return response()->json([
