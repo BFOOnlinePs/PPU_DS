@@ -11,7 +11,28 @@
 @section('header_link')
 <a href="{{ route('admin.companies.index') }}">{{__('translate.Display Companies')}}{{--استعراض الشركات--}}</a>
 @endsection
+@section('style')
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+@endsection
 @section('content')
 
 <div>
@@ -52,7 +73,7 @@
                         @foreach ($data as $key)
                             <tr>
                                 <td style="display:none;">{{ $key->c_id }}</td>
-                                <td><a href="{{route('admin.companies.edit',['id'=>$key->c_id])}}">
+                                <td><a href="{{route('admin.users.details',['id'=>$key->manager->u_id])}}">
                                         @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
                                             {{ $key->c_english_name }}
                                         @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
@@ -87,9 +108,17 @@
                                     </label>
                                 </td>
                                 <td class="">
-                                    <button class="btn btn-dark btn-xs" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>
-                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><i class="fa fa-group"></i></button>
-                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button>
+                                    <div class="dropdown">
+                                        <span data-feather="more-vertical" ></span>
+                                        <div class="dropdown-content">
+                                            <a style="cursor: pointer" class="text-primary" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'>تفاصيل الشركة</a>
+                                            <a style="cursor: pointer" class="text-primary" onclick='show_student_nomination_modal({{ $key }})'>اقتراحات الطلاب</a>
+                                            <a style="cursor: pointer" class="text-primary" onclick='addAttachmentModal({{ $key->c_id }})'>اضافة اتفاقية</a>
+                                        </div>
+                                    </div>
+{{--                                    <button class="btn btn-dark btn-xs" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>--}}
+{{--                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><i class="fa fa-group"></i></button>--}}
+{{--                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -113,6 +142,7 @@
 
     $(document).ready(function () {
         search_student_ajax();
+        $('.dropdown-toggle').dropdown();
     });
 
 function companySearch(data){

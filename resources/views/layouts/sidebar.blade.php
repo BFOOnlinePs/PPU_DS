@@ -19,6 +19,7 @@
                             <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i data-feather=><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.registration.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
                         {{--                            <li><a class="nav-link" href="{{route('admin.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}--}}{{-- سجل الحضور والمغادرة --}}{{--</span></a></li>--}}
                             <li><a class="nav-link" href="{{ route('admin.settings') }}"><i data-feather="settings"></i><span>{{__('translate.Settings')}}{{-- الإعدادات --}}</span></a></li>
@@ -31,6 +32,7 @@
                             <li><a class="nav-link" href="{{route('supervisors.majors.index' , ['id' => auth()->user()->u_id])}}"><i data-feather="book-open"></i><span>{{__('translate.Majors')}}{{-- التخصصات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.training_nominations.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.training_nominations')}}{{-- ترشيحات التدريب --}}</span></a></li>
                         @elseif (auth()->user()->u_role_id == 4) {{-- Assistant --}}
@@ -57,6 +59,8 @@
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Training Places')}}{{-- أماكن التدريب --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.training_nominations.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.training_nominations')}}{{-- ترشيحات التدريب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
                             @endif

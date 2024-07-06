@@ -54,36 +54,6 @@ class UsersImport implements ToModel
             return null;
         }
 
-
-//        $return_user = new User([
-//            'u_username' => $row[$this->additionalData['student_id']],
-//            'name' => $row[$this->additionalData['student_name']],
-//            'u_gender' => $gender ,
-//            'password' => bcrypt("123456789"),
-//            'email' => $row[$this->additionalData['student_id']] . '@ppu.edu.ps',
-//            'u_role_id' => 2,
-//            'u_major_id' => $major_id,
-//            'u_status' => 1,
-//            'u_tawjihi_gpa' => $row[$this->additionalData['u_tawjihi_gpa']],
-//            'u_company_id' => $company_id,
-//            'u_phone1' => $row[10],
-//            'u_date_of_birth' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[11])->format('Y-m-d'),
-//        ]);
-
-
-//        if (empty($check_company_id_if_exist)) {
-//            $new_company = new Company();
-//            $new_company->c_name = $row[$this->additionalData['u_company_id']];
-//            $new_company->save();
-//
-//
-//            $new_company->c_manager_id = $check_manager->u_id;
-//            $new_company->save();
-//            $company_id = $new_company->c_id;
-//        } else {
-//            $company_id = $check_company_id_if_exist->c_id;
-//        }
-
         $new_major = Major::firstOrCreate(
             [
                 'm_reference_code' => $row[$this->additionalData['major_id']],
@@ -133,29 +103,19 @@ class UsersImport implements ToModel
                     ]
                 );
 
-                $user_company_manager = Company::firstOrCreate(
-                    [
-                        'c_name' => $row[$this->additionalData['u_company_id']]
-                    ],
-                    [
-                        'c_manager_id' => $user_manager->u_id,
-                    ]
+                if (!empty($row[$this->additionalData['u_company_id']])){
+                    $user_company_manager = Company::firstOrCreate(
+                        [
+                            'c_name' => $row[$this->additionalData['u_company_id']]
+                        ],
+                        [
+                            'c_manager_id' => $user_manager->u_id,
+                        ]
 
-                );
+                    );
+                }
 
-                $new_barnch_company = CompanyBranch::firstOrCreate(
-                    [
-                        'b_company_id' => $user_company_manager->c_id
-                    ]
-                    ,
-                    [
-                        'b_address' => '-',
-                        'b_phone1' => $row[$this->additionalData['manager_phone']],
-                        'b_main_branch' => 1,
-                        'b_company_id' => $user_company_manager->c_id,
-                        'b_manager_id' => $user_manager->u_id
-                    ]
-                );
+
 
                 $company_id = $user_company_manager->c_id;
 
@@ -195,6 +155,45 @@ class UsersImport implements ToModel
                 $data->sc_status = 1;
                 $data->save();
             }
+
+            $user_manager = User::firstOrCreate(
+                [
+                    'u_username' => $row[$this->additionalData['email']]
+                ],
+                [
+                    'name' => $row[$this->additionalData['manager_name']] ?? 'empty',
+                    'email' => $row[$this->additionalData['email']] ?? $row[$this->additionalData['manager_phone']] . '@mail.com',
+                    'password' => bcrypt('123456789'),
+                    'u_phone1' => $row[$this->additionalData['manager_phone']],
+                    'u_role_id' => 6,
+                    'u_major_id' => -1
+                ]
+            );
+
+            $user_company_manager = Company::firstOrCreate(
+                [
+                    'c_name' => $row[$this->additionalData['u_company_id']]
+                ],
+                [
+                    'c_manager_id' => $user_manager->u_id,
+                ]
+
+            );
+
+            $new_barnch_company = CompanyBranch::firstOrCreate(
+                [
+                    'b_company_id' => $user_company_manager->c_id
+                ]
+                ,
+                [
+                    'b_address' => '-',
+                    'b_phone1' => $row[$this->additionalData['manager_phone']] ?? 0000000000,
+                    'b_main_branch' => $user_company_manager->c_id,
+                    'b_company_id' => $user_company_manager->c_id,
+                    'b_manager_id' => $user_manager->u_id,
+                ]
+            );
+
             $new_students_companies = StudentCompany::firstOrCreate(
                 [
                     'sc_registration_id' => $registration->r_id,
@@ -202,7 +201,8 @@ class UsersImport implements ToModel
                 ],
                 [
                     'sc_status' => 1 ,
-                    'sc_company_id' => $company_id
+                    'sc_company_id' => $company_id,
+                    'sc_branch_id' => $company_id
                 ]
             );
 //            if (empty($check_course_id_if_exist)) {

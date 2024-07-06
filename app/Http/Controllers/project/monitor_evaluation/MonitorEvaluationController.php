@@ -1452,7 +1452,7 @@ class MonitorEvaluationController extends Controller
         })
         ->when($request->filled('company_id'),function($query) use ($request){
             $query->whereIn('sa_student_company_id',function($query) use ($request){
-                $query->select('sc_id')->from('students_companies')->where('sc_id',$request->company_id);
+                $query->select('sc_id')->from('students_companies')->where('sc_company_id',$request->company_id);
             });
         })
         ->when($request->filled('from') && $request->filled('to'),function($query) use ($request){

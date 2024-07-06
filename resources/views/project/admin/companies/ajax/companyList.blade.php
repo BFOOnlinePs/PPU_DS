@@ -22,7 +22,7 @@
                 <tr>
                     <td style="display:none;">{{ $key->c_id }}</td>
                     <td>
-                        <a href="{{route('admin.companies.edit',['id'=>$key->c_id])}}">
+                        <a href="{{route('admin.users.details',['id'=>$key->manager->u_id])}}">
                             @if(app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
                                 {{ $key->c_english_name }}
                             @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
