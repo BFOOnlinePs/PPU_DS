@@ -160,7 +160,7 @@ class AnnouncementsController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,svg',
+            'image' => 'image|mimes:jpg,jpeg,png,svg',
             // 'target_group' => 'required',
             'is_image_deleted' => 'in:true,false'
         ], [
@@ -196,8 +196,8 @@ class AnnouncementsController extends Controller
         $announcement->a_content = $request->input('content');
         $announcement->a_target_group = $request->input('target_group');
 
-        //  return $request->input('is_image_deleted');
-        if ($request->input('is_image_deleted') == 'true') {
+
+        if ($request->input('is_image_deleted')) {
             $announcement->a_image = null;
         }
 

@@ -22,7 +22,7 @@
         padding-top:8%
     }
     .announcement-header{
-    background-color: #24695c;
+    background-color: #ef681a;
     color: white;
     width: 100%;
     border-radius: 5px;
@@ -43,7 +43,7 @@
     </div>
     <div class="announcemetsBody">
 @foreach($data as $key)
-{{ $key->created_at->format('F') }} 
+{{ $key->created_at->format('F') }}
 {{ $key->created_at->format('d') }}
 
 
@@ -57,7 +57,7 @@
         <button class="btn btn-primary" onclick="show_add_event_modal()">{{__('translate.Add event')}}{{-- إضافة حدث --}}</button><br><br>
         <div id="calendar">
 
-        </div> 
+        </div>
      </div>
      </div>
         @include('modals.addEvent')
@@ -471,7 +471,7 @@
                     </div>
                     <div class="announcemetsBody" style="padding-top:3%">
                         @foreach($data as $key)
-                        {{ $key->created_at->format('F') }} 
+                        {{ $key->created_at->format('F') }}
                         {{ $key->created_at->format('d') }}
                         <br>
                         <a href='{{ route("admin.announcements.edit",["id"=>$key->a_id])}}'> {{$key->a_title}} </a>

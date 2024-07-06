@@ -58,6 +58,7 @@
 </div>
 </div>
 </div>
+    @include('project.admin.users.modals.alert_modal')
 
     <div id="add_courses_student">
         @include('project.admin.users.modals.add_courses_student')
@@ -114,18 +115,26 @@
                     'u_id': u_id
                 },
                 success: function(response) {
-                    var courseSelect = document.getElementById("select-course");
-                    // Loop through all options and remove them
-                    while (courseSelect.options.length > 0) {
-                        courseSelect.remove(0);
+                    if (response.status === 'exist'){
+                        $('#LoadingModal').modal('hide');
+                        $('#alert_modal').modal('show');
+                        url = "{{ route('admin.users.places.training', ['id' => $user->u_id]) }}";
+                        $('#link_for_student_company').attr('href',url);
                     }
-                    response.courses.forEach(function(course) {
-                        var option = document.createElement('option');
-                        option.value = course.c_id;
-                        option.text = course.c_name;
-                        courseSelect.appendChild(option);
-                    });
-                    $('#content').html(response.html);
+                    else{
+                        var courseSelect = document.getElementById("select-course");
+                        // Loop through all options and remove them
+                        while (courseSelect.options.length > 0) {
+                            courseSelect.remove(0);
+                        }
+                        response.courses.forEach(function(course) {
+                            var option = document.createElement('option');
+                            option.value = course.c_id;
+                            option.text = course.c_name;
+                            courseSelect.appendChild(option);
+                        });
+                        $('#content').html(response.html);
+                    }
                 },
                 complete: function(){
                     $('#LoadingModal').modal('hide');

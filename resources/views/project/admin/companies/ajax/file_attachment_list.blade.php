@@ -7,7 +7,7 @@
     @else
         @foreach($data as $key)
             <tr>
-                <td><a href="{{ asset('storage/files/'. $key->file ) }}" target="_blank">{{ $key->file }}</a></td>
+                <td><a href="{{ asset('public/storage/files/'. $key->file ) }}" target="_blank">{{ $key->file }}</a></td>
                 <td>{{ $key->note }}</td>
             </tr>
         @endforeach

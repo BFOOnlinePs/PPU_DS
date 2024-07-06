@@ -15,7 +15,7 @@
         @foreach($data as $key)
             <tr>
                 <td>{{ $key->student->name }}</td>
-                <td>{{ $key->company_branches->b_address }}</td>
+                <td>{{ $key->company_branches->b_address ?? '' }}</td>
                 <td>
                     <a target="_blank" href="{{ route('admin.users.students.attendance',['id'=> $key->student->u_id ]) }}" class="btn btn-primary btn-sm"><span class="fa fa-file"></span></a>
                 </td>

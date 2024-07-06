@@ -50,7 +50,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Code')}}{{-- رمز التدريب العملي --}}</label>
                                             <div class="input-container">
-                                                <i id="edit_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                                <i id="edit_ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                                 <i id="edit_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                                 <input tabindex="1" id="edit_c_course_code" name="c_course_code" type="text"
                                                     class="form-control btn-square input-md" oninput="validateNumInput(this)" onkeyup="checkCourseCode(this.value,'code','edit')">
@@ -107,7 +107,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Reference Code')}}{{-- الرمز المرجعي للتدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
-                                                <i id="edit_ref_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                                <i id="edit_ref_ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                                 <i id="edit_ref_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                                 <input tabindex="4" id="edit_c_reference_code" name="c_reference_code" type="text"
                                                     class="form-control btn-square input-md" oninput="validateEngNumInput(this)" onkeyup="checkCourseCode(this.value,'refCode','edit')">
