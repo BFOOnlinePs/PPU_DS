@@ -287,14 +287,15 @@ class editCompanyController extends Controller
         $validator = Validator::make($request->all(), [
             'company_id' => 'required|exists:companies,c_id',
             'manager_id' => 'required|exists:users,u_id',
-            'branch_city_id'=>'required',
+            // 'branch_city_id'=>'required',
+            'branch_city_id'=>'nullable',
             'branch_address' => 'required',
             'branch_phone1' => 'required',
 
         ], [
             'company_id.required' => trans('messages.company_id_required'),
             'company_id.exists' => trans('messages.company_id_not_exists'),
-            'branch_city_id.required' => trans('messages.branch_city_required'),
+            // 'branch_city_id.required' => trans('messages.branch_city_required'),
             'branch_address.required' => trans('messages.branch_address_required'),
             'branch_phone1.required' => trans('messages.branch_phone1_required'),
         ]);
@@ -355,14 +356,15 @@ class editCompanyController extends Controller
             'branch_id' => 'required|exists:company_branches,b_id',
             'branch_address' => 'required',
             'branch_phone1' => 'required',
-            'branch_city_id' => 'required',
+            // 'branch_city_id' => 'required',
+            'branch_city_id' => 'nullable',
             'branch_departments' => 'nullable|array',
         ], [
             'branch_id.required' => trans('messages.branch_id_required'),
             'branch_id.exists' => trans('messages.branch_id_exists'),
             'branch_address.required' => trans('messages.branch_address_required'),
             'branch_phone1.required' => trans('messages.branch_phone1_required'),
-            'branch_city_id.required' => trans('messages.branch_city_required'),
+            // 'branch_city_id.required' => trans('messages.branch_city_required'),
             'branch_departments.array' => trans('messages.branch_departments_array'),
         ]);
 
