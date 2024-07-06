@@ -331,7 +331,7 @@ class UserController extends Controller
         $registration_id = Registration::where('r_student_id', $request->u_id)
             ->where('r_course_id', $request->c_id)
             ->first();
-        $check_if_exist = StudentCompany::where('sc_company_id',$registration_id->r_id)->first();
+        $check_if_exist = StudentCompany::where('sc_registration_id',$registration_id->r_id)->first();
         if (empty($check_if_exist)){
             $deleted = Registration::where('r_student_id', $request->u_id)
                 ->where('r_course_id', $request->c_id)
