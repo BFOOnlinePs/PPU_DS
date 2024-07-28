@@ -39,8 +39,33 @@
                 <div class="row">
                     <div class="col-md-12">
                         <a class="btn btn-success btn-sm" href="{{ route('monitor_evaluation.export_student_attendance') }}">تصدير الى اكسيل</a>
+                        <a class="btn btn-success btn-sm" href="{{ route('monitor_evaluation.statistic_attendance.statistic_attendance_index') }}">احصائيات الحضور والمغادرة</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>عدد الطلاب</th>
+                            <th>من اصل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>عدد الطلاب المداومين في جميع الشركات</td>
+                            <td>230</td>
+                            <td>500</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

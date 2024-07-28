@@ -78,7 +78,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Password')}}* {{-- كلمة المرور --}} </label>
                                             <div class="col-lg-12">
-                                                <input id="password" name="password" type="password" class="form-control btn-square input-md" tabindex="7" required pattern=".{8,}">
+                                                <input style="direction: ltr" id="password" name="password" type="password" class="form-control btn-square input-md" tabindex="7" required pattern=".{8,}">
                                             </div>
                                         </div>
                                         @if ($u_role_id == 2)
@@ -105,13 +105,13 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Birth Date')}}* {{-- تاريخ الميلاد --}}</label>
                                             <div class="col-lg-12">
-                                                <input id="u_date_of_birth" name="u_date_of_birth" type="date" class="form-control btn-square input-md" tabindex="2" required>
+                                                <input id="u_date_of_birth" name="u_date_of_birth" type="date" class="form-control btn-square input-md" tabindex="2">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Email')}}* {{-- البريد الإلكتروني --}}</label>
                                             <div class="col-lg-12">
-                                                <input @if (($u_role_id >= 1 && $u_role_id <= 5) || $u_role_id == 8) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
+                                                <input style="direction: ltr" @if (($u_role_id >= 1 && $u_role_id <= 5) || $u_role_id == 8) id="email" @endif name="email" type="email" class="form-control btn-square input-md" tabindex="5" required onblur="check_email_not_duplicate()">
                                                 <label for="" id="email_duplicate_message" style="color: red; display:none;"> {{__('translate.Email address has already been used')}} {{-- البريد الإلكتروني موجود بالفعل --}}</label>
                                             </div>
                                         </div>

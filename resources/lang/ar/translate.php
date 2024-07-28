@@ -205,7 +205,7 @@
         'Training Supervisor' => 'مسؤول تدريب' ,
         'training supervisor' => 'مسؤول تدريب' ,
         'Full Name' => 'الاسم الكامل' ,
-        'Username' => 'اسم المستخدم' ,
+        'Username' => 'رقم الطالب' ,
         'Phone Number' => 'رقم الجوال' ,
         'Account Status' => 'حالة الحساب' ,
         'View Details' => 'عرض تفاصيل' ,

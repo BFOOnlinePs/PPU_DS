@@ -1573,6 +1573,19 @@ class MonitorEvaluationController extends Controller
                 return redirect()->route('monitor_evaluation.files.files_index')->with(['fail' => 'هناك خلل ما لم يتم اضافة الملف']);
             }
         }
+    }
 
+    public function statistic_attendance_index()
+    {
+        return view('project.monitor_evaluation.statistic_attendance.index');
+    }
+
+    public function list_statistic_attendance_ajax(Request $request)
+    {
+        $data = StudentAttendance::with('user')->get();
+        return response()->json([
+            'success' => true,
+            'view' => view('project.monitor_evaluation.statistic_attendance.ajax.list_statistic_attendance_ajax',['data'=>$data])->render()
+        ]);
     }
 }

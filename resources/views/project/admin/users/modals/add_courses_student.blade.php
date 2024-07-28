@@ -27,6 +27,17 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3 row">
+                                            <label for="">مسؤول المتابعة</label>
+                                            <select required class="js-example-basic-single col-sm-12" name="supervisor_id" id="supervisor_id">
+                                                <option value="">اختر مسؤول للمتابعة</option>
+                                                @foreach ($supervisors as $supervisor)
+                                                    <option value="{{$supervisor->u_id}}">{{$supervisor->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                         </div>
                     </div>

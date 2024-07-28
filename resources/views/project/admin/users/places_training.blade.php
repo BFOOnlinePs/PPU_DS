@@ -420,40 +420,45 @@
         }
         function update_places_training()
         {
-            let sc_id = document.getElementById('sc_id').value;
-            let sc_branch_id = document.getElementById('selectEditBranch').value;
-            let sc_department_id = document.getElementById('selectEditDepartment').value;
-            let sc_status = document.getElementById('select_status').value;
-            let sc_mentor_trainer_id = document.getElementById('selectEditTrainer').value;
-            let sc_registration_id = document.getElementById('selectEditCourse').value;
-            $.ajax({
-                beforeSend: function(){
-                    $('#EditPlacesTrainingModal').modal('hide');
-                    $('#LoadingModal').modal('show');
-                },
-                url: "{{route('admin.users.places.training.update')}}",
-                method: 'post',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                data: {
-                    'sc_id' : sc_id,
-                    'sc_branch_id' : sc_branch_id,
-                    'sc_department_id' : sc_department_id,
-                    'sc_status' : sc_status,
-                    'sc_mentor_trainer_id' : sc_mentor_trainer_id,
-                    'sc_registration_id' : sc_registration_id
-                },
-                success: function(response) {
-                    $('#EditPlacesTrainingModal').modal('hide');
-                    $('#content').html(response.html);
-                },
-                complete: function(){
-                    $('#LoadingModal').modal('hide');
-                },
-                error: function(jqXHR) {
-                }
-            });
+            if($('#selectEditBranch').val() === 'null'){
+                alert('يرجى ملئ حقل اسم الفرع');
+            }
+            else{
+                let sc_id = document.getElementById('sc_id').value;
+                let sc_branch_id = document.getElementById('selectEditBranch').value;
+                let sc_department_id = document.getElementById('selectEditDepartment').value;
+                let sc_status = document.getElementById('select_status').value;
+                let sc_mentor_trainer_id = document.getElementById('selectEditTrainer').value;
+                let sc_registration_id = document.getElementById('selectEditCourse').value;
+                $.ajax({
+                    beforeSend: function(){
+                        $('#EditPlacesTrainingModal').modal('hide');
+                        $('#LoadingModal').modal('show');
+                    },
+                    url: "{{route('admin.users.places.training.update')}}",
+                    method: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    data: {
+                        'sc_id' : sc_id,
+                        'sc_branch_id' : sc_branch_id,
+                        'sc_department_id' : sc_department_id,
+                        'sc_status' : sc_status,
+                        'sc_mentor_trainer_id' : sc_mentor_trainer_id,
+                        'sc_registration_id' : sc_registration_id
+                    },
+                    success: function(response) {
+                        $('#EditPlacesTrainingModal').modal('hide');
+                        $('#content').html(response.html);
+                    },
+                    complete: function(){
+                        $('#LoadingModal').modal('hide');
+                    },
+                    error: function(jqXHR) {
+                    }
+                });
+            }
         }
         function submitFile(input, sc_id) {
             let file = input.files[0];

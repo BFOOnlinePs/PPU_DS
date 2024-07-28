@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\project\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CitiesModel;
 use App\Models\Major;
 use App\Models\StudentCompanyNominationModel;
 use App\Models\SystemSetting;
@@ -37,13 +38,13 @@ class CompaniesController extends Controller
         //$uncompletedCompany = json_encode($uncompletedCompany, true);
 
         //return count($nonCompletedCompany);
-
+        $cities = CitiesModel::get();
         $categories = CompaniesCategory::get();
-        return view('project.admin.companies.company',['categories'=>$categories,'uncompletedCompany'=>$uncompletedCompany]);
+        return view('project.admin.companies.company',['categories'=>$categories,'uncompletedCompany'=>$uncompletedCompany , 'cities' => $cities]);
     }
 
     public function create(Request $request){
-        $data = new User;
+        $data = new User();
         $data->u_username = $request->email;
         $data->name = $request->name;
         $data->email = $request->email;
@@ -51,22 +52,21 @@ class CompaniesController extends Controller
         $data->u_phone1 = $request->phoneNum;
         $data->u_address = $request->address;
         $data->u_role_id = 6;
-
         if($data->save()){
-            dd($request);
             $user = User::where('email',$request->email)->first();
             $id = $user->u_id;
-            $newCompany = new Company;
+            $newCompany = new Company();
             $newCompany->c_name = $request->c_name;
-//            $newCompany->c_english_name = $request->c_english_name;
+            $newCompany->c_english_name = $request->c_english_name;
             $newCompany->c_manager_id=$id;//get from added user
             if($newCompany->save()){
                 $company_id = $newCompany->c_id;
-                $branch = new CompanyBranch;
+                $branch = new CompanyBranch();
                 $branch->b_company_id = $company_id;
                 $branch->b_address = $request->address;
                 $branch->b_phone1 = $request->phoneNum;
                 $branch->b_manager_id = $id;
+                $branch->b_city_id = $request->b_city_id;
                 $branch->b_main_branch = 1;
                 if($branch->save()){
                     return response()->json([

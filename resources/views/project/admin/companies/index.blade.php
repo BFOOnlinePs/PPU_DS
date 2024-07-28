@@ -111,9 +111,9 @@
                                     <div class="dropdown">
                                         <span data-feather="more-vertical" ></span>
                                         <div class="dropdown-content">
-                                            <a style="cursor: pointer" class="text-primary" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'>تفاصيل الشركة</a>
-                                            <a style="cursor: pointer" class="text-primary" onclick='show_student_nomination_modal({{ $key }})'>اقتراحات الطلاب</a>
-                                            <a style="cursor: pointer" class="text-primary" onclick='addAttachmentModal({{ $key->c_id }})'>اضافة اتفاقية</a>
+                                            <button class="btn btn-dark btn-sm form-control m-1"><a style="cursor: pointer;font-size: 10px" class="text-white" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'>تفاصيل الشركة</a></button>
+                                            <button class="btn btn-dark btn-sm form-control m-1"><a style="cursor: pointer;font-size: 10px" class="text-white" onclick='show_student_nomination_modal({{ $key }})'>اقتراحات الطلاب</a></button>
+                                            <button class="btn btn-dark btn-sm form-control m-1"><a style="cursor: pointer;font-size: 10px" class="text-white" onclick='addAttachmentModal({{ $key->c_id }})'>اضافة اتفاقية</a></button>
                                         </div>
                                     </div>
 {{--                                    <button class="btn btn-dark btn-xs" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button>--}}

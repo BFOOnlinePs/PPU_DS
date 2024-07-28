@@ -144,9 +144,9 @@
         });
         let username = document.getElementById('u_username');
         let email = document.getElementById('email');
-        username.addEventListener("change" , function() {
-            email.value = username.value + "@ppu.edu.ps";
-        });
+        // username.addEventListener("change" , function() {
+        //     email.value = username.value + "@ppu.edu.ps";
+        // });
         let AddUserForm = document.getElementById("addUserForm");
         AddUserForm.addEventListener("submit", (e) => {
             e.preventDefault();
