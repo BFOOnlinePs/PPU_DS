@@ -61,8 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/create_event',[App\Http\Controllers\project\admin\CalendarController::class,'create_event'])->name('admin.calendar.create_event');
             Route::post('/display_events',[App\Http\Controllers\project\admin\CalendarController::class,'display_events'])->name('admin.calendar.display_events');
         });
-
-
         Route::group(['prefix'=>'registration'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\RegistrationController::class,'index'])->name('admin.registration.index');
             Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
@@ -102,8 +100,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/update',[App\Http\Controllers\project\admin\announcementController::class,'update'])->name('admin.announcements.update');
             Route::post('/updateStutas',[App\Http\Controllers\project\admin\announcementController::class,'updateStutas'])->name('admin.announcements.updateStutas');
         });
-
-
         Route::group(['prefix'=>'courses'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CoursesController::class,'index'])->name('admin.courses.index');
             Route::post('/create',[App\Http\Controllers\project\admin\CoursesController::class,'create'])->name('admin.courses.create');
@@ -112,7 +108,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/checkrCourseCode',[App\Http\Controllers\project\admin\CoursesController::class,'checkCourseCode'])->name('admin.courses.checkCourseCode');
             Route::get('/loadCourses',[App\Http\Controllers\project\admin\CoursesController::class,'getCourses'])->name('admin.courses.loadMoreCourses');
         });
-
+        Route::group(['prefix'=>'reports'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\ReportController::class,'index'])->name('admin.reports.index');
+            Route::post('/report_history_ajax',[App\Http\Controllers\project\admin\ReportController::class,'report_history_ajax'])->name('admin.reports.report_history_ajax');
+        });
         Route::group(['prefix'=>'semesterCourses'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'index'])->name('admin.semesterCourses.index');
             Route::post('/create',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'create'])->name('admin.semesterCourses.create');
@@ -120,8 +119,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/search',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'search'])->name('admin.semesterCourses.search');
             Route::post('/courseSearch',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'courseNameSearch'])->name('admin.semesterCourses.courseNameSearch');
         });
-
-
         Route::group(['prefix'=>'users'],function(){
             Route::get('/index/{id}' , [App\Http\Controllers\UserController::class, 'index_id'])->name('admin.users.index_id');
             Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
@@ -313,8 +310,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('create_me_attachment',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class , 'create_me_attachment'])->name('monitor_evaluation.files.create_me_attachment');
             Route::post('create_me_version_attachment',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class , 'create_me_version_attachment'])->name('monitor_evaluation.files.create_me_version_attachment');
         });
+        Route::group(['prefix'=>'statistic_attendance'],function (){
+            Route::get('statistic_attendance_index',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class , 'statistic_attendance_index'])->name('monitor_evaluation.statistic_attendance.statistic_attendance_index');
+            Route::post('list_statistic_attendance_ajax',[App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class , 'list_statistic_attendance_ajax'])->name('monitor_evaluation.statistic_attendance.list_statistic_attendance_ajax');
+        });
     });
-
     Route::group(['prefix' => 'company_manager'], function () {
         Route::group(['prefix' => 'students'], function () {
             Route::group(['prefix' => 'reports'], function () {

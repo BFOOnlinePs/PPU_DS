@@ -37,38 +37,88 @@
 <div class="card">
     <div class="card-body">
         <div class="row">
-        <div class="col-md-6" style="padding-top:3%">
-        <div class="announcement-header">
-        <h2>اعلانات الكلية</h2>
-    </div>
-    <div class="announcemetsBody">
-@foreach($data as $key)
-{{ $key->created_at->format('F') }}
-{{ $key->created_at->format('d') }}
+            <div class="col-md-12">
+                <div class="col-md-12" style="padding-top:3%">
+{{--                    <div class="announcement-header">--}}
+{{--                        <h2>اعلانات الكلية</h2>--}}
+{{--                    </div>--}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" onclick="show_add_event_modal()">{{__('translate.Add event')}}{{-- إضافة حدث --}}</button><br><br>
+                            <div id="calendar">
 
-
-<br>
-<a href='{{ route("admin.announcements.edit",["id"=>$key->a_id])}}'> {{$key->a_title}} </a>
-<hr>
-@endforeach
-</div>
-    </div>
-      <div class="col-md-6">
-        <button class="btn btn-primary" onclick="show_add_event_modal()">{{__('translate.Add event')}}{{-- إضافة حدث --}}</button><br><br>
-        <div id="calendar">
-
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="header-top d-sm-flex align-items-center">
+                                        <h5> الاحصائيات </h5>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p>عدد الطلاب : <span>{{ $student_count }}</span></p>
+                                    <p>عدد الشركات : <span>{{ $company_count }}</span></p>
+                                    <p>عدد المشرفين : <span>{{ $supervisor_count }}</span></p>
+                                    <p>عدد الطلاب الذكور : <span>{{ $student_male_count }}</span></p>
+                                    <p>عدد الطلاب الاناث : <span>{{ $student_female_count }}</span></p>
+                                    <p>الشركات المفعلة : <span>{{ $company_active }}</span></p>
+                                    <p>الشركات غير المفعلة : <span>{{ $company_not_active }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>السنة</th>
+                                                <th>الفصل</th>
+                                                <th>عدد الذكور</th>
+                                                <th>عدد الاناث</th>
+                                                <th>المجموع الكلي</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($results as $key)
+                                                <tr>
+                                                    <td>{{ $key->course_name }}</td>
+                                                    <td>{{ $key->r_year }}</td>
+                                                    <td>
+                                                        @if($key->r_semester == '1')
+                                                            فصل اول
+                                                        @else
+                                                            فصل ثاني
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $key->male_count }}</td>
+                                                    <td>{{ $key->female_count }}</td>
+                                                    <td>{{ $key->total_count }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
-     </div>
-     </div>
         @include('modals.addEvent')
         @include('modals.showEvent')
         @include('modals.alertToConfirmDelete')
         @include('layouts.loader')
+        </div>
     </div>
 </div>
 @endsection
     @section('script')
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+        <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/apex-chart/apex-chart.js"></script>
+        <script src="https://laravel.pixelstrap.com/viho/assets/js/dashboard/default.js"></script>
+
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script>
         function clear_function() {
             let select = document.getElementById('e_type');
@@ -436,6 +486,57 @@
             display_events();
             clear_function();
         });
+
+        var options = {
+            series: [76, 67, 61, 90],
+            chart: {
+                height: 390,
+                type: 'radialBar',
+            },
+            plotOptions: {
+                radialBar: {
+                    offsetY: 0,
+                    startAngle: 0,
+                    endAngle: 270,
+                    hollow: {
+                        margin: 5,
+                        size: '30%',
+                        background: 'transparent',
+                        image: undefined,
+                    },
+                    dataLabels: {
+                        name: {
+                            show: false,
+                        },
+                        value: {
+                            show: false,
+                        }
+                    },
+                    barLabels: {
+                        enabled: true,
+                        useSeriesColors: true,
+                        margin: 8,
+                        fontSize: '16px',
+                        formatter: function(seriesName, opts) {
+                            return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex]
+                        },
+                    },
+                }
+            },
+            colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
+            labels: ['Vimeo', 'Messenger', 'Facebook', 'LinkedIn'],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        show: false
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
     </script>
     @endsection
 @else
@@ -484,7 +585,34 @@
     @endsection
     @section('script')
 
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/chartist/chartist.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/chartist/chartist-plugin-tooltip.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/knob/knob.min.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/knob/knob-chart.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/apex-chart/apex-chart.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/apex-chart/stock-prices.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/prism/prism.min.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/clipboard/clipboard.min.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/counter/jquery.waypoints.min.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/counter/jquery.counterup.min.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/counter/counter-custom.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/custom-card/custom-card.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/notify/bootstrap-notify.min.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/jquery-jvectormap-2.0.2.min.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/map/jquery-jvectormap-world-mill-en.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/map/jquery-jvectormap-us-aea-en.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/map/jquery-jvectormap-uk-mill-en.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/map/jquery-jvectormap-au-mill.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/map/jquery-jvectormap-chicago-mill-en.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/map/jquery-jvectormap-in-mill.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/vector-map/map/jquery-jvectormap-asia-mill.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/dashboard/default.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/notify/index.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/datepicker/date-picker/datepicker.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/datepicker/date-picker/datepicker.en.js"></script>
+            <script src="https://laravel.pixelstrap.com/viho/assets/js/datepicker/date-picker/datepicker.custom.js"></script>
+
+            <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src="{{asset('assets/js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('assets/js/script.js')}}"></script>
     <script>

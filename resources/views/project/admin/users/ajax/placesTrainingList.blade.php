@@ -17,7 +17,8 @@
         @else
             @foreach($data as $studentCompany)
                 <tr class="@if ($studentCompany->sc_status == 3) table-danger @endif">
-                    <td><a href="{{route('admin.courses.index')}}">{{$studentCompany->registrations[0]->courses->c_name}}</a></td>
+{{--                    <td><a href="{{route('admin.courses.index')}}">{{$studentCompany->registrations[0]->courses->c_name}}</a></td>--}}
+                    <td><a href="{{route('admin.courses.index')}}"></a></td>
                     <td><a href="{{route("admin.companies.edit",['id'=>$studentCompany->company->c_id])}}">{{$studentCompany->company->c_name}}</a></td>
                     @if ($studentCompany->sc_branch_id == null)
                         <td></td>
@@ -26,11 +27,11 @@
                     @endif
                     <td>
                         @if ($studentCompany->sc_status == 1)
-                            {{__('translate.active')}}نشط
+                            {{__('translate.active')}}
                         @elseif ($studentCompany->sc_status == 2)
-                            {{__('translate.finished')}}منتهي
+                            {{__('translate.finished')}}
                         @else
-                            {{__('translate.deleted')}}محذوف
+                            {{__('translate.deleted')}}
                         @endif
                     </td>
                     <td>
@@ -68,7 +69,8 @@
                                 @if ($studentCompany->sc_department_id)
                                     <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{ $studentCompany->companyBranch->b_address }}' , {{$studentCompany->sc_status}} , null , '{{$studentCompany->companyDepartment->d_name}}' , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
                                 @else
-                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{ $studentCompany->companyBranch->b_address ?? '' }}' , {{$studentCompany->sc_status}} , null , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>
+                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '' , {{$studentCompany->sc_status}} , null , null , '')" type="button"><span class="fa fa-edit"></span></button>
+{{--                                    <button class="btn btn-success btn-xs" onclick="open_edit_modal({{$studentCompany}} , '{{ $studentCompany->companyBranch->b_address ?? '' }}' , {{$studentCompany->sc_status}} , null , null , '{{$studentCompany->registrations[0]->courses->c_name}}')" type="button"><span class="fa fa-edit"></span></button>--}}
                                 @endif
                             @endif
                             <button class="btn btn-danger btn-xs" onclick="openAlertDelete({{$studentCompany->sc_id}})" type="button"><span class="fa fa-trash"></span></button>

@@ -12,7 +12,8 @@
                         <li class="back-btn">
                             <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                         </li>
-                        @if(auth()->user()->u_role_id == 1) {{-- admin --}}
+                        <li><a class="nav-link" href="{{route('home')}}"><i data-feather="home"></i><span>الرئيسية</span></a></li>
+                    @if(auth()->user()->u_role_id == 1) {{-- admin --}}
                             <li><a class="nav-link" href="{{route('admin.users.index')}}"><i data-feather="users"></i><span>{{__('translate.Users Management')}}{{-- المستخدمين --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.majors.index')}}"><i data-feather="book-open"></i><span>{{__('translate.Majors Management')}}{{-- التخصصات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.courses.index')}}"><i data-feather="book"></i><span>{{__('translate.Courses')}}{{-- التدريبات العملية --}}</span></a></li>
@@ -20,8 +21,9 @@
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.registration.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('admin.reports.index')}}"><i data-feather="calendar"></i><span>سجل التقارير</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
-                        {{--                            <li><a class="nav-link" href="{{route('admin.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}--}}{{-- سجل الحضور والمغادرة --}}{{--</span></a></li>--}}
+{{--                            <li><a class="nav-link" href="{{route('admin.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}} سجل الحضور والمغادرة </span></a></li>--}}
                             <li><a class="nav-link" href="{{ route('admin.settings') }}"><i data-feather="settings"></i><span>{{__('translate.Settings')}}{{-- الإعدادات --}}</span></a></li>
                         @elseif(auth()->user()->u_role_id == 2) {{-- Student --}}
                             <li><a class="nav-link" href="{{route('students.personal_profile.index')}}"><i data-feather="user"></i><span>{{__('translate.Profile')}}{{-- الملف الشخصي --}}</span></a></li>

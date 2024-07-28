@@ -117,7 +117,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="f1-last-name">{{__('translate.company_english_name')}} <span style="color: red">*</span></label>
-{{--                            <input class="f1-last-name form-control" id="c_english_name" type="text" name="c_english_name" required="">--}}
+                            <input class="f1-last-name form-control" id="c_english_name" type="text" name="c_english_name" required="">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -160,6 +160,16 @@
 
                             <label for="f1-last-name">{{__('translate.Company Address')}}{{-- عنوان الشركة --}} <span style="color: red">*</span></label>
                             <input class="f1-last-name form-control" id="address" type="text" name="address" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="f1-last-name">المدينة <span style="color: red">*</span></label>
+                            <select class="form-control select2bs4" name="b_city_id" id="">
+                                @foreach($cities as $key)
+                                    <option value="{{ $key->id }}">{{ $key->city_name_ar }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -784,6 +794,7 @@ function completeCompany(index){
     document.getElementById('manager_id').value = uncompletedCompany[index].manager.u_id;
     document.getElementById('companyName').value = uncompletedCompany[index].c_name;
     document.getElementById('company_id').value = uncompletedCompany[index].c_id;
+    document.getElementById('c_english_name').value = uncompletedCompany[index].c_english_name;
 
     // branchesNum = document.getElementById('branchesNum').value;
     // if(branchesNum<2){

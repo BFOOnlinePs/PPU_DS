@@ -370,10 +370,13 @@ class UserController extends Controller
 
         // Access the 'c_id' value
         $c_id = $parsedData['c_id'];
+        $supervisor_id = $parsedData['supervisor_id'];
+        $supervisors = User::get();
         $system_setting = SystemSetting::first();
         $registration = new Registration();
         $registration->r_student_id = $request->input('id');
         $registration->r_course_id = $c_id;
+        $registration->supervisor_id = $supervisor_id;
         $registration->r_semester = $system_setting->ss_semester_type;
         $registration->r_year = $system_setting->ss_year;
         if($registration->save()) {
@@ -392,7 +395,7 @@ class UserController extends Controller
                                                 ->pluck('sc_course_id')
                                                 ->toArray();
             $courses = Course::whereIn('c_id' , $semester_courses)->get();
-            $modal = view('project.admin.users.modals.add_courses_student' , ['courses' => $courses])->render();
+            $modal = view('project.admin.users.modals.add_courses_student' , ['courses' => $courses , 'supervisors'=>$supervisors])->render();
 
             return response()->json(['html' => $html , 'modal' => $modal]);
         }
@@ -411,6 +414,7 @@ class UserController extends Controller
     public function courses_student($id)
     {
         $user = User::find($id);
+        $supervisors = User::where('u_role_id' , 5)->get();
         $system_setting = SystemSetting::first();
         $r_course_id = Registration::where('r_student_id' , $id)
                                         ->where('r_semester' , $system_setting->ss_semester_type)
@@ -428,7 +432,7 @@ class UserController extends Controller
                                 ->where('r_semester' , $system_setting->ss_semester_type)
                                 ->where('r_year' , $system_setting->ss_year)
                                 ->get();
-        return view('project.admin.users.courese_student' , ['user' => $user , 'courses' => $courses , 'data' => $data]);
+        return view('project.admin.users.courese_student' , ['user' => $user , 'courses' => $courses , 'data' => $data , 'supervisors' => $supervisors]);
     }
     public function details($id)
     {
