@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\project\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 use App\Models\SemesterCourse;
 use App\Models\Course;
@@ -153,7 +154,5 @@ class SemesterCoursesController extends Controller
             'view'=>view('project.admin.semesterCourses.ajax.semesterCoursesList',['data'=>$data,'semester'=>$systemSettings->ss_semester_type, 'year'=>$systemSettings->ss_year])->render(),
             'modal'=>view('project.admin.semesterCourses.ajax.select',['course'=>$course])->render(),
         ]);
-
-
     }
 }

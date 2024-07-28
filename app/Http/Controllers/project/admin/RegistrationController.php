@@ -25,7 +25,6 @@ class RegistrationController extends Controller
     }
 
     public function CourseStudents($id){
-
         $systemSettings = SystemSetting::first();
 
         $semester = $systemSettings->ss_semester_type;
@@ -55,10 +54,11 @@ class RegistrationController extends Controller
         $semester_courses = SemesterCourse::where('sc_semester' , $semester)
         ->where('sc_year' , $year)
         ->get();
-
+        $supervisors = User::where('u_role_id',10)->get();
         return view('project.admin.registration.semesterStudents',[
             'semester_courses'=>$semester_courses ,
-            'majors' => $majors
+            'majors' => $majors ,
+            'supervisors' => $supervisors
         ]);
     }
     public function FilterSemesterStudents(Request $request)
@@ -98,7 +98,6 @@ class RegistrationController extends Controller
         ->where('r_year', $year)
         ->where('r_semester', $semester)
         ->whereIn('r_student_id' , $users)
-        ->select('r_student_id')
         ->distinct()
         ->get();
         if($request->user_course != null) {
@@ -111,8 +110,20 @@ class RegistrationController extends Controller
             ->distinct()
             ->get();
         }
-        $html = view('project.admin.registration.includes.semesterStudentsList' , ['data' => $data])->render();
+
+        $supervisors = User::where('u_role_id',10)->get();
+        $html = view('project.admin.registration.includes.semesterStudentsList' , ['data' => $data , 'supervisors' => $supervisors])->render();
         return response()->json(['html' => $html]);
     }
 
+    public function add_training_supervisor(Request $request)
+    {
+        $data = Registration::where('r_student_id' , $request->student)->first();
+        $data->supervisor_id = $request->supervisor;
+        if($data->save()){
+            return response()->json([
+                'success'=>'true',
+            ]);
+        }
+    }
 }

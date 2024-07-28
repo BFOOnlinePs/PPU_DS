@@ -94,5 +94,26 @@
                 }
             });
         }
+
+        function add_training_supervisor(student,supervisor)
+        {
+            $.ajax({
+                url: "{{route('admin.registration.add_training_supervisor')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    supervisor : supervisor,
+                    student : student,
+                },
+                success: function(response) {
+
+                },
+                error: function(xhr, status, error) {
+
+                }
+            });
+        }
     </script>
 @endsection

@@ -1,7 +1,15 @@
 <table class="table table-bordered table-striped" id="users_table">
     <thead>
         <tr>
-            <th>اسم رئيس القسم</th>
+            @if($user_role->r_id == '3')
+                <th>اسم رئيس القسم</th>
+            @elseif($user_role->r_id == '10')
+                <th>اسم مشرف التدريب العملي</th>
+            @elseif($user_role->r_id == '2')
+                <th>اسم الطالب</th>
+            @else
+                <th>اسم الطالب</th>
+            @endif
             <th>{{ __('translate.Phone Number') }}</th>
             @if($user_role->r_id != '3')
                 <th>{{ __('translate.tawjihi_rate') }}</th>
@@ -44,6 +52,8 @@
                     مسؤول التواصل مع الشركات
                 @elseif($key->u_role_id == 9)
                     مسؤول المتابعة
+                @elseif($key->u_role_id == 10)
+                    مشرف التدريب العملي
                 @endif
             </td>
 {{--            @if ($key->u_status == 0)--}}

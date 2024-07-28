@@ -577,7 +577,8 @@ class UserController extends Controller
         $role = Role::where('r_id' , $id)->first();
         $cities = CitiesModel::get();
         $role_name = $role->r_name;
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'user_role'=>$role , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities]);
+        $supervisors = User::where('u_role_id' , 10)->get();
+        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'user_role'=>$role , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities , 'supervisors'=>$supervisors]);
     }
     public function index()
     {
@@ -768,6 +769,5 @@ class UserController extends Controller
             return redirect()->route('admin.users.students.students_files',['id'=>$request->table_name_id])->with(['fail' => 'هناك خلل ما لم يتم اضافة البيانات']);
         }
     }
-
 }
 
