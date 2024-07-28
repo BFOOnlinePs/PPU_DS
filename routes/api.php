@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/recordStudentCheckIn', [StudentsStudentAttendanceController::class, 'studentCheckIn']);
     Route::post('/recordStudentCheckOut', [StudentsStudentAttendanceController::class, 'studentCheckOut']);
     Route::post('/checkTodayStudentAttendance', [StudentsStudentAttendanceController::class, 'checkTodayStudentAttendance']);
-
+    
     // student cv
 
     // student log

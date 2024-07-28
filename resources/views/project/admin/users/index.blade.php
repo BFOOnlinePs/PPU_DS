@@ -47,7 +47,7 @@
                         @elseif($role->r_name == 'طالب')
                             <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Student')}}">
                             {{__('translate.Student')}} {{-- طالب --}}
-                        @elseif($role->r_name == 'مشرف أكاديمي')
+                        @elseif($role->r_name == 'رئيس قسم')
                             <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic Supervisor')}}">
                             {{__('translate.Academic Supervisor')}} {{-- مشرف أكاديمي --}}
                         @elseif($role->r_name == 'مساعد إداري')
@@ -86,7 +86,7 @@
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Student')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.student')}} {{-- طالب --}}
-                @elseif($role_name == 'مشرف أكاديمي')
+                @elseif($role_name == 'رئيس قسم')
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic Supervisor')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.academic supervisor')}} {{-- مشرف أكاديمي --}}

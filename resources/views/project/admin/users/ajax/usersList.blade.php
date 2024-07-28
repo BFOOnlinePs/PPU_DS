@@ -1,10 +1,12 @@
 <table class="table table-bordered table-striped" id="users_table">
     <thead>
         <tr>
-            <th>{{ __('translate.Student Name') }}</th>
+            <th>اسم رئيس القسم</th>
             <th>{{ __('translate.Phone Number') }}</th>
-            <th>{{ __('translate.tawjihi_rate') }}</th>
-            <th>{{ __('translate.Major') }}</th>
+            @if($user_role->r_id != '3')
+                <th>{{ __('translate.tawjihi_rate') }}</th>
+                <th>{{ __('translate.Major') }}</th>
+            @endif
             <th>نوع المستخدم</th>
             <th>{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
         </tr>
@@ -19,8 +21,10 @@
         <tr id="user-row-{{ $key->id }}">
             <td>{{$key->name}}</td>
             <td>{{$key->u_phone1}}</td>
-            <td>{{$key->u_tawjihi_gpa}}</td>
-            <td>{{$key->major->m_name ?? 0}}</td>
+            @if($user_role->r_id != '3')
+                <td>{{$key->u_tawjihi_gpa}}</td>
+                <td>{{$key->major->m_name ?? 0}}</td>
+            @endif
             <td>
                 @if($key->u_role_id == 1)
                     ادمن

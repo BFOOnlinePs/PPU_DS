@@ -468,8 +468,8 @@ class UserController extends Controller
                     )->get();
 
         }
-
-        $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
+        $role_id = $request->data->u_role_id;
+        $html = view('project.admin.users.ajax.' , ['data' => $data , 'role_id' => $role_id])->render();
         return response()->json(['html' => $html]);
     }
     public function update(Request $request)
@@ -577,7 +577,7 @@ class UserController extends Controller
         $role = Role::where('r_id' , $id)->first();
         $cities = CitiesModel::get();
         $role_name = $role->r_name;
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities]);
+        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'user_role'=>$role , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities]);
     }
     public function index()
     {

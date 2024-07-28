@@ -27,6 +27,7 @@
           <label class="form-label">{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</label>
           <input class="form-control" type="text" value="{{$user->email}}" readonly>
         </div>
+        
         <div class="mb-3">
           <label class="form-label">{{__('translate.Phone Number')}} {{-- رقم الجوال --}}</label>
           <input class="form-control" value="{{$user->u_phone1}}" readonly>
