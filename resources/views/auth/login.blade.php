@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Login 08</title>
+  	<title>تسجيل الدخول :: كلية الدراسات الثنائية</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+      <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -44,30 +44,30 @@
 					</div>
 	            </div>
 
-                <div class="mt-2">
-                                <div class="div p-1 ">
-                                    <button onclick="login('admin@gmail.com','123456789')" type="button" class="btn btn-info btn-sm form-control">أدمن</button>
-                                </div>
-                                <div class="div p-1">
-                                    <button onclick="login('EzdeharJwabreh@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">المشرف</button>
-                                </div>
-                                <div class="div p-1">
-                                    <button onclick="login('mazen@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مساعد إداري</button>
-                                </div>
-                                <div class="div p-1">
-                                    <button onclick="login('ayman@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول متابعة وتقييم</button>
-                                </div>
-                                <div class="div p-1">
-                                    <button onclick="login('abdelmajeed@jawwal.ps','123456789')" type="button" class="btn  btn-dark btn-sm form-control">مدير الشركة</button>
-                                </div>
+{{--                <div class="mt-2">--}}
+{{--                                <div class="div p-1 ">--}}
+{{--                                    <button onclick="login('admin@gmail.com','123456789')" type="button" class="btn btn-info btn-sm form-control">أدمن</button>--}}
+{{--                                </div>--}}
+{{--                                <div class="div p-1">--}}
+{{--                                    <button onclick="login('EzdeharJwabreh@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">المشرف</button>--}}
+{{--                                </div>--}}
+{{--                                <div class="div p-1">--}}
+{{--                                    <button onclick="login('mazen@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مساعد إداري</button>--}}
+{{--                                </div>--}}
+{{--                                <div class="div p-1">--}}
+{{--                                    <button onclick="login('ayman@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول متابعة وتقييم</button>--}}
+{{--                                </div>--}}
+{{--                                <div class="div p-1">--}}
+{{--                                    <button onclick="login('abdelmajeed@jawwal.ps','123456789')" type="button" class="btn  btn-dark btn-sm form-control">مدير الشركة</button>--}}
+{{--                                </div>--}}
 
-                                <div class="div p-1">
-                                    <button onclick="login('179033@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">طالب</button>
-                                </div>
-                                <div class="div p-1">
-                                    <button onclick="login('mohamadher@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول التواصل مع الشركات</button>
-                                </div>
-                            </div>
+{{--                                <div class="div p-1">--}}
+{{--                                    <button onclick="login('179033@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">طالب</button>--}}
+{{--                                </div>--}}
+{{--                                <div class="div p-1">--}}
+{{--                                    <button onclick="login('mohamadher@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول التواصل مع الشركات</button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}

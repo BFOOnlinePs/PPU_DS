@@ -1452,7 +1452,7 @@ class MonitorEvaluationController extends Controller
         })
         ->when($request->filled('company_id'),function($query) use ($request){
             $query->whereIn('sa_student_company_id',function($query) use ($request){
-                $query->select('c_id')->from('companies')->where('c_id',$request->company_id);
+                $query->select('sc_id')->from('students_companies')->where('sc_company_id',$request->company_id);
             });
         })
         ->when($request->filled('from') && $request->filled('to'),function($query) use ($request){
@@ -1471,7 +1471,7 @@ class MonitorEvaluationController extends Controller
         })->get();
         foreach($data as $key){
             $key->user = User::where('u_id',$key->sa_student_id)->first();
-            $key->company = Company::where('c_id',$key->sa_student_company_id)->first();
+            $key->company = Company::where('c_id',StudentCompany::where('sc_id',$key->sa_student_company_id)->first()->sc_company_id)->first();
             $key->report_attendance = StudentReport::where('sr_student_attendance_id',$key->sa_id)->first();
         }
         return response()->json([

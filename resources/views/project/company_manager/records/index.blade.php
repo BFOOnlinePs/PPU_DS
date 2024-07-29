@@ -89,7 +89,7 @@
                 success: function(response) {
                     document.getElementById('sr_report_text').value = response.sr_report_text;
                     if(response.sr_attached_file != null){
-                        document.getElementById('sr_attached_file').href = `{{asset('storage/student_reports/${response.sr_attached_file}')}}`;
+                        document.getElementById('sr_attached_file').href = `{{asset('public/storage/student_reports/${response.sr_attached_file}')}}`;
                         document.getElementById('sr_attached_file').style.display = '';
                     }
                 },

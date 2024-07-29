@@ -328,27 +328,37 @@ class UserController extends Controller
     public function courses_student_delete(Request $request)
     {
         $system_setting = SystemSetting::first();
-        $deleted = Registration::where('r_student_id', $request->u_id)
-                                ->where('r_course_id', $request->c_id)
-                                ->where('r_semester' , $system_setting->ss_semester_type)
-                                ->where('r_year' , $system_setting->ss_year)
-                                ->delete();
-        if($deleted > 0) {
-            $data = Registration::where('r_student_id' , $request->u_id)
-                                ->where('r_semester' , $system_setting->ss_semester_type)
-                                ->where('r_year' , $system_setting->ss_year)
-                                ->get();
-            $html = view('project.admin.users.ajax.coursesList' , ['data' => $data])->render();
-            $r_course_id = Registration::where('r_student_id' , $request->u_id)
-                                            ->where('r_semester' , $system_setting->ss_semester_type)
-                                            ->where('r_year' , $system_setting->ss_year)
-                                            ->pluck('r_course_id')
-                                            ->toArray();
-            $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
-                                                ->pluck('sc_course_id')
-                                                ->toArray();
-            $courses = Course::whereIn('c_id' , $semester_courses)->get();
-            return response()->json(['html' => $html , 'courses' => $courses]);
+        $registration_id = Registration::where('r_student_id', $request->u_id)
+            ->where('r_course_id', $request->c_id)
+            ->first();
+        $check_if_exist = StudentCompany::where('sc_registration_id',$registration_id->r_id)->first();
+        if (empty($check_if_exist)){
+            $deleted = Registration::where('r_student_id', $request->u_id)
+                ->where('r_course_id', $request->c_id)
+                ->where('r_semester' , $system_setting->ss_semester_type)
+                ->where('r_year' , $system_setting->ss_year)
+                ->delete();
+
+            if($deleted > 0) {
+                $data = Registration::where('r_student_id' , $request->u_id)
+                    ->where('r_semester' , $system_setting->ss_semester_type)
+                    ->where('r_year' , $system_setting->ss_year)
+                    ->get();
+                $html = view('project.admin.users.ajax.coursesList' , ['data' => $data])->render();
+                $r_course_id = Registration::where('r_student_id' , $request->u_id)
+                    ->where('r_semester' , $system_setting->ss_semester_type)
+                    ->where('r_year' , $system_setting->ss_year)
+                    ->pluck('r_course_id')
+                    ->toArray();
+                $semester_courses = SemesterCourse::whereNotIn('sc_course_id' , $r_course_id)
+                    ->pluck('sc_course_id')
+                    ->toArray();
+                $courses = Course::whereIn('c_id' , $semester_courses)->get();
+                return response()->json(['html' => $html , 'courses' => $courses]);
+        }
+        }
+        else{
+            return response()->json(['status' => 'exist']);
         }
     }
     public function courses_student_add(Request $request)
@@ -454,6 +464,7 @@ class UserController extends Controller
                     )->get();
 
         }
+
         $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
         return response()->json(['html' => $html]);
     }

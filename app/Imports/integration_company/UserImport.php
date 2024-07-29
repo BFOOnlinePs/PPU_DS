@@ -49,6 +49,7 @@ class UserImport implements ToCollection
                 $user->u_address = $row[$this->additionalData['company_address']];
                 $user->u_role_id = 6;
                 $user->u_status = 1;
+                $user->u_tawjihi_gpa = $row[$this->additionalData['u_tawjihi_gpa']];
             }
             else {
                 $user = new User();
@@ -65,6 +66,7 @@ class UserImport implements ToCollection
                 $user->u_address = $row[$this->additionalData['company_address']];
                 $user->u_role_id = 6;
                 $user->u_status = 1;
+                $user->u_tawjihi_gpa = $row[$this->additionalData['u_tawjihi_gpa']];
             }
             if($user->save()) {
                 $company_exists = Company::where('c_manager_id' , $user->u_id)

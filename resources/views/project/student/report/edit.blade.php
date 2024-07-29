@@ -24,7 +24,7 @@
                         <div class="email-profile">
                             <div class="email-body">
                                 <div class="email-compose">
-                                    
+
                                     <div class="email-wrapper">
                                         @if(session('success'))
                                             <div class="alert alert-success" id="success">
@@ -63,7 +63,7 @@
                                                     @if (isset($student_report->sr_attached_file))
                                                         <button class="btn-close" type="button" onclick="remove_file()" id="remove_button"></button>
                                                         <input type="hidden" name="save_file" id="save_file" value="true">
-                                                        <a href="{{ asset('storage/student_reports/'.$student_report->sr_attached_file) }}" id="downloadLink" download>{{$student_report->sr_attached_file}}</a>
+                                                        <a href="{{ asset('public/storage/student_reports/'.$student_report->sr_attached_file) }}" id="downloadLink" download>{{$student_report->sr_attached_file}}</a>
                                                     @else
                                                         <button class="btn-close" type="button" onclick="remove_file()" style="display: none" id="remove_button"></button>
                                                         <a href="" id="downloadLink" style="display: none"></a>

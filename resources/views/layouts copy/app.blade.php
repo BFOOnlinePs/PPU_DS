@@ -86,7 +86,7 @@
     .nav-link:hover{
 
     background-color: #0c563d !important;
-    color: #24695c !important;
+    color: #ef681a !important;
 }
 .nav-link  svg {
 height:16px ;

@@ -41,8 +41,8 @@ class CoursesImport implements ToModel
             if(!($exist_semester_coures)) {
                 $semester_coures = new SemesterCourse();
                 $semester_coures->sc_course_id = $new_course->c_id;
-                $semester_coures->sc_semester = $row[$this->additionalData['semester']];
-                $semester_coures->sc_year = $row[$this->additionalData['year']];
+                $semester_coures->sc_semester = $row[$this->additionalData['semester']] ?? 1;
+                $semester_coures->sc_year = $row[$this->additionalData['year']] ?? 2024;
                 $semester_coures->save();
             }
             return null;

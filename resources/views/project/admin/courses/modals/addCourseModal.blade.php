@@ -43,7 +43,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Code')}}{{-- رمز التدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
-                                                <i id="ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                                <i id="ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                                 <i id="search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                                 <input class="form-control" type="text" id="c_course_code" name="c_course_code" onkeyup="checkCourseCode(this.value,'code')" oninput="validateNumInput(this)">
                                             </div>
@@ -90,7 +90,7 @@
                                         <div class="mb-3 row">
                                             <label class="col-lg-12 form-label " for="textinput">{{__('translate.Course Reference Code')}}{{-- الرمز المرجعي للتدريب العملي --}}<span style="color: red">*</span></label>
                                             <div class="input-container">
-                                                <i id="ref_ok_icon" class="icon fa fa-check" style="color:#24695c" hidden></i>
+                                                <i id="ref_ok_icon" class="icon fa fa-check" style="color:#ef681a" hidden></i>
                                                 <i id="ref_search_icon" class="icon_spinner fa fa-spin fa-refresh" hidden></i>
                                                 <input id="c_reference_code" name="c_reference_code" type="text"
                                                     class="form-control btn-square input-md" oninput="validateEngNumInput(this)" onkeyup="checkCourseCode(this.value,'refCode')">
