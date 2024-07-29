@@ -1,13 +1,32 @@
 <table class="table table-bordered table-striped" id="users_table">
     <thead>
         <tr>
-            <th>اسم رئيس القسم</th>
-            <th>{{ __('translate.Phone Number') }}</th>
-            @if($user_role->r_id != '3')
-                <th>{{ __('translate.tawjihi_rate') }}</th>
-                <th>{{ __('translate.Major') }}</th>
+            @if($user_role != null)
+                @if($user_role->r_id == '3')
+                    <th>اسم رئيس القسم</th>
+                @elseif($user_role->r_id == '10')
+                    <th>اسم مشرف التدريب العملي</th>
+                @elseif($user_role->r_id == '2')
+                    <th>اسم الطالب</th>
+                @else
+                    <th>اسم الطالب</th>
             @endif
+            @else
+                <th>اسم المستخدم</th>
+            @endif
+            <th>{{ __('translate.Phone Number') }}</th>
+                @if($user_role != null)
+                    @if($user_role->r_id != '3')
+                        <th>{{ __('translate.tawjihi_rate') }}</th>
+                        <th>{{ __('translate.Major') }}</th>
+                    @endif
+                @endif
             <th>نوع المستخدم</th>
+                @if($user_role != null)
+                    @if($user_role->r_id == '2')
+                        <th>المشرف الخاص بالطالب</th>
+                    @endif
+                @endif
             <th>{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
         </tr>
     </thead>
@@ -21,9 +40,11 @@
         <tr id="user-row-{{ $key->id }}">
             <td>{{$key->name}}</td>
             <td>{{$key->u_phone1}}</td>
-            @if($user_role->r_id != '3')
-                <td>{{$key->u_tawjihi_gpa}}</td>
-                <td>{{$key->major->m_name ?? 0}}</td>
+            @if($user_role != null)
+                @if($user_role->r_id != '3')
+                    <td>{{$key->u_tawjihi_gpa}}</td>
+                    <td>{{$key->major->m_name ?? 0}}</td>
+                @endif
             @endif
             <td>
                 @if($key->u_role_id == 1)
@@ -44,6 +65,8 @@
                     مسؤول التواصل مع الشركات
                 @elseif($key->u_role_id == 9)
                     مسؤول المتابعة
+                @elseif($key->u_role_id == 10)
+                    مشرف التدريب العملي
                 @endif
             </td>
 {{--            @if ($key->u_status == 0)--}}

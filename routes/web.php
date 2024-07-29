@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
             Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
+            Route::post('/add_training_supervisor',[App\Http\Controllers\project\admin\RegistrationController::class,'add_training_supervisor'])->name('admin.registration.add_training_supervisor');
         });
         Route::group(['prefix'=>'cities'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CitiesController::class,'index'])->name('admin.cities.index');

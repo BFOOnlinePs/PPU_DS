@@ -577,10 +577,12 @@ class UserController extends Controller
         $role = Role::where('r_id' , $id)->first();
         $cities = CitiesModel::get();
         $role_name = $role->r_name;
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'user_role'=>$role , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities]);
+        $supervisors = User::where('u_role_id' , 10)->get();
+        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'user_role'=>$role , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities , 'supervisors'=>$supervisors]);
     }
     public function index()
     {
+         'asd';
         $data = User::with('role')->get();
         foreach ($data as $key){
             $key->major = Major::where('m_id',$key->u_major_id)->first();
@@ -592,7 +594,8 @@ class UserController extends Controller
             'roles' => $roles,
             'u_role_id' => null,
             'major' => $major,
-            'role_name' => null
+            'role_name' => null,
+            'user_role' => null
         ]);
     }
     public function create(Request $request)
@@ -672,7 +675,6 @@ class UserController extends Controller
             foreach ($data as $key){
                 $key->major = Major::where('m_id',$key->u_major_id)->first();
             }
-            return 'asd';
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }
@@ -768,6 +770,5 @@ class UserController extends Controller
             return redirect()->route('admin.users.students.students_files',['id'=>$request->table_name_id])->with(['fail' => 'هناك خلل ما لم يتم اضافة البيانات']);
         }
     }
-
 }
 

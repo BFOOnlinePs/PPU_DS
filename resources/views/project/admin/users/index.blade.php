@@ -22,8 +22,10 @@
                 {{__('translate.Administrator')}} {{-- أدمن --}}
             @elseif($role_name == 'طالب')
                 {{__('translate.Student')}} {{-- طالب --}}
-            @elseif($role_name == 'مشرف أكاديمي')
+            @elseif($role_name == 'رئيس قسم')
                 {{__('translate.Academic Supervisor')}} {{-- مشرف أكاديمي --}}
+            @elseif($role_name == 'مشرف التدريب العملي')
+                مشرف التدريب العملي
             @elseif($role_name == 'مساعد إداري')
                 {{__('translate.Academic Supervisor Assistant')}} {{-- مساعد إداري --}}
             @elseif($role_name == 'مسؤول متابعة وتقييم')
@@ -50,6 +52,9 @@
                         @elseif($role->r_name == 'رئيس قسم')
                             <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic Supervisor')}}">
                             {{__('translate.Academic Supervisor')}} {{-- مشرف أكاديمي --}}
+                        @elseif($role->r_name == 'مشرف التدريب العملي')
+                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="مشرف التدريب العملي">
+                                مشرف التدريب العملي
                         @elseif($role->r_name == 'مساعد إداري')
                             <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic Supervisor Assistant')}}">
                             {{__('translate.Academic Supervisor Assistant')}} {{-- مساعد إداري --}}
@@ -90,6 +95,10 @@
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic Supervisor')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.academic supervisor')}} {{-- مشرف أكاديمي --}}
+                @elseif($role_name == 'مشرف التدريب العملي')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic Supervisor')}}"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                    مشرف التدريب العملي
                 @elseif($role_name == 'مساعد إداري')
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic Supervisor Assistant')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
@@ -218,6 +227,7 @@
                 }
             });
         }
+
         function check_email_not_duplicate()
         {
             let email = document.getElementById('email').value;
@@ -240,6 +250,27 @@
                         btn.removeAttribute('disabled');
                         document.getElementById('email_duplicate_message').style.display = 'none';
                     }
+                },
+                error: function(xhr, status, error) {
+
+                }
+            });
+        }
+
+        function add_training_supervisor(student,supervisor)
+        {
+            $.ajax({
+                url: "{{route('admin.registration.add_training_supervisor')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    supervisor : supervisor,
+                    student : student,
+                },
+                success: function(response) {
+                    alert('success');
                 },
                 error: function(xhr, status, error) {
 
