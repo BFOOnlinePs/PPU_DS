@@ -582,6 +582,7 @@ class UserController extends Controller
     }
     public function index()
     {
+         'asd';
         $data = User::with('role')->get();
         foreach ($data as $key){
             $key->major = Major::where('m_id',$key->u_major_id)->first();
@@ -593,7 +594,8 @@ class UserController extends Controller
             'roles' => $roles,
             'u_role_id' => null,
             'major' => $major,
-            'role_name' => null
+            'role_name' => null,
+            'user_role' => null
         ]);
     }
     public function create(Request $request)
@@ -673,7 +675,6 @@ class UserController extends Controller
             foreach ($data as $key){
                 $key->major = Major::where('m_id',$key->u_major_id)->first();
             }
-            return 'asd';
             $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
             return response()->json(['html' => $html]);
         }

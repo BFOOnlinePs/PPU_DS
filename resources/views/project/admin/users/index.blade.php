@@ -260,7 +260,7 @@
         function add_training_supervisor(student,supervisor)
         {
             $.ajax({
-                url: "{{route('users.add_training_supervisor')}}",
+                url: "{{route('admin.registration.add_training_supervisor')}}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'

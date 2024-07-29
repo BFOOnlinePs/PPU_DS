@@ -65,8 +65,13 @@
                             <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.training_nominations.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.training_nominations')}}{{-- ترشيحات التدريب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
-                            @endif
-                        @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 )
+                        @elseif (auth()->user()->u_role_id == 10) {{-- Communications Manager with Companies --}}
+                            <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>طلابي</span></a></li>
+                            <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>تسجيل الزيارات</span></a></li>
+                            <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>المراسلات</span></a></li>
+                        @endif
+
+                    @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 )
 {{--                        <li><a class="nav-link" href="{{route('admin.announcements.index')}}"><i data-feather="inbox"></i><span>{{__('translate.announcements')}}--}}{{--  الاعلانات --}}{{--</span></a></li>--}}
                          @endif
 {{--                        <li><a class="nav-link" href="{{route('admin.survey.index')}}"><i data-feather="clipboard"></i><span>{{__('translate.surveys')}}--}}{{--  الاستبيانات </span></a></li>--}}
