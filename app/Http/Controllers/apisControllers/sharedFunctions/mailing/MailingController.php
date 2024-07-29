@@ -159,29 +159,9 @@ class MailingController extends Controller
 
         $current_semester = SystemSetting::first();
 
-        // for student (he can chat his supervisor and managers)
-        // (current users depend of year and semester)
-        if ($user->u_role_id == 2) {
-            // // managers
-            // $registrations = Registration::where('r_student_id', $user->u_id)
-            //     ->where('r_year', $current_semester->ss_year)
-            //     ->where('r_semester', $current_semester->ss_semester_type)
-            //     ->pluck('r_id');
 
-            // $branch_ids = StudentCompany::whereIn('sc_registration_id', $registrations)
-            //     ->distinct()
-            //     ->pluck('sc_branch_id');
-
-            // $manager_ids = CompanyBranch::whereIn('b_id', $branch_ids)
-            //     ->distinct()
-            //     ->pluck('b_manager_id');
-
-            // $managers = User::whereIn('u_id', $manager_ids)
-            //     ->distinct()
-            //     ->select('u_id', 'name')
-            //     ->get();
-
-            // more efficient way
+        // (depend of year and semester)
+        if ($user->u_role_id == 2) { // for student (he can chat his supervisor and managers)
             $managers = User::select('users.u_id', 'users.name')
                 ->join('company_branches', 'users.u_id', '=', 'company_branches.b_manager_id')
                 ->join('students_companies', 'company_branches.b_id', '=', 'students_companies.sc_branch_id')
@@ -192,27 +172,6 @@ class MailingController extends Controller
                 ->distinct()
                 ->get();
 
-            // return $managers;
-
-            // supervisors
-            // $supervisor = Registration::where('r_student_id', $user->u_id)
-            //     ->where('r_year', $current_semester->ss_year)
-            //     ->where('r_semester', $current_semester->ss_semester_type)
-            //     ->with('supervisor')
-            //     ->get();
-
-            // // Extracting only the unique supervisor ids and names
-            // $supervisors = $supervisor->pluck('supervisor')
-            //     ->unique('u_id')
-            //     ->map(function ($supervisor) {
-            //         return [
-            //             'u_id' => $supervisor->u_id,
-            //             'name' => $supervisor->name,
-            //         ];
-            //     });
-
-
-            // more efficient way
             $supervisors = Registration::join('users', 'registration.supervisor_id', '=', 'users.u_id')
                 ->where('registration.r_student_id', $user->u_id)
                 ->where('registration.r_year', $current_semester->ss_year)
@@ -222,9 +181,39 @@ class MailingController extends Controller
                 ->get();
 
             // return $supervisors;
-            $chatableUsers = $managers->merge($supervisors)->unique('u_id');
+            $chatable_users = $managers->merge($supervisors)->unique('u_id');
 
-            return $chatableUsers;
-        } else return 'not student';
+            // return $chatableUsers;
+        } else if ($user->u_role_id == 10) { // trainings supervisor (he can chat his students from registration table)
+            $students = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
+                ->where('registration.supervisor_id', $user->u_id)
+                ->where('registration.r_year', $current_semester->ss_year)
+                ->where('registration.r_semester', $current_semester->ss_semester_type)
+                ->select('users.u_id', 'users.name')
+                ->distinct()
+                ->get();
+
+            // return $students;
+            $chatable_users = $students->unique('u_id');
+            // return $chatableUsers;
+        } else if ($user->u_role_id == 6) { // manager (he can chat his trainees)
+            $trainees = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
+                ->join('students_companies', 'registration.r_id', '=', 'students_companies.sc_registration_id')
+                ->join('company_branches', 'students_companies.sc_branch_id', '=', 'company_branches.b_id')
+                ->where('company_branches.b_manager_id', $user->u_id)
+                ->where('registration.r_year', $current_semester->ss_year)
+                ->where('registration.r_semester', $current_semester->ss_semester_type)
+                ->select('users.u_id', 'users.name')
+                ->distinct()
+                ->get();
+
+            $chatable_users = $trainees->unique('u_id');
+            // return $chatableUsers;
+        };
+
+        return response()->json([
+            'status' => true,
+            'chatable_users' => $chatable_users
+        ]);
     }
 }
