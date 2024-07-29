@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/recordStudentCheckIn', [StudentsStudentAttendanceController::class, 'studentCheckIn']);
     Route::post('/recordStudentCheckOut', [StudentsStudentAttendanceController::class, 'studentCheckOut']);
     Route::post('/checkTodayStudentAttendance', [StudentsStudentAttendanceController::class, 'checkTodayStudentAttendance']);
-    
+
     // student cv
 
     // student log
@@ -271,6 +271,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('getConversationMessages', [MailingController::class, 'getConversationMessages']);
     Route::post('addNewMessage', [MailingController::class, 'addNewMessage']);
     Route::post('createNewMailWithMessage', [MailingController::class, 'createNewMailWithMessage']);
+    Route::get('getChatableUsers', [MailingController::class, 'getChatableUsers']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

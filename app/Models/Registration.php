@@ -19,20 +19,27 @@ class Registration extends Model
         'r_year'
     ];
 
-    public function courses(){
-        return $this->belongsTo(Course::class, 'r_course_id','c_id');
+    public function courses()
+    {
+        return $this->belongsTo(Course::class, 'r_course_id', 'c_id');
     }
 
-    public function users(){
-        return $this->belongsTo(User::class, 'r_student_id','u_id');
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'r_student_id', 'u_id');
     }
     public function studentCompany()
     {
         return $this->belongsTo(StudentCompany::class, 'r_id', 'sc_registration_id');
     }
 
-//     public function studentCompany2()
-//     {
-//         return $this->hasOne(StudentCompany::class, 'r_id', 'sc_registration_id');
-//     }
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'supervisor_id', 'u_id');
+    }
+
+    //     public function studentCompany2()
+    //     {
+    //         return $this->hasOne(StudentCompany::class, 'r_id', 'sc_registration_id');
+    //     }
 }
