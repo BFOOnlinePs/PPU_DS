@@ -25,6 +25,8 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as 
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
+use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MailingController;
+use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MessagesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_companies_nomination\StudentCompanyNominationsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
@@ -208,7 +210,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('updateCompanyStatus', [EditCompanyInfoController::class, 'updateCompanyStatus']);
     Route::put('updateCompanyCapacity', [EditCompanyInfoController::class, 'updateCompanyCapacity']);
 
-
     // Monitoring and Evaluation Officer
     Route::get('getSemesterReport', [SemesterReportController::class, 'getSemesterReport']);
     Route::get('getAllMatchStudents', [SemesterReportController::class, 'getAllMatchStudents']);
@@ -265,6 +266,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // file test
     Route::post('/fileUpload', [sharedController::class, 'fileUpload']);
 
+    // mailing
+    Route::get('getUserMailing', [MailingController::class, 'getUserMailing']);
+    Route::post('getConversationMessages', [MailingController::class, 'getConversationMessages']);
+    Route::post('addNewMessage', [MailingController::class, 'addNewMessage']);
+    Route::post('createNewMailWithMessage', [MailingController::class, 'createNewMailWithMessage']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
