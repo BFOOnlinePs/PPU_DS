@@ -7,6 +7,7 @@ return [
     'report_note_edit_successfully' => 'تم تعديل الملاحظة بنجاح',
     'branch_manager_id_required' => 'الرجاء ارسال رقم مدير الفرع',
     'login_error_message' => 'الرجاء التأكد من البيانات المدخلة',
+    'login_no_actor' => 'الوصول مقيد لنوع حسابك.',
     'change_student_cv_status' => 'تم تحديث حالة السيرة الذاتية للطالب بنحاح',
     'trainee_id_required' => 'الرجاء ارسال رقم الطالب/ المتدرب',
     'training_id_required' => 'الرجاء ارسال رقم التدريب',

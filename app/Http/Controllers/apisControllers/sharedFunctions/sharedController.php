@@ -24,11 +24,6 @@ class sharedController extends Controller
     // user login
     public function login(Request $request)
     {
-        // $credentials = $request->validate([
-        //     'email' => 'required|email',
-        //     'password' => 'required'
-        // ]);
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
@@ -44,13 +39,25 @@ class sharedController extends Controller
         $credentials = $validator->validated();
 
         if (Auth::attempt($credentials)) {
-            $token = $request->user()->createToken('api-token')->plainTextToken;
-            return response([
-                'status' => true,
-                'message' => trans('messages.login_successfully'),
-                'user' => auth()->user(),
-                'token' => $token,
-            ], 200);
+
+            $role_id = $request->user()->u_role_id;
+            // return (string)$role_id;
+            $exists = SystemSetting::whereJsonContains('ss_mobile_active_users', (string)$role_id)->exists();
+            // return response()->json(['exists' => $exists]);
+            if ($exists) {
+                $token = $request->user()->createToken('api-token')->plainTextToken;
+                return response([
+                    'status' => true,
+                    'message' => trans('messages.login_successfully'),
+                    'user' => auth()->user(),
+                    'token' => $token,
+                ], 200);
+            } else {
+                return response([
+                    'status' => false,
+                    'message' => trans('messages.login_no_actor'),
+                ]);
+            }
         } else {
             return response([
                 'status' => false,
