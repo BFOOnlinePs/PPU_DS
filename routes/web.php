@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CriteriaModel;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,6 +71,24 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'field_visits'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'index'])->name('admin.field_visits.index');
             Route::post('/list_field_visits' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'list_field_visits'])->name('admin.field_visits.list_field_visits');
+        });
+        Route::group(['prefix'=>'evaluations'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\EvaluationsController::class,'index'])->name('admin.evaluations.index');
+            Route::get('/add',[App\Http\Controllers\project\admin\EvaluationsController::class,'add'])->name('admin.evaluations.add');
+            Route::post('/create',[App\Http\Controllers\project\admin\EvaluationsController::class,'create'])->name('admin.evaluations.create');
+            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'edit'])->name('admin.evaluations.edit');
+            Route::post('/update',[App\Http\Controllers\project\admin\EvaluationsController::class,'update'])->name('admin.evaluations.update');
+            Route::post('/list_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_criteria_ajax'])->name('admin.evaluations.list_criteria_ajax');
+            Route::post('/list_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_criteria_ajax'])->name('admin.evaluations.list_evaluation_criteria_ajax');
+            Route::post('/add_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'add_evaluation_criteria_ajax'])->name('admin.evaluations.add_evaluation_criteria_ajax');
+            Route::post('/delete_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'delete_evaluation_criteria_ajax'])->name('admin.evaluations.delete_evaluation_criteria_ajax');
+        });
+        Route::group(['prefix'=>'criteria'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\CriteriaController::class,'index'])->name('admin.criteria.index');
+            Route::get('/add',[App\Http\Controllers\project\admin\CriteriaController::class,'add'])->name('admin.criteria.add');
+            Route::post('/create',[App\Http\Controllers\project\admin\CriteriaController::class,'create'])->name('admin.criteria.create');
+            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\CriteriaController::class,'edit'])->name('admin.criteria.edit');
+            Route::post('/update',[App\Http\Controllers\project\admin\CriteriaController::class,'update'])->name('admin.criteria.update');
         });
         Route::group(['prefix'=>'cities'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CitiesController::class,'index'])->name('admin.cities.index');
