@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\apisControllers\sharedFunctions\mailing;
 
 use App\Http\Controllers\Controller;
+use App\Models\CompanyBranch;
 use App\Models\ConversationsModel;
 use App\Models\MessageModel;
+use App\Models\Registration;
+use App\Models\StudentCompany;
+use App\Models\SystemSetting;
+use App\Models\User;
 use App\Models\UsersConversationsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +23,7 @@ class MailingController extends Controller
         $validator = Validator::make($request->all(), [
             'conversations_id' => 'required',
             'message' => 'required',
+            'message_file' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -34,6 +40,15 @@ class MailingController extends Controller
         $message->m_conversation_id = $request->input('conversations_id');
         $message->m_sender_id = $user_id;
         $message->m_message_text = $request->input('message');
+        if($request->hasFile('message_file')){
+            $file = $request->file('message_file');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time() . '_' . uniqid() . '.' . $extension;
+            $folderPath = 'uploads/mails';
+            $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
+
+            $message->m_message_file = $file_name;
+        }
         $message->m_status = 1;
 
         if ($message->save()) {
@@ -74,6 +89,7 @@ class MailingController extends Controller
         $validator = Validator::make($request->all(), [
             'receiver_id' => 'required',
             'message' => 'required',
+            'message_file' => 'nullable',
             'conversation_name' => 'nullable',
         ]);
 
@@ -102,6 +118,15 @@ class MailingController extends Controller
             $message->m_conversation_id = $conversation->c_id;
             $message->m_sender_id = Auth::user()->u_id;
             $message->m_message_text = $request->input('message');
+            if($request->hasFile('message_file')){
+                $file = $request->file('message_file');
+                $extension = $file->getClientOriginalExtension();
+                $file_name = time() . '_' . uniqid() . '.' . $extension;
+                $folderPath = 'uploads/mails';
+                $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
+
+                $message->m_message_file = $file_name;
+            }
             $message->m_status = 1;
 
             if ($message->save()) {
@@ -138,12 +163,76 @@ class MailingController extends Controller
 
         $messages = MessageModel::where('m_conversation_id', $request->input('conversation_id'))
             ->with('sender:u_id,name,u_image')
-            // ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([
             'status' => true,
             'messages' => $messages
+        ]);
+    }
+
+    public function getChatableUsers()
+    {
+        $user = Auth::user();
+        $chatable_users = [];
+
+        $current_semester = SystemSetting::first();
+
+        // (depend of year and semester)
+        if ($user->u_role_id == 2) { // for student (he can chat his supervisor and managers)
+            $managers = User::select('users.u_id', 'users.name')
+                ->join('company_branches', 'users.u_id', '=', 'company_branches.b_manager_id')
+                ->join('students_companies', 'company_branches.b_id', '=', 'students_companies.sc_branch_id')
+                ->join('registration', 'students_companies.sc_registration_id', '=', 'registration.r_id')
+                ->where('registration.r_student_id', $user->u_id)
+                ->where('registration.r_year', $current_semester->ss_year)
+                ->where('registration.r_semester', $current_semester->ss_semester_type)
+                ->distinct()
+                ->get();
+
+            $supervisors = Registration::join('users', 'registration.supervisor_id', '=', 'users.u_id')
+                ->where('registration.r_student_id', $user->u_id)
+                ->where('registration.r_year', $current_semester->ss_year)
+                ->where('registration.r_semester', $current_semester->ss_semester_type)
+                ->select('users.u_id', 'users.name')
+                ->distinct()
+                ->get();
+
+            // return $supervisors;
+            $chatable_users = $managers->merge($supervisors)->unique('u_id');
+
+            // return $chatableUsers;
+        } else if ($user->u_role_id == 10) { // trainings supervisor (he can chat his students from registration table)
+            $students = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
+                ->where('registration.supervisor_id', $user->u_id)
+                ->where('registration.r_year', $current_semester->ss_year)
+                ->where('registration.r_semester', $current_semester->ss_semester_type)
+                ->select('users.u_id', 'users.name')
+                ->distinct()
+                ->get();
+
+            // return $students;
+            $chatable_users = $students->unique('u_id');
+            // return $chatableUsers;
+        } else if ($user->u_role_id == 6) { // manager (he can chat his trainees)
+            $trainees = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
+                ->join('students_companies', 'registration.r_id', '=', 'students_companies.sc_registration_id')
+                ->join('company_branches', 'students_companies.sc_branch_id', '=', 'company_branches.b_id')
+                ->where('company_branches.b_manager_id', $user->u_id)
+                ->where('registration.r_year', $current_semester->ss_year)
+                ->where('registration.r_semester', $current_semester->ss_semester_type)
+                ->select('users.u_id', 'users.name')
+                ->distinct()
+                ->get();
+
+            $chatable_users = $trainees->unique('u_id');
+            // return $chatableUsers;
+        };
+
+        return response()->json([
+            'status' => true,
+            'chatable_users' => $chatable_users
         ]);
     }
 }
