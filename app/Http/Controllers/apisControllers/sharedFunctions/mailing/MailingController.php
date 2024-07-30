@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\apisControllers\sharedFunctions\mailing;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserNotification;
 use App\Models\CompanyBranch;
 use App\Models\ConversationsModel;
 use App\Models\MessageModel;
@@ -13,10 +14,21 @@ use App\Models\User;
 use App\Models\UsersConversationsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class MailingController extends Controller
 {
+
+    public function sendNotification()
+    {
+        $user = User::where('u_id', Auth::user()->u_id)->first();
+
+        Mail::to($user->email)->send(new UserNotification($user));
+
+        return 'Email sent successfully!';
+    }
+
     public function addNewMessage(Request $request)
     // replay
     {
@@ -40,7 +52,7 @@ class MailingController extends Controller
         $message->m_conversation_id = $request->input('conversations_id');
         $message->m_sender_id = $user_id;
         $message->m_message_text = $request->input('message');
-        if($request->hasFile('message_file')){
+        if ($request->hasFile('message_file')) {
             $file = $request->file('message_file');
             $extension = $file->getClientOriginalExtension();
             $file_name = time() . '_' . uniqid() . '.' . $extension;
@@ -118,7 +130,7 @@ class MailingController extends Controller
             $message->m_conversation_id = $conversation->c_id;
             $message->m_sender_id = Auth::user()->u_id;
             $message->m_message_text = $request->input('message');
-            if($request->hasFile('message_file')){
+            if ($request->hasFile('message_file')) {
                 $file = $request->file('message_file');
                 $extension = $file->getClientOriginalExtension();
                 $file_name = time() . '_' . uniqid() . '.' . $extension;

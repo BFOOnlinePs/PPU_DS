@@ -273,6 +273,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('createNewMailWithMessage', [MailingController::class, 'createNewMailWithMessage']);
     Route::get('getChatableUsers', [MailingController::class, 'getChatableUsers']);
 
+    Route::get('send-email', [MailingController::class, 'sendNotification']);
+
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
 });

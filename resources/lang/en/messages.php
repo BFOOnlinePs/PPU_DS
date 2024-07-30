@@ -7,6 +7,7 @@ return [
     'report_note_edit_successfully' => 'Note edited successfully',
     'branch_manager_id_required' => 'Please send the branch manager ID',
     'login_error_message' => 'Please check the entered data',
+    'login_no_actor' => 'Access restricted for your account type.',
     'change_student_cv_status' => 'Student CV status updated successfully',
     'trainee_id_required' => 'Please send the trainee ID',
     'training_id_required' => 'Please send the training ID',
