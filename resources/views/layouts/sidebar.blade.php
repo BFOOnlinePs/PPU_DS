@@ -21,6 +21,8 @@
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.registration.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.field_visits.index')}}"><i data-feather="briefcase"></i><span>الزيارات الميدانية</span></a></li>
+                            <li><a class="nav-link" href="{{route('admin.evaluations.index')}}"><i data-feather="briefcase"></i><span>التقييمات</span></a></li>
+                            <li><a class="nav-link" href="{{route('admin.criteria.index')}}"><i data-feather="briefcase"></i><span>المعايير</span></a></li>
                             <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.reports.index')}}"><i data-feather="calendar"></i><span>سجل التقارير</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
