@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
             Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
             Route::post('/add_training_supervisor',[App\Http\Controllers\project\admin\RegistrationController::class,'add_training_supervisor'])->name('admin.registration.add_training_supervisor');
+        });
+        Route::group(['prefix' => 'field_visits'],function (){
+            Route::get('/index' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'index'])->name('admin.field_visits.index');
+            Route::post('/list_field_visits' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'list_field_visits'])->name('admin.field_visits.list_field_visits');
         });
         Route::group(['prefix'=>'cities'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CitiesController::class,'index'])->name('admin.cities.index');
@@ -412,6 +415,20 @@ Route::group(['middleware' => 'auth'], function () {
         });
         Route::group(['prefix' => 'training_nominations'], function () {
             Route::get('/index' , [App\Http\Controllers\project\supervisors\TrainingNominationController::class , 'index'])->name('supervisors.training_nominations.index');
+        });
+    });
+
+    Route::group(['prefix' => 'training_supervisor'], function () {
+        Route::group(['prefix' => 'conversation'],function (){
+            Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'index'])->name('training_supervisor.conversation.index');
+            Route::get('/add' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'add'])->name('training_supervisor.conversation.add');
+        });
+        Route::group(['prefix' => 'field_visits'],function (){
+            Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'index'])->name('training_supervisor.field_visits.index');
+            Route::get('/add' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'add'])->name('training_supervisor.field_visits.add');
+            Route::post('/create' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'create'])->name('training_supervisor.field_visits.create');
+            Route::post('/get_student_from_company' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'get_student_from_company'])->name('training_supervisor.field_visits.get_student_from_company');
+            Route::get('/details/{id}' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'details'])->name('training_supervisor.field_visits.details');
         });
     });
 

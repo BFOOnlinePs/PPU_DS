@@ -20,6 +20,7 @@
                             <li><a class="nav-link" href="{{route('monitor_evaluation.attendance_and_departure_report_index')}}"><i data-feather="clock"></i data-feather=><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.registration.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Registration')}}{{-- التسجيل --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('admin.field_visits.index')}}"><i data-feather="briefcase"></i><span>الزيارات الميدانية</span></a></li>
                             <li><a class="nav-link" href="{{route('monitor_evaluation.semesterReport')}}"><i data-feather="calendar"></i><span>{{__('translate.Reports')}}{{-- تقارير --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('admin.reports.index')}}"><i data-feather="calendar"></i><span>سجل التقارير</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
@@ -67,8 +68,8 @@
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
                         @elseif (auth()->user()->u_role_id == 10) {{-- Communications Manager with Companies --}}
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>طلابي</span></a></li>
-                            <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>تسجيل الزيارات</span></a></li>
-                            <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>المراسلات</span></a></li>
+                            <li><a class="nav-link" href="{{route('training_supervisor.field_visits.index')}}"><i data-feather="briefcase"></i><span>تسجيل الزيارات</span></a></li>
+                            <li><a class="nav-link" href="{{route('training_supervisor.conversation.index')}}"><i data-feather="briefcase"></i><span>المراسلات</span></a></li>
                         @endif
 
                     @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 )
