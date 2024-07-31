@@ -24,6 +24,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesCont
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
+use App\Http\Controllers\apisControllers\sharedFunctions\evaluation\EvaluationController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MailingController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MessagesController;
@@ -274,6 +275,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getChatableUsers', [MailingController::class, 'getChatableUsers']);
 
     Route::get('send-email', [MailingController::class, 'sendNotification']);
+
+    // evaluation
+    Route::post('submitEvaluation', [EvaluationController::class, 'submitEvaluation']);
+    Route::post('getEvaluationsToSubmit', [EvaluationController::class, 'getEvaluationsToSubmit']);
+    Route::get('isUserHasEvaluationToSubmit', [EvaluationController::class, 'isUserHasEvaluationToSubmit']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
