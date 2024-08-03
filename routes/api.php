@@ -48,6 +48,8 @@ use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsTrainingsController;
+use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorCompaniesController;
+use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorStudentsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -281,6 +283,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('usersToEvaluate', [EvaluationController::class, 'usersToEvaluate']);
     Route::post('getEvaluationsToSubmit', [EvaluationController::class, 'getEvaluationsToSubmit']);
     Route::post('submitEvaluation', [EvaluationController::class, 'submitEvaluation']);
+
+    // training supervisor
+    Route::post('getTrainingSupervisorStudents', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudents']);
+    Route::post('getTrainingSupervisorStudentsInCompany', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudentsInCompany']);
+    Route::get('getTrainingSupervisorCompanies', [TrainingSupervisorCompaniesController::class, 'getTrainingSupervisorCompanies']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

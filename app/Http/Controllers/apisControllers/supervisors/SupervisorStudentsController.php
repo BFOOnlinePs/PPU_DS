@@ -57,8 +57,6 @@ class SupervisorStudentsController extends Controller
         ]);
     }
 
-
-
     // attendance log of all supervisors students
     public function getAllSupervisorStudentsAttendanceLog()
     {
