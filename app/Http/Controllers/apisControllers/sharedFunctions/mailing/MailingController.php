@@ -19,82 +19,6 @@ use Illuminate\Support\Facades\Validator;
 
 class MailingController extends Controller
 {
-
-    public function sendNotification()
-    {
-        $user = User::where('u_id', Auth::user()->u_id)->first();
-
-        Mail::to($user->email)->send(new UserNotification($user));
-
-        return 'Email sent successfully!';
-    }
-
-    public function addNewMessage(Request $request)
-    // replay
-    {
-        $validator = Validator::make($request->all(), [
-            'conversations_id' => 'required',
-            'message' => 'required',
-            'message_file' => 'nullable',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => $validator->errors()->first()
-            ], 422);
-        }
-
-        $user_id = Auth::user()->u_id;
-
-        $message = new MessageModel();
-
-        $message->m_conversation_id = $request->input('conversations_id');
-        $message->m_sender_id = $user_id;
-        $message->m_message_text = $request->input('message');
-        if ($request->hasFile('message_file')) {
-            $file = $request->file('message_file');
-            $extension = $file->getClientOriginalExtension();
-            $file_name = time() . '_' . uniqid() . '.' . $extension;
-            $folderPath = 'uploads/mails';
-            $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
-
-            $message->m_message_file = $file_name;
-        }
-        $message->m_status = 1;
-
-        if ($message->save()) {
-            return response()->json([
-                'status' => true,
-                'message' => 'تم الارسال بنجاح'
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'هناك خلل ما حدث أثناء إرسال الرسالة'
-            ]);
-        }
-    }
-    public function getUserMailing()
-    {
-        $current_user = Auth::user();
-        $conversation_id_list = UsersConversationsModel::where('uc_user_id', $current_user->u_id)
-            ->pluck('uc_conversation_id');
-
-        $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_id_list)
-            ->where('uc_user_id', '!=', $current_user->u_id)
-            ->with('conversation')
-            ->with('user:u_id,name')
-            ->with('lastMessage')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-
-        return response()->json([
-            'status' => true,
-            'mails' => $mails
-        ]);
-    }
     // when send first message
     public function createNewMailWithMessage(Request $request)
     {
@@ -156,6 +80,83 @@ class MailingController extends Controller
         return response()->json([
             'status' => false,
             'message' => 'هناك خلل ما'
+        ]);
+    }
+
+    public function addNewMessage(Request $request)
+    // replay
+    {
+        $validator = Validator::make($request->all(), [
+            'conversations_id' => 'required',
+            'message' => 'required',
+            'message_file' => 'nullable',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $user_id = Auth::user()->u_id;
+
+        $message = new MessageModel();
+
+        $message->m_conversation_id = $request->input('conversations_id');
+        $message->m_sender_id = $user_id;
+        $message->m_message_text = $request->input('message');
+        if ($request->hasFile('message_file')) {
+            $file = $request->file('message_file');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time() . '_' . uniqid() . '.' . $extension;
+            $folderPath = 'uploads/mails';
+            $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
+
+            $message->m_message_file = $file_name;
+        }
+        $message->m_status = 1;
+
+        if ($message->save()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'تم الارسال بنجاح'
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'هناك خلل ما حدث أثناء إرسال الرسالة'
+            ]);
+        }
+    }
+
+    public function sendNotification()
+    {
+        $user = User::where('u_id', Auth::user()->u_id)->first();
+
+        Mail::to($user->email)->send(new UserNotification($user));
+
+        return 'Email sent successfully!';
+    }
+
+    public function getUserMailing()
+    {
+        $current_user = Auth::user();
+        $conversation_id_list = UsersConversationsModel::where('uc_user_id', $current_user->u_id)
+            ->pluck('uc_conversation_id');
+
+        $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_id_list)
+            ->where('uc_user_id', '!=', $current_user->u_id)
+            ->with('conversation')
+            ->with('user:u_id,name')
+            ->with('lastMessage')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
+        return response()->json([
+            'status' => true,
+            'mails' => $mails
         ]);
     }
 

@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\apisControllers\sharedFunctions\evaluation;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\CompanyBranch;
 use App\Models\CriteriaModel;
 use App\Models\EvaluationCriteriaModel;
 use App\Models\EvaluationsModel;
 use App\Models\EvaluationSubmissionScoresModel;
 use App\Models\EvaluationSubmissionsModel;
 use App\Models\EvaluationTypesModel;
+use App\Models\StudentCompany;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +20,7 @@ use Illuminate\Support\Facades\Validator;
 
 class EvaluationController extends Controller
 {
-
-    public function isUserHasEvaluationToSubmit()
+    public function EvaluationsTitles()
     {
         $current_user =  Auth::user();
         $user_role_id = $current_user->u_role_id;
@@ -28,22 +31,85 @@ class EvaluationController extends Controller
             ->where('e_status', 1)
             ->where('e_start_time', '<=', Carbon::now())
             ->where('e_end_time', '>=', Carbon::now())
-            ->exists();
+            ->get();
 
-        if ($evaluations) {
-            return response()->json([
-                'status' => true,
-                'isEvaluationExists' => true
-            ]);
-        } else {
-            return response()->json([
-                'status' => true,
-                'isEvaluationExists' => false
-            ]);
-        }
+        return response()->json([
+            'status' => true,
+            'evaluations' => $evaluations
+        ]);
     }
 
+    public function usersToEvaluate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'evaluation_type_id' => 'required',
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        };
+
+        $user = Auth::user();
+        // manager
+        if ($user->u_role_id == 6 && $request->input('evaluation_type_id') == 2) {
+            // for manager get the students that he manages
+            $manager_id = $user->u_id;
+
+            $company_branches_id = CompanyBranch::where('b_manager_id', $manager_id)->pluck('b_id');
+
+            $trainees = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
+                ->whereIn('students_companies.sc_branch_id', $company_branches_id)
+                ->where('students_companies.sc_status', 1) // active
+                ->select('users.u_id', 'users.name', 'users.email', 'students_companies.sc_registration_id as registration_id')
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'trainees' => $trainees,
+            ]);
+        } else if ($user->u_role_id == 2) {
+            // for student get the companies that he is in
+            // $users = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
+            //     ->where('students_companies.sc_registration_id', $user->u_id)
+            //     ->where('students_companies.sc_status', 1) // active
+            //     ->select('users.u_id', 'users.name', 'students_companies.sc_registration_id')
+            //     ->get();
+        } else if ($user->u_role_id == 10) {
+            $supervisor_id = $user->u_id;
+
+            if ($request->input('evaluation_type_id') == 3) {
+                // for supervisor get the students that he supervises
+
+                $students = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
+                    ->join('registration', 'students_companies.sc_registration_id', '=', 'registration.r_id')
+                    ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
+                    ->where('registration.supervisor_id', $supervisor_id)
+                    ->where('students_companies.sc_status', 1) // active
+                    ->select('users.u_id', 'users.name', 'registration.r_id', 'companies.c_id', 'companies.c_name as company_name', 'companies.c_english_name as company_english_name')
+                    ->get();
+            }
+
+            //  if ($request->input('evaluation_type_id') == 4)
+            // and get the companies his students in
+            $companies = Company::whereIn('c_id', $students->pluck('c_id'))
+                ->select('c_id', 'c_name', 'c_english_name')
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'students' => $students,
+                'companies' => $companies,
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'messages' => 'no users to evaluate',
+        ]);
+    }
 
     public function submitEvaluation(Request $request)
     {
@@ -106,18 +172,24 @@ class EvaluationController extends Controller
     public function getEvaluationsToSubmit(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'evaluation_id'
+            'evaluation_type_id' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        };
+
         $current_user =  Auth::user();
-        $user_role_id = $current_user->u_role_id;
-        $user_id = $current_user->u_id;
 
         $evaluation = EvaluationsModel::where('e_status', 1)
             ->where('e_start_time', '<=', Carbon::now())
             ->where('e_end_time', '>=', Carbon::now())
+            ->where('e_type_id', $request->input('evaluation_type_id'))
             // ->where('e_evaluator_role_id', $user_role_id)
-            ->first(); //
+            ->latest()->first(); // to get the last one
 
         if ($evaluation == null) {
             return response()->json([

@@ -277,9 +277,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('send-email', [MailingController::class, 'sendNotification']);
 
     // evaluation
-    Route::post('submitEvaluation', [EvaluationController::class, 'submitEvaluation']);
+    Route::get('EvaluationsTitles', [EvaluationController::class, 'EvaluationsTitles']);
+    Route::post('usersToEvaluate', [EvaluationController::class, 'usersToEvaluate']);
     Route::post('getEvaluationsToSubmit', [EvaluationController::class, 'getEvaluationsToSubmit']);
-    Route::get('isUserHasEvaluationToSubmit', [EvaluationController::class, 'isUserHasEvaluationToSubmit']);
+    Route::post('submitEvaluation', [EvaluationController::class, 'submitEvaluation']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
