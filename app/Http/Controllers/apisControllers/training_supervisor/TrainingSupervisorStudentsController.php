@@ -20,7 +20,8 @@ class TrainingSupervisorStudentsController extends Controller
         $supervisorId = auth()->user()->u_id;
         $studentsIds = Registration::where('supervisor_id', $supervisorId)
             ->where('r_semester', $system_settings->ss_semester_type)
-            ->where('r_year', $system_settings->ss_year)->pluck('r_student_id');
+            ->where('r_year', $system_settings->ss_year)
+            ->pluck('r_student_id');
         $studentsList = User::where('u_role_id', 2)->whereIn('u_id', $studentsIds);
 
         // search
