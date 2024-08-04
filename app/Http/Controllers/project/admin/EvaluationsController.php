@@ -31,7 +31,7 @@ class EvaluationsController extends Controller
         $data->e_type_id = $request->e_type_id;
         $data->e_title = $request->e_title;
         $data->e_status = 1;
-        $data->e_evaluator_role_id = $request->e_evaluator_role_id;
+        $data->e_evaluator_role_id = EvaluationTypesModel::where('et_id',$request->e_type_id)->first()->et_evaluator_role_id;
         $data->e_start_time = $request->e_start_time;
         $data->e_end_time = $request->e_end_time;
         if ($data->save()){

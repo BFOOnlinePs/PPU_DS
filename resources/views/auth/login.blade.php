@@ -34,6 +34,9 @@
                             @csrf
 		      		<div class="form-group">
 		      			<input type="email" id="email" name="email" class="form-control rounded-left" placeholder="Email" required>
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
 		      		</div>
 	            <div class="form-group d-flex">
 	              <input type="password" id="password" class="form-control rounded-left" name="password" placeholder="Password" required>

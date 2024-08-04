@@ -21,12 +21,6 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="">عنوان المراسلة</label>
-                                        <input type="text" name="c_name" class="form-control" placeholder="عنوان المراسلة">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
                                         <label for="">الى المستخدم</label>
                                         <select class="form-control" name="uc_user_id" id="">
                                             <option value="">اختر شخص ...</option>
@@ -34,6 +28,12 @@
                                                 <option value="{{ $key->u_id }}">{{ $key->name }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">عنوان المراسلة</label>
+                                        <input type="text" name="c_name" class="form-control" placeholder="عنوان المراسلة">
                                     </div>
                                 </div>
                                 <div class="col-md-12">

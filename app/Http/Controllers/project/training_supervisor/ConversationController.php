@@ -8,13 +8,14 @@ use App\Models\MessageModel;
 use App\Models\User;
 use App\Models\UsersConversationsModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ConversationController extends Controller
 {
     public function index()
     {
         $data = ConversationsModel::whereIn('c_id',function ($query){
-            $query->select('uc_conversation_id')->from('users_conversations')->where('uc_user_id',auth()->user()->u_id);
+            $query->select('m_conversation_id')->from('messages')->where('m_sender_id',auth()->user()->u_id);
         })->get();
         return view('project.training_supervisor.conversation.index',['data'=>$data]);
     }
@@ -28,7 +29,29 @@ class ConversationController extends Controller
 
     public function add()
     {
-        $users = User::get();
+        $users = User::query();
+        if (auth()->user()->u_role_id == 2){
+            $users->where('u_role_id',1)->orWhere('u_role_id',3)->orWhere('u_role_id',6)->orWhere('u_role_id',10);
+        }
+        if (auth()->user()->u_role_id == 10){
+            $users->whereIn('u_id', function ($query) {
+                $query->select('c_manager_id')
+                    ->from('companies')
+                    ->whereIn('c_id', function ($query) {
+                        $query->select('sc_company_id')
+                            ->from('students_companies')
+                            ->whereIn('sc_registration_id', function ($query) {
+                                $query->select('r_id')
+                                    ->from('registration')
+                                    ->where('supervisor_id', 510);
+                            });
+                    });
+            });
+        }
+        if (auth()->user()->u_role_id == 6){
+            $users->where('u_role_id',2)->orWhere('u_role_id',10);
+        }
+        $users = $users->get();
         return view('project.training_supervisor.conversation.add',['users'=>$users]);
     }
 
