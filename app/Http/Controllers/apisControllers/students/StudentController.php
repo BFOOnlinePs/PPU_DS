@@ -28,6 +28,7 @@ class StudentController extends Controller
         }
 
         $trainings = StudentCompany::where('sc_student_id', $student_id)
+            ->where('sc_status', '!=', 3) // active
             ->orderBy('created_at', 'desc')
             ->paginate(6);
 
@@ -111,8 +112,6 @@ class StudentController extends Controller
             'student_companies' => $trainings->items(),
         ], 200);
     }
-
-
 }
 
 

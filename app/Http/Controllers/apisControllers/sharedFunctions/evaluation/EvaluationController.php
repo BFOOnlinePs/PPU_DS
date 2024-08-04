@@ -29,8 +29,14 @@ class EvaluationController extends Controller
 
         $evaluations = EvaluationsModel::whereIn('e_type_id', $evaluation_type_id)
             ->where('e_status', 1)
-            ->where('e_start_time', '<=', Carbon::now())
-            ->where('e_end_time', '>=', Carbon::now())
+            ->where(function ($query) {
+                $query->where('e_start_time', '<=', Carbon::now())
+                    ->orWhereNull('e_start_time');
+            })
+            ->where(function ($query) {
+                $query->where('e_end_time', '>=', Carbon::now())
+                    ->orWhereNull('e_end_time');
+            })
             ->get();
 
         return response()->json([
@@ -72,37 +78,48 @@ class EvaluationController extends Controller
             ]);
         } else if ($user->u_role_id == 2) {
             // for student get the companies that he is in
-            // $users = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
-            //     ->where('students_companies.sc_registration_id', $user->u_id)
-            //     ->where('students_companies.sc_status', 1) // active
-            //     ->select('users.u_id', 'users.name', 'students_companies.sc_registration_id')
-            //     ->get();
-        } else if ($user->u_role_id == 10) {
-            $supervisor_id = $user->u_id;
-
-            if ($request->input('evaluation_type_id') == 3) {
-                // for supervisor get the students that he supervises
-
-                $students = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
-                    ->join('registration', 'students_companies.sc_registration_id', '=', 'registration.r_id')
-                    ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
-                    ->where('registration.supervisor_id', $supervisor_id)
-                    ->where('students_companies.sc_status', 1) // active
-                    ->select('users.u_id', 'users.name', 'registration.r_id', 'companies.c_id', 'companies.c_name as company_name', 'companies.c_english_name as company_english_name')
-                    ->get();
-            }
-
-            //  if ($request->input('evaluation_type_id') == 4)
-            // and get the companies his students in
-            $companies = Company::whereIn('c_id', $students->pluck('c_id'))
-                ->select('c_id', 'c_name', 'c_english_name')
+            $companies = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
+                ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
+                ->where('students_companies.sc_student_id', $user->u_id)
+                ->where('students_companies.sc_status', 1) // active
+                // ->select('users.u_id', 'users.name', 'students_companies.sc_registration_id')
+                ->select('companies.c_id', 'companies.c_name', 'companies.c_english_name', 'students_companies.sc_registration_id')
                 ->get();
 
             return response()->json([
                 'status' => true,
-                'students' => $students,
                 'companies' => $companies,
             ]);
+        } else if ($user->u_role_id == 10) {
+            $supervisor_id = $user->u_id;
+            // for supervisor get the students that he supervises
+
+            $students = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
+                ->join('registration', 'students_companies.sc_registration_id', '=', 'registration.r_id')
+                ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
+                ->where('registration.supervisor_id', $supervisor_id)
+                ->where('students_companies.sc_status', 1) // active
+                ->select('users.u_id', 'users.name', 'registration.r_id', 'companies.c_id', 'companies.c_name as company_name', 'companies.c_english_name as company_english_name')
+                ->get();
+
+            if ($request->input('evaluation_type_id') == 3) {
+
+                return response()->json([
+                    'status' => true,
+                    'students' => $students,
+                ]);
+            }
+
+            // and get the companies his students in
+            if ($request->input('evaluation_type_id') == 4) {
+                $companies = Company::whereIn('c_id', $students->pluck('c_id'))
+                    ->select('c_id', 'c_name', 'c_english_name')
+                    ->get();
+                return response()->json([
+                    'status' => true,
+                    'companies' => $companies,
+                ]);
+            }
         }
 
         return response()->json([
@@ -117,7 +134,7 @@ class EvaluationController extends Controller
             'evaluation_id' => 'required',
             // 'evaluator_id' => 'required',
             'evaluatee_id' => 'required',
-            'registration_id' => 'required',
+            'registration_id' => 'nullable',
             'notes' => 'nullable',
             // final score + max score
         ]);
