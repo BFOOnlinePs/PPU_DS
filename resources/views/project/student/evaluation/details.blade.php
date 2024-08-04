@@ -34,10 +34,10 @@
                                             </tr>
                                         @elseif(auth()->user()->u_role_id == 2)
                                             <tr>
-                                                <td>{{ $key->supervisor->name }}</td>
+                                                <td>{{ $key->name }}</td>
                                                 <td>
                                                     @if($key->submission_status == false)
-                                                        <a href="{{ route('students.evaluation.evaluation_submission_page',['registration_id'=>$key->r_id , 'evaluation_id'=>$id]) }}" class="btn btn-xs btn-primary">تقييم</a>
+                                                        <a href="{{ route('students.evaluation.evaluation_submission_page',['registration_id'=>\App\Models\Registration::where('r_student_id',$key->u_id)->first()->r_id , 'evaluation_id'=>$id]) }}" class="btn btn-xs btn-primary">تقييم</a>
                                                     @else
                                                         <button class="badge bg-success">تم التقييم</button>
                                                     @endif

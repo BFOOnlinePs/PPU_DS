@@ -15,7 +15,7 @@ class FieldVisitsController extends Controller
 {
     public function index()
     {
-        $data = FieldVisitsModel::orderBy('fv_id','desc')->all();
+        $data = FieldVisitsModel::orderBy('fv_id','desc')->get();
         foreach ($data as $key){
             $studentIds = json_decode($key->fv_student_id, true);
             $students = User::whereIn('u_id', $studentIds)->pluck('name')->toArray();
@@ -28,9 +28,11 @@ class FieldVisitsController extends Controller
     {
         $students = User::where('u_role_id',2)->get();
         $company = Company::whereIn('c_id',function ($query){
-            $query->select('r_id')->from('registration')->where('supervisor_id',auth()->user()->u_id)
-            ->whereIn('r_id',function ($query){
-                $query->select('sc_registration_id')->from('students_companies');
+            $query->select('sc_company_id')->from('students_companies')->whereIn('sc_registration_id',function ($query){
+                $query->select('r_id')->from('registration')->where('supervisor_id',auth()->user()->u_id)
+                    ->whereIn('r_id',function ($query){
+                        $query->select('sc_registration_id')->from('students_companies');
+                    });
             });
         })->get();
         $registration = Registration::with('users')->get();
@@ -54,7 +56,9 @@ class FieldVisitsController extends Controller
 
     public function get_student_from_company(Request $request)
     {
-        $data = StudentCompany::with('users')->where('sc_company_id',$request->company_id)->get();
+        $data = StudentCompany::with('users')->where('sc_company_id',$request->company_id)->whereIn('sc_registration_id',function ($query) use ($request){
+            $query->select('r_id')->from('registration')->where('supervisor_id',auth()->user()->u_id);
+        })->get();
         return response()->json([
             'success' => true,
             'status' => ($data->isEmpty()) ? 'empty' : 'not_empty',

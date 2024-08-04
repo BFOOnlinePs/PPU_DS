@@ -16,16 +16,32 @@ class EvaluationController extends Controller
 {
     public function index()
     {
-        $data = EvaluationsModel::where('e_status',1)->where('e_evaluator_role_id',2)->get();
+        $data = EvaluationsModel::query();
+        if (auth()->user()->u_role_id == 6){
+            $data->where('e_status',1)->where('e_evaluator_role_id',6)->with('evaluation_type');
+        }
+        else if (auth()->user()->u_role_id == 2)
+        {
+            $data->where('e_status',1)->where('e_evaluator_role_id',2)->with('evaluation_type');
+        }
+        $data = $data->get();
         return view('project.student.evaluation.index',['data'=>$data]);
     }
 
     public function details($id)
     {
         $criteria = CriteriaModel::get();
-        $data = Registration::query();
+        $data = \App\Models\User::query();
+//        $data = Registration::query();
         if (auth()->user()->u_role_id == 2){
-            $data->where('r_student_id',auth()->user()->u_id)->where('supervisor_id' , '!=' , null);
+            $data->whereIn('u_id',function ($query) use ($id){
+                $query->select('r_student_id')->from('registration')->whereIn('r_id',function ($query){
+                    $query->select('sc_registration_id')->from('students_companies');
+                });
+            });
+//            $data->whereIn('r_id',function ($query) use ($id){
+//                $query->select('sc_registration_id')->from('students_companies')->where('sc_registration_id',$id);
+//            });
         }
         if (auth()->user()->u_role_id == 10){
             $data->where('supervisor_id',auth()->user()->u_id);
@@ -37,7 +53,7 @@ class EvaluationController extends Controller
         }
         $data = $data->get();
         foreach ($data as $index => $key) {
-            $key->submission_status = EvaluationSubmissionsModel::where('es_registration_id',$key->r_id)->where('s_evaluation_id',$id)->where('e_evaluator_id',auth()->user()->u_id)->first();
+            $key->submission_status = EvaluationSubmissionsModel::where('es_registration_id',Registration::where('r_student_id',$key->u_id)->first()->r_id)->where('s_evaluation_id',$id)->where('e_evaluator_id',auth()->user()->u_id)->first();
         }
         return view('project.student.evaluation.details',['criteria'=>$criteria,'id'=>$id , 'data' => $data]);
     }

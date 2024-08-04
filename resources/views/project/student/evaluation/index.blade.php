@@ -22,7 +22,7 @@
                                 <tr>
                                     <th>التقييم</th>
                                     <th>العنوان</th>
-                                    <th>الحالة</th>
+{{--                                    <th>الحالة</th>--}}
                                     <th>بداية الوقت</th>
                                     <th>نهاية الوقت</th>
                                     <th>العمليات</th>
@@ -36,9 +36,9 @@
                                 @else
                                     @foreach($data as $key)
                                         <tr>
-                                            <td>{{ $key->e_type_id }}</td>
+                                            <td>{{ $key->evaluation_type->et_type_name }}</td>
                                             <td>{{ $key->e_title }}</td>
-                                            <td>{{ $key->e_status }}</td>
+{{--                                            <td>{{ $key->e_status }}</td>--}}
                                             <td>{{ $key->e_start_time }}</td>
                                             <td>{{ $key->e_end_time }}</td>
                                             <td>
