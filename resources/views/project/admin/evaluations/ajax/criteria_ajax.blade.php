@@ -17,7 +17,7 @@
                     <td>{{ $key->c_criteria_name }}</td>
                     <td>{{ $key->c_max_score }}</td>
                     <td>
-                        <button class="btn btn-xs btn-success" onclick="add_evaluation_criteria_ajax({{ $key->c_id }})"><span class="fa fa-plus"></span></button>
+                        <button type="button" class="btn btn-xs btn-success" onclick="add_evaluation_criteria_ajax({{ $key->c_id }})"><span class="fa fa-plus"></span></button>
                     </td>
                 </tr>
             @endforeach

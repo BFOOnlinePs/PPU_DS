@@ -39,18 +39,18 @@
                                     <input type="text" name="e_title" class="form-control" placeholder="عنوان التقييم">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="">المستخدم الموجه له التقييم</label>
-                                    <select class="form-control" name="e_evaluator_role_id" id="">
-                                        @foreach($roles as $key)
-                                            @if($key->r_name != 'أدمن')
-                                                <option value="{{ $key->r_id }}">{{ $key->r_name }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+{{--                            <div class="col-md-4">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="">المستخدم الموجه له التقييم</label>--}}
+{{--                                    <select class="form-control" name="e_evaluator_role_id" id="">--}}
+{{--                                        @foreach($roles as $key)--}}
+{{--                                            @if($key->r_name != 'أدمن')--}}
+{{--                                                <option value="{{ $key->r_id }}">{{ $key->r_name }}</option>--}}
+{{--                                            @endif--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">بداية الوقت</label>

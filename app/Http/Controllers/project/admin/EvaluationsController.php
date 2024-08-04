@@ -14,7 +14,7 @@ class EvaluationsController extends Controller
 {
     public function index()
     {
-        $data = EvaluationsModel::with('evaluation_type')->get();
+        $data = EvaluationsModel::with('evaluation_type')->orderBy('e_id','desc')->get();
         return view('project.admin.evaluations.index',['data'=>$data]);
     }
 
@@ -35,7 +35,7 @@ class EvaluationsController extends Controller
         $data->e_start_time = $request->e_start_time;
         $data->e_end_time = $request->e_end_time;
         if ($data->save()){
-            return redirect()->route('admin.evaluations.index')->with(['success' => 'تم انشاء التقييم بنجاح']);
+            return redirect()->route('admin.evaluations.evaluation_criteria',['id'=>$data->e_id])->with(['success' => 'تم انشاء التقييم بنجاح']);
         }
     }
 
@@ -44,7 +44,8 @@ class EvaluationsController extends Controller
         $data = EvaluationsModel::find($id);
         $evaluation_type = EvaluationTypesModel::get();
         $roles = Role::get();
-        return view('project.admin.evaluations.edit', ['data'=>$data , 'evaluation_type'=>$evaluation_type , 'roles'=>$roles]);
+        $evaluation_criteria = EvaluationCriteriaModel::where('ec_evaluation_id')->first();
+        return view('project.admin.evaluations.edit', ['data'=>$data , 'evaluation_type'=>$evaluation_type , 'roles'=>$roles , 'evaluation_criteria'=>$evaluation_criteria]);
     }
 
     public function update(Request $request)
@@ -104,5 +105,11 @@ class EvaluationsController extends Controller
                 'message' => 'تم حذف البيانات بنجاح'
             ]);
         }
+    }
+
+    public function evaluation_criteria($id)
+    {
+        $data = EvaluationCriteriaModel::where('ec_evaluation_id',$id)->get();
+        return view('project.admin.evaluations.evaluation_criteria',['data'=>$data , 'id'=>$id]);
     }
 }

@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <button class="btn btn-primary btn-sm">اضافة مراسلة جديدة</button>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_message_modal">اضافة رسالة</button>
                 </div>
             </div>
         </div>
@@ -25,34 +25,21 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-sm table-hover">
-                        <thead>
-                        <tr>
-                            <th>عنوان الرسالة</th>
-                            {{--                                <th>الشخص المرسل اليه</th>--}}
-                            <th>العمليات</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if($data->isEmpty())
-                            <tr>
-                                <td colspan="3" class="text-center">لا توجد مراسلات</td>
-                            </tr>
-                        @else
-                            @foreach($data as $key)
-                                <tr>
-                                    <td>{{ $key->c_name }}</td>
-                                    {{--                                        <td>{{ $key->user->name }}</td>--}}
-                                    <td>
-                                        <a href="" class="btn btn-primary btn-sm"><span class="fa fa-search"></span></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tbody>
-                    </table>
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-12">--}}
+{{--                            <h5 class="text-center">                            الى المستخدم <span>{{ $receive->receive->name }}</span></h5>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+                    <div class="row">
+                        @foreach($data as $key)
+                            <div class="col-md-12 mb-3">
+                                <p class="@if(auth()->user()->u_id == $key->m_sender_id) badge bg-primary float-start @else badge bg-dark float-end @endif">{{ $key->m_message_text }}</p>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
+            @include('project.training_supervisor.conversation.modals.add_message')
         </div>
     </div>
 @endsection
