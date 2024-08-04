@@ -10,4 +10,5 @@ class EvaluationSubmissionScoresModel extends Model
     use HasFactory;
 
     protected $table = 'evaluation_submission_scores';
+    protected $primaryKey = 'ss_id';
 }

@@ -57,8 +57,6 @@ class SupervisorStudentsController extends Controller
         ]);
     }
 
-
-
     // attendance log of all supervisors students
     public function getAllSupervisorStudentsAttendanceLog()
     {
@@ -66,7 +64,8 @@ class SupervisorStudentsController extends Controller
         $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
         $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
         $allStudentsAttendance = StudentAttendance::whereIn('sa_student_id', $studentsIdList)
-            ->with('user')->with('training.company')
+            ->with('user')
+            ->with('training.company')
             ->orderBy('created_at', 'desc')->get();
 
         $perPage = 8;
@@ -98,8 +97,10 @@ class SupervisorStudentsController extends Controller
         $supervisorMajorsIdList = MajorSupervisor::where('ms_super_id', $supervisorId)->pluck('ms_major_id');
         $studentsIdList = User::where('u_role_id', 2)->whereIn('u_major_id', $supervisorMajorsIdList)->pluck('u_id');
         $allStudentsReports = StudentReport::whereIn('sr_student_id', $studentsIdList)
-            ->with('user')->with('attendance.training.company')
-            ->orderBy('created_at', 'desc')->get();
+            ->with('user')
+            ->with('attendance.training.company')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $perPage = 10;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();

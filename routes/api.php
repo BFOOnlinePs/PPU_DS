@@ -24,6 +24,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesCategoriesCont
 use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as SharedFunctionsCompaniesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
+use App\Http\Controllers\apisControllers\sharedFunctions\evaluation\EvaluationController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MailingController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MessagesController;
@@ -47,6 +48,9 @@ use App\Http\Controllers\apisControllers\supervisors\SupervisorMajorsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorNotesController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsController;
 use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsTrainingsController;
+use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorCompaniesController;
+use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorStudentsController;
+use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorStudentsLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -274,6 +278,19 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getChatableUsers', [MailingController::class, 'getChatableUsers']);
 
     Route::get('send-email', [MailingController::class, 'sendNotification']);
+
+    // evaluation
+    Route::get('EvaluationsTitles', [EvaluationController::class, 'EvaluationsTitles']);
+    Route::post('usersToEvaluate', [EvaluationController::class, 'usersToEvaluate']);
+    Route::post('getEvaluationsToSubmit', [EvaluationController::class, 'getEvaluationsToSubmit']);
+    Route::post('submitEvaluation', [EvaluationController::class, 'submitEvaluation']);
+
+    // training supervisor
+    Route::post('getTrainingSupervisorStudents', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudents']);
+    Route::post('getTrainingSupervisorStudentsInCompany', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudentsInCompany']);
+    Route::get('getTrainingSupervisorCompanies', [TrainingSupervisorCompaniesController::class, 'getTrainingSupervisorCompanies']);
+    Route::get('getTrainingSupervisorAttendanceLog', [TrainingSupervisorStudentsLogController::class, 'getTrainingSupervisorAttendanceLog']);
+    Route::get('getTrainingSupervisorReportLog', [TrainingSupervisorStudentsLogController::class, 'getTrainingSupervisorReportLog']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);
