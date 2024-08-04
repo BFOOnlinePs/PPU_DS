@@ -26,4 +26,9 @@ class UsersConversationsModel extends Model
             ->orderBy('created_at', 'desc')
             ->orderBy('m_id', 'desc');
     }
+
+    public function receive()
+    {
+        return $this->belongsTo(User::class , 'uc_user_id');
+    }
 }

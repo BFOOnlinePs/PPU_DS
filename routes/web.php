@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/list_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_criteria_ajax'])->name('admin.evaluations.list_evaluation_criteria_ajax');
             Route::post('/add_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'add_evaluation_criteria_ajax'])->name('admin.evaluations.add_evaluation_criteria_ajax');
             Route::post('/delete_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'delete_evaluation_criteria_ajax'])->name('admin.evaluations.delete_evaluation_criteria_ajax');
+            Route::get('/evaluation_criteria/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'evaluation_criteria'])->name('admin.evaluations.evaluation_criteria');
         });
         Route::group(['prefix'=>'criteria'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CriteriaController::class,'index'])->name('admin.criteria.index');
@@ -400,6 +401,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/index' , [App\Http\Controllers\project\students\payments\PaymentsController::class, 'index'])->name('students.payments.index');
             Route::post('/confirm' , [App\Http\Controllers\project\students\payments\PaymentsController::class, 'confirmByAjax'])->name('student.payments.confirmByAjax');
         });
+        Route::group(['prefix' => 'evaluation'], function () {
+            Route::get('/index' , [App\Http\Controllers\project\students\EvaluationController::class, 'index'])->name('students.evaluation.index');
+            Route::get('/details/{evaluation_id}' , [App\Http\Controllers\project\students\EvaluationController::class, 'details'])->name('students.evaluation.details');
+            Route::get('/evaluation_submission_page/{registration_id}/{evaluation_id}' , [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_page'])->name('students.evaluation.evaluation_submission_page');
+            Route::post('/evaluation_submission_create' , [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_create'])->name('students.evaluation.evaluation_submission_create');
+        });
     });
 
     Route::group(['prefix' => 'supervisor_assistatns'], function () {
@@ -441,6 +448,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'conversation'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'index'])->name('training_supervisor.conversation.index');
             Route::get('/add' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'add'])->name('training_supervisor.conversation.add');
+            Route::post('/create' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'create'])->name('training_supervisor.conversation.create');
+            Route::get('/details/{id}' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'details'])->name('training_supervisor.conversation.details');
+            Route::post('/create_message' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'create_message'])->name('training_supervisor.conversation.create_message');
         });
         Route::group(['prefix' => 'field_visits'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'index'])->name('training_supervisor.field_visits.index');

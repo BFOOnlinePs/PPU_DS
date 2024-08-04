@@ -1,0 +1,70 @@
+@extends('layouts.app')
+@section('title')
+    تفاصيل التقييم
+@endsection
+@section('header_title')
+    تفاصيل التقييم
+@endsection
+@section('header_title_link')
+    تفاصيل التقييم
+@endsection
+@section('header_link')
+    تفاصيل التقييم
+@endsection
+@section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-sm table-hover">
+                                <tbody>
+                                    @foreach($data as $key)
+                                        @if(auth()->user()->u_role_id == 10)
+                                            <tr>
+                                                <td>{{ $key->users->name }}</td>
+                                                <td>
+                                                    @if($key->submission_status == false)
+                                                        <a href="{{ route('students.evaluation.evaluation_submission_page',['registration_id'=>$key->r_id , 'evaluation_id'=>$id]) }}" class="btn btn-xs btn-primary">تقييم</a>
+                                                    @else
+                                                        <p class="badge bg-success">تم التقييم</p>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @elseif(auth()->user()->u_role_id == 2)
+                                            <tr>
+                                                <td>{{ $key->supervisor->name }}</td>
+                                                <td>
+                                                    @if($key->submission_status == false)
+                                                        <a href="{{ route('students.evaluation.evaluation_submission_page',['registration_id'=>$key->r_id , 'evaluation_id'=>$id]) }}" class="btn btn-xs btn-primary">تقييم</a>
+                                                    @else
+                                                        <button class="badge bg-success">تم التقييم</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @elseif(auth()->user()->u_role_id == 6)
+                                            <tr>
+                                                <td>{{ $key->users->name }}</td>
+                                                <td>
+                                                    @if($key->submission_status == false)
+                                                        <a href="{{ route('students.evaluation.evaluation_submission_page',['registration_id'=>$key->r_id , 'evaluation_id'=>$id]) }}" class="btn btn-xs btn-primary">تقييم</a>
+                                                    @else
+                                                        <button class="badge bg-success">تم التقييم</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('script')
+
+@endsection

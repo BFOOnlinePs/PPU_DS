@@ -63,8 +63,8 @@
                                             <td>{{ $key->e_start_time }}</td>
                                             <td>{{ $key->e_end_time }}</td>
                                             <td>
-                                                <a href="{{ route('admin.evaluations.edit',['id'=>$key->e_id]) }}" class="btn btn-sm btn-success"><span class="fa fa-edit"></span></a>
-                                                <button class="btn btn-sm btn-dark" onclick="open_modal({{ $key->e_id }})"><span class="fa fa-search"></span></button>
+                                                <a href="{{ route('admin.evaluations.edit',['id'=>$key->e_id]) }}" class="btn btn-xs btn-primary"><span class="fa fa-edit"></span></a>
+{{--                                                <button class="btn btn-xs btn-dark" onclick="open_modal({{ $key->e_id }})"><span class="fa fa-search"></span></button>--}}
                                             </td>
                                         </tr>
                                     @endforeach
