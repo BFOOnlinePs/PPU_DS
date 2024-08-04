@@ -33,6 +33,7 @@
                             <li><a class="nav-link" href="{{ route('students.company.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('students.attendance.index')}}"><i data-feather="check"></i><span>{{__('translate.Attendance Logs')}}{{-- سجلات المتابعة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('students.payments.index')}}"><i data-feather="dollar-sign"></i><span>{{__('translate.Payments')}}{{-- الدفعات --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('students.evaluation.index')}}"><i data-feather="dollar-sign"></i><span>التقييمات</span></a></li>
                         @elseif (auth()->user()->u_role_id == 3) {{-- Supervisor --}}
                             <li><a class="nav-link" href="{{route('supervisors.majors.index' , ['id' => auth()->user()->u_id])}}"><i data-feather="book-open"></i><span>{{__('translate.Majors')}}{{-- التخصصات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
@@ -60,6 +61,8 @@
                             <li><a class="nav-link" href="{{route('company_manager.attendance.index')}}"><i data-feather="user-check"></i><span>{{__('translate.Student Attendance')}}{{-- سجل الحضور والمغادرة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('company_manager.student_nominations.index')}}"><i data-feather="user-check"></i><span>{{__('translate.student_nominations')}}{{-- ترشيحات التدريب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('company_manager.payments.index')}}"><i data-feather="dollar-sign"></i><span>{{__('translate.Payments')}}{{-- الدفعات --}}</span></a></li>
+                            <li><a class="nav-link" href="{{route('students.evaluation.index')}}"><i data-feather="dollar-sign"></i><span>التقييمات</span></a></li>
+                            <li><a class="nav-link" href="{{route('training_supervisor.conversation.index')}}"><i data-feather="dollar-sign"></i><span>المراسلات</span></a></li>
                         @elseif (auth()->user()->u_role_id == 8) {{-- Communications Manager with Companies --}}
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.Companies')}}{{-- الشركات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.students.index')}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>
@@ -72,6 +75,7 @@
                             <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>طلابي</span></a></li>
                             <li><a class="nav-link" href="{{route('training_supervisor.field_visits.index')}}"><i data-feather="briefcase"></i><span>تسجيل الزيارات</span></a></li>
                             <li><a class="nav-link" href="{{route('training_supervisor.conversation.index')}}"><i data-feather="briefcase"></i><span>المراسلات</span></a></li>
+                            <li><a class="nav-link" href="{{route('students.evaluation.index')}}"><i data-feather="briefcase"></i><span>التقييمات</span></a></li>
                         @endif
 
                     @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id !=6 )

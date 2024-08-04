@@ -17,7 +17,7 @@
                 <td>{{ $key->criteria->c_criteria_name }}</td>
                 <td>{{ $key->criteria->c_max_score }}</td>
                 <td>
-                    <button class="btn btn-xs btn-danger" onclick="delete_evaluation_criteria_ajax({{ $key->ec_id }})"><span class="fa fa-trash"></span></button>
+                    <button type="button" class="btn btn-xs btn-danger" onclick="delete_evaluation_criteria_ajax({{ $key->ec_id }})"><span class="fa fa-trash"></span></button>
                 </td>
             </tr>
         @endforeach

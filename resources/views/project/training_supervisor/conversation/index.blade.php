@@ -44,7 +44,7 @@
                                         <td>{{ $key->c_name }}</td>
 {{--                                        <td>{{ $key->user->name }}</td>--}}
                                         <td>
-                                            <a href="" class="btn btn-primary btn-sm"><span class="fa fa-search"></span></a>
+                                            <a href="{{ route('training_supervisor.conversation.details',['id'=>$key->c_id]) }}" class="btn btn-primary btn-sm"><span class="fa fa-search"></span></a>
                                         </td>
                                     </tr>
                                 @endforeach

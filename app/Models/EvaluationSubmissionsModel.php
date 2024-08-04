@@ -10,4 +10,6 @@ class EvaluationSubmissionsModel extends Model
     use HasFactory;
 
     protected $table = 'evaluation_submissions';
+
+    protected $primaryKey = 's_id';
 }

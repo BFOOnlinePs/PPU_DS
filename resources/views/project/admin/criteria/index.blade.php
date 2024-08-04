@@ -50,8 +50,8 @@
                                                     <td>{{ $key->c_criteria_name }}</td>
                                                     <td>{{ $key->c_max_score }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.criteria.edit',['id'=>$key->c_id]) }}" class="btn btn-success btn-sm"><span class="fa fa-edit"></span></a>
-                                                        <button class="btn btn-dark btn-sm"><span class="fa fa-search"></span></button>
+                                                        <a href="{{ route('admin.criteria.edit',['id'=>$key->c_id]) }}" class="btn btn-success btn-xs"><span class="fa fa-edit"></span></a>
+                                                        <button class="btn btn-dark btn-xs"><span class="fa fa-search"></span></button>
                                                     </td>
                                                 </tr>
                                             @endforeach
