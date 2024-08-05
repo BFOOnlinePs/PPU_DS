@@ -27,4 +27,5 @@ class FieldVisitsModel extends Model
     {
         return $this->belongsTo(Company::class, 'fv_company_id', 'c_id');
     }
+
 }

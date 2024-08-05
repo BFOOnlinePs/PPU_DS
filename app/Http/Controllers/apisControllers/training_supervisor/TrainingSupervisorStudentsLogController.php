@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Registration;
 use App\Models\StudentAttendance;
 use App\Models\StudentReport;
-use App\Models\User;
-use Illuminate\Http\Request;
+
 
 class TrainingSupervisorStudentsLogController extends Controller
 {
@@ -63,7 +62,6 @@ class TrainingSupervisorStudentsLogController extends Controller
                 'total_items' => $StudentsReports->total(),
             ],
             'students_reports' => $StudentsReports->items(),
-
         ], 200);
     }
 }
