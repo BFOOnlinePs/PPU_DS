@@ -57,7 +57,7 @@ class FieldVisitsController extends Controller
     public function get_student_from_company(Request $request)
     {
         $data = StudentCompany::with('users')->where('sc_company_id',$request->company_id)->whereIn('sc_registration_id',function ($query) use ($request){
-            $query->select('r_id')->from('registration')->where('supervisor_id',auth()->user()->u_id);
+            $query->select('r_id')->from('registration')->where('supervisor_id',auth()->user()->u_id)->whereNot('sc_status',2)->orWhereNot('sc_status',3);
         })->get();
         return response()->json([
             'success' => true,

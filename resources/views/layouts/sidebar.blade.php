@@ -34,6 +34,7 @@
                             <li><a class="nav-link" href="{{route('students.attendance.index')}}"><i data-feather="check"></i><span>{{__('translate.Attendance Logs')}}{{-- سجلات المتابعة --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('students.payments.index')}}"><i data-feather="dollar-sign"></i><span>{{__('translate.Payments')}}{{-- الدفعات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('students.evaluation.index')}}"><i data-feather="dollar-sign"></i><span>التقييمات</span></a></li>
+                            <li><a class="nav-link" href="{{route('training_supervisor.conversation.index')}}"><i data-feather="dollar-sign"></i><span>المراسلات</span></a></li>
                         @elseif (auth()->user()->u_role_id == 3) {{-- Supervisor --}}
                             <li><a class="nav-link" href="{{route('supervisors.majors.index' , ['id' => auth()->user()->u_id])}}"><i data-feather="book-open"></i><span>{{__('translate.Majors')}}{{-- التخصصات --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('supervisors.students.index' , ['id' => auth()->user()->u_id])}}"><i data-feather="users"></i><span>{{__('translate.Students')}}{{-- الطلاب --}}</span></a></li>

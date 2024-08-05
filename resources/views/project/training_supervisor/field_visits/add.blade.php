@@ -96,11 +96,13 @@
                         console.log(response.data);
                         (response.data).forEach(function(student , index) {
                             var checkboxHtml = `
-                        <div class="col-md-3">
-                            <input class="" type="checkbox" value="${student.users.u_id}" name="student[]" id="student_${index}">
-                            <label class="" for="student_${index}">
+                        <div class="m-1 col">
+                            <label class="badge bg-primary form-control" for="student_${index}">
+
+                             <input class="" checked type="checkbox" value="${student.users.u_id}" name="student[]" id="student_${index}">
                                 ${student.users.name}
                             </label>
+
                         </div>
                     `;
                             $('#students_container').append(checkboxHtml);
