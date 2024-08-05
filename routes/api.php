@@ -51,6 +51,7 @@ use App\Http\Controllers\apisControllers\supervisors\SupervisorStudentsTrainings
 use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorCompaniesController;
 use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorStudentsController;
 use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorStudentsLogController;
+use App\Http\Controllers\apisControllers\training_supervisor\TrainingSupervisorVisitsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -288,9 +289,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // training supervisor
     Route::post('getTrainingSupervisorStudents', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudents']);
     Route::post('getTrainingSupervisorStudentsInCompany', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudentsInCompany']);
+    Route::post('getTrainingSupervisorStudentsNamesInCompany', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudentsNamesInCompany']);
     Route::get('getTrainingSupervisorCompanies', [TrainingSupervisorCompaniesController::class, 'getTrainingSupervisorCompanies']);
+    Route::get('getTrainingSupervisorCompaniesForDropDown', [TrainingSupervisorCompaniesController::class, 'getTrainingSupervisorCompaniesForDropDown']);
     Route::get('getTrainingSupervisorAttendanceLog', [TrainingSupervisorStudentsLogController::class, 'getTrainingSupervisorAttendanceLog']);
     Route::get('getTrainingSupervisorReportLog', [TrainingSupervisorStudentsLogController::class, 'getTrainingSupervisorReportLog']);
+    Route::get('getUserVisits', [TrainingSupervisorVisitsController::class, 'getUserVisits']);
+    Route::post('addVisit', [TrainingSupervisorVisitsController::class, 'addVisit']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

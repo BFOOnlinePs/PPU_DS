@@ -26,7 +26,9 @@ class TrainingSupervisorCompaniesController extends Controller
             ->where('r_year', $system_settings->ss_year)
             ->pluck('r_id');
 
-        $student_companies = StudentCompany::whereIn('sc_registration_id', $registration_ids)->pluck('sc_company_id');
+        $student_companies = StudentCompany::whereIn('sc_registration_id', $registration_ids)
+            ->where('sc_status', 1) //
+            ->pluck('sc_company_id');
 
         $companies = Company::whereIn('c_id', $student_companies)
             ->orderBy('created_at', 'desc');
@@ -55,6 +57,30 @@ class TrainingSupervisorCompaniesController extends Controller
                 'total_items' => $companies->total(),
             ],
             'companies' => $companies->items()
+        ]);
+    }
+
+    // for drop down, in add visit
+    public function getTrainingSupervisorCompaniesForDropDown()
+    {
+        $current_user = auth()->user();
+        $system_settings = SystemSetting::first();
+
+        $registration_ids = Registration::where('supervisor_id', $current_user->u_id)
+            ->where('r_semester', $system_settings->ss_semester_type)
+            ->where('r_year', $system_settings->ss_year)
+            ->pluck('r_id');
+
+        $student_companies = StudentCompany::whereIn('sc_registration_id', $registration_ids)->pluck('sc_company_id');
+
+        $companies = Company::whereIn('c_id', $student_companies)
+            ->select('c_id', 'c_name', 'c_english_name')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'companies' => $companies,
         ]);
     }
 }

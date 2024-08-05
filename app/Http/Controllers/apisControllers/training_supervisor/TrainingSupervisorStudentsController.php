@@ -101,4 +101,41 @@ class TrainingSupervisorStudentsController extends Controller
             'students_in_company' => $studentsInCompany,
         ]);
     }
+
+    public function getTrainingSupervisorStudentsNamesInCompany(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required',
+        ], [
+            'company_id.required' => trans('messages.company_id_required')
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 200);
+        }
+
+        $companyId = $request->input('company_id');
+        $supervisorId = auth()->user()->u_id;
+        $system_settings = SystemSetting::first();
+
+        $studentsIds = Registration::where('supervisor_id', $supervisorId)
+            ->where('r_semester', $system_settings->ss_semester_type)
+            ->where('r_year', $system_settings->ss_year)
+            ->pluck('r_student_id')
+            ->unique();
+
+        $studentsList = User::where('u_role_id', 2)->whereIn('u_id', $studentsIds)->pluck('u_id');
+        $studentInCompanyIdList = StudentCompany::where('sc_company_id', $companyId)->whereIn('sc_student_id', $studentsList)->pluck('sc_student_id');
+        $studentsInCompany = User::whereIn('u_id', $studentInCompanyIdList)
+        ->select('u_id', 'name')
+        ->get();
+
+        return response()->json([
+            'status' => true,
+            'students_in_company' => $studentsInCompany,
+        ]);
+    }
 }
