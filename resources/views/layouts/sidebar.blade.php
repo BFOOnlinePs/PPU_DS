@@ -73,7 +73,7 @@
                             <li><a class="nav-link" href="{{route('supervisors.training_nominations.index')}}"><i data-feather="briefcase"></i><span>{{__('translate.training_nominations')}}{{-- ترشيحات التدريب --}}</span></a></li>
                             <li><a class="nav-link" href="{{route('communications_manager_with_companies.follow_up_record.index')}}"><i data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a></li>
                         @elseif (auth()->user()->u_role_id == 10) {{-- Communications Manager with Companies --}}
-                            <li><a class="nav-link" href="{{route('admin.companies.index')}}"><i data-feather="briefcase"></i><span>طلابي</span></a></li>
+                            <li><a class="nav-link" href="{{route('training_supervisor.my_students.index')}}"><i data-feather="briefcase"></i><span>طلابي</span></a></li>
                             <li><a class="nav-link" href="{{route('training_supervisor.field_visits.index')}}"><i data-feather="briefcase"></i><span>تسجيل الزيارات</span></a></li>
                             <li><a class="nav-link" href="{{route('training_supervisor.conversation.index')}}"><i data-feather="briefcase"></i><span>المراسلات</span></a></li>
                             <li><a class="nav-link" href="{{route('students.evaluation.index')}}"><i data-feather="briefcase"></i><span>التقييمات</span></a></li>

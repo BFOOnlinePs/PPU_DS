@@ -36,50 +36,56 @@ class EvaluationController extends Controller
 
     public function details($id)
     {
-        $criteria = CriteriaModel::get();
-        $data = \App\Models\User::query();
+        $check_if_find = EvaluationsModel::find($id);
+        if (!$check_if_find){
+            abort(404 , 'البيانات غير متوفرة');
+        }
+        else{
+            $criteria = CriteriaModel::get();
+            $data = \App\Models\User::query();
 //        $data = Registration::query();
-        if (auth()->user()->u_role_id == 2){
-            $data->whereIn('u_id', function ($query) {
-                $query->select('c_manager_id')
-                    ->from('companies')
-                    ->whereIn('c_id', function ($query) {
-                        $query->select('sc_company_id')
-                            ->from('students_companies')
-                            ->whereIn('sc_registration_id', function ($query) {
-                                $query->select('r_id')
-                                    ->from('registration')
-                                    ->where('supervisor_id', 510);
-                            });
-                    });
-            });
-        }
-        if (auth()->user()->u_role_id == 6){
-            $data->whereIn('u_id', function ($query) {
-                $query->select('sc_student_id')->from('students_companies')->where('sc_company_id',Company::where('c_manager_id',auth()->user()->u_id)->first()->c_id);
-            });
-        }
-        if (auth()->user()->u_role_id == 10){
-            $data->whereIn('u_id',function ($query) {
-                $query->select('r_student_id')->from('registration')->where('supervisor_id',auth()->user()->u_id);
-            });
+            if (auth()->user()->u_role_id == 2){
+                $data->whereIn('u_id', function ($query) {
+                    $query->select('c_manager_id')
+                        ->from('companies')
+                        ->whereIn('c_id', function ($query) {
+                            $query->select('sc_company_id')
+                                ->from('students_companies')
+                                ->whereIn('sc_registration_id', function ($query) {
+                                    $query->select('r_id')
+                                        ->from('registration')
+                                        ->where('supervisor_id', 510);
+                                });
+                        });
+                });
+            }
+            if (auth()->user()->u_role_id == 6){
+                $data->whereIn('u_id', function ($query) {
+                    $query->select('sc_student_id')->from('students_companies')->where('sc_company_id',Company::where('c_manager_id',auth()->user()->u_id)->first()->c_id);
+                });
+            }
+            if (auth()->user()->u_role_id == 10){
+                $data->whereIn('u_id',function ($query) {
+                    $query->select('r_student_id')->from('registration')->where('supervisor_id',auth()->user()->u_id);
+                });
 //            $data->where('supervisor_id',auth()->user()->u_id);
-        }
+            }
 //        if (auth()->user()->u_role_id == 6){
 //            $data->whereIn('r_id',function ($query){
 //                $query->select('sc_registration_id')->from('students_companies');
 //            });
 //        }
-        $data = $data->get();
-        foreach ($data as $index => $key) {
-            if (auth()->user()->u_role_id == 2 || auth()->user()->u_role_id == 6){
-                $key->submission_status = EvaluationSubmissionsModel::where('e_evaluatee_id',$key->u_id)->where('e_evaluator_id',auth()->user()->u_id)->where('s_evaluation_id',$id)->first();
+            $data = $data->get();
+            foreach ($data as $index => $key) {
+                if (auth()->user()->u_role_id == 2 || auth()->user()->u_role_id == 6){
+                    $key->submission_status = EvaluationSubmissionsModel::where('e_evaluatee_id',$key->u_id)->where('e_evaluator_id',auth()->user()->u_id)->where('s_evaluation_id',$id)->first();
+                }
+                else{
+                    $key->submission_status = EvaluationSubmissionsModel::where('es_registration_id',Registration::where('r_student_id',$key->u_id)->first()->r_id)->where('s_evaluation_id',$id)->where('e_evaluator_id',auth()->user()->u_id)->first();
+                }
             }
-            else{
-                $key->submission_status = EvaluationSubmissionsModel::where('es_registration_id',Registration::where('r_student_id',$key->u_id)->first()->r_id)->where('s_evaluation_id',$id)->where('e_evaluator_id',auth()->user()->u_id)->first();
-            }
+            return view('project.student.evaluation.details',['criteria'=>$criteria,'id'=>$id , 'data' => $data]);
         }
-        return view('project.student.evaluation.details',['criteria'=>$criteria,'id'=>$id , 'data' => $data]);
     }
 
     public function evaluation_submission_page($registration_id , $evaluation_id)

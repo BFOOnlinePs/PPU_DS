@@ -84,22 +84,27 @@
         <div class="card-body">
             @if (isset($u_role_id) && $u_role_id != 6)
                 @if ($role_name == 'أدمن')
+                    <input type="hidden" id="u_role_id" value="1">
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Administrator')}}"><span class="fa fa-plus"></span>
                         {{__('translate.Add')}} {{-- إضافة --}}
                         {{__('translate.admin')}}{{-- أدمن --}}
                 @elseif($role_name == 'طالب')
+                            <input type="hidden" id="u_role_id" value="2">
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Student')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.student')}} {{-- طالب --}}
                 @elseif($role_name == 'رئيس قسم')
+                            <input type="hidden" id="u_role_id" value="3">
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic Supervisor')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.academic supervisor')}} {{-- مشرف أكاديمي --}}
                 @elseif($role_name == 'مشرف التدريب العملي')
+                            <input type="hidden" id="u_role_id" value="4">
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic Supervisor')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     مشرف التدريب العملي
                 @elseif($role_name == 'مساعد إداري')
+                            <input type="hidden" id="u_role_id" value="5">
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Academic Supervisor Assistant')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.academic supervisor assistant')}} {{-- مساعد إداري --}}
@@ -216,7 +221,8 @@
                 data: {
                     'data':{
                         'data': data,
-                        'u_role_id':u_role_id
+                        'u_role_id':u_role_id,
+                        'user_role' : '{{ $user_role }}'
                     }
                 },
                 success: function(response) {

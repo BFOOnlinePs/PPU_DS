@@ -468,8 +468,8 @@ class UserController extends Controller
                     )->get();
 
         }
-        $role_id = $request->data->u_role_id;
-        $html = view('project.admin.users.ajax.' , ['data' => $data , 'role_id' => $role_id])->render();
+        $role_id = $request->data['u_role_id'];
+        $html = view('project.admin.users.ajax.usersList' , ['data' => $data , 'role_id' => $role_id , 'user_role' => $request->user_role])->render();
         return response()->json(['html' => $html]);
     }
     public function update(Request $request)
@@ -582,7 +582,6 @@ class UserController extends Controller
     }
     public function index()
     {
-         'asd';
         $data = User::with('role')->get();
         foreach ($data as $key){
             $key->major = Major::where('m_id',$key->u_major_id)->first();

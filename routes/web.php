@@ -459,6 +459,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/get_student_from_company' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'get_student_from_company'])->name('training_supervisor.field_visits.get_student_from_company');
             Route::get('/details/{id}' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'details'])->name('training_supervisor.field_visits.details');
         });
+        Route::group(['prefix' => 'my_students'],function (){
+            Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\TrainingSupervisorStudentController::class, 'index'])->name('training_supervisor.my_students.index');
+            Route::post('/list_my_student_ajax' , [\App\Http\Controllers\project\training_supervisor\TrainingSupervisorStudentController::class, 'list_my_student_ajax'])->name('training_supervisor.my_students.list_my_student_ajax');
+        });
     });
 
     Route::group(['prefix'=>'file_attachment'],function (){
