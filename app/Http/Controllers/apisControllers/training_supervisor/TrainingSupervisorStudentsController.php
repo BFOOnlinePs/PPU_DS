@@ -124,14 +124,19 @@ class TrainingSupervisorStudentsController extends Controller
         $studentsIds = Registration::where('supervisor_id', $supervisorId)
             ->where('r_semester', $system_settings->ss_semester_type)
             ->where('r_year', $system_settings->ss_year)
-            ->pluck('r_student_id')
-            ->unique();
+            ->pluck('r_student_id');
+        // ->unique();
 
-        $studentsList = User::where('u_role_id', 2)->whereIn('u_id', $studentsIds)->pluck('u_id');
-        $studentInCompanyIdList = StudentCompany::where('sc_company_id', $companyId)->whereIn('sc_student_id', $studentsList)->pluck('sc_student_id');
+        // enable if you want to repeat the students
+        // $studentsList = User::where('u_role_id', 2)->whereIn('u_id', $studentsIds)->pluck('u_id');
+        $studentInCompanyIdList = StudentCompany::where('sc_company_id', $companyId)
+            ->whereIn('sc_student_id', $studentsIds)
+            ->where('sc_status', 1) // only active trainings
+            ->pluck('sc_student_id');
+
         $studentsInCompany = User::whereIn('u_id', $studentInCompanyIdList)
-        ->select('u_id', 'name')
-        ->get();
+            ->select('u_id', 'name')
+            ->get();
 
         return response()->json([
             'status' => true,

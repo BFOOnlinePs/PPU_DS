@@ -16,6 +16,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class EvaluationController extends Controller
@@ -49,6 +50,7 @@ class EvaluationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'evaluation_type_id' => 'required',
+            // evaluation id
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +71,18 @@ class EvaluationController extends Controller
             $trainees = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
                 ->whereIn('students_companies.sc_branch_id', $company_branches_id)
                 ->where('students_companies.sc_status', 1) // active
-                ->select('users.u_id', 'users.name', 'users.email', 'students_companies.sc_registration_id as registration_id')
+                ->select(
+                    'users.u_id',
+                    'users.name',
+                    'users.email',
+                    'students_companies.sc_registration_id as registration_id',
+                //     DB::raw('(EXISTS (
+                //     SELECT 1
+                //     FROM evaluation_submissions
+                //     WHERE evaluation_submissions.es_evaluation_id = students_companies.sc_evaluation_id
+                //       AND evaluation_submissions.es_evaluatee_id = students_companies.sc_student_id
+                // )) AS isSubmitted')
+                )
                 ->get();
 
             return response()->json([
@@ -202,8 +215,14 @@ class EvaluationController extends Controller
         $current_user =  Auth::user();
 
         $evaluation = EvaluationsModel::where('e_status', 1)
-            ->where('e_start_time', '<=', Carbon::now())
-            ->where('e_end_time', '>=', Carbon::now())
+            ->where(function ($query) {
+                $query->where('e_start_time', '<=', Carbon::now())
+                    ->orWhereNull('e_start_time');
+            })
+            ->where(function ($query) {
+                $query->where('e_end_time', '>=', Carbon::now())
+                    ->orWhereNull('e_end_time');
+            })
             ->where('e_type_id', $request->input('evaluation_type_id'))
             // ->where('e_evaluator_role_id', $user_role_id)
             ->latest()->first(); // to get the last one
