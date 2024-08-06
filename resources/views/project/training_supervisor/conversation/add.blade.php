@@ -16,7 +16,7 @@
             @csrf
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -45,13 +45,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 text-center">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <span style="font-size: 200px" class="fa fa-comment"></span>
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="col-md-4 text-center">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-md-12">--}}
+{{--                                <span style="font-size: 200px" class="fa fa-comment"></span>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="col-md-12">
                         <button class="btn btn-primary">حفظ</button>
                     </div>

@@ -90,10 +90,22 @@ class EvaluationController extends Controller
 
     public function evaluation_submission_page($registration_id , $evaluation_id)
     {
+        $check_evaluation = EvaluationsModel::find($evaluation_id);
+        if (!$check_evaluation){
+            abort(404 , 'البيانات غير متوفرة');
+        }
+
         if (auth()->user()->u_role_id == 2){
+            if (!$check_evaluation){
+                abort(404 , 'البيانات غير متوفرة');
+            }
             $registration = $registration_id;
         }
         else{
+            $check_registration = Registration::where('r_id',$registration_id)->first();
+            if (!$check_registration){
+                abort(404 , 'البيانات غير متوفرة');
+            }
         $registration = Registration::where('r_id',$registration_id)->first();
         }
         $evaluation = EvaluationsModel::where('e_id',$evaluation_id)->first();
