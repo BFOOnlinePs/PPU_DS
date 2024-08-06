@@ -478,5 +478,9 @@ Route::get('user_manual',function (){
 Route::get('generate', function () {
         \Illuminate\Support\Facades\Artisan::call('storage:link');
         echo 'ok';
-    });
+});
 
+Route::get('migration', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate');
+    echo 'migrate';
+});
