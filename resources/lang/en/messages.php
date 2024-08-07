@@ -146,6 +146,14 @@ return [
     'document_added' => 'Document added successfully.',
     'document_not_added' => 'An error occurred while adding the document.',
     'attendance_status_updated' => 'Attendance status changed successfully',
-
-
+    'visit_added' => 'Visit added successfully',
+    'visit_not_added' => 'An error occurred while adding the visit',
+    'no_data_something_wrong' => 'No data found, please try again',
+    'evaluation_submitted' => 'Evaluation submitted successfully',
+    'no_evaluation_found' => 'No evaluation found',
+    'message_sent' => 'Message sent successfully',
+    'message_not_sent' => 'There was an error creating the conversation',
+    'message_error' => 'There is an error',
+    'message_sent_successfully' => 'Message sent successfully',
+    'message_not_sent_error' => 'There was an error sending the message',
 ];

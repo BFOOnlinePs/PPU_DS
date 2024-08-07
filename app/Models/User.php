@@ -67,24 +67,27 @@ class User extends Authenticatable
 
 
     protected static function boot()
-{
-    parent::boot();
+    {
+        parent::boot();
 
-    static::creating(function ($user) {
-        // Attempt to find a user with the provided email
-        $existingUser = self::where('email', $user->email)->first();
+        static::creating(function ($user) {
+            // Attempt to find a user with the provided email
+            $existingUser = self::where('email', $user->email)->first();
 
-        // If the user with the email exists, skip this record
-        if ($existingUser) {
-            return false; // This will skip the current record and proceed to the next
-        }
+            // If the user with the email exists, skip this record
+            if ($existingUser) {
+                return false; // This will skip the current record and proceed to the next
+            }
 
-        // If the user doesn't exist, proceed with the insertion
-        return true; // This will allow the insertion of the current record
-    });
-}
+            // If the user doesn't exist, proceed with the insertion
+            return true; // This will allow the insertion of the current record
+        });
+    }
 
-    //relations:
+    public function getIsEvaluatedAttribute($value)
+    {
+        return (bool) $value;
+    }
 
     public function role()
     {
@@ -93,7 +96,8 @@ class User extends Authenticatable
 
 
     // student has many company training
-    public function studentCompanies(){
+    public function studentCompanies()
+    {
         return $this->hasMany(StudentCompany::class, 'sc_student_id', 'u_id');
     }
 
@@ -117,16 +121,19 @@ class User extends Authenticatable
         return $this->belongsTo(Major::class, 'u_major_id', 'm_id');
     }
 
-    public function studentCompaniesMentorTrainer(){
+    public function studentCompaniesMentorTrainer()
+    {
         return $this->hasMany(StudentCompany::class, 'sc_mentor_id', 'u_id');
     }
 
-    public function studentCompaniesAssistant(){
+    public function studentCompaniesAssistant()
+    {
         return $this->hasMany(StudentCompany::class, 'sc_assistant_id', 'u_id');
     }
 
-    public function companyManager(){
-        return $this->hasOne(Company::class, 'c_manager_id','u_id');
+    public function companyManager()
+    {
+        return $this->hasOne(Company::class, 'c_manager_id', 'u_id');
     }
 
     public function paymentStudent()
@@ -138,29 +145,34 @@ class User extends Authenticatable
         return $this->hasMany(Payment::class, 'p_inserted_by_id', 'u_id');
     }
 
-    public function studentAttendances(){
+    public function studentAttendances()
+    {
         return $this->hasMany(StudentAttendance::class, 'sa_student_id', 'u_id');
     }
 
-    public function studentReports(){
+    public function studentReports()
+    {
         return $this->hasMany(StudentReport::class, 'sr_student_id', 'u_id');
     }
-    public function assistants(){
+    public function assistants()
+    {
         return $this->hasMany(SupervisorAssistant::class, 'sa_assistant_id', 'u_id');
     }
-    public function supervisors(){
+    public function supervisors()
+    {
         return $this->hasMany(SupervisorAssistant::class, 'sa_supervisor_id', 'u_id');
     }
-    public function surveys(){
+    public function surveys()
+    {
         return $this->hasMany(survey::class, 's_added_by', 'u_id');
     }
-    public function announcements(){
+    public function announcements()
+    {
         return $this->hasMany(announcements::class, 'a_added_by', 'u_id');
     }
 
-    public function userCity(){
-        return $this->hasOne(CitiesModel::class, 'id','u_city_id');
-
+    public function userCity()
+    {
+        return $this->hasOne(CitiesModel::class, 'id', 'u_city_id');
     }
-
 }

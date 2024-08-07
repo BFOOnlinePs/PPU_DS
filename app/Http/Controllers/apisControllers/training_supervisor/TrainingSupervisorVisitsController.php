@@ -20,7 +20,8 @@ class TrainingSupervisorVisitsController extends Controller
             ->where('fv_supervisor_id', $user->u_id)
             ->orderBy('fv_id', 'desc')
             ->select('field_visits.*', 'users.name as supervisor_name', 'companies.c_name as company_name')
-            ->paginate(6);
+            // ->paginate(6);
+            ->get();
 
         // $visits = FieldVisitsModel::with(['supervisor:u_id,name', 'company:c_id,c_name'])
         //     ->where('fv_supervisor_id', $user->u_id)
@@ -35,13 +36,14 @@ class TrainingSupervisorVisitsController extends Controller
 
         return response()->json([
             'status' => true,
-            'pagination' => [
-                'current_page' => $visits->currentPage(),
-                'last_page' => $visits->lastPage(),
-                'per_page' => $visits->perPage(),
-                'total_items' => $visits->total(),
-            ],
-            'visits' => $visits->items(),
+            // 'pagination' => [
+            //     'current_page' => $visits->currentPage(),
+            //     'last_page' => $visits->lastPage(),
+            //     'per_page' => $visits->perPage(),
+            //     'total_items' => $visits->total(),
+            // ],
+            // 'visits' => $visits->items(),
+            'visits' => $visits,
         ]);
     }
 
@@ -76,13 +78,13 @@ class TrainingSupervisorVisitsController extends Controller
         if ($visit->save()) {
             return response()->json([
                 'status' => true,
-                'message' => 'Visit added successfully',
+                'message' => trans('messages.visit_added'),
             ]);
         }
 
         return response()->json([
             'status' => false,
-            'message' => 'Failed to add visit',
+            'message' => trans('messages.visit_not_added'),
         ]);
     }
 }
