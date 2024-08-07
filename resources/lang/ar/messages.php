@@ -145,5 +145,15 @@ return [
     'file_mimes' => 'الصيغة غير مدعومة، جرب صيغة اخرى',
     'document_added' => 'تم إضافة الملف بنجاح',
     'document_not_added' => 'حدث خطأ أثناء الاضافة',
-    'attendance_status_updated' => 'تم تعديل حالة الحضور بنجاح'
+    'attendance_status_updated' => 'تم تعديل حالة الحضور بنجاح',
+    'visit_added' => 'تم إضافة الزيارة بنجاح',
+    'visit_not_added' => 'حدث خطأ أثناء الاضافة',
+    'no_data_something_wrong' => 'لا يوجد بيانات، حاول مرة أخرى',
+    'evaluation_submitted'=> 'تم تقديم التقييم بنجاح',
+    'no_evaluation_found' => 'لا يوجد تقييم',
+    'message_sent' => 'تم الإرسال بنجاح',
+    'message_not_sent' => 'هناك خلل ما حدث أثناء إنشاء المحادثة',
+    'message_error' => 'هناك خلل ما',
+    'message_sent_successfully' => 'تم الارسال بنجاح',
+    'message_not_sent_error' => 'هناك خلل ما حدث أثناء إرسال الرسالة',
 ];

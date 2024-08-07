@@ -78,13 +78,13 @@ class TrainingSupervisorVisitsController extends Controller
         if ($visit->save()) {
             return response()->json([
                 'status' => true,
-                'message' => 'Visit added successfully',
+                'message' => trans('messages.visit_added'),
             ]);
         }
 
         return response()->json([
             'status' => false,
-            'message' => 'Failed to add visit',
+            'message' => trans('messages.visit_not_added'),
         ]);
     }
 }

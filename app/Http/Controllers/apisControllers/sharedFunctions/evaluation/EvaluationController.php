@@ -107,11 +107,13 @@ class EvaluationController extends Controller
             // for student get the companies that he is in
             $companies = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
                 ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
+                ->join('users', 'companies.c_manager_id', '=', 'users.u_id')
                 ->where('students_companies.sc_student_id', $user->u_id)
                 ->where('students_companies.sc_status', 1) // active
                 // ->select('users.u_id', 'users.name', 'students_companies.sc_registration_id')
                 ->select(
                     'companies.c_id',
+                    'users.name as manager_name',
                     'companies.c_name',
                     'companies.c_english_name',
                     'students_companies.sc_registration_id',
@@ -178,18 +180,22 @@ class EvaluationController extends Controller
                 return response()->json([
                     'status' => true,
                     'students' => $students,
-                    'user_id' => $user_id
                 ]);
             }
 
             // and get the companies his students in
             if ($request->input('evaluation_type_id') == 4) {
                 $companies = Company::whereIn('c_id', $students->pluck('c_id'))
+                    // get the company manager name from users table
+                    ->join('users', 'companies.c_manager_id', '=', 'users.u_id')
+
                     ->select(
                         'c_id',
                         'c_name',
                         'c_english_name',
                         'c_manager_id',
+                        'users.name as manager_name',
+
                         DB::raw(
                             "
                         EXISTS (
@@ -217,7 +223,7 @@ class EvaluationController extends Controller
 
         return response()->json([
             'status' => false,
-            'messages' => 'no users to evaluate / something wrong',
+            'messages' => trans('messages.no_data_something_wrong'),
         ]);
     }
 
@@ -274,7 +280,7 @@ class EvaluationController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'evaluation submitted successfully',
+                'message' => trans('messages.evaluation_submitted'),
             ]);
         }
     }
@@ -310,7 +316,7 @@ class EvaluationController extends Controller
         if ($evaluation == null) {
             return response()->json([
                 'status' => false,
-                'message' => 'no evaluation found',
+                'message' => trans('messages.no_evaluation_found'),
             ]);
         }
 

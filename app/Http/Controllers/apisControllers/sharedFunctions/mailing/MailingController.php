@@ -68,18 +68,18 @@ class MailingController extends Controller
             if ($message->save()) {
                 return response()->json([
                     'status' => true,
-                    'message' => 'تم الإرسال بنجاح'
+                    'message' => trans('messages.message_sent'),
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'هناك خلل ما حدث أثناء إنشاء المحادثة'
+                    'message' => trans('messages.message_not_sent'),
                 ]);
             }
         }
         return response()->json([
             'status' => false,
-            'message' => 'هناك خلل ما'
+            'message' => trans('messages.message_error'),
         ]);
     }
 
@@ -120,12 +120,12 @@ class MailingController extends Controller
         if ($message->save()) {
             return response()->json([
                 'status' => true,
-                'message' => 'تم الارسال بنجاح'
+                'message' => trans('messages.message_sent_successfully'),
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'هناك خلل ما حدث أثناء إرسال الرسالة'
+                'message' => trans('messages.message_not_sent_error'),
             ]);
         }
     }
