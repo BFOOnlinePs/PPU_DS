@@ -11,4 +11,5 @@ class EvaluationSubmissionsModel extends Model
 
     protected $table = 'evaluation_submissions';
     protected $primaryKey = 'es_id';
+
 }

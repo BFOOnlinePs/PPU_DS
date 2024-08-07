@@ -50,7 +50,7 @@ class EvaluationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'evaluation_type_id' => 'required',
-            // evaluation id
+            'evaluation_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +60,11 @@ class EvaluationController extends Controller
             ]);
         };
 
+        $evaluation_id = $request->input('evaluation_id');
+
         $user = Auth::user();
+        $user_id = $user->u_id;
+
         // manager
         if ($user->u_role_id == 6 && $request->input('evaluation_type_id') == 2) {
             // for manager get the students that he manages
@@ -76,28 +80,59 @@ class EvaluationController extends Controller
                     'users.name',
                     'users.email',
                     'students_companies.sc_registration_id as registration_id',
-                //     DB::raw('(EXISTS (
-                //     SELECT 1
-                //     FROM evaluation_submissions
-                //     WHERE evaluation_submissions.es_evaluation_id = students_companies.sc_evaluation_id
-                //       AND evaluation_submissions.es_evaluatee_id = students_companies.sc_student_id
-                // )) AS isSubmitted')
+                    DB::raw(
+                        "(EXISTS (
+                        SELECT 1
+                        FROM evaluation_submissions
+                        WHERE evaluation_submissions.es_evaluation_id = {$evaluation_id}
+                          AND evaluation_submissions.es_evaluatee_id = students_companies.sc_student_id
+                          AND evaluation_submissions.es_evaluator_id = {$user_id}
+                         )
+                        ) AS isEvaluated"
+                    )
                 )
                 ->get();
+
+            // Convert isEvaluated to boolean
+            $trainees->transform(function ($trainee) {
+                $trainee->isEvaluated = (bool) $trainee->isEvaluated;
+                return $trainee;
+            });
 
             return response()->json([
                 'status' => true,
                 'trainees' => $trainees,
             ]);
-        } else if ($user->u_role_id == 2) {
+        } else if ($user->u_role_id == 2 && $request->input('evaluation_type_id') == 1) {
             // for student get the companies that he is in
             $companies = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
                 ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
                 ->where('students_companies.sc_student_id', $user->u_id)
                 ->where('students_companies.sc_status', 1) // active
                 // ->select('users.u_id', 'users.name', 'students_companies.sc_registration_id')
-                ->select('companies.c_id', 'companies.c_name', 'companies.c_english_name', 'students_companies.sc_registration_id')
+                ->select(
+                    'companies.c_id',
+                    'companies.c_name',
+                    'companies.c_english_name',
+                    'students_companies.sc_registration_id',
+                    DB::raw(
+                        "
+                        EXISTS (
+                            SELECT 1
+                            FROM evaluation_submissions
+                            WHERE evaluation_submissions.es_evaluation_id = {$evaluation_id}
+                            AND evaluation_submissions.es_evaluatee_id = companies.c_manager_id
+                            AND evaluation_submissions.es_evaluator_id = {$user_id}
+                        ) AS isEvaluated"
+                    )
+                )
                 ->get();
+
+            // Convert isEvaluated to boolean
+            $companies->transform(function ($company) {
+                $company->isEvaluated = (bool) $company->isEvaluated;
+                return $company;
+            });
 
             return response()->json([
                 'status' => true,
@@ -112,22 +147,67 @@ class EvaluationController extends Controller
                 ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
                 ->where('registration.supervisor_id', $supervisor_id)
                 ->where('students_companies.sc_status', 1) // active
-                ->select('users.u_id', 'users.name', 'registration.r_id', 'companies.c_id', 'companies.c_name as company_name', 'companies.c_english_name as company_english_name')
+                ->select(
+                    'users.u_id', // student
+                    'users.name',
+                    'registration.r_id',
+                    'companies.c_id',
+                    'companies.c_name as company_name',
+                    'companies.c_english_name as company_english_name',
+                    DB::raw(
+                        "
+                        EXISTS (
+                            SELECT 1
+                            FROM evaluation_submissions
+                            WHERE evaluation_submissions.es_evaluation_id = {$evaluation_id}
+                            AND evaluation_submissions.es_evaluatee_id = registration.r_student_id
+                            AND evaluation_submissions.es_evaluator_id = {$user_id}
+                        ) AS isEvaluated"
+                    )
+                )
+                // company
                 ->get();
 
             if ($request->input('evaluation_type_id') == 3) {
+                // Convert isEvaluated to boolean
+                $students->transform(function ($student) {
+                    $student->isEvaluated = (bool) $student->isEvaluated;
+                    return $student;
+                });
 
                 return response()->json([
                     'status' => true,
                     'students' => $students,
+                    'user_id' => $user_id
                 ]);
             }
 
             // and get the companies his students in
             if ($request->input('evaluation_type_id') == 4) {
                 $companies = Company::whereIn('c_id', $students->pluck('c_id'))
-                    ->select('c_id', 'c_name', 'c_english_name')
+                    ->select(
+                        'c_id',
+                        'c_name',
+                        'c_english_name',
+                        'c_manager_id',
+                        DB::raw(
+                            "
+                        EXISTS (
+                            SELECT 1
+                            FROM evaluation_submissions
+                            WHERE evaluation_submissions.es_evaluation_id = {$evaluation_id}
+                            AND evaluation_submissions.es_evaluatee_id = c_manager_id
+                            AND evaluation_submissions.es_evaluator_id = {$user_id}
+                        ) AS isEvaluated"
+                        )
+                    )
                     ->get();
+
+                $companies->transform(function ($company) {
+                    $company->isEvaluated = (bool) $company->isEvaluated;
+                    return $company;
+                });
+
                 return response()->json([
                     'status' => true,
                     'companies' => $companies,
@@ -137,7 +217,7 @@ class EvaluationController extends Controller
 
         return response()->json([
             'status' => false,
-            'messages' => 'no users to evaluate',
+            'messages' => 'no users to evaluate / something wrong',
         ]);
     }
 
