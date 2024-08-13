@@ -54,7 +54,7 @@ class EvaluationController extends Controller
                                 ->whereIn('sc_registration_id', function ($query) {
                                     $query->select('r_id')
                                         ->from('registration')
-                                        ->where('supervisor_id', 510);
+                                        ->where('supervisor_id', Registration::where('r_student_id',auth()->user()->u_id)->first()->supervisor_id);
                                 });
                         });
                 });
