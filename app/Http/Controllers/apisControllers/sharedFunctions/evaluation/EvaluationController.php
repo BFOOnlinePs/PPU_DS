@@ -107,13 +107,13 @@ class EvaluationController extends Controller
             // for student get the companies that he is in
             $companies = User::join('students_companies', 'users.u_id', '=', 'students_companies.sc_student_id')
                 ->join('companies', 'students_companies.sc_company_id', '=', 'companies.c_id')
-                ->join('users', 'companies.c_manager_id', '=', 'users.u_id')
+                ->join('users as managers', 'companies.c_manager_id', '=', 'managers.u_id')
                 ->where('students_companies.sc_student_id', $user->u_id)
                 ->where('students_companies.sc_status', 1) // active
                 // ->select('users.u_id', 'users.name', 'students_companies.sc_registration_id')
                 ->select(
                     'companies.c_id',
-                    'users.name as manager_name',
+                    'managers.name as manager_name',
                     'companies.c_name',
                     'companies.c_english_name',
                     'students_companies.sc_registration_id',
@@ -129,6 +129,8 @@ class EvaluationController extends Controller
                     )
                 )
                 ->get();
+
+
 
             // Convert isEvaluated to boolean
             $companies->transform(function ($company) {
