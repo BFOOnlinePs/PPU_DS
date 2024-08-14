@@ -18,7 +18,6 @@ class EvaluationController extends Controller
 {
     public function index()
     {
-        return 'asd';
         $data = EvaluationsModel::query();
         if (auth()->user()->u_role_id == 6){
             $data->where('e_status',1)->where('e_evaluator_role_id',6)->with('evaluation_type');
@@ -37,7 +36,6 @@ class EvaluationController extends Controller
 
     public function details($id)
     {
-        return Registration::where('r_student_id',auth()->user()->u_id)->first();
         $check_if_find = EvaluationsModel::find($id);
         if (!$check_if_find){
             abort(404 , 'البيانات غير متوفرة');
