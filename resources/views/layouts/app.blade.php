@@ -56,7 +56,7 @@
     <style>
         @font-face {
             font-family: 'Tajawal';
-            src: url({{ asset('fonts/tajawal/Tajawal-Regular.ttf') }}) format('truetype');
+            src: url({{ asset('assets/fonts/tajawal/Tajawal-Regular.ttf') }}) format('truetype');
             font-weight: normal;
         }
 
@@ -69,8 +69,8 @@
         .page-main-header .main-header-right .left-menu-header {
     padding: 24px 10px;
 }
-        * {
-            font-family: 'Tajawal', sans-serif;
+        p,b,div,a,h1,h2,h3,h4,h5,h6 {
+            font-family: 'Tajawal', sans-serif !important;
         }
 
         /* Add this style to your CSS file or in a style tag in your HTML */
@@ -88,10 +88,14 @@
     background-color: #EF681A !important;
     color: #ef681a !important;
 }
-.nav-link  svg {
-height:16px ;
+        .nav-link  svg {
+        height:16px ;
 
-}
+        }
+
+        .page-wrapper.compact-wrapper .page-body-wrapper header.main-nav .main-navbar .nav-menu{
+            height:calc(100vh) !important;
+        }
 
     </style>
 

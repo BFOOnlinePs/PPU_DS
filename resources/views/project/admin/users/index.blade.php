@@ -44,31 +44,31 @@
             <div class="col-md-12 row p-2 text-center">
                 @foreach ($roles as $role)
                         @if ($role->r_name == 'أدمن')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Administrator')}}">
+                            <a class="col-md-1 m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Administrator')}}">
                             {{__('translate.Admin')}} {{-- أدمن --}}
                         @elseif($role->r_name == 'طالب')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Student')}}">
+                            <a class="col-md-1 m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Student')}}">
                             {{__('translate.Student')}} {{-- طالب --}}
                         @elseif($role->r_name == 'رئيس قسم')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic Supervisor')}}">
+                            <a class="col-md-1 m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic Supervisor')}}">
                             {{__('translate.Academic Supervisor')}} {{-- مشرف أكاديمي --}}
                         @elseif($role->r_name == 'مشرف التدريب العملي')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="مشرف التدريب العملي">
+                            <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="مشرف التدريب العملي">
                                 مشرف التدريب العملي
                         @elseif($role->r_name == 'مساعد إداري')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic Supervisor Assistant')}}">
+                            <a class="col-md-1 m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Academic Supervisor Assistant')}}">
                             {{__('translate.Academic Supervisor Assistant')}} {{-- مساعد إداري --}}
                         @elseif($role->r_name == 'مسؤول متابعة وتقييم')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Monitoring and Evaluation Officer')}}">
+                            <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Monitoring and Evaluation Officer')}}">
                             {{__('translate.M&E')}} {{-- مسؤول متابعة وتقييم --}}
                         @elseif($role->r_name == 'مدير شركة')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Company Manager')}}">
+                            <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Company Manager')}}">
                             {{__('translate.Company Manager')}} {{-- مدير شركة --}}
                         @elseif($role->r_name == 'مسؤول تدريب')
 {{--                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Training Supervisor')}}">--}}
 {{--                            {{__('translate.Training Supervisor')}} --}}{{-- مسؤول تدريب --}}
                         @elseif($role->r_name == 'مسؤول التواصل مع الشركات')
-                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Program Coordinator')}}">
+                            <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Program Coordinator')}}">
                             {{__('translate.Program Coordinator')}} {{-- مسسؤول التواصل مع الشركات --}}
                         @endif
                     </a>
@@ -277,6 +277,27 @@
                 },
                 success: function(response) {
                     alert('success');
+                },
+                error: function(xhr, status, error) {
+
+                }
+            });
+        }
+
+        function add_training_supervisor(student,supervisor)
+        {
+            $.ajax({
+                url: "{{route('admin.registration.add_training_supervisor')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    supervisor : supervisor,
+                    student : student,
+                },
+                success: function(response) {
+
                 },
                 error: function(xhr, status, error) {
 

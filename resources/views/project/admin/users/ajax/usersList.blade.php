@@ -69,6 +69,17 @@
                     مشرف التدريب العملي
                 @endif
             </td>
+
+            @if($key->u_role_id == 2)
+                <td>
+                    <select onchange="add_training_supervisor({{ $key->r_student_id }} , this.value)" class="form-control" name="" id="">
+                        <option value="">اختر المشرف ...</option>
+                        @foreach($supervisors as $supervisor)
+                            <option @if($supervisor->u_id == $key->supervisor_id) selected @endif value="{{ $supervisor->u_id }}">{{ $supervisor->name }}</option>
+                        @endforeach
+                    </select>
+                </td>
+            @endif
 {{--            @if ($key->u_status == 0)--}}
 {{--            <td class="text-danger" id="td-{{$key->id}}">{{__('translate.Deactivated')}} --}}{{-- غير مفعل --}}{{--</td>--}}
 {{--            <td class="text-success" id="td-{{$key->id}}">{{__('translate.Active')}} --}}{{-- مفعل --}}{{--</td>--}}
