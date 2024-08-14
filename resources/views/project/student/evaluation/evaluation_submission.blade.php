@@ -11,14 +11,14 @@
 @section('header_link')
     صفحة التقييم
 @endsection
-@section('content')
+@section('content')  
     <div class="row">
         <form action="{{ route('students.evaluation.evaluation_submission_create') }}" method="post" class="col-md-12">
             @csrf
-            <input type="hidden" name="s_evaluation_id" value="{{ $evaluation->e_id }}">
+            <input type="hidden" name="es_evaluation_id" value="{{ $evaluation->e_id }}">
             @if(!auth()->user()->u_role_id == 2)
                 <input type="hidden" name="registration_id" value="{{ $registration->r_id }}">
-                <input type="hidden" name="e_evaluatee_id" value="{{ $registration->supervisor_id }}">
+                <input type="hidden" name="es_evaluatee_id" value="{{ $registration->supervisor_id }}">
             @elseif(auth()->user()->u_role_id == 6)
                 <input type="hidden" name="registration_id" value="{{ $registration->r_id }}">
             @elseif(auth()->user()->u_role_id == 10)
