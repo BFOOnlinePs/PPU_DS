@@ -4,7 +4,7 @@
     {{--        <h6 class="mt-3 f-14 f-w-600">{{auth::user()->name}}</h6></a>--}}
     {{--    </div>--}}
     <nav>
-        <div class="main-navbar mt-4">
+        <div class="main-navbar mt-4 bg-dark">
 
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
             <div id="mainnav">

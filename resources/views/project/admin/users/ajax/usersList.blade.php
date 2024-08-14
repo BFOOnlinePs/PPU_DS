@@ -27,7 +27,7 @@
                         <th>المشرف الخاص بالطالب</th>
                     @endif
                 @endif
-            <th>{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
+            <th style="max-width: 100px">{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
         </tr>
     </thead>
     <tbody>
@@ -69,22 +69,25 @@
                     مشرف التدريب العملي
                 @endif
             </td>
-
-            @if($key->u_role_id == 2)
-                <td>
-                    <select onchange="add_training_supervisor({{ $key->r_student_id }} , this.value)" class="form-control" name="" id="">
-                        <option value="">اختر المشرف ...</option>
-                        @foreach($supervisors as $supervisor)
-                            <option @if($supervisor->u_id == $key->supervisor_id) selected @endif value="{{ $supervisor->u_id }}">{{ $supervisor->name }}</option>
-                        @endforeach
-                    </select>
-                </td>
+            @if(request()->route()->hasParameter('id'))
+                @if($key->u_role_id == 2)
+                    <td>
+                        <select onchange="add_training_supervisor({{ $key->r_student_id }} , this.value)" class="form-control" name="" id="">
+                            <option value="">اختر المشرف ...</option>
+                            @foreach($supervisors as $supervisor)
+                                <option @if($supervisor->u_id == $key->supervisor_id) selected @endif value="{{ $supervisor->u_id }}">{{ $supervisor->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                @endif
             @endif
 {{--            @if ($key->u_status == 0)--}}
 {{--            <td class="text-danger" id="td-{{$key->id}}">{{__('translate.Deactivated')}} --}}{{-- غير مفعل --}}{{--</td>--}}
 {{--            <td class="text-success" id="td-{{$key->id}}">{{__('translate.Active')}} --}}{{-- مفعل --}}{{--</td>--}}
 {{--            @endif--}}
-            <td><a href="{{route('admin.users.details' , ['id'=>$key->u_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-search"></span></a></td>
+            <td class="text-center">
+                <a href="{{route('admin.users.details' , ['id'=>$key->u_id])}}" class="btn btn-primary btn-xs"><span class="fa fa-search"></span></a>
+            </td>
         </tr>
     @endforeach
 @endif
