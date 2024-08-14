@@ -2,15 +2,15 @@
 @section('title')
     {{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
-@section('header_title')
-{{__('translate.Main')}}{{--الرئيسية--}}
-@endsection
-@section('header_title_link')
-{{__('translate.Main')}}{{--الرئيسية--}}
-@endsection
-@section('header_link')
-{{__('translate.Main')}}{{--الرئيسية--}}
-@endsection
+{{--@section('header_title')--}}
+{{--{{__('translate.Main')}}--}}{{--الرئيسية--}}
+{{--@endsection--}}
+{{--@section('header_title_link')--}}
+{{--{{__('translate.Main')}}--}}{{--الرئيسية--}}
+{{--@endsection--}}
+{{--@section('header_link')--}}
+{{--{{__('translate.Main')}}--}}{{--الرئيسية--}}
+{{--@endsection--}}
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/calendar.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.css')}}">
@@ -34,6 +34,190 @@
     @endsection
 @if(auth()->user()->u_role_id == 1)
 @section('content')
+    <div class="col-sm-6 col-xl-4 col-md-4 col-lg-6">
+        <div class="card o-hidden border-0">
+            <div class="bg-primary b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-database"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg></div>
+                    <div class="media-body">
+                        <span class="m-0">عدد الطلاب</span>
+                        <h4 class="mb-0 counter">{{ $student_count }}</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-database icon-bg"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-4 col-md-4 col-lg-6">
+        <div class="card o-hidden border-0">
+            <div class="bg-danger b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></div>
+                    <div class="media-body">
+                        <span class="m-0">عدد الشركات</span>
+                        <h4 class="mb-0 counter">{{ $company_count }}</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag icon-bg"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-4 col-md-4 col-lg-6">
+        <div class="card o-hidden border-0">
+            <div class="bg-primary b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></div>
+                    <div class="media-body">
+                        <span class="m-0">عدد المشرفين</span>
+                        <h4 class="mb-0 counter">{{ $supervisor_count }}</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle icon-bg"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 mb-2">
+        <h5>احصائيات الفصل الحالي : <span class="">{{ $system_settings->ss_year }}</span> الفصل - <span>{{ $system_settings->ss_semester_type }}</span></h5>
+    </div>
+    <div class="col-sm-6 col-xl-3 col-lg-6">
+        <div class="card o-hidden border-0">
+            <div class="bg-dark b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg></div>
+                    <div class="media-body">
+                        <span class="m-0"><b>طلاب</b> <br>مسجلين ذكور</span>
+                        <h4 class="mb-0 counter">{{ $student_male_count }}</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus icon-bg"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3 col-lg-6">
+        <div class="card o-hidden border-0">
+            <div class="bg-dark b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg></div>
+                    <div class="media-body">
+                        <span class="m-0"><b>طلاب</b></span> <br>مسجلين اناث</span>
+                        <h4 class="mb-0 counter">{{ $student_female_count }}</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus icon-bg"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3 col-lg-6">
+        <div class="card o-hidden border-0">
+            <div class="bg-dark b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg></div>
+                    <div class="media-body">
+                        <span class="m-0"><b>شركات</b> <br>مسجل بها طلاب</span>
+                        <h4 class="mb-0 counter">{{ $company_active }}</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus icon-bg"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3 col-lg-6">
+        <div class="card o-hidden border-0">
+            <div class="bg-dark b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg></div>
+                    <div class="media-body" >
+                        <span class="m-0"><b>شركات</b> <br>غير مسجل بها طلاب</span>
+                        <h4 class="mb-0 counter">{{ $company_not_active }}</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus icon-bg"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 mb-2">
+        <h5>اخر الزيارات الميدانية :</h5>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>الطالب</th>
+                                        <th>المشرف</th>
+                                        <th>الشركة</th>
+                                        <th>وقت الزيارة</th>
+                                        <th>العمليات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if($filed_visits->isEmpty())
+                                        <tr>
+                                            <td colspan="4" class="text-center">لا توجد زيارات</td>
+                                        </tr>
+                                    @else
+                                        @foreach($filed_visits as $key)
+                                            <tr>
+                                                <td>{{ implode(', ', $key->student_names) }}</td>
+                                                <td>{{ $key->fv_supervisor_id }}</td>
+                                                <td>{{ $key->company->c_name }}</td>
+                                                <td>{{ $key->fv_vistit_time }}</td>
+                                                <td><a class="btn btn-primary btn-xs" href="{{ route('training_supervisor.field_visits.details',['id'=>$key->fv_id]) }}"><span class="fa fa-search"></span></a></td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>السنة</th>
+                                <th>الفصل</th>
+                                <th>عدد الذكور</th>
+                                <th>عدد الاناث</th>
+                                <th>المجموع الكلي</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($results as $key)
+                                <tr>
+                                    <td>{{ $key->course_name }}</td>
+                                    <td>{{ $key->r_year }}</td>
+                                    <td>
+                                        @if($key->r_semester == '1')
+                                            فصل اول
+                                        @else
+                                            فصل ثاني
+                                        @endif
+                                    </td>
+                                    <td>{{ $key->male_count }}</td>
+                                    <td>{{ $key->female_count }}</td>
+                                    <td>{{ $key->total_count }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="card">
     <div class="card-body">
         <div class="row">
@@ -49,60 +233,24 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12 mt-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="header-top d-sm-flex align-items-center">
-                                        <h5> الاحصائيات </h5>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <p>عدد الطلاب : <span>{{ $student_count }}</span></p>
-                                    <p>عدد الشركات : <span>{{ $company_count }}</span></p>
-                                    <p>عدد المشرفين : <span>{{ $supervisor_count }}</span></p>
-                                    <p>عدد الطلاب الذكور : <span>{{ $student_male_count }}</span></p>
-                                    <p>عدد الطلاب الاناث : <span>{{ $student_female_count }}</span></p>
-                                    <p>الشركات المفعلة : <span>{{ $company_active }}</span></p>
-                                    <p>الشركات غير المفعلة : <span>{{ $company_not_active }}</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>السنة</th>
-                                                <th>الفصل</th>
-                                                <th>عدد الذكور</th>
-                                                <th>عدد الاناث</th>
-                                                <th>المجموع الكلي</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($results as $key)
-                                                <tr>
-                                                    <td>{{ $key->course_name }}</td>
-                                                    <td>{{ $key->r_year }}</td>
-                                                    <td>
-                                                        @if($key->r_semester == '1')
-                                                            فصل اول
-                                                        @else
-                                                            فصل ثاني
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $key->male_count }}</td>
-                                                    <td>{{ $key->female_count }}</td>
-                                                    <td>{{ $key->total_count }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+{{--                        <div class="col-md-12 mt-3">--}}
+{{--                            <div class="card">--}}
+{{--                                <div class="card-header">--}}
+{{--                                    <div class="header-top d-sm-flex align-items-center">--}}
+{{--                                        <h5> الاحصائيات </h5>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="card-body">--}}
+{{--                                    <p>عدد الطلاب : <span>{{ $student_count }}</span></p>--}}
+{{--                                    <p>عدد الشركات : <span>{{ $company_count }}</span></p>--}}
+{{--                                    <p>عدد المشرفين : <span>{{ $supervisor_count }}</span></p>--}}
+{{--                                    <p>عدد الطلاب الذكور : <span>{{ $student_male_count }}</span></p>--}}
+{{--                                    <p>عدد الطلاب الاناث : <span>{{ $student_female_count }}</span></p>--}}
+{{--                                    <p>الشركات المفعلة : <span>{{ $company_active }}</span></p>--}}
+{{--                                    <p>الشركات غير المفعلة : <span>{{ $company_not_active }}</span></p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
         </div>

@@ -588,13 +588,15 @@ class UserController extends Controller
         }
         $roles = Role::all();
         $major = Major::all();
+        $supervisors = User::where('u_role_id',10)->get();
         return view('project.admin.users.index', [
             'data' => $data,
             'roles' => $roles,
             'u_role_id' => null,
             'major' => $major,
             'role_name' => null,
-            'user_role' => null
+            'user_role' => null,
+            'supervisors'=>$supervisors
         ]);
     }
     public function create(Request $request)

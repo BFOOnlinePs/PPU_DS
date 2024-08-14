@@ -50,12 +50,12 @@ class EvaluationController extends Controller
                         ->from('companies')
                         ->whereIn('c_id', function ($query) {
                             $query->select('sc_company_id')
-                                ->from('students_companies')
-                                ->whereIn('sc_registration_id', function ($query) {
-                                    $query->select('r_id')
-                                        ->from('registration')
-                                        ->where('supervisor_id', Registration::where('r_student_id',auth()->user()->u_id)->first()->supervisor_id) ?? null;
-                                });
+                                ->from('students_companies')->where('sc_student_id',auth()->user()->u_id)->where('sc_registration_id',Registration::where('r_student_id',auth()->user()->u_id)->first()->r_id);
+//                                ->whereIn('sc_registration_id', function ($query) {
+//                                    $query->select('r_id')
+//                                        ->from('registration')
+//                                        ->where('supervisor_id', Registration::where('r_student_id',auth()->user()->u_id)->first()->supervisor_id) ?? null;
+//                                });
                         });
                 });
             }
