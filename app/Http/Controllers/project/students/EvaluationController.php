@@ -37,6 +37,7 @@ class EvaluationController extends Controller
 
     public function details($id)
     {
+        return Registration::where('r_student_id',auth()->user()->u_id)->first();
         $check_if_find = EvaluationsModel::find($id);
         if (!$check_if_find){
             abort(404 , 'البيانات غير متوفرة');
