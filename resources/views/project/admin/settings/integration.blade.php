@@ -260,6 +260,7 @@
                         `;
                     }
                     else {
+                        upload_excel_file(file);
                         nextButton.disabled = false;
                         document.getElementById('errorPageOne').innerHTML = ``;
                     }

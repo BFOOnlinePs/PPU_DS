@@ -17,16 +17,16 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <input type="text" onkeyup="get_student_from_company()" class="form-control" id="student_name" placeholder="اسم الطالب">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <input type="text" onkeyup="get_student_from_company()" class="form-control" id="company_name" placeholder="اسم الشركة">
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
