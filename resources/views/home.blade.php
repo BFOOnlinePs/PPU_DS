@@ -2,15 +2,15 @@
 @section('title')
     {{__('translate.Main')}}{{--الرئيسية--}}
 @endsection
-{{--@section('header_title')--}}
-{{--{{__('translate.Main')}}--}}{{--الرئيسية--}}
-{{--@endsection--}}
-{{--@section('header_title_link')--}}
-{{--{{__('translate.Main')}}--}}{{--الرئيسية--}}
-{{--@endsection--}}
-{{--@section('header_link')--}}
-{{--{{__('translate.Main')}}--}}{{--الرئيسية--}}
-{{--@endsection--}}
+@section('header_title')
+{{__('translate.Main')}}
+@endsection
+@section('header_title_link')
+{{__('translate.Main')}}
+@endsection
+@section('header_link')
+{{__('translate.Main')}}
+@endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/calendar.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.css')}}">
@@ -38,11 +38,11 @@
         <div class="card o-hidden border-0">
             <div class="bg-primary b-r-4 card-body">
                 <div class="media static-top-widget">
-                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-database"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg></div>
+                    <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg></div>
                     <div class="media-body">
                         <span class="m-0">عدد الطلاب</span>
                         <h4 class="mb-0 counter">{{ $student_count }}</h4>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-database icon-bg"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users icon-bg"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
                     </div>
                 </div>
             </div>
