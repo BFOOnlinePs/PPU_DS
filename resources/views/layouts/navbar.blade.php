@@ -3,7 +3,7 @@
       <div class="main-header-left">
           {{-- <h6 style="margin-bottom: 0px;">{{__('translate.Dual Studies College')}}</h6> --}}
         <div class="logo-wrapper">
-            <img class="img-fluid" src="{{asset('assets/images/logo/logo_ds.png')}}" alt=""></a>
+            <img class="img-fluid" src="{{asset('assets/images/logo/logo_ds2.png')}}" alt=""></a>
         </div>
         <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid" src="{{asset('assets/images/logo/dark-logo.png')}}" alt=""></a></div>
         <div class="toggle-sidebar"><i class="status_toggle middle text-white" data-feather="align-center" id="sidebar-toggle"></i></div>
