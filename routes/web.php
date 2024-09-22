@@ -178,6 +178,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/student/files/{id}' , [App\Http\Controllers\UserController::class , 'students_files'])->name('admin.users.students.students_files');
             Route::post('/student/files/create' , [App\Http\Controllers\UserController::class , 'create_students_files'])->name('admin.users.students.create_students_files');
             Route::post('/change_status_from_cv' , [App\Http\Controllers\UserController::class , 'change_status_from_cv'])->name('users.change_status_from_cv');
+            Route::post('/change_user_role' , [App\Http\Controllers\UserController::class , 'change_user_role'])->name('users.change_user_role');
             Route::group(['prefix'=>'company_manager'],function(){
                 Route::post('/searchStudentByName' , [App\Http\Controllers\UserController::class , 'searchStudentByName'])->name('users.company_manager.searchStudentByName');
             });

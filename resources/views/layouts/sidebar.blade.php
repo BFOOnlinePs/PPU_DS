@@ -9,9 +9,6 @@
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
             <div id="mainnav">
                 <ul class="nav-menu custom-scrollbar">
-                    <li class="back-btn">
-                        <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
-                    </li>
                     <li><a class="nav-link bg-dark text-white mt-1" href="{{route('home')}}"><i data-feather="home"></i><span>الرئيسية</span></a></li>
                     @if(auth()->user()->u_role_id == 1) {{-- admin --}}
                     <li><a class="nav-link bg-dark text-white mt-1" href="{{route('admin.users.index')}}"><i data-feather="users"></i><span>{{__('translate.Users Management')}}{{-- المستخدمين --}}</span></a></li>

@@ -304,5 +304,26 @@
                 }
             });
         }
+
+        function change_user_role(u_id,u_role_id)
+        {
+            $.ajax({
+                url: "{{route('users.change_user_role')}}",
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    u_role_id : u_role_id,
+                    u_id : u_id,
+                },
+                success: function(response) {
+                    alert('success');
+                },
+                error: function(xhr, status, error) {
+
+                }
+            });
+        }
     </script>
 @endsection
