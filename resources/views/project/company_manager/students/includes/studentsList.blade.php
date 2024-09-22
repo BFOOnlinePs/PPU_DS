@@ -22,7 +22,7 @@
                             {{$student_company->course->c_name}}
                         </td>
                         <td>
-                            {{$student_company->branch->b_address}}
+                            {{$student_company->branch->b_address ?? ''}}
                         </td>
                         <td>
                             @if (isset($student_company->department->d_name))
