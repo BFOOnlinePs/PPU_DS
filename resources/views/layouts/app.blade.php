@@ -69,7 +69,7 @@
         .page-main-header .main-header-right .left-menu-header {
     padding: 24px 10px;
 }
-        p,b,div,a,h1,h2,h3,h4,h5,h6 {
+        p,b,div,h1,h2,h3,h4,h5,h6 {
             font-family: 'Tajawal', sans-serif !important;
         }
 
