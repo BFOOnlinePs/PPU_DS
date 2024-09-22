@@ -11,6 +11,7 @@
 
       <div class="nav-right col pull-right right-menu p-0">
           <ul style="float: left" class="nav-menus mt-3">
+                <li><p class="text-center text-white mt-2 text-bold" >{{ auth()->user()->name }}</p></li>
               <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
               <li class="onhover-dropdown p-0">
                   <a class="btn btn-light" style="font-size: 12px" href="{{route('language' , 'en')}}">English</a>

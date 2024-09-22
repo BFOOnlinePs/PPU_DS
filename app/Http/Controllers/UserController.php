@@ -27,6 +27,8 @@ use App\Models\StudentReport;
 use App\Models\SupervisorAssistant;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
+
 class UserController extends Controller
 {
     public function student_submit_report(Request $request)
@@ -578,7 +580,8 @@ class UserController extends Controller
         $cities = CitiesModel::get();
         $role_name = $role->r_name;
         $supervisors = User::where('u_role_id' , 10)->get();
-        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'user_role'=>$role , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities , 'supervisors'=>$supervisors]);
+        $roles = Role::get();
+        return view('project.admin.users.index' , ['data' => $data , 'roles' => $roles , 'user_role'=>$role , 'u_role_id' => $id , 'major' => $major , 'role_name' => $role_name,'cities'=>$cities , 'supervisors'=>$supervisors , 'roles'=>$roles]);
     }
     public function index()
     {
@@ -769,6 +772,17 @@ class UserController extends Controller
         }
         else{
             return redirect()->route('admin.users.students.students_files',['id'=>$request->table_name_id])->with(['fail' => 'هناك خلل ما لم يتم اضافة البيانات']);
+        }
+    }
+
+    public function change_user_role(Request $request){
+        $data = User::where('u_id',$request->u_id)->first();
+        $data->u_role_id = $request->u_role_id;
+        if($data->save()){
+            return response()->json([
+                'success'=>true,
+                'message'=>'تم تعديل الصلاحية بنجاح'
+            ]);
         }
     }
 }

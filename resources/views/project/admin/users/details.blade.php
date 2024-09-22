@@ -27,10 +27,19 @@
   </div>
   <div class="container-fluid">
     <div class="p-2 pt-0 row">
-        @if ($user->u_role_id == 2)
+        @if (Auth::user()->u_role_id == 2)
             @include('project.admin.users.includes.menu_student')
-        @elseif($user->u_role_id == 3)
+        @elseif(Auth::user()->u_role_id == 3)
             @include('project.admin.users.includes.menu_academic_supervisor')
+        @elseif(Auth::user()->u_role_id == 10)
+            <a class=" col m-1 btn btn-primary btn-sm" href="{{route('admin.users.students.attendance' , ['id'=>$user->u_id])}}">
+                <h1 style="font-size: 25px; " class="fa fa-check-square" ></h1>
+                <br>
+            {{__('translate.Attendance Log')}} {{-- سجل المتابعة --}}</a>
+            <a class="col m-1  btn btn-primary btn-sm" href="{{route('admin.users.student.payments' , ['id'=>$user->u_id])}}">
+                <h1 style="font-size: 25px; " class="fa fa-dollar" ></h1>
+                <br>
+            {{__('translate.Payments')}} {{-- الدفعات --}}</a>
         @endif
     </div>
     <div class="edit-profile">

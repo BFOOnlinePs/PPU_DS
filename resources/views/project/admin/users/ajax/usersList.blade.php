@@ -70,7 +70,7 @@
                 @endif
             </td>
             @if(request()->route()->hasParameter('id'))
-                @if($key->u_role_id == 2)
+                @if($key->u_role_id != 2 || $key->u_role_id != 6)
                     {{-- <td>
                         <select onchange="add_training_supervisor({{ $key->r_student_id }} , this.value)" class="form-control" name="" id="">
                             <option value="">اختر المشرف ...</option>
@@ -79,6 +79,15 @@
                             @endforeach
                         </select>
                     </td> --}}
+
+                    <td>
+                        <select onchange="change_user_role({{ $key->u_id }} , this.value)" class="form-control" name="" id="">
+                            <option value="">اختر الصلاحية ...</option>
+                            @foreach($roles as $role)
+                                <option @if($role->r_id == $key->u_role_id) selected @endif value="{{ $role->r_id }}">{{ $role->r_name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
                 @endif
             @endif
 {{--            @if ($key->u_status == 0)--}}

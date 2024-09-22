@@ -19,14 +19,10 @@ class TrainingSupervisorStudentController extends Controller
     {
         $data = Registration::query();
         if ($request->filled('student_name')){
-            $data->where('supervisor_id',auth()->user()->u_id);
-            // $studentName = $request->input('student_name');
-            // $data->whereIn('sc_registration_id',function ($query) use ($studentName){
-            //     $query->select('r_id')->from('registration')->where('supervisor_id',auth()->user()->u_id)
-            //     ->whereIn('r_student_id',function ($query) use ($studentName){
-            //         $query->select('u_id')->from('users')->where('name', 'like', '%' . $studentName . '%');
-            //     });
-            // })->get();
+            $studentName = $request->input('student_name');
+            $data->whereIn('r_student_id',function ($query) use ($studentName){
+                $query->select('u_id')->from('users')->where('name','like','%'.$studentName.'%')->where('supervisor_id',auth()->user()->u_id);
+            })->get();
         }
         // if ($request->filled('company_name')){
         //     $companyName = $request->input('company_name');
