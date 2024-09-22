@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Course;
 use App\Models\Major;
 use App\Models\Registration;
+use App\Models\StudentCompany;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -33,6 +34,7 @@ class integration_company_new implements ToModel , WithStartRow
         $supervisor = null;
         $companies = null;
         $registration = null;
+        $student_company = null;
 
         $course = Course::firstOrCreate(
             ['c_course_code' => $this->request->course_id],
@@ -126,6 +128,17 @@ class integration_company_new implements ToModel , WithStartRow
                     'supervisor_id' => $supervisor->u_id,
                 ]
             );
+        }
+
+        if ($registration && $student_number->u_id && $compaines->c_id) {
+            $student_company = StudentCompany::firstOrCreate([
+                'sc_registration_id' => $registration->r_id,
+                'sc_student_id' => $student_number->u_id,
+                'sc_company_id' => $compaines->c_id,
+            ],[
+                'sc_assistant_id' => $manager_company->u_id,
+                'sc_status' => 1,
+            ]);
         }
     }
 

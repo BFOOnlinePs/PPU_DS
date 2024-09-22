@@ -20,7 +20,6 @@ class RegistrationController extends Controller
         $year = $systemSettings->ss_year;
 
         $data = SemesterCourse::with('courses')->where('sc_semester',$systemSettings->ss_semester_type)->where('sc_year',$systemSettings->ss_year)->get();
-
         return view('project.admin.registration.index',['data'=>$data,'semester'=>$semester, 'year'=>$year]);
     }
 
