@@ -32,19 +32,23 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">الفصل</label>
-                                    <input min="1" max="3" type="number" required placeholder="مثال : 1 ,2 ,3"  id="semester" name="semester" class="form-control">
+                                    <select class="form-control" name="semester" id="">
+                                        <option value="1">الفصل الأول</option>
+                                        <option value="2">الفصل الثاني</option>
+                                        <option value="3">الفصل الصيفي</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">رقم التدريب العملي</label>
-                                    <input  type="number" required placeholder="مثال : 123456789" id="course_id" name="course_id" class="form-control">
+                                    <input  type="number" required placeholder="مثال : 001" id="course_id" name="course_id" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">اسم التدريب العملي</label>
-                                    <input type="text" placeholder="مثال : تدريب رقم 1" id="course_name" name="course_name" required class="form-control">
+                                    <input type="text" placeholder="مثال : المرحلة الاولى الجزء الأول" id="course_name" name="course_name" required class="form-control">
                                 </div>
                             </div>
                         </div>
