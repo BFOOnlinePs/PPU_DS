@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <label for="">اضافة ملف اكسيل</label>
                                 <input type="file" class="form-control" name="file">
-                                <a class="">تحميل مثال</p>
+                                <a download="student_template_excel" href="{{ asset('assets/file/student_template_excel.xlsx') }}" class="">تحميل مثال</p>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">حفظ</button>
