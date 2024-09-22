@@ -33,63 +33,77 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Name')}} {{-- الاسم --}}</label>
-                                                <input class="form-control" type="text" name="name" value="{{ $user->name }}" readonly>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Name')}} {{-- الاسم --}}</label>
+                                                    <input class="form-control" type="text" name="name" value="{{ $user->name }}" readonly>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Username')}} {{-- اسم المستخدم --}}</label>
-                                                <input class="form-control" type="text" name="u_username" value="{{ $user->u_username }}" readonly>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Username')}} {{-- اسم المستخدم --}}</label>
+                                                    <input class="form-control" type="text" name="u_username" value="{{ $user->u_username }}" readonly>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</label>
-                                                <input class="form-control" type="email" name="email" value="{{ $user->email }}" readonly>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Email')}} {{-- البريد الإلكتروني --}}</label>
+                                                    <input class="form-control" type="email" name="email" value="{{ $user->email }}" readonly>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Birth Date')}} {{-- تاريخ الميلاد --}}</label>
-                                                <input class="form-control" type="date" name="u_date_of_birth" value="{{ $user->u_date_of_birth }}" readonly>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Birth Date')}} {{-- تاريخ الميلاد --}}</label>
+                                                    <input class="form-control" type="date" name="u_date_of_birth" value="{{ $user->u_date_of_birth }}" readonly>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Phone Number')}} {{-- رقم الجوال --}}</label>
-                                                <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}" readonly>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Phone Number')}} {{-- رقم الجوال --}}</label>
+                                                    <input class="form-control" type="text" name="u_phone1" value="{{ $user->u_phone1 }}" readonly>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Alternative Phone Number')}} {{-- رقم جوال احتياطي --}}</label>
-                                                <input class="form-control" type="text" name="u_phone2" value="{{ $user->u_phone2 }}" readonly>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Alternative Phone Number')}} {{-- رقم جوال احتياطي --}}</label>
+                                                    <input class="form-control" type="text" name="u_phone2" value="{{ $user->u_phone2 }}" readonly>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">{{__('translate.Gender')}}{{-- الجنس --}}</label>
-                                            @if ($user->u_gender == 0)
-                                                <input class="form-control" type="text" value="ذكر" readonly>
-                                            @else
-                                                <input class="form-control" type="text" value="أنثى" readonly>
-                                            @endif
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Residential Address')}} {{-- عنوان السكن --}}</label>
-                                                <input class="form-control" type="text" name="u_address" value="{{ $user->u_address }}" readonly>
+                                            <div class="col-md-6">
+                                                <label class="form-label">{{__('translate.Gender')}}{{-- الجنس --}}</label>
+                                                @if ($user->u_gender == 0)
+                                                    <input class="form-control" type="text" value="ذكر" readonly>
+                                                @else
+                                                    <input class="form-control" type="text" value="أنثى" readonly>
+                                                @endif
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">{{__('translate.Major')}} {{-- التخصص --}}</label>
-                                                <input class="form-control" type="text" value="{{$major_id->m_name}}" readonly>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Residential Address')}} {{-- عنوان السكن --}}</label>
+                                                    <input class="form-control" type="text" name="u_address" value="{{ $user->u_address }}" readonly>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{__('translate.Major')}} {{-- التخصص --}}</label>
+                                                    <input class="form-control" type="text" value="{{$major_id->m_name}}" readonly>
+                                                </div>
+                                            </div>
+                                            <form action="{{ route('students.personal_profile.update_password') }}" method="post">
+                                                @csrf
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">كلمة المرور</label>
+                                                    <input class="form-control" min="8" name="password" type="text" placeholder="كلمة المرور">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-success">تعديل</button>    
+                                            </div>  
+                                        </form>
+
+                                        </div>  
                                 </div>
                                 <div class="col-md-4">
                                     <div class="row">

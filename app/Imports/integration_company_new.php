@@ -90,14 +90,12 @@ class integration_company_new implements ToModel , WithStartRow
 
         if(!empty($row[12]) && !empty($row[13])){
             $manager_company = User::firstOrCreate([
-                'name' => $row[12],
-                'email' => $row[13],
+                'name' => $row[13],
+                'u_phone1' => $row[14],
             ],[
-                'name' => $row[12],
                 'u_username' => $row[15] ?? $row[14],
                 'email' => $row[15] ?? ($row[14] . '@ppu.edu.ps'),
                 'password' => Hash::make('12345678'),
-                'u_phone1' => $row[14],
                 'u_role_id' => 6,
                 'u_status' => 1,
             ]);
@@ -111,7 +109,7 @@ class integration_company_new implements ToModel , WithStartRow
             ,[
                     'c_name' => $row[12],
                     'c_english_name' => $row[12],
-                    'c_manager_id' => $manager_company->u_id,
+                    'c_manager_id' => $manager_company->u_id ?? 1,
             ]);
         }
 

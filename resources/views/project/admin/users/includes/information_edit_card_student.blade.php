@@ -9,7 +9,8 @@
       <form>
         <div class="row mb-2">
           <div class="profile-title">
-            <div class="text-center"><img class="img-70 rounded-circle" alt="" src="https://laravel.pixelstrap.com/viho/assets/images/dashboard/1.png">
+            <div class="text-center">
+              {{-- <img class="img-70 rounded-circle" alt="" src="https://laravel.pixelstrap.com/viho/assets/images/dashboard/1.png"> --}}
               <div class="media-body">
                 <h3 class="mb-1 f-20 txt-primary">{{$user->name}}</h3>
                 @if ($user->u_role_id == 2)

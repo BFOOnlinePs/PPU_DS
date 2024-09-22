@@ -27,9 +27,8 @@
   </div>
   <div class="container-fluid">
     <div class="p-2 pt-0 row">
-        @if (Auth::user()->u_role_id == 2)
             @include('project.admin.users.includes.menu_student')
-        @elseif(Auth::user()->u_role_id == 3)
+        @if(Auth::user()->u_role_id == 3)
             @include('project.admin.users.includes.menu_academic_supervisor')
         @elseif(Auth::user()->u_role_id == 10)
             <a class=" col m-1 btn btn-primary btn-sm" href="{{route('admin.users.students.attendance' , ['id'=>$user->u_id])}}">

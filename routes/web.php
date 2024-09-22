@@ -381,6 +381,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'personal_profile'], function () {
             Route::get('/index' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index');  // To display personal profile for this student
             Route::post('/add_sv_to_student' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'add_sv_to_student'])->name('students.personal_profile.add_sv_to_student');  // To display personal profile for this student
+            Route::post('/update_password' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'update_password'])->name('students.personal_profile.update_password');  // To display personal profile for this student
         });
         Route::group(['prefix' => 'company'], function () {
             Route::get('/index' , [App\Http\Controllers\project\students\company\CompanyController::class , 'index'])->name('students.company.index'); // To display list of companies student for student
