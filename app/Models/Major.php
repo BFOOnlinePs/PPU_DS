@@ -11,6 +11,7 @@ class Major extends Model
     protected $table = 'majors';
     protected $primaryKey = 'm_id';
     protected $fillable = [
+        'm_id',
         'm_name',
         'm_description',
         'm_reference_code'

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\project\settings;
 
 use App\Http\Controllers\Controller;
 use App\Imports\CoursesImport;
+use App\Imports\integration_company_new;
 use App\Imports\MajorsImport;
 use App\Imports\RegistrationsImport;
 use App\Imports\SemesterCourseImport;
@@ -237,5 +238,8 @@ class SettingsController extends Controller
         }
     }
 
-
+    public function import_integration_student_excel(Request $request){
+        $data = $request;
+        Excel::import(new integration_company_new($request), $request->file('file'));        return redirect('/')->with('success', 'All good!');
+    }
 }

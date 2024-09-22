@@ -24,10 +24,12 @@ class RegistrationsImport implements ToModel
     }
     public function model(array $row)
     {
+        return 'Mohamad Maraqa';
         if ($this->startRow == 1) {
             $this->startRow++;
             return null;
         }
+
         $student = User::where('u_username' , $row[$this->additionalData['student_id']])
                         ->where('name' , $row[$this->additionalData['student_name']])
                         ->first();

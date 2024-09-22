@@ -30,6 +30,7 @@ class UsersImport implements ToModel
     }
     public function model(array $row)
     {
+        return 'Mohamad Maraqa';
         $company_id = 0;
         $major_id = 0;
         if ($this->startRow == 1) {
