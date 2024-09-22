@@ -16,7 +16,8 @@ class Registration extends Model
         'r_course_id',
         'r_grade',
         'r_semester',
-        'r_year'
+        'r_year',
+        'supervisor_id'
     ];
 
     public function courses()

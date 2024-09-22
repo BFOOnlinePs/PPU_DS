@@ -24,7 +24,7 @@
             <th>نوع المستخدم</th>
                 @if($user_role != null)
                     @if($user_role->r_id == '2')
-                        <th>المشرف الخاص بالطالب</th>
+                        {{-- <th>المشرف الخاص بالطالب</th> --}}
                     @endif
                 @endif
             <th style="max-width: 100px">{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
@@ -71,14 +71,14 @@
             </td>
             @if(request()->route()->hasParameter('id'))
                 @if($key->u_role_id == 2)
-                    <td>
+                    {{-- <td>
                         <select onchange="add_training_supervisor({{ $key->r_student_id }} , this.value)" class="form-control" name="" id="">
                             <option value="">اختر المشرف ...</option>
                             @foreach($supervisors as $supervisor)
                                 <option @if($supervisor->u_id == $key->supervisor_id) selected @endif value="{{ $supervisor->u_id }}">{{ $supervisor->name }}</option>
                             @endforeach
                         </select>
-                    </td>
+                    </td> --}}
                 @endif
             @endif
 {{--            @if ($key->u_status == 0)--}}

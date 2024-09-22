@@ -26,25 +26,25 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">السنة</label>
-                                    <input type="number" value="2024" id="year" name="year" class="form-control">
+                                    <input type="number" required placeholder="مثال : 2024" id="year" name="year" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">الفصل</label>
-                                    <input type="number" value="1" id="semester" name="semester" class="form-control">
+                                    <input min="1" max="3" type="number" required placeholder="مثال : 1 ,2 ,3"  id="semester" name="semester" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">رقم التدريب العملي</label>
-                                    <input type="number" value="123123123" id="course_id" name="course_id" class="form-control">
+                                    <input  type="number" required placeholder="مثال : 123456789" id="course_id" name="course_id" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">اسم التدريب العملي</label>
-                                    <input type="text" value="تدريب رقم 1" id="course_name" name="course_name" class="form-control">
+                                    <input type="text" placeholder="مثال : تدريب رقم 1" id="course_name" name="course_name" required class="form-control">
                                 </div>
                             </div>
                         </div>
