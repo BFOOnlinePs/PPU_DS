@@ -247,6 +247,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/uploadFileExcel',[App\Http\Controllers\project\settings\SettingsController::class,'uploadFileExcel'])->name('integration.uploadFileExcel');
             Route::post('/validateStepOne',[App\Http\Controllers\project\settings\SettingsController::class,'validateStepOne'])->name('integration.validateStepOne');
             Route::post('/submitForm',[App\Http\Controllers\project\settings\SettingsController::class,'submitForm'])->name('integration.submitForm');
+            Route::post('/import_integration_student_excel',[App\Http\Controllers\project\settings\SettingsController::class,'import_integration_student_excel'])->name('integration.import_integration_student_excel');
 
             Route::group(['prefix'=>'integration_company'],function(){
                 Route::get('/index',[App\Http\Controllers\project\settings\IntegrationCompaniesController::class,'index'])->name('admin.settings.integration_company.index');

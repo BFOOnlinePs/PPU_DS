@@ -22,6 +22,7 @@ class StudentImport implements ToModel
 
     public function model(array $row)
     {
+        return 'Mohamad Maraqa';
         if ($this->startRow == 1) {
             $this->startRow++;
             return null;
