@@ -81,14 +81,14 @@
                                         @endif
                                     </a></td>
                                 @if (auth()->user()->u_role_id == 1)
-                                    <td><a href="{{route('admin.users.details',['id'=>$key->manager->u_id])}}">{{$key->manager->name}}</a></td>
+                                    <td><a href="{{route('admin.users.details',['id'=>$key->manager->u_id ?? 1])}}">{{$key->manager->name ?? ''}}</a></td>
                                 @else
                                     <td>{{$key->manager->name}}</td>
                                 @endif
 
                                 {{-- <td><a href="{{route('admin.companies_categories.index')}}">{{$key->companyCategories->cc_name}}</a></td> --}}
                                 @if($key->companyCategories != null)
-                                    <td><a href="{{route("admin.companies_categories.index")}}">{{$key->companyCategories->cc_name}}</a></td>
+                                    <td><a href="{{route("admin.companies_categories.index")}}">{{$key->companyCategories->cc_name ?? ''}}</a></td>
                                 @else
                                     <td>{{__('translate.Unspecified')}}{{--غير محدد--}}</td>
                                 @endif
