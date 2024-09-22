@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Major;
 use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class PersonalProfileController extends Controller
 {
@@ -36,6 +37,14 @@ class PersonalProfileController extends Controller
         }
         else{
             return redirect()->route('students.personal_profile.index')->with(['fail'=>'هناك خلل ما']);
+        }
+    }
+
+    public function update_password(Request $request){
+        $data = User::find(auth()->user()->u_id);
+        $data->password = bcrypt($request->password);
+        if($data->save()){
+            return redirect()->back();
         }
     }
 

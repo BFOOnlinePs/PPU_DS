@@ -2,7 +2,7 @@
     <thead>
         <tr>
             @if($user_role != null)
-                @if($user_role->r_id == '3')
+                @if($user_role->r_id == '3' )
                     <th>اسم رئيس القسم</th>
                 @elseif($user_role->r_id == '10')
                     <th>اسم مشرف التدريب العملي</th>
@@ -16,18 +16,19 @@
             @endif
             <th>{{ __('translate.Phone Number') }}</th>
                 @if($user_role != null)
-                    @if($user_role->r_id != '3')
+                    @if($user_role->r_id != '3' && $user_role->r_id != '6')
                         <th>{{ __('translate.tawjihi_rate') }}</th>
                         <th>{{ __('translate.Major') }}</th>
                     @endif
                 @endif
-            <th>نوع المستخدم</th>
-                @if($user_role != null)
-                    @if($user_role->r_id == '2')
-                        {{-- <th>المشرف الخاص بالطالب</th> --}}
+                    <th>نوع المستخدم</th>
+                    @if($user_role != null)
+                        @if($user_role->r_id == '2')
+                            {{-- <th>المشرف الخاص بالطالب</th> --}}
+                        @endif
                     @endif
-                @endif
-            <th style="max-width: 100px">{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
+                    <th style="max-width: 100px">{{__('translate.View Details')}} {{-- عرض تفاصيل --}}</th>
+
         </tr>
     </thead>
     <tbody>
@@ -41,7 +42,7 @@
             <td>{{$key->name}}</td>
             <td>{{$key->u_phone1}}</td>
             @if($user_role != null)
-                @if($user_role->r_id != '3')
+                @if($user_role->r_id != '3' && $user_role->r_id != '6')
                     <td>{{$key->u_tawjihi_gpa}}</td>
                     <td>{{$key->major->m_name ?? 0}}</td>
                 @endif
@@ -70,7 +71,7 @@
                 @endif
             </td>
             @if(request()->route()->hasParameter('id'))
-                @if($key->u_role_id != 2 || $key->u_role_id != 6)
+                @if($key->u_role_id != '2' && $key->u_role_id != '6')
                     {{-- <td>
                         <select onchange="add_training_supervisor({{ $key->r_student_id }} , this.value)" class="form-control" name="" id="">
                             <option value="">اختر المشرف ...</option>
@@ -79,7 +80,6 @@
                             @endforeach
                         </select>
                     </td> --}}
-
                     <td>
                         <select onchange="change_user_role({{ $key->u_id }} , this.value)" class="form-control" name="" id="">
                             <option value="">اختر الصلاحية ...</option>
