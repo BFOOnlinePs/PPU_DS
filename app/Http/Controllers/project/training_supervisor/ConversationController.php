@@ -31,25 +31,59 @@ class ConversationController extends Controller
     {
         $users = User::query();
         if (auth()->user()->u_role_id == 2){
-            $users->where('u_role_id',1)->orWhere('u_role_id',3)->orWhere('u_role_id',6)->orWhere('u_role_id',10);
+            $users->where(function($query) {
+                $query->whereIn('u_id', function($query) {
+                    $query->select('supervisor_id')
+                          ->from('registration')
+                          ->where('r_student_id', auth()->user()->u_id);
+                })
+                ->orWhereIn('u_id', function($query) {
+                    $query->select('c_manager_id')
+                          ->from('companies')
+                          ->whereIn('c_id', function($query2) {
+                              $query2->select('sc_company_id')
+                                     ->from('students_companies')
+                                     ->where('sc_student_id', auth()->user()->u_id);
+                          });
+                });
+            })->orWhere('u_role_id', 8);
+            // $users->wherein('u_id',function($query){
+            //     $query->select('supervisor_id')->from('registration')->where('r_student_id',auth()->user()->u_id);
+            // });
+            // $users->whereIn('u_id',function($query){
+            //     $query->select('c_manager_id')->from('companies')->whereIn('c_id' , function($query2){
+            //         $query2->select('sc_company_id')->from('students_companies')->where('sc_student_id',auth()->user()->u_id);
+            //     });
+            // });
+
+            // $users->where('u_role_id',8);
         }
         if (auth()->user()->u_role_id == 10){
-            $users->whereIn('u_id', function ($query) {
-                $query->select('c_manager_id')
-                    ->from('companies')
-                    ->whereIn('c_id', function ($query) {
-                        $query->select('sc_company_id')
-                            ->from('students_companies')
-                            ->whereIn('sc_registration_id', function ($query) {
-                                $query->select('r_id')
-                                    ->from('registration')
-                                    ->where('supervisor_id', 510);
-                            });
-                    });
-            });
+            // $users->whereIn('u_id', function ($query) {
+            //     $query->select('c_manager_id')
+            //         ->from('companies')
+            //         ->whereIn('c_id', function ($query) {
+            //             $query->select('sc_company_id')
+            //                 ->from('students_companies')
+            //                 ->whereIn('sc_registration_id', function ($query) {
+            //                     $query->select('r_id')
+            //                         ->from('registration')
+            //                         ->where('supervisor_id', 510);
+            //                 });
+            //         });
+            // });
+            $users->whereIn('u_id',function($query){
+                $query->select('r_student_id')->from('registration')->where('supervisor_id',auth()->user()->u_id);
+            })
+            ->orWhere('u_role_id', 8);
         }
         if (auth()->user()->u_role_id == 6){
-            $users->where('u_role_id',2)->orWhere('u_role_id',10);
+            $users->whereIn('u_id',function($query){
+                $query->select('sc_student_id')->from('students_companies')->whereIn('sc_company_id',function($query2){
+                    $query2->select('c_id')->from('companies')->where('c_manager_id',auth()->user()->u_id);
+                });
+            })
+            ->orWhere('u_role_id',8);
         }
         $users = $users->get();
         return view('project.training_supervisor.conversation.add',['users'=>$users]);
