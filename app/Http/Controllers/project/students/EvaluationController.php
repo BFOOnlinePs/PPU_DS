@@ -90,6 +90,7 @@ class EvaluationController extends Controller
 
     public function evaluation_submission_page($registration_id , $evaluation_id)
     {
+        $registration = null;
         $check_evaluation = EvaluationsModel::find($evaluation_id);
         if (!$check_evaluation){
             abort(404 , 'البيانات غير متوفرة');
@@ -100,6 +101,12 @@ class EvaluationController extends Controller
                 abort(404 , 'البيانات غير متوفرة');
             }
             $registration = $registration_id;
+        }
+        elseif(auth()->user()->u_role_id == 6){
+            if (!$check_evaluation){
+                abort(404 , 'البيانات غير متوفرة');
+            }
+            $registration = Registration::where('r_student_id',$registration_id)->first();
         }
         else{
             $check_registration = Registration::where('r_id',$registration_id)->first();
@@ -141,8 +148,10 @@ class EvaluationController extends Controller
                 $data->es_registration_id = $request->registration_id;
             }
             if (auth()->user()->u_role_id == '6'){
-                $data->es_evaluatee_id = $request->registration_id;
-                $data->es_registration_id = Registration::where('r_student_id',$request->registration_id)->first()->r_id;
+                // $data->es_evaluatee_id = $request->registration_id;
+                $data->es_evaluatee_id = Registration::where('r_id',$request->registration_id)->first()->r_student_id;
+                // $data->es_registration_id = Registration::where('r_student_id',$request->registration_id)->first()->r_id;
+                $data->es_registration_id = $request->registration_id;
             }
             if (auth()->user()->u_role_id == '2'){
                 $data->es_evaluatee_id = $request->registration_id;
