@@ -4,6 +4,7 @@ namespace App\Http\Controllers\project\students;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Course;
 use App\Models\CriteriaModel;
 use App\Models\EvaluationsModel;
 use App\Models\EvaluationSubmissionScoresModel;
@@ -75,10 +76,13 @@ class EvaluationController extends Controller
 //                $query->select('sc_registration_id')->from('students_companies');
 //            });
 //        }
-            $data = $data->get();
+            $data = $data->with('registrations')->get();
             foreach ($data as $index => $key) {
                 if (auth()->user()->u_role_id == 2 || auth()->user()->u_role_id == 6){
                     $key->submission_status = EvaluationSubmissionsModel::where('es_evaluatee_id',$key->u_id)->where('es_evaluator_id',auth()->user()->u_id)->where('es_evaluation_id',$id)->first();
+                    // $key->total_evaluation = EvaluationSubmissionScoresModel::whereIn('ss_submission_id',function($query) use ($key){
+                    //     $query->select('es_id')->from('evaluation_submissions')->where('es_registration_id',$key->registrations[0]->r_id)->where('es_evaluatee_id',$key->registrations[0]->r_student_id);
+                    // })->sum('ss_score');
                 }
                 else{
                     $key->submission_status = EvaluationSubmissionsModel::where('es_registration_id',Registration::where('r_student_id',$key->u_id)->first()->r_id)->where('es_evaluation_id',$id)->where('es_evaluator_id',auth()->user()->u_id)->first();
@@ -116,7 +120,9 @@ class EvaluationController extends Controller
         $registration = Registration::where('r_id',$registration_id)->first();
         }
         $evaluation = EvaluationsModel::where('e_id',$evaluation_id)->first();
-        $criteria = CriteriaModel::get();
+        $criteria = CriteriaModel::whereIn('c_id',function($query) use ($evaluation_id){
+            $query->select('ec_criteria_id')->from('evaluation_criteria')->where('ec_evaluation_id',$evaluation_id);
+        })->get();
         return view('project.student.evaluation.evaluation_submission',['registration'=>$registration , 'evaluation'=>$evaluation , 'criteria'=>$criteria]);
     }
 
@@ -127,6 +133,8 @@ class EvaluationController extends Controller
 
     public function evaluation_submission_create(Request $request)
     {
+        $totalEvaluation = array_sum($request->criteria);
+        $equation = ($totalEvaluation / (count($request->criteria) * 5)) * 50;
         $check_if_submission = EvaluationSubmissionsModel::query();
         if (auth()->user()->u_role_id == 2){
             $check_if_submission->where('es_evaluation_id',$request->es_evaluation_id)->where('es_evaluatee_id',$request->registration_id)->where('es_evaluator_id',auth()->user()->u_id);
@@ -146,12 +154,18 @@ class EvaluationController extends Controller
             if (auth()->user()->u_role_id == '10'){
                 $data->es_evaluatee_id = Registration::where('r_id',$request->registration_id)->first()->r_student_id;
                 $data->es_registration_id = $request->registration_id;
+                $registration = Registration::where('r_id',$request->registration_id)->first();
+                $registration->university_score = $equation;
+                $registration->save();
             }
             if (auth()->user()->u_role_id == '6'){
                 // $data->es_evaluatee_id = $request->registration_id;
                 $data->es_evaluatee_id = Registration::where('r_id',$request->registration_id)->first()->r_student_id;
                 // $data->es_registration_id = Registration::where('r_student_id',$request->registration_id)->first()->r_id;
                 $data->es_registration_id = $request->registration_id;
+                $registration = Registration::where('r_id',$request->registration_id)->first();
+                $registration->company_score = $equation;
+                $registration->save();
             }
             if (auth()->user()->u_role_id == '2'){
                 $data->es_evaluatee_id = $request->registration_id;
@@ -167,6 +181,7 @@ class EvaluationController extends Controller
                     $evaluation_submission_scores->save();
                 }
                 $data->es_final_score = $criteria_score / count($request->criteria);
+
                 $data->save();
                 return redirect()->route('students.evaluation.details', ['evaluation_id' => $request->es_evaluation_id])->with(['success' => 'تم التقييم بنجاح']);
             }

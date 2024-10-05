@@ -103,7 +103,7 @@ class User extends Authenticatable
 
     public function registrations()
     {
-        return $this->hasMany(Registration::class, 'r_student_id', 'u_id');
+        return $this->hasMany(Registration::class, 'r_student_id', 'u_id')->where('r_semester',SystemSetting::first()->ss_semester_type)->where('r_year',SystemSetting::first()->ss_year);
     }
 
     public function majorSupervisors()

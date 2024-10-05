@@ -6,7 +6,9 @@ use App\Models\Company;
 use App\Models\Course;
 use App\Models\Major;
 use App\Models\Registration;
+use App\Models\SemesterCourse;
 use App\Models\StudentCompany;
+use App\Models\SystemSetting;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -35,17 +37,18 @@ class integration_company_new implements ToModel , WithStartRow
         $companies = null;
         $registration = null;
         $student_company = null;
-
-        $course = Course::firstOrCreate(
-            ['c_course_code' => $this->request->course_id],
-            [
-                'c_name' => $this->request->course_name,
-                'c_hours' => 3,
-                'c_description' => $this->request->course_name,
-                'c_course_type' => 0,
-                'c_reference_code' => $this->request->course_id,
-            ]
-        );
+        $semester_courses = null;
+        $system_settings = SystemSetting::first();
+        // $course = Course::firstOrCreate(
+        //     ['c_course_code' => $this->request->course_id],
+        //     [
+        //         'c_name' => $this->request->course_name,
+        //         'c_hours' => 3,
+        //         'c_description' => $this->request->course_name,
+        //         'c_course_type' => 0,
+        //         'c_reference_code' => $this->request->course_id,
+        //     ]
+        // );
         
         if (!empty($row[6])) {
             $major = Major::firstOrCreate(['m_name' => $row[6]]);
@@ -113,14 +116,39 @@ class integration_company_new implements ToModel , WithStartRow
             ]);
         }
 
+        if(!empty($row[5])){
+            $course = Course::firstOrCreate([
+                'c_name' => $row[5],
+            ],[
+                'c_course_code' => 0,
+                'c_hours' => 0,
+                'c_description' => $row[5],
+                'c_course_type' => 2,
+                'c_reference_code' => 0,
+            ]);
+
+            $course->update([
+                'c_course_code' => $course->c_id,
+                'c_reference_code' => $course->c_id,
+            ]);
+
+            $semester_courses = SemesterCourse::firstOrCreate([
+                'sc_course_id' => $course->c_id,
+                'sc_semester' => $system_settings->ss_semester_type,
+                'sc_year' => $system_settings->ss_year,
+            ],[
+                
+            ]);
+        }
+
         $student_id = $student_number->u_id ?? optional(User::where('u_username', $row[1])->first())->u_id;
         if ($student_id) {
             $registration = Registration::firstOrCreate(
                 [
                     'r_student_id' => $student_id,
                     'r_course_id' => $course->c_id,
-                    'r_semester' => $this->request->semester,
-                    'r_year' => $this->request->year,
+                    'r_semester' => $system_settings->ss_semester_type,
+                    'r_year' => $system_settings->ss_year,
                 ],
                 [
                     'supervisor_id' => $supervisor->u_id,
@@ -138,6 +166,7 @@ class integration_company_new implements ToModel , WithStartRow
                 'sc_status' => 1,
             ]);
         }
+
     }
 
     public function startRow(): int
