@@ -11,7 +11,9 @@ class SemesterCourse extends Model
     protected $table = 'semester_courses';
     protected $primaryKey = 'sc_id';
 
-
+    protected $fillable = [
+        'sc_course_id','sc_semester','sc_year'
+    ];
     public function courses()
     {
         return $this->hasOne(Course::class, 'c_id', 'sc_course_id');
