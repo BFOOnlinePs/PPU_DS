@@ -51,7 +51,7 @@
                                                 <td>{{ \App\Models\Course::where('c_id', $key['registrations'][0]['r_course_id'])->first()->c_name }}
                                                 </td>
                                                 <td><span
-                                                        class="badge badge-danger">{{ $key['registrations'][0]['company_score'] ?? 'لم يتم التقييم بعد' }}</span>
+                                                        class="">{{ $key['registrations'][0]['company_score'] . '/ 50' ?? 'لم يتم التقييم بعد' }}</span>
                                                 </td>
                                                 <td>
                                                     @if ($key->submission_status == false)
