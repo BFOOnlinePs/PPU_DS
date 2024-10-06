@@ -25,34 +25,42 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">نوع التقييم</label>
-                                    <select class="form-control" required name="e_type_id" id="">
-                                        <option value="">اختر نوع التقييم ...</option>
-                                        @foreach($evaluation_type as $key)
-                                            <option @if($key->et_id == $data->e_type_id) selected @endif value="{{ $key->et_id }}">{{ $key->et_type_name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="">عنوان التقييم</label>
+                                    <input type="text" value="{{ $data->e_title }}" name="e_title" class="form-control"
+                                        placeholder="عنوان التقييم">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">عنوان التقييم</label>
-                                    <input type="text" value="{{ $data->e_title }}" name="e_title" class="form-control" placeholder="عنوان التقييم">
+                                    <label for="">نوع التقييم</label>
+                                    <select class="form-control" required id="" disabled>
+                                        <option value="">اختر نوع التقييم ...</option>
+                                        @foreach ($evaluation_type as $key)
+                                            <option @if ($key->et_id == $data->e_type_id) selected @endif
+                                                value="{{ $key->et_id }}">{{ $key->et_type_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="e_type_id" value="{{ $data->e_type_id }}">
+
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">المستخدم الموجه له التقييم</label>
-                                    <select class="form-control" name="e_evaluator_role_id" id="">
-                                        @foreach($roles as $key)
-                                            @if($key->r_name != 'أدمن')
-                                                <option @if($key->r_id == $data->e_evaluator_role_id) selected @endif value="{{ $key->r_id }}">{{ $key->r_name }}</option>
+                                    <select class="form-control" id="" disabled>
+                                        @foreach ($roles as $key)
+                                            @if ($key->r_name != 'أدمن')
+                                                <option @if ($key->r_id == $data->e_evaluator_role_id) selected @endif
+                                                    value="{{ $key->r_id }}">{{ $key->r_name }}</option>
                                             @endif
                                         @endforeach
                                     </select>
+                                    <input type="hidden" name="e_evaluator_role_id"
+                                        value="{{ $data->e_evaluator_role_id }}">
+
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">بداية الوقت</label>
                                     <input type="datetime-local" value="{{ $data->e_start_time }}" name="e_start_time" class="form-control" placeholder="عنوان التقييم">
@@ -63,13 +71,13 @@
                                     <label for="">نهاية الوقت</label>
                                     <input type="datetime-local" value="{{ $data->e_end_time }}" name="e_end_time" class="form-control" placeholder="عنوان التقييم">
                                 </div>
-                            </div>
-{{--                            <div class="col-md-12">--}}
-{{--                                <button class="btn btn-primary">تعديل</button>--}}
-{{--                                @if(empty($evaluation_criteria))--}}
-{{--                                    <a href="{{ route('admin.evaluations.evaluation_criteria',['id'=>$data->e_id]) }}" class="btn btn-primary">التالي</a>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
+                            </div> --}}
+                            {{--                            <div class="col-md-12"> --}}
+                            {{--                                <button class="btn btn-primary">تعديل</button> --}}
+                            {{--                                @if (empty($evaluation_criteria)) --}}
+                            {{--                                    <a href="{{ route('admin.evaluations.evaluation_criteria',['id'=>$data->e_id]) }}" class="btn btn-primary">التالي</a> --}}
+                            {{--                                @endif --}}
+                            {{--                            </div> --}}
                             <div class="col-md-12 mt-4">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -105,7 +113,7 @@
     <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             list_criteria();
             list_evaluation_criteria_table();
         })
@@ -121,7 +129,7 @@
                 success: function(response) {
                     $('#list_criteria_table').html(response.view);
                 },
-                error:function (error) {
+                error: function(error) {
                     alert(error);
                 }
             })
@@ -139,7 +147,7 @@
                 success: function(response) {
                     $('#list_evaluation_criteria_table').html(response.view);
                 },
-                error:function (error) {
+                error: function(error) {
                     alert(error);
                 }
             })
@@ -158,7 +166,7 @@
                 success: function(response) {
                     list_evaluation_criteria_table();
                 },
-                error:function (error) {
+                error: function(error) {
                     alert(error);
                 }
             })
@@ -176,7 +184,7 @@
                 success: function(response) {
                     list_evaluation_criteria_table();
                 },
-                error:function (error) {
+                error: function(error) {
                     alert(error);
                 }
             })

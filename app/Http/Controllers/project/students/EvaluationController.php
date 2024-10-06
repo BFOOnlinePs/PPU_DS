@@ -183,12 +183,37 @@ class EvaluationController extends Controller
                 $data->es_final_score = $criteria_score / count($request->criteria);
 
                 $data->save();
+
+                if(auth()->user()->user_role == 6){
+                    $registration = Registration::where('r_id',$request->registration_id)->first();
+                    $registration->company_score = $equation;
+                    $registration->company_score_added_by_user_id = auth()->user()->u_id;
+                    $registration->save();    
+                }
+
+                if(auth()->user()->user_role == 10){
+                    $registration = Registration::where('r_id',$request->registration_id)->first();
+                    $registration->university_score = $equation;
+                    $registration->university_score_added_by_user_id = auth()->user()->u_id;
+                    $registration->save();    
+                }
+
                 return redirect()->route('students.evaluation.details', ['evaluation_id' => $request->es_evaluation_id])->with(['success' => 'تم التقييم بنجاح']);
             }
             return back()->withErrors(['error' => 'Failed to save the evaluation. Please try again.']);
         }
         else{
             return 'تم التقييم مسبقا';
+        }
+    }
+
+    public function update_status(Request $request){
+        $data = EvaluationsModel::where('e_id',$request->id)->first();
+        $data->e_status = $request->status;
+        if ($data->save()){
+            return response()->json([
+                'success' => 'true',
+            ]);
         }
     }
 }
