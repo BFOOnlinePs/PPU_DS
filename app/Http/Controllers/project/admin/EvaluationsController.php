@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\project\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\CriteriaModel;
 use App\Models\EvaluationCriteriaModel;
 use App\Models\EvaluationsModel;
 use App\Models\EvaluationTypesModel;
+use App\Models\Registration;
 use App\Models\Role;
+use App\Models\SemesterCourse;
+use App\Models\SystemSetting;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EvaluationsController extends Controller
@@ -62,6 +67,7 @@ class EvaluationsController extends Controller
         }
     }
 
+
     public function list_criteria_ajax(Request $request)
     {
         $data = CriteriaModel::get();
@@ -111,5 +117,43 @@ class EvaluationsController extends Controller
     {
         $data = EvaluationCriteriaModel::where('ec_evaluation_id',$id)->get();
         return view('project.admin.evaluations.evaluation_criteria',['data'=>$data , 'id'=>$id]);
+    }
+
+    public function details($evaluation_id){
+        $system_settings = SystemSetting::first();
+        $data = EvaluationsModel::where('e_id',$evaluation_id)->first();
+        $semesters = SemesterCourse::where('sc_semester',$system_settings->ss_semester_type)->where('sc_year',$system_settings->ss_year)->get();
+        $supervisors = User::where('u_role_id',10)->get();
+        $companies = Company::get();
+        return view('project.admin.evaluations.details',['data'=>$data , 'semesters'=>$semesters , 'supervisors'=>$supervisors , 'companies'=>$companies]);
+    }
+
+    public function list_evaluation_details_list(Request $request){
+        $data = Registration::query();
+        $data = $data->with('users');
+        $data = $data->whereIn('r_id',function($query) use ($request){
+            $query->select('es_registration_id')->from('evaluation_submissions');
+        });
+        $data = $data->whereIn('r_student_id',function($query) use ($request){
+            $query->select('u_id')->from('users')->where('name','like','%'.$request->student_name.'%');
+        });
+        if($request->filled('course_id')){
+            $data = $data->where('r_course_id',$request->course_id);
+        }
+        if($request->filled('supervisor_id')){
+            $data = $data->where('supervisor_id',$request->supervisor_id);
+        }
+        if($request->filled('company_id')){
+            $data = $data->whereIn('r_id',function($query) use ($request){
+                $query->select('sc_registration_id')->from('students_companies')->whereIn('sc_company_id',function($query) use ($request){
+                    $query->select('c_id')->from('companies')->where('c_id',$request->company_id);
+                });
+            });
+        }
+        $data = $data->get();
+        return response()->json([
+            'success' => true ,
+            'view' => view('project.admin.evaluations.ajax.evaluation_deatils_table',['data'=>$data])->render()
+        ]);
     }
 }

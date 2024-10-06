@@ -178,9 +178,11 @@
                                 href="{{ route('company_manager.payments.index') }}"><i
                                     data-feather="dollar-sign"></i><span>{{ __('translate.Payments') }}{{-- الدفعات --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
-                                href="{{ route('students.evaluation.index') }}"><i
-                                    data-feather="dollar-sign"></i><span>التقييمات</span></a></li>
+                        @if (App\Models\EvaluationsModel::where('e_evaluator_role_id', 6)->first()->e_status == 1)
+                            <li><a class="nav-link bg-dark text-white mt-1"
+                                    href="{{ route('students.evaluation.index') }}"><i
+                                        data-feather="dollar-sign"></i><span>التقييمات</span></a></li>
+                        @endif
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('training_supervisor.conversation.index') }}"><i
                                     data-feather="dollar-sign"></i><span>المراسلات</span></a></li>
@@ -225,9 +227,11 @@
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('training_supervisor.conversation.index') }}"><i
                                     data-feather="briefcase"></i><span>المراسلات</span></a></li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
-                                href="{{ route('students.evaluation.index') }}"><i
-                                    data-feather="briefcase"></i><span>التقييمات</span></a></li>
+                        @if (App\Models\EvaluationsModel::where('e_evaluator_role_id', 10)->first()->e_status == 1)
+                            <li><a class="nav-link bg-dark text-white mt-1"
+                                    href="{{ route('students.evaluation.index') }}"><i
+                                        data-feather="briefcase"></i><span>التقييمات</span></a></li>
+                        @endif
                     @endif
 
                     @if (auth()->user()->u_role_id != 2 && auth()->user()->u_role_id != 6)

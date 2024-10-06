@@ -83,6 +83,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/add_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'add_evaluation_criteria_ajax'])->name('admin.evaluations.add_evaluation_criteria_ajax');
             Route::post('/delete_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'delete_evaluation_criteria_ajax'])->name('admin.evaluations.delete_evaluation_criteria_ajax');
             Route::get('/evaluation_criteria/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'evaluation_criteria'])->name('admin.evaluations.evaluation_criteria');
+            Route::get('/details/{evaluation_id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'details'])->name('admin.evaluations.details');
+            Route::post('/list_evaluation_details_list}',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_details_list'])->name('admin.evaluations.list_evaluation_details_list');
         });
         Route::group(['prefix'=>'criteria'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CriteriaController::class,'index'])->name('admin.criteria.index');
@@ -415,6 +417,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/details/{evaluation_id}' , [App\Http\Controllers\project\students\EvaluationController::class, 'details'])->name('students.evaluation.details');
             Route::get('/evaluation_submission_page/{registration_id}/{evaluation_id}' , [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_page'])->name('students.evaluation.evaluation_submission_page');
             Route::post('/evaluation_submission_create' , [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_create'])->name('students.evaluation.evaluation_submission_create');
+            Route::post('/update_status' , [App\Http\Controllers\project\students\EvaluationController::class, 'update_status'])->name('students.evaluation.update_status');
         });
     });
 
