@@ -418,6 +418,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/evaluation_submission_page/{registration_id}/{evaluation_id}' , [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_page'])->name('students.evaluation.evaluation_submission_page');
             Route::post('/evaluation_submission_create' , [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_create'])->name('students.evaluation.evaluation_submission_create');
             Route::post('/update_status' , [App\Http\Controllers\project\students\EvaluationController::class, 'update_status'])->name('students.evaluation.update_status');
+            Route::post('/export_excel' , [App\Http\Controllers\project\students\EvaluationController::class, 'export_excel'])->name('students.evaluation.export_excel');
         });
     });
 

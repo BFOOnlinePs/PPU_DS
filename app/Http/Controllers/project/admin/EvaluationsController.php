@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\project\admin;
 
+use App\Exports\EvaluationsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\CriteriaModel;
@@ -14,6 +15,7 @@ use App\Models\SemesterCourse;
 use App\Models\SystemSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EvaluationsController extends Controller
 {
@@ -131,9 +133,10 @@ class EvaluationsController extends Controller
     public function list_evaluation_details_list(Request $request){
         $data = Registration::query();
         $data = $data->with('users');
-        $data = $data->whereIn('r_id',function($query) use ($request){
-            $query->select('es_registration_id')->from('evaluation_submissions');
-        });
+        // $data = $data->whereIn('r_id',function($query) use ($request){
+        //     $query->select('es_registration_id')->from('evaluation_submissions');
+        // });
+        
         $data = $data->whereIn('r_student_id',function($query) use ($request){
             $query->select('u_id')->from('users')->where('name','like','%'.$request->student_name.'%');
         });
@@ -149,6 +152,21 @@ class EvaluationsController extends Controller
                     $query->select('c_id')->from('companies')->where('c_id',$request->company_id);
                 });
             });
+        }
+        // if($request->filled('selectedRadio')){
+        //     $data = $data->whereIn('r_id',function($query) use ($request){
+        //         $query->select('es_registration_id')->from('evaluation_submissions')->whereIn('es_evaluation_id',function($query) use ($request){
+        //             $query->select('e_id')->from('evaluations')->where('e_evaluator_role_id',$request->selectedRadio);
+        //         });
+        //     });
+        // }
+        if($request->filled('selectedRadio')){
+            if($request->selectedRadio == 'company'){
+                $data = $data->where('company_score',null);
+            }
+            elseif($request->selectedRadio == 'university'){
+                $data = $data->where('university_score',null);
+            }
         }
         $data = $data->get();
         return response()->json([

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\project\students;
 
+use App\Exports\EvaluationsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Course;
@@ -14,6 +15,7 @@ use App\Models\StudentCompany;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EvaluationController extends Controller
 {
@@ -215,5 +217,9 @@ class EvaluationController extends Controller
                 'success' => 'true',
             ]);
         }
+    }
+
+    public function export_excel(Request $request){
+        return Excel::download(new EvaluationsExport($request), 'evaluation.xlsx');
     }
 }
