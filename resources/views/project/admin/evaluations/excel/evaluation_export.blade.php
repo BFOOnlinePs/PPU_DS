@@ -21,7 +21,7 @@
                 <td>{{ $key->created_at }}</td>
                 <td>{{ $key->university_score }}</td>
                 <td>{{ $key->company_score }}</td>
-                <td>100 / {{ $key->university_score + $key->company_score }}</td>
+                <td>100 / {{ $key->total_score ?? $key->university_score + $key->company_score }}</td>
             </tr>
         @endforeach
     </tbody>

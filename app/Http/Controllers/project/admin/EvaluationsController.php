@@ -174,4 +174,15 @@ class EvaluationsController extends Controller
             'view' => view('project.admin.evaluations.ajax.evaluation_deatils_table',['data'=>$data])->render()
         ]);
     }
+
+    public function edit_total_score(Request $request){
+        $data = Registration::where('r_id',$request->r_id)->first();
+        $data->total_score = $request->total_score;
+        if($data->save()){
+            return response()->json([
+                'success' => true,
+                'message' => 'تم تعديل النتيجة بنجاح'
+            ]);
+        }
+    }
 }

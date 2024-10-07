@@ -182,7 +182,27 @@
             $('input[name="supervisor_id"]').val($('#supervisor_id').val());
             $('input[name="company_id"]').val($('#company_id').val());
             $('input[name="selectedRadio"]').val($('input[name=radio]:checked').val());
-
         });
+
+        function edit_total_score(r_id, total_score) {
+            $.ajax({
+                url: '{{ route('admin.evaluations.edit_total_score') }}',
+                datatype: "json",
+                type: "post",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'r_id': r_id,
+                    'total_score': total_score
+                },
+                success: function(response) {
+                    $('#evaluation_deatils_table').html(response.view);
+                    $('.loading').hide(); // Hide loading spinner
+                },
+                error: function(error) {
+                    alert('An error occurred while fetching the data.');
+                    $('.loading').hide(); // Hide loading spinner
+                }
+            });
+        }
     </script>
 @endsection
