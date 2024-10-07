@@ -85,6 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/evaluation_criteria/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'evaluation_criteria'])->name('admin.evaluations.evaluation_criteria');
             Route::get('/details/{evaluation_id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'details'])->name('admin.evaluations.details');
             Route::post('/list_evaluation_details_list}',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_details_list'])->name('admin.evaluations.list_evaluation_details_list');
+            Route::post('/edit_total_score',[App\Http\Controllers\project\admin\EvaluationsController::class,'edit_total_score'])->name('admin.evaluations.edit_total_score');
         });
         Route::group(['prefix'=>'criteria'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CriteriaController::class,'index'])->name('admin.criteria.index');

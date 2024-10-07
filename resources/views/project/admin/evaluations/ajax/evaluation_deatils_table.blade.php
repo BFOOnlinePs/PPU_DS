@@ -33,7 +33,11 @@
                     <td>{{ $key->created_at }}</td>
                     <td>{{ $key->university_score }}</td>
                     <td>{{ $key->company_score }}</td>
-                    <td>100 / {{ $key->university_score + $key->company_score }}</td>
+                    <td class="d-flex justify-content-center align-content-center"><span class="w-100">100 /</span>
+                        <input type="text" onchange="edit_total_score({{ $key->r_id }} , this.value)"
+                            class="form-control"
+                            value="{{ $key->total_score ?? $key->university_score + $key->company_score }}">
+                    </td>
                 </tr>
             @endif
             </tr>
