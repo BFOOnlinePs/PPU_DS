@@ -49,6 +49,7 @@ class FieldVisitsController extends Controller
         $data->fv_visit_duration = $request->fv_visit_duration;
         $data->fv_vistit_time = Carbon::now();
         $data->fv_notes = $request->fv_notes;
+        $data->fv_date_by_user = $request->fv_date_by_user;
         if ($data->save()){
             return redirect()->route('training_supervisor.field_visits.index')->with(['success'=>'تم انشاء الزيارة بنجاح']);
         }

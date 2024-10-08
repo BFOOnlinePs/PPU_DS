@@ -72,9 +72,9 @@
                                 href="{{ route('students.payments.index') }}"><i
                                     data-feather="dollar-sign"></i><span>{{ __('translate.Payments') }}{{-- الدفعات --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
+                        {{-- <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('students.evaluation.index') }}"><i
-                                    data-feather="dollar-sign"></i><span>التقييمات</span></a></li>
+                                    data-feather="dollar-sign"></i><span>التقييمات</span></a></li> --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('training_supervisor.conversation.index') }}"><i
                                     data-feather="dollar-sign"></i><span>المراسلات</span></a></li>

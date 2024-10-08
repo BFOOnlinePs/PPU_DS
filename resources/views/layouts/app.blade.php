@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('en') ? 'ltr' : 'rtl' }}">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,36 +68,48 @@
         } */
 
         .page-main-header .main-header-right .left-menu-header {
-    padding: 24px 10px;
-}
-        p,b,div,h1,h2,h3,h4,h5,h6 {
+            padding: 24px 10px;
+        }
+
+        p,
+        b,
+        div,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Tajawal', sans-serif !important;
         }
 
         /* Add this style to your CSS file or in a style tag in your HTML */
         .left-menu-header {
             display: flex;
-            flex-direction: row; /* This makes the children flow horizontally */
-            align-items: center; /* Optional: Align children vertically in the center */
-        }
-   .page-body{
-
-    margin-top:90px !important;
-   }
-    .nav-link:hover{
-
-    background-color: #EF681A !important;
-    color: #ef681a !important;
-}
-        .nav-link  svg {
-        height:16px ;
-
+            flex-direction: row;
+            /* This makes the children flow horizontally */
+            align-items: center;
+            /* Optional: Align children vertically in the center */
         }
 
-        .page-wrapper.compact-wrapper .page-body-wrapper header.main-nav .main-navbar .nav-menu{
-            height:calc(100vh) !important;
+        .page-body {
+
+            margin-top: 90px !important;
         }
 
+        .nav-link:hover {
+
+            background-color: #EF681A !important;
+            color: #ef681a !important;
+        }
+
+        .nav-link svg {
+            height: 16px;
+
+        }
+
+        .page-wrapper.compact-wrapper .page-body-wrapper header.main-nav .main-navbar .nav-menu {
+            height: calc(100vh) !important;
+        }
     </style>
 
     @yield('style')
@@ -106,48 +119,48 @@
     @include('project.admin.settings.styles')
     <!-- Loader starts-->
     <div class="loader-wrapper">
-      <div class="theme-loader">
-        <div class="loader-p"></div>
-      </div>
+        <div class="theme-loader">
+            <div class="loader-p"></div>
+        </div>
     </div>
     <!-- Loader ends-->
     <!-- page-wrapper Start       -->
     <div class="page-wrapper compact-wrapper compact-sidebar" id="pageWrapper">
-      <!-- Page Header Start-->
-      @include('layouts.navbar')
-      <!-- Page Header Ends                              -->
-      <!-- Page Body Start-->
-      <div class="page-body-wrapper sidebar-icon">
-        <!-- Page Sidebar Start-->
-        @include('layouts.sidebar')
-        <!-- Page Sidebar Ends-->
-        @include('layouts.content')
-        <!-- footer start-->
-        @include('layouts.footer')
-      </div>
+        <!-- Page Header Start-->
+        @include('layouts.navbar')
+        <!-- Page Header Ends                              -->
+        <!-- Page Body Start-->
+        <div class="page-body-wrapper sidebar-icon">
+            <!-- Page Sidebar Start-->
+            @include('layouts.sidebar')
+            <!-- Page Sidebar Ends-->
+            @include('layouts.content')
+            <!-- footer start-->
+            @include('layouts.footer')
+        </div>
     </div>
     <!-- latest jquery-->
 
-    <script src="{{asset('assets/js/jquery-3.5.1.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <!-- feather icon js-->
-    <script src="{{asset('assets/js/icons/feather-icon/feather.min.js')}}"></script>
-    <script src="{{asset('assets/js/icons/feather-icon/feather-icon.js')}}"></script>
+    <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
     <!-- Sidebar jquery-->
-    <script src="{{asset('assets/js/sidebar-menu.js')}}"></script>
-    <script src="{{asset('assets/js/config.js')}}"></script>
+    <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
     <!-- Bootstrap js-->
-    <script src="{{asset('assets/js/bootstrap/popper.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
     <!-- Plugins JS start-->
-    <script src="{{asset('assets/js/tooltip-init.js')}}"></script>
-    <script src="{{asset('assets/js/prism/prism.min.js')}}"></script>
-    <script src="{{asset('assets/js/clipboard/clipboard.min.js')}}"></script>
-    <script src="{{asset('assets/js/custom-card/custom-card.js')}}"></script>
-    <script src="{{asset('assets/js/dashboard/default.js')}}"></script>
+    <script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
+    <script src="{{ asset('assets/js/prism/prism.min.js') }}"></script>
+    <script src="{{ asset('assets/js/clipboard/clipboard.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-card/custom-card.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
-    <script src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
     {{-- <script src="{{asset('assets/js/theme-customizer/customizer.js')}}"></script> --}}
     <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
@@ -158,5 +171,6 @@
     <!-- login js-->
     <!-- Plugin used-->
     @yield('script')
-  </body>
+</body>
+
 </html>

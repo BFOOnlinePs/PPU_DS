@@ -9,7 +9,7 @@
     الزيارات
 @endsection
 @section('header_link')
-    <a href="{{ route('supervisors.companies.index') }}">{{__('translate.Training Places')}} {{-- أماكن التدريب --}}</a>
+    <a href="{{ route('supervisors.companies.index') }}">{{ __('translate.Training Places') }} {{-- أماكن التدريب --}}</a>
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
@@ -25,9 +25,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">الشركة</label>
-                                    <select onchange="get_student_from_company(this.value)" class="form-control js-example-basic-single" required name="fv_company_id" id="">
+                                    <select onchange="get_student_from_company(this.value)"
+                                        class="form-control js-example-basic-single" required name="fv_company_id"
+                                        id="">
                                         <option value="">اختر شركة ...</option>
-                                        @foreach($company as $key)
+                                        @foreach ($company as $key)
                                             <option value="{{ $key->c_id }}">{{ $key->c_name }}</option>
                                         @endforeach
                                     </select>
@@ -43,7 +45,16 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">مكان الزيارة</label>
-                                        <textarea name="fv_visiting_place" id="" cols="30" rows="2" class="form-control" placeholder="مكان الزيارة"></textarea>
+                                        <textarea required name="fv_visiting_place" id="" cols="30" rows="2" class="form-control"
+                                            placeholder="مكان الزيارة"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">تاريخ الزيارة</label>
+                                        <input value="@php
+echo date('Y-m-d H:i:s'); @endphp" type='datetime-local'
+                                            name="fv_date_by_user" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -81,20 +92,20 @@
     <script>
         function get_student_from_company(company_id) {
             $.ajax({
-                url: "{{route('training_supervisor.field_visits.get_student_from_company')}}",
+                url: "{{ route('training_supervisor.field_visits.get_student_from_company') }}",
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-                    company_id : company_id
+                    company_id: company_id
                 },
                 success: function(response) {
                     if (response.status === 'not_empty') {
                         $('#students_container').empty(); // Clear previous checkboxes
                         $('#data_container').css('visibility', 'visible');
                         console.log(response.data);
-                        (response.data).forEach(function(student , index) {
+                        (response.data).forEach(function(student, index) {
                             var checkboxHtml = `
                         <div class="m-1 col">
                             <label class="badge bg-primary form-control" for="student_${index}">

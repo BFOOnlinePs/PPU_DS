@@ -277,11 +277,12 @@ class MonitorEvaluationController extends Controller
 
         $majors = Major::get();
         $companies = Company::get();
+        $company_no_student = Company::whereNotIn('c_id',StudentCompany::pluck('sc_company_id')->toArray())->where('c_status',1)->select('c_id')->count();
 
         return view('project.monitor_evaluation.semesterReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'semesterCompaniesTotal'=>$semesterCompaniesTotal,
         'coursesStudentsTotal'=>$coursesStudentsTotal,'companiesTotal'=>$companiesTotal,'semesterCoursesTotal'=>$semesterCoursesTotal,
         'traineesTotal'=>$traineesTotal,'trainingMinutesTotal'=>$trainingMinutesTotal, 'trainingHoursTotal'=>$trainingHoursTotal, 'pdf'=> $data,
-        'majors'=>$majors,'companies'=>$companies
+        'majors'=>$majors,'companies'=>$companies,'company_no_student'=>$company_no_student
         ]);
     }
 
@@ -496,11 +497,11 @@ class MonitorEvaluationController extends Controller
     }
 
     public function semesterReportPDF(Request $request){
-
         // $pdfData = unserialize(base64_decode($data));
         $pdfData = unserialize(base64_decode($request->test));
+        $system_settings = SystemSetting::first();
         // $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', $pdfData);
-        $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', ['data'=>$pdfData,'semester'=>$request->semesterText]);
+        $pdf = PDF::loadView('project.monitor_evaluation.pdf.semesterReportPDF', ['data'=>$pdfData,'semester'=>$request->semesterTex , 'system_settings'=>$system_settings]);
 
         // Use the stream method to open the PDF in a new tab
         return $pdf->stream('semesterReport.pdf');

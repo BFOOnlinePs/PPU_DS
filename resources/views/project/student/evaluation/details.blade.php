@@ -24,6 +24,12 @@
                                         @if (auth()->user()->u_role_id == 10)
                                             <tr>
                                                 <td>{{ $key->name }}</td>
+                                                <td>{{ \App\Models\Course::where('c_id', $key['registrations'][0]['r_course_id'])->first()->c_name }}
+
+                                                <td>
+                                                    <span
+                                                        class="">{{ '50 / ' . $key['registrations'][0]['university_score'] ?? 'لم يتم التقييم بعد' }}</span>
+                                                </td>
                                                 <td>
                                                     @if ($key->submission_status == false)
                                                         <a href="{{ route('students.evaluation.evaluation_submission_page', ['registration_id' => \App\Models\Registration::where('r_student_id', $key->u_id)->first()->r_id, 'evaluation_id' => $id]) }}"
@@ -52,7 +58,7 @@
                                                 </td>
                                                 <td>
                                                     <span
-                                                        class="">{{ ' / ' . $key['registrations'][0]['company_score'] ?? 'لم يتم التقييم بعد' }}</span>
+                                                        class="">{{ '50 / ' . $key['registrations'][0]['company_score'] ?? 'لم يتم التقييم بعد' }}</span>
                                                 </td>
                                                 <td>
                                                     @if ($key->submission_status == false)
