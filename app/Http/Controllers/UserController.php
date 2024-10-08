@@ -777,6 +777,7 @@ class UserController extends Controller
 
     public function change_user_role(Request $request){
         $data = User::where('u_id',$request->u_id)->first();
+        $data->is_supervisor_id = $data->u_role_id;
         $data->u_role_id = $request->u_role_id;
         if($data->save()){
             return response()->json([

@@ -177,7 +177,7 @@ class EvaluationController extends Controller
                 foreach ($request->criteria as $index => $score) {
                     $evaluation_submission_scores = new EvaluationSubmissionScoresModel();
                     $evaluation_submission_scores->ss_submission_id = $data->es_id;
-                    $evaluation_submission_scores->ss_criteria_id = $request->criteria_ids[$index - 1];
+                    $evaluation_submission_scores->ss_criteria_id = $request->criteria[$index];
                     $evaluation_submission_scores->ss_score = $score;
                     $criteria_score = ($criteria_score + $score);
                     $evaluation_submission_scores->save();

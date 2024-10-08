@@ -113,6 +113,7 @@ class integration_company_new implements ToModel , WithStartRow
                     'c_name' => $row[12],
                     'c_english_name' => $row[12],
                     'c_manager_id' => $manager_company->u_id ?? 1,
+                    'c_status' => 1,
             ]);
         }
 
