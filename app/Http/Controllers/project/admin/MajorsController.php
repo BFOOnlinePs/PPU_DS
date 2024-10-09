@@ -50,7 +50,7 @@ class MajorsController extends Controller
     $superVisors=User::where('u_role_id',3)->where('u_status',1)->get();
       return response()->json([
           'success'=>'true',
-          'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data, 'superVisors'=>$superVisors ,'majorSuper'=>$majorSuper])->render()
+          'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data, 'superVisors'=>$superVisors ])->render()
       ]);
 
 
@@ -97,7 +97,7 @@ class MajorsController extends Controller
              $superVisors=User::where('u_role_id',3)->where('u_status',1)->get();
              return response()->json([
                    'success'=>'true',
-                   'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data, 'superVisors'=>$superVisors ,'majorSuper'=>$majorSuper])->render()
+                   'view'=>view('project.admin.majors.ajax.majorsList',['data'=>$data, 'superVisors'=>$superVisors ])->render()
                ]);
 
 
@@ -120,7 +120,6 @@ class MajorsController extends Controller
 
     }
     public function search(Request $request){
-
        // $data = Major::where('m_name','like','%'.$request->search.'%')->get();
         $data = Major::with('majorSupervisors.users')->where('m_name','like','%'.$request->search.'%')->get();
         $superVisors=User::where('u_role_id',3)->where('u_status',1)->get();
