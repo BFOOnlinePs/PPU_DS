@@ -679,7 +679,7 @@ class UserController extends Controller
             foreach ($data as $key){
                 $key->major = Major::where('m_id',$key->u_major_id)->first();
             }
-            $html = view('project.admin.users.ajax.usersList' , ['data' => $data])->render();
+            $html = view('project.admin.users.ajax.usersList' , ['data' => $data, 'user_role' => $request->u_role_id])->render();
             return response()->json(['html' => $html]);
         }
         return response()->json(['errors' => ['Save failed']]);

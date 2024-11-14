@@ -2,11 +2,11 @@
     <thead>
         <tr>
             @if ($user_role != null)
-                @if ($user_role->r_id == '3')
+                @if ($user_role == '3')
                     <th>اسم رئيس القسم</th>
-                @elseif($user_role->r_id == '10')
+                @elseif($user_role == '10')
                     <th>اسم مشرف التدريب العملي</th>
-                @elseif($user_role->r_id == '2')
+                @elseif($user_role == '2')
                     <th>اسم الطالب</th>
                 @else
                     <th>اسم الطالب</th>
@@ -16,14 +16,14 @@
             @endif
             <th>{{ __('translate.Phone Number') }}</th>
             @if ($user_role != null)
-                @if ($user_role->r_id != '3' && $user_role->r_id != '6')
+                @if ($user_role != '3' && $user_role != '6')
                     <th>{{ __('translate.tawjihi_rate') }}</th>
                     <th>{{ __('translate.Major') }}</th>
                 @endif
             @endif
             <th>نوع المستخدم</th>
             @if ($user_role != null)
-                @if ($user_role->r_id == '2')
+                @if ($user_role == '2')
                     {{-- <th>المشرف الخاص بالطالب</th> --}}
                 @endif
             @endif
@@ -43,7 +43,7 @@
                     <td>{{ $key->name }}</td>
                     <td>{{ $key->u_phone1 }}</td>
                     @if ($user_role != null)
-                        @if ($user_role->r_id != '3' && $user_role->r_id != '6')
+                        @if ($user_role != '3' && $user_role != '6')
                             <td>{{ $key->u_tawjihi_gpa }}</td>
                             <td>{{ $key->major->m_name ?? 0 }}</td>
                         @endif
