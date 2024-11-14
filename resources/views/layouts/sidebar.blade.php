@@ -132,6 +132,9 @@
                         <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('home') }}"><i
                                     data-feather="home"></i><span>{{ __('translate.Main') }}{{-- الرئيسية --}}</span></a>
                         </li>
+                        <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('monitor_evaluation.user_details') }}"><i
+                            data-feather="user"></i><span>الملف الشخصي</span></a>
+                        </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('monitor_evaluation.semesterReport') }}"><i
                                     data-feather="calendar"></i><span>{{ __('translate.Reports') }}{{-- تقارير --}}</span></a>

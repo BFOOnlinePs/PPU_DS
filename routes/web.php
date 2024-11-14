@@ -310,6 +310,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'monitor_evaluation'], function () {
         Route::get('/index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'index'])->name('monitor_evaluation.index');
+        Route::get('/user_details' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'user_details'])->name('monitor_evaluation.user_details');
+        Route::post('/update_password' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'update_password'])->name('monitor_evaluation.update_password');
         Route::get('/semesterReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'semesterReport'])->name('monitor_evaluation.semesterReport');
         Route::get('/companiesReport' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'companiesReport'])->name('monitor_evaluation.companiesReport');
         Route::post('/semesterReportAjax' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'semesterReportAjax'])->name('monitor_evaluation.semesterReportAjax');

@@ -32,8 +32,22 @@ class MonitorEvaluationController extends Controller
         return view('project.monitor_evaluation.index');
     }
 
-    public function companiesReport(){
+    public function user_details(){
+        $data = User::where('u_id',auth()->user()->u_id)->first();
+        return view('project.monitor_evaluation.user_details',['data'=>$data]);
+    }
 
+    public function update_password(Request $request){
+        $data = User::where('u_id',auth()->user()->u_id)->first();
+        if($request->filled('password')){
+            $data->password = bcrypt($request->password);
+        }
+        if($data->save()){
+            return redirect()->back()->with(['success' => 'تم تعديل كلمة المرور بنجاح']);
+        }
+    }
+
+    public function companiesReport(){
         $systemSettings = SystemSetting::first();
 
         $semester = $systemSettings->ss_semester_type;
@@ -1352,7 +1366,8 @@ class MonitorEvaluationController extends Controller
 
         $majors = Major::get();
 
-        $data = StudentCompany::select('sc_student_id')->with('users')->distinct('sc_student_id')
+
+        $data = StudentCompany::select('sc_student_id')->with('users')->where('sc_company_id',$id)->distinct('sc_student_id')
         ->whereIn('sc_registration_id', function ($query) use ($year, $semester) {
             $query->select('r_id')
             ->from('registration')

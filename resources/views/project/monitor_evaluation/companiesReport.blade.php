@@ -176,13 +176,16 @@
                                         <td>{{ $key->companyCategories->cc_name ?? '' }}</td>
                                         @if ($key->c_type == 1)
                                             <td>{{ __('translate.Public Sector') }}{{-- قطاع عام --}}</td>
-                                        @endif
-                                        @if ($key->c_type == 2)
+
+                                        @elseif ($key->c_type == 2)
                                             <td>{{ __('translate.Private Sector') }}{{-- قطاع خاص --}}</td>
+                                            @else
+                                            <td></td>
                                         @endif
                                         <td>
                                             {{ $key->studentsTotal }}
                                         </td>
+
                                         <td>
                                             {{-- <button class="btn btn-primary" onclick='location.href="{{route("monitor_evaluation.companyStudentsReport")}}"'><i class="fa fa-search"></i></button> --}}
                                             <button class="btn btn-primary"
