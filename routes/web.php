@@ -458,6 +458,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'training_nominations'], function () {
             Route::get('/index' , [App\Http\Controllers\project\supervisors\TrainingNominationController::class , 'index'])->name('supervisors.training_nominations.index');
         });
+        Route::group(['prefix' => 'student_marks'], function () {
+            Route::get('/index' , [App\Http\Controllers\project\supervisors\StudentMarksController::class , 'index'])->name('supervisors.supervisors.student_marks');
+        });
     });
 
     Route::group(['prefix' => 'training_supervisor'], function () {
@@ -478,6 +481,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'my_students'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\TrainingSupervisorStudentController::class, 'index'])->name('training_supervisor.my_students.index');
             Route::post('/list_my_student_ajax' , [\App\Http\Controllers\project\training_supervisor\TrainingSupervisorStudentController::class, 'list_my_student_ajax'])->name('training_supervisor.my_students.list_my_student_ajax');
+        });
+        Route::group(['prefix' => 'final_reports'],function (){
+            Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\FinalReportsController::class, 'index'])->name('training_supervisor.final_reports.index');
+            Route::post('/final_reports_list_ajax' , [\App\Http\Controllers\project\training_supervisor\FinalReportsController::class, 'final_reports_list_ajax'])->name('training_supervisor.final_reports.final_reports_list_ajax');
         });
     });
 

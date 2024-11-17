@@ -49,7 +49,7 @@ class integration_company_new implements ToModel , WithStartRow
         //         'c_reference_code' => $this->request->course_id,
         //     ]
         // );
-        
+
         if (!empty($row[6])) {
             $major = Major::firstOrCreate(['m_name' => $row[6]]);
         }
@@ -64,8 +64,8 @@ class integration_company_new implements ToModel , WithStartRow
                     'password' => bcrypt('123456789'), // Hash the password
                     'u_phone1' => $row[8] ?? '',
                     'u_address' => $row[4],
-                    'u_date_of_birth' => $row[9] ?? '',
-                    'u_gender' => $row[3] == 'انثى' ? 0 : ($row[3] == 'ذكر' ? 1 : null),                    
+                    // 'u_date_of_birth' => $row[9] ?? '',
+                    'u_gender' => $row[3] == 'انثى' ? 0 : ($row[3] == 'ذكر' ? 1 : null),
                     'u_major_id' => $major ? $major->m_id : null,
                     'u_role_id' => 2,
                     'u_status' => 1,
@@ -83,8 +83,8 @@ class integration_company_new implements ToModel , WithStartRow
             ,[
                     'u_username' => $row[11],
                     'password' => bcrypt('987654321'), // Hash the password
-                    'u_date_of_birth' => $row[9] ?? '',
-                    'u_gender' => $row[3] == 'انثى' ? 0 : ($row[3] == 'ذكر' ? 1 : null),                    
+                    // 'u_date_of_birth' => $row[9] ?? '',
+                    'u_gender' => $row[3] == 'انثى' ? 0 : ($row[3] == 'ذكر' ? 1 : null),
                     'u_major_id' => $major ? $major->m_id : null,
                     'u_role_id' => 10,
                     'u_status' => 1,
@@ -138,7 +138,7 @@ class integration_company_new implements ToModel , WithStartRow
                 'sc_semester' => $system_settings->ss_semester_type,
                 'sc_year' => $system_settings->ss_year,
             ],[
-                
+
             ]);
         }
 

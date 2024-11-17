@@ -4,19 +4,15 @@ namespace App\Http\Controllers\project\training_supervisor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Registration;
-use App\Models\StudentCompany;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class TrainingSupervisorStudentController extends Controller
+class FinalReportsController extends Controller
 {
-    public function index()
-    {
-        return view('project.training_supervisor.my_students.index');
+    public function index(){
+        return view('project.training_supervisor.final_reports.index');
     }
 
-    public function list_my_student_ajax(Request $request)
-    {
+    public function final_reports_list_ajax(Request $request){
         $data = Registration::query();
         if ($request->filled('student_name')){
             $studentName = $request->input('student_name');
@@ -27,7 +23,7 @@ class TrainingSupervisorStudentController extends Controller
         $data = $data->where('supervisor_id',auth()->user()->u_id)->get();
         return response()->json([
             'success' => true,
-            'view' => view('project.training_supervisor.my_students.ajax.my_student_ajax',['data'=>$data])->render()
+            'view' => view('project.training_supervisor.final_reports.ajax.final_reports_list',['data'=>$data])->render()
         ]);
     }
 }

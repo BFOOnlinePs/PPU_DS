@@ -114,14 +114,15 @@
                                                 id="supervisor_{{ $major->m_id }}" multiple="multiple"
                                                 onchange="showSuperVisorModal({{ $major }})">
                                                 @foreach ($superVisors as $super)
-                                                    {{-- <option @if ($major->majorSupervisors == $major->m_id) selected @endif
-                                                        value="{{ $major->majorSupervisors }}"></option>
-                                                    <option
-                                                        @foreach ($major->majorSupervisors as $majorSupervisor) @if ($super->u_id == $majorSupervisor->users->u_id) selected @endif @endforeach
-                                                        value="{{ $super->u_id }}">{{ $super->name }}</option> --}}
-                                                    <option
-                                                        @foreach ($major->majorSupervisors as $majorSupervisor) @if ($super->u_id == $majorSupervisor->ms_major_id) selected @endif @endforeach
-                                                        value="{{ $super->u_id }}">{{ $super->name }}</option>
+                                                    @php
+                                                        // التحقق إذا كان المشرف مرتبطًا بالتخصص
+                                                        $isSelected = $major->majorSupervisors->contains(function ($majorSupervisor) use ($super) {
+                                                            return $majorSupervisor->ms_super_id == $super->u_id;
+                                                        });
+                                                    @endphp
+                                                    <option value="{{ $super->u_id }}" {{ $isSelected ? 'selected' : '' }}>
+                                                        {{ $super->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -348,7 +349,7 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    $('#majorsTable').html(response.view);
+                    // $('#majorsTable').html(response.view);
                 },
                 complete: function() {
 

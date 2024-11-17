@@ -106,6 +106,10 @@
                                 href="{{ route('supervisors.training_nominations.index') }}"><i
                                     data-feather="briefcase"></i><span>{{ __('translate.training_nominations') }}{{-- ترشيحات التدريب --}}</span></a>
                         </li>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                            href="{{ route('supervisors.supervisors.student_marks') }}"><i
+                                data-feather="user"></i><span>علامات الطلاب</span></a>
+                        </li>
                     @elseif (auth()->user()->u_role_id == 4)
                         {{-- Assistant --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -230,6 +234,9 @@
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('training_supervisor.conversation.index') }}"><i
                                     data-feather="briefcase"></i><span>المراسلات</span></a></li>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                            href="{{ route('training_supervisor.final_reports.index') }}"><i
+                                data-feather="briefcase"></i><span>التقارير النهائية</span></a></li>
                         @if (App\Models\EvaluationsModel::where('e_evaluator_role_id', 10)->first()->e_status == 1)
                             <li><a class="nav-link bg-dark text-white mt-1"
                                     href="{{ route('students.evaluation.index') }}"><i

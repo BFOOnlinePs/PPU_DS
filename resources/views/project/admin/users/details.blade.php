@@ -27,7 +27,6 @@
   </div>
   <div class="container-fluid">
     <div class="p-2 pt-0 row">
-            @include('project.admin.users.includes.menu_student')
         @if(Auth::user()->u_role_id == 3)
             @include('project.admin.users.includes.menu_academic_supervisor')
         @elseif(Auth::user()->u_role_id == 10)
@@ -39,6 +38,8 @@
                 <h1 style="font-size: 25px; " class="fa fa-dollar" ></h1>
                 <br>
             {{__('translate.Payments')}} {{-- الدفعات --}}</a>
+            @else
+            @include('project.admin.users.includes.menu_student')
         @endif
     </div>
     <div class="edit-profile">

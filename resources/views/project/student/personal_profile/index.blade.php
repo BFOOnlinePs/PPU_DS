@@ -99,11 +99,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
-                                                <button type="submit" class="btn btn-success">تعديل</button>    
-                                            </div>  
+                                                <button type="submit" class="btn btn-success">تعديل</button>
+                                            </div>
                                         </form>
 
-                                        </div>  
+                                        </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="row">

@@ -176,7 +176,6 @@
                                         <td>{{ $key->companyCategories->cc_name ?? '' }}</td>
                                         @if ($key->c_type == 1)
                                             <td>{{ __('translate.Public Sector') }}{{-- قطاع عام --}}</td>
-
                                         @elseif ($key->c_type == 2)
                                             <td>{{ __('translate.Private Sector') }}{{-- قطاع خاص --}}</td>
                                             @else

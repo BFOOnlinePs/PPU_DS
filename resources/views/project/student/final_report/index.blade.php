@@ -27,7 +27,7 @@
                                     <input type="file" class="form-control" name="final_file">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            {{-- <div class="col-md-12">
                                 @if (!empty($registration->final_file))
                                     <a class="btn btn-primary btn-sm mb-2"
                                         href="{{ asset('public/storage/uploads/' . $registration->final_file) }}"
@@ -35,9 +35,9 @@
                                         الملف
                                         السابق</a>
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="col-md-12">
-                                <button class="btn btn-sm btn-success">تسليم التقرير</button>
+                                <button class="btn btn-sm btn-primary">تسليم التقرير</button>
                             </div>
                         </form>
                         {{-- @if (!empty($registration->final_file))
