@@ -223,6 +223,10 @@
                                 href="{{ route('communications_manager_with_companies.follow_up_record.index') }}"><i
                                     data-feather="briefcase"></i><span>{{ __('translate.follow_up_record') }}</span></a>
                         </li>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('admin.field_visits.index') }}"><i
+                                    data-feather="briefcase"></i><span>زيارات المشرفين</span></a>
+                        </li>
                     @elseif (auth()->user()->u_role_id == 10)
                         {{-- Communications Manager with Companies --}}
                         <li><a class="nav-link bg-dark text-white mt-1"

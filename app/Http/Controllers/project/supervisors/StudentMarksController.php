@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 
 class StudentMarksController extends Controller
 {
+/*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Show the list of students for the logged in supervisor.
+     *
+     * @return \Illuminate\Http\Response
+     */
+/******  4d6b1ccb-8425-4712-8a78-18e51c14a180  *******/
     public function index(){
         $user = User::find(auth()->user()->u_id);
         // $ms_majors_id = MajorSupervisor::where('ms_super_id' , $user->u_id)
