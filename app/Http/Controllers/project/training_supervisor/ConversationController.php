@@ -15,7 +15,9 @@ class ConversationController extends Controller
     public function index()
     {
         $data = ConversationsModel::whereIn('c_id',function ($query){
-            $query->select('m_conversation_id')->from('messages')->where('m_sender_id',auth()->user()->u_id);
+            $query->select('m_conversation_id')->from('messages')->where('m_sender_id',auth()->user()->u_id)->orWhereIn('m_id',function ($query2){
+                $query2->select('uc_conversation_id')->from('users_conversations')->where('uc_user_id',auth()->user()->u_id);
+            });
         })->get();
         return view('project.training_supervisor.conversation.index',['data'=>$data]);
     }
