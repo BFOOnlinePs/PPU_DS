@@ -70,8 +70,31 @@ class MailingController extends Controller
             $message->m_status = 1;
 
             if ($message->save()) {
+                $current_user = Auth::user();
+
+                // return this data with (same as getUserMailing)
+                $mail = UsersConversationsModel::where('uc_conversation_id', $conversation->c_id)
+                    ->where('uc_user_id', '!=', $current_user->u_id)
+                    ->with('conversation')
+                    ->with('lastMessage')
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+
+                if ($mail) {
+                    $user_ids = json_decode($mail->uc_user_id, true);
+                    if (is_array($user_ids)) {
+                        $user_ids = array_filter($user_ids, fn($id) => $id != $current_user->u_id);
+                    }
+                    $users = User::whereIn('u_id', $user_ids)
+                        ->select('u_id', 'name')
+                        ->get();
+                    $mail->users = $users;
+                }
+
                 return response()->json([
                     'status' => true,
+                    'mail' => $mail,
                     'message' => trans('messages.message_sent'),
                 ]);
             } else {
