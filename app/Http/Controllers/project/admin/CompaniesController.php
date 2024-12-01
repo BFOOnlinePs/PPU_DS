@@ -23,7 +23,8 @@ class CompaniesController extends Controller
     {
         $majors = Major::get();
         $data = Company::with('manager','companyCategories')->get();
-        return view('project.admin.companies.index',['data'=>$data,'majors'=>$majors]);
+        $uncompletedCompany = Company::with('manager')->where('c_type',null)->get();
+        return view('project.admin.companies.index',['data'=>$data,'majors'=>$majors,'uncompletedCompany'=>$uncompletedCompany]);
     }
 
     //add new company page
@@ -58,7 +59,8 @@ class CompaniesController extends Controller
             $newCompany = new Company();
             $newCompany->c_name = $request->c_name;
             $newCompany->c_english_name = $request->c_english_name;
-            $newCompany->c_manager_id=$id;//get from added user
+            $newCompany->c_manager_id = $id; //get from added user
+            $newCompany->c_status = 1; //get from added user
             if($newCompany->save()){
                 $company_id = $newCompany->c_id;
                 $branch = new CompanyBranch();

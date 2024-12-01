@@ -46,11 +46,13 @@
                                     'sa_end_time_longitude' : document.getElementById("longitude").value
                                 },
                                 success: function(response) {
+
                                     $('#content').html(response.html);
                                     if(response.alert_departure === true) {
                                         document.getElementById('alert_departure').style.display = 'block';
                                     }
                                     $('#LoadingModal').modal('hide');
+                                    window.location.href = '{{ route("students.company.attendance.index_for_specific_student", ":id") }}'.replace(":id", sa_student_company_id);
                                 },
                                 complete: function(){
                                     $('#LoadingModal').modal('hide');
@@ -98,6 +100,8 @@
                                     $('#content').html(response.html);
                                     document.getElementById('attendance_id').textContent = "{{__('translate.Training Check-Out')}}";
                                     $('#LoadingModal').modal('hide');
+                                    window.location.href = '{{ route("students.company.attendance.index_for_specific_student", ":id") }}'.replace(":id", sa_student_company_id);
+
                                 },
                                 complete: function(){
                                     $('#LoadingModal').modal('hide');

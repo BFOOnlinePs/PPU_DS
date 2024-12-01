@@ -16,4 +16,12 @@ class PaymentsController extends Controller
                             ->get();
         return view('project.company_manager.payments.index' , ['payments' => $payments]);
     }
+
+    public function update_status($id){
+        $data = Payment::where('p_id' , $id)->first();
+        $data->p_status = 1;
+        if($data->save()){
+            return redirect()->route('company_manager.payments.index')->with(['success' => 'تم تعديل حالة الدفعة بنجاح']);
+        }
+    }
 }

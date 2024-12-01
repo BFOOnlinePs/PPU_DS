@@ -221,7 +221,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix'=>'companies'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CompaniesController::class,'index'])->name('admin.companies.index');
             Route::post('/companySearch',[App\Http\Controllers\project\admin\CompaniesController::class,'companySearch'])->name('admin.companies.companySearch');
-            Route::get('/company',[App\Http\Controllers\project\admin\CompaniesController::class,'company'])->name('admin.companies.company');
+            Route::post('/company',[App\Http\Controllers\project\admin\CompaniesController::class,'company'])->name('admin.companies.company');
             Route::post('/create',[App\Http\Controllers\project\admin\CompaniesController::class,'create'])->name('admin.companies.create');
             Route::get('/edit/{id}',[App\Http\Controllers\project\admin\CompaniesController::class,'edit'])->name('admin.companies.edit');
             Route::post('/updateCompany',[App\Http\Controllers\project\admin\CompaniesController::class,'updateCompany'])->name('admin.companies.updateCompany');
@@ -373,6 +373,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
         Route::group(['prefix' => 'payments'], function () {
             Route::get('/index' , [App\Http\Controllers\project\company_manager\payments\PaymentsController::class, 'index'])->name('company_manager.payments.index');
+            Route::get('/update_status/{id}' , [App\Http\Controllers\project\company_manager\payments\PaymentsController::class, 'update_status'])->name('company_manager.payments.update_status');
         });
         Route::group(['prefix' => 'records'], function () {
             Route::get('/index' , [App\Http\Controllers\project\company_manager\records\RecordsController::class, 'index'])->name('company_manager.records.index');

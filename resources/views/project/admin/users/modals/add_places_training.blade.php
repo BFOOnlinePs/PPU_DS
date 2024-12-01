@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="textinput">{{__('translate.Course')}} {{-- تدريب عملي --}}</label>
-                                            <select autofocus class="js-example-basic-single col-sm-12" id="select-course" name="course">
+                                            <select required autofocus class="js-example-basic-single col-sm-12" id="select-course" name="course">
                                                 @if ($registrations != null)
                                                     <option value=""></option>
                                                     @foreach ($registrations as $registration)

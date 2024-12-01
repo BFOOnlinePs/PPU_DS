@@ -131,6 +131,7 @@
     </div>
     @include('project.admin.companies.modals.studentNominationModal')
     @include('project.admin.companies.modals.addAttachmentModal')
+    @include('project.admin.companies.modals.uncompletedCompanyModal')
 </div>
 
 @endsection
@@ -140,9 +141,36 @@
 
 <script>
 
+let uncompletedCompanySize = 0;
+let uncompletedCompany;
+
     $(document).ready(function () {
         search_student_ajax();
         $('.dropdown-toggle').dropdown();
+
+        uncompletedCompanySize = {{count($uncompletedCompany)}};
+    if(uncompletedCompanySize != 0){
+        uncompletedCompany = {!! json_encode($uncompletedCompany, JSON_HEX_APOS) !!};
+
+        x=""
+        for(i=0;i<uncompletedCompanySize;i++){
+
+            x += `<div class="row mb-2">
+                    <div class="col-md-6">
+                        <h6>
+                            ${uncompletedCompany[i].c_name}
+                        </h6>
+                    </div>
+                    <div class="col-md-6">
+                        <a type="button" class="btn btn-secondary" onclick="completeCompany(${i})">{{__('translate.Complete')}}</a>
+                    </div>
+                  </div>`
+        }
+
+        $('#p_company').html(x);
+        //show popup with companies and links to them
+        $('#uncompletedCompanyModal').modal('show');
+    }
     });
 
 function companySearch(data){
@@ -407,6 +435,29 @@ function addAttachmentModal(table_name_id) {
 function show_student_nomination_modal(data) {
     student_nomination_table_ajax(data.c_id);
     $('#AddStudentNominationModal').modal('show');
+}
+
+
+function completeCompany(index) {
+    const companyId = uncompletedCompany[index].id; // Assume each company has an `id`
+    const sessionValue = "{{ session('your_session_key') }}"; // Get the session value
+
+    $.ajax({
+        url: '{{ route("admin.companies.company") }}',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            company_id: companyId,
+            session_value: sessionValue // Send session value
+        },
+        success: function(response) {
+            alert('asd'); // Show success message
+            // Optionally remove the company from the list or refresh the modal
+        },
+        error: function(xhr) {
+            alert('An error occurred: ' + xhr.responseText);
+        }
+    });
 }
 
 </script>

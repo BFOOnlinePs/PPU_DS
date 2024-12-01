@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Company;
+use App\Models\CompanyBranch;
 use App\Models\Course;
 use App\Models\Major;
 use App\Models\Registration;
@@ -35,6 +36,7 @@ class integration_company_new implements ToModel , WithStartRow
         $student_number = null;
         $supervisor = null;
         $companies = null;
+        $company_branches = null;
         $registration = null;
         $student_company = null;
         $semester_courses = null;
@@ -115,6 +117,17 @@ class integration_company_new implements ToModel , WithStartRow
                     'c_manager_id' => $manager_company->u_id ?? 1,
                     'c_status' => 1,
             ]);
+
+            $company_branches = CompanyBranch::firstOrCreate(
+                [
+                    'b_company_id' => $compaines->c_id,
+                    'b_address' => $row[4],
+                    'b_phone1' => $row[8] ?? '',
+                    'b_main_branch' => 1,
+                    'b_manager_id' => $manager_company->u_id ?? 1,
+                    'b_city_id' => 1,
+                ]
+                );
         }
 
         if(!empty($row[5])){
@@ -165,6 +178,7 @@ class integration_company_new implements ToModel , WithStartRow
             ],[
                 'sc_assistant_id' => $manager_company->u_id,
                 'sc_status' => 1,
+                'sc_branch_id' => $company_branches->b_id,
             ]);
         }
 

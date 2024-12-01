@@ -776,7 +776,7 @@ window.addEventListener("load", (event) => {
 
 
         //show popup with companies and links to them
-        $('#uncompletedCompanyModal').modal('show');
+        // $('#uncompletedCompanyModal').modal('show');
     }
 
 });
