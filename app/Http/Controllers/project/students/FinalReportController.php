@@ -11,7 +11,8 @@ class FinalReportController extends Controller
 {
     public function index(){
         $registration = Registration::where('r_student_id',auth()->user()->u_id)->where('r_semester',SystemSetting::first()->ss_semester_type)->where('r_year',SystemSetting::first()->ss_year)->first();
-        return view('project.student.final_report.index',['registration'=>$registration]);
+        $setting = SystemSetting::first();
+        return view('project.student.final_report.index',['registration'=>$registration , 'setting'=>$setting]);
     }
 
     public function create(Request $request){
