@@ -73,11 +73,26 @@
                             {{-- <div class="mb-3 row"> --}}
                                 <label class="col-lg-12 form-label " for="selectbasic">{{__('translate.Current Semester')}}{{--الفصل الدراسي الحالي--}}</label>
                                 <div class="col-lg-12">
-                                <select id="semester" name="semester" class="form-control btn-square">
-                                    <option value="1" @if($semester == '1') selected @endif>{{__('translate.First Semester')}}{{--فصل أول--}}</option>
-                                    <option value="2" @if($semester == '2') selected @endif>{{__('translate.Second Semester')}}{{--فصل ثاني--}}</option>
-                                    <option value="3" @if($semester == '3') selected @endif>{{__('translate.Summer Semester')}}{{--فصل صيفي--}}</option>
-                                </select>
+                                    <select id="semester" name="semester" class="form-control btn-square">
+                                        <option value="1" @if($semester == '1') selected @endif>{{__('translate.First Semester')}}{{--فصل أول--}}</option>
+                                        <option value="2" @if($semester == '2') selected @endif>{{__('translate.Second Semester')}}{{--فصل ثاني--}}</option>
+                                        <option value="3" @if($semester == '3') selected @endif>{{__('translate.Summer Semester')}}{{--فصل صيفي--}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <div class="form-group">
+                                        <label for="">حالة تسليم التقرير لدى الطالب</label>
+                                        <select name="report_status" class="form-control" id="">
+                                            <option @if ($report == 1)
+                                                selected
+                                            @endif value="1">تفعيل</option>
+                                            <option @if ($report == 0)
+                                                selected
+
+                                            @endif value="0">الغاء التفعيل</option>
+                                        </select>
+                                        <p class="text-dark mt-1">من هذه القسم يمكنك تعيين حالة التسليم لدى الطالب</p>
+                                    </div>
                                 </div>
                             {{-- </div> --}}
                         {{-- </div> --}}

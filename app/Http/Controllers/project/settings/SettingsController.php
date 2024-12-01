@@ -127,6 +127,7 @@ class SettingsController extends Controller
 
         $semester = $systemSettings->ss_semester_type;
         $year = $systemSettings->ss_year;
+        $report = $systemSettings->ss_report_status;
 
         $studentsNum = Registration::where('r_year',$year)
         ->where('r_semester',$semester)
@@ -138,8 +139,15 @@ class SettingsController extends Controller
         ->where('sc_year',$year)
         ->get();
 
-        return view('project.admin.settings.systemSettings' , ['year' => $year, 'semester' => $semester, 'studentsNum'=>count($studentsNum), 'coursesNum'=>count($coursesNum)]);
+        return view('project.admin.settings.systemSettings' , ['year' => $year, 'semester' => $semester, 'studentsNum'=>count($studentsNum), 'coursesNum'=>count($coursesNum) , 'report'=>$report]);
     }
+/*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Shows the delete data page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+/******  d2a07a5d-349c-4992-b1b3-59417342893c  *******/
     public function deleteData() {
         return view('project.admin.settings.deleteData');
     }
@@ -217,6 +225,7 @@ class SettingsController extends Controller
 
         $systemSettings->ss_year = $year;
         $systemSettings->ss_semester_type = $semester;
+        $systemSettings->ss_report_status = $request->report_status;
 
         $studentsNum = Registration::where('r_year',$year)
         ->where('r_semester',$semester)
