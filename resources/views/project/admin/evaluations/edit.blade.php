@@ -79,6 +79,12 @@
                             {{--                                @endif --}}
                             {{--                            </div> --}}
                             <div class="col-md-12 mt-4">
+                                <div class="row mb-4">
+                                    <div class="col-md-12">
+                                        <a class="btn btn-primary" href="{{ route('admin.criteria.index') }}"><span>ادارة المعايير</span></a>
+                                        <a class="btn btn-primary" href="{{ route('admin.criteria.add') }}"><span>اضافة معيار</span></a>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div>

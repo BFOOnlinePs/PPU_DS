@@ -185,6 +185,14 @@
         });
 
         function edit_total_score(r_id, total_score) {
+            if(total_score > 100 || total_score < 0){
+                alert('لا يمكن ادخال اكبر من 100 او اقل من 0');
+                return false;
+            }
+            if(isNaN(total_score)){
+    alert('الرجاء إدخال قيمة رقمية فقط');
+    return false;
+}
             $.ajax({
                 url: '{{ route('admin.evaluations.edit_total_score') }}',
                 datatype: "json",

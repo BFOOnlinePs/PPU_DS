@@ -36,7 +36,8 @@
                     <td class="d-flex justify-content-center align-content-center"><span class="w-100">100 /</span>
                         <input type="text" onchange="edit_total_score({{ $key->r_id }} , this.value)"
                             class="form-control"
-                            value="{{ $key->total_score ?? $key->university_score + $key->company_score }}">
+                            value="{{ $key->total_score ?? $key->university_score + $key->company_score }}"
+                            max="100" min="0">
                     </td>
                 </tr>
             @endif

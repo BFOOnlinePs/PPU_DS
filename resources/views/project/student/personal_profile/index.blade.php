@@ -108,18 +108,19 @@
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h6 class="text-center">السيرة الذاتية الخاصة بالطالب</h6>
+                                            <h6 class="text-center">السيرة الذاتية</h6>
                                             <div class="text-center">
                                                 @if(!empty($user->u_cv))
-                                                    <a class="btn btn-info btn-sm" download="cv_{{ $user->u_cv }}" href="{{ asset('public/storage/uploads/'.$user->u_cv) }}"><span class="fa fa-download"></span></a>
+                                                    <a class="btn btn-info btn-sm w-100 mb-3" download="cv_{{ $user->u_cv }}" href="{{ asset('public/storage/uploads/'.$user->u_cv) }}"><span class="fa fa-download"></span> <span>تحميل السيرة الذاتية</span></a>
                                                 @endif
+                                                <p class="text-bold">لتحديث ملف السيرة الذاتية يرجى اختيار ملف السيرة الذاتية الجديد والضغط على زر تحديث السيرة الذاتية</p>
                                                     <form action="{{ route('students.personal_profile.add_sv_to_student') }}" class="mt-2" method="post" enctype="multipart/form-data">
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $user->u_id }}">
                                                         <div class="form-group">
                                                             <input type="file" name="cv_file" id="cv_file" class="form-control">
                                                         </div>
-                                                        <button type="submit" class="btn btn-success btn-sm">حفظ البيانات</button>
+                                                        <button type="submit" class="btn btn-success btn-sm">تحديث السيرة الذاتية</button>
                                                     </form>
                                             </div>
                                         </div>

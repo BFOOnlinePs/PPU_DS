@@ -39,8 +39,6 @@
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('admin.evaluations.index') }}"><i
                                     data-feather="briefcase"></i><span>التقييمات</span></a></li>
-                        <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('admin.criteria.index') }}"><i
-                                    data-feather="briefcase"></i><span>المعايير</span></a></li>
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('monitor_evaluation.semesterReport') }}"><i
                                     data-feather="calendar"></i><span>{{ __('translate.Reports') }}{{-- تقارير --}}</span></a>

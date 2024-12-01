@@ -291,7 +291,14 @@ function delete_nomination_table_ajax(id){
 }
 
 function update_capacity_ajax(id,value){
-
+    if(value < 0){
+        alert('لا يمكن ادخال اقل من 0');
+        return false;
+    }
+    if(isNaN(value)){
+        alert('لا يمكن ادخال حروف');
+        return false;
+    }
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
     // Send an AJAX request with the CSRF token

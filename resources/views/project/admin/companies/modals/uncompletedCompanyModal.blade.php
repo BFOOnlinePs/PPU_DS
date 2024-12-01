@@ -1,4 +1,4 @@
-<div class="modal" id="uncompletedCompanyModal">
+{{-- <div class="modal" id="uncompletedCompanyModal">
     <div class="modal-dialog modal-dialog-centered">
      <div class="modal-content">
       <div class="modal-header">
@@ -13,4 +13,4 @@
       </div>
      </div>
     </div>
-</div>
+</div> --}}

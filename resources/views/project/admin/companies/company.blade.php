@@ -910,10 +910,7 @@ function firstStep(){
         document.getElementById('address1').value=address1;
         ///////////////////////////////////////////////////////////////////////////////
 
-        if(uncompletedCompanySize!=0){
-            document.querySelector('#firstStepButton').click();
-        }else{
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
             data = $('#companyForm').serialize();
 
             $.ajaxSetup({
@@ -932,6 +929,8 @@ function firstStep(){
                 data: data,
                 dataType: 'json',
                 success: function(response) {
+                    console.log('response');
+                    console.log(response);
                     manager_id = response.manager_id;
                     document.getElementById('manager_id').value = manager_id;
                     document.getElementById('company_id').value = response.company_id;
@@ -947,7 +946,46 @@ function firstStep(){
                     console.error(xhr.responseText);
                 }
             });
-        }
+        // if(uncompletedCompanySize!=0){
+        //     document.querySelector('#firstStepButton').click();
+        // }else{
+        //     var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        //     data = $('#companyForm').serialize();
+
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': csrfToken
+        //         }
+        //     })
+
+        //     $.ajax({
+        //         beforeSend: function(){
+        //             //$('#LoadingModal').modal('show');
+        //             document.getElementById('loaderContainer').hidden = false;
+        //         },
+        //         type: 'POST',
+        //         url: "{{ route('admin.companies.create') }}",
+        //         data: data,
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             console.log('response');
+        //             console.log(response);
+        //             manager_id = response.manager_id;
+        //             document.getElementById('manager_id').value = manager_id;
+        //             document.getElementById('company_id').value = response.company_id;
+        //             companyName = document.getElementById("c_name").value;
+        //             document.getElementById('companyName').value = companyName;
+        //         },
+        //         complete: function(){
+        //             //$('#LoadingModal').modal('hide');
+        //             document.getElementById('loaderContainer').hidden = true;
+        //             document.querySelector('#firstStepButton').click();
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error(xhr.responseText);
+        //         }
+        //     });
+        // }
 
     }
 

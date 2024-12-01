@@ -29,7 +29,7 @@ class AttendanceController extends Controller
                                             ->pluck('sc_id')
                                             ->toArray();
         }
-        $student_attendances = StudentAttendance::where('sa_student_id', auth()->user()->u_id)
+        $student_attendances = StudentAttendance::with('report')->where('sa_student_id', auth()->user()->u_id)
                                                 ->whereIn('sa_student_company_id', $student_company)
                                                 ->whereBetween(DB::raw('DATE(sa_in_time)'), [$request->from, $request->to]) // Filter by date range (ignoring time)
                                                 ->orderBy('created_at', 'desc')

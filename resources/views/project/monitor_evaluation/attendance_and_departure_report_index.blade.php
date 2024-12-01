@@ -28,9 +28,7 @@
     z-index: 9999; /* يجعل شاشة التحميل فوق جميع العناصر الأخرى */
     }
 </style>
-
 @endsection
-
 @section('content')
 <div class="row">
     <div class="col-md-12">
@@ -39,7 +37,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <a class="btn btn-success btn-sm" href="{{ route('monitor_evaluation.export_student_attendance') }}">تصدير الى اكسيل</a>
-                        <a class="btn btn-success btn-sm" href="{{ route('monitor_evaluation.statistic_attendance.statistic_attendance_index') }}">احصائيات الحضور والمغادرة</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('monitor_evaluation.statistic_attendance.statistic_attendance_index') }}">احصائيات الحضور والمغادرة</a>
                     </div>
                 </div>
             </div>

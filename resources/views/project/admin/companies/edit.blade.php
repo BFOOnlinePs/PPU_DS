@@ -843,6 +843,8 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
 
                     $('#AddBranchModal').modal('hide');
                     $('#LoadingModal').modal('show');
+                    alert(depArr);
+
                 },
                 type: 'POST',
                 url: "{{ route('admin.companies.createBranchesEdit') }}",
@@ -854,9 +856,6 @@ EditCompanyInfoForm.addEventListener("submit", (e) => {
                      document.getElementById('phone2').value ="";
                      document.getElementById('address_addB').value ="";
                      document.getElementById('departments1').value ="";
-
-
-
                 },
                 //new
                 complete: function(){
