@@ -19,11 +19,11 @@ use Illuminate\Support\Facades\Validator;
 
 class MailingController extends Controller
 {
-    // when send first message
+    // when send first message (to create the conversation)
     public function createNewMailWithMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'receiver_id' => 'required',
+            'user_ids' => 'required', // json
             'message' => 'required',
             'message_file' => 'nullable',
             'conversation_name' => 'nullable',
@@ -40,15 +40,19 @@ class MailingController extends Controller
         $conversation->c_name = $request->input('conversation_name');
 
         if ($conversation->save()) {
+
+            // $user_ids = [(string) Auth::user()->u_id, (string) $request->input('user_ids')];
+            // $user_ids_json = json_encode($user_ids);
+
             $user_conversation1 = new UsersConversationsModel();
             $user_conversation1->uc_conversation_id = $conversation->c_id;
-            $user_conversation1->uc_user_id = Auth::user()->u_id;
+            $user_conversation1->uc_user_id = $request->input('user_ids');
             $user_conversation1->save();
 
-            $user_conversation2 = new UsersConversationsModel();
-            $user_conversation2->uc_conversation_id = $conversation->c_id;
-            $user_conversation2->uc_user_id = $request->input('receiver_id');
-            $user_conversation2->save();
+            // $user_conversation2 = new UsersConversationsModel();
+            // $user_conversation2->uc_conversation_id = $conversation->c_id;
+            // $user_conversation2->uc_user_id = $request->input('receiver_id');
+            // $user_conversation2->save();
 
             $message = new MessageModel();
             $message->m_conversation_id = $conversation->c_id;
@@ -142,17 +146,30 @@ class MailingController extends Controller
     public function getUserMailing()
     {
         $current_user = Auth::user();
-        $conversation_id_list = UsersConversationsModel::where('uc_user_id', $current_user->u_id)
+        $conversation_id_list = UsersConversationsModel::whereJsonContains('uc_user_id', (string) Auth::user()->u_id)
             ->pluck('uc_conversation_id');
 
         $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_id_list)
             ->where('uc_user_id', '!=', $current_user->u_id)
             ->with('conversation')
-            ->with('user:u_id,name')
+            // ->with('users:u_id,name')
             ->with('lastMessage')
             ->orderBy('created_at', 'desc')
             ->get();
 
+
+        // to get users
+        $mails->each(function ($mail) use ($current_user) {
+            $user_ids = json_decode($mail->uc_user_id, true);
+            // remove current user id
+            if (is_array($user_ids)) {
+                $user_ids = array_filter($user_ids, fn($id) => $id != $current_user->u_id);
+            }
+            $users = User::whereIn('u_id', $user_ids)
+                ->select('u_id', 'name')
+                ->get();
+            $mail->users = $users;
+        });
 
         return response()->json([
             'status' => true,
@@ -192,7 +209,7 @@ class MailingController extends Controller
 
         $current_semester = SystemSetting::first();
 
-        // (depend of year and semester)
+        // (depend on year and semester)
         if ($user->u_role_id == 2) { // for student (he can chat his supervisor and managers)
             $managers = User::select('users.u_id', 'users.name')
                 ->join('company_branches', 'users.u_id', '=', 'company_branches.b_manager_id')
@@ -242,6 +259,9 @@ class MailingController extends Controller
             $chatable_users = $trainees->unique('u_id');
             // return $chatableUsers;
         };
+
+        // add all users that has role id = 8 to the chatable users
+        $chatable_users = $chatable_users->merge(User::where('u_role_id', 8)->select('u_id', 'name')->get());
 
         return response()->json([
             'status' => true,
