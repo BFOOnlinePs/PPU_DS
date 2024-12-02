@@ -67,7 +67,6 @@ class MailingController extends Controller
 
                 $message->m_message_file = $file_name;
             }
-            $message->m_status = 1;
 
             if ($message->save()) {
                 $current_user = Auth::user();
@@ -150,7 +149,6 @@ class MailingController extends Controller
 
             $message->m_message_file = $file_name;
         }
-        $message->m_status = 1;
 
         if ($message->save()) {
             return response()->json([
@@ -186,6 +184,7 @@ class MailingController extends Controller
             // ->with('users:u_id,name')
             ->with('lastMessage')
             ->orderBy('created_at', 'desc')
+            // ->orderByMessageDate()
             ->paginate(14);
 
 
@@ -315,7 +314,7 @@ class MailingController extends Controller
     }
 
     // seen message
-    public function setMessageAsSeen(Request $request)
+    public function markMessageAsSeen(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'conversation_id' => 'required|exists:conversations,c_id',
