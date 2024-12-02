@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\apisControllers\sharedFunctions\mailing;
 
+use App\Helpers\ConversationMessageHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\UserNotification;
-use App\Models\CompanyBranch;
+use App\Models\ConversationMessagesSeenModel;
 use App\Models\ConversationsModel;
 use App\Models\MessageModel;
 use App\Models\Registration;
-use App\Models\StudentCompany;
 use App\Models\SystemSetting;
 use App\Models\User;
 use App\Models\UsersConversationsModel;
@@ -90,6 +90,14 @@ class MailingController extends Controller
                         ->select('u_id', 'name')
                         ->get();
                     $mail->users = $users;
+
+                    // for seen
+                    $last_message = ConversationMessageHelper::lastMessage($mail->uc_conversation_id);
+                    $is_seen = false;
+                    if ($last_message) {
+                        $is_seen = ConversationMessageHelper::isMessageSeen($last_message->m_id, $current_user->u_id);
+                    }
+                    $mail->is_seen = $is_seen;
                 }
 
                 return response()->json([
@@ -178,10 +186,10 @@ class MailingController extends Controller
             // ->with('users:u_id,name')
             ->with('lastMessage')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(14);
 
 
-        // to get users
+        // to get users and isSeen
         $mails->each(function ($mail) use ($current_user) {
             $user_ids = json_decode($mail->uc_user_id, true);
             // remove current user id
@@ -192,11 +200,25 @@ class MailingController extends Controller
                 ->select('u_id', 'name')
                 ->get();
             $mail->users = $users;
+
+            // for seen
+            $last_message = ConversationMessageHelper::lastMessage($mail->uc_conversation_id);
+            $is_seen = false;
+            if ($last_message) {
+                $is_seen = ConversationMessageHelper::isMessageSeen($last_message->m_id, $current_user->u_id);
+            }
+            $mail->is_seen = $is_seen;
         });
 
         return response()->json([
             'status' => true,
-            'mails' => $mails
+            'pagination' => [
+                'current_page' => $mails->currentPage(),
+                'last_page' => $mails->lastPage(),
+                'per_page' => $mails->perPage(),
+                'total_items' => $mails->total(),
+            ],
+            'mails' => $mails->items()
         ]);
     }
 
@@ -289,6 +311,55 @@ class MailingController extends Controller
         return response()->json([
             'status' => true,
             'chatable_users' => $chatable_users
+        ]);
+    }
+
+    // seen message
+    public function setMessageAsSeen(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'conversation_id' => 'required|exists:conversations,c_id',
+            'message_id' => 'required|exists:messages,m_id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $current_user_id = auth()->user()->u_id;
+
+        // if exists in seen table, update it, else create it
+        $last_message_seen = ConversationMessagesSeenModel::where('cms_conversation_id', $request->input('conversation_id'))
+            ->where('cms_receiver_id', $current_user_id)
+            ->first();
+
+        if ($last_message_seen) {
+            $last_message_seen->cms_message_id = $request->input('message_id');
+            if (!$last_message_seen->save()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to save seen message'
+                ], 422);
+            }
+        } else {
+            $last_message_seen = new ConversationMessagesSeenModel();
+            $last_message_seen->cms_conversation_id = $request->input('conversation_id');
+            $last_message_seen->cms_message_id = $request->input('message_id');
+            $last_message_seen->cms_receiver_id = $current_user_id;
+            if (!$last_message_seen->save()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to save seen message'
+                ], 422);
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Message seen successfully'
         ]);
     }
 }
