@@ -471,6 +471,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/create' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'create'])->name('training_supervisor.conversation.create');
             Route::get('/details/{id}' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'details'])->name('training_supervisor.conversation.details');
             Route::post('/create_message' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'create_message'])->name('training_supervisor.conversation.create_message');
+            Route::post('/list_conversations' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'list_conversations'])->name('training_supervisor.conversation.list_conversations');
+            Route::post('/list_message_ajax' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'list_message_ajax'])->name('training_supervisor.conversation.list_message_ajax');
+            Route::post('/add_message_ajax' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'add_message_ajax'])->name('training_supervisor.conversation.add_message_ajax');
         });
         Route::group(['prefix' => 'field_visits'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\FieldVisitsController::class, 'index'])->name('training_supervisor.field_visits.index');

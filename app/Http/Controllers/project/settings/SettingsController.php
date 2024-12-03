@@ -141,13 +141,6 @@ class SettingsController extends Controller
 
         return view('project.admin.settings.systemSettings' , ['year' => $year, 'semester' => $semester, 'studentsNum'=>count($studentsNum), 'coursesNum'=>count($coursesNum) , 'report'=>$report]);
     }
-/*************  ✨ Codeium Command ⭐  *************/
-    /**
-     * Shows the delete data page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-/******  d2a07a5d-349c-4992-b1b3-59417342893c  *******/
     public function deleteData() {
         return view('project.admin.settings.deleteData');
     }
