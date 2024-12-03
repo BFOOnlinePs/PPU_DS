@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\apisControllers\sharedFunctions\mailing;
 
+use App\Helpers\ConversationMessageHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\UserNotification;
-use App\Models\CompanyBranch;
+use App\Models\ConversationMessagesSeenModel;
 use App\Models\ConversationsModel;
 use App\Models\MessageModel;
 use App\Models\Registration;
-use App\Models\StudentCompany;
 use App\Models\SystemSetting;
 use App\Models\User;
 use App\Models\UsersConversationsModel;
+use App\Services\MessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -19,6 +20,14 @@ use Illuminate\Support\Facades\Validator;
 
 class MailingController extends Controller
 {
+    protected $messageService;
+
+
+    public function __construct(MessageService $messageService)
+    {
+        $this->messageService = $messageService;
+    }
+
     // when send first message (to create the conversation)
     public function createNewMailWithMessage(Request $request)
     {
@@ -49,28 +58,20 @@ class MailingController extends Controller
             $user_conversation1->uc_user_id = $request->input('user_ids');
             $user_conversation1->save();
 
-            // $user_conversation2 = new UsersConversationsModel();
-            // $user_conversation2->uc_conversation_id = $conversation->c_id;
-            // $user_conversation2->uc_user_id = $request->input('receiver_id');
-            // $user_conversation2->save();
+            $conversation_id =  $conversation->c_id;
+            $message_text =  $request->input('message');
+            $file = $request->hasFile('message_file') ? $request->file('message_file') : null;
 
-            $message = new MessageModel();
-            $message->m_conversation_id = $conversation->c_id;
-            $message->m_sender_id = Auth::user()->u_id;
-            $message->m_message_text = $request->input('message');
-            if ($request->hasFile('message_file')) {
-                $file = $request->file('message_file');
-                $extension = $file->getClientOriginalExtension();
-                $file_name = time() . '_' . uniqid() . '.' . $extension;
-                $folderPath = 'uploads/mails';
-                $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
+            $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
 
-                $message->m_message_file = $file_name;
-            }
-            $message->m_status = 1;
-
-            if ($message->save()) {
+            if ($message != null) {
                 $current_user = Auth::user();
+
+                $this->messageService->markMessageAsSeen(
+                    $conversation_id,
+                    $message->m_id,
+                    $current_user->u_id
+                );
 
                 // return this data with (same as getUserMailing)
                 $mail = UsersConversationsModel::where('uc_conversation_id', $conversation->c_id)
@@ -79,7 +80,6 @@ class MailingController extends Controller
                     ->with('lastMessage')
                     ->orderBy('created_at', 'desc')
                     ->first();
-
 
                 if ($mail) {
                     $user_ids = json_decode($mail->uc_user_id, true);
@@ -90,6 +90,14 @@ class MailingController extends Controller
                         ->select('u_id', 'name')
                         ->get();
                     $mail->users = $users;
+
+                    // for seen
+                    $last_message = ConversationMessageHelper::lastMessage($mail->uc_conversation_id);
+                    $is_seen = false;
+                    if ($last_message) {
+                        $is_seen = ConversationMessageHelper::isMessageSeen($last_message->m_id, $current_user->u_id);
+                    }
+                    $mail->is_seen = $is_seen;
                 }
 
                 return response()->json([
@@ -126,35 +134,33 @@ class MailingController extends Controller
             ], 422);
         }
 
-        $user_id = Auth::user()->u_id;
 
-        $message = new MessageModel();
 
-        $message->m_conversation_id = $request->input('conversations_id');
-        $message->m_sender_id = $user_id;
-        $message->m_message_text = $request->input('message');
-        if ($request->hasFile('message_file')) {
-            $file = $request->file('message_file');
-            $extension = $file->getClientOriginalExtension();
-            $file_name = time() . '_' . uniqid() . '.' . $extension;
-            $folderPath = 'uploads/mails';
-            $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
+        $conversation_id =  $request->input('conversations_id');
+        $message_text =  $request->input('message');
+        $file = $request->hasFile('message_file') ? $request->file('message_file') : null;
 
-            $message->m_message_file = $file_name;
+        $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
+
+        if ($message != null) {
+            $current_user_id = auth()->user()->u_id;
+
+            $is_message_marked_as_seen = $this->messageService->markMessageAsSeen(
+                $conversation_id,
+                $message->m_id,
+                $current_user_id
+            );
+            if ($is_message_marked_as_seen) {
+                return response()->json([
+                    'status' => true,
+                    'message' => trans('messages.message_sent_successfully'),
+                ]);
+            }
         }
-        $message->m_status = 1;
-
-        if ($message->save()) {
-            return response()->json([
-                'status' => true,
-                'message' => trans('messages.message_sent_successfully'),
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => trans('messages.message_not_sent_error'),
-            ]);
-        }
+        return response()->json([
+            'status' => false,
+            'message' => trans('messages.message_not_sent_error'),
+        ]);
     }
 
     public function sendNotification()
@@ -169,19 +175,24 @@ class MailingController extends Controller
     public function getUserMailing()
     {
         $current_user = Auth::user();
-        $conversation_id_list = UsersConversationsModel::whereJsonContains('uc_user_id', (string) Auth::user()->u_id)
+        $conversation_ids_list = UsersConversationsModel::whereJsonContains('uc_user_id', (string) Auth::user()->u_id)
             ->pluck('uc_conversation_id');
 
-        $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_id_list)
+        $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_ids_list)
             ->where('uc_user_id', '!=', $current_user->u_id)
             ->with('conversation')
-            // ->with('users:u_id,name')
             ->with('lastMessage')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->orderBy(
+                MessageModel::select('created_at')
+                    ->whereColumn('m_conversation_id', 'users_conversations.uc_conversation_id')
+                    ->latest()
+                    ->take(1),
+                'desc'
+            )
+            ->paginate(14);
 
 
-        // to get users
+        // to get users and isSeen
         $mails->each(function ($mail) use ($current_user) {
             $user_ids = json_decode($mail->uc_user_id, true);
             // remove current user id
@@ -192,11 +203,25 @@ class MailingController extends Controller
                 ->select('u_id', 'name')
                 ->get();
             $mail->users = $users;
+
+            // for seen
+            $last_message = ConversationMessageHelper::lastMessage($mail->uc_conversation_id);
+            $is_seen = false;
+            if ($last_message) {
+                $is_seen = ConversationMessageHelper::isMessageSeen($last_message->m_id, $current_user->u_id);
+            }
+            $mail->is_seen = $is_seen;
         });
 
         return response()->json([
             'status' => true,
-            'mails' => $mails
+            'pagination' => [
+                'current_page' => $mails->currentPage(),
+                'last_page' => $mails->lastPage(),
+                'per_page' => $mails->perPage(),
+                'total_items' => $mails->total(),
+            ],
+            'mails' => $mails->items()
         ]);
     }
 
@@ -289,6 +314,52 @@ class MailingController extends Controller
         return response()->json([
             'status' => true,
             'chatable_users' => $chatable_users
+        ]);
+    }
+
+    public function markMessageAsSeen(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'conversation_id' => 'required|exists:conversations,c_id',
+            'message_id' => 'required|exists:messages,m_id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $current_user_id = auth()->user()->u_id;
+
+        $success = $this->messageService->markMessageAsSeen(
+            $request->input('conversation_id'),
+            $request->input('message_id'),
+            $current_user_id
+        );
+
+        if (!$success) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to mark message as seen'
+            ], 422);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Message marked as seen successfully'
+        ]);
+    }
+
+
+    public function unseenConversationsCount()
+    {
+        $current_user_id = auth()->user()->u_id;
+        $unseen_conversations_count = $this->messageService->unseenConversationsCount($current_user_id);
+        return response()->json([
+            'status' => true,
+            'unseen_conversations_count' => $unseen_conversations_count
         ]);
     }
 }
