@@ -64,18 +64,14 @@ class MailingController extends Controller
 
             $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
 
-
-
             if ($message != null) {
                 $current_user = Auth::user();
 
-
-                $is_message_marked_as_seen = $this->messageService->markMessageAsSeen(
+                $this->messageService->markMessageAsSeen(
                     $conversation_id,
                     $message->m_id,
                     $current_user->u_id
                 );
-
 
                 // return this data with (same as getUserMailing)
                 $mail = UsersConversationsModel::where('uc_conversation_id', $conversation->c_id)
@@ -84,7 +80,6 @@ class MailingController extends Controller
                     ->with('lastMessage')
                     ->orderBy('created_at', 'desc')
                     ->first();
-
 
                 if ($mail) {
                     $user_ids = json_decode($mail->uc_user_id, true);
@@ -180,16 +175,20 @@ class MailingController extends Controller
     public function getUserMailing()
     {
         $current_user = Auth::user();
-        $conversation_id_list = UsersConversationsModel::whereJsonContains('uc_user_id', (string) Auth::user()->u_id)
+        $conversation_ids_list = UsersConversationsModel::whereJsonContains('uc_user_id', (string) Auth::user()->u_id)
             ->pluck('uc_conversation_id');
 
-        $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_id_list)
+        $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_ids_list)
             ->where('uc_user_id', '!=', $current_user->u_id)
             ->with('conversation')
-            // ->with('users:u_id,name')
             ->with('lastMessage')
-            ->orderBy('created_at', 'desc')
-            // ->orderByMessageDate()
+            ->orderBy(
+                MessageModel::select('created_at')
+                    ->whereColumn('m_conversation_id', 'users_conversations.uc_conversation_id')
+                    ->latest()
+                    ->take(1),
+                'desc'
+            )
             ->paginate(14);
 
 
@@ -350,6 +349,17 @@ class MailingController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Message marked as seen successfully'
+        ]);
+    }
+
+
+    public function unseenConversationsCount()
+    {
+        $current_user_id = auth()->user()->u_id;
+        $unseen_conversations_count = $this->messageService->unseenConversationsCount($current_user_id);
+        return response()->json([
+            'status' => true,
+            'unseen_conversations_count' => $unseen_conversations_count
         ]);
     }
 }

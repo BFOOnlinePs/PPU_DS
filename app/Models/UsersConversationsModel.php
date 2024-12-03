@@ -29,9 +29,9 @@ class UsersConversationsModel extends Model
     public function lastMessage()
     {
         return $this->hasOne(MessageModel::class, 'm_conversation_id', 'uc_conversation_id')
-            // ->latest('created_at');
-        ->orderBy('created_at', 'desc')
-        ->orderBy('m_id', 'desc');
+            ->latestOfMany('created_at');
+        // ->orderBy('created_at', 'desc')
+        // ->orderBy('m_id', 'desc');
     }
 
     public function scopeOrderByMessageDate($query)

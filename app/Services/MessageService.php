@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ConversationMessagesSeenModel;
 use App\Models\MessageModel;
+use App\Models\UsersConversationsModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -11,13 +12,11 @@ class MessageService
 {
     public function createMessage($conversation_id, $message_text, $file = null): MessageModel
     {
-        Log::info('aseel createMessage');
         $message = new MessageModel();
 
         $message->m_conversation_id = $conversation_id;
         $message->m_sender_id = Auth::user()->u_id;
         $message->m_message_text = $message_text;
-        Log::info('aseel messageModel');
 
         if ($file) {
 
@@ -30,8 +29,6 @@ class MessageService
             Log::info('aseel message file');
         }
 
-        // // mark as reed
-        // $this->markMessageAsSeen($message->m_id);
         $message->save();
         return $message->save() ? $message : null;
     }
@@ -54,5 +51,40 @@ class MessageService
             $last_message_seen->cms_receiver_id = $user_id;
             return $last_message_seen->save();
         }
+    }
+
+    public function unseenConversationsCount($user_id): int
+    {
+        $conversation_ids_list = UsersConversationsModel::whereJsonContains('uc_user_id', (string) $user_id)
+            ->pluck('uc_conversation_id');
+
+        Log::info('aseel conversation_ids_list ', $conversation_ids_list->toArray());
+
+        if ($conversation_ids_list->isEmpty()) {
+            return 0;
+        }
+
+        $last_message_ids = MessageModel::whereIn('m_conversation_id', $conversation_ids_list)
+            ->selectRaw('MAX(m_id) as last_message_id')
+            ->groupBy('m_conversation_id')
+            ->pluck('last_message_id')
+            ->toArray();
+
+        Log::info('aseel last_message_ids ', $last_message_ids);
+
+        if (empty($last_message_ids)) {
+            return 0;
+        }
+
+        $last_message_seen = ConversationMessagesSeenModel::whereIn('cms_message_id', $last_message_ids)
+            ->where('cms_receiver_id', $user_id)
+            ->pluck('cms_message_id')
+            ->toArray();
+
+        Log::info('Seen Message IDs: ', $last_message_seen);
+
+        $unseen_conversations_count = count(array_diff($last_message_ids, $last_message_seen));
+
+        return $unseen_conversations_count;
     }
 }

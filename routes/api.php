@@ -278,6 +278,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('createNewMailWithMessage', [MailingController::class, 'createNewMailWithMessage']);
     Route::get('getChatableUsers', [MailingController::class, 'getChatableUsers']);
     Route::post('markMessageAsSeen', [MailingController::class, 'markMessageAsSeen']);
+    Route::get('unseenConversationsCount', [MailingController::class, 'unseenConversationsCount']);
     // Route::get('send-email', [MailingController::class, 'sendNotification']);
 
     // evaluation
