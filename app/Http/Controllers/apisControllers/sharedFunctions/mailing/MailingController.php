@@ -12,6 +12,7 @@ use App\Models\Registration;
 use App\Models\SystemSetting;
 use App\Models\User;
 use App\Models\UsersConversationsModel;
+use App\Services\MessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -19,6 +20,14 @@ use Illuminate\Support\Facades\Validator;
 
 class MailingController extends Controller
 {
+    protected $messageService;
+
+
+    public function __construct(MessageService $messageService)
+    {
+        $this->messageService = $messageService;
+    }
+
     // when send first message (to create the conversation)
     public function createNewMailWithMessage(Request $request)
     {
@@ -49,27 +58,24 @@ class MailingController extends Controller
             $user_conversation1->uc_user_id = $request->input('user_ids');
             $user_conversation1->save();
 
-            // $user_conversation2 = new UsersConversationsModel();
-            // $user_conversation2->uc_conversation_id = $conversation->c_id;
-            // $user_conversation2->uc_user_id = $request->input('receiver_id');
-            // $user_conversation2->save();
+            $conversation_id =  $conversation->c_id;
+            $message_text =  $request->input('message');
+            $file = $request->hasFile('message_file') ? $request->file('message_file') : null;
 
-            $message = new MessageModel();
-            $message->m_conversation_id = $conversation->c_id;
-            $message->m_sender_id = Auth::user()->u_id;
-            $message->m_message_text = $request->input('message');
-            if ($request->hasFile('message_file')) {
-                $file = $request->file('message_file');
-                $extension = $file->getClientOriginalExtension();
-                $file_name = time() . '_' . uniqid() . '.' . $extension;
-                $folderPath = 'uploads/mails';
-                $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
+            $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
 
-                $message->m_message_file = $file_name;
-            }
 
-            if ($message->save()) {
+
+            if ($message != null) {
                 $current_user = Auth::user();
+
+
+                $is_message_marked_as_seen = $this->messageService->markMessageAsSeen(
+                    $conversation_id,
+                    $message->m_id,
+                    $current_user->u_id
+                );
+
 
                 // return this data with (same as getUserMailing)
                 $mail = UsersConversationsModel::where('uc_conversation_id', $conversation->c_id)
@@ -133,34 +139,33 @@ class MailingController extends Controller
             ], 422);
         }
 
-        $user_id = Auth::user()->u_id;
 
-        $message = new MessageModel();
 
-        $message->m_conversation_id = $request->input('conversations_id');
-        $message->m_sender_id = $user_id;
-        $message->m_message_text = $request->input('message');
-        if ($request->hasFile('message_file')) {
-            $file = $request->file('message_file');
-            $extension = $file->getClientOriginalExtension();
-            $file_name = time() . '_' . uniqid() . '.' . $extension;
-            $folderPath = 'uploads/mails';
-            $request->file('message_file')->storeAs($folderPath, $file_name, 'public');
+        $conversation_id =  $request->input('conversations_id');
+        $message_text =  $request->input('message');
+        $file = $request->hasFile('message_file') ? $request->file('message_file') : null;
 
-            $message->m_message_file = $file_name;
+        $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
+
+        if ($message != null) {
+            $current_user_id = auth()->user()->u_id;
+
+            $is_message_marked_as_seen = $this->messageService->markMessageAsSeen(
+                $conversation_id,
+                $message->m_id,
+                $current_user_id
+            );
+            if ($is_message_marked_as_seen) {
+                return response()->json([
+                    'status' => true,
+                    'message' => trans('messages.message_sent_successfully'),
+                ]);
+            }
         }
-
-        if ($message->save()) {
-            return response()->json([
-                'status' => true,
-                'message' => trans('messages.message_sent_successfully'),
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => trans('messages.message_not_sent_error'),
-            ]);
-        }
+        return response()->json([
+            'status' => false,
+            'message' => trans('messages.message_not_sent_error'),
+        ]);
     }
 
     public function sendNotification()
@@ -313,7 +318,6 @@ class MailingController extends Controller
         ]);
     }
 
-    // seen message
     public function markMessageAsSeen(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -330,35 +334,22 @@ class MailingController extends Controller
 
         $current_user_id = auth()->user()->u_id;
 
-        // if exists in seen table, update it, else create it
-        $last_message_seen = ConversationMessagesSeenModel::where('cms_conversation_id', $request->input('conversation_id'))
-            ->where('cms_receiver_id', $current_user_id)
-            ->first();
+        $success = $this->messageService->markMessageAsSeen(
+            $request->input('conversation_id'),
+            $request->input('message_id'),
+            $current_user_id
+        );
 
-        if ($last_message_seen) {
-            $last_message_seen->cms_message_id = $request->input('message_id');
-            if (!$last_message_seen->save()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Failed to save seen message'
-                ], 422);
-            }
-        } else {
-            $last_message_seen = new ConversationMessagesSeenModel();
-            $last_message_seen->cms_conversation_id = $request->input('conversation_id');
-            $last_message_seen->cms_message_id = $request->input('message_id');
-            $last_message_seen->cms_receiver_id = $current_user_id;
-            if (!$last_message_seen->save()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Failed to save seen message'
-                ], 422);
-            }
+        if (!$success) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to mark message as seen'
+            ], 422);
         }
 
         return response()->json([
             'status' => true,
-            'message' => 'Message seen successfully'
+            'message' => 'Message marked as seen successfully'
         ]);
     }
 }
