@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\project\training_supervisor;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConversationMessagesSeenModel;
 use App\Models\ConversationsModel;
 use App\Models\MessageModel;
 use App\Models\User;
@@ -194,6 +195,18 @@ class ConversationController extends Controller
     {
         $data = MessageModel::where('m_conversation_id', $request->c_id)->with('sender')->get();
         $conversations = ConversationsModel::where('c_id', $request->c_id)->first();
+        $conversation_messages_seen = ConversationMessagesSeenModel::where('cms_conversation_id', $request->c_id)->where('cms_receiver_id',auth()->user()->u_id)->first();
+        if(empty($conversation_messages_seen)){
+            $conversation_messages_seen = new ConversationMessagesSeenModel();
+            $conversation_messages_seen->cms_conversation_id = $request->c_id;
+            $conversation_messages_seen->cms_receiver_id = auth()->user()->u_id;
+            $conversation_messages_seen->cms_message_id = MessageModel::where('m_conversation_id', $request->c_id)->max('m_id');
+            $conversation_messages_seen->save();
+        }
+        else{
+            $conversation_messages_seen->cms_message_id = MessageModel::where('m_conversation_id', $request->c_id)->max('m_id');
+            $conversation_messages_seen->save();
+        }
         return response()->json([
             'success' => 'true',
             'view' => view('project.training_supervisor.conversation.ajax.list_message_ajax', ['data' => $data, 'conversations' => $conversations])->render(),
@@ -202,6 +215,7 @@ class ConversationController extends Controller
 
     public function add_message_ajax(Request $request)
     {
+
         $data = new MessageModel();
         $data->m_conversation_id = $request->m_conversation_id;
         $data->m_sender_id = auth()->user()->u_id;

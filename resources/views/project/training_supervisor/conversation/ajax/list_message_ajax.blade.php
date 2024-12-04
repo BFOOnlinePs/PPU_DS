@@ -44,6 +44,9 @@
                                     <p class="text-center">لا توجد رسائل</p>
                                 @else
                                     @foreach ($data as $key)
+                                        @php
+                                            $maxLength = 200;
+                                        @endphp
                                         <li class="clearfix list-group-item"
                                             style="background-color: #FFF;border: none">
                                             <div class="message my-message pull-right w-100 m-0 p-2"
@@ -51,13 +54,17 @@
                                                 <div class="message-data d-block d-flex">
                                                     <div style="flex: 1">
                                                         <img
+                                                        style="width: 30px;height: 30px;border-radius: 50%;margin-top:-25px"
                                                     src="{{ asset('public/assets/images/avtar/profile.png') }}" alt=""
-                                                    class="rounded-circle float-right chat-user-img img-30 mt-1">
-                                                        <span class="f-12">{{ $key->sender->name }}</span>
+                                                    class="rounded-circle float-right chat-user-img img-30">
+                                                    <div class="d-inline-block">
+                                                        <p class="f-12 text-dark text-bold p-0 m-0">{{ $key->sender->name }}</p>
+                                                        <p class="f-12 p-0 m-0">{{ $key->sender->email }}</p>
+                                                    </div>
                                                     </div>
                                                     <div style="flex: 1" class="text-end">
                                                         <span style="font-size: 9px"
-                                                            class="message-data-time badge badge-primary text-white">{{ \Carbon\Carbon::parse($key->created_at)->diffForHumans() }}</span>
+                                                            class="message-data-time text-bold">{{ \Carbon\Carbon::parse($key->created_at)->diffForHumans() }}</span>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -68,7 +75,9 @@
                                                             <span>تحميل المرفق</span></a>
                                                         <br>
                                                     @endif
-                                                    <p class="f-12 text-dark">{{ $key->m_message_text }}</p>
+                                                    <p class="f-12 text-dark">
+                                                        {{ strlen($key->m_message_text) > $maxLength ? substr($key->m_message_text, 0, $maxLength) . '...' : $key->m_message_text }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </li>

@@ -13,19 +13,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
+
 Route::get('/test' , function(){
     return view('test');
 });
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('home');
-    } else {
-        return redirect('/login');
-    }
-    return view('welcome');
+    return auth()->check() ? redirect()->route('home') : redirect('/login');
 });
 
-Auth::routes();
 
 Route::get('privacy_and_policy',function(){
     return view('project.admin.privacy_and_policy');
