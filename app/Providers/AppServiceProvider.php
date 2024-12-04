@@ -49,8 +49,8 @@ $message->whereIn('c_id', function ($query) use ($userId) {
         });
 });
             $message = $message->with('user', 'participants')
-                ->orderBy('c_id', 'desc');
-                dd($message);
+                ->orderBy('c_id', 'desc')
+                ->get();
 
             $view->with('cart', $message );
         } else {
