@@ -148,7 +148,12 @@ class ConversationController extends Controller
         if ($data->save()) {
             $data2 = new UsersConversationsModel();
             $data2->uc_conversation_id = $data->c_id;
-            $data2->uc_user_id = json_encode(array_merge([auth()->user()->u_id], array_map('intval', $request->users_ids)));
+            $data2->uc_user_id = json_encode(
+                array_map(
+                    'strval',
+                    array_merge([auth()->user()->u_id], $request->users_ids)
+                )
+            );
             $data2->save();
             $messages = new MessageModel();
             $messages->m_conversation_id = $data->c_id;
@@ -178,7 +183,7 @@ class ConversationController extends Controller
         $data->whereIn('c_id', function ($query) {
             $query->select('uc_conversation_id')
                 ->from('users_conversations')
-                ->whereJsonContains('uc_user_id', auth()->user()->u_id); // Fixed method name
+                ->whereJsonContains('uc_user_id', "" . auth()->user()->u_id . ""); // Fixed method name
         });
         if ($request->filled('c_name')) {
             $data->where('c_name', 'like', '%' . $request->c_name . '%');
