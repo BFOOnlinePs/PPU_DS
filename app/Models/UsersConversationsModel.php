@@ -12,16 +12,7 @@ class UsersConversationsModel extends Model
     protected $table = 'users_conversations';
     protected $primaryKey = 'uc_id';
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class, 'uc_user_id', 'u_id');
-    // }
 
-    // Relationship with User model (many-to-many)
-    // public function users()
-    // {
-    //     return $this->belongsToMany(User::class, 'users_conversations', 'uc_conversation_id', 'uc_user_id');
-    // }
     public function conversation()
     {
         return $this->belongsTo(ConversationsModel::class, 'uc_conversation_id', 'c_id');

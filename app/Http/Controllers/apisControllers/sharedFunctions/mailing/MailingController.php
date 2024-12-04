@@ -5,7 +5,6 @@ namespace App\Http\Controllers\apisControllers\sharedFunctions\mailing;
 use App\Helpers\ConversationMessageHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\UserNotification;
-use App\Models\ConversationMessagesSeenModel;
 use App\Models\ConversationsModel;
 use App\Models\MessageModel;
 use App\Models\Registration;
@@ -47,16 +46,17 @@ class MailingController extends Controller
 
         $conversation = new ConversationsModel();
         $conversation->c_name = $request->input('conversation_name');
+        $conversation->added_by = Auth::user()->u_id;
 
         if ($conversation->save()) {
 
             // $user_ids = [(string) Auth::user()->u_id, (string) $request->input('user_ids')];
             // $user_ids_json = json_encode($user_ids);
 
-            $user_conversation1 = new UsersConversationsModel();
-            $user_conversation1->uc_conversation_id = $conversation->c_id;
-            $user_conversation1->uc_user_id = $request->input('user_ids');
-            $user_conversation1->save();
+            $user_conversation = new UsersConversationsModel();
+            $user_conversation->uc_conversation_id = $conversation->c_id;
+            $user_conversation->uc_user_id = $request->input('user_ids');
+            $user_conversation->save();
 
             $conversation_id =  $conversation->c_id;
             $message_text =  $request->input('message');
@@ -119,7 +119,7 @@ class MailingController extends Controller
     }
 
     public function addNewMessage(Request $request)
-    // replay
+    // reply
     {
         $validator = Validator::make($request->all(), [
             'conversations_id' => 'required',
@@ -133,8 +133,6 @@ class MailingController extends Controller
                 'message' => $validator->errors()->first()
             ], 422);
         }
-
-
 
         $conversation_id =  $request->input('conversations_id');
         $message_text =  $request->input('message');
@@ -150,10 +148,16 @@ class MailingController extends Controller
                 $message->m_id,
                 $current_user_id
             );
+
+            $message = MessageModel::where('m_id', $message->m_id)
+                ->with('sender:u_id,name,u_image')
+                ->first();
+
             if ($is_message_marked_as_seen) {
                 return response()->json([
                     'status' => true,
                     'message' => trans('messages.message_sent_successfully'),
+                    'new_message' => $message,
                 ]);
             }
         }
@@ -180,7 +184,9 @@ class MailingController extends Controller
 
         $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_ids_list)
             ->where('uc_user_id', '!=', $current_user->u_id)
-            ->with('conversation')
+            // for relation conversation i want the relation       addedByUser:u_id,name
+            ->with('conversation.addedByUser:u_id,name')
+            // ->with('conversation')
             ->with('lastMessage')
             ->orderBy(
                 MessageModel::select('created_at')
