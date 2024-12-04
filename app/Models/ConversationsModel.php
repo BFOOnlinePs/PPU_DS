@@ -11,6 +11,10 @@ class ConversationsModel extends Model
     protected $table = 'conversations';
     protected $primaryKey = 'c_id';
 
+    public function addedByUser()
+    {
+        return $this->belongsTo(User::class, 'added_by', 'u_id');
+    }
     public function participants()
     {
         return $this->hasMany(UsersConversationsModel::class , 'uc_conversation_id' , 'c_id');
