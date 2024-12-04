@@ -1,13 +1,24 @@
 <header class="main-nav">
-       {{-- <div class="sidebar-user text-center"><a class="setting-primary" href="javascript:void(0)"><i data-feather="settings"></i></a><img class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="">
+    {{-- <div class="sidebar-user text-center"><a class="setting-primary" href="javascript:void(0)"><i data-feather="settings"></i></a><img class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="">
          <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a href="user-profile.html">
            <h6 class="mt-3 f-14 f-w-600">{{auth::user()->name}}</h6></a>
        </div> --}}
+    <div class="sidebar-user text-center pb-0" style="border-bottom:0px">
+        <a href="#">
+            <img
+            src="{{ asset('public/assets/images/avtar/profile.png') }}"
+                alt="" class="img-90 mt-2 p-2 rounded-circle flex-center">
+            <div class="badge-bottom mt-3">
+                <div class="badge badge-primary" dir="ltr">{{ auth()->user()->email}}</div>
+            </div>
+            <h6 class="mt-3 f-14 f-w-600">{{ auth()->user()->name }}</h6>
+        </a>
+    </div>
     <nav>
         <div class="main-navbar mt-4 bg-dark">
 
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
-            <div id="mainnav">
+            <div id="mainnav" class="pb-5" style="overflow: scroll;max-height: 90vh">
                 <ul class="nav-menu custom-scrollbar">
                     <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('home') }}"><i
                                 data-feather="home"></i><span>الرئيسية</span></a></li>
@@ -97,7 +108,8 @@
                                 href="{{ route('monitor_evaluation.semesterReport') }}"><i
                                     data-feather="calendar"></i><span>{{ __('translate.Reports') }}{{-- تقارير --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('admin.companies.index') }}"><i
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('admin.companies.index') }}"><i
                                     data-feather="briefcase"></i><span>{{ __('translate.Companies') }}{{-- الشركات --}}</span></a>
                         </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -105,8 +117,8 @@
                                     data-feather="briefcase"></i><span>{{ __('translate.training_nominations') }}{{-- ترشيحات التدريب --}}</span></a>
                         </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
-                            href="{{ route('supervisors.supervisors.student_marks') }}"><i
-                                data-feather="user"></i><span>علامات الطلاب</span></a>
+                                href="{{ route('supervisors.supervisors.student_marks') }}"><i
+                                    data-feather="user"></i><span>علامات الطلاب</span></a>
                         </li>
                     @elseif (auth()->user()->u_role_id == 4)
                         {{-- Assistant --}}
@@ -122,7 +134,8 @@
                                 href="{{ route('supervisor_assistants.companies.index') }}"><i
                                     data-feather="briefcase"></i><span>{{ __('translate.Training Places') }}{{-- أماكن التدريب --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('admin.companies.index') }}"><i
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('admin.companies.index') }}"><i
                                     data-feather="briefcase"></i><span>{{ __('translate.Companies') }}{{-- الشركات --}}</span></a>
                         </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -134,8 +147,9 @@
                         <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('home') }}"><i
                                     data-feather="home"></i><span>{{ __('translate.Main') }}{{-- الرئيسية --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('monitor_evaluation.user_details') }}"><i
-                            data-feather="user"></i><span>الملف الشخصي</span></a>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('monitor_evaluation.user_details') }}"><i
+                                    data-feather="user"></i><span>الملف الشخصي</span></a>
                         </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('monitor_evaluation.semesterReport') }}"><i
@@ -237,8 +251,8 @@
                                 href="{{ route('training_supervisor.conversation.index') }}"><i
                                     data-feather="briefcase"></i><span>المراسلات</span></a></li>
                         <li><a class="nav-link bg-dark text-white mt-1"
-                            href="{{ route('training_supervisor.final_reports.index') }}"><i
-                                data-feather="briefcase"></i><span>التقارير النهائية</span></a></li>
+                                href="{{ route('training_supervisor.final_reports.index') }}"><i
+                                    data-feather="briefcase"></i><span>التقارير النهائية</span></a></li>
                         @if (App\Models\EvaluationsModel::where('e_evaluator_role_id', 10)->first()->e_status == 1)
                             <li><a class="nav-link bg-dark text-white mt-1"
                                     href="{{ route('students.evaluation.index') }}"><i

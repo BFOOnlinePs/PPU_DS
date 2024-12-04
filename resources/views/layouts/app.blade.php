@@ -110,6 +110,73 @@
         .page-wrapper.compact-wrapper .page-body-wrapper header.main-nav .main-navbar .nav-menu {
             height: calc(100vh) !important;
         }
+
+        /* Smooth scroll and custom scrollbar for the entire page */
+html {
+  scroll-behavior: smooth; /* Enable smooth scrolling */
+  overflow-y: scroll; /* Ensure vertical scroll if needed */
+}
+
+/* Custom Scrollbar for the entire HTML page */
+html::-webkit-scrollbar {
+  width: 5px; /* Vertical scrollbar width */
+  height: 5px; /* Horizontal scrollbar height */
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent; /* Scrollbar track background */
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #888; /* Scrollbar thumb color */
+  border-radius: 10px; /* Rounded scrollbar */
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Scrollbar thumb color on hover */
+}
+
+/* Firefox custom scrollbar for the entire page */
+html {
+  scrollbar-width: thin; /* Make scrollbar thin */
+  scrollbar-color: #888 transparent; /* Thumb and track colors */
+}
+
+/* Smooth scroll for #mainnav */
+#mainnav {
+  scroll-behavior: smooth;
+  overflow-y: scroll; /* Enable vertical scroll within this element */
+  max-height: 400px; /* Set height to enable scrolling */
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Custom Scrollbar for #mainnav */
+#mainnav::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+#mainnav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#mainnav::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+#mainnav::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox custom scrollbar for #mainnav */
+#mainnav {
+  scrollbar-width: none;
+  scrollbar-color: #888 transparent;
+  overflow-y: scroll; /* Ensure vertical scrolling is enabled */
+  max-height: 400px; /* Set a height to enable scrolling */
+
+}
     </style>
 
     @yield('style')
