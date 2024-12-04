@@ -160,9 +160,4 @@
                 add_message_ajax();
             }
         });
-
-        setInterval(function() {
-    console.log('asd');
-
-}, 2000); // 5000 ميلي ثانية = 5 ثواني
     </script>
