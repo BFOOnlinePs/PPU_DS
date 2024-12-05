@@ -119,8 +119,8 @@ class MailingController extends Controller
         ]);
     }
 
-    public function addNewMessage(Request $request)
     // reply
+    public function addNewMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'conversations_id' => 'required',
@@ -162,6 +162,7 @@ class MailingController extends Controller
                 ]);
             }
         }
+
         return response()->json([
             'status' => false,
             'message' => trans('messages.message_not_sent_error'),
@@ -177,6 +178,7 @@ class MailingController extends Controller
         return 'Email sent successfully!';
     }
 
+    // get conversations of the user
     public function getUserMailing()
     {
         $current_user = Auth::user();
@@ -201,7 +203,7 @@ class MailingController extends Controller
             $user_ids = json_decode($mail->uc_user_id, true);
 
             // remove the conversation creator id
-            $user_ids = array_filter($user_ids, fn($id) => $id != $mail->conversation->added_by);
+            $user_ids = array_filter($user_ids, fn($id) => $id != $mail->conversation->added_by ?? 0);
 
             $users = User::whereIn('u_id', $user_ids)
                 ->select('u_id', 'name')
@@ -285,17 +287,18 @@ class MailingController extends Controller
 
             // return $chatableUsers;
         } else if ($user->u_role_id == 10) { // trainings supervisor (he can chat his students from registration table)
-            $students = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
-                ->where('registration.supervisor_id', $user->u_id)
-                ->where('registration.r_year', $current_semester->ss_year)
-                ->where('registration.r_semester', $current_semester->ss_semester_type)
-                ->select('users.u_id', 'users.name')
-                ->distinct()
+
+            $studentIds = Registration::where('supervisor_id', $user->u_id)
+                ->where('r_year', $current_semester->ss_year)
+                ->where('r_semester', $current_semester->ss_semester_type)
+                ->pluck('r_student_id');
+
+            $students = User::whereIn('u_id', $studentIds)
+                ->select('u_id', 'name')
                 ->get();
 
-            // return $students;
-            $chatable_users = $students->unique('u_id');
-            // return $chatableUsers;
+            $chatable_users = $students;
+
         } else if ($user->u_role_id == 6) { // manager (he can chat his trainees)
             $trainees = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
                 ->join('students_companies', 'registration.r_id', '=', 'students_companies.sc_registration_id')
