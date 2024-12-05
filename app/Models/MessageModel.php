@@ -21,4 +21,13 @@ class MessageModel extends Model
     public function sender() {
         return $this->belongsTo(User::class, 'm_sender_id', 'u_id');
     }
+
+    public function conversation() {
+        return $this->belongsTo(ConversationsModel::class, 'm_conversation_id', 'c_id');
+    }
+
+    public function conversationMessagesSeen()
+{
+    return $this->hasMany(ConversationMessagesSeenModel::class, 'cms_message_id', 'm_id');
+}
 }

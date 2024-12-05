@@ -76,7 +76,8 @@
                                                         <br>
                                                     @endif
                                                     <p class="f-12 text-dark">
-                                                        {{ strlen($key->m_message_text) > $maxLength ? substr($key->m_message_text, 0, $maxLength) . '...' : $key->m_message_text }}
+                                                        {{ $key->m_message_text }}
+                                                        {{-- {{ strlen($key->m_message_text) > $maxLength ? substr($key->m_message_text, 0, $maxLength) . '...' : $key->m_message_text }} --}}
                                                     </p>
                                                 </div>
                                             </div>

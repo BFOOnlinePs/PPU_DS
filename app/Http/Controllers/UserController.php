@@ -437,7 +437,8 @@ class UserController extends Controller
         return view('project.admin.users.courese_student' , ['user' => $user , 'courses' => $courses , 'data' => $data , 'supervisors' => $supervisors]);
     }
     public function details($id)
-    {
+    {        $student_for_supervisor = null;
+
         $user = User::find($id);
         $company_id = Company::where('c_manager_id' , $id)
                                 ->pluck('c_id')
@@ -450,7 +451,12 @@ class UserController extends Controller
             $supervisors_assistant = SupervisorAssistant::where('sa_assistant_id' , $user->u_id)
                                                         ->get();
         }
-        return view('project.admin.users.details' , ['user' => $user , 'students' => $students , 'company' => $company , 'supervisors_assistant' => $supervisors_assistant]);
+        if($user->u_role_id == 3){
+            $student_for_supervisor = User::whereIn('u_id',function($query) use ($id){
+                $query->select('r_student_id')->from('registration')->where('supervisor_id', $id)->where('r_semester' , '=', SystemSetting::first()->ss_semester_type)->where('r_year' , '=', SystemSetting::first()->ss_year);
+            })->get();
+        }
+        return view('project.admin.users.details' , ['user' => $user , 'students' => $students , 'company' => $company , 'supervisors_assistant' => $supervisors_assistant , 'student_for_supervisor'=>$student_for_supervisor]);
     }
     public function search(Request $request)
     {

@@ -38,7 +38,7 @@
                 <h1 style="font-size: 25px; " class="fa fa-dollar" ></h1>
                 <br>
             {{__('translate.Payments')}} {{-- الدفعات --}}</a>
-            @else
+            @elseif ($user->u_role_id == 2)
             @include('project.admin.users.includes.menu_student')
         @endif
     </div>
@@ -93,7 +93,20 @@
                                 @include('project.admin.users.includes.assistantList')
                             </div>
                         @endif
-                </div>
+                        @if($user->u_role_id == 3)
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped">
+                                    <tbody>
+                                        @foreach ($student_for_supervisor as $key)
+                                            <tr>
+                                                <td><a href="{{ route('admin.users.details' , ['id'=>$key->u_id]) }}">{{$key->name}}</a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+                    </div>
                 {{-- <hr> --}}
                 </div>
             </form>

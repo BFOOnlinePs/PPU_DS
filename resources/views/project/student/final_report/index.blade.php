@@ -30,7 +30,7 @@
                                         <a href="{{ asset('public/storage/uploads/'.$registration->final_file) }}" download="{{ $registration->final_file }}"><span class="fa fa-download"></span></a>
                                     @endif
                                 </label>
-                                <input type="file" class="form-control" name="final_file">
+                                <input type="file" class="form-control" name="final_file" multiple>
                             </div>
                         </div>
                         <div class="col-md-12">
