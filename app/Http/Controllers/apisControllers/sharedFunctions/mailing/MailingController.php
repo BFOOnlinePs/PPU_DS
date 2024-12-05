@@ -14,6 +14,7 @@ use App\Models\UsersConversationsModel;
 use App\Services\MessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -76,7 +77,7 @@ class MailingController extends Controller
                 // return this data with (same as getUserMailing)
                 $mail = UsersConversationsModel::where('uc_conversation_id', $conversation->c_id)
                     ->where('uc_user_id', '!=', $current_user->u_id)
-                    ->with('conversation')
+                    ->with('conversation.addedByUser:u_id,name')
                     ->with('lastMessage')
                     ->orderBy('created_at', 'desc')
                     ->first();
@@ -184,9 +185,7 @@ class MailingController extends Controller
 
         $mails = UsersConversationsModel::whereIn('uc_conversation_id', $conversation_ids_list)
             ->where('uc_user_id', '!=', $current_user->u_id)
-            // for relation conversation i want the relation       addedByUser:u_id,name
             ->with('conversation.addedByUser:u_id,name')
-            // ->with('conversation')
             ->with('lastMessage')
             ->orderBy(
                 MessageModel::select('created_at')
@@ -197,14 +196,13 @@ class MailingController extends Controller
             )
             ->paginate(14);
 
-
         // to get users and isSeen
         $mails->each(function ($mail) use ($current_user) {
             $user_ids = json_decode($mail->uc_user_id, true);
-            // remove current user id
-            if (is_array($user_ids)) {
-                $user_ids = array_filter($user_ids, fn($id) => $id != $current_user->u_id);
-            }
+
+            // remove the conversation creator id
+            $user_ids = array_filter($user_ids, fn($id) => $id != $mail->conversation->added_by);
+
             $users = User::whereIn('u_id', $user_ids)
                 ->select('u_id', 'name')
                 ->get();
@@ -233,7 +231,6 @@ class MailingController extends Controller
 
     public function getConversationMessages(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'conversation_id' => 'required',
         ]);
