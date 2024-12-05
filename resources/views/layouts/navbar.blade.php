@@ -15,26 +15,21 @@
         </div>
 
         <div class="nav-right col pull-right right-menu p-0">
-            <ul style="float: left" class="nav-menus mt-3">
+            <ul style="float: left;" class="nav-menus mt-3">
                 <li>
-                    <p style="font-size: 10px" class="text-center text-white mt-2 text-bold">{{ auth()->user()->name }}
-                    </p>
+                    {{-- <p style="font-size: 10px" class="text-center text-white mt-2 text-bold">{{ auth()->user()->name }}
+                    </p> --}}
                 </li>
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
                             data-feather="maximize"></i></a></li>
                 <li class="onhover-dropdown  btn p-1 btn-xs">
-                    <div class="notification-box text-center"><svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                        </svg><span class="dot-animated"></span></div>
-                    <ul class="-drnotificationopdown onhover-show-div list-group" style="width: 500px">
-                        <li class="list-group-item">
+                    <div class="notification-box text-center"><span class="fa fa-envelope f-14"></span><span class="dot-animated"></span></div>
+                    <ul class="-drnotificationopdown onhover-show-div list-group" style="width: 500px;top:10px">
+                        {{-- <li class="list-group-item">
                             <p class="f-w-700 m-0">You have 3 Notifications<span
                                     class="pull-right badge badge-primary badge-pill">4</span></p>
-                        </li>
-                        <li class="noti-primary list-group-item"> <a href="/viho/app/email/mailbox">
+                        </li> --}}
+                        {{-- <li class="noti-primary list-group-item"> <a href="/viho/app/email/mailbox">
                                 <div class="media"><span class="notification-bg bg-light-primary"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -58,23 +53,31 @@
                                         <p>Order Complete</p><span>1 hour ago</span>
                                     </div>
                                 </div>
-                            </a></li>
-                        <li class="noti-success list-group-item"> <a href="/viho/app/email/mailbox">
-                                <div class="media"><span class="notification-bg bg-light-success"><svg
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                            <polyline points="14 2 14 8 20 8"></polyline>
-                                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                                            <polyline points="10 9 9 9 8 9"></polyline>
-                                        </svg></span>
+                            </a></li> --}}
+                            @foreach ($message as $key)
+                            <li class="noti-success list-group-item"> <a href="/viho/app/email/mailbox">
+                                <div class="media">
+                                    <span class="notification-bg bg-light-success">
+                                        <span class="fa fa-file text-dark" style="font-size: 12px"></span>
+                                    </span>
                                     <div class="media-body">
-                                        <p>Tickets Generated</p><span>3 hour ago</span>
+                                        @foreach ($key->conversation->participants as $users)
+                                        <div class="d-flex mr-4">
+                                            <span class="w-100" style="flex: 2">
+                                                @foreach (json_decode($users->uc_user_id) as $user)
+                                                   <span>{{ \App\Models\User::find($user)->name ?? 'لا يوجد اسم' }}</span> |
+                                                @endforeach
+                                            </span>
+                                            <span class="text-end text-dark w-100" style="flex: 1">{{ \Carbon\Carbon::parse($key->created_at)->diffForHumans() }}</span>
+                                        </div>
+                                        @endforeach
+                                        <p class="text-dark p-0 m-0 f-14">{{ $key->conversation->c_name }}</p>
+                                        <p class="f-12 p-0 m-0 text-dark">{{ $key->conversation->getLastMessage()->m_message_text }}</p>
                                     </div>
                                 </div>
                             </a></li>
+                            @endforeach
+
                         <li class="noti-danger list-group-item"> <a href="/viho/app/email/mailbox">
                                 <div class="media"><span class="notification-bg bg-light-danger"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"

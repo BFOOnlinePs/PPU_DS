@@ -15,21 +15,33 @@
             </div>
         </div>
         <div class="d-block">
-            <p class="p-0 m-0" style="font-size: 11px;text-weight: bold"><span class="fa fa-comments"></span> <span>
-                @foreach ($key->participants as $users)
+            @php
+            $text = [];
+        @endphp
+        <p class="p-0 m-0" style="font-size: 11px; font-weight: bold"><span class="fa fa-comments"></span> <span>
+            @foreach ($key->participants as $users)
                 @php
-                    $text = 'This is a long text example.';
-                    $maxLength = 15;
+                    $maxLength = 50;
                 @endphp
-                    @foreach (json_decode($users->uc_user_id) as $user)
-                        <span style="font-size: 8px" class="">
-                            {{ \App\Models\User::find($user)->name ?? 'لا يوجد اسم' }} |
-                        </span>
-                    @endforeach
+                @foreach (json_decode($users->uc_user_id) as $user)
+                    @php
+                        $text[] = \App\Models\User::find($user)->name ?? 'لا يوجد اسم';
+                    @endphp
                 @endforeach
-            </span></p>
-            <p class="p-0 m-0" style="font-size: 11px;text-weight: bold"><span class="fa fa-comment"></span> <span>{{ $key->getLastMessage()->m_message_text ?? 'لا يوجد رسالة' }}</span></p>
-            <p class="p-0 m-0" style="font-size: 11px;text-weight: bold"><span class="fa fa-comment"></span> <span>{{ $key->c_name ?? 'لا يوجد عنوان' }}</span></p>
+            @endforeach
+
+            @php
+                // Convert array to string with a separator (e.g., ", ")
+                $textString = implode(', ', $text);
+            @endphp
+
+            <span style="font-size: 8px" class="">
+                {{ strlen($textString) > $maxLength ? mb_substr($textString, 0, $maxLength) . '...' : $textString }}
+            </span>
+        </span></p>
+
+        <p class="p-0 m-0" style="font-size: 11px; font-weight: bold"><span class="fa fa-comment"></span> <span>{{ $key->getLastMessage()->m_message_text ?? 'لا يوجد رسالة' }}</span></p>
+        <p class="p-0 m-0" style="font-size: 11px; font-weight: bold"><span class="fa fa-comment"></span> <span>{{ $key->c_name ?? 'لا يوجد عنوان' }}</span></p>
         </div>
     </li>
     @endforeach
