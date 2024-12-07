@@ -19,7 +19,6 @@ class MessageService
         $message->m_message_text = $message_text;
 
         if ($file) {
-
             $extension = $file->getClientOriginalExtension();
             $file_name = time() . '_' . uniqid() . '.' . $extension;
             $folderPath = 'uploads/mails';
@@ -71,10 +70,6 @@ class MessageService
             ->toArray();
 
         Log::info('aseel last_message_ids ', $last_message_ids);
-
-        if (empty($last_message_ids)) {
-            return 0;
-        }
 
         $last_message_seen = ConversationMessagesSeenModel::whereIn('cms_message_id', $last_message_ids)
             ->where('cms_receiver_id', $user_id)
