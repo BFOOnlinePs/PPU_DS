@@ -12,24 +12,28 @@ class MessageService
 {
     public function createMessage($conversation_id, $message_text, $file = null): MessageModel
     {
-        $message = new MessageModel();
+        try {
+            $message = new MessageModel();
 
-        $message->m_conversation_id = $conversation_id;
-        $message->m_sender_id = Auth::user()->u_id;
-        $message->m_message_text = $message_text;
+            $message->m_conversation_id = $conversation_id;
+            $message->m_sender_id = Auth::user()->u_id;
+            $message->m_message_text = $message_text;
 
-        if ($file) {
-            $extension = $file->getClientOriginalExtension();
-            $file_name = time() . '_' . uniqid() . '.' . $extension;
-            $folderPath = 'uploads/mails';
-            $file->storeAs($folderPath, $file_name, 'public');
+            if ($file) {
+                $extension = $file->getClientOriginalExtension();
+                $file_name = time() . '_' . uniqid() . '.' . $extension;
+                $folderPath = 'uploads/mails';
+                $file->storeAs($folderPath, $file_name, 'public');
 
-            $message->m_message_file = $file_name;
-            Log::info('aseel message file');
+                $message->m_message_file = $file_name;
+                Log::info('aseel message file');
+            }
+
+            return $message->save() ? $message : null;
+        } catch (\Exception  $e) {
+            Log::error('aseel Error while creating message', ['error' => $e->getMessage()]);
+            return null;
         }
-
-        $message->save();
-        return $message->save() ? $message : null;
     }
 
 

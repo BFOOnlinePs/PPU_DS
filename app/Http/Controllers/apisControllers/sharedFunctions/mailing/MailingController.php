@@ -14,6 +14,7 @@ use App\Models\UsersConversationsModel;
 use App\Services\MessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -31,142 +32,173 @@ class MailingController extends Controller
     // when send first message (to create the conversation)
     public function createNewMailWithMessage(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'user_ids' => 'required', // json
-            'message' => 'required',
-            'message_file' => 'nullable',
-            'conversation_name' => 'nullable',
-        ]);
+        try {
+            DB::beginTransaction();
+            $validator = Validator::make($request->all(), [
+                'user_ids' => 'required|json', // json
+                'message' => 'required',
+                'message_file' => 'nullable',
+                'conversation_name' => 'nullable',
+            ]);
 
-        if ($validator->fails()) {
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()->first()
+                ], 422);
+            }
+
+            $conversation = new ConversationsModel();
+            $conversation->c_name = $request->input('conversation_name');
+            $conversation->added_by = Auth::user()->u_id;
+
+            if ($conversation->save()) {
+
+                // $user_ids = [(string) Auth::user()->u_id, (string) $request->input('user_ids')];
+                // $user_ids_json = json_encode($user_ids);
+
+                $user_conversation = new UsersConversationsModel();
+                $user_conversation->uc_conversation_id = $conversation->c_id;
+                $user_conversation->uc_user_id = $request->input('user_ids');
+                $user_conversation->save();
+
+                $conversation_id =  $conversation->c_id;
+                $message_text =  $request->input('message');
+                $file = $request->hasFile('message_file') ? $request->file('message_file') : null;
+
+                $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
+
+                if ($message != null) {
+                    $current_user = Auth::user();
+
+                    $this->messageService->markMessageAsSeen(
+                        $conversation_id,
+                        $message->m_id,
+                        $current_user->u_id
+                    );
+
+                    // return this data with (same as getUserMailing)
+                    $mail = UsersConversationsModel::where('uc_conversation_id', $conversation->c_id)
+                        ->where('uc_user_id', '!=', $current_user->u_id)
+                        ->with('conversation.addedByUser:u_id,name')
+                        ->with('lastMessage')
+                        ->orderBy('created_at', 'desc')
+                        ->first();
+
+                    if ($mail) {
+                        $user_ids = json_decode($mail->uc_user_id, true);
+                        if (is_array($user_ids)) {
+                            $user_ids = array_filter($user_ids, fn($id) => $id != $current_user->u_id);
+                        }
+                        $users = User::whereIn('u_id', $user_ids)
+                            ->select('u_id', 'name')
+                            ->get();
+                        $mail->users = $users;
+
+                        // for seen
+                        $last_message = ConversationMessageHelper::lastMessage($mail->uc_conversation_id);
+                        $is_seen = false;
+                        if ($last_message) {
+                            $is_seen = ConversationMessageHelper::isMessageSeen($last_message->m_id, $current_user->u_id);
+                        }
+                        $mail->is_seen = $is_seen;
+                    }
+                    DB::commit();
+                    return response()->json([
+                        'status' => true,
+                        'mail' => $mail,
+                        'message' => trans('messages.message_sent'),
+                    ]);
+                } else {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => trans('messages.message_not_sent'),
+                    ]);
+                }
+            }
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $validator->errors()->first()
-            ], 422);
+                'message' => trans('messages.message_error'),
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('aseel Error creating new mail with message', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => false,
+                'message' => 'An unexpected error occurred.',
+            ], 500);
         }
+    }
 
-        $conversation = new ConversationsModel();
-        $conversation->c_name = $request->input('conversation_name');
-        $conversation->added_by = Auth::user()->u_id;
+    // reply
+    public function addNewMessage(Request $request)
+    {
+        try {
+            DB::beginTransaction();
 
-        if ($conversation->save()) {
+            $validator = Validator::make($request->all(), [
+                'conversations_id' => 'required',
+                'message' => 'required',
+                'message_file' => 'nullable',
+            ]);
 
-            // $user_ids = [(string) Auth::user()->u_id, (string) $request->input('user_ids')];
-            // $user_ids_json = json_encode($user_ids);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()->first()
+                ], 422);
+            }
 
-            $user_conversation = new UsersConversationsModel();
-            $user_conversation->uc_conversation_id = $conversation->c_id;
-            $user_conversation->uc_user_id = $request->input('user_ids');
-            $user_conversation->save();
-
-            $conversation_id =  $conversation->c_id;
+            $conversation_id =  $request->input('conversations_id');
             $message_text =  $request->input('message');
             $file = $request->hasFile('message_file') ? $request->file('message_file') : null;
 
             $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
 
             if ($message != null) {
-                $current_user = Auth::user();
+                $current_user_id = auth()->user()->u_id;
 
-                $this->messageService->markMessageAsSeen(
+                $is_message_marked_as_seen = $this->messageService->markMessageAsSeen(
                     $conversation_id,
                     $message->m_id,
-                    $current_user->u_id
+                    $current_user_id
                 );
 
-                // return this data with (same as getUserMailing)
-                $mail = UsersConversationsModel::where('uc_conversation_id', $conversation->c_id)
-                    ->where('uc_user_id', '!=', $current_user->u_id)
-                    ->with('conversation.addedByUser:u_id,name')
-                    ->with('lastMessage')
-                    ->orderBy('created_at', 'desc')
+                $message = MessageModel::where('m_id', $message->m_id)
+                    ->with([
+                        'sender' => function ($query) {
+                            $query->select('u_id', 'name', 'u_image', 'u_role_id')
+                                ->with('company:c_manager_id,c_name,c_english_name');
+                        }
+                    ])
                     ->first();
 
-                if ($mail) {
-                    $user_ids = json_decode($mail->uc_user_id, true);
-                    if (is_array($user_ids)) {
-                        $user_ids = array_filter($user_ids, fn($id) => $id != $current_user->u_id);
-                    }
-                    $users = User::whereIn('u_id', $user_ids)
-                        ->select('u_id', 'name')
-                        ->get();
-                    $mail->users = $users;
+                DB::commit();
 
-                    // for seen
-                    $last_message = ConversationMessageHelper::lastMessage($mail->uc_conversation_id);
-                    $is_seen = false;
-                    if ($last_message) {
-                        $is_seen = ConversationMessageHelper::isMessageSeen($last_message->m_id, $current_user->u_id);
-                    }
-                    $mail->is_seen = $is_seen;
+                if ($is_message_marked_as_seen) {
+                    return response()->json([
+                        'status' => true,
+                        'message' => trans('messages.message_sent_successfully'),
+                        'new_message' => $message,
+                    ]);
                 }
-
-                return response()->json([
-                    'status' => true,
-                    'mail' => $mail,
-                    'message' => trans('messages.message_sent'),
-                ]);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => trans('messages.message_not_sent'),
-                ]);
             }
-        }
-        return response()->json([
-            'status' => false,
-            'message' => trans('messages.message_error'),
-        ]);
-    }
 
-    // reply
-    public function addNewMessage(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'conversations_id' => 'required',
-            'message' => 'required',
-            'message_file' => 'nullable',
-        ]);
-
-        if ($validator->fails()) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $validator->errors()->first()
-            ], 422);
+                'message' => trans('messages.message_not_sent_error'),
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error sending message', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ]);
         }
-
-        $conversation_id =  $request->input('conversations_id');
-        $message_text =  $request->input('message');
-        $file = $request->hasFile('message_file') ? $request->file('message_file') : null;
-
-        $message = $this->messageService->createMessage($conversation_id, $message_text, $file);
-
-        if ($message != null) {
-            $current_user_id = auth()->user()->u_id;
-
-            $is_message_marked_as_seen = $this->messageService->markMessageAsSeen(
-                $conversation_id,
-                $message->m_id,
-                $current_user_id
-            );
-
-            $message = MessageModel::where('m_id', $message->m_id)
-                ->with('sender:u_id,name,u_image')
-                ->first();
-
-            if ($is_message_marked_as_seen) {
-                return response()->json([
-                    'status' => true,
-                    'message' => trans('messages.message_sent_successfully'),
-                    'new_message' => $message,
-                ]);
-            }
-        }
-
-        return response()->json([
-            'status' => false,
-            'message' => trans('messages.message_not_sent_error'),
-        ]);
     }
 
     public function sendNotification()
@@ -245,7 +277,13 @@ class MailingController extends Controller
         }
 
         $messages = MessageModel::where('m_conversation_id', $request->input('conversation_id'))
-            ->with('sender:u_id,name,u_image')
+            // ->with('sender:u_id,name,u_image')
+            ->with([
+                'sender' => function ($query) {
+                    $query->select('u_id', 'name', 'u_image', 'u_role_id')
+                        ->with('company:c_manager_id,c_name,c_english_name');
+                }
+            ])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -298,7 +336,6 @@ class MailingController extends Controller
                 ->get();
 
             $chatable_users = $students;
-
         } else if ($user->u_role_id == 6) { // manager (he can chat his trainees)
             $trainees = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
                 ->join('students_companies', 'registration.r_id', '=', 'students_companies.sc_registration_id')
