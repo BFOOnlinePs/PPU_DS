@@ -26,6 +26,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\evaluation\EvaluationController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
+use App\Http\Controllers\apisControllers\sharedFunctions\FinalReportController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MailingController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MessagesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
@@ -286,6 +287,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('usersToEvaluate', [EvaluationController::class, 'usersToEvaluate']);
     Route::post('getEvaluationsToSubmit', [EvaluationController::class, 'getEvaluationsToSubmit']);
     Route::post('submitEvaluation', [EvaluationController::class, 'submitEvaluation']);
+
+    // final report
+    Route::get('checkFinalReportStatus', [FinalReportController::class, 'checkFinalReportStatus']);
 
     // training supervisor
     Route::post('getTrainingSupervisorStudents', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudents']);

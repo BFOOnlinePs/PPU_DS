@@ -89,8 +89,9 @@ class User extends Authenticatable
         return (bool) $value;
     }
 
-    public function company(){
-        return $this->hasOne(Company::class,'c_manager_id', 'u_id');
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'c_manager_id', 'u_id');
     }
 
 
