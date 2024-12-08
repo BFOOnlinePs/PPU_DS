@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FinalReportsSubmissions extends Model
+class FinalReportsSubmissionsModel extends Model
 {
     use HasFactory;
 
@@ -18,5 +18,9 @@ class FinalReportsSubmissions extends Model
         'frs_real_name',
         'frs_insert_at',
         'frs_notes',
+    ];
+
+    protected $casts = [
+        'frs_registration_id' => 'integer',
     ];
 }

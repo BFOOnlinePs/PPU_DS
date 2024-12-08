@@ -290,6 +290,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // final report
     Route::get('checkFinalReportStatus', [FinalReportController::class, 'checkFinalReportStatus']);
+    Route::post('addFinalReport', [FinalReportController::class, 'addFinalReport']);
+    Route::get('getFinalReportSubmissions/{registration_id}', [FinalReportController::class, 'getFinalReportSubmissions']);
 
     // training supervisor
     Route::post('getTrainingSupervisorStudents', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudents']);

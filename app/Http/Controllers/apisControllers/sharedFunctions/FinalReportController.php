@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\apisControllers\sharedFunctions;
 
 use App\Http\Controllers\Controller;
-use App\Models\FinalReportModel;
-use App\Models\FinalReportsSubmissions;
+use App\Models\FinalReportsSubmissionsModel;
 use App\Models\Registration;
 use App\Models\SystemSetting;
 use App\Services\FileUploadService;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class FinalReportController extends Controller
 {
     protected $fileUploadService;
+
 
     public function __construct()
     {
@@ -64,14 +64,14 @@ class FinalReportController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'registration_id' => 'required|exists:registration,r_id',
-                'report_file' => 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx',
+                'registration_id' => 'required|integer|exists:registration,r_id',
+                'report_file' => 'required|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif,mp4,mkv,avi',
                 'notes' => 'nullable',
             ],
             [
                 'registration_id.required' => 'Registration ID is required.',
                 'registration_id.exists' => 'Invalid Registration ID.',
-                'report_file.mimes' => 'Only PDF, Word, Excel, Powerpoint documents are allowed.',
+                // 'report_file.mimes' => 'Only PDF, Word, Excel, Powerpoint documents are allowed.',
             ]
         );
 
@@ -88,7 +88,7 @@ class FinalReportController extends Controller
             $folderPath = 'final_reports';
             $new_file_name = $this->fileUploadService->uploadFile($file, $folderPath);
 
-            $final_report = new FinalReportsSubmissions();
+            $final_report = new FinalReportsSubmissionsModel();
             $final_report->frs_registration_id = $request->input('registration_id');
             $final_report->frs_name = $new_file_name;
             $final_report->frs_real_name = $file->getClientOriginalName();
@@ -97,14 +97,27 @@ class FinalReportController extends Controller
             if ($final_report->save()) {
                 return response()->json([
                     'status' => true,
-                    'message' => 'Final report added successfully.',
+                    'message' => trans('messages.final_report_submission_added'),
+                    'new_file' => $final_report,
                 ]);
             }
         }
 
         return response()->json([
             'status' => false,
-            'message' => 'Failed to add final report.',
+            'message' => trans('messages.final_report_submission_not_added'),
         ], 500);
+    }
+
+
+    public function getFinalReportSubmissions($registration_id)
+    {
+        $final_reports = FinalReportsSubmissionsModel::where('frs_registration_id', $registration_id)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        return response()->json([
+            'status' => true,
+            'final_reports' => $final_reports,
+        ]);
     }
 }

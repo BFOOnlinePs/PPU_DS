@@ -156,4 +156,9 @@ return [
     'message_error' => 'هناك خلل ما',
     'message_sent_successfully' => 'تم الارسال بنجاح',
     'message_not_sent_error' => 'هناك خلل ما حدث أثناء إرسال الرسالة',
+    'message_marked_as_seen' => 'تم تحديث حالة الرسالة كمقروءة بنجاح',
+    'message_not_marked_as_seen' => 'حدث خطاء اثناء تحديث حالة الرسالة كمقروءة',
+    'final_report_submission_added' => 'تم تسليم التقرير النهائي بنجاح',
+    'final_report_submission_not_added' => 'حدث خطاء اثناء تسليم التقرير النهائي',
+
 ];

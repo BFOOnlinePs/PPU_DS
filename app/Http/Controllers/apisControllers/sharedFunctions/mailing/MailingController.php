@@ -127,7 +127,7 @@ class MailingController extends Controller
             Log::error('aseel Error creating new mail with message', ['error' => $e->getMessage()]);
             return response()->json([
                 'status' => false,
-                'message' => 'An unexpected error occurred.',
+                'message' => trans('messages.message_error'),
             ], 500);
         }
     }
@@ -385,13 +385,13 @@ class MailingController extends Controller
         if (!$success) {
             return response()->json([
                 'status' => false,
-                'message' => 'Failed to mark message as seen'
+                'message' => trans('messages.message_not_marked_as_seen')
             ], 422);
         }
 
         return response()->json([
             'status' => true,
-            'message' => 'Message marked as seen successfully'
+            'message' => trans('messages.message_marked_as_seen')
         ]);
     }
 
