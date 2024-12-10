@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\NotificationTypeEnum;
 use App\Models\ConversationMessagesSeenModel;
 use App\Models\MessageModel;
 use App\Models\UsersConversationsModel;
@@ -10,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
-
     protected $fcmService;
 
     public function __construct(FcmService $fcmService)
@@ -37,13 +37,14 @@ class MessageService
                 Log::info('aseel message file');
             }
 
-            // send a notification
-
             $isSaved = $message->save() ? $message : null;
 
             if (!$isSaved) {
                 return $isSaved;
             }
+
+            // send a notification
+
             $user_ids_json = UsersConversationsModel::where('uc_conversation_id', $conversation_id)
                 ->first()
                 ->uc_user_id;
@@ -55,17 +56,16 @@ class MessageService
 
             Log::info('aseel user ids', $user_ids);
 
-            if ($user_ids) {
-                $this->fcmService->sendNotification(
-                    trans('messages.notification_send_message_title'),
-                    Auth::user()->name . ' ' . trans('messages.notification_send_message_body'),
-                    $user_ids
-                );
-            }
+            $this->fcmService->sendNotification(
+                NotificationTypeEnum::MESSAGE,
+                $user_ids,
+                $conversation_id,
+                $message->m_id,
+            );
 
             return $isSaved;
         } catch (\Exception  $e) {
-            Log::error('aseel Error while creating message', ['error' => $e->getMessage()]);
+            Log::error('ASEEL NEED FIX: Error while creating message', ['error' => $e->getMessage()]);
             return null;
         }
     }

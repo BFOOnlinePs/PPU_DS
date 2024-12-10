@@ -158,5 +158,8 @@ return [
     'message_not_sent_error' => 'There was an error sending the message',
     'notification_send_message_title' => 'New Message',
     'notification_send_message_body' => 'sent a new message',
+    'notification_add_payment_title' => 'New Payment',
+    'notification_add_payment_body' => 'added a new payment',
+
 
 ];

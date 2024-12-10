@@ -8,12 +8,21 @@ use App\Models\Currency;
 use App\Models\Payment;
 use App\Models\StudentCompany;
 use App\Models\User;
+use App\Services\FcmService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 // only manager
 class TraineePaymentsController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FcmService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
     // trainee payment in the manager's company
     public function getTraineePayments(Request $request)
     {
@@ -153,6 +162,14 @@ class TraineePaymentsController extends Controller
             'p_company_notes' => $request->input('manager_notes'), // manager notes
         ]);
 
+        // send Notification
+        $this->fcmService->sendNotification(
+            trans('messages.notification_add_payment_title'),
+            Auth::user()->name . ' ' . trans('messages.notification_add_payment_body'),
+            [$student_id]
+        );
+
+
         return response()->json([
             'status' => true,
             'message' => trans('messages.payment_added_successfully'),
@@ -242,10 +259,17 @@ class TraineePaymentsController extends Controller
             'p_currency_id' => $currency_id,
         ]);
 
+        // send Notification
+        $this->fcmService->sendNotification(
+            trans('messages.notification_add_payment_title'),
+            Auth::user()->name . ' ' . trans('messages.notification_add_payment_body'),
+            [$student_id]
+        );
+
         return response()->json([
             'status' => true,
             'message' => trans('messages.payment_added_successfully'),
-            'payment' => $payment //
+            'payment' => $payment
         ]);
     }
 }

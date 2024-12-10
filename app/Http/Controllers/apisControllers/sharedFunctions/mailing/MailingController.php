@@ -23,7 +23,6 @@ class MailingController extends Controller
 {
     protected $messageService;
 
-
     public function __construct(MessageService $messageService)
     {
         $this->messageService = $messageService;

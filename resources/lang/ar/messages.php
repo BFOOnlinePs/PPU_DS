@@ -162,5 +162,7 @@ return [
     'final_report_submission_not_added' => 'حدث خطاء اثناء تسليم التقرير النهائي',
     'notification_send_message_title' => 'رسالة جديدة',
     'notification_send_message_body' => 'قام بإرسال رسالة جديدة',
+    'notification_add_payment_title' => 'دفعة جديدة',
+    'notification_add_payment_body' => 'قام بإضافة دفعة جديدة',
 
 ];
