@@ -47,10 +47,10 @@ class UserController extends Controller
     }
     public function student_training_list($id)
     {
-        $student_companies = StudentCompany::where('sc_student_id', $id)
-                                            ->get();
+        $student_companies = StudentCompany::where('sc_student_id', $id)->get();
         return view('project.admin.users.studentCompanyList' , ['student_companies' => $student_companies]);
     }
+
     public function report_student_edit(Request $request)
     {
         $student_report = StudentReport::find($request->sr_id);
@@ -59,6 +59,7 @@ class UserController extends Controller
             return response()->json([]);
         }
     }
+
     public function report_student_display(Request $request)
     {
         $student_report = StudentReport::where('sr_student_attendance_id' , $request->sa_id)->first();
