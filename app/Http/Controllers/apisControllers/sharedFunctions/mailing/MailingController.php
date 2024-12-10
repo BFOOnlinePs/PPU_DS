@@ -139,7 +139,7 @@ class MailingController extends Controller
             DB::beginTransaction();
 
             $validator = Validator::make($request->all(), [
-                'conversations_id' => 'required',
+                'conversations_id' => 'required|exists:conversations,c_id',
                 'message' => 'required',
                 'message_file' => 'nullable',
             ]);

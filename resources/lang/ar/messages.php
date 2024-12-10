@@ -160,5 +160,7 @@ return [
     'message_not_marked_as_seen' => 'حدث خطاء اثناء تحديث حالة الرسالة كمقروءة',
     'final_report_submission_added' => 'تم تسليم التقرير النهائي بنجاح',
     'final_report_submission_not_added' => 'حدث خطاء اثناء تسليم التقرير النهائي',
+    'notification_send_message_title' => 'رسالة جديدة',
+    'notification_send_message_body' => 'قام بإرسال رسالة جديدة',
 
 ];

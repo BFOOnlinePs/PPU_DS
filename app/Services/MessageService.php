@@ -10,7 +10,15 @@ use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
-    public function createMessage($conversation_id, $message_text, $file = null): MessageModel
+
+    protected $fcmService;
+
+    public function __construct(FcmService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
+    public function createMessage($conversation_id, $message_text, $file = null): ?MessageModel
     {
         try {
             $message = new MessageModel();
@@ -29,7 +37,33 @@ class MessageService
                 Log::info('aseel message file');
             }
 
-            return $message->save() ? $message : null;
+            // send a notification
+
+            $isSaved = $message->save() ? $message : null;
+
+            if (!$isSaved) {
+                return $isSaved;
+            }
+            $user_ids_json = UsersConversationsModel::where('uc_conversation_id', $conversation_id)
+                ->first()
+                ->uc_user_id;
+
+            $user_ids = json_decode($user_ids_json, true);
+
+            // convert to int
+            $user_ids = array_map('intval', $user_ids);
+
+            Log::info('aseel user ids', $user_ids);
+
+            if ($user_ids) {
+                $this->fcmService->sendNotification(
+                    trans('messages.notification_send_message_title'),
+                    Auth::user()->name . ' ' . trans('messages.notification_send_message_body'),
+                    $user_ids
+                );
+            }
+
+            return $isSaved;
         } catch (\Exception  $e) {
             Log::error('aseel Error while creating message', ['error' => $e->getMessage()]);
             return null;
