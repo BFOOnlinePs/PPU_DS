@@ -192,6 +192,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::group(['prefix'=>'final_reports'],function(){
                 Route::get('/index',[App\Http\Controllers\project\students\FinalReportController::class,'index'])->name('students.final_reports.index');
                 Route::post('/create',[App\Http\Controllers\project\students\FinalReportController::class,'create'])->name('students.final_reports.create');
+                Route::get('/delete/{id}',[App\Http\Controllers\project\students\FinalReportController::class,'delete'])->name('students.final_reports.delete');
             });
         });
 
