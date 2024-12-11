@@ -29,13 +29,13 @@ Route::get('privacy_and_policy',function(){
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/news/details/{id}', [App\Http\Controllers\HomeController::class, 'details_news'])->name('news.details');
     Route::get('/language/{locale}', function($locale) {
         if(in_array($locale , ['en', 'ar'])) {
             session()->put('locale' , $locale);
         }
         return redirect()->back();
     })->name('language');
-
 
     Route::group(['prefix'=>'project'],function(){
         Route::group(['prefix'=>'allUsersWithoutAdmin'],function(){
