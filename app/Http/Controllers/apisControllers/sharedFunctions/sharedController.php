@@ -14,6 +14,8 @@ use App\Models\SemesterCourse;
 use App\Models\StudentCompany;
 use App\Models\SystemSetting;
 use App\Models\User;
+use App\Services\MessageService;
+use App\Services\NotificationsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -21,6 +23,16 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class sharedController extends Controller
 {
+    protected $messageService;
+    protected $notificationsService;
+
+
+    public function __construct(MessageService $messageService, NotificationsService $notificationsService)
+    {
+        $this->messageService = $messageService;
+        $this->notificationsService = $notificationsService;
+    }
+
     // user login
     public function login(Request $request)
     {
@@ -113,6 +125,19 @@ class sharedController extends Controller
         }
 
         return response()->json(['user' => $user,], 200);
+    }
+
+
+    public function getHomeSharedData()
+    {
+        $current_user_id = auth()->user()->u_id;
+        $unseen_conversations_count = $this->messageService->unseenConversationsCount($current_user_id);
+        $unseen_notifications_count = $this->notificationsService->unseenNotificationsCount($current_user_id);
+        return response()->json([
+            'status' => true,
+            'unseen_notifications_count' => $unseen_notifications_count,
+            'unseen_conversations_count' => $unseen_conversations_count
+        ]);
     }
 
 

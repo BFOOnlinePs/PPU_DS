@@ -20,4 +20,9 @@ class NotificationModel extends Model
         'related_id',
         'target_url',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'notifications_users', 'notification_id', 'user_id');
+    }
 }

@@ -23,6 +23,7 @@ class MailingController extends Controller
 {
     protected $messageService;
 
+
     public function __construct(MessageService $messageService)
     {
         $this->messageService = $messageService;
@@ -198,15 +199,6 @@ class MailingController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
-    }
-
-    public function sendNotification()
-    {
-        $user = User::where('u_id', Auth::user()->u_id)->first();
-
-        Mail::to($user->email)->send(new UserNotification($user));
-
-        return 'Email sent successfully!';
     }
 
     // get conversations of the user
@@ -395,13 +387,15 @@ class MailingController extends Controller
     }
 
 
-    public function unseenConversationsCount()
-    {
-        $current_user_id = auth()->user()->u_id;
-        $unseen_conversations_count = $this->messageService->unseenConversationsCount($current_user_id);
-        return response()->json([
-            'status' => true,
-            'unseen_conversations_count' => $unseen_conversations_count
-        ]);
-    }
+    // public function unseenConversationsCount()
+    // {
+    //     $current_user_id = auth()->user()->u_id;
+    //     $unseen_conversations_count = $this->messageService->unseenConversationsCount($current_user_id);
+    //     // unseen notifications count
+    //     $unseen_notifications_count = $this->notificationService->unseenNotificationsCount($current_user_id);
+    //     return response()->json([
+    //         'status' => true,
+    //         'unseen_conversations_count' => $unseen_conversations_count
+    //     ]);
+    // }
 }

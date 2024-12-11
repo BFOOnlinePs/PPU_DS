@@ -181,4 +181,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(CitiesModel::class, 'id', 'u_city_id');
     }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(NotificationModel::class, 'notifications_users', 'user_id', 'notification_id')
+            ->withPivot('is_read')
+            ->withTimestamps();
+    }
 }
