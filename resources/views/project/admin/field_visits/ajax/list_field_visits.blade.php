@@ -19,12 +19,11 @@
         @foreach($data as $key)
             <tr>
                 <td>{{ implode(', ', $key->student_names) }}</td>
-                <td>{{ $key->fv_supervisor_id }}</td>
+                <td>{{ $key->supervisor->name }}</td>
                 <td>{{ $key->company->c_name }}</td>
                 <td>{{ $key->fv_visiting_place }}</td>
                 <td>{{ $key->fv_vistit_time }}</td>
                 <td>{{ $key->fv_notes }}</td>
-                <td>{{ $key->user->name ?? '' }}</td>
                 <td>
                     <a href="{{ route('training_supervisor.field_visits.details',['id'=>$key->fv_id]) }}" class="btn btn-primary btn-sm"><span class="fa fa-search"></span></a>
                 </td>

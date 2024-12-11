@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\announcements;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -50,6 +51,8 @@ class HomeController extends Controller
             $students = User::whereIn('u_id', $studentIds)->pluck('name')->toArray();
             $key->student_names = $students;
         }
+        $news = Http::get('https://ds.ppu.edu/wp-json/wp/v2/posts?_embed');
+        // return $news[1];
         $results = DB::table('registration as r')
             ->join('courses as c', 'r.r_course_id', '=', 'c.c_id')
             ->join('users as u', 'r.r_student_id', '=', 'u.u_id')
@@ -67,7 +70,13 @@ class HomeController extends Controller
             ->orderBy('c.c_name')
             ->orderBy('r.r_semester')
             ->get();
-        return view('home',['data'=>$announcememts,'student_count'=>$student_count,'company_count'=>$company_count,'supervisor_count'=>$supervisor_count,'student_male_count'=>$student_male_count , 'student_female_count'=>$student_female_count,'company_active'=>$company_active,'company_not_active'=>$company_not_active , 'results'=>$results , 'system_settings'=>$system_settings , 'filed_visits'=>$filed_visits]);
+        return view('home',['data'=>$announcememts,'student_count'=>$student_count,'company_count'=>$company_count,'supervisor_count'=>$supervisor_count,'student_male_count'=>$student_male_count , 'student_female_count'=>$student_female_count,'company_active'=>$company_active,'company_not_active'=>$company_not_active , 'results'=>$results , 'system_settings'=>$system_settings , 'filed_visits'=>$filed_visits , 'news'=>$news->json()]);
+    }
+
+    public function details_news($id){
+        $data = Http::get('https://ds.ppu.edu/wp-json/wp/v2/posts/'.$id.'?_embed');
+        // return $data->content->rendered;
+        return view('project.news.details' , ['data'=>$data]);
     }
 
     // test

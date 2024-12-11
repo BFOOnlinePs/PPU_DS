@@ -117,7 +117,8 @@
         </div>
         <div class="col-md-12 mb-2">
             <h5>احصائيات الفصل الحالي : <span class="">{{ $system_settings->ss_year }}</span> الفصل -
-                <span>{{ $system_settings->ss_semester_type }}</span></h5>
+                <span>{{ $system_settings->ss_semester_type }}</span>
+            </h5>
         </div>
         <div class="col-sm-6 col-xl-3 col-lg-6">
             <div class="card o-hidden border-0">
@@ -364,6 +365,45 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>اخبار الكلية</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            @if (count($news) > 0)
+                                @foreach ($news as $key)
+                                    @foreach ($key['_embedded']['wp:featuredmedia'] as $item)
+                                        <div class="col-sm-12 col-xl-6">
+                                            <div class="card">
+                                                <div class="card-header d-flex"><img
+                                                        style="height: {{ $item['media_details']['sizes']['woocommerce_thumbnail']['height'] }};flex: 1"
+                                                        src="{{ $item['media_details']['sizes']['woocommerce_thumbnail']['source_url'] }}"
+                                                        alt="">
+                                                </div>
+                                                <div class="card-body">
+                                                    {!! $key['excerpt']['rendered'] !!}
+                                                        <a href="{{ route('news.details',['id'=>$key['id']]) }}" class="btn btn-primary">
+                                                            تفاصيل
+                                                        </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            @else
+                                <p>لا يوجد اخبار</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endsection
     @section('script')
         <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/apex-chart/apex-chart.js"></script>
@@ -422,7 +462,8 @@
                     },
                     success: function(response) {
                         toastr.success(
-                        `{{ __('translate.The event information has been successfully updated') }}`); // تم تعديل معلومات الحدث بنجاح
+                            `{{ __('translate.The event information has been successfully updated') }}`
+                            ); // تم تعديل معلومات الحدث بنجاح
                         $('#LoadingModal').modal('hide');
                         display_events();
                         clear_function();
@@ -447,7 +488,7 @@
                         $('#confirmDeleteEvent').modal('hide');
                         display_events();
                         toastr.success(
-                        `{{ __('translate.The event has been successfully deleted') }}`); // تم حذف الحدث بنجاح
+                            `{{ __('translate.The event has been successfully deleted') }}`); // تم حذف الحدث بنجاح
                         clear_function();
                     },
                     error: function(jqXHR) {}
@@ -573,7 +614,7 @@
                             e_type = `{{ __('translate.Trainees of a specific company') }}`; // متدربين شركة معينة
                         } else if (response.event.e_type === 4) {
                             e_type =
-                            `{{ __('translate.For all academic supervisors') }}`; // لكل المشرفين الأكادميين
+                                `{{ __('translate.For all academic supervisors') }}`; // لكل المشرفين الأكادميين
                         }
                         let array_types = [
                             `{{ __('translate.Everyone') }}`, // الجميع
@@ -681,7 +722,7 @@
                     },
                     success: function(response) {
                         toastr.success(
-                        `{{ __('translate.The event has been successfully added') }}`); // تم إضافة الحدث بنجاح
+                            `{{ __('translate.The event has been successfully added') }}`); // تم إضافة الحدث بنجاح
                         $('#LoadingModal').modal('hide');
                         $('#AddEventModal').modal('hide');
                         display_events();
@@ -830,6 +871,45 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>اخبار الكلية</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            @if (count($news) > 0)
+                                @foreach ($news as $key)
+                                    @foreach ($key['_embedded']['wp:featuredmedia'] as $item)
+                                        <div class="col-sm-12 col-xl-6">
+                                            <div class="card">
+                                                <div class="card-header d-flex"><img
+                                                        style="height: {{ $item['media_details']['sizes']['woocommerce_thumbnail']['height'] }};flex: 1"
+                                                        src="{{ $item['media_details']['sizes']['woocommerce_thumbnail']['source_url'] }}"
+                                                        alt="">
+                                                </div>
+                                                <div class="card-body">
+                                                    {!! $key['excerpt']['rendered'] !!}
+                                                        <a href="{{ route('news.details',['id'=>$key['id']]) }}" class="btn btn-primary">
+                                                            تفاصيل
+                                                        </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            @else
+                                <p>لا يوجد اخبار</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endsection
     @section('script')
         <script src="https://laravel.pixelstrap.com/viho/assets/js/chart/chartist/chartist.js"></script>
@@ -888,7 +968,7 @@
                             e_type = `{{ __('translate.Trainees of a specific company') }}`; // متدربين شركة معينة
                         } else if (response.event.e_type === 4) {
                             e_type =
-                            `{{ __('translate.For all academic supervisors') }}`; // لكل المشرفين الأكادميين
+                                `{{ __('translate.For all academic supervisors') }}`; // لكل المشرفين الأكادميين
                         }
                         document.getElementById('show_e_type_for_all').value = e_type;
                         document.getElementById('show_e_id_type_for_all').value = response.event_name_type;
