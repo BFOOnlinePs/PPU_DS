@@ -26,8 +26,9 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\evaluation\EvaluationController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
+use App\Http\Controllers\apisControllers\sharedFunctions\FinalReportController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MailingController;
-use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MessagesController;
+use App\Http\Controllers\apisControllers\sharedFunctions\notifications\NotificationsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\sharedController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_companies_nomination\StudentCompanyNominationsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
@@ -278,14 +279,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('createNewMailWithMessage', [MailingController::class, 'createNewMailWithMessage']);
     Route::get('getChatableUsers', [MailingController::class, 'getChatableUsers']);
     Route::post('markMessageAsSeen', [MailingController::class, 'markMessageAsSeen']);
-    Route::get('unseenConversationsCount', [MailingController::class, 'unseenConversationsCount']);
-    // Route::get('send-email', [MailingController::class, 'sendNotification']);
+    // Route::get('unseenConversationsCount', [MailingController::class, 'unseenConversationsCount']);
 
     // evaluation
     Route::get('EvaluationsTitles', [EvaluationController::class, 'EvaluationsTitles']);
     Route::post('usersToEvaluate', [EvaluationController::class, 'usersToEvaluate']);
     Route::post('getEvaluationsToSubmit', [EvaluationController::class, 'getEvaluationsToSubmit']);
     Route::post('submitEvaluation', [EvaluationController::class, 'submitEvaluation']);
+
+    // final report
+    Route::get('checkFinalReportStatus', [FinalReportController::class, 'checkFinalReportStatus']);
+    Route::post('addFinalReport', [FinalReportController::class, 'addFinalReport']);
+    Route::get('getFinalReportSubmissions/{registration_id}', [FinalReportController::class, 'getFinalReportSubmissions']);
 
     // training supervisor
     Route::post('getTrainingSupervisorStudents', [TrainingSupervisorStudentsController::class, 'getTrainingSupervisorStudents']);
@@ -297,6 +302,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getTrainingSupervisorReportLog', [TrainingSupervisorStudentsLogController::class, 'getTrainingSupervisorReportLog']);
     Route::get('getUserVisits', [TrainingSupervisorVisitsController::class, 'getUserVisits']);
     Route::post('addVisit', [TrainingSupervisorVisitsController::class, 'addVisit']);
+
+    // notifications
+    Route::get('getUserNotifications', [NotificationsController::class, 'getUserNotifications']);
+
+
+    // shared
+    Route::get('getHomeSharedData', [sharedController::class, 'getHomeSharedData']);
 
     // just for test
     Route::get('/test', [sharedController::class, 'test']);

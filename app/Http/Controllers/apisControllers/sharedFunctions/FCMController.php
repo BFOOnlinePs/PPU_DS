@@ -30,7 +30,6 @@ class FCMController extends Controller
         $fcmUserToken = FCMRegistrationTokens::create([
             'frt_user_id' => $request->input('frt_user_id'),
             'frt_registration_token' => $request->input('frt_registration_token'),
-            'frt_date' =>  Carbon::now()->format('Y-m-d'),
         ]);
 
         return response()->json([

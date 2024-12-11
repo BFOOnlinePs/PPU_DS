@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers\apisControllers\company_manager\payments;
 
+use App\Enums\NotificationTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Payment;
 use App\Models\StudentCompany;
 use App\Models\User;
+use App\Services\FcmService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 // only manager
 class TraineePaymentsController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FcmService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
     // trainee payment in the manager's company
     public function getTraineePayments(Request $request)
     {
@@ -153,6 +164,13 @@ class TraineePaymentsController extends Controller
             'p_company_notes' => $request->input('manager_notes'), // manager notes
         ]);
 
+        // send Notification
+        $this->fcmService->sendNotification(
+            NotificationTypeEnum::PAYMENT,
+            [$student_id]
+        );
+
+
         return response()->json([
             'status' => true,
             'message' => trans('messages.payment_added_successfully'),
@@ -242,10 +260,19 @@ class TraineePaymentsController extends Controller
             'p_currency_id' => $currency_id,
         ]);
 
+        $manager_id = Company::where('c_id', $request->input('company_id'))->first()->c_manager_id;
+        Log::info('manager_id: ' . $manager_id);
+
+        // send Notification
+        $this->fcmService->sendNotification(
+            NotificationTypeEnum::PAYMENT,
+            [$student_id, $manager_id]
+        );
+
         return response()->json([
             'status' => true,
             'message' => trans('messages.payment_added_successfully'),
-            'payment' => $payment //
+            'payment' => $payment
         ]);
     }
 }

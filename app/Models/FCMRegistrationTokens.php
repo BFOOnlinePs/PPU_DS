@@ -14,6 +14,5 @@ class FCMRegistrationTokens extends Model
     protected $fillable = [
         'frt_user_id',
         'frt_registration_token',
-        'frt_date'
     ];
 }

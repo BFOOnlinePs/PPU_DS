@@ -89,6 +89,12 @@ class User extends Authenticatable
         return (bool) $value;
     }
 
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'c_manager_id', 'u_id');
+    }
+
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'u_role_id', 'r_id');
@@ -103,7 +109,7 @@ class User extends Authenticatable
 
     public function registrations()
     {
-        return $this->hasMany(Registration::class, 'r_student_id', 'u_id')->where('r_semester',SystemSetting::first()->ss_semester_type)->where('r_year',SystemSetting::first()->ss_year);
+        return $this->hasMany(Registration::class, 'r_student_id', 'u_id')->where('r_semester', SystemSetting::first()->ss_semester_type)->where('r_year', SystemSetting::first()->ss_year);
     }
 
     public function majorSupervisors()
@@ -174,5 +180,12 @@ class User extends Authenticatable
     public function userCity()
     {
         return $this->hasOne(CitiesModel::class, 'id', 'u_city_id');
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(NotificationModel::class, 'notifications_users', 'user_id', 'notification_id')
+            ->withPivot('is_read')
+            ->withTimestamps();
     }
 }
