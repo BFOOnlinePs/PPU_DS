@@ -61,7 +61,7 @@
                         @elseif($role->r_name == 'مسؤول متابعة وتقييم')
                             <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Monitoring and Evaluation Officer')}}">
                             {{__('translate.M&E')}} {{-- مسؤول متابعة وتقييم --}}
-                        @elseif($role->r_name == 'مدير شركة')
+                            @elseif($role->r_name == 'مدير شركة')
                             <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Company Manager')}}">
                             {{__('translate.Company Manager')}} {{-- مدير شركة --}}
                         @elseif($role->r_name == 'مسؤول تدريب')
@@ -82,7 +82,8 @@
 <div class="col-sm-12" id="main">
     <div class="card">
         <div class="card-body">
-            @if (isset($u_role_id) && $u_role_id != 6)
+            {{-- @if (isset($u_role_id) && $u_role_id != 6) --}}
+            @if (isset($u_role_id))
                 @if ($role_name == 'أدمن')
                     <input type="hidden" id="u_role_id" value="1">
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Administrator')}}"><span class="fa fa-plus"></span>
@@ -112,6 +113,10 @@
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Monitoring and Evaluation Officer')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.M&E')}} {{-- مسؤول متابعة وتقييم --}}
+                    @elseif($role_name == 'مدير شركة')
+                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Monitoring and Evaluation Officer')}}"><span class="fa fa-plus"></span>
+                    {{__('translate.Add')}} {{-- إضافة --}}
+                    {{__('translate.Company Manager')}} {{-- مسؤول متابعة وتقييم --}}
                 @elseif($role_name == 'مسؤول تدريب')
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Training Supervisor')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}

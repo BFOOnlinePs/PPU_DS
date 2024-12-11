@@ -29,13 +29,13 @@ Route::get('privacy_and_policy',function(){
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/news/details/{id}', [App\Http\Controllers\HomeController::class, 'details_news'])->name('news.details');
     Route::get('/language/{locale}', function($locale) {
         if(in_array($locale , ['en', 'ar'])) {
             session()->put('locale' , $locale);
         }
         return redirect()->back();
     })->name('language');
-
 
     Route::group(['prefix'=>'project'],function(){
         Route::group(['prefix'=>'allUsersWithoutAdmin'],function(){
@@ -192,6 +192,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::group(['prefix'=>'final_reports'],function(){
                 Route::get('/index',[App\Http\Controllers\project\students\FinalReportController::class,'index'])->name('students.final_reports.index');
                 Route::post('/create',[App\Http\Controllers\project\students\FinalReportController::class,'create'])->name('students.final_reports.create');
+                Route::get('/delete/{id}',[App\Http\Controllers\project\students\FinalReportController::class,'delete'])->name('students.final_reports.delete');
             });
         });
 
