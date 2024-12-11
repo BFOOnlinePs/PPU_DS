@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\apisControllers\company_manager\payments;
 
+use App\Enums\NotificationTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Currency;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Services\FcmService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 // only manager
@@ -164,8 +166,7 @@ class TraineePaymentsController extends Controller
 
         // send Notification
         $this->fcmService->sendNotification(
-            trans('messages.notification_add_payment_title'),
-            Auth::user()->name . ' ' . trans('messages.notification_add_payment_body'),
+            NotificationTypeEnum::PAYMENT,
             [$student_id]
         );
 
@@ -259,11 +260,13 @@ class TraineePaymentsController extends Controller
             'p_currency_id' => $currency_id,
         ]);
 
+        $manager_id = Company::where('c_id', $request->input('company_id'))->first()->c_manager_id;
+        Log::info('manager_id: ' . $manager_id);
+
         // send Notification
         $this->fcmService->sendNotification(
-            trans('messages.notification_add_payment_title'),
-            Auth::user()->name . ' ' . trans('messages.notification_add_payment_body'),
-            [$student_id]
+            NotificationTypeEnum::PAYMENT,
+            [$student_id, $manager_id]
         );
 
         return response()->json([
