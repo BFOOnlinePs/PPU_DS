@@ -27,27 +27,42 @@ class FcmService
 
 
     protected function determineNotificationDetails(
-        NotificationTypeEnum $type,
+        string $type,
         // int $targetId = null,
         // int $relatedId = null
     ): array {
         switch ($type) {
             case NotificationTypeEnum::MESSAGE:
                 return [
-                    'title' => trans('messages.notification_send_message_title'),
-                    'body' => Auth::user()->name . ' ' . trans('messages.notification_send_message_body'),
+                    // 'title' => trans('messages.notification_send_message_title'),
+                    // 'body' => Auth::user()->name . ' ' . trans('messages.notification_send_message_body'),
+                    'title' =>  'رسالة جديدة',
+                    'body' => Auth::user()->name . ' ' . 'قام بإرسال رسالة جديدة',
                     'targetType' => 'conversation',
                     'relatedType' => 'message',
                     'targetUrl' => null,
                 ];
             case NotificationTypeEnum::PAYMENT:
                 return [
-                    'title' => trans('messages.notification_add_payment_title'),
-                    'body' => Auth::user()->name . ' ' . trans('messages.notification_add_payment_body'),
+                    // 'title' => trans('messages.notification_add_payment_title'),
+                    // 'body' => Auth::user()->name . ' ' . trans('messages.notification_add_payment_body'),
+                    'title' => 'دفعة جديدة',
+                    'body' => Auth::user()->name . ' ' . 'قام بإضافة دفعة جديدة',
                     'targetType' => 'payment',
                     'relatedType' => null,
                     'targetUrl' => null,
                 ];
+            case NotificationTypeEnum::PAYMENT_CONFIRMATION:
+                return [
+                    // 'title' => trans('messages.notification_payment_confirmation_title'),
+                    // 'body' => Auth::user()->name . ' ' . trans('messages.notification_payment_confirmation_body'),
+                    'title' => 'تاكيد الدفعة',
+                    'body' => Auth::user()->name . ' ' . 'قام بتاكيد الدفعة',
+                    'targetType' => 'payment',
+                    'relatedType' => null,
+                    'targetUrl' => null,
+                ];
+
             default:
                 return [
                     'title' => 'Default Title',
@@ -59,10 +74,9 @@ class FcmService
         }
     }
 
-    /// handle the payload
     // public function sendNotification(String $title, String $body, array $userIds, String $targetType = null, int $targetId = null, String $relatedType = null, $relatedId = null)
     public function sendNotification(
-        NotificationTypeEnum $type,
+        String $type,
         array $userIds,
         int $targetId = null,
         int $relatedId = null
@@ -70,8 +84,8 @@ class FcmService
         // Determine the notification details based on the type
         $details = $this->determineNotificationDetails($type);
 
-        // // remove the current user from the list
-        // $userIds = array_filter($userIds, fn($id) => $id != Auth::user()->u_id);
+        // remove the current user from the list
+        $userIds = array_filter($userIds, fn($id) => $id != Auth::user()->u_id);
 
         Log::info('aseel in sendNotification');
         Log::info('aseel userIds', $userIds);
@@ -112,6 +126,9 @@ class FcmService
             ->withNotification($notification);
 
         $data = [];
+
+        // $notificationModel->id
+        $data['notificationId'] = $notificationModel->id;
 
         if ($details['targetType'] !== null) {
             $data['targetType'] = $details['targetType'];
