@@ -164,5 +164,7 @@ return [
     'notification_send_message_body' => 'قام بإرسال رسالة جديدة',
     'notification_add_payment_title' => 'دفعة جديدة',
     'notification_add_payment_body' => 'قام بإضافة دفعة جديدة',
+    'notification_payment_confirmation_title' => 'تاكيد الدفعة',
+    'notification_payment_confirmation_body' => 'قام بتاكيد الدفعة',
 
 ];

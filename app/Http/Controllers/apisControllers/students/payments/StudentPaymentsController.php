@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\apisControllers\students\payments;
 
+use App\Enums\NotificationTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Currency;
@@ -9,11 +10,19 @@ use App\Models\Payment;
 use App\Models\Registration;
 use App\Models\StudentCompany;
 use App\Models\User;
+use App\Services\FcmService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class StudentPaymentsController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FcmService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
+
     // for current student
     public function getAllStudentPayments()
     {
@@ -140,6 +149,15 @@ class StudentPaymentsController extends Controller
         $payment->update([
             'p_status' => $request->input('payment_status')
         ]);
+
+        // send notification
+
+        $this->fcmService->sendNotification(
+            NotificationTypeEnum::PAYMENT_CONFIRMATION,
+            [$payment->p_inserted_by_id],
+            $payment->p_student_company_id
+        );
+
 
         return response()->json([
             'status' => true,

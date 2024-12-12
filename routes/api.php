@@ -305,6 +305,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // notifications
     Route::get('getUserNotifications', [NotificationsController::class, 'getUserNotifications']);
+    Route::post('markNotificationsAsRead', [NotificationsController::class, 'markNotificationsAsRead']);
 
 
     // shared

@@ -167,7 +167,8 @@ class TraineePaymentsController extends Controller
         // send Notification
         $this->fcmService->sendNotification(
             NotificationTypeEnum::PAYMENT,
-            [$student_id]
+            [$student_id],
+            $student_company_id // target id is the training id
         );
 
 
@@ -266,7 +267,8 @@ class TraineePaymentsController extends Controller
         // send Notification
         $this->fcmService->sendNotification(
             NotificationTypeEnum::PAYMENT,
-            [$student_id, $manager_id]
+            [$student_id, $manager_id],
+            $student_company_id // target id is the training id
         );
 
         return response()->json([

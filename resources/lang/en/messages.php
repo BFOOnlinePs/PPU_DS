@@ -160,6 +160,6 @@ return [
     'notification_send_message_body' => 'sent a new message',
     'notification_add_payment_title' => 'New Payment',
     'notification_add_payment_body' => 'added a new payment',
-
-
+    'notification_payment_confirmation_title' => 'Payment Confirmation',
+    'notification_payment_confirmation_body' => 'has been confirmed the payment',
 ];
