@@ -33,7 +33,7 @@ class Registration extends Model
     {
         return $this->belongsTo(StudentCompany::class, 'r_id', 'sc_registration_id');
     }
-
+ 
     public function supervisor()
     {
         return $this->belongsTo(User::class, 'supervisor_id', 'u_id');
