@@ -31,49 +31,22 @@
 
 
                         <h3 class="text-center mb-4">Login to your account </h3>
-                        <form action="{{ route('login') }}" method='POST' class="login-form">
-                            {{ csrf_token()}}
+                        <form action="{{ route('login') }}" method="POST" class="login-form">
+                            @csrf <!-- استخدم @csrf بدلاً من {{ csrf_token() }} -->
                             <div class="form-group">
-                                <input type="email" id="email" name="email" class="form-control rounded-left"
-                                    placeholder="Email" required>
+                                <input type="email" id="email" name="email" class="form-control rounded-left" placeholder="Email" required>
                                 @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group d-flex">
-                                <input type="password" id="password" class="form-control rounded-left" name="password"
-                                    placeholder="Password" required>
+                                <input type="password" id="password" class="form-control rounded-left" name="password" placeholder="Password" required>
                             </div>
                             <div class="form-group d-md-flex">
                                 <div class="w-50">
-
+                                    <!-- يمكن إضافة محتوى هنا إذا لزم الأمر -->
                                 </div>
                             </div>
-
-                            {{--                <div class="mt-2"> --}}
-                            {{--                                <div class="div p-1 "> --}}
-                            {{--                                    <button onclick="login('admin@gmail.com','123456789')" type="button" class="btn btn-info btn-sm form-control">أدمن</button> --}}
-                            {{--                                </div> --}}
-                            {{--                                <div class="div p-1"> --}}
-                            {{--                                    <button onclick="login('EzdeharJwabreh@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">المشرف</button> --}}
-                            {{--                                </div> --}}
-                            {{--                                <div class="div p-1"> --}}
-                            {{--                                    <button onclick="login('mazen@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مساعد إداري</button> --}}
-                            {{--                                </div> --}}
-                            {{--                                <div class="div p-1"> --}}
-                            {{--                                    <button onclick="login('ayman@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول متابعة وتقييم</button> --}}
-                            {{--                                </div> --}}
-                            {{--                                <div class="div p-1"> --}}
-                            {{--                                    <button onclick="login('abdelmajeed@jawwal.ps','123456789')" type="button" class="btn  btn-dark btn-sm form-control">مدير الشركة</button> --}}
-                            {{--                                </div> --}}
-
-                            {{--                                <div class="div p-1"> --}}
-                            {{--                                    <button onclick="login('179033@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">طالب</button> --}}
-                            {{--                                </div> --}}
-                            {{--                                <div class="div p-1"> --}}
-                            {{--                                    <button onclick="login('mohamadher@ppu.edu.ps','123456789')" type="button" class="btn  btn-info btn-sm form-control">مسؤول التواصل مع الشركات</button> --}}
-                            {{--                                </div> --}}
-                            {{--                            </div> --}}
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
@@ -82,9 +55,7 @@
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary rounded submit p-3 px-5"> Login </button>
                             </div>
-
-                        </form>
-                    </div>
+                        </form>                    </div>
                 </div>
             </div>
         </div>
