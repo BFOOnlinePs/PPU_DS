@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\CriteriaModel;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -509,4 +510,17 @@ Route::get('generate', function () {
 Route::get('migration', function () {
     \Illuminate\Support\Facades\Artisan::call('migrate');
     echo 'migrate';
+});
+
+Route::get('/clear-cache', function () {
+    // Clear config cache
+    Artisan::call('config:clear');
+
+    // Clear route cache
+    Artisan::call('route:clear');
+
+    // Clear application cache
+    Artisan::call('cache:clear');
+
+    return 'Caches cleared successfully!';
 });
