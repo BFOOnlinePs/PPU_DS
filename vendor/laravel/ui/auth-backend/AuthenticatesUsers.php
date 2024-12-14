@@ -118,7 +118,7 @@ trait AuthenticatesUsers
      */
     protected function authenticated(Request $request, $user)
     {
-        //
+        return redirect()->route('home');
     }
 
     /**
