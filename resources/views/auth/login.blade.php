@@ -21,7 +21,8 @@
 			</div>
 			<div class="row justify-content-center">
 
-
+                <h1>USers</h1>
+                {{ App\Models\User::first()->u_id }}
 
 				<div class="col-md-6 col-lg-5">
 					<div class="login-wrap p-4 p-md-5" align="center" >
