@@ -48,8 +48,6 @@ trait AuthenticatesUsers
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());
             }
-            return $request;
-
             return $this->sendLoginResponse($request);
         }
 
@@ -113,13 +111,17 @@ trait AuthenticatesUsers
 
         $this->clearLoginAttempts($request);
 
+
         if ($response = $this->authenticated($request, $this->guard()->user())) {
             return $response;
         }
-
+        // return $request->wantsJson()
+        //             ? new JsonResponse([], 204)
+        //             : redirect()->intended($this->redirectPath());
         return $request->wantsJson()
-                    ? new JsonResponse([], 204)
-                    : redirect()->intended($this->redirectPath());
+        ? new JsonResponse([], 204)
+        : redirect()->route('home');
+
     }
 
     /**
@@ -176,7 +178,6 @@ trait AuthenticatesUsers
         if ($response = $this->loggedOut($request)) {
             return $response;
         }
-
         return $request->wantsJson()
             ? new JsonResponse([], 204)
             : redirect('/');
