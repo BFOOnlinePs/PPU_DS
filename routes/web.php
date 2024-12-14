@@ -22,7 +22,7 @@ Route::get('/test' , function(){
     return view('test');
 });
 Route::get('/', function () {
-    return auth()->check() ? redirect()->route('home') : redirect('/index');
+    return auth()->check() ? redirect()->route('home') : redirect('/login');
 });
 
 Route::get('privacy_and_policy',function(){
