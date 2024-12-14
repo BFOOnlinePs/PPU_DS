@@ -31,18 +31,33 @@ trait AuthenticatesUsers
      */
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $this->validateLogin($request);
 
-        if (Auth::attempt($credentials)) {
-            // تسجيل الدخول ناجح
-            return redirect()->intended('/home'); // صفحة بعد تسجيل الدخول
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
         }
 
-        // فشل تسجيل الدخول
-        return back()->withErrors([
-            'email' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
-        ]);
+        if ($this->attemptLogin($request)) {
+            if ($request->hasSession()) {
+                $request->session()->put('auth.password_confirmed_at', time());
+            }
+
+            return $this->sendLoginResponse($request);
         }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
 
     /**
      * Validate the user login request.
@@ -96,17 +111,13 @@ trait AuthenticatesUsers
 
         $this->clearLoginAttempts($request);
 
-
         if ($response = $this->authenticated($request, $this->guard()->user())) {
             return $response;
         }
-        // return $request->wantsJson()
-        //             ? new JsonResponse([], 204)
-        //             : redirect()->intended($this->redirectPath());
-        return redirect()->route('home');
+
         return $request->wantsJson()
-        ? new JsonResponse([], 204)
-        : redirect()->intended($this->redirectPath());
+                    ? new JsonResponse([], 204)
+                    : redirect()->intended($this->redirectPath());
     }
 
     /**
@@ -118,7 +129,7 @@ trait AuthenticatesUsers
      */
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->route('home');
+        //
     }
 
     /**
@@ -163,6 +174,7 @@ trait AuthenticatesUsers
         if ($response = $this->loggedOut($request)) {
             return $response;
         }
+
         return $request->wantsJson()
             ? new JsonResponse([], 204)
             : redirect('/');

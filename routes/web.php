@@ -523,3 +523,8 @@ Route::get('/clear-cache', function () {
 
     return 'Caches cleared successfully!';
 });
+
+Route::get('/clear-sessions', function () {
+    Artisan::call('session:clear');
+    return 'Sessions cleared successfully!';
+})->middleware('auth');
