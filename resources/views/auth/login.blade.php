@@ -30,7 +30,7 @@
                         <img src="{{ asset('assets/login/images/ds-ppu.png') }}" width="250">
 
                         <h3 class="text-center mb-4">Login to your account </h3>
-                        <form action="{{ url('/login') }}" method="POST" class="login-form">
+                        <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <input type="email" id="email" name="email" class="form-control rounded-left"
