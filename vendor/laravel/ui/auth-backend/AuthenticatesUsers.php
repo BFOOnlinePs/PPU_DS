@@ -118,9 +118,10 @@ trait AuthenticatesUsers
         // return $request->wantsJson()
         //             ? new JsonResponse([], 204)
         //             : redirect()->intended($this->redirectPath());
+        return 'asd';
         return $request->wantsJson()
         ? new JsonResponse([], 204)
-        : redirect()->route('home');
+        : redirect()->intended($this->redirectPath());
 
     }
 
