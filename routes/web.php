@@ -22,14 +22,12 @@ Route::get('/test' , function(){
     return view('test');
 });
 Route::get('/', function () {
-    return auth()->check() ? redirect()->route('home') : redirect('/login');
+    return auth()->check() ? redirect()->route('home') : redirect('/index');
 });
-
 
 Route::get('privacy_and_policy',function(){
     return view('project.admin.privacy_and_policy');
 });
-
 
 Route::group(['middleware' => 'auth'],function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
