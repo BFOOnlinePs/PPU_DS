@@ -29,18 +29,19 @@
 
                         <img src="{{ asset('assets/login/images/ds-ppu.png') }}" width="250">
 
-
                         <h3 class="text-center mb-4">Login to your account </h3>
-                        <form action="{{ route('login') }}" method="POST" class="login-form">
-                            @csrf <!-- استخدم @csrf بدلاً من {{ csrf_token() }} -->
+                        <form action="{{ url('/login') }}" method="POST" class="login-form">
+                            @csrf
                             <div class="form-group">
-                                <input type="email" id="email" name="email" class="form-control rounded-left" placeholder="Email" required>
+                                <input type="email" id="email" name="email" class="form-control rounded-left"
+                                    placeholder="Email" required>
                                 @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group d-flex">
-                                <input type="password" id="password" class="form-control rounded-left" name="password" placeholder="Password" required>
+                                <input type="password" id="password" class="form-control rounded-left" name="password"
+                                    placeholder="Password" required>
                             </div>
                             <div class="form-group d-md-flex">
                                 <div class="w-50">
@@ -55,7 +56,8 @@
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary rounded submit p-3 px-5"> Login </button>
                             </div>
-                        </form>                    </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
