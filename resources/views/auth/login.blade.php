@@ -26,7 +26,7 @@
                         <img src="{{ asset('assets/login/images/ds-ppu.png') }}" width="250" alt="Logo">
                         <h3 class="text-center mb-4">Login to your account</h3>
                         <form action="{{ route('login') }}" method="POST" class="login-form">
-                            @csrf
+                            <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                             <div class="form-group">
                                 <input type="email" id="email" name="email" class="form-control rounded-left"
                                     placeholder="Email" required>
