@@ -11,7 +11,7 @@
 @section('header_link')
     <a href="{{ route('admin.companies.index') }}">{{__('translate.Display Companies')}}{{--استعراض الشركات--}}</a>
 @endsection
-
+    {{-- Mohamad MAraqa --}}
 @section('content')
 
     <div>
