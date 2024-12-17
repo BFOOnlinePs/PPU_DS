@@ -12,6 +12,11 @@
                 <div class="badge badge-primary" dir="ltr">{{ auth()->user()->email}}</div>
             </div>
             <h6 class="mt-3 f-14 f-w-600">{{ auth()->user()->name }}</h6>
+            <h6 class="mt-3 f-12 f-w-500">
+                @foreach (\App\Models\MajorSupervisor::where('ms_super_id',auth()->user()->u_id)->get() as $key)
+                    <span>{{ \App\Models\Major::where('m_id',$key->ms_major_id)->first()->m_name }}</span> ,
+                @endforeach
+            </h6>
         </a>
     </div>
     <nav>
@@ -107,14 +112,6 @@
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('monitor_evaluation.semesterReport') }}"><i
                                     data-feather="calendar"></i><span>{{ __('translate.Reports') }}{{-- تقارير --}}</span></a>
-                        </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
-                                href="{{ route('admin.companies.index') }}"><i
-                                    data-feather="briefcase"></i><span>{{ __('translate.Companies') }}{{-- الشركات --}}</span></a>
-                        </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
-                                href="{{ route('supervisors.training_nominations.index') }}"><i
-                                    data-feather="briefcase"></i><span>{{ __('translate.training_nominations') }}{{-- ترشيحات التدريب --}}</span></a>
                         </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('supervisors.supervisors.student_marks') }}"><i
