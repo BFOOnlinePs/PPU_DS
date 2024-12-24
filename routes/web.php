@@ -275,6 +275,19 @@ Route::group(['middleware' => 'auth'],function () {
             Route::get('/deleteData',[App\Http\Controllers\project\settings\SettingsController::class,'deleteData'])->name('admin.settings.deleteData');
             Route::post('/confirmDelete',[App\Http\Controllers\project\settings\SettingsController::class,'confirmDelete'])->name('admin.settings.confirmDelete');
         });
+
+        Route::group(['prefix'=>'FAQ_Category'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\FAQCategoryController::class,'index'])->name('admin.faq_category.index');
+            Route::post('/list_faq_category_ajax',[App\Http\Controllers\project\admin\FAQCategoryController::class,'list_faq_category_ajax'])->name('admin.faq_category.list_faq_category_ajax');
+            Route::post('/create',[App\Http\Controllers\project\admin\FAQCategoryController::class,'create'])->name('admin.faq_category.create');
+            Route::post('/update',[App\Http\Controllers\project\admin\FAQCategoryController::class,'update'])->name('admin.faq_category.update');
+        });
+
+        Route::group(['prefix'=>'FAQ'],function(){
+            Route::get('/index',[App\Http\Controllers\project\admin\FAQController::class,'index'])->name('admin.faq.index');
+            Route::post('/list_faq_ajax',[App\Http\Controllers\project\admin\FAQController::class,'list_faq_ajax'])->name('admin.faq.list_faq_ajax');
+            Route::get('/add',[App\Http\Controllers\project\admin\FAQController::class,'add'])->name('admin.faq.add');
+        });
     });
 
     Route::group(['prefix' => 'companies'], function () {
