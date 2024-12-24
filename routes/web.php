@@ -287,6 +287,9 @@ Route::group(['middleware' => 'auth'],function () {
             Route::get('/index',[App\Http\Controllers\project\admin\FAQController::class,'index'])->name('admin.faq.index');
             Route::post('/list_faq_ajax',[App\Http\Controllers\project\admin\FAQController::class,'list_faq_ajax'])->name('admin.faq.list_faq_ajax');
             Route::get('/add',[App\Http\Controllers\project\admin\FAQController::class,'add'])->name('admin.faq.add');
+            Route::post('/create',[App\Http\Controllers\project\admin\FAQController::class,'create'])->name('admin.faq.create');
+            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\FAQController::class,'edit'])->name('admin.faq.edit');
+            Route::post('/update',[App\Http\Controllers\project\admin\FAQController::class,'update'])->name('admin.faq.update');
         });
     });
 
