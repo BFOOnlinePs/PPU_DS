@@ -276,6 +276,12 @@
                     {{--                        </div> --}}
                     {{--                     </div> --}}
                     {{--                 </li> --}}
+                    <li><a class="nav-link bg-dark text-white mt-1"
+                        href="{{ route('admin.faq_category.index') }}"><i
+                            data-feather="briefcase"></i><span>FAQ Category</span></a></li>
+                    <li><a class="nav-link bg-dark text-white mt-1"
+                        href="{{ route('admin.faq.index') }}"><i
+                            data-feather="briefcase"></i><span>FAQ</span></a></li>
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
