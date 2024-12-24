@@ -1,7 +1,7 @@
 <table class="table table-sm table-hover">
     <thead>
         <tr>
-            <th>الاسم</th>
+            <th>نص السؤال</th>
             <th class="w-25">العمليات</th>
         </tr>
     </thead>
@@ -13,9 +13,9 @@
         @else
             @foreach($data as $key)
                 <tr>
-                    <td>{{ $key->c_name }}</td>
+                    <td>{{ $key->faq_question }}</td>
                     <td>
-                        <button onclick="update_faq_category({{ $key }})" class="btn btn-success btn-xs"><span class="fa fa-edit"></span></button>
+                        <a href="{{ route('admin.faq.edit', ['id' => $key->faq_id]) }}" class="btn btn-primary btn-xs"><span class="fa fa-edit"></span></a>
                     </td>
                 </tr>
             @endforeach

@@ -33,7 +33,23 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div id="list_faq_category_ajax" class="col-md-12 table-responsive">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">نص السؤال</label>
+                                <input onkeyup="list_faq_ajax()" type="text" id="faq_question_search" class="form-control" placeholder="بحث عن نص السؤال">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div id="list_faq_ajax" class="col-md-12 table-responsive">
 
                         </div>
                     </div>
@@ -60,11 +76,10 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-                    company_id : $('#company_id').val(),
-                    supervisor_id : $('#supervisor_id').val()
+                    'faq_question_search':$('#faq_question_search').val()
                 },
                 success: function(response) {
-                    $('#list_faq_category_ajax').html(response.view);
+                    $('#list_faq_ajax').html(response.view);
                 },
                 error: function() {
                     alert('Error fetching user data.');
