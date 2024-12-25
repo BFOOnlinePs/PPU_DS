@@ -54,7 +54,7 @@
                         @elseif($key->u_role_id == 2)
                             طالب
                         @elseif($key->u_role_id == 3)
-                            مشرف اكاديمي
+                        رئيس قسم
                         @elseif($key->u_role_id == 4)
                             مساعد إداري
                         @elseif($key->u_role_id == 5)

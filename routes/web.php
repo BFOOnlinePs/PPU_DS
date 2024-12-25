@@ -465,6 +465,7 @@ Route::group(['middleware' => 'auth'],function () {
         Route::group(['prefix' => 'companies'], function () {
             Route::get('/index' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'index'])->name('supervisors.companies.index'); // To display companies
             Route::get('/students/{id}' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'students'])->name('supervisors.companies.students'); // To display students
+            Route::post('/list_companies' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'list_companies'])->name('supervisors.companies.list_companies'); // To display students
         });
         Route::group(['prefix' => 'assistant'], function () {
             Route::get('/index/{id}' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'index'])->name('supervisors.assistant.index');
@@ -476,6 +477,7 @@ Route::group(['middleware' => 'auth'],function () {
         });
         Route::group(['prefix' => 'student_marks'], function () {
             Route::get('/index' , [App\Http\Controllers\project\supervisors\StudentMarksController::class , 'index'])->name('supervisors.supervisors.student_marks');
+            Route::post('/list_student_mark_ajax' , [App\Http\Controllers\project\supervisors\StudentMarksController::class , 'list_student_mark_ajax'])->name('supervisors.supervisors.list_student_mark_ajax');
         });
     });
 
