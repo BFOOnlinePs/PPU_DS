@@ -69,6 +69,12 @@
                         <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('admin.settings') }}"><i
                                     data-feather="settings"></i><span>{{ __('translate.Settings') }}{{-- الإعدادات --}}</span></a>
                         </li>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                            href="{{ route('admin.faq_category.index') }}"><i
+                                data-feather="briefcase"></i><span>FAQ Category</span></a></li>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                            href="{{ route('admin.faq.index') }}"><i
+                                data-feather="briefcase"></i><span>FAQ</span></a></li>
                     @elseif(auth()->user()->u_role_id == 2)
                         {{-- Student --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -117,6 +123,13 @@
                                 href="{{ route('supervisors.supervisors.student_marks') }}"><i
                                     data-feather="user"></i><span>علامات الطلاب</span></a>
                         </li>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                            href="{{ route('monitor_evaluation.attendance_and_departure_report_index') }}"><i
+                                data-feather="clock"></i><span>{{ __('translate.Student Attendance') }}{{-- سجل الحضور والمغادرة --}}</span></a>
+                                <li><a class="nav-link bg-dark text-white mt-1"
+                                    href="{{ route('admin.field_visits.index') }}"><i
+                                        data-feather="briefcase"></i><span>زيارات المشرفين</span></a>
+                            </li>
                     @elseif (auth()->user()->u_role_id == 4)
                         {{-- Assistant --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -276,12 +289,6 @@
                     {{--                        </div> --}}
                     {{--                     </div> --}}
                     {{--                 </li> --}}
-                    <li><a class="nav-link bg-dark text-white mt-1"
-                        href="{{ route('admin.faq_category.index') }}"><i
-                            data-feather="briefcase"></i><span>FAQ Category</span></a></li>
-                    <li><a class="nav-link bg-dark text-white mt-1"
-                        href="{{ route('admin.faq.index') }}"><i
-                            data-feather="briefcase"></i><span>FAQ</span></a></li>
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
