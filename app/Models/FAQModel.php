@@ -17,4 +17,8 @@ class FAQModel extends Model
     {
         return $this->belongsTo(FAQCategoryModel::class);
     }
+
+    public function added_by(){
+        return $this->belongsTo(User::class, 'faq_added_by');
+    }
 }

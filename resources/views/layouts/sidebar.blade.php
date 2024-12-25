@@ -69,9 +69,9 @@
                         <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('admin.settings') }}"><i
                                     data-feather="settings"></i><span>{{ __('translate.Settings') }}{{-- الإعدادات --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
+                        {{-- <li><a class="nav-link bg-dark text-white mt-1"
                             href="{{ route('admin.faq_category.index') }}"><i
-                                data-feather="briefcase"></i><span>FAQ Category</span></a></li>
+                                data-feather="briefcase"></i><span>FAQ Category</span></a></li> --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
                             href="{{ route('admin.faq.index') }}"><i
                                 data-feather="briefcase"></i><span>FAQ</span></a></li>
