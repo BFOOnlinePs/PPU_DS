@@ -46,152 +46,154 @@ Route::group(['middleware' => ['auth']],function () {
                 Route::post('/show_event_information',[App\Http\Controllers\project\allUsersWithoutAdmin\CalendarController::class,'show_event_information'])->name('allUsersWithoutAdmin.calendar.show_event_information');
             });
         });
-    Route::group(['prefix'=>'admin' , 'middleware' => ['role:1']],function(){
-        Route::group(['prefix'=>'calendar'],function(){
-            Route::group(['prefix'=>'ajax'],function(){
-                Route::post('/ajax_to_get_courses',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_courses'])->name('admin.calendar.ajax.ajax_to_get_courses');
-                Route::post('/ajax_to_get_majors',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_majors'])->name('admin.calendar.ajax.ajax_to_get_majors');
-                Route::post('/ajax_to_get_companies',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_companies'])->name('admin.calendar.ajax.ajax_to_get_companies');
-                Route::post('/show_event_information',[App\Http\Controllers\project\admin\CalendarController::class,'show_event_information'])->name('admin.calendar.ajax.show_event_information');
-                Route::post('/delete_event',[App\Http\Controllers\project\admin\CalendarController::class,'delete_event'])->name('admin.calendar.ajax.delete_event');
-                Route::post('/edit_event',[App\Http\Controllers\project\admin\CalendarController::class,'edit_event'])->name('admin.calendar.ajax.edit_event');
+    Route::group(['prefix'=>'admin'],function(){
+        Route::group(['middleware'=>'role:1'],function(){
+            Route::group(['prefix'=>'calendar'],function(){
+                Route::group(['prefix'=>'ajax'],function(){
+                    Route::post('/ajax_to_get_courses',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_courses'])->name('admin.calendar.ajax.ajax_to_get_courses');
+                    Route::post('/ajax_to_get_majors',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_majors'])->name('admin.calendar.ajax.ajax_to_get_majors');
+                    Route::post('/ajax_to_get_companies',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_companies'])->name('admin.calendar.ajax.ajax_to_get_companies');
+                    Route::post('/show_event_information',[App\Http\Controllers\project\admin\CalendarController::class,'show_event_information'])->name('admin.calendar.ajax.show_event_information');
+                    Route::post('/delete_event',[App\Http\Controllers\project\admin\CalendarController::class,'delete_event'])->name('admin.calendar.ajax.delete_event');
+                    Route::post('/edit_event',[App\Http\Controllers\project\admin\CalendarController::class,'edit_event'])->name('admin.calendar.ajax.edit_event');
+                });
+                Route::post('/create_event',[App\Http\Controllers\project\admin\CalendarController::class,'create_event'])->name('admin.calendar.create_event');
+                Route::post('/display_events',[App\Http\Controllers\project\admin\CalendarController::class,'display_events'])->name('admin.calendar.display_events');
             });
-            Route::post('/create_event',[App\Http\Controllers\project\admin\CalendarController::class,'create_event'])->name('admin.calendar.create_event');
-            Route::post('/display_events',[App\Http\Controllers\project\admin\CalendarController::class,'display_events'])->name('admin.calendar.display_events');
+            Route::group(['prefix'=>'registration'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\RegistrationController::class,'index'])->name('admin.registration.index');
+                Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
+                Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
+                Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
+                Route::post('/add_training_supervisor',[App\Http\Controllers\project\admin\RegistrationController::class,'add_training_supervisor'])->name('admin.registration.add_training_supervisor');
+            });
+            Route::group(['prefix'=>'evaluations'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\EvaluationsController::class,'index'])->name('admin.evaluations.index');
+                Route::get('/add',[App\Http\Controllers\project\admin\EvaluationsController::class,'add'])->name('admin.evaluations.add');
+                Route::post('/create',[App\Http\Controllers\project\admin\EvaluationsController::class,'create'])->name('admin.evaluations.create');
+                Route::get('/edit/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'edit'])->name('admin.evaluations.edit');
+                Route::post('/update',[App\Http\Controllers\project\admin\EvaluationsController::class,'update'])->name('admin.evaluations.update');
+                Route::post('/list_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_criteria_ajax'])->name('admin.evaluations.list_criteria_ajax');
+                Route::post('/list_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_criteria_ajax'])->name('admin.evaluations.list_evaluation_criteria_ajax');
+                Route::post('/add_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'add_evaluation_criteria_ajax'])->name('admin.evaluations.add_evaluation_criteria_ajax');
+                Route::post('/delete_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'delete_evaluation_criteria_ajax'])->name('admin.evaluations.delete_evaluation_criteria_ajax');
+                Route::get('/evaluation_criteria/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'evaluation_criteria'])->name('admin.evaluations.evaluation_criteria');
+                Route::get('/details/{evaluation_id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'details'])->name('admin.evaluations.details');
+                Route::post('/list_evaluation_details_list}',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_details_list'])->name('admin.evaluations.list_evaluation_details_list');
+                Route::post('/edit_total_score',[App\Http\Controllers\project\admin\EvaluationsController::class,'edit_total_score'])->name('admin.evaluations.edit_total_score');
+            });
+            Route::group(['prefix'=>'criteria'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\CriteriaController::class,'index'])->name('admin.criteria.index');
+                Route::get('/add',[App\Http\Controllers\project\admin\CriteriaController::class,'add'])->name('admin.criteria.add');
+                Route::post('/create',[App\Http\Controllers\project\admin\CriteriaController::class,'create'])->name('admin.criteria.create');
+                Route::get('/edit/{id}',[App\Http\Controllers\project\admin\CriteriaController::class,'edit'])->name('admin.criteria.edit');
+                Route::post('/update',[App\Http\Controllers\project\admin\CriteriaController::class,'update'])->name('admin.criteria.update');
+            });
+            Route::group(['prefix'=>'cities'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\CitiesController::class,'index'])->name('admin.cities.index');
+                Route::post('/create',[App\Http\Controllers\project\admin\CitiesController::class,'create'])->name('admin.cities.create');
+                Route::post('/update',[App\Http\Controllers\project\admin\CitiesController::class,'update'])->name('admin.cities.update');
+            });
+            Route::group(['prefix'=>'attendance'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\AttendanceController::class,'index'])->name('admin.attendance.index');
+                Route::post('/fillter',[App\Http\Controllers\project\admin\AttendanceController::class,'fillter'])->name('admin.attendance.fillter');
+                Route::post('/details',[App\Http\Controllers\project\admin\AttendanceController::class,'details'])->name('admin.attendance.details');
+            });
+            Route::group(['prefix'=>'survey'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\surveyController::class,'index'])->name('admin.survey.index');
+                Route::post('/surveySearch',[App\Http\Controllers\project\admin\surveyController::class,'surveySearch'])->name('admin.survey.surveySearch');
+                Route::get('/addSurvey',[App\Http\Controllers\project\admin\surveyController::class,'addSurvey'])->name('admin.survey.addSurvey');
+                Route::post('/createSurvey',[App\Http\Controllers\project\admin\surveyController::class,'createSurvey'])->name('admin.survey.createSurvey');
+                Route::get('/surveyView/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyView'])->name('admin.survey.surveyView');
+                Route::post('/submitSurvey',[App\Http\Controllers\project\admin\surveyController::class,'submitSurvey'])->name('admin.survey.submitSurvey');
+                Route::post('/deleteSurvey',[App\Http\Controllers\project\admin\surveyController::class,'deleteSurvey'])->name('admin.survey.deleteSurvey');
+                Route::get('/editSurvey/{id}',[App\Http\Controllers\project\admin\surveyController::class,'editSurvey'])->name('admin.survey.editSurvey');
+                Route::get('/surveySubmit/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveySubmit'])->name('admin.survey.surveySubmit');
+                Route::post('/update',[App\Http\Controllers\project\admin\surveyController::class,'update'])->name('admin.survey.update');
+                Route::get('/surveyResults/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyResults'])->name('admin.survey.surveyResults');
+
+            });
+            Route::group(['prefix'=>'announcements'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\announcementController::class,'index'])->name('admin.announcements.index');
+                Route::post('/announcementSearch',[App\Http\Controllers\project\admin\announcementController::class,'announcementSearch'])->name('admin.announcements.announcementSearch');
+                Route::get('/addAnnouncement',[App\Http\Controllers\project\admin\announcementController::class,'addAnnouncement'])->name('admin.announcements.addAnnouncement');
+                Route::post('/create',[App\Http\Controllers\project\admin\announcementController::class,'create'])->name('admin.announcements.create');
+                Route::get('/edit/{id}',[App\Http\Controllers\project\admin\announcementController::class,'edit'])->name('admin.announcements.edit');
+                Route::post('/update',[App\Http\Controllers\project\admin\announcementController::class,'update'])->name('admin.announcements.update');
+                Route::post('/updateStutas',[App\Http\Controllers\project\admin\announcementController::class,'updateStutas'])->name('admin.announcements.updateStutas');
+            });
+            Route::group(['prefix'=>'courses'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\CoursesController::class,'index'])->name('admin.courses.index');
+                Route::post('/create',[App\Http\Controllers\project\admin\CoursesController::class,'create'])->name('admin.courses.create');
+                Route::post('/update',[App\Http\Controllers\project\admin\CoursesController::class,'update'])->name('admin.courses.update');
+                Route::post('/couseSearch',[App\Http\Controllers\project\admin\CoursesController::class,'courseSearch'])->name('admin.courses.courseSearch');
+                Route::post('/checkrCourseCode',[App\Http\Controllers\project\admin\CoursesController::class,'checkCourseCode'])->name('admin.courses.checkCourseCode');
+                Route::get('/loadCourses',[App\Http\Controllers\project\admin\CoursesController::class,'getCourses'])->name('admin.courses.loadMoreCourses');
+            });
+            Route::group(['prefix'=>'reports'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\ReportController::class,'index'])->name('admin.reports.index');
+                Route::post('/report_history_ajax',[App\Http\Controllers\project\admin\ReportController::class,'report_history_ajax'])->name('admin.reports.report_history_ajax');
+            });
+            Route::group(['prefix'=>'semesterCourses'],function(){
+                Route::get('/index',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'index'])->name('admin.semesterCourses.index');
+                Route::post('/create',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'create'])->name('admin.semesterCourses.create');
+                Route::post('/delete',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'delete'])->name('admin.semesterCourses.delete');
+                Route::post('/search',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'search'])->name('admin.semesterCourses.search');
+                Route::post('/courseSearch',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'courseNameSearch'])->name('admin.semesterCourses.courseNameSearch');
+            });
+            Route::group(['prefix'=>'users'],function(){
+                Route::get('/index/{id}' , [App\Http\Controllers\UserController::class, 'index_id'])->name('admin.users.index_id');
+                Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
+                Route::post('/create' , [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.create');
+                Route::get('/edit/{id}' , [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
+                Route::post('/update' , [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
+                Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('admin.users.search');
+                Route::get('/details/{id}' , [App\Http\Controllers\UserController::class, 'details'])->name('admin.users.details');
+                Route::get('/courses/student/{id}' , [App\Http\Controllers\UserController::class, 'courses_student'])->name('admin.users.courses.student');
+                Route::post('/courses/student/add' , [App\Http\Controllers\UserController::class, 'courses_student_add'])->name('admin.users.courses.student.add');
+                Route::post('/courses/student/create_or_update_grade' , [App\Http\Controllers\UserController::class, 'create_or_update_grade'])->name('admin.users.courses.student.create_or_update_grade');
+                Route::get('/places/training/{id}' , [App\Http\Controllers\UserController::class, 'places_training'])->name('admin.users.places.training');
+                Route::post('/courses/student/delete' , [App\Http\Controllers\UserController::class, 'courses_student_delete'])->name('admin.users.courses.student.delete');
+                Route::post('/places/training/branches' , [App\Http\Controllers\UserController::class, 'places_training_branches'])->name('admin.users.places.training.branches');
+                Route::post('/places/training/departments' , [App\Http\Controllers\UserController::class, 'places_training_departments'])->name('admin.users.places.training.departments');
+                Route::post('/places/training/add' , [App\Http\Controllers\UserController::class, 'places_training_add'])->name('admin.users.places.training.add');
+                Route::post('/places/training/delete' , [App\Http\Controllers\UserController::class, 'places_training_delete'])->name('admin.users.places.training.delete');
+                Route::post('/places/training/edit' , [App\Http\Controllers\UserController::class, 'places_training_edit'])->name('admin.users.places.training.edit');
+                Route::post('/places/training/edit/branch' , [App\Http\Controllers\UserController::class, 'places_training_edit_branch'])->name('admin.users.places.training.edit.branch');
+                Route::post('/places/training/update' , [App\Http\Controllers\UserController::class, 'places_training_update'])->name('admin.users.places.training.update');
+                Route::post('/training/place/update/file_agreement' , [App\Http\Controllers\UserController::class, 'training_place_update_file_agreement'])->name('admin.users.training.place.update.file_agreement');
+                Route::get('/training/place/delete/file_agreement/{sc_id}' , [App\Http\Controllers\UserController::class, 'training_place_delete_file_agreement'])->name('admin.users.training.place.delete.file_agreement');
+                Route::get('/students/attendance/{id}' , [App\Http\Controllers\UserController::class, 'students_attendance'])->name('admin.users.students.attendance');
+                Route::get('/student/payments/{id}' , [App\Http\Controllers\UserController::class, 'student_payments'])->name('admin.users.student.payments');
+                Route::post('/supervisor/major/add' , [App\Http\Controllers\UserController::class , 'supervisor_major_add'])->name('admin.users.supervisor.major.add'); // To add major to academic supervisor
+                Route::post('/supervisor/major/delete' , [App\Http\Controllers\UserController::class, 'supervisor_major_delete'])->name('admin.users.supervisor.major.delete'); // To delete major to academic supervisor
+                Route::post('/supervisor/students/search' , [App\Http\Controllers\UserController::class, 'supervisor_students_search'])->name('admin.users.supervisor.students.search'); // To make search by username and name to supervisor's students
+                Route::post('/supervisor/students/search/major' , [App\Http\Controllers\UserController::class , 'supervisor_students_search_major'])->name('admin.users.supervisor.students.search.major'); // To make filter for major in academic supervisor
+                Route::post('/report/student/display' , [App\Http\Controllers\UserController::class , 'report_student_display'])->name('admin.users.report.student.display'); // To show report of student in modal
+                Route::post('/report/student/edit' , [App\Http\Controllers\UserController::class , 'report_student_edit'])->name('admin.users.report.student.edit'); // To submit notes of supervisor to student report
+                Route::post('/check_email_not_duplicate' , [App\Http\Controllers\UserController::class , 'check_email_not_duplicate'])->name('users.add.check_email_not_duplicate');
+                Route::post('/students_waiting_to_approve_cv' , [App\Http\Controllers\UserController::class , 'students_waiting_to_approve_cv'])->name('users.students_waiting_to_approve_cv');
+                Route::get('/student/files/{id}' , [App\Http\Controllers\UserController::class , 'students_files'])->name('admin.users.students.students_files');
+                Route::post('/student/files/create' , [App\Http\Controllers\UserController::class , 'create_students_files'])->name('admin.users.students.create_students_files');
+                Route::post('/change_status_from_cv' , [App\Http\Controllers\UserController::class , 'change_status_from_cv'])->name('users.change_status_from_cv');
+                Route::post('/change_user_role' , [App\Http\Controllers\UserController::class , 'change_user_role'])->name('users.change_user_role');
+                Route::group(['prefix'=>'company_manager'],function(){
+                    Route::post('/searchStudentByName' , [App\Http\Controllers\UserController::class , 'searchStudentByName'])->name('users.company_manager.searchStudentByName');
+                });
+                Route::group(['prefix'=>'supervisor_assistatns'],function(){
+                    Route::post('/create' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'create'])->name('admin.assistant.create');
+                    Route::post('/showSelectSupervisor' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'show_select_for_supervisor'])->name('admin.assistant.showSelectSupervisor');
+                    Route::post('/deleteSupervisor' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'deleteSupervisor'])->name('admin.assistant.deleteSupervisor');
+                });
+            });
         });
-        Route::group(['prefix'=>'registration'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\RegistrationController::class,'index'])->name('admin.registration.index');
-            Route::get('/CourseStudents/{id}',[App\Http\Controllers\project\admin\RegistrationController::class,'CourseStudents'])->name('admin.registration.CourseStudents');
-            Route::get('/SemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'SemesterStudents'])->name('admin.registration.semesterStudents');
-            Route::post('/FilterSemesterStudents',[App\Http\Controllers\project\admin\RegistrationController::class,'FilterSemesterStudents'])->name('admin.registration.filterSemesterStudents');
-            Route::post('/add_training_supervisor',[App\Http\Controllers\project\admin\RegistrationController::class,'add_training_supervisor'])->name('admin.registration.add_training_supervisor');
-        });
-        Route::group(['prefix' => 'field_visits'],function (){
+        Route::group(['prefix' => 'field_visits' , 'middleware' => 'role:3|8'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'index'])->name('admin.field_visits.index');
             Route::post('/list_field_visits' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'list_field_visits'])->name('admin.field_visits.list_field_visits');
         });
-        Route::group(['prefix'=>'evaluations'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\EvaluationsController::class,'index'])->name('admin.evaluations.index');
-            Route::get('/add',[App\Http\Controllers\project\admin\EvaluationsController::class,'add'])->name('admin.evaluations.add');
-            Route::post('/create',[App\Http\Controllers\project\admin\EvaluationsController::class,'create'])->name('admin.evaluations.create');
-            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'edit'])->name('admin.evaluations.edit');
-            Route::post('/update',[App\Http\Controllers\project\admin\EvaluationsController::class,'update'])->name('admin.evaluations.update');
-            Route::post('/list_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_criteria_ajax'])->name('admin.evaluations.list_criteria_ajax');
-            Route::post('/list_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_criteria_ajax'])->name('admin.evaluations.list_evaluation_criteria_ajax');
-            Route::post('/add_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'add_evaluation_criteria_ajax'])->name('admin.evaluations.add_evaluation_criteria_ajax');
-            Route::post('/delete_evaluation_criteria_ajax',[App\Http\Controllers\project\admin\EvaluationsController::class,'delete_evaluation_criteria_ajax'])->name('admin.evaluations.delete_evaluation_criteria_ajax');
-            Route::get('/evaluation_criteria/{id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'evaluation_criteria'])->name('admin.evaluations.evaluation_criteria');
-            Route::get('/details/{evaluation_id}',[App\Http\Controllers\project\admin\EvaluationsController::class,'details'])->name('admin.evaluations.details');
-            Route::post('/list_evaluation_details_list}',[App\Http\Controllers\project\admin\EvaluationsController::class,'list_evaluation_details_list'])->name('admin.evaluations.list_evaluation_details_list');
-            Route::post('/edit_total_score',[App\Http\Controllers\project\admin\EvaluationsController::class,'edit_total_score'])->name('admin.evaluations.edit_total_score');
-        });
-        Route::group(['prefix'=>'criteria'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\CriteriaController::class,'index'])->name('admin.criteria.index');
-            Route::get('/add',[App\Http\Controllers\project\admin\CriteriaController::class,'add'])->name('admin.criteria.add');
-            Route::post('/create',[App\Http\Controllers\project\admin\CriteriaController::class,'create'])->name('admin.criteria.create');
-            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\CriteriaController::class,'edit'])->name('admin.criteria.edit');
-            Route::post('/update',[App\Http\Controllers\project\admin\CriteriaController::class,'update'])->name('admin.criteria.update');
-        });
-        Route::group(['prefix'=>'cities'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\CitiesController::class,'index'])->name('admin.cities.index');
-            Route::post('/create',[App\Http\Controllers\project\admin\CitiesController::class,'create'])->name('admin.cities.create');
-            Route::post('/update',[App\Http\Controllers\project\admin\CitiesController::class,'update'])->name('admin.cities.update');
-        });
-        Route::group(['prefix'=>'attendance'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\AttendanceController::class,'index'])->name('admin.attendance.index');
-            Route::post('/fillter',[App\Http\Controllers\project\admin\AttendanceController::class,'fillter'])->name('admin.attendance.fillter');
-            Route::post('/details',[App\Http\Controllers\project\admin\AttendanceController::class,'details'])->name('admin.attendance.details');
-        });
-        Route::group(['prefix'=>'survey'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\surveyController::class,'index'])->name('admin.survey.index');
-            Route::post('/surveySearch',[App\Http\Controllers\project\admin\surveyController::class,'surveySearch'])->name('admin.survey.surveySearch');
-            Route::get('/addSurvey',[App\Http\Controllers\project\admin\surveyController::class,'addSurvey'])->name('admin.survey.addSurvey');
-            Route::post('/createSurvey',[App\Http\Controllers\project\admin\surveyController::class,'createSurvey'])->name('admin.survey.createSurvey');
-            Route::get('/surveyView/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyView'])->name('admin.survey.surveyView');
-            Route::post('/submitSurvey',[App\Http\Controllers\project\admin\surveyController::class,'submitSurvey'])->name('admin.survey.submitSurvey');
-            Route::post('/deleteSurvey',[App\Http\Controllers\project\admin\surveyController::class,'deleteSurvey'])->name('admin.survey.deleteSurvey');
-            Route::get('/editSurvey/{id}',[App\Http\Controllers\project\admin\surveyController::class,'editSurvey'])->name('admin.survey.editSurvey');
-            Route::get('/surveySubmit/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveySubmit'])->name('admin.survey.surveySubmit');
-            Route::post('/update',[App\Http\Controllers\project\admin\surveyController::class,'update'])->name('admin.survey.update');
-            Route::get('/surveyResults/{id}',[App\Http\Controllers\project\admin\surveyController::class,'surveyResults'])->name('admin.survey.surveyResults');
 
-        });
-        Route::group(['prefix'=>'announcements'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\announcementController::class,'index'])->name('admin.announcements.index');
-            Route::post('/announcementSearch',[App\Http\Controllers\project\admin\announcementController::class,'announcementSearch'])->name('admin.announcements.announcementSearch');
-            Route::get('/addAnnouncement',[App\Http\Controllers\project\admin\announcementController::class,'addAnnouncement'])->name('admin.announcements.addAnnouncement');
-            Route::post('/create',[App\Http\Controllers\project\admin\announcementController::class,'create'])->name('admin.announcements.create');
-            Route::get('/edit/{id}',[App\Http\Controllers\project\admin\announcementController::class,'edit'])->name('admin.announcements.edit');
-            Route::post('/update',[App\Http\Controllers\project\admin\announcementController::class,'update'])->name('admin.announcements.update');
-            Route::post('/updateStutas',[App\Http\Controllers\project\admin\announcementController::class,'updateStutas'])->name('admin.announcements.updateStutas');
-        });
-        Route::group(['prefix'=>'courses'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\CoursesController::class,'index'])->name('admin.courses.index');
-            Route::post('/create',[App\Http\Controllers\project\admin\CoursesController::class,'create'])->name('admin.courses.create');
-            Route::post('/update',[App\Http\Controllers\project\admin\CoursesController::class,'update'])->name('admin.courses.update');
-            Route::post('/couseSearch',[App\Http\Controllers\project\admin\CoursesController::class,'courseSearch'])->name('admin.courses.courseSearch');
-            Route::post('/checkrCourseCode',[App\Http\Controllers\project\admin\CoursesController::class,'checkCourseCode'])->name('admin.courses.checkCourseCode');
-            Route::get('/loadCourses',[App\Http\Controllers\project\admin\CoursesController::class,'getCourses'])->name('admin.courses.loadMoreCourses');
-        });
-        Route::group(['prefix'=>'reports'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\ReportController::class,'index'])->name('admin.reports.index');
-            Route::post('/report_history_ajax',[App\Http\Controllers\project\admin\ReportController::class,'report_history_ajax'])->name('admin.reports.report_history_ajax');
-        });
-        Route::group(['prefix'=>'semesterCourses'],function(){
-            Route::get('/index',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'index'])->name('admin.semesterCourses.index');
-            Route::post('/create',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'create'])->name('admin.semesterCourses.create');
-            Route::post('/delete',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'delete'])->name('admin.semesterCourses.delete');
-            Route::post('/search',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'search'])->name('admin.semesterCourses.search');
-            Route::post('/courseSearch',[App\Http\Controllers\project\admin\SemesterCoursesController::class,'courseNameSearch'])->name('admin.semesterCourses.courseNameSearch');
-        });
-        Route::group(['prefix'=>'users'],function(){
-            Route::get('/index/{id}' , [App\Http\Controllers\UserController::class, 'index_id'])->name('admin.users.index_id');
-            Route::get('/index' , [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
-            Route::post('/create' , [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.create');
-            Route::get('/edit/{id}' , [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
-            Route::post('/update' , [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
-            Route::post('/search' , [App\Http\Controllers\UserController::class, 'search'])->name('admin.users.search');
-            Route::get('/details/{id}' , [App\Http\Controllers\UserController::class, 'details'])->name('admin.users.details');
-            Route::get('/courses/student/{id}' , [App\Http\Controllers\UserController::class, 'courses_student'])->name('admin.users.courses.student');
-            Route::post('/courses/student/add' , [App\Http\Controllers\UserController::class, 'courses_student_add'])->name('admin.users.courses.student.add');
-            Route::post('/courses/student/create_or_update_grade' , [App\Http\Controllers\UserController::class, 'create_or_update_grade'])->name('admin.users.courses.student.create_or_update_grade');
-            Route::get('/places/training/{id}' , [App\Http\Controllers\UserController::class, 'places_training'])->name('admin.users.places.training');
-            Route::post('/courses/student/delete' , [App\Http\Controllers\UserController::class, 'courses_student_delete'])->name('admin.users.courses.student.delete');
-            Route::post('/places/training/branches' , [App\Http\Controllers\UserController::class, 'places_training_branches'])->name('admin.users.places.training.branches');
-            Route::post('/places/training/departments' , [App\Http\Controllers\UserController::class, 'places_training_departments'])->name('admin.users.places.training.departments');
-            Route::post('/places/training/add' , [App\Http\Controllers\UserController::class, 'places_training_add'])->name('admin.users.places.training.add');
-            Route::post('/places/training/delete' , [App\Http\Controllers\UserController::class, 'places_training_delete'])->name('admin.users.places.training.delete');
-            Route::post('/places/training/edit' , [App\Http\Controllers\UserController::class, 'places_training_edit'])->name('admin.users.places.training.edit');
-            Route::post('/places/training/edit/branch' , [App\Http\Controllers\UserController::class, 'places_training_edit_branch'])->name('admin.users.places.training.edit.branch');
-            Route::post('/places/training/update' , [App\Http\Controllers\UserController::class, 'places_training_update'])->name('admin.users.places.training.update');
-            Route::post('/training/place/update/file_agreement' , [App\Http\Controllers\UserController::class, 'training_place_update_file_agreement'])->name('admin.users.training.place.update.file_agreement');
-            Route::get('/training/place/delete/file_agreement/{sc_id}' , [App\Http\Controllers\UserController::class, 'training_place_delete_file_agreement'])->name('admin.users.training.place.delete.file_agreement');
-            Route::get('/students/attendance/{id}' , [App\Http\Controllers\UserController::class, 'students_attendance'])->name('admin.users.students.attendance');
-            Route::get('/student/payments/{id}' , [App\Http\Controllers\UserController::class, 'student_payments'])->name('admin.users.student.payments');
-            Route::post('/supervisor/major/add' , [App\Http\Controllers\UserController::class , 'supervisor_major_add'])->name('admin.users.supervisor.major.add'); // To add major to academic supervisor
-            Route::post('/supervisor/major/delete' , [App\Http\Controllers\UserController::class, 'supervisor_major_delete'])->name('admin.users.supervisor.major.delete'); // To delete major to academic supervisor
-            Route::post('/supervisor/students/search' , [App\Http\Controllers\UserController::class, 'supervisor_students_search'])->name('admin.users.supervisor.students.search'); // To make search by username and name to supervisor's students
-            Route::post('/supervisor/students/search/major' , [App\Http\Controllers\UserController::class , 'supervisor_students_search_major'])->name('admin.users.supervisor.students.search.major'); // To make filter for major in academic supervisor
-            Route::post('/report/student/display' , [App\Http\Controllers\UserController::class , 'report_student_display'])->name('admin.users.report.student.display'); // To show report of student in modal
-            Route::post('/report/student/edit' , [App\Http\Controllers\UserController::class , 'report_student_edit'])->name('admin.users.report.student.edit'); // To submit notes of supervisor to student report
-            Route::post('/check_email_not_duplicate' , [App\Http\Controllers\UserController::class , 'check_email_not_duplicate'])->name('users.add.check_email_not_duplicate');
-            Route::post('/students_waiting_to_approve_cv' , [App\Http\Controllers\UserController::class , 'students_waiting_to_approve_cv'])->name('users.students_waiting_to_approve_cv');
-            Route::get('/student/files/{id}' , [App\Http\Controllers\UserController::class , 'students_files'])->name('admin.users.students.students_files');
-            Route::post('/student/files/create' , [App\Http\Controllers\UserController::class , 'create_students_files'])->name('admin.users.students.create_students_files');
-            Route::post('/change_status_from_cv' , [App\Http\Controllers\UserController::class , 'change_status_from_cv'])->name('users.change_status_from_cv');
-            Route::post('/change_user_role' , [App\Http\Controllers\UserController::class , 'change_user_role'])->name('users.change_user_role');
-            Route::group(['prefix'=>'company_manager'],function(){
-                Route::post('/searchStudentByName' , [App\Http\Controllers\UserController::class , 'searchStudentByName'])->name('users.company_manager.searchStudentByName');
-            });
-            Route::group(['prefix'=>'supervisor_assistatns'],function(){
-                Route::post('/create' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'create'])->name('admin.assistant.create');
-                Route::post('/showSelectSupervisor' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'show_select_for_supervisor'])->name('admin.assistant.showSelectSupervisor');
-                Route::post('/deleteSupervisor' , [App\Http\Controllers\project\admin\supervisorAssistatnsController::class, 'deleteSupervisor'])->name('admin.assistant.deleteSupervisor');
-            });
-        });
-
-        Route::group(['prefix'=>'students'],function(){
-            Route::group(['prefix'=>'final_reports'],function(){
+        Route::group(['prefix'=>'students' , 'middleware' => 'role:2'],function(){
+            Route::group(['prefix'=>'final_reports' ],function(){
                 Route::get('/index',[App\Http\Controllers\project\students\FinalReportController::class,'index'])->name('students.final_reports.index');
                 Route::post('/create',[App\Http\Controllers\project\students\FinalReportController::class,'create'])->name('students.final_reports.create');
                 Route::get('/delete/{id}',[App\Http\Controllers\project\students\FinalReportController::class,'delete'])->name('students.final_reports.delete');
@@ -298,7 +300,7 @@ Route::group(['middleware' => ['auth']],function () {
 
     Route::group(['prefix' => 'company_trainer' , 'middleware' => 'role:7'], function () {
     });
-    Route::group(['prefix' => 'communications_manager_with_companies' , 'middleware' => 'role:8'], function () {
+    Route::group(['prefix' => 'communications_manager_with_companies' , 'middleware' => 'role:8|1'], function () {
         Route::group(['prefix' => 'students'], function () {
             Route::get('/index' , [App\Http\Controllers\project\communications_manager_with_companies\students\StudentsController::class, 'index'])->name('communications_manager_with_companies.students.index');
             Route::post('/search' , [App\Http\Controllers\project\communications_manager_with_companies\students\StudentsController::class, 'search'])->name('communications_manager_with_companies.students.search');
@@ -323,7 +325,7 @@ Route::group(['middleware' => ['auth']],function () {
         });
     });
 
-    Route::group(['prefix' => 'monitor_evaluation' , 'middleware' => 'role:9'], function () {
+    Route::group(['prefix' => 'monitor_evaluation' , 'middleware' => 'role:1|3|5|8'], function () {
         Route::get('/index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'index'])->name('monitor_evaluation.index');
         Route::get('/user_details' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'user_details'])->name('monitor_evaluation.user_details');
         Route::post('/update_password' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'update_password'])->name('monitor_evaluation.update_password');
@@ -404,7 +406,8 @@ Route::group(['middleware' => ['auth']],function () {
             Route::post('/student_nomination_table',[App\Http\Controllers\project\company_manager\student_nominations\StudentNominationsController::class,'student_nomination_table'])->name('company_manager.student_nominations.student_nomination_table');
         });
     });
-    Route::group(['prefix' => 'students' , 'middleware'=> 'role:2'], function () {
+    Route::group(['prefix' => 'students'], function () {
+        Route::group(['middleware' => 'role:2'],function(){
         Route::group(['prefix' => 'personal_profile'], function () {
             Route::get('/index' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'index'])->name('students.personal_profile.index');  // To display personal profile for this student
             Route::post('/add_sv_to_student' , [App\Http\Controllers\project\students\personal_profile\PersonalProfileController::class, 'add_sv_to_student'])->name('students.personal_profile.add_sv_to_student');  // To display personal profile for this student
@@ -431,7 +434,9 @@ Route::group(['middleware' => ['auth']],function () {
             Route::get('/index' , [App\Http\Controllers\project\students\payments\PaymentsController::class, 'index'])->name('students.payments.index');
             Route::post('/confirm' , [App\Http\Controllers\project\students\payments\PaymentsController::class, 'confirmByAjax'])->name('student.payments.confirmByAjax');
         });
-        Route::group(['prefix' => 'evaluation'], function () {
+
+        });
+        Route::group(['prefix' => 'evaluation' , 'middleware' => 'role:2|6|10'], function () {
             Route::get('/index' , [App\Http\Controllers\project\students\EvaluationController::class, 'index'])->name('students.evaluation.index');
             Route::get('/details/{evaluation_id}' , [App\Http\Controllers\project\students\EvaluationController::class, 'details'])->name('students.evaluation.details');
             Route::get('/evaluation_submission_page/{registration_id}/{evaluation_id}' , [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_page'])->name('students.evaluation.evaluation_submission_page');
@@ -455,33 +460,36 @@ Route::group(['middleware' => ['auth']],function () {
         });
     });
 
-    Route::group(['prefix' => 'supervisors' , 'middleware' => 'role:3'], function () {
-        Route::group(['prefix' => 'majors'], function () {
-            Route::get('/index/{id}' , [App\Http\Controllers\project\supervisors\MajorsController::class , 'index'])->name('supervisors.majors.index'); // To show majors to academic supervisor
+    Route::group(['prefix' => 'supervisors'], function () {
+        Route::group(['middleware' => 'role:3'],function(){
+            Route::group(['prefix' => 'majors'], function () {
+                Route::get('/index/{id}' , [App\Http\Controllers\project\supervisors\MajorsController::class , 'index'])->name('supervisors.majors.index'); // To show majors to academic supervisor
+            });
+            Route::group(['prefix' => 'students'], function () {
+                Route::get('/index/{id}/{ms_major_id?}' , [App\Http\Controllers\project\supervisors\StudentsController::class , 'index'])->name('supervisors.students.index'); // To display supervisor's students
+            });
+            Route::group(['prefix' => 'companies'], function () {
+                Route::get('/index' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'index'])->name('supervisors.companies.index'); // To display companies
+                Route::get('/students/{id}' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'students'])->name('supervisors.companies.students'); // To display students
+                Route::post('/list_companies' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'list_companies'])->name('supervisors.companies.list_companies'); // To display students
+            });
+            Route::group(['prefix' => 'assistant'], function () {
+                Route::get('/index/{id}' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'index'])->name('supervisors.assistant.index');
+                Route::post('/create' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'create'])->name('supervisors.assistant.create');
+                Route::post('/delete' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'delete'])->name('supervisors.assistant.delete');
+            });
+            Route::group(['prefix' => 'student_marks'], function () {
+                Route::get('/index' , [App\Http\Controllers\project\supervisors\StudentMarksController::class , 'index'])->name('supervisors.supervisors.student_marks');
+                Route::post('/list_student_mark_ajax' , [App\Http\Controllers\project\supervisors\StudentMarksController::class , 'list_student_mark_ajax'])->name('supervisors.supervisors.list_student_mark_ajax');
+            });
+
         });
-        Route::group(['prefix' => 'students'], function () {
-            Route::get('/index/{id}/{ms_major_id?}' , [App\Http\Controllers\project\supervisors\StudentsController::class , 'index'])->name('supervisors.students.index'); // To display supervisor's students
-        });
-        Route::group(['prefix' => 'companies'], function () {
-            Route::get('/index' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'index'])->name('supervisors.companies.index'); // To display companies
-            Route::get('/students/{id}' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'students'])->name('supervisors.companies.students'); // To display students
-            Route::post('/list_companies' , [App\Http\Controllers\project\supervisors\CompaniesController::class , 'list_companies'])->name('supervisors.companies.list_companies'); // To display students
-        });
-        Route::group(['prefix' => 'assistant'], function () {
-            Route::get('/index/{id}' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'index'])->name('supervisors.assistant.index');
-            Route::post('/create' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'create'])->name('supervisors.assistant.create');
-            Route::post('/delete' , [App\Http\Controllers\project\supervisors\AssistantController::class , 'delete'])->name('supervisors.assistant.delete');
-        });
-        Route::group(['prefix' => 'training_nominations'], function () {
+        Route::group(['prefix' => 'training_nominations' , 'middleware' => 'role:4|8'], function () {
             Route::get('/index' , [App\Http\Controllers\project\supervisors\TrainingNominationController::class , 'index'])->name('supervisors.training_nominations.index');
-        });
-        Route::group(['prefix' => 'student_marks'], function () {
-            Route::get('/index' , [App\Http\Controllers\project\supervisors\StudentMarksController::class , 'index'])->name('supervisors.supervisors.student_marks');
-            Route::post('/list_student_mark_ajax' , [App\Http\Controllers\project\supervisors\StudentMarksController::class , 'list_student_mark_ajax'])->name('supervisors.supervisors.list_student_mark_ajax');
         });
     });
 
-    Route::group(['prefix' => 'training_supervisor' ,'middleware' => 'role:10'], function () {
+    Route::group(['prefix' => 'training_supervisor' ,'middleware' => 'role:10|2'], function () {
         Route::group(['prefix' => 'conversation'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'index'])->name('training_supervisor.conversation.index');
             Route::get('/add' , [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'add'])->name('training_supervisor.conversation.add');

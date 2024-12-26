@@ -78,7 +78,7 @@
                                     fill: #455a64;
                                 }
                                 .shp2 {
-                                    fill: #24695c;
+                                    fill: #EF681A;
                                 }
                                 .shp3 {
                                     opacity: 0.4;
@@ -1415,7 +1415,7 @@
                     </div>
                     <div class="col-md-8 offset-md-2">
                         <h3>ليس لديك صلاحية للوصول للصفحة</h3>
-                        <p class="sub-content">The page you are attempting to reach is currently not available. This may be because the page does not exist or has been moved.</p>
+                        {{-- <p class="sub-content">The page you are attempting to reach is currently not available. This may be because the page does not exist or has been moved.</p> --}}
                         <a class="btn btn-primary btn-lg" href="{{ route('home') }}">العودة للرئيسية</a>
                     </div>
                 </div>
