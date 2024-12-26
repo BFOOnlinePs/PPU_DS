@@ -32,8 +32,10 @@
                 {{__('translate.Monitoring and Evaluation Officer')}} {{-- مسؤول متابعة وتقييم --}}
             @elseif($role_name == 'مدير شركة')
                 {{__('translate.Company Manager')}} {{-- مدير شركة --}}
-            @elseif($role_name == 'مسؤول تدريب')
-                {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}
+            {{-- @elseif($role_name == 'مسؤول تدريب') --}}
+                {{-- {{__('translate.Training Supervisor')}} --}}
+            {{-- @elseif ($role_name == 'مسؤول المتابعة') --}}
+            {{-- مسؤول المتابعة --}}
             @elseif($role_name == 'مسؤول التواصل مع الشركات')
                 {{__('translate.Program Coordinator')}} {{-- مسسؤول التواصل مع الشركات --}}
             @endif
@@ -64,9 +66,12 @@
                             @elseif($role->r_name == 'مدير شركة')
                             <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Company Manager')}}">
                             {{__('translate.Company Manager')}} {{-- مدير شركة --}}
-                        @elseif($role->r_name == 'مسؤول تدريب')
-{{--                            <a class="col m-1 p-1 btn btn-primary btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Training Supervisor')}}">--}}
-{{--                            {{__('translate.Training Supervisor')}} --}}{{-- مسؤول تدريب --}}
+                        {{-- @elseif($role->r_name == 'مسؤول تدريب') --}}
+                           {{-- <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Training Supervisor')}}"> --}}
+                           {{-- {{__('translate.Training Supervisor')}} --}}
+                           {{-- @elseif($role->r_name == 'مسؤول المتابعة') --}}
+                           {{-- <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Training Supervisor')}}"> --}}
+                           {{-- مسؤول المتابعة --}}
                         @elseif($role->r_name == 'مسؤول التواصل مع الشركات')
                             <a class="col m-1 p-1 btn btn-dark btn-sm" href="{{route('admin.users.index_id' , ['id'=>$role->r_id])}}" title="{{__('translate.Program Coordinator')}}">
                             {{__('translate.Program Coordinator')}} {{-- مسسؤول التواصل مع الشركات --}}
@@ -117,10 +122,15 @@
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Monitoring and Evaluation Officer')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}
                     {{__('translate.Company Manager')}} {{-- مسؤول متابعة وتقييم --}}
-                @elseif($role_name == 'مسؤول تدريب')
-                    <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Training Supervisor')}}"><span class="fa fa-plus"></span>
-                    {{__('translate.Add')}} {{-- إضافة --}}
-                    {{__('translate.Training Supervisor')}} {{-- مسؤول تدريب --}}
+                {{-- @elseif($role_name == 'مسؤول تدريب') --}}
+                    {{-- <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Training Supervisor')}}"><span class="fa fa-plus"></span> --}}
+                    {{-- {{__('translate.Add')}}  --}}
+                    {{-- {{__('translate.Training Supervisor')}} --}}
+                    {{-- @elseif($role_name == 'مسؤول المتابعة') --}}
+                    {{-- <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Training Supervisor')}}"><span class="fa fa-plus"></span> --}}
+                    {{-- {{__('translate.Add')}}  --}}
+                    {{-- مسؤول المتابعة --}}
+
                 @elseif($role_name == 'مسؤول التواصل مع الشركات')
                     <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddUserModal').modal('show')" type="button" id="button_add_user" title="{{__('translate.Program Coordinator')}}"><span class="fa fa-plus"></span>
                     {{__('translate.Add')}} {{-- إضافة --}}

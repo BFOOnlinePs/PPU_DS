@@ -188,4 +188,9 @@ class User extends Authenticatable
             ->withPivot('is_read')
             ->withTimestamps();
     }
+
+    public function hasAnyRole($roles)
+    {
+        return in_array($this->u_role_id, (array) $roles);
+    }
 }

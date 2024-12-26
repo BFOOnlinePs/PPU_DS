@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth']],function () {
                 Route::post('/show_event_information',[App\Http\Controllers\project\allUsersWithoutAdmin\CalendarController::class,'show_event_information'])->name('allUsersWithoutAdmin.calendar.show_event_information');
             });
         });
-    Route::group(['prefix'=>'admin' , 'middleware' => ['role:1']],function(){
+    Route::group(['prefix'=>'admin' , 'middleware' => 'role:1'],function(){
         Route::group(['prefix'=>'calendar'],function(){
             Route::group(['prefix'=>'ajax'],function(){
                 Route::post('/ajax_to_get_courses',[App\Http\Controllers\project\admin\CalendarController::class,'ajax_to_get_courses'])->name('admin.calendar.ajax.ajax_to_get_courses');
@@ -298,7 +298,7 @@ Route::group(['middleware' => ['auth']],function () {
 
     Route::group(['prefix' => 'company_trainer' , 'middleware' => 'role:7'], function () {
     });
-    Route::group(['prefix' => 'communications_manager_with_companies' , 'middleware' => 'role:8'], function () {
+    Route::group(['prefix' => 'communications_manager_with_companies' , 'middleware' => 'role:8|1'], function () {
         Route::group(['prefix' => 'students'], function () {
             Route::get('/index' , [App\Http\Controllers\project\communications_manager_with_companies\students\StudentsController::class, 'index'])->name('communications_manager_with_companies.students.index');
             Route::post('/search' , [App\Http\Controllers\project\communications_manager_with_companies\students\StudentsController::class, 'search'])->name('communications_manager_with_companies.students.search');
@@ -323,7 +323,7 @@ Route::group(['middleware' => ['auth']],function () {
         });
     });
 
-    Route::group(['prefix' => 'monitor_evaluation' , 'middleware' => 'role:9'], function () {
+    Route::group(['prefix' => 'monitor_evaluation' , 'middleware' => 'role:1|3'], function () {
         Route::get('/index' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'index'])->name('monitor_evaluation.index');
         Route::get('/user_details' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'user_details'])->name('monitor_evaluation.user_details');
         Route::post('/update_password' , [App\Http\Controllers\project\monitor_evaluation\MonitorEvaluationController::class, 'update_password'])->name('monitor_evaluation.update_password');
