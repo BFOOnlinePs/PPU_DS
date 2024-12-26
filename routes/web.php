@@ -187,7 +187,7 @@ Route::group(['middleware' => ['auth']],function () {
                 });
             });
         });
-        Route::group(['prefix' => 'field_visits' , 'middleware' => 'role:3|8'],function (){
+        Route::group(['prefix' => 'field_visits' , 'middleware' => 'role:1|3|8'],function (){
             Route::get('/index' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'index'])->name('admin.field_visits.index');
             Route::post('/list_field_visits' , [\App\Http\Controllers\project\admin\FieldVisitsController::class, 'list_field_visits'])->name('admin.field_visits.list_field_visits');
         });
