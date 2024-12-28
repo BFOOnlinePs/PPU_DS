@@ -55,7 +55,7 @@
                                 </div>
                             </a></li> --}}
                             @foreach ($message as $key)
-                            <li class="noti-success list-group-item"> <a href="/viho/app/email/mailbox">
+                            <li class="noti-success list-group-item"> <a href="{{ route('training_supervisor.conversation.index') }}">
                                 <div class="media">
                                     <span class="notification-bg bg-light-success">
                                         <span class="fa fa-file text-dark" style="font-size: 12px"></span>
@@ -78,7 +78,7 @@
                             </a></li>
                             @endforeach
 
-                        <li class="noti-danger list-group-item"> <a href="/viho/app/email/mailbox">
+                        {{-- <li class="noti-danger list-group-item"> <a href="/viho/app/email/mailbox">
                                 <div class="media"><span class="notification-bg bg-light-danger"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -91,7 +91,8 @@
                                         <p>Delivery Complete</p><span>6 hour ago</span>
                                     </div>
                                 </div>
-                            </a></li>
+                            </a>
+                        </li> --}}
                     </ul>
                 </li>
                 <li class="onhover-dropdown p-0">
