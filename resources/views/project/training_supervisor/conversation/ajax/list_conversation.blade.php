@@ -13,7 +13,12 @@
                     <div class="d-block" style="flex: 2">
                         <p style="font-size: 11px;"><span class=""></span>
                             <span>
-                                {{ strlen($key->user->name) > $maxLengthName ? mb_substr($key->user->name, 0, $maxLengthName) . '...' : $key->user->name }}
+                                {{-- {{ strlen($key->user->name) > $maxLengthName ? mb_substr($key->user->name, 0, $maxLengthName) . '...' : $key->user->name }} --}}
+                                {{ $key->user && $key->user->name
+                                    ? (strlen($key->user->name) > $maxLengthName
+                                        ? mb_substr($key->user->name, 0, $maxLengthName) . '...'
+                                        : $key->user->name)
+                                    : 'لا يوجد اسم' }}
                             </span>
                         </p>
                     </div>
@@ -54,7 +59,12 @@
                     </p>
 
                     <p class="p-0 m-0" style="font-size: 11px;">
-                        {{ strlen($key->getLastMessage()->m_message_text) > $maxLengthName ? mb_substr($key->getLastMessage()->m_message_text, 0, $maxLengthName) . '...' : $key->getLastMessage()->m_message_text }}
+                        {{-- {{ strlen($key->getLastMessage()->m_message_text) > $maxLengthName ? mb_substr($key->getLastMessage()->m_message_text, 0, $maxLengthName) . '...' : $key->getLastMessage()->m_message_text }} --}}
+                        {{ $key->getLastMessage() && $key->getLastMessage()->m_message_text
+                            ? (strlen($key->getLastMessage()->m_message_text) > $maxLengthName
+                                ? mb_substr($key->getLastMessage()->m_message_text, 0, $maxLengthName) . '...'
+                                : $key->getLastMessage()->m_message_text)
+                            : 'لا يوجد رسالة' }}
                     </p>
                 </div>
             </li>

@@ -6,7 +6,7 @@
                         <div class="media chat-header clearfix">
                             <div class="media-body">
                                 <div class="about">
-                                    <div class="">من : <span>{{ $conversations->user->name }}</span></div>
+                                    <div class="">من : <span>{{ $conversations->user->name ?? '' }}</span></div>
                                     الى :
                                     @foreach ($conversations->participants as $users)
                                         @foreach (json_decode($users->uc_user_id) as $user)
