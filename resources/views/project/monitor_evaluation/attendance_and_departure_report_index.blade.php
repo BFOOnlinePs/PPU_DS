@@ -111,13 +111,13 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">{{ __('translate.in_time') }}</label>
-                            <input onchange="attendance_and_departure_report()" id="from" type="date" class="form-control">
+                            <input onchange="attendance_and_departure_report()" id="from" type="date" value="{{date('Y-m-d')}}" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">{{ __('translate.out_time') }}</label>
-                            <input onchange="attendance_and_departure_report()" id="to" type="date" class="form-control">
+                            <input onchange="attendance_and_departure_report()" id="to" type="date" value="{{date('Y-m-d')}}" class="form-control">
                         </div>
                     </div>
                 </div>
