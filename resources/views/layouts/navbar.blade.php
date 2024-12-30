@@ -22,7 +22,7 @@
                 </li>
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
                             data-feather="maximize"></i></a></li>
-                @if (auth()->user()->role_id == 1)
+                @if (auth()->user()->u_role_id != 1)
                 <li class="onhover-dropdown  btn p-1 btn-xs">
                     <div class="notification-box text-center"><span class="fa fa-envelope f-14"></span><span class="dot-animated"></span></div>
                     <ul class="-drnotificationopdown onhover-show-div list-group" style="width: 500px;top:10px">
