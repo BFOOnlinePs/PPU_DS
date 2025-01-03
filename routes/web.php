@@ -29,8 +29,8 @@ Route::get('/', function () {
     return auth()->check() ? redirect()->route('home') : redirect('/login');
 });
 
-Route::get('login', [LoginController::class, 'redirectToProvider']);
-Route::get('callback', [LoginController::class, 'handleProviderCallback']);
+// Route::get('login', [LoginController::class, 'redirectToProvider']);
+// Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 
 
 Route::get('privacy_and_policy',function(){
