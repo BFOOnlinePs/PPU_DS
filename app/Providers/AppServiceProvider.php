@@ -51,15 +51,15 @@ class AppServiceProvider extends ServiceProvider
         }
     });
 
-    Socialite::extend('identity_server', function ($app) {
-        $config = $app['config']['services.identity_server'];
-        return new CustomIdentityServerProvider(
-            $app['request'],
-            $config['client_id'],
-            $config['client_secret'],
-            $config['redirect']
-        );
-    });
+    // Socialite::extend('identity_server', function ($app) {
+    //     $config = $app['config']['services.identity_server'];
+    //     return new CustomIdentityServerProvider(
+    //         $app['request'],
+    //         $config['client_id'],
+    //         $config['client_secret'],
+    //         $config['redirect']
+    //     );
+    // });
     Paginator::useBootstrapFive();
 }
 }
