@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Facades\Socialite;
 
 trait AuthenticatesUsers
 {
@@ -199,5 +200,29 @@ trait AuthenticatesUsers
     protected function guard()
     {
         return Auth::guard();
+    }
+
+    public function redirectToProvider()
+    {
+        return Socialite::driver('identity_server')->scopes([
+            'openid', 'profile', 'email', 'offline_access', 'role', 'userno', 'ExternalApis.api'
+        ])->redirect();
+    }
+
+    // دالة للتعامل مع الرد بعد العودة من خادم الهوية
+    public function handleProviderCallback()
+    {
+        // الحصول على بيانات المستخدم والتوكن
+        $user = Socialite::driver('identity_server')->user();
+
+        // يمكنك تخزين التوكن أو بيانات المستخدم في الجلسة أو قاعدة البيانات
+        $token = $user->token;
+        $userInfo = $user->user;
+
+        // مثال على كيفية استخدام التوكن في طلبات API
+        // $response = Http::withToken($token)->get('https://yourapi.com/endpoint');
+
+        // إعادة توجيه المستخدم إلى لوحة القيادة بعد النجاح
+        return redirect()->to('/dashboard');
     }
 }
