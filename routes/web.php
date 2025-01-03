@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Models\CriteriaModel;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,37 +29,9 @@ Route::get('/', function () {
     return auth()->check() ? redirect()->route('home') : redirect('/login');
 });
 
-Route::get('/login', function () {
-    $query = http_build_query([
-        'client_id'     => env('CLIENT_ID'),
-        'redirect_uri'  => env('REDIRECT_URI'),
-        'response_type' => 'code',
-        'scope'         => env('SCOPES'),
-    ]);
+Route::get('login', [LoginController::class, 'redirectToProvider']);
+Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 
-    return redirect(env('IDENTITY_SERVER_URL') . '/connect/authorize?' . $query);
-});
-
-Route::get('/callback', function (Request $request) {
-    $response = Http::asForm()->post(env('IDENTITY_SERVER_URL') . '/connect/token', [
-        'grant_type'    => 'authorization_code',
-        'client_id'     => env('CLIENT_ID'),
-        'client_secret' => env('CLIENT_SECRET'),
-        'redirect_uri'  => env('REDIRECT_URI'),
-        'code'          => $request->input('code'),
-    ]);
-
-    if ($response->failed()) {
-        return abort(403, 'Failed to authenticate.');
-    }
-
-    $data = $response->json();
-
-    // حفظ Access Token في الجلسة أو قاعدة البيانات
-    session(['access_token' => $data['access_token']]);
-
-    return redirect('/dashboard');
-});
 
 Route::get('privacy_and_policy',function(){
     return view('project.admin.privacy_and_policy');
