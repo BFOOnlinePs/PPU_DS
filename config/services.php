@@ -32,20 +32,20 @@ return [
     ],
 
 
-    'identity_server' => [
-    'client_id' => env('IDENTITY_SERVER_CLIENT_ID'),
-    'client_secret' => env('IDENTITY_SERVER_CLIENT_SECRET'),
-    'redirect' => env('IDENTITY_SERVER_REDIRECT_URI'),
-    'url' => env('IDENTITY_SERVER_URL'),
-    'scopes' => [
-        'OpenId',
-        'Profile',
-        'Email',
-        'OfflineAccess',
-        'role',
-        'userno',
-        'ExternalApis.api',
-    ],
-],
+//     'identity_server' => [
+//     'client_id' => env('IDENTITY_SERVER_CLIENT_ID'),
+//     'client_secret' => env('IDENTITY_SERVER_CLIENT_SECRET'),
+//     'redirect' => env('IDENTITY_SERVER_REDIRECT_URI'),
+//     'url' => env('IDENTITY_SERVER_URL'),
+//     'scopes' => [
+//         'OpenId',
+//         'Profile',
+//         'Email',
+//         'OfflineAccess',
+//         'role',
+//         'userno',
+//         'ExternalApis.api',
+//     ],
+// ],
 
 ];
