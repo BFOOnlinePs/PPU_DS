@@ -39,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
             // Get the authenticated user
             $userId = auth()->user()->u_id;
             $message = MessageModel::with(['conversation.participants'])
+            ->whereIn('m_conversation_id', function ($query) use ($userId) {
+                $query->select('cms_conversation_id')
+                    ->from('conversation_messages_seen')->where('cms_receiver_id',auth()->user()->u_id);
+            })
     ->whereDoesntHave('conversationMessagesSeen', function ($query) {
         $query->whereColumn('messages.m_id', 'conversation_messages_seen.cms_message_id')->latest()->limit(1);
     })
