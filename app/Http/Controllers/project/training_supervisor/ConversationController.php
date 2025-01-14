@@ -37,7 +37,8 @@ class ConversationController extends Controller
                             ->from('students_companies')
                             ->where('sc_student_id', auth()->user()->u_id)->where('sc_status',1);
                     });
-            });
+            })
+            ->orWhere('u_role_id',8);
         }
         if (auth()->user()->u_role_id == 10) {
             $users->whereIn('u_id', function ($query) {

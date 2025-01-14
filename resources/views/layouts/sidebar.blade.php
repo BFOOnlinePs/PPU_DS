@@ -212,9 +212,11 @@
                                     href="{{ route('students.evaluation.index') }}"><i
                                         data-feather="dollar-sign"></i><span>التقييمات</span></a></li>
                         @endif
-                        <li><a class="nav-link bg-dark text-white mt-1"
+                        <li>
+                            <a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('training_supervisor.conversation.index') }}"><i
-                                    data-feather="dollar-sign"></i><span>المراسلات</span></a></li>
+                                    data-feather="dollar-sign"></i><span>المراسلات</span></a>
+                                </li>
                     @elseif (auth()->user()->u_role_id == 8)
                         {{-- Communications Manager with Companies --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -267,6 +269,11 @@
                             <li><a class="nav-link bg-dark text-white mt-1"
                                     href="{{ route('students.evaluation.index') }}"><i
                                         data-feather="briefcase"></i><span>التقييمات</span></a></li>
+                                        <li>
+                                            <a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('training_supervisor.conversation.index') }}"><i
+                                    data-feather="dollar-sign"></i><span>المراسلات</span></a>
+                                        </li>
                         @endif
                     @endif
 
