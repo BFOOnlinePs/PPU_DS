@@ -35,7 +35,7 @@ class ConversationController extends Controller
                     ->whereIn('c_id', function ($query2) {
                         $query2->select('sc_company_id')
                             ->from('students_companies')
-                            ->where('sc_student_id', auth()->user()->u_id)->where('sc_stauts',1);
+                            ->where('sc_student_id', auth()->user()->u_id)->where('sc_status',1);
                     });
             });
         }
