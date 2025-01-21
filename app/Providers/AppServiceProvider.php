@@ -46,8 +46,8 @@ class AppServiceProvider extends ServiceProvider
     ->whereDoesntHave('conversationMessagesSeen', function ($query) {
         $query->whereColumn('messages.m_id', 'conversation_messages_seen.cms_message_id')->latest()->limit(1);
     })
-    ->latest() // Fetch the latest messages
-    ->take(4)
+    ->orderBy('m_id', 'desc')
+    ->limit(4)
     ->get();
             $view->with('message', $message );
         } else {

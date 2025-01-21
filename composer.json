@@ -15,6 +15,7 @@
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "league/oauth2-client": "^2.8",
         "maatwebsite/excel": "^3.1",
         "ramsey/uuid": "^4.7"
     },

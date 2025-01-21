@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\CriteriaModel;
+use App\Models\User;
+use App\Services\CustomIdentityServerProvider;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +22,33 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 Auth::routes();
+
+Route::get('/login', function (CustomIdentityServerProvider $provider) {
+    return redirect($provider->getAuthorizationUrl());
+})->name('login');
+
+Route::get('/callback', function (Request $request, CustomIdentityServerProvider $provider) {
+    $code = $request->query('code');
+
+    if (!$code) {
+        return redirect('/')->with('error', 'Login failed!');
+    }
+
+    $token = $provider->getAccessToken($code);
+    $userInfo = $provider->getUserInfo($token->getToken());
+
+    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
+    $user = User::updateOrCreate([
+        'email' => $userInfo['email'],
+    ], [
+        'name' => $userInfo['name'] ?? $userInfo['email'],
+        'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Scopes
+    ]);
+
+    Auth::login($user);
+
+    return redirect('/dashboard');
+});
 
 Route::get('/test' , function(){
     return 'test';
