@@ -35,7 +35,7 @@
                                 <select onchange="list_field_visits()" name="" class="js-example-basic-single form-control" id="supervisor_id">
                                     <option value="">جميع المشرفين</option>
                                     @foreach($supervisor as $key)
-                                        <option value="">{{ $key->name }}</option>
+                                        <option value="{{ $key->u_id }}">{{ $key->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

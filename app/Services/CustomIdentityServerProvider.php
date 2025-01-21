@@ -1,57 +1,42 @@
 <?php
+
 namespace App\Services;
 
-use Laravel\Socialite\Two\AbstractProvider;
-use Laravel\Socialite\Two\User;
+use League\OAuth2\Client\Provider\GenericProvider;
+use Illuminate\Support\Facades\Http;
 
-class CustomIdentityServerProvider extends AbstractProvider
+class CustomIdentityServerProvider
 {
-    /**
-     * النطاقات الافتراضية.
-     */
-    protected $scopes = ['openid', 'profile', 'email', 'offline_access'];
+    protected $provider;
 
-    /**
-     * بناء رابط التوجيه إلى صفحة تسجيل الدخول.
-     */
-    protected function getAuthUrl($state)
+    public function __construct()
     {
-        return $this->buildAuthUrlFromBase(config('services.identity_server.url') . '/connect/authorize', $state);
-    }
-
-    /**
-     * رابط الحصول على رمز التوثيق (Token).
-     */
-    protected function getTokenUrl()
-    {
-        return config('services.identity_server.url') . '/connect/token';
-    }
-
-    /**
-     * جلب معلومات المستخدم باستخدام رمز التوثيق.
-     */
-    protected function getUserByToken($token)
-    {
-        $response = $this->getHttpClient()->get(config('services.identity_server.url') . '/connect/userinfo', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-            ],
+        $this->provider = new GenericProvider([
+            'clientId'                => env('CLIENT_ID'),
+            'clientSecret'            => env('CLIENT_SECRET'),
+            'redirectUri'             => env('REDIRECT_URI'),
+            'urlAuthorize'            => env('IDENTITY_SERVER_URL') . '/connect/authorize',
+            'urlAccessToken'          => env('IDENTITY_SERVER_URL') . '/connect/token',
+            'urlResourceOwnerDetails' => env('IDENTITY_SERVER_URL') . '/connect/userinfo',
+            'scopes'                  => explode(' ', env('SCOPES')),
         ]);
-
-        return json_decode($response->getBody(), true);
     }
 
-    /**
-     * تحويل بيانات المستخدم إلى كائن User.
-     */
-    protected function mapUserToObject(array $user)
+    public function getAuthorizationUrl()
     {
-        return (new User())->setRaw($user)->map([
-            'id' => $user['sub'] ?? null,
-            'name' => $user['name'] ?? null,
-            'email' => $user['email'] ?? null,
-            'avatar' => $user['picture'] ?? null,
+        return $this->provider->getAuthorizationUrl();
+    }
+
+    public function getAccessToken($code)
+    {
+        return $this->provider->getAccessToken('authorization_code', [
+            'code' => $code
         ]);
+    }
+
+    public function getUserInfo($accessToken)
+    {
+        $response = Http::withToken($accessToken)->get($this->provider->getResourceOwnerDetailsUrl());
+        return $response->json();
     }
 }
-?>

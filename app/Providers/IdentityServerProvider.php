@@ -25,9 +25,9 @@ class IdentityServerProvider extends ServiceProvider
      */
     public function boot(Socialite $socialite)
     {
-        $socialite->extend('identity_server', function () use ($socialite) {
-            $config = $this->app['config']['services.identity_server'];
-            return $socialite->buildProvider(IdentityServerProvider::class, $config);
-        });
+        // $socialite->extend('identity_server', function () use ($socialite) {
+        //     $config = $this->app['config']['services.identity_server'];
+        //     return $socialite->buildProvider(IdentityServerProvider::class, $config);
+        // });
     }
 }
