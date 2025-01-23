@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PPU_DS.iml" filepath="$PROJECT_DIR$/.idea/PPU_DS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/ppu_ds_android.iml" filepath="$PROJECT_DIR$/android/ppu_ds_android.iml" />
     </modules>
   </component>
 </project>
