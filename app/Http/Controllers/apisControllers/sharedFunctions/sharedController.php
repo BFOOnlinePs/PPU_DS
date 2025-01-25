@@ -34,8 +34,10 @@ class sharedController extends Controller
     }
 
     // user login
+    // i want to use IdentityServer
     public function login(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
