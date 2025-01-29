@@ -10,4 +10,10 @@ class CitiesModel extends Model
     use HasFactory;
 
     protected $table = 'cities';
+
+    protected $fillable = [
+        'id',
+        'city_name_ar',
+        'city_name_en'
+    ];
 }

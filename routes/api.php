@@ -5,6 +5,7 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\Compan
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
+use App\Http\Controllers\apisControllers\data_integration\DataIntegrationController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\CompaniesPaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\PaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\SemesterReportController;
@@ -311,9 +312,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // shared
     Route::get('getHomeSharedData', [sharedController::class, 'getHomeSharedData']);
 
-    // just for test
-    Route::get('/test', [sharedController::class, 'test']);
+
 });
+ // data integration
+    Route::get('syncMajors', [DataIntegrationController::class, 'syncMajors']);
+    Route::get('syncCities', [DataIntegrationController::class, 'syncCities']);
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store']);
 Route::post('/reset-password', [ResetPasswordController::class, 'store']);

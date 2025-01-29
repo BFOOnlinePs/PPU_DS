@@ -4,6 +4,7 @@ namespace App\Services;
 
 use League\OAuth2\Client\Provider\GenericProvider;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class CustomIdentityServerProvider
 {
@@ -18,7 +19,7 @@ class CustomIdentityServerProvider
             'urlAuthorize'            => env('IDENTITY_SERVER_URL') . '/connect/authorize',
             'urlAccessToken'          => env('IDENTITY_SERVER_URL') . '/connect/token',
             'urlResourceOwnerDetails' => env('IDENTITY_SERVER_URL') . '/connect/userinfo',
-            'scopes'                  => explode(' ', env('SCOPES')),
+            'scopes'                  => "openid profile email offline_access role userno ExternalApis.api",
         ]);
     }
 
@@ -36,7 +37,23 @@ class CustomIdentityServerProvider
 
     public function getUserInfo($accessToken)
     {
-        $response = Http::withToken($accessToken)->get($this->provider->getResourceOwnerDetailsUrl());
+        $response = Http::withToken($accessToken)->get($this->provider->getResourceOwnerDetailsUrl($accessToken));
         return $response->json();
     }
+
+
+    public function getMajors($accessToken)
+    {
+        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllDSMajors');
+        Log::info('getMajors: ' . $response);
+        return $response;
+    }
+
+    public function getAllCities($accessToken){
+        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllCities');
+        Log::info('getAllCities: ' . $response);
+        return $response;
+    }
+
+
 }
