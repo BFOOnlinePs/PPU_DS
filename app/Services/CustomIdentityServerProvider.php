@@ -49,11 +49,18 @@ class CustomIdentityServerProvider
         return $response;
     }
 
-    public function getAllCities($accessToken){
+    public function getAllCities($accessToken)
+    {
         $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllCities');
         Log::info('getAllCities: ' . $response);
         return $response;
     }
 
+    public function getAllDsStudents($accessToken, $academicYear, $semester)
+    {
 
+        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllDsStudents/' . $academicYear . '/' . $semester);
+        Log::info('getAllDsStudents: ' . $response);
+        return $response;
+    }
 }

@@ -317,6 +317,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
  // data integration
     Route::get('syncMajors', [DataIntegrationController::class, 'syncMajors']);
     Route::get('syncCities', [DataIntegrationController::class, 'syncCities']);
+    Route::get('syncStudents', [DataIntegrationController::class, 'syncStudents']);
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store']);
 Route::post('/reset-password', [ResetPasswordController::class, 'store']);
