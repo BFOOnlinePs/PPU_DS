@@ -26,6 +26,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as 
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\evaluation\EvaluationController;
+use App\Http\Controllers\apisControllers\sharedFunctions\faq\FAQController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FinalReportController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MailingController;
@@ -312,6 +313,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // shared
     Route::get('getHomeSharedData', [sharedController::class, 'getHomeSharedData']);
 
+    // prefix faq
+    Route::group(['prefix'=>'faq'],function(){
+        Route::get('/',[FAQController::class,'index']);
+    });
 
 });
  // data integration

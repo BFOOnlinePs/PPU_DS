@@ -23,32 +23,33 @@ use Laravel\Socialite\Facades\Socialite;
 */
 Auth::routes();
 
-Route::get('/login', function (CustomIdentityServerProvider $provider) {
-    return redirect($provider->getAuthorizationUrl());
-})->name('login');
+// Route::get('/login', function (CustomIdentityServerProvider $provider) {
+//     return redirect($provider->getAuthorizationUrl());
+// })->name('login');
 
-Route::get('/callback', function (Request $request, CustomIdentityServerProvider $provider) {
-    $code = $request->query('code');
 
-    if (!$code) {
-        return redirect('/')->with('error', 'Login failed!');
-    }
+// Route::get('/callback', function (Request $request, CustomIdentityServerProvider $provider) {
+//     $code = $request->query('code');
 
-    $token = $provider->getAccessToken($code);
-    $userInfo = $provider->getUserInfo($token->getToken());
+//     if (!$code) {
+//         return redirect('/')->with('error', 'Login failed!');
+//     }
 
-    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
-    // $user = User::updateOrCreate([
-    //     'email' => $userInfo['email'],
-    // ], [
-    //     'name' => $userInfo['name'] ?? $userInfo['email'],
-    //     'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Scopes
-    // ]);
+//     $token = $provider->getAccessToken($code);
+//     $userInfo = $provider->getUserInfo($token->getToken());
 
-    // Auth::login($user);
+//     // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
+//     // $user = User::updateOrCreate([
+//     //     'email' => $userInfo['email'],
+//     // ], [
+//     //     'name' => $userInfo['name'] ?? $userInfo['email'],
+//     //     'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Scopes
+//     // ]);
 
-    return redirect('/dashboard');
-});
+//     // Auth::login($user);
+
+//     return redirect('/dashboard');
+// });
 
 Route::get('/test' , function(){
     return 'test';
