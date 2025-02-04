@@ -18,6 +18,7 @@ use App\Services\MessageService;
 use App\Services\NotificationsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -76,6 +77,61 @@ class sharedController extends Controller
                 'message' => trans('messages.login_error_message'),
             ], 403);
         }
+    }
+
+    public function verifyOTP(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required',
+            'otp' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        };
+
+        $otp = $request->input('otp');
+
+        $http = new \GuzzleHttp\Client;
+        $response = $http->post('https://my.ppu.edu/connect/token', [
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ],
+            'form_params' => [
+                'grant_type' => 'password',
+                'username' => $request->input('username'),
+                'password' => $request->input('password'),
+                'client_id' =>  env('MOBILE_CLIENT_ID'),
+                'client_secret' =>  env('MOBILE_CLIENT_SECRET'),
+                'scopes' => 'OpenId Profile role userno ExternalApis.api',
+                'username' => $request->input('username'),
+                'password' => $request->input('password'),
+                'auth_type' => 'sms',
+                'two_factor_code' => $otp,
+            ],
+
+        ]);
+
+        Log::info('response: ' . $response->getBody());
+
+        if ($response->getStatusCode() == 200) {
+            $data = json_decode((string) $response->getBody(), true);
+            // token ...
+            // get user info (student or staff)
+
+        } else {
+            $data = json_decode((string) $response->getBody(), true);
+
+            return response()->json([
+                'status' => false,
+                'message' => $data['error_description'] ?? 'error',
+            ], 400);
+        }
+
     }
 
     // user logout
