@@ -5,6 +5,7 @@ namespace App\Http\Controllers\apisControllers\data_integration;
 use App\Http\Controllers\Controller;
 use App\Models\CitiesModel;
 use App\Models\Major;
+use App\Models\SystemSetting;
 use App\Models\User;
 use App\Services\CustomIdentityServerProvider;
 use Illuminate\Http\Request;
@@ -67,10 +68,13 @@ class DataIntegrationController extends Controller
     public function syncStudents()
     {
         $accessToken = request()->query('access_token');
-        $academicYear = request()->query('academic_year');
-        $semester = request()->query('semester');
 
-        $students = $this->customIdentityServerProvider->getAllDsStudents($accessToken, $academicYear, $semester);
+        $system_settings = SystemSetting::first();
+
+        $academicYear = $system_settings->ss_year;
+        $semester = $system_settings->ss_semester_type;
+
+        $students = $this->customIdentityServerProvider->getDsStudentsByYear($accessToken, $academicYear, $semester);
         Log::info('syncStudents:' . $students);
         $students = $students['data'];
 

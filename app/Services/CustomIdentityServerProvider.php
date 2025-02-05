@@ -45,22 +45,18 @@ class CustomIdentityServerProvider
     public function getMajors($accessToken)
     {
         $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllDSMajors');
-        Log::info('getMajors: ' . $response);
         return $response;
     }
 
     public function getAllCities($accessToken)
     {
         $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllCities');
-        Log::info('getAllCities: ' . $response);
         return $response;
     }
 
-    public function getAllDsStudents($accessToken, $academicYear, $semester)
+    public function getDsStudentsByYear($accessToken, $academicYear, $semester)
     {
-
-        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllDsStudents/' . $academicYear . '/' . $semester);
-        Log::info('getAllDsStudents: ' . $response);
+        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getDsStudentsByYear/' . $academicYear . '/' . $semester);
         return $response;
     }
 }
