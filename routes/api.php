@@ -75,7 +75,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 // public routes
 Route::post('/register', [AdminController::class, 'register']);
-Route::post('/login', [sharedController::class, 'login']);
+// Route::post('/login', [sharedController::class, 'login']);
 Route::post('/verifyOTP', [sharedController::class, 'verifyOTP']);
 
 Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);

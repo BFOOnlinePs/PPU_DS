@@ -3,15 +3,10 @@
 namespace App\Http\Controllers\apisControllers\sharedFunctions;
 
 use App\Http\Controllers\Controller;
-use App\Models\CitiesModel;
 use App\Models\Company;
-use App\Models\CompanyBranch;
-use App\Models\CompanyBranchLocation;
 use App\Models\Course;
 use App\Models\Major;
-use App\Models\Role;
 use App\Models\SemesterCourse;
-use App\Models\StudentCompany;
 use App\Models\SystemSetting;
 use App\Models\User;
 use App\Services\MessageService;
@@ -20,7 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Sanctum\PersonalAccessToken;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 class sharedController extends Controller
 {
@@ -34,7 +30,7 @@ class sharedController extends Controller
         $this->notificationsService = $notificationsService;
     }
 
-    // user login
+    // disabled
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,9 +50,7 @@ class sharedController extends Controller
         if (Auth::attempt($credentials)) {
 
             $role_id = $request->user()->u_role_id;
-            // return (string)$role_id;
             $exists = SystemSetting::whereJsonContains('ss_mobile_active_users', (string)$role_id)->exists();
-            // return response()->json(['exists' => $exists]);
             if ($exists) {
                 $token = $request->user()->createToken('api-token')->plainTextToken;
                 return response([
@@ -96,42 +90,81 @@ class sharedController extends Controller
 
         $otp = $request->input('otp');
 
-        $http = new \GuzzleHttp\Client;
-        $response = $http->post('https://my.ppu.edu/connect/token', [
-            'headers' => [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-            ],
-            'form_params' => [
-                'grant_type' => 'password',
-                'username' => $request->input('username'),
-                'password' => $request->input('password'),
-                'client_id' =>  env('MOBILE_CLIENT_ID'),
-                'client_secret' =>  env('MOBILE_CLIENT_SECRET'),
-                'scopes' => 'OpenId Profile role userno ExternalApis.api',
-                'username' => $request->input('username'),
-                'password' => $request->input('password'),
-                'auth_type' => 'sms',
-                'two_factor_code' => $otp,
-            ],
+        $http = new \GuzzleHttp\Client();
 
-        ]);
+        try {
+            $response = $http->post('https://my.ppu.edu/connect/token', [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ],
+                'form_params' => [
+                    'grant_type' => 'password',
+                    'username' => $request->input('username'),
+                    'password' => $request->input('password'),
+                    'client_id' => env('MOBILE_CLIENT_ID'),
+                    'client_secret' => env('MOBILE_CLIENT_SECRET'),
+                    'scopes' => 'OpenId Profile role userno ExternalApis.api',
+                    'auth_type' => 'sms',
+                    'two_factor_code' => $otp,
+                ],
+            ]);
 
-        Log::info('response: ' . $response->getBody());
-
-        if ($response->getStatusCode() == 200) {
+            // If the request is successful (OTP is valid)
             $data = json_decode((string) $response->getBody(), true);
-            // token ...
-            // get user info (student or staff)
-
-        } else {
-            $data = json_decode((string) $response->getBody(), true);
+            Log::info('OTP verification response: ' . json_encode($data));
+            // data: access_token, expires_in, token_type, and refresh_token
+            // login to the system using username
+            $user = User::where('u_username', $request->input('username'))->first();
+            Log::info('User: ' . json_encode($user));
+            if ($user) {
+                $role_id = $user->u_role_id;
+                Log::info('Role ID: ' . $role_id);
+                $exists = SystemSetting::whereJsonContains('ss_mobile_active_users', (string)$role_id)->exists();
+                Log::info('Role exists: ' . $exists);
+                if ($exists) {
+                    Log::info('User exists and role is active');
+                    Auth::login($user);
+                    Log::info('User logged in');
+                    $token = $request->user()->createToken('api-token')->plainTextToken;
+                    return response([
+                        'status' => true,
+                        'message' => trans('messages.login_successfully'),
+                        'user' => auth()->user(),
+                        'token' => $token,
+                    ], 200);
+                } else {
+                    return response([
+                        'status' => false,
+                        'message' => trans('messages.login_no_actor'),
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'User not found',
+                ], 404);
+            }
+        } catch (ClientException $e) {
+            // Handle 400 Bad Request (Invalid OTP)
+            $responseBody = json_decode((string) $e->getResponse()->getBody(), true);
 
             return response()->json([
                 'status' => false,
-                'message' => $data['error_description'] ?? 'error',
+                'message' => $responseBody['error_description'] ?? 'Invalid OTP or other error',
             ], 400);
+        } catch (RequestException $e) {
+            // Handle network issues or other request failures
+            return response()->json([
+                'status' => false,
+                'message' => 'Request failed. Please try again later.',
+            ], 500);
+        } catch (\Exception $e) {
+            // Handle unexpected errors
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong. Please try again.',
+            ], 500);
         }
-
     }
 
     // user logout
