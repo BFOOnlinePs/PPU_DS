@@ -5,6 +5,7 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\Compan
 use App\Http\Controllers\apisControllers\company_manager\company_trainees\manager_notes\ManagerNotes;
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
+use App\Http\Controllers\apisControllers\data_integration\DataIntegrationController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\CompaniesPaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\PaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\SemesterReportController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController as 
 use App\Http\Controllers\apisControllers\sharedFunctions\CurrenciesController;
 use App\Http\Controllers\apisControllers\sharedFunctions\documents\DocumentsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\evaluation\EvaluationController;
+use App\Http\Controllers\apisControllers\sharedFunctions\faq\FAQController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FCMController;
 use App\Http\Controllers\apisControllers\sharedFunctions\FinalReportController;
 use App\Http\Controllers\apisControllers\sharedFunctions\mailing\MailingController;
@@ -73,7 +75,8 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 // public routes
 Route::post('/register', [AdminController::class, 'register']);
-Route::post('/login', [sharedController::class, 'login']);
+// Route::post('/login', [sharedController::class, 'login']);
+Route::post('/verifyOTP', [sharedController::class, 'verifyOTP']);
 
 Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);
@@ -311,9 +314,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // shared
     Route::get('getHomeSharedData', [sharedController::class, 'getHomeSharedData']);
 
-    // just for test
-    Route::get('/test', [sharedController::class, 'test']);
+    // prefix faq
+    Route::group(['prefix'=>'faq'],function(){
+        Route::get('/',[FAQController::class,'index']);
+    });
+
 });
+ // data integration
+    Route::get('syncMajors', [DataIntegrationController::class, 'syncMajors']);
+    Route::get('syncCities', [DataIntegrationController::class, 'syncCities']);
+    Route::get('syncStudents', [DataIntegrationController::class, 'syncStudents']);
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store']);
 Route::post('/reset-password', [ResetPasswordController::class, 'store']);
