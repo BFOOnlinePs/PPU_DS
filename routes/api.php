@@ -36,6 +36,7 @@ use App\Http\Controllers\apisControllers\sharedFunctions\students_companies_nomi
 use App\Http\Controllers\apisControllers\sharedFunctions\students_cv\StudentsCVController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CollageYearsController as SystemCollageYearsController;
 use App\Http\Controllers\apisControllers\sharedFunctions\system\CurrentYearAndSemesterController;
+use App\Http\Controllers\apisControllers\sharedFunctions\system\SystemSettingsController;
 use App\Http\Controllers\apisControllers\students\cv\StudentCVController;
 use App\Http\Controllers\apisControllers\students\payments\StudentPaymentsController;
 use App\Http\Controllers\apisControllers\students\preferences\StudentPreferencesController;
@@ -75,8 +76,10 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 // public routes
 Route::post('/register', [AdminController::class, 'register']);
-// Route::post('/login', [sharedController::class, 'login']);
+Route::post('/login', [sharedController::class, 'login']);
 Route::post('/verifyOTP', [sharedController::class, 'verifyOTP']);
+
+Route::get('/systemSettings', [SystemSettingsController::class, 'getSystemSettings']);
 
 Route::get('/getFacebookLink', [sharedController::class, 'getFacebookLink']);
 Route::get('/getInstagramLink', [sharedController::class, 'getInstagramLink']);

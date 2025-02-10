@@ -87,21 +87,17 @@ class DataIntegrationController extends Controller
                     // 'u_username' => $student['studentNo'],
                     'name' => $student['studentNameArabic'],
                     'u_tawjihi_gpa' => $student['studentTawjihiGrade'],
-                    '' => $student['studentNameEnglish'], // ?
                     'u_date_of_birth' => $student['studentBirthDate'],
                     'u_gender' => $student['studentSex'],
                     'u_phone1' => $student['studentMobile'],
                     'email' => $student['studentNo'] . '@ppu.edu.ps', // i append the domain to the email
                     'u_address' => $student['studentStreet'],
-                    '' => $student['admissionYear'], // ??
-                    '' => $student['levelSem'], // ??
                     'u_major_id' => $student['majorNo'],
                     'u_role_id' => 2, // student role
                     'password'=> ' '
                 ]
             );
         }
-
         return response()->json(['message' => 'Students synced successfully']);
     }
 
@@ -110,6 +106,7 @@ class DataIntegrationController extends Controller
     {
         $this->syncMajors();
         $this->syncCities();
+        $this->syncStudents();
         return response()->json(['message' => 'All data synced successfully']);
     }
 }

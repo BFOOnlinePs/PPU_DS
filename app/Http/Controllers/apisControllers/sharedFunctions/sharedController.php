@@ -30,11 +30,11 @@ class sharedController extends Controller
         $this->notificationsService = $notificationsService;
     }
 
-    // disabled
+    // used for testing purposes
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'u_username' => 'required',
             'password' => 'required'
         ]);
 
@@ -43,6 +43,15 @@ class sharedController extends Controller
                 'status' => false,
                 'message' => trans('messages.login_error_message'),
             ], 200);
+        }
+
+        // is testing in SystemSetting model
+        $system_settings = SystemSetting::first();
+        if ($system_settings->ss_is_testing == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Testing is disabled',
+            ]);
         }
 
         $credentials = $validator->validated();

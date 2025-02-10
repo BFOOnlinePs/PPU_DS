@@ -4,7 +4,6 @@ namespace App\Http\Controllers\apisControllers\sharedFunctions\system;
 
 use App\Http\Controllers\Controller;
 use App\Models\SemesterCourse;
-use Illuminate\Http\Request;
 
 class CollageYearsController extends Controller
 {
