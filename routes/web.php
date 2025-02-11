@@ -21,35 +21,134 @@ use Laravel\Socialite\Facades\Socialite;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Auth::routes();
 
-// Route::get('/login', function (CustomIdentityServerProvider $provider) {
-//     return redirect($provider->getAuthorizationUrl());
+// Route::get('/admin_login', function () {
+//     return view('auth.login');
 // })->name('login');
 
 
-// Route::get('/callback', function (Request $request, CustomIdentityServerProvider $provider) {
-//     $code = $request->query('code');
+Route::get('/login', function (CustomIdentityServerProvider $provider) {
+    return redirect($provider->getAuthorizationUrl());
+})->name('login');
 
-//     if (!$code) {
-//         return redirect('/')->with('error', 'Login failed!');
-//     }
 
-//     $token = $provider->getAccessToken($code);
-//     $userInfo = $provider->getUserInfo($token->getToken());
 
-//     // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
-//     // $user = User::updateOrCreate([
-//     //     'email' => $userInfo['email'],
-//     // ], [
-//     //     'name' => $userInfo['name'] ?? $userInfo['email'],
-//     //     'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Scopes
-//     // ]);
 
-//     // Auth::login($user);
+Route::get('/callback', function (Request $request, CustomIdentityServerProvider $provider) {
+    $code = $request->query('code');
 
-//     return redirect('/dashboard');
-// });
+    if (!$code) {
+        return redirect('/')->with('error', 'Login failed!');
+    }
+
+    $token = $provider->getAccessToken($code);
+    $userInfo = $provider->getUserInfo($token->getToken());
+
+    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
+    $user = User::updateOrCreate([
+        'email' => $userInfo['email'],
+    ], [
+        'name' => $userInfo['name'] ?? $userInfo['email'],
+        'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Sco
+        'password' => '123456789', // حفظ الصلاحيات من الـ
+
+
+    ]);
+
+    Auth::login($user);
+
+    return redirect('/dashboard');
+});
+
+
+
+Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvider $provider) {
+    $code = $request->query('code');
+
+    if (!$code) {
+        return redirect('/')->with('error', 'Login failed!');
+    }
+
+    $token = $provider->getAccessToken($code);
+        $userInfo = $provider->getUserInfo($token->getToken());
+
+
+
+    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
+  /*  $user = User::updateOrCreate([
+        'email' => $userInfo['email'],
+    ], [
+        'name' => $userInfo['name'] ?? $userInfo['email'],
+        'u_role_id' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Sco
+        'password' => '123456789', // حفظ الصلاحيات من الـ
+
+
+    ]);
+
+    */
+    $user = '' ;
+    if ($userInfo['sub']) {
+        $user = User::where('u_username', $userInfo['sub'])->first();
+    }
+
+if ($user) {
+    Auth::login($user);
+} else {
+    return redirect()->route('home')->with('error', 'المستخدم غير موجود');
+}
+
+
+
+
+
+
+   // $userInfo = $provider->getUserInfo($token->getToken());
+  /*  $userInfo = $provider->getUserInfo($token);
+        $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $provider->getToken(),
+                ])->get('https://api-core.ppu.edu/api/DualStudies/getStudentInfo/'.$provider->getUserId());
+
+        if(!$response){
+            $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $provider->getToken(),
+                ])->get('https://api-core.ppu.edu/api/DualStudies/getStuffInfo');
+        }
+           dd($provider->getToken()->accessToken);
+
+            dd($response->json());
+
+*/
+
+//  dd($userInfo);
+
+/*
+    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
+    $user = User::updateOrCreate([
+        'email' => $userInfo['email'],
+    ], [
+        'name' => $userInfo['name'] ?? $userInfo['email'],
+        'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Scopes
+    ]);
+
+    Auth::login($user);
+ */
+
+    return redirect('/home?token='.$token);
+});
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/test' , function(){
     return 'test';
@@ -260,7 +359,7 @@ Route::group(['middleware' => ['auth']],function () {
         Route::group(['prefix'=>'companies'],function(){
             Route::get('/index',[App\Http\Controllers\project\admin\CompaniesController::class,'index'])->name('admin.companies.index');
             Route::post('/companySearch',[App\Http\Controllers\project\admin\CompaniesController::class,'companySearch'])->name('admin.companies.companySearch');
-            Route::post('/company',[App\Http\Controllers\project\admin\CompaniesController::class,'company'])->name('admin.companies.company');
+            Route::get('/company',[App\Http\Controllers\project\admin\CompaniesController::class,'company'])->name('admin.companies.company');
             Route::post('/create',[App\Http\Controllers\project\admin\CompaniesController::class,'create'])->name('admin.companies.create');
             Route::get('/edit/{id}',[App\Http\Controllers\project\admin\CompaniesController::class,'edit'])->name('admin.companies.edit');
             Route::post('/updateCompany',[App\Http\Controllers\project\admin\CompaniesController::class,'updateCompany'])->name('admin.companies.updateCompany');

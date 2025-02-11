@@ -318,15 +318,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getHomeSharedData', [sharedController::class, 'getHomeSharedData']);
 
     // prefix faq
-    Route::group(['prefix'=>'faq'],function(){
-        Route::get('/',[FAQController::class,'index']);
+    Route::group(['prefix' => 'faq'], function () {
+        Route::get('/', [FAQController::class, 'index']);
     });
-
 });
- // data integration
-    Route::get('syncMajors', [DataIntegrationController::class, 'syncMajors']);
-    Route::get('syncCities', [DataIntegrationController::class, 'syncCities']);
-    Route::get('syncStudents', [DataIntegrationController::class, 'syncStudents']);
+// data integration
+Route::get('syncMajors', [DataIntegrationController::class, 'syncMajors']);
+Route::get('syncCities', [DataIntegrationController::class, 'syncCities']);
+Route::get('syncStudents', [DataIntegrationController::class, 'syncStudents']);
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store']);
 Route::post('/reset-password', [ResetPasswordController::class, 'store']);

@@ -30,7 +30,7 @@ class sharedController extends Controller
         $this->notificationsService = $notificationsService;
     }
 
-    // used for testing purposes
+    // used for testing purposes (when deploying)
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -123,7 +123,9 @@ class sharedController extends Controller
             Log::info('OTP verification response: ' . json_encode($data));
             // data: access_token, expires_in, token_type, and refresh_token
             // login to the system using username
+
             $user = User::where('u_username', $request->input('username'))->first();
+
             Log::info('User: ' . json_encode($user));
             if ($user) {
                 $role_id = $user->u_role_id;
@@ -162,13 +164,11 @@ class sharedController extends Controller
                 'message' => $responseBody['error_description'] ?? 'Invalid OTP or other error',
             ], 400);
         } catch (RequestException $e) {
-            // Handle network issues or other request failures
             return response()->json([
                 'status' => false,
                 'message' => 'Request failed. Please try again later.',
             ], 500);
         } catch (\Exception $e) {
-            // Handle unexpected errors
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong. Please try again.',
@@ -300,37 +300,4 @@ class sharedController extends Controller
         }
     }
 
-    // just for test
-    public function test()
-    {
-        // $result = User::where('u_id', auth()->user()->u_id)->with('role:r_name,r_id')->get();
-        // $result = Role::with('users')->get();
-        // $result = StudentCompany::with('users')->get();
-        // $result = User::where('u_id', auth()->user()->u_id)->with('studentCompanies')->get();
-        // $result = StudentCompany::where('sc_student_id', auth()->user()->u_id)->with('companyBranch')->get();
-        // $result = CompanyBranch::with('studentCompanies')->get();
-        // $result = Company::with('companyBranch')->get();
-        // $result = CompanyBranch::with('companies')->get();
-        // $result = CompanyBranch::where('b_company_id', 1)->with('companies')->get();
-        // $result = CompanyBranch::where('b_id', 1)->with('companyBranchLocation')->get();
-        // $result = CompanyBranchLocation::with('companyBranch')->get();
-
-
-        $result = User::with('role')->get();
-
-        $transformedResult = $result->map(function ($user) {
-            return [
-                'aseel' => $user->u_id,
-                'userName' => $user->name,
-                'roleInfo' => [
-                    'roleId' => $user->role->r_id,
-                    'roleName' => $user->role->r_name,
-                ],
-            ];
-        });
-
-        return response()->json([
-            'result' => $transformedResult
-        ]);
-    }
 }
