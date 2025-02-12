@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-5">
+                <div class="col-md-6 col-lg-5"> 
                     <div class="login-wrap p-4 p-md-5" align="center">
                         <img src="{{ asset('assets/login/images/ds-ppu.png') }}" width="250" alt="Logo">
                         <h3 class="text-center mb-4">Login to your account</h3>

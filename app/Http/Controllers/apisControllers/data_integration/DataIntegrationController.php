@@ -170,9 +170,6 @@ class DataIntegrationController extends Controller
             ]);
         }
 
-
-
-
         return response()->json(['message' => 'Students synced successfully']);
     }
 
