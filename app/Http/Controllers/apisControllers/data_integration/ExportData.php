@@ -50,6 +50,7 @@ class ExportData extends Controller
             try {
                 $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                     'headers' => [
+                        'Authorization' => 'Bearer ' . session('auth_token'),
                         'Content-Type' => 'application/x-www-form-urlencoded',
                     ],
                     'form_params' => [
