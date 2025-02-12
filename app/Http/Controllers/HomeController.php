@@ -36,7 +36,8 @@ class HomeController extends Controller
 
         $announcememts = announcements::where('a_status', 1)->orderBy('created_at', 'desc')->get();
         $student_count = User::where('u_role_id', 2)->count();
-        $company_count = User::where('u_role_id', 6)->count();
+        // $company_count = User::where('u_role_id', 6)->count();
+        $company_count = Company::count();
         $supervisor_count = User::where('u_role_id', 3)->count();
         $student_male_count = Registration::whereIn('r_student_id', function ($query) {
             $query->select('u_id')->from('users')->where('u_gender', 1);
@@ -51,17 +52,17 @@ class HomeController extends Controller
             ->where('r_year', $system_settings->ss_year)
             ->count();
 
-        // number of companies that students registered in (with current semester and year)
-        // with unique sc_registration_id
-        $company_active = StudentCompany::whereHas('registration', function ($query) use ($system_settings) {
-            $query->where('r_semester', $system_settings->ss_semester_type)->where('r_year', $system_settings->ss_year);
-        })->where('sc_status', 1)->count();
+        // companies that students registered in (with current semester and year)
+        $registered_company_ids = StudentCompany::whereHas('registration', function ($query) use ($system_settings) {
+            $query->where('r_year', $system_settings->ss_year)
+                ->where('r_semester', $system_settings->ss_semester_type);
+        })
+            ->distinct()
+            ->pluck('sc_company_id');
 
+        $company_active = Company::whereIn('c_id', $registered_company_ids)->count();
+        $company_not_active = Company::whereNotIn('c_id', $registered_company_ids)->count();
 
-
-
-        $company_not_active = Company::where('c_status', 0)->count();
-        
         $filed_visits = FieldVisitsModel::latest('fv_id')->get()->take(5);
         foreach ($filed_visits as $key) {
             $studentIds = json_decode($key->fv_student_id, true);
