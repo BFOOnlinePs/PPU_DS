@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\CompanyBranch;
 use App\Models\CompanyDepartment;
 use App\Models\companyBranchDepartments;
+use Illuminate\Support\Facades\Http;
 
 
 class CompaniesController extends Controller
@@ -45,6 +46,63 @@ class CompaniesController extends Controller
     }
 
     public function create(Request $request){
+        $response = Http::withToken('eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5NWRiNzYyMjc2MzlkNWI3N2FiY2I5ZDkwMjM4YzI5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE3MzkxMzY4MDgsImV4cCI6MTczOTE0MDQwOCwiaXNzIjoiaHR0cHM6Ly9teS5wcHUuZWR1IiwiYXVkIjpbImh0dHBzOi8vbXkucHB1LmVkdS9yZXNvdXJjZXMiLCJFeHRlcm5hbEFwaXMuYXBpIl0sImNsaWVudF9pZCI6IkRTLnBwdSIsInN1YiI6IjEyMzQ1Njc4OSIsImF1dGhfdGltZSI6MTczOTEzNjgwNywiaWRwIjoibG9jYWwiLCJ1c2VyX25vIjoiMTIzNDU2Nzg5Iiwicm9sZSI6IjEiLCJuYW1lIjoiMTIzNDU2Nzg5Iiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImVtYWlsIiwicm9sZSIsInVzZXJubyIsIkV4dGVybmFsQXBpcy5hcGkiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsicHdkIl19.JqqKvIFZdLE7yxSe1ITVI_sJ8gxwEbLY_HI8TxmbEHKzLekj0diHObR8kwRMzBJSZ7om_9XwTWLoACuIDin5k0tXcbkTxXUl0M1_fLIiafCuMQ07_Quu0mu4-YfPCU0JQykHYdEHhBsO3-Z0BXqBXfPt41PtNpF02GXa9P9Jy_EKzsTLSS3z-I8lnKZ5mYfpZs7gQD5QKLp5kHgMfLh1UD7cUSzMcbIynZ7ZiI5zXC3E6XwasXPorrXKkKiiHsVjkvJL7LTlFLRA__cEKZMV3M6hTnwLbo6kJ-VsFSDG3ibrCDOnCLcIIx70cIxnyseXoCpSyy9j9HShMpgW-x2QLw')->post('https://api-core.ppu.edu/api/DualStudies/Company/Add',[
+                'caName' => $request->caName,
+                'ceName' => $request->ceName,
+                'cpaName' => '',
+                'cpeName' => '',
+                'email2' => $request->email2,
+                'mobile' => $request->mobile,
+                'pw' => $request->mobile,
+                'userName' => $request->mobile
+            ]);
+
+            return $response;
+
+            if ($response->successful()) {
+
+                $data = new User();
+        $data->u_username = $request->caName;
+        $data->name = $request->caName;
+        $data->email = $request->email2;
+        $data->password = $request->mobile;
+        $data->u_phone1 = $request->mobile;
+        $data->u_address = $request->address;
+        $data->u_role_id = 6;
+        if($data->save()){
+            // $user = User::where('email',$request->email)->first();
+            // $id = $user->u_id;
+            // $newCompany = new Company();
+            // $newCompany->c_name = $request->c_name;
+            // $newCompany->c_english_name = $request->c_english_name;
+            // $newCompany->c_manager_id = $id; //get from added user
+            // $newCompany->c_status = 1; //get from added user
+            // if($newCompany->save()){
+            //     $company_id = $newCompany->c_id;
+            //     $branch = new CompanyBranch();
+            //     $branch->b_company_id = $company_id;
+            //     $branch->b_address = $request->address;
+            //     $branch->b_phone1 = $request->phoneNum;
+            //     $branch->b_manager_id = $id;
+            //     $branch->b_city_id = $request->b_city_id;
+            //     $branch->b_main_branch = 1;
+            //     if($branch->save()){
+            //         return response()->json([
+            //             'success'=>'true',
+            //             'manager_id'=>$id,
+            //             'company_id'=>$newCompany->c_id
+            //         ]);
+            //     }
+
+            // }
+        }
+
+
+
+    return response()->json(['message' => 'Company added successfully', 'data' => $response->json()]);
+} else {
+    return response()->json(['error' => 'Failed to add company', 'details' => $response->body()], 500);
+}
         $data = new User();
         $data->u_username = $request->email;
         $data->name = $request->name;

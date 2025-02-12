@@ -6,6 +6,7 @@ use App\Http\Controllers\apisControllers\company_manager\company_trainees\manage
 use App\Http\Controllers\apisControllers\company_manager\payments\AllTraineesPaymentsController;
 use App\Http\Controllers\apisControllers\company_manager\payments\TraineePaymentsController;
 use App\Http\Controllers\apisControllers\data_integration\DataIntegrationController;
+use App\Http\Controllers\apisControllers\data_integration\ExportData;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\CompaniesPaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\PaymentsReportController;
 use App\Http\Controllers\apisControllers\monitoring_evaluation_officer\SemesterReportController;
@@ -326,6 +327,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('syncMajors', [DataIntegrationController::class, 'syncMajors']);
 Route::get('syncCities', [DataIntegrationController::class, 'syncCities']);
 Route::get('syncStudents', [DataIntegrationController::class, 'syncStudents']);
+Route::get('exportCompanies', [ExportData::class, 'exportCompanies']);
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store']);
 Route::post('/reset-password', [ResetPasswordController::class, 'store']);

@@ -73,6 +73,12 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
     }
 
     $token = $provider->getAccessToken($code);
+
+    session()->put('auth_token', $token);
+
+
+
+
         $userInfo = $provider->getUserInfo($token->getToken());
 
 

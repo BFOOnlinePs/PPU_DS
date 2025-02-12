@@ -209,18 +209,19 @@
                                         onclick='location.href="{{ route('monitor_evaluation.students_companies_report') }}"'><i
                                             class="fa fa-search"></i></button></td>
                             </tr>
+
                             <tr>
-                                <td class="col-md-4">
-                                    {{ __('translate.Total of Companies have trainees this semester') }}{{-- إجمالي الشركات المسجل بها خلال هذا الفصل --}}
-                                </td>
-                                <td id="address_summary">{{ $semesterCompaniesTotal }}</td>
+                                <td class="col-md-4"> الطلاب غير المسجلين في شركات</td>
+                                <td id="address_summary">{{ $company_no_student }}</td>
                                 <td><button class="btn btn-primary"
                                         onclick='location.href="{{ route('monitor_evaluation.companiesReport') }}"'><i
                                             class="fa fa-search"></i></button></td>
                             </tr>
                             <tr>
-                                <td class="col-md-4"> الطلاب الغير مسجلين في شركات</td>
-                                <td id="address_summary">{{ $company_no_student }}</td>
+                                <td class="col-md-4">
+                                    {{ __('translate.Total of Companies have trainees this semester') }}{{-- إجمالي الشركات المسجل بها خلال هذا الفصل --}}
+                                </td>
+                                <td id="address_summary">{{ $semesterCompaniesTotal }}</td>
                                 <td><button class="btn btn-primary"
                                         onclick='location.href="{{ route('monitor_evaluation.companiesReport') }}"'><i
                                             class="fa fa-search"></i></button></td>
