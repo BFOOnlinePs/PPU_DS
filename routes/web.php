@@ -30,9 +30,9 @@ Auth::routes();
 // })->name('login');
 
 
-// Route::get('/login', function (CustomIdentityServerProvider $provider) {
-//     return redirect($provider->getAuthorizationUrl());
-// })->name('login');
+Route::get('/login', function (CustomIdentityServerProvider $provider) {
+    return redirect($provider->getAuthorizationUrl());
+})->name('login');
 
 
 
@@ -73,6 +73,12 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
     }
 
     $token = $provider->getAccessToken($code);
+
+    session()->put('auth_token', $token);
+
+
+
+
         $userInfo = $provider->getUserInfo($token->getToken());
 
 
