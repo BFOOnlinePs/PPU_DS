@@ -70,7 +70,6 @@ class HomeController extends Controller
             $key->student_names = $students;
         }
         $news = Http::get('https://ds.ppu.edu/wp-json/wp/v2/posts?_embed');
-        // return $news[1];
         $results = DB::table('registration as r')
             ->join('courses as c', 'r.r_course_id', '=', 'c.c_id')
             ->join('users as u', 'r.r_student_id', '=', 'u.u_id')

@@ -185,6 +185,11 @@ class MonitorEvaluationController extends Controller
 
         $coursesStudentsTotal = count(Registration::where('r_year',$year)
         ->where('r_semester',$semester)
+        ->whereIn('r_student_id', function ($query) {
+            $query->select('u_id')
+                ->from('users')
+                ->where('u_role_id', 2);
+        })
         ->select('r_student_id')
         ->distinct()
         ->get());
@@ -240,7 +245,7 @@ class MonitorEvaluationController extends Controller
         $trainingMinutesTotal= $minutes - ($hoursFromMinutes*60);
 
         // $traineesTotal = count(StudentCompany::whereIn('sc_student_id', function ($query) use ($year, $semester) {
-        $traineesTotal = count(StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
+        $trainees = StudentCompany::whereIn('sc_registration_id', function ($query) use ($year, $semester) {
             $query->select('r_id')
                 ->from('registration')
                 ->where('r_year', $year)
@@ -250,7 +255,9 @@ class MonitorEvaluationController extends Controller
         // ->where('sc_status',1)
         ->select('sc_student_id')
         ->distinct()
-        ->get());
+        ->get();
+        $traineesTotal = count($trainees);
+        $company_no_student = $coursesStudentsTotal - $traineesTotal;
 
         if($semester==1){
             // $semesterText = __('translate.First Semester Report');
@@ -291,7 +298,7 @@ class MonitorEvaluationController extends Controller
 
         $majors = Major::get();
         $companies = Company::get();
-        $company_no_student = Company::whereNotIn('c_id',StudentCompany::pluck('sc_company_id')->toArray())->where('c_status',1)->select('c_id')->count();
+        // $company_no_student = Company::whereNotIn('c_id',StudentCompany::pluck('sc_company_id')->toArray())->where('c_status',1)->select('c_id')->count();
 
         return view('project.monitor_evaluation.semesterReport',['years'=>$years,'year'=>$year,'semester'=>$semester,'semesterCompaniesTotal'=>$semesterCompaniesTotal,
         'coursesStudentsTotal'=>$coursesStudentsTotal,'companiesTotal'=>$companiesTotal,'semesterCoursesTotal'=>$semesterCoursesTotal,
