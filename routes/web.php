@@ -30,9 +30,9 @@ Auth::routes();
 // })->name('login');
 
 
-Route::get('/login', function (CustomIdentityServerProvider $provider) {
-    return redirect($provider->getAuthorizationUrl());
-})->name('login');
+// Route::get('/login', function (CustomIdentityServerProvider $provider) {
+//     return redirect($provider->getAuthorizationUrl());
+// })->name('login');
 
 
 
@@ -697,3 +697,6 @@ Route::get('/clear-sessions', function () {
     Artisan::call('session:clear');
     return 'Sessions cleared successfully!';
 })->middleware('auth');
+
+// export data
+Route::get('/export-companies', [App\Http\Controllers\project\settings\ExportDataController::class, 'exportCompanies']);

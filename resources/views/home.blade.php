@@ -37,7 +37,7 @@
 @endsection
 @if (auth()->user()->u_role_id == 1)
     @section('content')
-        <div class="col-sm-6 col-xl-4 col-md-4 col-lg-6">
+        {{-- <div class="col-sm-6 col-xl-4 col-md-4 col-lg-6">
             <div class="card o-hidden border-0">
                 <div class="bg-primary b-r-4 card-body">
                     <div class="media static-top-widget">
@@ -62,8 +62,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6 col-xl-4 col-md-4 col-lg-6">
+        </div> --}}
+        <div class="col-sm-6 col-xl-6 col-md-6 col-lg-6">
             <div class="card o-hidden border-0">
                 <div class="bg-danger b-r-4 card-body">
                     <div class="media static-top-widget">
@@ -89,7 +89,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-4 col-md-4 col-lg-6">
+        <div class="col-sm-6 col-xl-6 col-md-6 col-lg-6">
             <div class="card o-hidden border-0">
                 <div class="bg-primary b-r-4 card-body">
                     <div class="media static-top-widget">
