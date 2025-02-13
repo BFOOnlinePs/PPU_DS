@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\apisControllers\data_integration;
+namespace App\Http\Controllers\project\settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class ExportData extends Controller
+class ExportDataController extends Controller
 {
     public function exportCompanies()
     {
@@ -38,13 +38,15 @@ class ExportData extends Controller
             }
         */
 
+        $successCount = 0;
+        $failureCount = 0;
+        $errors = [];
+
         $companies = Company::with(['manager' => function ($query) {
             $query->select('u_id', 'u_username', 'name', 'email', 'u_phone1');
         }])
             ->select('c_id', 'c_name', 'c_english_name', 'c_manager_id')
             ->get();
-        // return $companies;
-
 
         foreach ($companies as $company) {
             Log::info('token: ' . session('auth_token'));
@@ -53,9 +55,9 @@ class ExportData extends Controller
                 $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                     'headers' => [
                         'Authorization' => 'Bearer ' . session('auth_token'),
-                        'Content-Type' => 'application/x-www-form-urlencoded',
+                        'Content-Type' => 'application/json',
                     ],
-                    'form_params' => [
+                    'json' => [
                         'caName' => $company->c_name,
                         'ceName' => $company->c_english_name,
                         'cpaName' => $company->manager->name,
@@ -67,21 +69,43 @@ class ExportData extends Controller
                     ]
                 ]);
 
-                return $response->getBody()->getContents();
+                $responseData = json_decode($response->getBody()->getContents(), true);
+
+                if (isset($responseData['success']) && $responseData['success'] === true) {
+                    $successCount++;
+                } else {
+                    $failureCount++;
+                    $errors[] = [
+                        'company_id' => $company->c_id,
+                        'company_name' => $company->c_name,
+                        'error' => 'API response indicated failure'
+                    ];
+                }
             } catch (ClientException $e) {
                 $response = $e->getResponse();
                 $responseBodyAsString = $response->getBody()->getContents();
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Something went wrong. Please try again.',
+                $failureCount++;
+                $errors[] = [
+                    'company_id' => $company->c_id,
+                    'company_name' => $company->c_name,
                     'error' => $responseBodyAsString
-                ]);
+                ];
             } catch (\Exception $e) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Something went wrong. Please try again.',
-                ], 500);
+                $failureCount++;
+                $errors[] = [
+                    'company_id' => $company->c_id,
+                    'company_name' => $company->c_name,
+                    'error' => $e->getMessage()
+                ];
             }
         }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Companies exported successfully',
+            'success_count' => $successCount,
+            'failure_count' => $failureCount,
+            'errors' => $errors
+        ]);
     }
 }
