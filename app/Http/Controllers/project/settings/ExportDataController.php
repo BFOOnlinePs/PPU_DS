@@ -14,30 +14,6 @@ class ExportDataController extends Controller
     {
         $http = new \GuzzleHttp\Client();
 
-        /*
-            {
-                "success": false,
-                "data": null,
-                "msgCode": "REQUEST_FAILED",
-                "traceID": "6f3581b7-9786-4340-9038-5655132c0399",
-                "exception": "ldap_add(): Add: Already exists"
-            }
-        */
-
-
-        /*
-            {
-                "success": true,
-                "data": {
-                    "has_error": [],
-                    "message": []
-                },
-                "msgCode": null,
-                "traceID": null,
-                "exception": null
-            }
-        */
-
         $successCount = 0;
         $failureCount = 0;
         $errors = [];
@@ -78,7 +54,8 @@ class ExportDataController extends Controller
                     $errors[] = [
                         'company_id' => $company->c_id,
                         'company_name' => $company->c_name,
-                        'error' => 'API response indicated failure'
+                        'data' => $responseData,
+                        'error' => 'API response indicated failure',
                     ];
                 }
             } catch (ClientException $e) {
