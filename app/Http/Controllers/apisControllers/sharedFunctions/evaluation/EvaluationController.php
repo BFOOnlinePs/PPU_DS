@@ -11,7 +11,7 @@ use App\Models\EvaluationsModel;
 use App\Models\EvaluationSubmissionScoresModel;
 use App\Models\EvaluationSubmissionsModel;
 use App\Models\EvaluationTypesModel;
-use App\Models\StudentCompany;
+use App\Models\Registration;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -280,6 +280,14 @@ class EvaluationController extends Controller
             $evaluation_submission->es_max_score = $max_score;
             $evaluation_submission->save();
 
+            // add the company_score from (50) at registration table
+            $evaluation_type_id = EvaluationsModel::where('e_id', $request->input('evaluation_id'))->first()->e_type_id;
+            if ($evaluation_type_id == 2) { // student evaluation by company
+                $registration = Registration::where('r_id', $request->input('registration_id'))->first();
+                $registration->company_score = $evaluation_submission->es_final_score / $evaluation_submission->es_max_score * 50;
+                $registration->save();
+            }
+
             return response()->json([
                 'status' => true,
                 'message' => trans('messages.evaluation_submitted'),
@@ -303,14 +311,14 @@ class EvaluationController extends Controller
         $current_user =  Auth::user();
 
         $evaluation = EvaluationsModel::where('e_status', 1)
-            ->where(function ($query) {
-                $query->where('e_start_time', '<=', Carbon::now())
-                    ->orWhereNull('e_start_time');
-            })
-            ->where(function ($query) {
-                $query->where('e_end_time', '>=', Carbon::now())
-                    ->orWhereNull('e_end_time');
-            })
+            // ->where(function ($query) {
+            //     $query->where('e_start_time', '<=', Carbon::now())
+            //         ->orWhereNull('e_start_time');
+            // })
+            // ->where(function ($query) {
+            //     $query->where('e_end_time', '>=', Carbon::now())
+            //         ->orWhereNull('e_end_time');
+            // })
             ->where('e_type_id', $request->input('evaluation_type_id'))
             // ->where('e_evaluator_role_id', $user_role_id)
             ->latest()->first(); // to get the last one

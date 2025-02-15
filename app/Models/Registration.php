@@ -17,7 +17,8 @@ class Registration extends Model
         'r_grade',
         'r_semester',
         'r_year',
-        'supervisor_id'
+        'supervisor_id',
+        'company_score'
     ];
 
     public function courses()
@@ -33,7 +34,7 @@ class Registration extends Model
     {
         return $this->belongsTo(StudentCompany::class, 'r_id', 'sc_registration_id');
     }
- 
+
     public function supervisor()
     {
         return $this->belongsTo(User::class, 'supervisor_id', 'u_id');
