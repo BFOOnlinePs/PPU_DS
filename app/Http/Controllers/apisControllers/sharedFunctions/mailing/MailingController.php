@@ -314,7 +314,8 @@ class MailingController extends Controller
             // return $supervisors;
             $chatable_users = $managers->merge($supervisors)->unique('u_id');
 
-            // return $chatableUsers;
+            // add all users that has role id = 8 to the chatable users
+            $chatable_users = $chatable_users->merge(User::where('u_role_id', 8)->select('u_id', 'name')->get());
         } else if ($user->u_role_id == 10) { // trainings supervisor (he can chat his students from registration table)
 
             $studentIds = Registration::where('supervisor_id', $user->u_id)
@@ -327,6 +328,9 @@ class MailingController extends Controller
                 ->get();
 
             $chatable_users = $students;
+
+            // add all users that has role id = 8 to the chatable users
+            $chatable_users = $chatable_users->merge(User::where('u_role_id', 8)->select('u_id', 'name')->get());
         } else if ($user->u_role_id == 6) { // manager (he can chat his trainees)
             $trainees = Registration::join('users', 'registration.r_student_id', '=', 'users.u_id')
                 ->join('students_companies', 'registration.r_id', '=', 'students_companies.sc_registration_id')
@@ -342,8 +346,6 @@ class MailingController extends Controller
             // return $chatableUsers;
         };
 
-        // add all users that has role id = 8 to the chatable users
-        $chatable_users = $chatable_users->merge(User::where('u_role_id', 8)->select('u_id', 'name')->get());
 
         return response()->json([
             'status' => true,

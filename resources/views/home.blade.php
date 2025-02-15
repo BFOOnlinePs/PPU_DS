@@ -854,7 +854,7 @@
                         @include('modals.showEventForAll')
                     </div>
                 </div>
-                <div class="col-md-12" style="padding-top:1%">
+                {{-- <div class="col-md-12" style="padding-top:1%">
                     <div class="announcement-header">
                         <h2>اعلانات الكلية</h2>
                     </div>
@@ -868,7 +868,7 @@
                             <hr>
                         @endforeach
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="row">
