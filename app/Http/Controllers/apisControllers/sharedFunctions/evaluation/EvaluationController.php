@@ -30,14 +30,14 @@ class EvaluationController extends Controller
 
         $evaluations = EvaluationsModel::whereIn('e_type_id', $evaluation_type_id)
             ->where('e_status', 1)
-            ->where(function ($query) {
-                $query->where('e_start_time', '<=', Carbon::now())
-                    ->orWhereNull('e_start_time');
-            })
-            ->where(function ($query) {
-                $query->where('e_end_time', '>=', Carbon::now())
-                    ->orWhereNull('e_end_time');
-            })
+            // ->where(function ($query) {
+            //     $query->where('e_start_time', '<=', Carbon::now())
+            //         ->orWhereNull('e_start_time');
+            // })
+            // ->where(function ($query) {
+            //     $query->where('e_end_time', '>=', Carbon::now())
+            //         ->orWhereNull('e_end_time');
+            // })
             ->get();
 
         return response()->json([
