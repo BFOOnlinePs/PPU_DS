@@ -191,10 +191,10 @@
                                 href="{{ route('company_manager.students.index') }}"><i
                                     data-feather="users"></i><span>{{ __('translate.Students') }}{{-- الطلاب --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
+                        {{-- <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('company_manager.records.index') }}"><i
-                                    data-feather="list"></i><span>{{ __('translate.Attendance Logs') }}{{-- سجلات المتابعة --}}</span></a>
-                        </li>
+                                    data-feather="list"></i><span>{{ __('translate.Attendance Logs') }} سجلات المتابعة</span></a>
+                        </li> --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('company_manager.attendance.index') }}"><i
                                     data-feather="user-check"></i><span>{{ __('translate.Student Attendance') }}{{-- سجل الحضور والمغادرة --}}</span></a>
