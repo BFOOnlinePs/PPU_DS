@@ -48,7 +48,8 @@ class CompaniesController extends Controller
 
     public function create(Request $request)
     {
-        $response = Http::withToken(session('auth_token'))
+        // $response = Http::withToken(session('auth_token'))
+        $response = Http::withToken('eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5NWRiNzYyMjc2MzlkNWI3N2FiY2I5ZDkwMjM4YzI5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE3MzkzNjc2NTAsImV4cCI6MTczOTM3MTI1MCwiaXNzIjoiaHR0cHM6Ly9teS5wcHUuZWR1IiwiYXVkIjpbImh0dHBzOi8vbXkucHB1LmVkdS9yZXNvdXJjZXMiLCJFeHRlcm5hbEFwaXMuYXBpIl0sImNsaWVudF9pZCI6IkRTLnBwdSIsInN1YiI6IkRTVGVzdGluZyIsImF1dGhfdGltZSI6MTczOTM1NzkxNywiaWRwIjoibG9jYWwiLCJ1c2VyX25vIjoiMTQ0MDEwMSIsInJvbGUiOiI4MyIsIm5hbWUiOiJEU1Rlc3RpbmciLCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiZW1haWwiLCJyb2xlIiwidXNlcm5vIiwiRXh0ZXJuYWxBcGlzLmFwaSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.nsG7lg5QbGT8ghu_oDF7xWtB1jDkE5r6bLNmo6usLE7rFmpcc1IqHa2rCN3q2hSqfFkIuyzGdbQjpd2QFj9AjfjGwdJifHlab70SUZ2oUStsxirJwFEDCZoBo9kaohznljQTE-OqLP6tIyX5dbqmC0aoF00jEvx5grJBRO6Ks6cZEx-BYdqXwFr0_L9n6wzy-WYXnZmPsF56RkEsDW5wQSdxMEMTppD1Gj01WwqbQ5XPD2RHXjNP6vh5pwzt8wUloPV7ArFu7Sr0kgaN8H0TCFuTsgUcfaTJgQsjtS6trr1DAah-JmFFx_jiCiw6fNRcB_GywIDi_2WTSQRFvk56NA')
             ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                 'caName' => $request->caName,
                 'ceName' => $request->ceName,
@@ -622,3 +623,4 @@ class CompaniesController extends Controller
         }
     }
 }
+

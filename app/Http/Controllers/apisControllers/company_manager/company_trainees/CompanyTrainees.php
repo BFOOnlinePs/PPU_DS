@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\apisControllers\company_manager\company_trainees;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\CompanyBranch;
 use App\Models\Major;
 use App\Models\StudentAttendance;
@@ -13,9 +14,11 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
 
+// it was for branch manager, it is not for company manager
+
 class CompanyTrainees extends Controller
 {
-    // get the trainees (student company) in the company (branch) of a manager
+    // get the trainees (student company) in the company of a manager
     public function getTrainees(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -31,8 +34,11 @@ class CompanyTrainees extends Controller
             ]);
         };
 
-        $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
-        $students_companies = StudentCompany::whereIn('sc_branch_id', $company_branches_id)
+
+        // $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
+        // $students_companies = StudentCompany::whereIn('sc_branch_id', $company_branches_id)
+        $company_company_id = Company::where('c_manager_id', $request->input('manager_id'))->pluck('c_id');
+        $students_companies = StudentCompany::whereIn('sc_company_id', $company_company_id)
             ->whereNot('sc_status', 3)
             ->with('users')
             ->orderBy('created_at', 'desc');
@@ -55,26 +61,6 @@ class CompanyTrainees extends Controller
             $student_company->users->major_name = Major::where('m_id', $student_company->users->u_major_id)->pluck('m_name')->first();
             return $student_company;
         });
-
-        // // Filter out null values
-        // $trainees = $trainees->filter(function ($item) {
-        //     return !is_null($item);
-        // });
-
-        // // for order
-        // $trainees = $trainees->sortByDesc('created_at')->values();
-
-        // // Manually paginate the collection
-        // $perPage = 10;
-        // $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
-        // $currentPageItems = $trainees->forPage($currentPage, $perPage);
-        // $paginatedTrainees = new LengthAwarePaginator(
-        //     $currentPageItems->values(),
-        //     $trainees->count(),
-        //     $perPage,
-        //     $currentPage
-        // );
 
         return response()->json([
             'pagination' => [
@@ -183,7 +169,11 @@ class CompanyTrainees extends Controller
     // get attendance of all trainees
     public function getAllTraineesAttendanceLog()
     {
-        $traineesAttendance = CompanyBranch::where('b_manager_id', auth()->user()->u_id)
+        // branches of the company
+        $company_branches_id = CompanyBranch::where('b_manager_id', auth()->user()->u_id)->pluck('b_id');
+
+        // was: where('b_manager_id', auth()->user()->u_id)
+        $traineesAttendance = CompanyBranch::whereIn('b_id', $company_branches_id)
             ->with('studentCompanies.attendance.user')
             ->get()
             ->pluck('studentCompanies.*.attendance')
@@ -217,7 +207,11 @@ class CompanyTrainees extends Controller
     // get reports of all trainees
     public function getAllTraineesReportsLog(Request $request)
     {
-        $traineesReports = CompanyBranch::where('b_manager_id', auth()->user()->u_id)
+        // branches of the company
+        $company_branches_id = CompanyBranch::where('b_manager_id', auth()->user()->u_id)->pluck('b_id');
+
+        //was: where('b_manager_id', auth()->user()->u_id)
+        $traineesReports = CompanyBranch::whereIn('b_id', $company_branches_id)
             ->with('studentCompanies.attendance.report.user')
             ->get()
             ->pluck('studentCompanies.*.attendance.*.report')
@@ -267,8 +261,10 @@ class CompanyTrainees extends Controller
             ]);
         };
 
-        $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
-        $unique_trainees_ids = StudentCompany::whereIn('sc_branch_id', $company_branches_id)
+        // $company_branches_id = CompanyBranch::where('b_manager_id', $request->input('manager_id'))->pluck('b_id');
+        // $unique_trainees_ids = StudentCompany::whereIn('sc_branch_id', $company_branches_id)
+        $company_company_id = Company::where('c_manager_id', $request->input('manager_id'))->pluck('c_id');
+        $unique_trainees_ids = StudentCompany::whereIn('sc_company_id', $company_company_id)
             ->select('sc_student_id')
             ->distinct()
             // ->orderBy('created_at', 'desc')
