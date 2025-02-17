@@ -292,7 +292,7 @@ class MailingController extends Controller
         $current_semester = SystemSetting::first();
 
         // (depend on year and semester)
-        if ($user->u_role_id == 2) { // for student (he can chat his supervisor and managers)
+        if ($user->u_role_id == 2) { // for student (he can chat his supervisor and managers and program coordinators)
             $managers = User::select('users.u_id', 'users.name')
                 ->join('company_branches', 'users.u_id', '=', 'company_branches.b_manager_id')
                 ->join('students_companies', 'company_branches.b_id', '=', 'students_companies.sc_branch_id')
@@ -316,7 +316,7 @@ class MailingController extends Controller
 
             // add all users that has role id = 8 to the chatable users
             $chatable_users = $chatable_users->merge(User::where('u_role_id', 8)->select('u_id', 'name')->get());
-        } else if ($user->u_role_id == 10) { // trainings supervisor (he can chat his students from registration table)
+        } else if ($user->u_role_id == 10) { // trainings supervisor (he can chat his students from registration table and program coordinators)
 
             $studentIds = Registration::where('supervisor_id', $user->u_id)
                 ->where('r_year', $current_semester->ss_year)
