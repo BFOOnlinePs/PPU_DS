@@ -50,7 +50,7 @@ class CompaniesController extends Controller
     {
         $company_name_search = $request->input('search_company');
 
-        $companies = Company::where('c_status', 1); // active company
+        $companies = Company::where('c_status', 1000); // active company status 1
 
         if ($company_name_search) {
             $companies = $companies->where(function ($query) use ($company_name_search) {

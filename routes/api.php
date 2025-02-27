@@ -267,8 +267,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     // companies
-    // Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
-    // Route::get('getActiveCompaniesForDropDown', 'App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController@getActiveCompaniesForDropDown');
+    Route::get('getAllCompanies', [SharedFunctionsCompaniesController::class, 'getAllCompanies']);
+    Route::get('getActiveCompaniesForDropDown', 'App\Http\Controllers\apisControllers\sharedFunctions\CompaniesController@getActiveCompaniesForDropDown');
 
     // currencies
     Route::get('getCurrencies', [CurrenciesController::class, 'getCurrencies']);
