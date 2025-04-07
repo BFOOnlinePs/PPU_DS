@@ -5,6 +5,7 @@ namespace App\Http\Controllers\apisControllers\sharedFunctions;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Course;
+use App\Models\GizEvaluationModel;
 use App\Models\Major;
 use App\Models\SemesterCourse;
 use App\Models\SystemSetting;
@@ -228,13 +229,22 @@ class sharedController extends Controller
 
     public function getHomeSharedData()
     {
+        $system_settings = SystemSetting::first();
+        $is_giz_evaluation_active = $system_settings->ss_giz_evaluations_status == 'active' ? true : false;
+
         $current_user_id = auth()->user()->u_id;
+        $current_user_role_id = auth()->user()->u_role_id;
         $unseen_conversations_count = $this->messageService->unseenConversationsCount($current_user_id);
         $unseen_notifications_count = $this->notificationsService->unseenNotificationsCount($current_user_id);
+        if ($is_giz_evaluation_active) {
+            $giz_evaluations = GizEvaluationModel::where('e_role_id', $current_user_role_id)->first();
+        }
+
         return response()->json([
             'status' => true,
             'unseen_notifications_count' => $unseen_notifications_count,
-            'unseen_conversations_count' => $unseen_conversations_count
+            'unseen_conversations_count' => $unseen_conversations_count,
+            'giz_evaluations_link' => $giz_evaluations ? $giz_evaluations->e_link : null
         ]);
     }
 
@@ -299,5 +309,4 @@ class sharedController extends Controller
             ], 200);
         }
     }
-
 }
