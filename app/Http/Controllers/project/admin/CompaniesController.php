@@ -237,7 +237,6 @@ class CompaniesController extends Controller
 
         if ($data->save()) {
 
-            // إرسال البيانات إلى API خارجي
             $apiResponse = Http::withToken(session('auth_token'))
                 ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                     'user_no' => $data->u_id,
@@ -245,10 +244,8 @@ class CompaniesController extends Controller
                     'name'     => $data->name,
                     'email'    => $data->email,
                     'phone'    => $data->u_phone1,
-                    // أي بيانات إضافية تحتاجها الـ API
                 ]);
 
-            // تحقق من نجاح الطلب الخارجي
             if ($apiResponse->successful()) {
                 return redirect()->back()->with('success', 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح');
             } else {
