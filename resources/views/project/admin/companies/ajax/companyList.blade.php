@@ -16,7 +16,8 @@
             @if ($data->isEmpty())
                 <tr>
                     <td colspan="7" class="text-center">
-                        <span>{{ __('translate.No data to display') }}{{-- لا توجد بيانات --}}</span></td>
+                        <span>{{ __('translate.No data to display') }}{{-- لا توجد بيانات --}}</span>
+                    </td>
                 </tr>
             @else
                 @foreach ($data as $key)
@@ -47,12 +48,12 @@
                         @else
                             <td>{{ __('translate.Unspecified') }}{{-- غير محدد --}}</td>
                         @endif
-                        @if ($key->c_type == 1)
+                        {{-- @if ($key->c_type == 1)
                             <td>{{ __('translate.Public Sector') }}{{-- قطاع عام --}}</td>
-                        @endif
-                        @if ($key->c_type == 2)
-                            <td>{{ __('translate.Private Sector') }}{{-- قطاع خاص --}}</td>
-                        @endif
+                        {{-- @endif --}}
+                        {{-- @if ($key->c_type == 2) --}}
+                            {{-- <td>{{ __('translate.Private Sector') }}قطاع خاص</td> --}}
+                        {{-- @endif --}}
                         <td>
                             <input type="text" onchange="update_capacity_ajax({{ $key->c_id }},this.value)"
                                 class="form-control" value="{{ $key->c_capacity }}" placeholder="">
@@ -64,14 +65,30 @@
                                     class="switch-state"></span>
                             </label>
                         </td>
-                        <td>
-                            <button class="btn btn-dark btn-xs"
-                                onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'><i
-                                    class="fa fa-search"></i></button>
-                            <button class="btn btn-dark btn-xs"
-                                onclick='show_student_nomination_modal({{ $key }})'>اقتراح طلاب</button>
-                            <button class="btn btn-dark btn-xs" data-container="body"
-                                onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button>
+                        <td class="">
+                            <div class="dropdown">
+                                <span data-feather="more-vertical">العمليات</span>
+                                <div class="dropdown-content">
+                                    <button class="btn btn-dark btn-sm form-control m-1">
+                                        <a style="cursor: pointer;font-size: 10px" class="text-white"
+                                            href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}}">
+                                            تعديل
+                                        </a>
+                                    </button>
+                                    <button class="btn btn-dark btn-sm form-control m-1"><a
+                                            style="cursor: pointer;font-size: 10px" class="text-white"
+                                            onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'>تفاصيل
+                                            الشركة</a></button>
+                                    <button class="btn btn-dark btn-sm form-control m-1"><a
+                                            style="cursor: pointer;font-size: 10px" class="text-white"
+                                            onclick='show_student_nomination_modal({{ $key }})'>اقتراحات
+                                            الطلاب</a></button>
+                                    <button class="btn btn-dark btn-sm form-control m-1"><a
+                                            style="cursor: pointer;font-size: 10px" class="text-white"
+                                            onclick='addAttachmentModal({{ $key->c_id }})'>اضافة
+                                            اتفاقية</a></button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

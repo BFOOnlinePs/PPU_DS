@@ -73,7 +73,8 @@
                             @if ($data->isEmpty())
                                 <tr>
                                     <td colspan="6" class="text-center">
-                                        <span>{{ __('translate.No data to display') }}{{-- لا توجد بيانات --}}</span></td>
+                                        <span>{{ __('translate.No data to display') }}{{-- لا توجد بيانات --}}</span>
+                                    </td>
                                 </tr>
                             @else
                                 @foreach ($data as $key)
@@ -127,13 +128,12 @@
                                             <div class="dropdown">
                                                 <span data-feather="more-vertical"></span>
                                                 <div class="dropdown-content">
-                                                    <button class="btn btn-dark btn-sm form-control m-1"
-
-                                                                >
-                                                                <a style="cursor: pointer;font-size: 10px" class="text-white" href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}}">
-                                                                    تعديل
-                                                                </a>
-                                                        </button>
+                                                    <button class="btn btn-dark btn-sm form-control m-1">
+                                                        <a style="cursor: pointer;font-size: 10px" class="text-white"
+                                                            href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}}">
+                                                            تعديل
+                                                        </a>
+                                                    </button>
                                                     <button class="btn btn-dark btn-sm form-control m-1"><a
                                                             style="cursor: pointer;font-size: 10px" class="text-white"
                                                             onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'>تفاصيل
@@ -148,9 +148,6 @@
                                                             اتفاقية</a></button>
                                                 </div>
                                             </div>
-                                            {{--                                    <button class="btn btn-dark btn-xs" onclick='location.href="{{route("admin.companies.edit",["id"=>$key->c_id])}}"'><i class="fa fa-search"></i></button> --}}
-                                            {{--                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='show_student_nomination_modal({{ $key }})'><i class="fa fa-group"></i></button> --}}
-                                            {{--                                    <button class="btn btn-dark btn-xs" data-container="body" onclick='addAttachmentModal({{ $key->c_id }})'><i class="fa fa-file"></i></button> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -163,7 +160,7 @@
         </div>
         @include('project.admin.companies.modals.studentNominationModal')
         @include('project.admin.companies.modals.addAttachmentModal')
-        @include('project.admin.companies.modals.uncompletedCompanyModal')
+        {{-- @include('project.admin.companies.modals.uncompletedCompanyModal') --}}
     </div>
 
 @endsection
