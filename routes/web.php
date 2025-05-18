@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -30,11 +31,40 @@ Auth::routes();
 // })->name('login');
 
 
-// Route::get('/login', function (CustomIdentityServerProvider $provider) {
-//     return redirect($provider->getAuthorizationUrl());
-// })->name('login');
+Route::get('/login', function (CustomIdentityServerProvider $provider) {
+    return redirect($provider->getAuthorizationUrl());
+})->name('login');
 
+Route::post('/logout', function (Request $request, CustomIdentityServerProvider $provider) {
+    // Get the token from session
+    if ($request->session()->has('auth_token')) {
+        $tokenObject = $request->session()->get('auth_token');
 
+        // Revoke the token if the provider supports it
+        try {
+            $provider->revokeToken($tokenObject->getToken());
+        } catch (\Exception $e) {
+            \Log::error('Token revocation failed: ' . $e->getMessage());
+        }
+    }
+
+    // Logout from Laravel
+    Auth::logout();
+
+    // Clear the session
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    // Clear cookies
+    Cookie::queue(Cookie::forget('laravel_session'));
+    Cookie::queue(Cookie::forget('XSRF-TOKEN'));
+
+    // Get the logout URL from the provider
+    $logoutUrl = $provider->getLogoutUrl();
+
+    // Redirect to the OAuth2 server's logout endpoint
+    return redirect($logoutUrl);
+})->name('logout');
 
 
 Route::get('/callback', function (Request $request, CustomIdentityServerProvider $provider) {
@@ -45,6 +75,12 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
     }
 
     $token = $provider->getAccessToken($code);
+
+    // Store the ID token in the session
+    if ($token->getValues()['id_token']) {
+        session(['id_token' => $token->getValues()['id_token']]);
+    }
+
     $userInfo = $provider->getUserInfo($token->getToken());
 
     // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
@@ -62,8 +98,6 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
 
     return redirect('/dashboard');
 });
-
-
 
 Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvider $provider) {
     $code = $request->query('code');
@@ -102,59 +136,12 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
 
     if ($user) {
         Auth::login($user);
+
+        return redirect('/home?token=' . $token);
     } else {
-        return redirect()->route('home')->with('error', 'المستخدم غير موجود');
+        return redirect('/')->with('error', 'Login failed!');
     }
-
-
-
-
-
-
-    // $userInfo = $provider->getUserInfo($token->getToken());
-    /*  $userInfo = $provider->getUserInfo($token);
-        $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $provider->getToken(),
-                ])->get('https://api-core.ppu.edu/api/DualStudies/getStudentInfo/'.$provider->getUserId());
-
-        if(!$response){
-            $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $provider->getToken(),
-                ])->get('https://api-core.ppu.edu/api/DualStudies/getStuffInfo');
-        }
-           dd($provider->getToken()->accessToken);
-
-            dd($response->json());
-
-*/
-
-    //  dd($userInfo);
-
-    /*
-    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
-    $user = User::updateOrCreate([
-        'email' => $userInfo['email'],
-    ], [
-        'name' => $userInfo['name'] ?? $userInfo['email'],
-        'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Scopes
-    ]);
-
-    Auth::login($user);
- */
-
-    return redirect('/home?token=' . $token);
 });
-
-
-
-
-
-
-
-
-
-
-
 
 Route::get('/test', function () {
     return 'test';
@@ -166,7 +153,6 @@ Route::get('/', function () {
 
 // Route::get('login', [LoginController::class, 'redirectToProvider']);
 // Route::get('callback', [LoginController::class, 'handleProviderCallback']);
-
 
 Route::get('privacy_and_policy', function () {
     return view('project.admin.privacy_and_policy');
