@@ -44,7 +44,7 @@ Route::post('/logout', function (Request $request, CustomIdentityServerProvider 
         try {
             $provider->revokeToken($tokenObject->getToken());
         } catch (\Exception $e) {
-            \Log::error('Token revocation failed: ' . $e->getMessage());
+            // \Log::error('Token revocation failed: ' . $e->getMessage());
         }
     }
 
