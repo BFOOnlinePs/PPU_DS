@@ -238,8 +238,8 @@ class CompaniesController extends Controller
         if ($data->save()) {
 
             // إرسال البيانات إلى API خارجي
-            $apiResponse = Http::withToken('eyJhbGciOi...') // أدخل التوكن الكامل
-                ->post('https://your-api-url.com/api/update-user', [
+            $apiResponse = Http::withToken(session('auth_token'))
+                ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                     'user_no' => $data->u_id,
                     'username' => $data->u_username,
                     'name'     => $data->name,
