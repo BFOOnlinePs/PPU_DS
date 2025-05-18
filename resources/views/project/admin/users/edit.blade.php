@@ -8,8 +8,6 @@
 @section('header_link')
 {{__('translate.Edit User Information')}}{{--تعديل المستخدم--}} @endsection
 
-
-
 @section('content')
 <div class="container-fluid">
     <div class="edit-profile">

@@ -155,6 +155,14 @@ class CompaniesController extends Controller
         return view('project.admin.companies.edit', ['company' => $data, 'categories' => $categories, 'uncompletedCompany' => $uncompletedCompany, 'companyDepartments' => $companyDepartments]);
     }
 
+    public function edit2($id)
+    {
+        $company = Company::where('c_id', $id)->first();
+        $data = User::where('u_id', $company->c_manager_id)->first();
+        // $companyDepartments=CompanyBranch::with('companyDepartments')->where('b_company_id',$id)->get();
+        return view('project.admin.companies.edit2', ['company' => $data]);
+    }
+
     //this function for update inserted company in add company page
     public function updateCompany(Request $request)
     {
@@ -215,6 +223,40 @@ class CompaniesController extends Controller
             ]);
         }
     }
+
+    public function update2(Request $request)
+    {
+        $data = User::where('u_id', $request->company_id)->first();
+        $data->u_username = $request->mobile;
+        $data->name = $request->caName;
+        $data->email = $request->email2;
+        if ($request->password != null) {
+            $data->password = bcrypt($request->password);
+        }
+        $data->u_phone1 = $request->mobile;
+
+        if ($data->save()) {
+
+            // إرسال البيانات إلى API خارجي
+            $apiResponse = Http::withToken('eyJhbGciOi...') // أدخل التوكن الكامل
+                ->post('https://your-api-url.com/api/update-user', [
+                    'user_no' => $data->u_id,
+                    'username' => $data->u_username,
+                    'name'     => $data->name,
+                    'email'    => $data->email,
+                    'phone'    => $data->u_phone1,
+                    // أي بيانات إضافية تحتاجها الـ API
+                ]);
+
+            // تحقق من نجاح الطلب الخارجي
+            if ($apiResponse->successful()) {
+                return redirect()->back()->with('success', 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح');
+            } else {
+                return redirect()->back()->with('warning', 'تم التعديل محلياً ولكن فشل التحديث في النظام الخارجي');
+            }
+        }
+    }
+
     public function updateDepartments(Request $request)
     {
         $companyDepartments = CompanyDepartment::where('d_company_id', $request->c_id)->get();
@@ -623,4 +665,3 @@ class CompaniesController extends Controller
         }
     }
 }
-

@@ -894,6 +894,12 @@
                                         <div class="col-sm-12 col-xl-6">
                                             <div class="card">
 
+                                                @php
+                                                    $thumbnail =
+                                                        $item['media_details']['sizes']['woocommerce_thumbnail'] ??
+                                                        null;
+                                                @endphp
+
                                                 <div class="card-header d-flex">
                                                     @if ($thumbnail && isset($thumbnail['source_url'], $thumbnail['height']))
                                                         <img style="height: {{ $thumbnail['height'] }}; flex: 1"

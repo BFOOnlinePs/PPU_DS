@@ -31,9 +31,7 @@ Auth::routes();
 // })->name('login');
 
 
-Route::get('/login', function (CustomIdentityServerProvider $provider) {
-    return redirect($provider->getAuthorizationUrl());
-})->name('login');
+// Rexport-companies('login');
 
 Route::post('/logout', function (Request $request, CustomIdentityServerProvider $provider) {
     // Get the token from session
@@ -352,6 +350,7 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::get('/company', [App\Http\Controllers\project\admin\CompaniesController::class, 'company'])->name('admin.companies.company');
                 Route::post('/create', [App\Http\Controllers\project\admin\CompaniesController::class, 'create'])->name('admin.companies.create');
                 Route::get('/edit/{id}', [App\Http\Controllers\project\admin\CompaniesController::class, 'edit'])->name('admin.companies.edit');
+                Route::get('/edit2/{id}', [App\Http\Controllers\project\admin\CompaniesController::class, 'edit2'])->name('admin.companies.edit2');
                 Route::post('/updateCompany', [App\Http\Controllers\project\admin\CompaniesController::class, 'updateCompany'])->name('admin.companies.updateCompany');
                 Route::post('/createBranches', [App\Http\Controllers\project\admin\CompaniesController::class, 'createBranches'])->name('admin.companies.createBranches');
                 Route::post('/createBranchesEdit', [App\Http\Controllers\project\admin\CompaniesController::class, 'createBranchesEdit'])->name('admin.companies.createBranchesEdit');
@@ -359,6 +358,7 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::post('/companySummary', [App\Http\Controllers\project\admin\CompaniesController::class, 'companySummary'])->name('admin.companies.companySummary');
                 Route::get('/showCompanyInfo', [App\Http\Controllers\project\admin\CompaniesController::class, 'showCompanyInfo'])->name('admin.companies.showCompanyInfo');
                 Route::post('/update', [App\Http\Controllers\project\admin\CompaniesController::class, 'update'])->name('admin.companies.update');
+                Route::post('/update2', [App\Http\Controllers\project\admin\CompaniesController::class, 'update2'])->name('admin.companies.update2');
                 Route::post('/updateDepartments', [App\Http\Controllers\project\admin\CompaniesController::class, 'updateDepartments'])->name('admin.companies.updateDepartments');
                 Route::post('/addDepartment', [App\Http\Controllers\project\admin\CompaniesController::class, 'addDepartment'])->name('admin.companies.addDepartment');
                 Route::post('/createDepartments', [App\Http\Controllers\project\admin\CompaniesController::class, 'createDepartments'])->name('admin.companies.createDepartments');
