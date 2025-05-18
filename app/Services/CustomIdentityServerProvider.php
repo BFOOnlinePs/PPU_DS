@@ -59,4 +59,38 @@ class CustomIdentityServerProvider
         $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getDsStudentsByYear/' . $academicYear . '/' . $semester);
         return $response;
     }
+
+    public function revokeToken($accessToken)
+    {
+        $response = Http::asForm()->post(env('IDENTITY_SERVER_URL') . '/connect/revocation', [
+            'token' => $accessToken,
+            'token_type_hint' => 'access_token',
+            'client_id' => env('CLIENT_ID'),
+            'client_secret' => env('CLIENT_SECRET'),
+        ]);
+
+        Log::info('Revocation response: ' . $response->body());
+
+        return $response->ok();
+    }
+
+
+    public function getLogoutUrl()
+    {
+        // Get the ID token from the session if available
+        $idToken = session('id_token');
+
+        // Build the logout URL with required parameters
+        $logoutUrl = env('IDENTITY_SERVER_URL') . '/connect/endsession';
+
+        // Add required parameters
+        $params = [
+            'id_token_hint' => $idToken,
+            'post_logout_redirect_uri' => env('REDIRECT_URI'),
+            'client_id' => env('CLIENT_ID')
+        ];
+
+        // Return the complete logout URL with parameters
+        return $logoutUrl . '?' . http_build_query($params);
+    }
 }

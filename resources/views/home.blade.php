@@ -125,9 +125,8 @@
                 <div class="bg-dark b-r-4 card-body">
                     <div class="media static-top-widget">
                         <div class="align-self-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="feather feather-user-plus">
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="8.5" cy="7" r="4"></circle>
                                 <line x1="20" y1="8" x2="20" y2="14"></line>
@@ -380,16 +379,24 @@
                                     @foreach ($key['_embedded']['wp:featuredmedia'] as $item)
                                         <div class="col-sm-12 col-xl-6">
                                             <div class="card">
-                                                <div class="card-header d-flex"><img
-                                                        style="height: {{ $item['media_details']['sizes']['woocommerce_thumbnail']['height'] }};flex: 1"
-                                                        src="{{ $item['media_details']['sizes']['woocommerce_thumbnail']['source_url'] }}"
-                                                        alt="">
+                                                @php
+                                                    $thumbnail =
+                                                        $item['media_details']['sizes']['woocommerce_thumbnail'] ??
+                                                        null;
+                                                @endphp
+
+                                                <div class="card-header d-flex">
+                                                    @if ($thumbnail && isset($thumbnail['source_url'], $thumbnail['height']))
+                                                        <img style="height: {{ $thumbnail['height'] }}; flex: 1"
+                                                            src="{{ $thumbnail['source_url'] }}" alt="">
+                                                    @endif
                                                 </div>
                                                 <div class="card-body">
                                                     {!! $key['excerpt']['rendered'] !!}
-                                                        <a href="{{ route('news.details',['id'=>$key['id']]) }}" class="btn btn-primary">
-                                                            تفاصيل
-                                                        </a>
+                                                    <a href="{{ route('news.details', ['id' => $key['id']]) }}"
+                                                        class="btn btn-primary">
+                                                        تفاصيل
+                                                    </a>
 
                                                 </div>
                                             </div>
@@ -463,7 +470,7 @@
                     success: function(response) {
                         toastr.success(
                             `{{ __('translate.The event information has been successfully updated') }}`
-                            ); // تم تعديل معلومات الحدث بنجاح
+                        ); // تم تعديل معلومات الحدث بنجاح
                         $('#LoadingModal').modal('hide');
                         display_events();
                         clear_function();
@@ -886,16 +893,20 @@
                                     @foreach ($key['_embedded']['wp:featuredmedia'] as $item)
                                         <div class="col-sm-12 col-xl-6">
                                             <div class="card">
-                                                <div class="card-header d-flex"><img
-                                                        style="height: {{ $item['media_details']['sizes']['woocommerce_thumbnail']['height'] }};flex: 1"
-                                                        src="{{ $item['media_details']['sizes']['woocommerce_thumbnail']['source_url'] }}"
-                                                        alt="">
+
+                                                <div class="card-header d-flex">
+                                                    @if ($thumbnail && isset($thumbnail['source_url'], $thumbnail['height']))
+                                                        <img style="height: {{ $thumbnail['height'] }}; flex: 1"
+                                                            src="{{ $thumbnail['source_url'] }}" alt="">
+                                                    @endif
                                                 </div>
+
                                                 <div class="card-body">
                                                     {!! $key['excerpt']['rendered'] !!}
-                                                        <a href="{{ route('news.details',['id'=>$key['id']]) }}" class="btn btn-primary">
-                                                            تفاصيل
-                                                        </a>
+                                                    <a href="{{ route('news.details', ['id' => $key['id']]) }}"
+                                                        class="btn btn-primary">
+                                                        تفاصيل
+                                                    </a>
 
                                                 </div>
                                             </div>
