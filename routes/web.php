@@ -174,7 +174,7 @@ Route::group(['middleware' => ['auth']], function () {
             });
         });
         Route::group(['prefix' => 'admin'], function () {
-            Route::group(['middleware' => 'role:1'], function () {
+            Route::group(['middleware' => 'role:1|3'], function () {
                 Route::group(['prefix' => 'calendar'], function () {
                     Route::group(['prefix' => 'ajax'], function () {
                         Route::post('/ajax_to_get_courses', [App\Http\Controllers\project\admin\CalendarController::class, 'ajax_to_get_courses'])->name('admin.calendar.ajax.ajax_to_get_courses');

@@ -81,7 +81,9 @@ class UserController extends Controller
                             ->where('u_major_id' , $request->m_id)
                             ->get();
         }
-        $html = view('project.admin.users.ajax.supervisorStudentsList' , ['students' => $students])->render();
+                    $supervisors = User::where('u_role_id', 10)->get(); // هذا هو المهم
+
+        $html = view('project.admin.users.ajax.supervisorStudentsList' , ['students' => $students , 'supervisors' => $supervisors])->render();
         return response()->json(['html' => $html]);
     }
     public function supervisor_students_search(Request $request)
@@ -110,7 +112,8 @@ class UserController extends Controller
                 ->where('u_username', 'like', '%' . $request->word_to_search . '%')
             )->get();
         }
-        $html = view('project.admin.users.ajax.supervisorStudentsList' , ['students' => $students])->render();
+            $supervisors = User::where('u_role_id', 10)->get(); // هذا هو المهم
+        $html = view('project.admin.users.ajax.supervisorStudentsList' , ['students' => $students , 'supervisors' => $supervisors])->render();
         return response()->json(['html' => $html]);
     }
     public function supervisor_major_delete(Request $request)

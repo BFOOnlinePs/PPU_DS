@@ -159,7 +159,7 @@
                 success: function(response) {
                     alert('تمت إضافة المشرف بنجاح');
                 },
-                error: function (error) {
+                error: function(error) {
                     alert(error);
                 }
             });

@@ -20,12 +20,25 @@
                     <td>{{ $key->name }}</td>
                     <td>{{ $key->company }}</td>
                     <td>
-                        <span class="badge badge-danger">
                             {{-- {{ $key->training_supervisor }} --}}
                             {{-- {{ App\Models\Registration::where('r_student_id', $key->u_id)->where('r_year', App\Models\SystemSetting::first()->ss_year)->first()->supervisor->name ?? 'لا يوجد مشرف' }} --}}
                             {{-- {{ $key->training_supervisor }} --}}
-                            {{ App\Models\Registration::where('r_student_id', $key->u_id)->where('r_year', App\Models\SystemSetting::first()->ss_year)->first()->supervisor_id ?? 'لا يوجد مشرف' }}
-                        </span>
+                            @if(empty(App\Models\User::where(
+                                'u_id',
+                                optional(
+                                    App\Models\Registration::where('r_student_id', $key->u_id)->where('r_year', App\Models\SystemSetting::first()->ss_year)->first(),
+                                )->supervisor_id,
+                            )->first()->name))
+                                <span class="badge badge-danger">لا يوجد مشرف</span>
+
+                            @else
+                                <span class="badge badge-primary">{{ App\Models\User::where(
+                                'u_id',
+                                optional(
+                                    App\Models\Registration::where('r_student_id', $key->u_id)->where('r_year', App\Models\SystemSetting::first()->ss_year)->first(),
+                                )->supervisor_id,
+                            )->first()->name }}</span>
+                            @endif
                         {{-- {{ $key->training_supervisor }} --}}
                     </td>
                     <td>{{ $key->company_marks }}</td>
