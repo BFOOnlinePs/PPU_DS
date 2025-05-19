@@ -52,7 +52,7 @@
                             <td>{{ __('translate.Public Sector') }}{{-- قطاع عام --}}</td>
                         {{-- @endif --}}
                         {{-- @if ($key->c_type == 2) --}}
-                            {{-- <td>{{ __('translate.Private Sector') }}قطاع خاص</td> --}}
+                        {{-- <td>{{ __('translate.Private Sector') }}قطاع خاص</td> --}}
                         {{-- @endif --}}
                         <td>
                             <input type="text" onchange="update_capacity_ajax({{ $key->c_id }},this.value)"

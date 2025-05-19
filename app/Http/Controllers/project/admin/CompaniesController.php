@@ -226,6 +226,7 @@ class CompaniesController extends Controller
 
     public function update2(Request $request)
     {
+        return $request;
         $data = User::where('u_id', $request->company_id)->first();
         $data->u_username = $request->mobile;
         $data->name = $request->caName;
@@ -236,7 +237,6 @@ class CompaniesController extends Controller
         $data->u_phone1 = $request->mobile;
 
         if ($data->save()) {
-
             $apiResponse = Http::withToken(session('auth_token'))
                 ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                     'user_no' => $data->u_id,
