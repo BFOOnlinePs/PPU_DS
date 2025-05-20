@@ -30,6 +30,9 @@ Auth::routes();
 //     return view('auth.login');
 // })->name('login');
 
+Route::get('/login', function (CustomIdentityServerProvider $provider) {
+    return redirect($provider->getAuthorizationUrl());
+})->name('login');
 
 // Rexport-companies('login');
 
