@@ -610,7 +610,7 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['prefix' => 'training_supervisor', 'middleware' => 'role:10|2|6|3'], function () {
+    Route::group(['prefix' => 'training_supervisor', 'middleware' => 'role:10|2|6|3|1'], function () {
         Route::group(['prefix' => 'conversation'], function () {
             Route::get('/index', [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'index'])->name('training_supervisor.conversation.index');
             Route::get('/add', [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'add'])->name('training_supervisor.conversation.add');
