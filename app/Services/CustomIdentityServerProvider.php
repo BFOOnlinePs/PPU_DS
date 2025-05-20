@@ -37,8 +37,9 @@ class CustomIdentityServerProvider
 
     public function getUserInfo($accessToken)
     {
-        $owner = $this->provider->getResourceOwner($accessToken);
-        return $owner->toArray();
+        $url = $this->provider->getResourceOwnerDetailsUrl($accessToken);
+        $response = Http::withToken($accessToken->getToken())->get($url);
+        return $response->json();
     }
 
 
