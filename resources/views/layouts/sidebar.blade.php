@@ -5,16 +5,15 @@
        </div> --}}
     <div class="sidebar-user text-center pb-0" style="border-bottom:0px">
         <a href="#">
-            <img
-            src="{{ asset('public/assets/images/avtar/profile.png') }}"
-                alt="" class="img-90 mt-2 p-2 rounded-circle flex-center">
+            <img src="{{ asset('public/assets/images/avtar/profile.png') }}" alt=""
+                class="img-90 mt-2 p-2 rounded-circle flex-center">
             <div class="badge-bottom mt-3">
-                <div class="badge badge-primary" dir="ltr">{{ auth()->user()->email}}</div>
+                <div class="badge badge-primary" dir="ltr">{{ auth()->user()->email }}</div>
             </div>
             <h6 class="mt-3 f-14 f-w-600">{{ auth()->user()->name }}</h6>
             <h6 class="mt-3 f-12 f-w-500">
-                @foreach (\App\Models\MajorSupervisor::where('ms_super_id',auth()->user()->u_id)->get() as $key)
-                    <span>{{ \App\Models\Major::where('m_id',$key->ms_major_id)->first()->m_name }}</span> ,
+                @foreach (\App\Models\MajorSupervisor::where('ms_super_id', auth()->user()->u_id)->get() as $key)
+                    <span>{{ \App\Models\Major::where('m_id', $key->ms_major_id)->first()->m_name }}</span> ,
                 @endforeach
             </h6>
         </a>
@@ -72,9 +71,8 @@
                         {{-- <li><a class="nav-link bg-dark text-white mt-1"
                             href="{{ route('admin.faq_category.index') }}"><i
                                 data-feather="briefcase"></i><span>FAQ Category</span></a></li> --}}
-                        <li><a class="nav-link bg-dark text-white mt-1"
-                            href="{{ route('admin.faq.index') }}"><i
-                                data-feather="briefcase"></i><span>FAQ</span></a></li>
+                        <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('admin.faq.index') }}"><i
+                                    data-feather="briefcase"></i><span>FAQ</span></a></li>
                     @elseif(auth()->user()->u_role_id == 2)
                         {{-- Student --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -115,21 +113,23 @@
                                 href="{{ route('supervisors.companies.index') }}"><i
                                     data-feather="briefcase"></i><span>{{ __('translate.Training Places') }}{{-- أماكن التدريب --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
-                                href="{{ route('monitor_evaluation.semesterReport') }}"><i
-                                    data-feather="calendar"></i><span>{{ __('translate.Reports') }}{{-- تقارير --}}</span></a>
-                        </li>
+
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('supervisors.supervisors.student_marks') }}"><i
                                     data-feather="user"></i><span>علامات الطلاب</span></a>
                         </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
-                            href="{{ route('monitor_evaluation.attendance_and_departure_report_index') }}"><i
-                                data-feather="clock"></i><span>{{ __('translate.Student Attendance') }}{{-- سجل الحضور والمغادرة --}}</span></a>
-                                <li><a class="nav-link bg-dark text-white mt-1"
-                                    href="{{ route('admin.field_visits.index') }}"><i
-                                        data-feather="briefcase"></i><span>زيارات المشرفين</span></a>
-                            </li>
+                                href="{{ route('monitor_evaluation.attendance_and_departure_report_index') }}"><i
+                                    data-feather="clock"></i><span>{{ __('translate.Student Attendance') }}{{-- سجل الحضور والمغادرة --}}</span></a>
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('admin.field_visits.index') }}"><i
+                                    data-feather="briefcase"></i><span>زيارات المشرفين</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('training_supervisor.conversation.index') }}"><i
+                                    data-feather="dollar-sign"></i><span>المراسلات</span></a>
+                        </li>
                     @elseif (auth()->user()->u_role_id == 4)
                         {{-- Assistant --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -216,7 +216,7 @@
                             <a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('training_supervisor.conversation.index') }}"><i
                                     data-feather="dollar-sign"></i><span>المراسلات</span></a>
-                                </li>
+                        </li>
                     @elseif (auth()->user()->u_role_id == 8)
                         {{-- Communications Manager with Companies --}}
                         <li><a class="nav-link bg-dark text-white mt-1"
@@ -269,11 +269,11 @@
                             <li><a class="nav-link bg-dark text-white mt-1"
                                     href="{{ route('students.evaluation.index') }}"><i
                                         data-feather="briefcase"></i><span>التقييمات</span></a></li>
-                                        <li>
-                                            <a class="nav-link bg-dark text-white mt-1"
-                                href="{{ route('training_supervisor.conversation.index') }}"><i
-                                    data-feather="dollar-sign"></i><span>المراسلات</span></a>
-                                        </li>
+                            <li>
+                                <a class="nav-link bg-dark text-white mt-1"
+                                    href="{{ route('training_supervisor.conversation.index') }}"><i
+                                        data-feather="dollar-sign"></i><span>المراسلات</span></a>
+                            </li>
                         @endif
                     @endif
 

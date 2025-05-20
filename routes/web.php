@@ -174,7 +174,7 @@ Route::group(['middleware' => ['auth']], function () {
             });
         });
         Route::group(['prefix' => 'admin'], function () {
-            Route::group(['middleware' => 'role:1'], function () {
+            Route::group(['middleware' => 'role:1|3'], function () {
                 Route::group(['prefix' => 'calendar'], function () {
                     Route::group(['prefix' => 'ajax'], function () {
                         Route::post('/ajax_to_get_courses', [App\Http\Controllers\project\admin\CalendarController::class, 'ajax_to_get_courses'])->name('admin.calendar.ajax.ajax_to_get_courses');
@@ -610,7 +610,7 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['prefix' => 'training_supervisor', 'middleware' => 'role:10|2|6'], function () {
+    Route::group(['prefix' => 'training_supervisor', 'middleware' => 'role:10|2|6|3|1'], function () {
         Route::group(['prefix' => 'conversation'], function () {
             Route::get('/index', [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'index'])->name('training_supervisor.conversation.index');
             Route::get('/add', [\App\Http\Controllers\project\training_supervisor\ConversationController::class, 'add'])->name('training_supervisor.conversation.add');
