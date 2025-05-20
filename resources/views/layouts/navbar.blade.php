@@ -99,11 +99,11 @@
                 @endif
                 <li class="onhover-dropdown p-0">
                     {{-- <a class="btn btn-light btn-xs" href="{{ route('language', 'en') }}">EN</a>
-                    <a class="btn btn-light btn-xs" href="{{ route('language', 'ar') }}">ع</a>
+                    <a class="btn btn-light btn-xs" href="{{ route('language', 'ar') }}">ع</a> --}}
                     <a class="btn btn-danger btn-xs" href="#"
                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         {{ __('translate.Log out') }}
-                    </a> --}}
+                    </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
