@@ -37,27 +37,17 @@ class CustomIdentityServerProvider
 
     public function getUserInfo($accessToken)
     {
-        $url = $this->provider->getResourceOwnerDetailsUrl($accessToken);
-        $response = Http::withToken($accessToken->getToken())->get($url);
-        return $response->json();
-    }
 
 
-    public function getMajors($accessToken)
-    {
-        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllDSMajors');
-        return $response;
-    }
+        $response = Http::withToken($accessToken)->get('https://my.ppu.edu/connect/userinfo');
 
-    public function getAllCities($accessToken)
-    {
-        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllCities');
-        return $response;
-    }
 
-    public function getDsStudentsByYear($accessToken, $academicYear, $semester)
-    {
-        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getDsStudentsByYear/' . $academicYear . '/' . $semester);
+        // dd($response);
+        $user_role = $response->json('role');
+        $user_id = $response->json('sub');
+
+
+
         return $response;
     }
 
@@ -93,5 +83,26 @@ class CustomIdentityServerProvider
 
         // Return the complete logout URL with parameters
         return $logoutUrl . '?' . http_build_query($params);
+    }
+
+
+
+
+    public function getMajors($accessToken)
+    {
+        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllDSMajors');
+        return $response;
+    }
+
+    public function getAllCities($accessToken)
+    {
+        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getAllCities');
+        return $response;
+    }
+
+    public function getDsStudentsByYear($accessToken, $academicYear, $semester)
+    {
+        $response = Http::withToken($accessToken)->get(env('DOMAIN') . '/api/DualStudies/getDsStudentsByYear/' . $academicYear . '/' . $semester);
+        return $response;
     }
 }
