@@ -200,33 +200,70 @@ class CompaniesController extends Controller
 
     public function update2(Request $request)
     {
-        return $request;
-        $data = User::where('u_id', $request->company_id)->first();
-        $data->u_username = $request->mobile;
-        $data->name = $request->caName;
-        $data->email = $request->email2;
-        if ($request->password != null) {
-            $data->password = bcrypt($request->password);
-        }
-        $data->u_phone1 = $request->mobile;
+        try {
+            // 1. تحديث بيانات المستخدم
+            $user = User::where('u_id', $request->company_id)->firstOrFail();
+            $user->u_username = $request->mobile;
+            $user->name = $request->caName;
+            $user->email = $request->email2;
+            $user->u_phone1 = $request->mobile;
 
-        if ($data->save()) {
-            $apiResponse = Http::withToken(session('auth_token'))
-                ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
-                    'user_no' => $data->u_id,
-                    'username' => $data->u_username,
-                    'name'     => $data->name,
-                    'email'    => $data->email,
-                    'phone'    => $data->u_phone1,
-                ]);
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->password);
+            }
 
-            if ($apiResponse->successful()) {
-                return redirect()->back()->with('success', 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح');
-            } else {
+            $user->save();
+
+            // 2. تحديث بيانات الشركة
+            $company = Company::where('c_manager_id', $user->u_id)->first();
+            if ($company) {
+                $company->c_name = $request->caName;
+                $company->c_english_name = $request->ceName;
+                $company->save();
+            }
+
+            // 3. تحديث بيانات الفرع
+            $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
+            if ($branch) {
+                $branch->b_phone1 = $request->mobile;
+                $branch->b_city_id = $request->b_city_id;
+                $branch->save();
+            }
+
+            // 4. إرسال البيانات إلى الـ API الخارجي
+            $http = new \GuzzleHttp\Client();
+            $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . session('auth_token'),
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'caName' => $request->caName,
+                    'ceName' => $request->ceName,
+                    'cpaName' => $request->caName,
+                    'cpeName' => $request->ceName,
+                    'email2' => $request->email2,
+                    'mobile' => $request->mobile,
+                    'pw' => $request->mobile,
+                    'userName' => $request->mobile,
+                ]
+            ]);
+
+            $responseData = json_decode($response->getBody(), true);
+
+            if (!isset($responseData['success']) || !$responseData['success']) {
                 return redirect()->back()->with('warning', 'تم التعديل محلياً ولكن فشل التحديث في النظام الخارجي');
             }
+
+            return redirect()->back()->with('success', 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح');
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $responseBody = $e->getResponse()->getBody()->getContents();
+            return redirect()->back()->with('error', 'خطأ في النظام الخارجي: ' . $responseBody);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'حدث خطأ: ' . $e->getMessage());
         }
     }
+
 
     public function updateDepartments(Request $request)
     {
