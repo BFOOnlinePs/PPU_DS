@@ -107,7 +107,7 @@ class CompaniesController extends Controller
                 return $responseData;
             }
 
-            return redirect()->back()->with('success', 'تم إضافة الشركة محليًا وخارجيًا بنجاح');
+            return 'تم إضافة الشركة محليًا وخارجيًا بنجاح';
         } catch (ClientException $e) {
             $response = $e->getResponse();
             $responseBodyAsString = $response->getBody()->getContents();
