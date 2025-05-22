@@ -252,15 +252,15 @@ class CompaniesController extends Controller
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
-                return redirect()->back()->with('warning', 'تم التعديل محلياً ولكن فشل التحديث في النظام الخارجي');
+                return 'تم التعديل محلياً ولكن فشل التحديث في النظام الخارجي';
             }
 
-            return redirect()->back()->with('success', 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح');
+            return 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح';
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             $responseBody = $e->getResponse()->getBody()->getContents();
-            return redirect()->back()->with('error', 'خطأ في النظام الخارجي: ' . $responseBody);
+            return $responseBody;
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'حدث خطأ: ' . $e->getMessage());
+            return $e->getMessage();
         }
     }
 
