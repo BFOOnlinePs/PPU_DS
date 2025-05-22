@@ -100,13 +100,13 @@
                         <input type="text" name="pw" type='password' class="form-control" />
                     </div>
                 </div>
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="form-group">
                         <label>رقم الهاتف المحمول</label>
                         <input type="text" name="mobile" value="{{ $user->u_phone1 }}" placeholder="تخزن رقم الهاتف اذا كانت فارغة"
                             class="form-control" />
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>الشخص المسؤول</label>
