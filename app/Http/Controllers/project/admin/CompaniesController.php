@@ -66,7 +66,7 @@ class CompaniesController extends Controller
             $data->u_username = $request->mobile;
             $data->name = $request->user;
             $data->email = $request->email2;
-            $data->password = empty($request->pw) ? Hash::make($request->pw) : $request->pw;
+            $data->password = Hash::make($request->pw);
             $data->u_phone1 = $request->mobile;
             $data->u_address = $request->address;
             $data->u_role_id = 6;
