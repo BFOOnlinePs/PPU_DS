@@ -200,6 +200,7 @@ class CompaniesController extends Controller
 
     public function update2(Request $request)
     {
+        $http = new \GuzzleHttp\Client();
         try {
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->firstOrFail();
@@ -231,7 +232,6 @@ class CompaniesController extends Controller
             }
 
             // 4. إرسال البيانات إلى الـ API الخارجي
-            $http = new \GuzzleHttp\Client();
             $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . session('auth_token'),
