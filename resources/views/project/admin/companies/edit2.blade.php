@@ -75,23 +75,23 @@
             </div>
             <form class="row" action='{{ route('admin.companies.update2') }}' method="post">
                 @csrf
-                <input hidden name="company_id" value="{{ $company->u_id }}">
+                <input hidden name="company_id" value="{{ $user->u_id }}">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>اسم الشركة بالعربي</label>
-                        <input type="text" value="{{ $company->name }}" name="caName" class="form-control" />
+                        <input type="text" value="{{ $company->c_name }}" name="caName" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>اسم الشركة بالانجليزي</label>
-                        <input type="text" value="{{ $company->name }}" name="ceName" class="form-control" />
+                        <input type="text" value="{{ $user->c_english_name }}" name="ceName" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>ايميل الشركة</label>
-                        <input type="text" value="{{ $company->email }}" name="email2" class="form-control" />
+                        <input type="text" value="{{ $user->email }}" name="email2" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -103,14 +103,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>رقم الهاتف المحمول</label>
-                        <input type="text" name="mobile" value="{{ $company->u_phone1 }}" placeholder="تخزن رقم الهاتف اذا كانت فارغة"
+                        <input type="text" name="mobile" value="{{ $user->u_phone1 }}" placeholder="تخزن رقم الهاتف اذا كانت فارغة"
                             class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>الشخص المسؤول</label>
-                        <input type="text" value="{{ $company->name }}" name="user" class="form-control" />
+                        <input type="text" value="{{ $user->name }}" name="user" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-12">
