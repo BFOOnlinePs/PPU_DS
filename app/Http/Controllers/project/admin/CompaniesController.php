@@ -49,7 +49,7 @@ class CompaniesController extends Controller
     public function create(Request $request)
     {
         // $response = Http::withToken(session('auth_token'))
-        $response = Http::withToken('eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5NWRiNzYyMjc2MzlkNWI3N2FiY2I5ZDkwMjM4YzI5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE3MzkzNjc2NTAsImV4cCI6MTczOTM3MTI1MCwiaXNzIjoiaHR0cHM6Ly9teS5wcHUuZWR1IiwiYXVkIjpbImh0dHBzOi8vbXkucHB1LmVkdS9yZXNvdXJjZXMiLCJFeHRlcm5hbEFwaXMuYXBpIl0sImNsaWVudF9pZCI6IkRTLnBwdSIsInN1YiI6IkRTVGVzdGluZyIsImF1dGhfdGltZSI6MTczOTM1NzkxNywiaWRwIjoibG9jYWwiLCJ1c2VyX25vIjoiMTQ0MDEwMSIsInJvbGUiOiI4MyIsIm5hbWUiOiJEU1Rlc3RpbmciLCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiZW1haWwiLCJyb2xlIiwidXNlcm5vIiwiRXh0ZXJuYWxBcGlzLmFwaSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.nsG7lg5QbGT8ghu_oDF7xWtB1jDkE5r6bLNmo6usLE7rFmpcc1IqHa2rCN3q2hSqfFkIuyzGdbQjpd2QFj9AjfjGwdJifHlab70SUZ2oUStsxirJwFEDCZoBo9kaohznljQTE-OqLP6tIyX5dbqmC0aoF00jEvx5grJBRO6Ks6cZEx-BYdqXwFr0_L9n6wzy-WYXnZmPsF56RkEsDW5wQSdxMEMTppD1Gj01WwqbQ5XPD2RHXjNP6vh5pwzt8wUloPV7ArFu7Sr0kgaN8H0TCFuTsgUcfaTJgQsjtS6trr1DAah-JmFFx_jiCiw6fNRcB_GywIDi_2WTSQRFvk56NA')
+        $response = Http::withToken(session('auth_token'))
             ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                 'caName' => $request->caName,
                 'ceName' => $request->ceName,
@@ -59,11 +59,7 @@ class CompaniesController extends Controller
                 'mobile' => $request->mobile,
                 'pw' => $request->mobile,
                 'userName' => $request->mobile
-            ]);
-
-        // return $response;
-
-        if ($response->successful()) {
+            ]);        // if ($response) {
 
             $data = new User();
             $data->u_username = $request->caName;
@@ -74,73 +70,73 @@ class CompaniesController extends Controller
             $data->u_address = $request->address;
             $data->u_role_id = 6;
             if ($data->save()) {
+
                 // $user = User::where('email',$request->email)->first();
-                // $id = $user->u_id;
-                // $newCompany = new Company();
-                // $newCompany->c_name = $request->c_name;
-                // $newCompany->c_english_name = $request->c_english_name;
-                // $newCompany->c_manager_id = $id; //get from added user
-                // $newCompany->c_status = 1; //get from added user
-                // if($newCompany->save()){
-                //     $company_id = $newCompany->c_id;
-                //     $branch = new CompanyBranch();
-                //     $branch->b_company_id = $company_id;
-                //     $branch->b_address = $request->address;
-                //     $branch->b_phone1 = $request->phoneNum;
-                //     $branch->b_manager_id = $id;
-                //     $branch->b_city_id = $request->b_city_id;
-                //     $branch->b_main_branch = 1;
-                //     if($branch->save()){
-                //         return response()->json([
-                //             'success'=>'true',
-                //             'manager_id'=>$id,
-                //             'company_id'=>$newCompany->c_id
-                //         ]);
-                //     }
+                $id = $data->u_id;
+                $newCompany = new Company();
+                $newCompany->c_name = $request->caName;
+                $newCompany->c_english_name = $request->ceName;
+                $newCompany->c_manager_id = $id; //get from added user
+                $newCompany->c_status = 1; //get from added user
+                if($newCompany->save()){
+                    $company_id = $newCompany->c_id;
+                    $branch = new CompanyBranch();
+                    $branch->b_company_id = $company_id;
+                    // $branch->b_address = $request->address;
+                    $branch->b_address = 'لا يوجد عنوان';
+                    $branch->b_phone1 = $request->mobile;
+                    $branch->b_manager_id = $id;
+                    $branch->b_city_id = $request->b_city_id;
+                    $branch->b_main_branch = 1;
+                    if($branch->save()){
+                        return redirect()->back()->with('success', 'تم اضافة الشركة بنجاح محلياً وخارجياً');
+                    }
 
-                // }
-            }
-
-
-
-            return response()->json(['message' => 'Company added successfully', 'data' => $response->json()]);
-        } else {
-            return response()->json(['error' => 'Failed to add company', 'details' => $response], 500);
-        }
-        $data = new User();
-        $data->u_username = $request->email;
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = bcrypt($request->password);
-        $data->u_phone1 = $request->phoneNum;
-        $data->u_address = $request->address;
-        $data->u_role_id = 6;
-        if ($data->save()) {
-            $user = User::where('email', $request->email)->first();
-            $id = $user->u_id;
-            $newCompany = new Company();
-            $newCompany->c_name = $request->c_name;
-            $newCompany->c_english_name = $request->c_english_name;
-            $newCompany->c_manager_id = $id; //get from added user
-            $newCompany->c_status = 1; //get from added user
-            if ($newCompany->save()) {
-                $company_id = $newCompany->c_id;
-                $branch = new CompanyBranch();
-                $branch->b_company_id = $company_id;
-                $branch->b_address = $request->address;
-                $branch->b_phone1 = $request->phoneNum;
-                $branch->b_manager_id = $id;
-                $branch->b_city_id = $request->b_city_id;
-                $branch->b_main_branch = 1;
-                if ($branch->save()) {
-                    return response()->json([
-                        'success' => 'true',
-                        'manager_id' => $id,
-                        'company_id' => $newCompany->c_id
-                    ]);
                 }
             }
-        }
+
+
+
+            // return response()->json(['message' => 'Company added successfully', 'data' => $response->json()]);
+        // } else {
+        //     return response()->json(['error' => 'Failed to add company', 'details' => $response], 500);
+        // }
+        // $data = new User();
+        // $data->u_username = $request->email;
+        // $data->name = $request->name;
+        // $data->email = $request->email;
+        // $data->password = bcrypt($request->password);
+        // $data->u_phone1 = $request->phoneNum;
+        // $data->u_address = $request->address;
+        // $data->u_role_id = 6;
+        // if ($data->save()) {
+        //     $user = User::where('email', $request->email)->first();
+        //     $id = $user->u_id;
+        //     $newCompany = new Company();
+        //     $newCompany->c_name = $request->c_name;
+        //     $newCompany->c_english_name = $request->c_english_name;
+        //     $newCompany->c_manager_id = $id; //get from added user
+        //     $newCompany->c_status = 1; //get from added user
+        //     if ($newCompany->save()) {
+        //         $company_id = $newCompany->c_id;
+        //         $branch = new CompanyBranch();
+        //         $branch->b_company_id = $company_id;
+        //         $branch->b_address = $request->address;
+        //         $branch->b_phone1 = $request->phoneNum;
+        //         $branch->b_manager_id = $id;
+        //         $branch->b_city_id = $request->b_city_id;
+        //         $branch->b_main_branch = 1;
+        //         if ($branch->save()) {
+        //             return response()->json([
+        //                 'success' => 'true',
+        //                 'manager_id' => $id,
+        //                 'company_id' => $newCompany->c_id
+        //             ]);
+        //         }
+        //     }
+        // }
+
+
     }
 
     public function edit($id)
