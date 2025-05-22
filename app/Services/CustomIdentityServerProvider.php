@@ -65,7 +65,6 @@ class CustomIdentityServerProvider
         return $response->ok();
     }
 
-
     public function getLogoutUrl()
     {
         // Get the ID token from the session if available
@@ -84,9 +83,6 @@ class CustomIdentityServerProvider
         // Return the complete logout URL with parameters
         return $logoutUrl . '?' . http_build_query($params);
     }
-
-
-
 
     public function getMajors($accessToken)
     {
