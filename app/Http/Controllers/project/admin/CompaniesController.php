@@ -49,18 +49,37 @@ class CompaniesController extends Controller
 
     public function create(Request $request)
     {
+        $http = new \GuzzleHttp\Client();
+
+
+        $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . session('auth_token'),
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'caName' => $request->caName,
+                        'ceName' => $request->ceName,
+                        'cpaName' => '',
+                        'cpeName' => '',
+                        'email2' => $request->email2,
+                        'mobile' => $request->mobile,
+                        'pw' => $request->mobile,
+                        'userName' => $request->mobile,
+                    ]
+                ]);
         // $response = Http::withToken(session('auth_token'))
-        $response = Http::withToken(session('auth_token'))
-            ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
-                'caName' => $request->caName,
-                'ceName' => $request->ceName,
-                'cpaName' => '',
-                'cpeName' => '',
-                'email2' => $request->email2,
-                'mobile' => $request->mobile,
-                'pw' => $request->mobile,
-                'userName' => $request->mobile
-            ]);        // if ($response) {
+        // $response = Http::withToken(session('auth_token'))
+        //     ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
+        //         'caName' => $request->caName,
+        //         'ceName' => $request->ceName,
+        //         'cpaName' => '',
+        //         'cpeName' => '',
+        //         'email2' => $request->email2,
+        //         'mobile' => $request->mobile,
+        //         'pw' => $request->mobile,
+        //         'userName' => $request->mobile
+        //     ]);        // if ($response) {
 
             $data = new User();
             $data->u_username = $request->mobile;
