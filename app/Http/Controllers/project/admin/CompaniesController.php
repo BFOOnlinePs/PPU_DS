@@ -133,6 +133,7 @@ class CompaniesController extends Controller
     {
         $company = Company::where('c_id', $id)->first();
         $data = User::where('u_id', $company->c_manager_id)->first();
+        return $data;
         // $companyDepartments=CompanyBranch::with('companyDepartments')->where('b_company_id',$id)->get();
         return view('project.admin.companies.edit2', ['company' => $data]);
     }

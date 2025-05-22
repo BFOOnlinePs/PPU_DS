@@ -128,12 +128,9 @@
                                             <div class="dropdown">
                                                 <span data-feather="more-vertical"></span>
                                                 <div class="dropdown-content">
-                                                    <button class="btn btn-dark btn-sm form-control m-1">
-                                                        <a style="cursor: pointer;font-size: 10px" class="text-white"
-                                                            href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}}">
-                                                            تعديل
-                                                        </a>
-                                                    </button>
+                                                    <a class="btn btn-dark btn-sm form-control m-1" href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}}">
+                                                        تعديل
+                                                    </a>
                                                     <button class="btn btn-dark btn-sm form-control m-1"><a
                                                             style="cursor: pointer;font-size: 10px" class="text-white"
                                                             onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'>تفاصيل
