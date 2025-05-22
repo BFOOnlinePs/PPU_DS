@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\CompanyBranch;
 use App\Models\CompanyDepartment;
 use App\Models\companyBranchDepartments;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -62,13 +63,15 @@ class CompaniesController extends Controller
             ]);        // if ($response) {
 
             $data = new User();
-            $data->u_username = $request->caName;
-            $data->name = $request->caName;
+            $data->u_username = $request->mobile;
+            $data->name = $request->user;
             $data->email = $request->email2;
             $data->password = empty($request->pw) ? Hash::make($request->pw) : $request->pw;
             $data->u_phone1 = $request->mobile;
             $data->u_address = $request->address;
             $data->u_role_id = 6;
+            $data->u_date_of_birth = Carbon::parse('01/01/1990');
+            $data->u_tawjihi_gpa = 0;
             if ($data->save()) {
 
                 // $user = User::where('email',$request->email)->first();
