@@ -81,7 +81,7 @@
                                     <tr>
                                         <td style="display:none;">{{ $key->c_id }}</td>
                                         <td><a
-                                                href="{{ route('admin.users.details', ['id' => $key->manager->u_id ?? 1]) }}">
+                                                href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                                 @if (app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
                                                     {{ $key->c_english_name }}
                                                 @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
@@ -90,7 +90,7 @@
                                             </a></td>
                                         @if (auth()->user()->u_role_id == 1)
                                             <td><a
-                                                    href="{{ route('admin.users.details', ['id' => $key->manager->u_id ?? 1]) }}">{{ $key->manager->name ?? '' }}</a>
+                                                    href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">{{ $key->manager->name ?? '' }}</a>
                                             </td>
                                         @else
                                             <td>{{ $key->manager->name ?? '' }}</td>
@@ -128,7 +128,7 @@
                                             <div class="dropdown">
                                                 <span data-feather="more-vertical"></span>
                                                 <div class="dropdown-content">
-                                                    <a class="btn btn-dark btn-sm form-control m-1" href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}}">
+                                                    <a class="btn btn-dark btn-sm form-control m-1" href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                                         تعديل
                                                     </a>
                                                     <button class="btn btn-dark btn-sm form-control m-1"><a
