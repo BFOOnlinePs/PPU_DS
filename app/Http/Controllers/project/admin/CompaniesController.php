@@ -49,118 +49,68 @@ class CompaniesController extends Controller
 
     public function create(Request $request)
     {
-        $http = new \GuzzleHttp\Client();
+        try {
+            // 1. حفظ المستخدم محليًا
+            $user = new User();
+            $user->u_username = $request->mobile;
+            $user->name = $request->user;
+            $user->email = $request->email2;
+            $user->password = Hash::make($request->mobile);
+            $user->u_phone1 = $request->mobile;
+            $user->u_address = $request->address;
+            $user->u_role_id = 6;
+            $user->u_date_of_birth = Carbon::parse('01/01/1990');
+            $user->u_tawjihi_gpa = 0;
+            $user->save();
 
+            // 2. حفظ الشركة محليًا
+            $company = new Company();
+            $company->c_name = $request->caName;
+            $company->c_english_name = $request->ceName;
+            $company->c_manager_id = $user->u_id;
+            $company->c_status = 1;
+            $company->save();
 
-        $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . session('auth_token'),
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'caName' => $request->caName,
-                        'ceName' => $request->ceName,
-                        'cpaName' => '',
-                        'cpeName' => '',
-                        'email2' => $request->email2,
-                        'mobile' => $request->mobile,
-                        'pw' => $request->mobile,
-                        'userName' => $request->mobile,
-                    ]
-                ]);
-        // $response = Http::withToken(session('auth_token'))
-        // $response = Http::withToken(session('auth_token'))
-        //     ->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
-        //         'caName' => $request->caName,
-        //         'ceName' => $request->ceName,
-        //         'cpaName' => '',
-        //         'cpeName' => '',
-        //         'email2' => $request->email2,
-        //         'mobile' => $request->mobile,
-        //         'pw' => $request->mobile,
-        //         'userName' => $request->mobile
-        //     ]);        // if ($response) {
+            // 3. حفظ الفرع
+            $branch = new CompanyBranch();
+            $branch->b_company_id = $company->c_id;
+            $branch->b_address = 'لا يوجد عنوان';
+            $branch->b_phone1 = $request->mobile;
+            $branch->b_manager_id = $user->u_id;
+            $branch->b_city_id = $request->b_city_id;
+            $branch->b_main_branch = 1;
+            $branch->save();
 
-            $data = new User();
-            $data->u_username = $request->mobile;
-            $data->name = $request->user;
-            $data->email = $request->email2;
-            $data->password = Hash::make($request->pw);
-            $data->u_phone1 = $request->mobile;
-            $data->u_address = $request->address;
-            $data->u_role_id = 6;
-            $data->u_date_of_birth = Carbon::parse('01/01/1990');
-            $data->u_tawjihi_gpa = 0;
-            if ($data->save()) {
+            // 4. إرسال الطلب إلى API خارجي
+            $http = new \GuzzleHttp\Client();
+            $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . session('auth_token'),
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'caName' => $request->caName,
+                    'ceName' => $request->ceName,
+                    'cpaName' => '',
+                    'cpeName' => '',
+                    'email2' => $request->email2,
+                    'mobile' => $request->mobile,
+                    'pw' => $request->mobile,
+                    'userName' => $request->mobile,
+                ]
+            ]);
 
-                // $user = User::where('email',$request->email)->first();
-                $id = $data->u_id;
-                $newCompany = new Company();
-                $newCompany->c_name = $request->caName;
-                $newCompany->c_english_name = $request->ceName;
-                $newCompany->c_manager_id = $id; //get from added user
-                $newCompany->c_status = 1; //get from added user
-                if($newCompany->save()){
-                    $company_id = $newCompany->c_id;
-                    $branch = new CompanyBranch();
-                    $branch->b_company_id = $company_id;
-                    // $branch->b_address = $request->address;
-                    $branch->b_address = 'لا يوجد عنوان';
-                    $branch->b_phone1 = $request->mobile;
-                    $branch->b_manager_id = $id;
-                    $branch->b_city_id = $request->b_city_id;
-                    $branch->b_main_branch = 1;
-                    if($branch->save()){
-                        return redirect()->back()->with('success', 'تم اضافة الشركة بنجاح محلياً وخارجياً');
-                    }
+            $responseData = json_decode($response->getBody(), true);
 
-                }
+            if (!isset($responseData['success']) || !$responseData['success']) {
+                return redirect()->back()->with('warning', 'تم إضافة البيانات محليًا، لكن فشل الاتصال مع API الخارجي');
             }
 
-
-
-            // return response()->json(['message' => 'Company added successfully', 'data' => $response->json()]);
-        // } else {
-        //     return response()->json(['error' => 'Failed to add company', 'details' => $response], 500);
-        // }
-        // $data = new User();
-        // $data->u_username = $request->email;
-        // $data->name = $request->name;
-        // $data->email = $request->email;
-        // $data->password = bcrypt($request->password);
-        // $data->u_phone1 = $request->phoneNum;
-        // $data->u_address = $request->address;
-        // $data->u_role_id = 6;
-        // if ($data->save()) {
-        //     $user = User::where('email', $request->email)->first();
-        //     $id = $user->u_id;
-        //     $newCompany = new Company();
-        //     $newCompany->c_name = $request->c_name;
-        //     $newCompany->c_english_name = $request->c_english_name;
-        //     $newCompany->c_manager_id = $id; //get from added user
-        //     $newCompany->c_status = 1; //get from added user
-        //     if ($newCompany->save()) {
-        //         $company_id = $newCompany->c_id;
-        //         $branch = new CompanyBranch();
-        //         $branch->b_company_id = $company_id;
-        //         $branch->b_address = $request->address;
-        //         $branch->b_phone1 = $request->phoneNum;
-        //         $branch->b_manager_id = $id;
-        //         $branch->b_city_id = $request->b_city_id;
-        //         $branch->b_main_branch = 1;
-        //         if ($branch->save()) {
-        //             return response()->json([
-        //                 'success' => 'true',
-        //                 'manager_id' => $id,
-        //                 'company_id' => $newCompany->c_id
-        //             ]);
-        //         }
-        //     }
-        // }
-
-
+            return redirect()->back()->with('success', 'تم إضافة الشركة محليًا وخارجيًا بنجاح');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'حدث خطأ: ' . $e->getMessage());
+        }
     }
-
     public function edit($id)
     {
         $uncompletedCompany = Company::with('manager')->where('c_type', null)->get();
