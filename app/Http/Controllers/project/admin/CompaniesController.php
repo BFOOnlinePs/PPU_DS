@@ -15,6 +15,7 @@ use App\Models\CompanyBranch;
 use App\Models\CompanyDepartment;
 use App\Models\companyBranchDepartments;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -49,6 +50,8 @@ class CompaniesController extends Controller
 
     public function create(Request $request)
     {
+        $http = new \GuzzleHttp\Client();
+
         try {
             // 1. حفظ المستخدم محليًا
             $user = new User();
@@ -81,8 +84,6 @@ class CompaniesController extends Controller
             $branch->b_main_branch = 1;
             $branch->save();
 
-            // 4. إرسال الطلب إلى API خارجي
-            $http = new \GuzzleHttp\Client();
             $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . session('auth_token'),
@@ -91,8 +92,8 @@ class CompaniesController extends Controller
                 'json' => [
                     'caName' => $request->caName,
                     'ceName' => $request->ceName,
-                    'cpaName' => '',
-                    'cpeName' => '',
+                    'cpaName' => $request->caName,
+                    'cpeName' => $request->ceName,
                     'email2' => $request->email2,
                     'mobile' => $request->mobile,
                     'pw' => $request->mobile,
@@ -103,14 +104,19 @@ class CompaniesController extends Controller
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
-                return redirect()->back()->with('warning', 'تم إضافة البيانات محليًا، لكن فشل الاتصال مع API الخارجي');
+                return $responseData;
             }
 
             return redirect()->back()->with('success', 'تم إضافة الشركة محليًا وخارجيًا بنجاح');
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            return $response;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'حدث خطأ: ' . $e->getMessage());
         }
     }
+
     public function edit($id)
     {
         $uncompletedCompany = Company::with('manager')->where('c_type', null)->get();
