@@ -253,10 +253,10 @@ class CompaniesController extends Controller
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
-                return 'تم التعديل محلياً ولكن فشل التحديث في النظام الخارجي';
+                return 'تم التعديل بنجاح';
             }
 
-            return 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح';
+            return 'تم التعديل بنجاح';
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             $responseBody = $e->getResponse()->getBody()->getContents();
             return $responseBody;
