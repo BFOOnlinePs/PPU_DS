@@ -24,20 +24,20 @@
                     <tr>
                         <td style="display:none;">{{ $key->c_id }}</td>
                         <td>
-                            @if($key->manager)
-    <a href="{{ route('admin.users.details', ['id' => $key->manager->u_id]) }}">
-        {{ app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)) ? $key->c_english_name : $key->c_name }}
-    </a>
-@else
-    <span class="text-danger">لا يوجد مدير</span>
-@endif
+                            @if ($key->manager)
+                                <a href="{{ route('admin.users.details', ['id' => $key->manager->u_id]) }}">
+                                    {{ app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)) ? $key->c_english_name : $key->c_name }}
+                                </a>
+                            @else
+                                <span class="text-danger">لا يوجد مدير</span>
+                            @endif
                         </td>
                         @if (auth()->user()->u_role_id == 1)
                             <td><a
-                                    href="{{ route('admin.users.details', ['id' => $key->manager->u_id]) }}">{{ $key->manager->name }}</a>
+                                    href="{{ route('admin.users.details', ['id' => $key->manager->u_id]) }}">{{ $key->manager->name ?? 'لا يوجد مدير' }}</a>
                             </td>
                         @else
-                            <td>{{ $key->manager->name }}</td>
+                            <td>{{ $key->manager->name ?? 'لا يوجد مدير' }}</td>
                         @endif
 
                         {{-- <td><a href="{{route('admin.companies_categories.index')}}">{{$key->companyCategories->cc_name}}</a></td> --}}
