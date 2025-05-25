@@ -49,7 +49,7 @@
         <div class="card-body">
             @if (!$data->isEmpty())
                 <div class="form-outline">
-                    <input type="search" onkeyup="companySearch(this.value)" class="form-control mb-2"
+                    <input type="search" onkeyup="debouncedCompanySearch(this.value)" class="form-control mb-2"
                         placeholder="{{ __('translate.Search') }}" aria-label="Search" /> {{-- بحث --}}
                 </div>
             @endif
@@ -80,8 +80,7 @@
                                 @foreach ($data as $key)
                                     <tr>
                                         <td style="display:none;">{{ $key->c_id }}</td>
-                                        <td><a
-                                                href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
+                                        <td><a href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                                 @if (app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
                                                     {{ $key->c_english_name }}
                                                 @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
@@ -128,7 +127,8 @@
                                             <div class="dropdown">
                                                 <span data-feather="more-vertical"></span>
                                                 <div class="dropdown-content">
-                                                    <a class="btn btn-dark btn-sm form-control m-1" href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
+                                                    <a class="btn btn-dark btn-sm form-control m-1"
+                                                        href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                                         تعديل
                                                     </a>
                                                     <button class="btn btn-dark btn-sm form-control m-1"><a
@@ -168,6 +168,17 @@
         let uncompletedCompanySize = 0;
         let uncompletedCompany;
 
+        let debounceTimer;
+
+        function debouncedCompanySearch(data) {
+            clearTimeout(debounceTimer); // إلغاء المؤقت السابق
+
+            debounceTimer = setTimeout(function() {
+                companySearch(data);
+            }, 500); // تنفيذ بعد 500ms من التوقف عن الكتابة
+        }
+
+
         $(document).ready(function() {
             search_student_ajax();
             $('.dropdown-toggle').dropdown();
@@ -198,7 +209,6 @@
         });
 
         function companySearch(data) {
-
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
@@ -206,15 +216,18 @@
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 }
-            })
+            });
+
             $('#showTable').html(
-                '<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>')
+                '<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>'
+            );
+
             $.ajax({
                 url: "{{ route('admin.companies.companySearch') }}",
                 method: "post",
                 data: {
                     'search': data,
-                    _token: '{!! csrf_token() !!}',
+                    _token: '{{ csrf_token() }}',
                 },
                 success: function(data) {
                     $('#showTable').html(data.view);
@@ -223,7 +236,6 @@
                     alert('error');
                 }
             });
-
         }
 
         function search_student_ajax() {
