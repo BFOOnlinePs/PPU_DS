@@ -133,8 +133,9 @@ class CompaniesController extends Controller
     {
         $company = Company::where('c_id', $id)->first();
         $data = User::where('u_id', $company->c_manager_id)->first();
+        $company_branch = CompanyBranch::where('b_company_id', $id)->where('b_main_branch', 1)->first();
         // $companyDepartments=CompanyBranch::with('companyDepartments')->where('b_company_id',$id)->get();
-        return view('project.admin.companies.edit2', ['user' => $data , 'company' => $company]);
+        return view('project.admin.companies.edit2', ['user' => $data, 'company' => $company, 'company_branch' => $company_branch]);
     }
 
     //this function for update inserted company in add company page
@@ -224,7 +225,7 @@ class CompaniesController extends Controller
             }
 
             // 3. تحديث بيانات الفرع
-            // $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
+            $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
             // if ($branch) {
             //     $branch->b_phone1 = $request->mobile;
             //     $branch->b_city_id = $request->b_city_id;
