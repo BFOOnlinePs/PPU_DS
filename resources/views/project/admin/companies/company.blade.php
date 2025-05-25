@@ -61,6 +61,11 @@
     </div> --}}
     <div class="card-body" >
 
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <!--loading whole page-->
         <div class="loader-container loader-box" id="loaderContainer" hidden>
             <div class="loader-3"></div>
