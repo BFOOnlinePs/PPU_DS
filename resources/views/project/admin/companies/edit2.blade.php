@@ -85,7 +85,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>اسم الشركة بالانجليزي</label>
-                        <input type="text" value="{{ $user->c_english_name }}" name="ceName" class="form-control" />
+                        <input type="text" value="{{ $company->c_english_name }}" name="ceName" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
