@@ -224,12 +224,12 @@ class CompaniesController extends Controller
             }
 
             // 3. تحديث بيانات الفرع
-            $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
-            if ($branch) {
-                $branch->b_phone1 = $request->mobile;
-                $branch->b_city_id = $request->b_city_id;
-                $branch->save();
-            }
+            // $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
+            // if ($branch) {
+            //     $branch->b_phone1 = $request->mobile;
+            //     $branch->b_city_id = $request->b_city_id;
+            //     $branch->save();
+            // }
 
             // 4. إرسال البيانات إلى الـ API الخارجي
             $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
