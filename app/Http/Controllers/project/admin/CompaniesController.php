@@ -231,7 +231,7 @@ class CompaniesController extends Controller
                 // $branch->b_city_id = $request->b_city_id;
                 $branch->save();
             }
-            return $request;
+
             // 4. إرسال البيانات إلى الـ API الخارجي
             $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                 'headers' => [
