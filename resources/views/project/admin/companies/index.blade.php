@@ -230,7 +230,11 @@
                     _token: '{{ csrf_token() }}',
                 },
                 success: function(data) {
-                    $('#showTable').html(data.view);
+                    if (data.success == 'true') {
+                        $('#showTable').html(data.view);
+                    } else {
+                        $('#showTable').html('<div class="text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>');
+                    }
                 },
                 error: function(xhr, status, error) {
                     alert('error');
