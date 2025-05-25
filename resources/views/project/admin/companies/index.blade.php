@@ -233,13 +233,15 @@
                     if (data.success == 'true') {
                         $('#showTable').html(data.view);
                     } else {
-                        $('#showTable').html('<div class="text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>');
+                        $('#showTable').html(
+                            '<div class="text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>'
+                            );
                     }
                 },
                 error: function(xhr, status, error) {
-    console.error("AJAX ERROR:", error, xhr.responseText);
-    alert('error');
-}
+                    console.error("AJAX ERROR:",xhr.responseText);
+                    alert('error');
+                }
             });
         }
 
