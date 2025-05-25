@@ -237,8 +237,9 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('error');
-                }
+    console.error("AJAX ERROR:", error, xhr.responseText);
+    alert('error');
+}
             });
         }
 
