@@ -249,7 +249,7 @@ class CompaniesController extends Controller
                     'userName' => $request->mobile,
                 ]
             ]);
-
+            return $response;
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
