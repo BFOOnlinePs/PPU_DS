@@ -240,9 +240,9 @@ class CompaniesController extends Controller
                 ],
                 'json' => [
                     'caName' => $request->caName,
-                    'ceName' => $request->ceName,
+                    'ceName' => $request->ceName ?? $request->caName,
                     'cpaName' => $request->caName,
-                    'cpeName' => $request->ceName,
+                    'cpeName' => $request->ceName ?? $request->caName,
                     'email2' => $request->email2,
                     'mobile' => $request->mobile,
                     'pw' => $request->mobile,
