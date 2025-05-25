@@ -535,10 +535,17 @@ class CompaniesController extends Controller
     {
         $data = Company::with('manager', 'companyCategories')->where('c_name', 'like', '%' . $request->search . '%')->get();
 
-        return response()->json([
-            'success' => 'true',
-            'view' => view('project.admin.companies.ajax.companyList', ['data' => $data])->render()
-        ]);
+        if ($data->count() > 0) {
+            return response()->json([
+                'success' => 'true',
+                'view' => view('project.admin.companies.ajax.companyList', ['data' => $data])->render()
+            ]);
+        } else {
+            return response()->json([
+                'success' => 'false',
+                'view' => view('project.admin.companies.ajax.companyList', ['data' => $data])->render()
+            ]);
+        }
     }
 
     //reem
