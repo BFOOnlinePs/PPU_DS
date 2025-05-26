@@ -129,7 +129,7 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
     $user = User::where('u_username', $userInfo['sub'])->first();
 
     if ($user) {
-        return 'test';
+
         // 🟡 إلغاء التوكن السابق
         if ($user->last_access_token && $user->last_access_token !== $accessToken) {
             $provider->revokeToken($user->last_access_token);
