@@ -36,14 +36,14 @@ class CheckExternalTokenValidity
                 $response = $this->provider->getUserInfo($accessToken);
 
                 Log::info('Token check status: ' . $response->status());
-                // if ($response->status() === 401) {
+                if ($response->status() === 401) {
                     // التوكن منتهي أو غير صالح
                     session()->forget(['auth_token']);
                     Auth::logout();
 
                     return redirect()->route('login')
                         ->withErrors(['session_expired' => 'انتهت الجلسة، يرجى تسجيل الدخول مجددًا.']);
-                // }
+                }
             } catch (\Exception $e) {
                 // خطأ في الاتصال أو في التوكن
                 session()->forget(['auth_token']);
