@@ -26,31 +26,38 @@ class CheckExternalTokenValidity
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session()->has('auth_token')) {
-
+        if (session()->has('auth_token') && Auth::check()) {
             $accessToken = session('auth_token');
+            $storedToken = Auth::user()->last_access_token;
 
+            // ✅ التحقق المحلي: التوكن الموجود لا يطابق التوكن الرسمي
+            if ($accessToken !== $storedToken) {
+                Log::info('Invalid session token: logged out');
+
+                session()->forget(['auth_token', 'id_token']);
+                Auth::logout();
+
+                return redirect()->route('login')
+                    ->withErrors(['session_expired' => 'تم تسجيل الدخول من جهاز آخر.']);
+            }
+
+            // ✅ تحقق إضافي من صلاحية التوكن مع السيرفر الخارجي (اختياري)
             try {
-                Log::info('Token being checked: ' . session('auth_token'));
-
                 $response = $this->provider->getUserInfo($accessToken);
 
-                Log::info('Token check status: ' . $response->status());
                 if ($response->status() === 401) {
-                    // التوكن منتهي أو غير صالح
-                    session()->forget(['auth_token']);
+                    session()->forget(['auth_token', 'id_token']);
                     Auth::logout();
 
                     return redirect()->route('login')
                         ->withErrors(['session_expired' => 'انتهت الجلسة، يرجى تسجيل الدخول مجددًا.']);
                 }
             } catch (\Exception $e) {
-                // خطأ في الاتصال أو في التوكن
-                session()->forget(['auth_token']);
+                session()->forget(['auth_token', 'id_token']);
                 Auth::logout();
 
                 return redirect()->route('login')
-                    ->withErrors(['session_expired' => 'انتهت الجلسة، يرجى تسجيل الدخول مجددًا.']);
+                    ->withErrors(['session_expired' => 'حدث خطأ في التحقق من الجلسة.']);
             }
         }
 
