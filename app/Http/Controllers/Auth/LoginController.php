@@ -44,6 +44,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $user->logoutOtherDevices($request->password);
         $this->provider->revokeToken($request->session()->get('auth_token')->getToken());
         $request->session()->forget('auth_token');
         return redirect()->route('login');
