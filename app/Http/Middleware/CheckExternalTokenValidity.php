@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Services\CustomIdentityServerProvider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CheckExternalTokenValidity
 {
@@ -30,8 +31,11 @@ class CheckExternalTokenValidity
             $accessToken = session('auth_token');
 
             try {
+                Log::info('Token being checked: ' . session('auth_token'));
+
                 $response = $this->provider->getUserInfo($accessToken);
 
+                Log::info('Token check status: ' . $response->status());
                 if ($response->status() === 401) {
                     // التوكن منتهي أو غير صالح
                     session()->forget(['auth_token']);

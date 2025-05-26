@@ -146,7 +146,7 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
 
 
         Auth::login($user);
-        return redirect('/dashboard');
+        return redirect()->route('home');
     } else {
         return redirect('/')->with('error', 'Login failed!');
     }
