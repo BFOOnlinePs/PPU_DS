@@ -79,9 +79,12 @@
                                     @foreach ($categories as $key)
                                         <div class="col-md-3">
                                             <div class="checkbox">
-                                                <input @if (in_array($key->c_id, $selectedCategories)) checked @endif
-                                                    id="category{{ $loop->index }}" value="{{ $key->c_id }}"
-                                                    name="faq_category_ids[]" type="checkbox">
+                                                <input
+                                                    @if (in_array($key->c_id, $selectedCategories)) checked @endif
+                                                    id="category{{ $loop->index }}"
+                                                    value="{{ $key->c_id }}"
+                                                    name="faq_category_ids[]"
+                                                    type="checkbox">
                                                 <label for="category{{ $loop->index }}">{{ $key->c_name }}</label>
                                             </div>
                                         </div>
