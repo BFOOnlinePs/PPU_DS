@@ -55,9 +55,9 @@ class LoginController extends Controller
             $sessionData = unserialize(base64_decode($session->payload));
 
             // تحقق إذا الجلسة تحتوي على access_token
-            if (isset($sessionData['access_token'])) {
+            if (isset($sessionData['auth_token'])) {
                 // إلغاء التوكن من السيرفر الخارجي
-                $this->provider->revokeToken($sessionData['access_token']);
+                $this->provider->revokeToken($sessionData['auth_token']);
             }
         }
 
