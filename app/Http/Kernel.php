@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\language::class,
+            \App\Http\Middleware\CheckExternalTokenValidity::class,
         ],
 
         'api' => [
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'testMiddleware' => \App\Http\Middleware\MyTestMiddleware::class,
         'CheckUserRole' => \App\Http\Middleware\CheckUserRoleMiddleware::class,
         'role' => \App\Http\Middleware\Role::class,
+        'check.token' => \App\Http\Middleware\CheckExternalTokenValidity::class,
     ];
 }

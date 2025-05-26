@@ -79,7 +79,10 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
 
     // Store the ID token in the session
     if ($token->getValues()['id_token']) {
-        session(['id_token' => $token->getValues()['id_token']]);
+        session([
+            'access_token' => $token->getToken(),
+            'id_token' => $token->getValues()['id_token'] ?? null,
+        ]);
     }
 
     $userInfo = $provider->getUserInfo($token->getToken());
@@ -109,7 +112,10 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
 
     $token = $provider->getAccessToken($code);
 
-    session()->put('auth_token', $token);
+    session([
+        'access_token' => $token->getToken(),
+        'id_token' => $token->getValues()['id_token'] ?? null,
+    ]);
 
 
 
@@ -159,7 +165,7 @@ Route::get('privacy_and_policy', function () {
     return view('project.admin.privacy_and_policy');
 });
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'check.token']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/news/details/{id}', [App\Http\Controllers\HomeController::class, 'details_news'])->name('news.details');
     Route::get('/language/{locale}', function ($locale) {
