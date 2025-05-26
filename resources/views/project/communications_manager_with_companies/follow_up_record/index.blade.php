@@ -85,7 +85,7 @@
         $(document).ready(function() {
             company_table_ajax();
             search_student_ajax();
-            $('#company_search').on('keyup', debounce(company_table_ajax, 50));
+            $('#company_search').on('input', debounce(company_table_ajax, 50));
         });
 
         function user_search(word_to_search) {
