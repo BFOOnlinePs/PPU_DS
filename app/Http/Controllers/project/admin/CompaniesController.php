@@ -235,7 +235,7 @@ class CompaniesController extends Controller
             // 4. إرسال البيانات إلى الـ API الخارجي
             $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3MDYwM2ViZmI2NjlmZjAzZDkwZjM2ZTMxNjJlZWU2IiwidHlwIjoiSldUIn0.eyJuYmYiOjE3NDgyMzkwOTYsImV4cCI6MTc0ODI0MjY5NiwiaXNzIjoiaHR0cHM6Ly9teS5wcHUuZWR1IiwiYXVkIjpbImh0dHBzOi8vbXkucHB1LmVkdS9yZXNvdXJjZXMiLCJFeHRlcm5hbEFwaXMuYXBpIl0sImNsaWVudF9pZCI6IkRTLnBwdSIsInN1YiI6IkRTVGVzdGluZyIsImF1dGhfdGltZSI6MTc0ODIzOTA5NiwiaWRwIjoibG9jYWwiLCJ1c2VyX25vIjoiMTQ0MDEwMSIsInVzZXJfdHlwZSI6IjEiLCJyb2xlIjoiODMiLCJuYW1lIjoiRFNUZXN0aW5nIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImVtYWlsIiwicm9sZSIsInVzZXJubyIsIkV4dGVybmFsQXBpcy5hcGkiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsicHdkIl19.maGUZXAnw3DpHJ1gvewJPTLw-i-90yve0ix51WGUfPJHMzpJ5f3ywSmCLha2j1M4_1TbIgSdbAfX3KgwAHtOZzax8-l50EA8HMX4FBWjMGYfRQlQkDiWv4fH6w0P-XJzS-K0XZSbYAOxDhCuci9rAXsDwsoohh9wECEVm93GI6PbwNhgs7mp6FV5et1wG64r5QZRNJzLQX05kjQHtmul8EQau0BhLCiamZvseVlqxENYcbn_T5LjcZ6n3PIldOT-qQ2OtVWkjQA3MJzJzgwwP8m2o7kSv6Sdu0GJ0udD5gn-ARzWAyIv1dj3rY6MJZxfNF2HDvlGai3HwPayuCLT5w',
+                    'Authorization' => 'Bearer ' . session('auth_token'),
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
@@ -250,8 +250,6 @@ class CompaniesController extends Controller
                 ]
             ]);
 
-
-            return $response;
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
