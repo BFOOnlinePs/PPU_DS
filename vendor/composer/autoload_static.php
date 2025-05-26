@@ -1016,6 +1016,7 @@ class ComposerStaticInita1aec1234b6ab33ec08310872e8f156f
         'App\\Http\\Controllers\\project\\training_supervisor\\TrainingSupervisorStudentController' => __DIR__ . '/../..' . '/app/Http/Controllers/project/training_supervisor/TrainingSupervisorStudentController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
+        'App\\Http\\Middleware\\CheckExternalTokenValidity' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckExternalTokenValidity.php',
         'App\\Http\\Middleware\\CheckUserRoleMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckUserRoleMiddleware.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\EnsureAuthenticatedWithToken' => __DIR__ . '/../..' . '/app/Http/Middleware/EnsureAuthenticatedWithToken.php',
