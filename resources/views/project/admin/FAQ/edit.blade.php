@@ -25,7 +25,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">نص السؤال</label>
-                                <input value="{{ $data->faq_question }}" type="text" class="form-control" name="faq_question" id="question">
+                                <input value="{{ $data->faq_question }}" type="text" class="form-control"
+                                    name="faq_question" id="question">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -52,14 +53,14 @@
                                 <label for="">الصلاحيات المتعلقة بالسؤال</label>
                                 <div class="row">
                                     @foreach ($roles as $key)
-                                    <div class="col-md-3">
-                                        <div class="checkbox">
-                                            <input @if (in_array($key->r_id, json_decode($data->faq_target_role_ids))) checked
-
-                                            @endif id="checkbox{{ $loop->index}}" value="{{ $key->r_id }}" name="faq_target_role_ids[]" type="checkbox">
-                                            <label for="checkbox{{ $loop->index}}">{{ $key->r_name }}</label>
+                                        <div class="col-md-3">
+                                            <div class="checkbox">
+                                                <input @if (in_array($key->r_id, json_decode($data->faq_target_role_ids))) checked @endif
+                                                    id="checkbox{{ $loop->index }}" value="{{ $key->r_id }}"
+                                                    name="faq_target_role_ids[]" type="checkbox">
+                                                <label for="checkbox{{ $loop->index }}">{{ $key->r_name }}</label>
+                                            </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -71,15 +72,18 @@
                             <div class="form-group">
                                 <label for="">الفئات</label>
                                 <div class="row">
+                                    @php
+                                        $selectedCategories = json_decode($data->faq_category_ids ?: '[]');
+                                    @endphp
                                     @foreach ($categories as $key)
-                                    <div class="col-md-3">
-                                        <div class="checkbox">
-                                            <input @if (in_array($key->c_id, json_decode($data->faq_category_ids))) checked
-
-                                            @endif id="category{{ $loop->index}}" value="{{ $key->c_id }}" name="faq_category_ids[]" type="checkbox">
-                                            <label for="category{{ $loop->index}}">{{ $key->c_name }}</label>
+                                        <div class="col-md-3">
+                                            <div class="checkbox">
+                                                <input @if (in_array($key->c_id, $selectedCategories)) checked @endif
+                                                    id="category{{ $loop->index }}" value="{{ $key->c_id }}"
+                                                    name="faq_category_ids[]" type="checkbox">
+                                                <label for="category{{ $loop->index }}">{{ $key->c_name }}</label>
+                                            </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                 </div>
                             </div>
