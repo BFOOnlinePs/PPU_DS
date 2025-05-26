@@ -79,38 +79,39 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
     $accessToken = $token->getToken();
     $idToken = $token->getValues()['id_token'] ?? null;
 
-    // Get user info from server
     $userInfo = $provider->getUserInfo($accessToken);
 
-    // ابحث عن المستخدم
     $user = User::where('email', $userInfo['email'])->first();
 
-    // إذا كان عنده توكن قديم، قم بإلغاءه
+    // إلغاء التوكن السابق إن وجد
     if ($user && $user->last_access_token) {
         $provider->revokeToken($user->last_access_token);
     }
 
-    // أنشئ أو حدّث المستخدم
+    // حذف الجلسة السابقة من جدول الجلسات إن وُجدت
+    if ($user && $user->session_id) {
+        DB::table('sessions')->where('id', $user->session_id)->delete();
+    }
+
+    // تحديث بيانات المستخدم أو إنشاؤه
     $user = User::updateOrCreate(
         ['email' => $userInfo['email']],
         [
             'name' => $userInfo['name'] ?? $userInfo['email'],
             'role' => $userInfo['role'] ?? 'user',
-            'password' => bcrypt('123456789'), // كلمة مرور وهمية
+            'password' => bcrypt('123456789'),
             'last_access_token' => $accessToken,
+            'session_id' => session()->getId(), // حفظ session الحالية
         ]
     );
 
-    // تخزين التوكن الجديد في الجلسة
+    // تخزين التوكنات في الجلسة
     session([
-        'auth_token' => $token->getToken(),
-        'id_token' => $token->getValues()['id_token'] ?? null,
+        'auth_token' => $accessToken,
+        'id_token' => $idToken,
     ]);
 
-
-    // تسجيل دخول المستخدم
     Auth::login($user);
-
     return redirect('/dashboard');
 });
 
@@ -129,22 +130,26 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
     $user = User::where('u_username', $userInfo['sub'])->first();
 
     if ($user) {
-
-        // 🟡 إلغاء التوكن السابق
+        // إلغاء التوكن السابق
         if ($user->last_access_token && $user->last_access_token !== $accessToken) {
             $provider->revokeToken($user->last_access_token);
         }
 
-        // 🟢 تحديث التوكن
+        // حذف الجلسة السابقة إن وُجدت
+        if ($user->session_id) {
+            DB::table('sessions')->where('id', $user->session_id)->delete();
+        }
+
+        // تحديث التوكن والجلسة الحالية
         $user->last_access_token = $accessToken;
+        $user->session_id = session()->getId();
         $user->save();
 
-        // 🟢 تخزين في session
+        // تخزين التوكن في الجلسة
         session([
-            'auth_token' => $token->getToken(),
-            'id_token' => $token->getValues()['id_token'] ?? null,
+            'auth_token' => $accessToken,
+            'id_token' => $idToken,
         ]);
-
 
         Auth::login($user);
         return redirect()->route('home');
@@ -152,6 +157,7 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
         return redirect('/')->with('error', 'Login failed!');
     }
 });
+
 
 
 Route::get('/test', function () {
