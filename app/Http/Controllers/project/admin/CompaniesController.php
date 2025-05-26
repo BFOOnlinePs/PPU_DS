@@ -253,10 +253,10 @@ class CompaniesController extends Controller
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
-                return 'تم التعديل بنجاح';
+                return redirect()->back()->with('error', 'حدث خطأ: ' . $responseData['message']);
             }
 
-            return 'تم التعديل بنجاح';
+            return redirect()->back()->with('success',  'تم التعديل بنجاح');
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             $responseBody = $e->getResponse()->getBody()->getContents();
             return $responseBody;
