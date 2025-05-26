@@ -43,7 +43,7 @@ Route::post('/logout', function (Request $request, CustomIdentityServerProvider 
 
         // Revoke the token if the provider supports it
         try {
-            $provider->revokeToken($tokenObject->getToken());
+            $provider->revokeToken($tokenObject);
         } catch (\Exception $e) {
             // \Log::error('Token revocation failed: ' . $e->getMessage());
         }
@@ -103,9 +103,10 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
 
     // تخزين التوكن الجديد في الجلسة
     session([
-        'auth_token' => $accessToken,
-        'id_token' => $idToken,
+        'auth_token' => $token->getToken(),
+        'id_token' => $token->getValues()['id_token'] ?? null,
     ]);
+
 
     // تسجيل دخول المستخدم
     Auth::login($user);
@@ -139,9 +140,10 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
 
         // 🟢 تخزين في session
         session([
-            'auth_token' => $accessToken,
-            'id_token' => $idToken,
+            'auth_token' => $token->getToken(),
+            'id_token' => $token->getValues()['id_token'] ?? null,
         ]);
+
 
         Auth::login($user);
         return redirect('/dashboard');
