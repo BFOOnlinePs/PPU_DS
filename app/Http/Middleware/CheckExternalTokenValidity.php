@@ -26,7 +26,7 @@ class CheckExternalTokenValidity
     public function handle(Request $request, Closure $next)
     {
         if (session()->has('auth_token')) {
-            dd(session()->has('auth_token'));
+
             $accessToken = session('auth_token');
 
             try {
