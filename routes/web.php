@@ -76,33 +76,42 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
     }
 
     $token = $provider->getAccessToken($code);
+    $accessToken = $token->getToken();
+    $idToken = $token->getValues()['id_token'] ?? null;
 
-    // Store the ID token in the session
-    if ($token->getValues()['id_token']) {
-        session([
-            'access_token' => $token->getToken(),
-            'id_token' => $token->getValues()['id_token'] ?? null,
-        ]);
+    // Get user info from server
+    $userInfo = $provider->getUserInfo($accessToken);
+
+    // ابحث عن المستخدم
+    $user = User::where('email', $userInfo['email'])->first();
+
+    // إذا كان عنده توكن قديم، قم بإلغاءه
+    if ($user && $user->last_access_token) {
+        $provider->revokeToken($user->last_access_token);
     }
 
-    $userInfo = $provider->getUserInfo($token->getToken());
+    // أنشئ أو حدّث المستخدم
+    $user = User::updateOrCreate(
+        ['email' => $userInfo['email']],
+        [
+            'name' => $userInfo['name'] ?? $userInfo['email'],
+            'role' => $userInfo['role'] ?? 'user',
+            'password' => bcrypt('123456789'), // كلمة مرور وهمية
+            'last_access_token' => $accessToken,
+        ]
+    );
 
-    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
-    $user = User::updateOrCreate([
-        'email' => $userInfo['email'],
-    ], [
-        'name' => $userInfo['name'] ?? $userInfo['email'],
-        'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Sco
-        'password' => '123456789', // حفظ الصلاحيات من الـ
-
-
+    // تخزين التوكن الجديد في الجلسة
+    session([
+        'access_token' => $accessToken,
+        'id_token' => $idToken,
     ]);
 
+    // تسجيل دخول المستخدم
     Auth::login($user);
 
     return redirect('/dashboard');
 });
-
 Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvider $provider) {
     $code = $request->query('code');
 
@@ -111,40 +120,35 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
     }
 
     $token = $provider->getAccessToken($code);
+    $accessToken = $token->getToken();
+    $idToken = $token->getValues()['id_token'] ?? null;
 
-    session([
-        'access_token' => $token->getToken(),
-        'id_token' => $token->getValues()['id_token'] ?? null,
-    ]);
+    $userInfo = $provider->getUserInfo($accessToken);
 
-
-
-
-    $userInfo = $provider->getUserInfo($token->getToken());
-
-
-
-    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
-    /*  $user = User::updateOrCreate([
-        'email' => $userInfo['email'],
-    ], [
-        'name' => $userInfo['name'] ?? $userInfo['email'],
-        'u_role_id' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Sco
-        'password' => '123456789', // حفظ الصلاحيات من الـ
-
-
-    ]);
-
-    */
-    $user = '';
+    $user = null;
     if ($userInfo['sub']) {
         $user = User::where('u_username', $userInfo['sub'])->first();
     }
 
     if ($user) {
+        // إذا كان عنده توكن قديم، قم بإلغاءه
+        if ($user->last_access_token) {
+            $provider->revokeToken($user->last_access_token);
+        }
+
+        // تحديث التوكن الجديد في قاعدة البيانات
+        $user->last_access_token = $accessToken;
+        $user->save();
+
+        // تخزين التوكن الجديد في الجلسة
+        session([
+            'access_token' => $accessToken,
+            'id_token' => $idToken,
+        ]);
+
         Auth::login($user);
 
-        return redirect('/home?token=' . $token);
+        return redirect('/home');
     } else {
         return redirect('/')->with('error', 'Login failed!');
     }
