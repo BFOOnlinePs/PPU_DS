@@ -137,6 +137,7 @@ return array(
     'App\\Http\\Controllers\\project\\training_supervisor\\TrainingSupervisorStudentController' => $baseDir . '/app/Http/Controllers/project/training_supervisor/TrainingSupervisorStudentController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
+    'App\\Http\\Middleware\\CheckExternalTokenValidity' => $baseDir . '/app/Http/Middleware/CheckExternalTokenValidity.php',
     'App\\Http\\Middleware\\CheckUserRoleMiddleware' => $baseDir . '/app/Http/Middleware/CheckUserRoleMiddleware.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
     'App\\Http\\Middleware\\EnsureAuthenticatedWithToken' => $baseDir . '/app/Http/Middleware/EnsureAuthenticatedWithToken.php',

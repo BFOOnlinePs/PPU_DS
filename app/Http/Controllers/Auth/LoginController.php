@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\Services\CustomIdentityServerProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -44,9 +45,28 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        $user->logoutOtherDevices($request->password);
-        $this->provider->revokeToken($request->session()->get('auth_token')->getToken());
-        $request->session()->forget('auth_token');
-        return redirect()->route('login');
+        // احذف كل الجلسات القديمة للمستخدم (ما عدا الجلسة الحالية)
+        $sessions = DB::table('sessions')
+            ->where('user_id', $user->id)
+            ->where('id', '!=', session()->getId())
+            ->get();
+
+        foreach ($sessions as $session) {
+            $sessionData = unserialize(base64_decode($session->payload));
+
+            // تحقق إذا الجلسة تحتوي على access_token
+            if (isset($sessionData['access_token'])) {
+                // إلغاء التوكن من السيرفر الخارجي
+                $this->provider->revokeToken($sessionData['access_token']);
+            }
+        }
+
+        // حذف كل الجلسات القديمة
+        DB::table('sessions')
+            ->where('user_id', $user->id)
+            ->where('id', '!=', session()->getId())
+            ->delete();
+
+        return redirect()->intended($this->redirectTo);
     }
 }
