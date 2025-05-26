@@ -112,6 +112,7 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
 
     return redirect('/dashboard');
 });
+
 Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvider $provider) {
     $code = $request->query('code');
 
@@ -124,35 +125,31 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
     $idToken = $token->getValues()['id_token'] ?? null;
 
     $userInfo = $provider->getUserInfo($accessToken);
-
-    $user = null;
-    if ($userInfo['sub']) {
-        $user = User::where('u_username', $userInfo['sub'])->first();
-    }
+    $user = User::where('u_username', $userInfo['sub'])->first();
 
     if ($user) {
-        // إذا كان عنده توكن قديم، قم بإلغاءه
-        if ($user->last_access_token) {
+        // 🟡 إلغاء التوكن السابق
+        if ($user->last_access_token && $user->last_access_token !== $accessToken) {
             $provider->revokeToken($user->last_access_token);
         }
 
-        // تحديث التوكن الجديد في قاعدة البيانات
+        // 🟢 تحديث التوكن
         $user->last_access_token = $accessToken;
         $user->save();
 
-        // تخزين التوكن الجديد في الجلسة
+        // 🟢 تخزين في session
         session([
-            'access_token' => $accessToken,
+            'auth_token' => $accessToken,
             'id_token' => $idToken,
         ]);
 
         Auth::login($user);
-
-        return redirect('/home');
+        return redirect('/dashboard');
     } else {
         return redirect('/')->with('error', 'Login failed!');
     }
 });
+
 
 Route::get('/test', function () {
     return 'test';
