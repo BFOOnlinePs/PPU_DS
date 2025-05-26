@@ -68,23 +68,24 @@
                         <div class="col-md-12">
                             <hr>
                         </div>
+                        @php
+                            $selectedCategories = [];
+                            if (isset($data) && isset($data->faq_category_ids)) {
+                                $decoded = json_decode($data->faq_category_ids, true);
+                                $selectedCategories = is_array($decoded) ? $decoded : [];
+                            }
+                        @endphp
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">الفئات</label>
                                 <div class="row">
-                                    @php
-                                        $selectedCategories = json_decode($data->faq_category_ids ?: '[]', true);
-                                    @endphp
-
                                     @foreach ($categories as $key)
                                         <div class="col-md-3">
                                             <div class="checkbox">
-                                                <input
-                                                    @if (in_array($key->c_id, $selectedCategories)) checked @endif
-                                                    id="category{{ $loop->index }}"
-                                                    value="{{ $key->c_id }}"
-                                                    name="faq_category_ids[]"
-                                                    type="checkbox">
+                                                <input @if (!empty($selectedCategories) && in_array($key->c_id, $selectedCategories)) checked @endif
+                                                    id="category{{ $loop->index }}" value="{{ $key->c_id }}"
+                                                    name="faq_category_ids[]" type="checkbox">
                                                 <label for="category{{ $loop->index }}">{{ $key->c_name }}</label>
                                             </div>
                                         </div>
@@ -92,6 +93,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">تعديل</button>
