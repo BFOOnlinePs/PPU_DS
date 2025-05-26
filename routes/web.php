@@ -103,7 +103,7 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
 
     // تخزين التوكن الجديد في الجلسة
     session([
-        'access_token' => $accessToken,
+        'auth_token' => $accessToken,
         'id_token' => $idToken,
     ]);
 
