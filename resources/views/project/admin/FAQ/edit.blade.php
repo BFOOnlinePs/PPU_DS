@@ -73,8 +73,9 @@
                                 <label for="">الفئات</label>
                                 <div class="row">
                                     @php
-                                        $selectedCategories = json_decode($data->faq_category_ids ?: '[]');
+                                        $selectedCategories = json_decode($data->faq_category_ids ?: '[]', true);
                                     @endphp
+
                                     @foreach ($categories as $key)
                                         <div class="col-md-3">
                                             <div class="checkbox">
