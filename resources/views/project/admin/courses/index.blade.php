@@ -1,69 +1,73 @@
 @extends('layouts.app')
 @section('title')
-{{__('translate.Main')}}{{-- الرئيسية --}}
+    {{ __('translate.Main') }}{{-- الرئيسية --}}
 @endsection
 @section('header_title')
-{{__('translate.Courses Management')}}{{--إدارة التدريبات العملية--}}
+    {{ __('translate.Courses Management') }}{{-- إدارة التدريبات العملية --}}
 @endsection
 @section('header_title_link')
-<a href="{{route('home')}}">{{__('translate.Main')}}{{-- الرئيسية --}}</a>
+    <a href="{{ route('home') }}">{{ __('translate.Main') }}{{-- الرئيسية --}}</a>
 @endsection
 @section('header_link')
-<a href="{{route('admin.courses.index')}}">{{__('translate.Courses')}}{{--التدريبات العملية--}}</a>
+    <a href="{{ route('admin.courses.index') }}">{{ __('translate.Courses') }}{{-- التدريبات العملية --}}</a>
 @endsection
 @section('style')
-<style>
-.input-error {
-    border-color: #d22d3d;
-}
-.input-container {
-      position: relative;
-      /* width: 300px; Set the width of the input container */
-    }
+    <style>
+        .input-error {
+            border-color: #d22d3d;
+        }
 
-    .icon {
-      position: absolute;
-      /* right: 20px; */
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+        .input-container {
+            position: relative;
+            /* width: 300px; Set the width of the input container */
+        }
 
-    .icon_spinner {
-      position: absolute;
-      left: 20px;
-      top: 30%;
-      transform: translateY(-50%);
-    }
+        .icon {
+            position: absolute;
+            /* right: 20px; */
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-    /* Style the input to provide some spacing for the icon */
-    input {
-      padding-left: 30px; /* Add padding to the left of the input to make room for the icon */
-      width: 100%; /* Make the input take up the full width of the container */
-    }
-</style>
+        .icon_spinner {
+            position: absolute;
+            left: 20px;
+            top: 30%;
+            transform: translateY(-50%);
+        }
 
+        /* Style the input to provide some spacing for the icon */
+        input {
+            padding-left: 30px;
+            /* Add padding to the left of the input to make room for the icon */
+            width: 100%;
+            /* Make the input take up the full width of the container */
+        }
+    </style>
 @endsection
 @section('content')
 
     <div>
         {{-- <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course')}}إضافة تدريب عملي</button> --}}
-        <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route("admin.semesterCourses.index")}}"' type="button"><span class="fa fa-book"></span> {{__('translate.Current Semester Courses')}}{{-- التدريبات العملية للفصل الحالي --}}</button>
+        <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route('admin.semesterCourses.index') }}"'
+            type="button"><span class="fa fa-book"></span>
+            {{ __('translate.Current Semester Courses') }}{{-- التدريبات العملية للفصل الحالي --}}</button>
     </div>
 
 
     <div class="card" style="padding-left:0px; padding-right:0px;">
 
-        <div class="card-body" >
+        <div class="card-body">
             <div class="form-outline" id="showSearch" hidden>
-                <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
-                    aria-label="Search" /> {{-- بحث --}}
+                <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2"
+                    placeholder="{{ __('translate.Search') }}" aria-label="Search" /> {{-- بحث --}}
             </div>
-            @if(!$data->isEmpty())
-            <div class="form-outline">
-                <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2" placeholder="{{__('translate.Search')}}"
-                    aria-label="Search" /> {{-- بحث --}}
-            </div>
+            @if (!$data->isEmpty())
+                <div class="form-outline">
+                    <input type="search" onkeyup="courseSearch(this.value)" class="form-control mb-2"
+                        placeholder="{{ __('translate.Search') }}" aria-label="Search" /> {{-- بحث --}}
+                </div>
             @endif
             <div id="showTable">
                 <div class="table-responsive">
@@ -71,17 +75,18 @@
                         <thead>
                             <tr>
                                 <th scope="col" style="display:none;">id</th>
-                                <th scope="col">{{__('translate.Course Name')}} {{-- اسم التدريب العملي --}}</th>
-                                <th scope="col">{{__('translate.Course Code')}}{{-- رمز التدريب العملي --}}</th>
-                                <th scope="col">{{__('translate.Course Hours')}}{{-- ساعات التدريب العملي --}}</th>
-                                <th scope="col">{{__('translate.Course Type')}}{{-- نوع التدريب العملي --}}</th>
-                                <th scope="col">{{__('translate.Operations')}} {{--  العمليات --}}</th>
+                                <th scope="col">{{ __('translate.Course Name') }} {{-- اسم التدريب العملي --}}</th>
+                                <th scope="col">{{ __('translate.Course Code') }}{{-- رمز التدريب العملي --}}</th>
+                                <th scope="col">{{ __('translate.Course Hours') }}{{-- ساعات التدريب العملي --}}</th>
+                                <th scope="col">{{ __('translate.Course Type') }}{{-- نوع التدريب العملي --}}</th>
+                                <th scope="col">{{ __('translate.Operations') }} {{--  العمليات --}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($data->isEmpty())
                                 <tr>
-                                    <td colspan="5" class="text-center"><span>{{__('translate.No data to display')}}{{--لا توجد بيانات--}}</span></td>
+                                    <td colspan="5" class="text-center">
+                                        <span>{{ __('translate.No data to display') }}{{-- لا توجد بيانات --}}</span></td>
                                 </tr>
                             @else
                                 @foreach ($data as $key)
@@ -90,12 +95,21 @@
                                         <td>{{ $key->c_name }}</td>
                                         <td>{{ $key->c_course_code }}</td>
                                         <td>{{ $key->c_hours }}</td>
-                                        @if( $key->c_course_type == 0) <td>{{__('translate.Theoretical')}} {{-- نظري --}}</td>@endif
-                                        @if( $key->c_course_type == 1) <td>{{__('translate.Practical')}} {{-- عملي --}}</td>@endif
-                                        @if( $key->c_course_type == 2) <td>{{__('translate.Theoretical - Practical')}} {{-- نظري - عملي --}}</td>@endif
-                                        <td id="table_buttons_{{$key->c_id}}">
-                                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i class="fa fa-info"></i></button>
-                                            <button class="btn btn-primary" onclick="showEditCourseModal({{ $key }})"><i class="fa fa-edit"></i></button>
+                                        @if ($key->c_course_type == 0)
+                                            <td>{{ __('translate.Theoretical') }} {{-- نظري --}}</td>
+                                        @endif
+                                        @if ($key->c_course_type == 1)
+                                            <td>{{ __('translate.Practical') }} {{-- عملي --}}</td>
+                                        @endif
+                                        @if ($key->c_course_type == 2)
+                                            <td>{{ __('translate.Theoretical - Practical') }} {{-- نظري - عملي --}}</td>
+                                        @endif
+                                        <td id="table_buttons_{{ $key->c_id }}">
+                                            <button class="btn btn-info" onclick="showCourseModal({{ $key }})"><i
+                                                    class="fa fa-info"></i></button>
+                                            <button class="btn btn-primary"
+                                                onclick="showEditCourseModal({{ $key }})"><i
+                                                    class="fa fa-edit"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -117,7 +131,7 @@
 
             <div id="auto-load" hidden>
                 <div class="loader-box">
-                    <div class="loader-3" ></div>
+                    <div class="loader-3"></div>
                 </div>
             </div>
 
@@ -145,11 +159,11 @@
         var last_page = {!! json_encode($last_page, JSON_HEX_APOS) !!};
 
 
-        let stop= false;
+        let stop = false;
 
         let language = document.documentElement.lang
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             var iconSpinners = document.querySelectorAll('.icon_spinner');
             var icons = document.querySelectorAll('.icon');
 
@@ -161,9 +175,9 @@
                 iconSpinner.style.top = '30%';
                 iconSpinner.style.transform = 'translateY(-50%)';
 
-                if(language=='ar'){
+                if (language == 'ar') {
                     iconSpinner.style.left = '20px';
-                }else{
+                } else {
                     iconSpinner.style.right = '20px';
                 }
 
@@ -177,9 +191,9 @@
                 icon.style.top = "50%";
                 icon.style.transform = "translateY(-50%)";
 
-                if(language=='ar'){
+                if (language == 'ar') {
                     icon.style.left = '20px';
-                }else{
+                } else {
                     icon.style.right = '20px';
                 }
 
@@ -187,7 +201,7 @@
         });
 
 
-        $(window).scroll(function () {
+        $(window).scroll(function() {
             if ($(window).scrollTop() + $(window).height() + 1 >= $(document).height() && stop == false) {
                 page++;
                 infinteLoadMore(page);
@@ -199,7 +213,7 @@
             var editLink = "{{ route('admin.courses.loadMoreCourses', ['page' => 'page_id']) }}";
             editLink = editLink.replace('page_id', page);
 
-            if(page<=last_page){
+            if (page <= last_page) {
 
                 //to prevent it from calling an ajax while the first one doesn't complete
                 stop = true;
@@ -208,21 +222,22 @@
                     url: editLink,
                     datatype: "json",
                     type: "get",
-                    beforeSend: function () {
+                    beforeSend: function() {
                         //to show the loading under the table
-                        document.getElementById('auto-load').hidden=false
+                        document.getElementById('auto-load').hidden = false
                     },
                     success: function(response) {
 
-                        last_page = response.data.last_page;//check thisssssssssssssssssssss
+                        last_page = response.data.last_page; //check thisssssssssssssssssssss
 
                         courses = response.data.data
 
                         //to get the table and then add the new rows
-                        var tableBody = document.getElementById('coursesTable').getElementsByTagName('tbody')[0];
+                        var tableBody = document.getElementById('coursesTable').getElementsByTagName('tbody')[
+                        0];
 
                         //to add a row for each course in the page
-                        courses.forEach(function (next) {
+                        courses.forEach(function(next) {
 
                             var newRow = tableBody.insertRow();
                             newRow.setAttribute("data-id", next.c_id);
@@ -238,12 +253,12 @@
                             var cell3 = newRow.insertCell(3);
                             cell3.innerHTML = `${next.c_hours}`;
                             var cell4 = newRow.insertCell(4);
-                            if( `${next.c_course_type}` == 0){
-                                cell4.innerHTML = "{{__('translate.Theoretical')}}";
-                            }else if( `${next.c_course_type}` == 1){
-                                cell4.innerHTML = "{{__('translate.Practical')}}";
-                            }else if( `${next.c_course_type}` == 2){
-                                cell4.innerHTML = "{{__('translate.Theoretical - Practical')}}";
+                            if (`${next.c_course_type}` == 0) {
+                                cell4.innerHTML = "{{ __('translate.Theoretical') }}";
+                            } else if (`${next.c_course_type}` == 1) {
+                                cell4.innerHTML = "{{ __('translate.Practical') }}";
+                            } else if (`${next.c_course_type}` == 2) {
+                                cell4.innerHTML = "{{ __('translate.Theoretical - Practical') }}";
                             }
 
                             var cell5 = newRow.insertCell(5);
@@ -262,7 +277,7 @@
                             `;
                         })
 
-                        document.getElementById('auto-load').hidden=true;
+                        document.getElementById('auto-load').hidden = true;
                         stop = false;
                     }
                 })
@@ -325,28 +340,31 @@
             // Convert the serialized string to an array of objects (to take the inputs and check if they are empty)
             var formDataArray = serializedFormData.split('&').map(function(item) {
                 var pair = item.split('=');
-                return { name: pair[0], value: decodeURIComponent(pair[1] || '') };
+                return {
+                    name: pair[0],
+                    value: decodeURIComponent(pair[1] || '')
+                };
             });
 
             //check if the inputs empty and if they empty givr them "input-error" class
             for (var i = 1; i < formDataArray.length; i++) {
-                if(formDataArray[i].value==""){
+                if (formDataArray[i].value == "") {
                     var x = `#${formDataArray[i].name}`;
                     $(`${x}`).addClass('input-error');
                     if_submit = false;
                 }
-                if(document.getElementById('c_course_type').value==""){
+                if (document.getElementById('c_course_type').value == "") {
                     $('#c_course_type').addClass('input-error');
                     if_submit = false;
                 }
-                if(document.getElementById('c_hours').value==""){
+                if (document.getElementById('c_hours').value == "") {
                     $('#c_hours').addClass('input-error');
                     if_submit = false;
                 }
             }
 
 
-            if(if_submit){
+            if (if_submit) {
 
                 data = $('#addCourseForm').serialize();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -360,7 +378,7 @@
 
                 // Send an AJAX request
                 $.ajax({
-                    beforeSend: function(){
+                    beforeSend: function() {
                         $('#AddCourseModal').modal('hide');
                         $('#LoadingModal').modal('show');
                     },
@@ -372,7 +390,7 @@
 
                         //to show the search area if the added course is the first one
                         //because it's hidden when the table is empty
-                        if(coursesLength==0){
+                        if (coursesLength == 0) {
                             document.getElementById('showSearch').hidden = false;
                         }
 
@@ -391,46 +409,46 @@
 
         //to remove red outline from required inputs
         $('#c_name').on('focus', function() {
-    	    $('#c_name').removeClass('input-error');
+            $('#c_name').removeClass('input-error');
         });
         $('#c_hours').on('focus', function() {
-    	    $('#c_hours').removeClass('input-error');
+            $('#c_hours').removeClass('input-error');
         });
         $('#c_course_code').on('focus', function() {
-    	    $('#c_course_code').removeClass('input-error');
+            $('#c_course_code').removeClass('input-error');
         });
         $('#c_course_type').on('focus', function() {
-    	    $('#c_course_type').removeClass('input-error');
+            $('#c_course_type').removeClass('input-error');
         });
         $('#c_reference_code').on('focus', function() {
-    	    $('#c_reference_code').removeClass('input-error');
+            $('#c_reference_code').removeClass('input-error');
         });
         $('#c_description').on('focus', function() {
-    	    $('#c_description').removeClass('input-error');
+            $('#c_description').removeClass('input-error');
         });
 
         //to remove red outline from required inputs
         $('#edit_c_name').on('focus', function() {
-    	    $('#edit_c_name').removeClass('input-error');
+            $('#edit_c_name').removeClass('input-error');
         });
         $('#edit_c_hours').on('focus', function() {
-    	    $('#edit_c_hours').removeClass('input-error');
+            $('#edit_c_hours').removeClass('input-error');
         });
         $('#edit_c_course_code').on('focus', function() {
-    	    $('#edit_c_course_code').removeClass('input-error');
+            $('#edit_c_course_code').removeClass('input-error');
         });
         $('#edit_c_course_type').on('focus', function() {
-    	    $('#edit_c_course_type').removeClass('input-error');
+            $('#edit_c_course_type').removeClass('input-error');
         });
         $('#edit_c_reference_code').on('focus', function() {
-    	    $('#edit_c_reference_code').removeClass('input-error');
+            $('#edit_c_reference_code').removeClass('input-error');
         });
         $('#edit_c_description').on('focus', function() {
-    	    $('#edit_c_description').removeClass('input-error');
+            $('#edit_c_description').removeClass('input-error');
         });
 
         //to empty the add modal any time it closed
-        $("#AddCourseModal").on("hidden.bs.modal", function () {
+        $("#AddCourseModal").on("hidden.bs.modal", function() {
             document.getElementById('c_name').value = "";
             document.getElementById('c_course_code').value = "";
             document.getElementById('c_hours').value = "";
@@ -458,7 +476,7 @@
         });
 
         //to remove red outline when the edit modal any time it closed
-        $("#EditCourseModal").on("hidden.bs.modal", function () {
+        $("#EditCourseModal").on("hidden.bs.modal", function() {
 
             $('#edit_c_name').removeClass('input-error');
             $('#edit_c_hours').removeClass('input-error');
@@ -512,11 +530,14 @@
             var serializedFormDataEdit = $('#editCourseForm').serialize();
             var formDataArrayEdit = serializedFormDataEdit.split('&').map(function(item) {
                 var pair = item.split('=');
-                return { name: pair[0], value: decodeURIComponent(pair[1] || '') };
+                return {
+                    name: pair[0],
+                    value: decodeURIComponent(pair[1] || '')
+                };
             });
 
             for (var i = 1; i < formDataArrayEdit.length; i++) {
-                if(formDataArrayEdit[i].value==""){
+                if (formDataArrayEdit[i].value == "") {
                     var x = `#edit_${formDataArrayEdit[i].name}`;
                     $(`${x}`).addClass('input-error');
                     if_edit_submit = false;
@@ -524,7 +545,7 @@
             }
 
 
-            if(if_edit_submit){
+            if (if_edit_submit) {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 // Send an AJAX request with the CSRF token
@@ -536,7 +557,7 @@
 
                 // Send an AJAX request
                 $.ajax({
-                    beforeSend: function(){
+                    beforeSend: function() {
                         $('#EditCourseModal').modal('hide');
                         $('#LoadingModal').modal('show');
                     },
@@ -555,7 +576,10 @@
                         row.cells[2].textContent = response.data.c_course_code
                         row.cells[3].textContent = response.data.c_hours
                         course_type = response.data.c_course_type;
-                        row.cells[4].textContent = (course_type==0) ? "{{__('translate.Theoretical')}}" : (course_type==1) ? "{{__('translate.Practical')}}" : "{{__('translate.Theoretical - Practical')}}"
+                        row.cells[4].textContent = (course_type == 0) ?
+                            "{{ __('translate.Theoretical') }}" : (course_type == 1) ?
+                            "{{ __('translate.Practical') }}" :
+                            "{{ __('translate.Theoretical - Practical') }}"
 
                         var jsonToHTML = JSON.stringify(response.data).replace(/"/g, "&quot;");
                         $(`#table_buttons_${course_id}`).html(`
@@ -571,7 +595,7 @@
 
 
                     },
-                    complete: function(){
+                    complete: function() {
                         $('#LoadingModal').modal('hide');
                     },
                     error: function(xhr, status, error) {
@@ -593,7 +617,8 @@
                 }
             });
 
-            $('#showTable').html('<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>');
+            $('#showTable').html(
+                '<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>');
 
 
             $.ajax({
@@ -618,15 +643,15 @@
         });
 
         //to check course code and reference course code are exists
-        function checkCourseCode(data,opp,page){
+        function checkCourseCode(data, opp, page) {
 
             //check for edit modal
-            if(page=="edit"){
+            if (page == "edit") {
 
                 document.getElementById('edit_ok_icon').hidden = true;
                 document.getElementById('edit_ref_ok_icon').hidden = true;
 
-                if(data!=""){
+                if (data != "") {
 
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -637,10 +662,10 @@
                     })
 
                     $.ajax({
-                        beforeSend: function(){
-                            if(opp=="code"){
+                        beforeSend: function() {
+                            if (opp == "code") {
                                 document.getElementById('edit_search_icon').hidden = false;
-                            }else{
+                            } else {
                                 document.getElementById('edit_ref_search_icon').hidden = false;
                             }
 
@@ -654,16 +679,16 @@
                         },
                         success: function(response) {
 
-                            if(response.data!=null){
+                            if (response.data != null) {
 
 
-                                if(opp=="code"){
+                                if (opp == "code") {
                                     document.getElementById('edit_search_icon').hidden = true;
                                     document.getElementById('edit_ok_icon').hidden = true;
                                     document.getElementById('edit_similarCourseCodeMessage').hidden = false;
                                     document.getElementById('edit_course').disabled = true;
                                     edit_button_code = true;
-                                }else{
+                                } else {
                                     document.getElementById('edit_ref_search_icon').hidden = true;
                                     document.getElementById('edit_ref_ok_icon').hidden = true;
                                     document.getElementById('edit_similarCourseCodeRefMessage').hidden = false;
@@ -672,21 +697,21 @@
                                 }
 
 
-                            }else{
+                            } else {
 
-                                if(opp=="code"){
+                                if (opp == "code") {
                                     document.getElementById('edit_similarCourseCodeMessage').hidden = true;
                                     document.getElementById('edit_search_icon').hidden = true;
                                     document.getElementById('edit_ok_icon').hidden = false;
                                     edit_button_code = false;
-                                }else{
+                                } else {
                                     document.getElementById('edit_similarCourseCodeRefMessage').hidden = true;
                                     document.getElementById('edit_ref_search_icon').hidden = true;
                                     document.getElementById('edit_ref_ok_icon').hidden = false;
                                     edit_button_ref = false;
                                 }
 
-                                if(edit_button_code == false && edit_button_ref == false){
+                                if (edit_button_code == false && edit_button_ref == false) {
                                     document.getElementById('edit_course').disabled = false;
                                 }
                             }
@@ -696,31 +721,29 @@
                             alert('error');
                         }
                     });
-                }
-                else{
-                    if(opp=="code"){
+                } else {
+                    if (opp == "code") {
                         document.getElementById('edit_similarCourseCodeMessage').hidden = true;
                         document.getElementById('edit_search_icon').hidden = true;
                         document.getElementById('edit_ok_icon').hidden = true;
-                    }else{
+                    } else {
                         document.getElementById('edit_similarCourseCodeRefMessage').hidden = true;
                         document.getElementById('edit_ref_search_icon').hidden = true;
                         document.getElementById('edit_ref_ok_icon').hidden = true;
                     }
 
-                    if(edit_button_code == false && edit_button_ref == false){
+                    if (edit_button_code == false && edit_button_ref == false) {
                         document.getElementById('edit_course').disabled = false;
                     }
 
                 }
 
-            }
-            else{ //check for add modal
+            } else { //check for add modal
 
                 document.getElementById('ok_icon').hidden = true;
                 document.getElementById('ref_ok_icon').hidden = true;
 
-                if(data!=""){
+                if (data != "") {
 
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -731,10 +754,10 @@
                     })
 
                     $.ajax({
-                        beforeSend: function(){
-                            if(opp=="code"){
+                        beforeSend: function() {
+                            if (opp == "code") {
                                 document.getElementById('search_icon').hidden = false;
-                            }else{
+                            } else {
                                 document.getElementById('ref_search_icon').hidden = false;
                             }
 
@@ -748,16 +771,16 @@
                         },
                         success: function(response) {
 
-                            if(response.data!=null){
+                            if (response.data != null) {
 
 
-                                if(opp=="code"){
+                                if (opp == "code") {
                                     document.getElementById('search_icon').hidden = true;
                                     document.getElementById('ok_icon').hidden = true;
                                     document.getElementById('similarCourseCodeMessage').hidden = false;
                                     document.getElementById('add_course').disabled = true;
                                     add_button_code = true;
-                                }else{
+                                } else {
                                     document.getElementById('ref_search_icon').hidden = true;
                                     document.getElementById('ref_ok_icon').hidden = true;
                                     document.getElementById('similarCourseCodeRefMessage').hidden = false;
@@ -766,21 +789,21 @@
                                 }
 
 
-                            }else{
+                            } else {
 
-                                if(opp=="code"){
+                                if (opp == "code") {
                                     document.getElementById('similarCourseCodeMessage').hidden = true;
                                     document.getElementById('search_icon').hidden = true;
                                     document.getElementById('ok_icon').hidden = false;
                                     add_button_code = false;
-                                }else{
+                                } else {
                                     document.getElementById('similarCourseCodeRefMessage').hidden = true;
                                     document.getElementById('ref_search_icon').hidden = true;
                                     document.getElementById('ref_ok_icon').hidden = false;
                                     add_button_ref = false;
                                 }
 
-                                if(add_button_code == false && add_button_ref == false){
+                                if (add_button_code == false && add_button_ref == false) {
                                     document.getElementById('add_course').disabled = false;
                                 }
                             }
@@ -790,19 +813,18 @@
                             alert('error');
                         }
                     });
-                }
-                else{
-                    if(opp=="code"){
+                } else {
+                    if (opp == "code") {
                         document.getElementById('similarCourseCodeMessage').hidden = true;
                         document.getElementById('search_icon').hidden = true;
                         document.getElementById('ok_icon').hidden = true;
-                    }else{
+                    } else {
                         document.getElementById('similarCourseCodeRefMessage').hidden = true;
                         document.getElementById('ref_search_icon').hidden = true;
                         document.getElementById('ref_ok_icon').hidden = true;
                     }
 
-                    if(add_button_code == false && add_button_ref == false){
+                    if (add_button_code == false && add_button_ref == false) {
                         document.getElementById('add_course').disabled = false;
                     }
 
@@ -810,8 +832,5 @@
             }
 
         }
-
-
-
     </script>
 @endsection
