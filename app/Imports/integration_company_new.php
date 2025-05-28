@@ -31,6 +31,7 @@ class integration_company_new implements ToModel , WithStartRow
     */
     public function model(array $row)
     {
+        dd($row);
         $major = null;
         $course = null;
         $student_number = null;
