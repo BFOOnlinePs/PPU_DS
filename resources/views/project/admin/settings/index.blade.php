@@ -150,7 +150,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
+            <!-- <div class="col-sm-6 col-xl-3 col-lg-6">
                 <div class="card o-hidden border-0">
                     <a href="{{ route('admin.settings.integration_students.index') }}" class="text-decoration-none">
                         <div class="bg-primary b-r-4 card-body">
@@ -170,7 +170,7 @@
                         </div>
                     </a>
                 </div>
-            </div>
+            </div> -->
             <div class="col-sm-6 col-xl-3 col-lg-6">
                 <div class="card o-hidden border-0">
                     <a href="{{ route('admin.cities.index') }}" class="text-decoration-none">

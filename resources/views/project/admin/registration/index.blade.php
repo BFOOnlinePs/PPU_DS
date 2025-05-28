@@ -21,7 +21,7 @@
 
 <div>
     {{-- <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.index")}}"'><span class="fa fa-book"></span> التدريبات العملية للفصل الحالي</button> --}}
-    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span> {{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}</button>
+    <button class="btn btn-primary  mb-2 btn-s" type="button" onclick='location.href="{{route("admin.registration.semesterStudents")}}"'><span class="fa fa-users"></span> {{__("translate.Current Semester's Students")}}</button>
 </div>
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
