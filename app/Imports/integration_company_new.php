@@ -31,6 +31,7 @@ class integration_company_new implements ToModel , WithStartRow
     */
     public function model(array $row)
     {
+        dd($row);
         $major = null;
         $course = null;
         $student_number = null;
@@ -114,6 +115,7 @@ class integration_company_new implements ToModel , WithStartRow
                 'u_username' => $row[3],
                 'email' => $row[4] . '@ppu.edu.ps',
                 'password' => Hash::make($row[3]),
+                'u_phone1' => $row[3],
                 'u_role_id' => 6,
                 'u_status' => 1,
             ]);
