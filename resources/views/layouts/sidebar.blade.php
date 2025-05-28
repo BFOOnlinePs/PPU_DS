@@ -44,9 +44,13 @@
                         <li><a class="nav-link bg-dark text-white mt-1" href="{{ route('admin.companies.index') }}"><i
                                     data-feather="briefcase"></i><span>{{ __('translate.Companies') }}{{-- الشركات --}}</span></a>
                         </li>
-                        <li><a class="nav-link bg-dark text-white mt-1"
+                        <!-- <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('admin.registration.index') }}"><i
                                     data-feather="user-check"></i><span>{{ __('translate.Registration') }}{{-- التسجيل --}}</span></a>
+                        </li> -->
+                        <li><a class="nav-link bg-dark text-white mt-1"
+                                href="{{ route('admin.registration.semesterStudents') }}"><i
+                                    data-feather="user-check"></i><span>{{__("translate.Current Semester's Students")}}{{-- طلاب الفصل الحالي --}}</span></a>
                         </li>
                         <li><a class="nav-link bg-dark text-white mt-1"
                                 href="{{ route('admin.field_visits.index') }}"><i
