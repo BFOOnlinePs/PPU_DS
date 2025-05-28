@@ -112,7 +112,7 @@ class integration_company_new implements ToModel , WithStartRow
                 'u_phone1' => $row[3],
             ],[
                 'u_username' => $row[3],
-                'email' => $row[4] . '@ppu.edu.ps',
+                'email' => $row[4],
                 'password' => Hash::make($row[3]),
                 'u_phone1' => $row[3],
                 'u_role_id' => 6,
