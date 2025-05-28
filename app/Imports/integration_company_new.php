@@ -208,11 +208,21 @@ class integration_company_new implements ToModel , WithStartRow
         //     );
         // }
 
-        $registration = Registration::where('r_student_id' , User::where('u_username' , $row[0])->first()->u_id)->where('r_semester' , $system_settings->ss_semester_type)->where('r_year' , $system_settings->ss_year)->first();
+        $user = User::where('u_username', $row[0])->first();
+        if (!$user) {
+            \Log::error("User not found for username: " . $row[0]);
+            return null;
+        }
+
+        $registration = Registration::where('r_student_id', $user->u_id)
+            ->where('r_semester', $system_settings->ss_semester_type)
+            ->where('r_year', $system_settings->ss_year)
+            ->first();
+
         if ($registration && $compaines->c_id) {
             $student_company = StudentCompany::firstOrCreate([
                 'sc_registration_id' => $registration->r_id,
-                'sc_student_id' => User::where('u_username' , $row[0])->first()->u_id,
+                'sc_student_id' => $user->u_id,
                 'sc_company_id' => $compaines->c_id,
             ],[
                 'sc_assistant_id' => $manager_company->u_id,
