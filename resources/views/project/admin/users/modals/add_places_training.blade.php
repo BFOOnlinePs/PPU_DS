@@ -45,8 +45,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="mb-3 row">
-                                            <label for="textinput">{{__('translate.Trainer (from the company)')}} {{-- المدرب من الشركة --}}</label>
+                                        {{-- <div class="mb-3 row">
+                                            <label for="textinput">{{__('translate.Trainer (from the company)')}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" id="select-trainers" name="trainer" disabled>
                                                     @if ($trainers != null)
                                                     <option value=""></option>
@@ -56,9 +56,9 @@
                                                     @endif
                                             </select>
                                         </div>
-                                        <br>
-                                        <div class="mb-3 row">
-                                            <label for="">{{__('translate.Department Associated with this Branch')}} {{-- القسم التابع للفرع --}}</label>
+                                        <br> --}}
+                                        {{-- <div class="mb-3 row">
+                                            <label for="">{{__('translate.Department Associated with this Branch')}}</label>
                                             <select autofocus class="js-example-basic-single col-sm-12" id="select-departments" name="department" disabled>
                                                 @if ($departments != null)
                                                     <option value=""></option>
@@ -67,7 +67,7 @@
                                                     @endforeach
                                                 @endif
                                             </select>
-                                        </div>
+                                        </div> --}}
                                         <div class="mb-3 row">
                                             <label for="textinput">{{__('translate.Course')}} {{-- تدريب عملي --}}</label>
                                             <select required autofocus class="js-example-basic-single col-sm-12" id="select-course" name="course">
