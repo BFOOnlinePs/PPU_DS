@@ -52,6 +52,7 @@ class SettingsController extends Controller
     {
         return view('project.admin.settings.integration');
     }
+    
     public function uploadFileExcel(Request $request)
     {
         if ($request->hasFile('input-file')) {
