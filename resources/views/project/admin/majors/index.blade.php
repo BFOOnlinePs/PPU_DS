@@ -57,11 +57,11 @@
 @endsection
 @section('content')
 
-    <div>
+    {{-- <div>
         <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddMajorModal').modal('show')" type="button"
             id="openAddModalButton"><span class="fa fa-plus"></span>{{ __('translate.Add Major') }}
-            {{-- إضافة تخصص --}}</button>
-    </div>
+            </button>
+    </div> --}}
 
     <div class="card" style="padding-left:0px; padding-right:0px;">
 

@@ -47,7 +47,7 @@
 @section('content')
 
     <div>
-        <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course')}}{{-- إضافة تدريب عملي --}}</button>
+        {{-- <button class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course')}}إضافة تدريب عملي</button> --}}
         <button class="btn btn-primary  mb-2 btn-s" onclick='location.href="{{ route("admin.semesterCourses.index")}}"' type="button"><span class="fa fa-book"></span> {{__('translate.Current Semester Courses')}}{{-- التدريبات العملية للفصل الحالي --}}</button>
     </div>
 
