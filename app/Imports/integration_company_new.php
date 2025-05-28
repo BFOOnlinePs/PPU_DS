@@ -209,6 +209,7 @@ class integration_company_new implements ToModel , WithStartRow
         // }
 
         $registration = Registration::where('r_student_id' , $row[0])->first();
+        dd($registration);
         if ($registration && $compaines->c_id) {
             $student_company = StudentCompany::firstOrCreate([
                 'sc_registration_id' => $registration->r_id,
