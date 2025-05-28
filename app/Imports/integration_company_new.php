@@ -31,7 +31,6 @@ class integration_company_new implements ToModel , WithStartRow
     */
     public function model(array $row)
     {
-        dd($row);
         $major = null;
         $course = null;
         $student_number = null;
@@ -209,7 +208,7 @@ class integration_company_new implements ToModel , WithStartRow
         //     );
         // }
 
-        $registration = Registration::where('r_student_id' , $row[0])->where('r_semester' , $system_settings->ss_semester_type)->where('r_year' , $system_settings->ss_year)->orderBy('r_id' , 'desc')->first();
+        $registration = Registration::where('r_student_id' , $row[0])first();
         dd($registration , $compaines);
         if ($registration && $compaines->c_id) {
             $student_company = StudentCompany::firstOrCreate([
