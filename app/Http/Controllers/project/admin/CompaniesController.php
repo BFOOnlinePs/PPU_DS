@@ -203,6 +203,15 @@ class CompaniesController extends Controller
     {
         $http = new \GuzzleHttp\Client();
         try {
+            
+            $phone_check = User::where('u_phone1', $request->mobile)->first();
+            if ($phone_check) {
+                return response()->json([
+                    'success' => 'false',
+                    'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $phone_check->name . 'والمرتبط بالشركة ' . $phone_check->company->c_name
+                ]);
+            }
+
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->firstOrFail();
             $user->u_username = $request->mobile;
