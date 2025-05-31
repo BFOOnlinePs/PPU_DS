@@ -21,18 +21,34 @@
                             <table class="table table-sm table-hover">
                                 <tbody>
                                     @foreach ($data as $key)
+                                        @php
+                                            $registration = $key['registrations'][0] ?? null;
+                                            $course = $registration
+                                                ? \App\Models\Course::where(
+                                                    'c_id',
+                                                    $registration['r_course_id'],
+                                                )->first()
+                                                : null;
+                                        @endphp
+
                                         @if (auth()->user()->u_role_id == 10)
                                             <tr>
                                                 <td>{{ $key->name }}</td>
-                                                <td>{{ \App\Models\Course::where('c_id', $key['registrations'][0]['r_course_id'])->first()->c_name }}
-
+                                                <td>{{ optional($course)->c_name ?? 'غير معروف' }}</td>
                                                 <td>
-                                                    <span
-                                                        class="">{{ '50 / ' . $key['registrations'][0]['university_score'] ?? 'لم يتم التقييم بعد' }}</span>
+                                                    <span>
+                                                        {{ isset($registration['university_score']) ? '50 / ' . $registration['university_score'] : 'لم يتم التقييم بعد' }}
+                                                    </span>
                                                 </td>
                                                 <td>
-                                                    @if ($key->submission_status == false)
-                                                        <a href="{{ route('students.evaluation.evaluation_submission_page', ['registration_id' => \App\Models\Registration::where('r_student_id', $key->u_id)->first()->r_id, 'evaluation_id' => $id]) }}"
+                                                    @php
+                                                        $regModel = \App\Models\Registration::where(
+                                                            'r_student_id',
+                                                            $key->u_id,
+                                                        )->first();
+                                                    @endphp
+                                                    @if ($key->submission_status == false && $regModel)
+                                                        <a href="{{ route('students.evaluation.evaluation_submission_page', ['registration_id' => $regModel->r_id, 'evaluation_id' => $id]) }}"
                                                             class="btn btn-xs btn-primary">تقييم</a>
                                                     @else
                                                         <p class="badge bg-success">تم التقييم</p>
@@ -54,11 +70,11 @@
                                         @elseif(auth()->user()->u_role_id == 6)
                                             <tr>
                                                 <td>{{ $key->name }}</td>
-                                                <td>{{ \App\Models\Course::where('c_id', $key['registrations'][0]['r_course_id'])->first()->c_name }}
-                                                </td>
+                                                <td>{{ optional($course)->c_name ?? 'غير معروف' }}</td>
                                                 <td>
-                                                    <span
-                                                        class="">{{ '50 / ' . $key['registrations'][0]['company_score'] ?? 'لم يتم التقييم بعد' }}</span>
+                                                    <span>
+                                                        {{ isset($registration['company_score']) ? '50 / ' . $registration['company_score'] : 'لم يتم التقييم بعد' }}
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     @if ($key->submission_status == false)
@@ -73,6 +89,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
