@@ -219,6 +219,14 @@ class CompaniesController extends Controller
             $user->email = $request->email2;
             $user->u_phone1 = $request->mobile;
 
+            $check_phone=User::where('u_phone1',$request->mobile)->where('u_id','!=',$user->u_id)->first();
+            if($request->mobile == $check_phone->u_phone1){
+                return response()->json([
+                    'success' => 'false',
+                    'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $check_phone->name . 'والمرتبط بالشركة ' . $check_phone->company->c_name
+                ]);
+            }
+
             if ($request->filled('password')) {
                 $user->password = bcrypt($request->password);
             }
