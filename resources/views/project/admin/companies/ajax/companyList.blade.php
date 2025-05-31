@@ -7,7 +7,7 @@
                 <th scope="col">{{ __('translate.Company Manager') }}</th>
                 <th scope="col">{{ __('translate.Company Category') }}</th>
                 <th scope="col">الطاقة الاستيعابية</th>
-                <th scope="col">حالة الشركة</th>
+                {{-- <th scope="col">حالة الشركة</th> --}}
                 <th scope="col" style="width: 200px">{{ __('translate.Operations') }}</th>
             </tr>
         </thead>
@@ -26,7 +26,7 @@
                         {{-- اسم الشركة --}}
                         <td>
                             @if ($key->manager)
-                                <a href="{{ route('admin.users.details', ['id' => $key->manager->u_id]) }}">
+                                <a href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                     {{ app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)) ? $key->c_english_name : $key->c_name }}
                                 </a>
                             @else
@@ -38,7 +38,7 @@
                         @if (auth()->user()->u_role_id == 1)
                             <td>
                                 @if ($key->manager)
-                                    <a href="{{ route('admin.users.details', ['id' => $key->manager->u_id]) }}">
+                                    <a href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                         {{ $key->manager->name ?? 'لا يوجد مدير' }}
                                     </a>
                                 @else
@@ -67,17 +67,29 @@
                         </td>
 
                         {{-- حالة الشركة --}}
-                        <td>
+                        {{-- <td>
                             <label class="switch">
                                 <input onchange="update_company_status({{ $key->c_id }},this.checked)"
                                     type="checkbox" @if ($key->c_status == 1) checked @endif>
                                 <span class="switch-state"></span>
                             </label>
-                        </td>
+                        </td> --}}
 
                         {{-- العمليات --}}
-                        <td>
-                            <div class="dropdown">
+                        <td class="d-flex">
+                            <button class="btn btn-dark btn-sm form-control m-1"><a
+                                style="cursor: pointer;font-size: 10px" class="text-white"
+                                onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'>تفاصيل
+                                الشركة</a></button>
+                        <button class="btn btn-dark btn-sm form-control m-1"><a
+                                style="cursor: pointer;font-size: 10px" class="text-white"
+                                onclick='show_student_nomination_modal({{ $key }})'>اقتراحات
+                                الطلاب</a></button>
+                        <button class="btn btn-dark btn-sm form-control m-1"><a
+                                style="cursor: pointer;font-size: 10px" class="text-white"
+                                onclick='addAttachmentModal({{ $key->c_id }})'>اضافة
+                                اتفاقية</a></button>
+                            {{-- <div class="dropdown">
                                 <span data-feather="more-vertical">العمليات</span>
                                 <div class="dropdown-content">
                                     <button class="btn btn-dark btn-sm form-control m-1">
@@ -105,7 +117,7 @@
                                         </a>
                                     </button>
                                 </div>
-                            </div>
+                            </div> --}}
                         </td>
                     </tr>
                 @endforeach
