@@ -30,7 +30,7 @@
                                     {{ app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)) ? $key->c_english_name : $key->c_name }}
                                 </a>
                             @else
-                                {{ app()->isLocale('en') ? ($key->c_english_name ?? 'No name') : ($key->c_name ?? 'لا يوجد اسم') }}
+                                {{ app()->isLocale('en') ? $key->c_english_name ?? 'No name' : $key->c_name ?? 'لا يوجد اسم' }}
                             @endif
                         </td>
 
@@ -77,18 +77,24 @@
 
                         {{-- العمليات --}}
                         <td class="d-flex">
+                            <button class="btn btn-dark btn-sm form-control m-1">
+                                <a class="text-white" style="cursor: pointer; font-size: 10px"
+                                   href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
+                                    تعديل
+                                </a>
+                            </button>
                             <button class="btn btn-dark btn-sm form-control m-1"><a
-                                style="cursor: pointer;font-size: 10px" class="text-white"
-                                onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'>تفاصيل
-                                الشركة</a></button>
-                        <button class="btn btn-dark btn-sm form-control m-1"><a
-                                style="cursor: pointer;font-size: 10px" class="text-white"
-                                onclick='show_student_nomination_modal({{ $key }})'>اقتراحات
-                                الطلاب</a></button>
-                        <button class="btn btn-dark btn-sm form-control m-1"><a
-                                style="cursor: pointer;font-size: 10px" class="text-white"
-                                onclick='addAttachmentModal({{ $key->c_id }})'>اضافة
-                                اتفاقية</a></button>
+                                    style="cursor: pointer;font-size: 10px" class="text-white"
+                                    onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'>تفاصيل
+                                    الشركة</a></button>
+                            <button class="btn btn-dark btn-sm form-control m-1"><a
+                                    style="cursor: pointer;font-size: 10px" class="text-white"
+                                    onclick='show_student_nomination_modal({{ $key }})'>اقتراحات
+                                    الطلاب</a></button>
+                            <button class="btn btn-dark btn-sm form-control m-1"><a
+                                    style="cursor: pointer;font-size: 10px" class="text-white"
+                                    onclick='addAttachmentModal({{ $key->c_id }})'>اضافة
+                                    اتفاقية</a></button>
                             {{-- <div class="dropdown">
                                 <span data-feather="more-vertical">العمليات</span>
                                 <div class="dropdown-content">
