@@ -1,9 +1,9 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th scope="col" style="display:none;">id</th>
-            <th scope="col">{{__('translate.Student University ID')}}{{-- رقم الطالب الجامعي --}}</th>
-            <th scope="col">{{__("translate.Student Name")}}{{-- اسم الطالب --}}</th>
+            <th scope="col" style="display:none;">id</th>translate.Student Name
+            <th scope="col">{{__('translate.Student Name')}}</th>
+            <th scope="col">{{__("translate.Student University ID")}}</th>
             <th>المشرف الخاص بالطالب</th>
             {{-- <th scope="col">رقم التدريب العملي</th>
             <th scope="col">اسم التدريب العملي</th> --}}
@@ -21,7 +21,7 @@
                 <td style="display:none;">{{ $key->r_id }}</td>
                 {{-- <td>{{ $key->users->u_username }}</td> --}}
                 <td><a href="{{route('admin.users.details',['id'=>$key->users->u_id])}}">{{$key->users->name}}</a></td>
-                <td>{{ $key->users->name }}</td>
+                <td>{{ $key->users->u_username }}</td>
                 {{-- <td>{{ $key->courses->c_course_code }}</td>
                 <td>{{ $key->courses->c_name }}</td> --}}
                 <td>

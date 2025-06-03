@@ -85,7 +85,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>اسم الشركة بالانجليزي</label>
-                        <input type="text" value="{{ $user->c_english_name }}" name="ceName" class="form-control" />
+                        <input type="text" value="{{ $company->c_english_name }}" name="ceName" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -94,19 +94,19 @@
                         <input type="text" value="{{ $user->email }}" name="email2" class="form-control" />
                     </div>
                 </div>
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="form-group">
                         <label>كلمة المرور</label>
                         <input type="text" name="pw" type='password' class="form-control" />
                     </div>
-                </div>
-                {{-- <div class="col-md-6">
+                </div> --}}
+                <div class="col-md-6">
                     <div class="form-group">
                         <label>رقم الهاتف المحمول</label>
-                        <input type="text" name="mobile" value="{{ $user->u_phone1 }}" placeholder="تخزن رقم الهاتف اذا كانت فارغة"
+                        <input type="text" required name="mobile" value="{{ $company_branch->b_phone1 }}" placeholder="تخزن رقم الهاتف اذا كانت فارغة"
                             class="form-control" />
                     </div>
-                </div> --}}
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>الشخص المسؤول</label>

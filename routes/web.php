@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -43,7 +44,7 @@ Route::post('/logout', function (Request $request, CustomIdentityServerProvider 
 
         // Revoke the token if the provider supports it
         try {
-            $provider->revokeToken($tokenObject->getToken());
+            $provider->revokeToken($tokenObject);
         } catch (\Exception $e) {
             // \Log::error('Token revocation failed: ' . $e->getMessage());
         }
@@ -76,27 +77,42 @@ Route::get('/callback', function (Request $request, CustomIdentityServerProvider
     }
 
     $token = $provider->getAccessToken($code);
+    $accessToken = $token->getToken();
+    $idToken = $token->getValues()['id_token'] ?? null;
 
-    // Store the ID token in the session
-    if ($token->getValues()['id_token']) {
-        session(['id_token' => $token->getValues()['id_token']]);
+    $userInfo = $provider->getUserInfo($accessToken);
+
+    $user = User::where('email', $userInfo['email'])->first();
+
+    // إلغاء التوكن السابق إن وجد
+    if ($user && $user->last_access_token) {
+        $provider->revokeToken($user->last_access_token);
     }
 
-    $userInfo = $provider->getUserInfo($token->getToken());
+    // حذف الجلسة السابقة من جدول الجلسات إن وُجدت
+    if ($user && $user->session_id) {
+        DB::table('sessions')->where('id', $user->session_id)->delete();
+    }
 
-    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
-    $user = User::updateOrCreate([
-        'email' => $userInfo['email'],
-    ], [
-        'name' => $userInfo['name'] ?? $userInfo['email'],
-        'role' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Sco
-        'password' => '123456789', // حفظ الصلاحيات من الـ
+    // تحديث بيانات المستخدم أو إنشاؤه
+    $user = User::updateOrCreate(
+        ['email' => $userInfo['email']],
+        [
+            'name' => $userInfo['name'] ?? $userInfo['email'],
+            'role' => $userInfo['role'] ?? 'user',
+            'password' => bcrypt('123456789'),
+            'last_access_token' => $accessToken,
+            'session_id' => session()->getId(), // حفظ session الحالية
+        ]
+    );
 
-
+    // تخزين التوكنات في الجلسة
+    session([
+        'auth_token' => $accessToken,
+        'id_token' => $idToken,
     ]);
 
     Auth::login($user);
-
     return redirect('/dashboard');
 });
 
@@ -108,41 +124,42 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
     }
 
     $token = $provider->getAccessToken($code);
+    $accessToken = $token->getToken();
+    $idToken = $token->getValues()['id_token'] ?? null;
 
-    session()->put('auth_token', $token);
-
-
-
-
-    $userInfo = $provider->getUserInfo($token->getToken());
-
-
-
-    // تحقق مما إذا كان المستخدم موجودًا أو أنشئ حسابًا جديدًا
-    /*  $user = User::updateOrCreate([
-        'email' => $userInfo['email'],
-    ], [
-        'name' => $userInfo['name'] ?? $userInfo['email'],
-        'u_role_id' => $userInfo['role'] ?? 'user', // حفظ الصلاحيات من الـ Sco
-        'password' => '123456789', // حفظ الصلاحيات من الـ
-
-
-    ]);
-
-    */
-    $user = '';
-    if ($userInfo['sub']) {
-        $user = User::where('u_username', $userInfo['sub'])->first();
-    }
+    $userInfo = $provider->getUserInfo($accessToken);
+    $user = User::where('u_username', $userInfo['sub'])->first();
 
     if ($user) {
-        Auth::login($user);
+        // إلغاء التوكن السابق
+        if ($user->last_access_token && $user->last_access_token !== $accessToken) {
+            $provider->revokeToken($user->last_access_token);
+        }
 
-        return redirect('/home?token=' . $token);
+        // حذف الجلسة السابقة إن وُجدت
+        if ($user->session_id) {
+            DB::table('sessions')->where('id', $user->session_id)->delete();
+        }
+
+        // تحديث التوكن والجلسة الحالية
+        $user->last_access_token = $accessToken;
+        $user->session_id = session()->getId();
+        $user->save();
+
+        // تخزين التوكن في الجلسة
+        session([
+            'auth_token' => $accessToken,
+            'id_token' => $idToken,
+        ]);
+
+        Auth::login($user);
+        return redirect()->route('home');
     } else {
         return redirect('/')->with('error', 'Login failed!');
     }
 });
+
+
 
 Route::get('/test', function () {
     return 'test';
@@ -159,7 +176,7 @@ Route::get('privacy_and_policy', function () {
     return view('project.admin.privacy_and_policy');
 });
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'check.token']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/news/details/{id}', [App\Http\Controllers\HomeController::class, 'details_news'])->name('news.details');
     Route::get('/language/{locale}', function ($locale) {

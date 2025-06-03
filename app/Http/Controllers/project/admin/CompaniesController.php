@@ -64,6 +64,15 @@ class CompaniesController extends Controller
             $user->u_role_id = 6;
             $user->u_date_of_birth = Carbon::parse('01/01/1990');
             $user->u_tawjihi_gpa = 0;
+
+            $check_phone=User::where('u_phone1',$request->mobile)->first();
+            if($check_phone){
+                return response()->json([
+                    'success' => 'false',
+                    'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $check_phone->name . 'والمرتبط بالشركة ' . $check_phone->company->c_name
+                ]);
+            }
+            
             $user->save();
 
             // 2. حفظ الشركة محليًا
@@ -107,7 +116,7 @@ class CompaniesController extends Controller
                 return $responseData;
             }
 
-            return 'تم إضافة الشركة محليًا وخارجيًا بنجاح';
+            return redirect()->back()->with('success', 'تم إضافة الشركة محليًا وخارجيًا بنجاح');
         } catch (ClientException $e) {
             $response = $e->getResponse();
             $responseBodyAsString = $response->getBody()->getContents();
@@ -133,8 +142,9 @@ class CompaniesController extends Controller
     {
         $company = Company::where('c_id', $id)->first();
         $data = User::where('u_id', $company->c_manager_id)->first();
+        $company_branch = CompanyBranch::where('b_company_id', $id)->where('b_main_branch', 1)->first();
         // $companyDepartments=CompanyBranch::with('companyDepartments')->where('b_company_id',$id)->get();
-        return view('project.admin.companies.edit2', ['user' => $data , 'company' => $company]);
+        return view('project.admin.companies.edit2', ['user' => $data, 'company' => $company, 'company_branch' => $company_branch]);
     }
 
     //this function for update inserted company in add company page
@@ -203,6 +213,15 @@ class CompaniesController extends Controller
         return $request;
         $http = new \GuzzleHttp\Client();
         try {
+            
+            $phone_check = User::where('u_phone1', $request->mobile)->first();
+            // if ($phone_check) {
+            //     return response()->json([
+            //         'success' => 'false',
+            //         'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $phone_check->name . 'والمرتبط بالشركة ' . $phone_check->company->c_name
+            //     ]);
+            // }
+
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->first();
         if (!$user) {
@@ -219,6 +238,15 @@ class CompaniesController extends Controller
         }
 
         $user->save();
+            $check_phone=User::where('u_phone1',$request->mobile)->where('u_id','!=',$user->u_id)->first();
+            if($request->mobile == $check_phone->u_phone1){
+                return response()->json([
+                    'success' => 'false',
+                    'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $check_phone->name . 'والمرتبط بالشركة ' . $check_phone->company->c_name
+                ]);
+            }
+
+           
 
             // 2. تحديث بيانات الشركة
             $company = Company::where('c_manager_id', $user->u_id)->first();
@@ -234,7 +262,7 @@ class CompaniesController extends Controller
             $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
             if ($branch) {
                 $branch->b_phone1 = $request->mobile;
-                $branch->b_city_id = $request->b_city_id;
+                // $branch->b_city_id = $request->b_city_id;
                 $branch->save();
             }
 
@@ -246,9 +274,9 @@ class CompaniesController extends Controller
                 ],
                 'json' => [
                     'caName' => $request->caName,
-                    'ceName' => $request->ceName,
+                    'ceName' => $request->ceName ?? $request->caName,
                     'cpaName' => $request->caName,
-                    'cpeName' => $request->ceName,
+                    'cpeName' => $request->ceName ?? $request->caName,
                     'email2' => $request->email2,
                     'mobile' => $request->mobile,
                     'pw' => $request->mobile,
@@ -259,10 +287,10 @@ class CompaniesController extends Controller
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
-                return 'تم التعديل محلياً ولكن فشل التحديث في النظام الخارجي';
+                return redirect()->back()->with('error', 'حدث خطأ: ' . $responseData['message']);
             }
 
-            return 'تم تعديل بيانات الشركة محلياً وخارجياً بنجاح';
+            return redirect()->back()->with('success',  'تم التعديل بنجاح');
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             $responseBody = $e->getResponse()->getBody()->getContents();
             return $responseBody;
@@ -541,10 +569,17 @@ class CompaniesController extends Controller
     {
         $data = Company::with('manager', 'companyCategories')->where('c_name', 'like', '%' . $request->search . '%')->get();
 
-        return response()->json([
-            'success' => 'true',
-            'view' => view('project.admin.companies.ajax.companyList', ['data' => $data])->render()
-        ]);
+        if ($data->count() > 0) {
+            return response()->json([
+                'success' => 'true',
+                'view' => view('project.admin.companies.ajax.companyList', ['data' => $data])->render()
+            ]);
+        } else {
+            return response()->json([
+                'success' => 'false',
+                'view' => view('project.admin.companies.ajax.companyList', ['data' => $data])->render()
+            ]);
+        }
     }
 
     //reem

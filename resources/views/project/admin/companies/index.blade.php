@@ -49,7 +49,7 @@
         <div class="card-body">
             @if (!$data->isEmpty())
                 <div class="form-outline">
-                    <input type="search" onkeyup="companySearch(this.value)" class="form-control mb-2"
+                    <input type="search" onkeyup="debouncedCompanySearch(this.value)" class="form-control mb-2"
                         placeholder="{{ __('translate.Search') }}" aria-label="Search" /> {{-- بحث --}}
                 </div>
             @endif
@@ -64,7 +64,7 @@
                                 <th scope="col">{{ __('translate.Company Category') }}{{-- تصنيف الشركة --}}</th>
                                 {{--                            <th scope="col">{{__('translate.Company Type')}} --}}{{-- نوع الشركة --}}{{-- </th> --}}
                                 <th scope="col">{{ __('translate.capacity') }}</th>
-                                <th scope="col" style="width: 200px">{{ __('translate.company_status') }}</th>
+                                {{-- <th scope="col" style="width: 200px">{{ __('translate.company_status') }}</th> --}}
                                 <th scope="col" style="width: 200px">{{ __('translate.Operations') }}
                                     {{--  العمليات --}}</th>
                             </tr>
@@ -80,8 +80,7 @@
                                 @foreach ($data as $key)
                                     <tr>
                                         <td style="display:none;">{{ $key->c_id }}</td>
-                                        <td><a
-                                                href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
+                                        <td><a href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                                 @if (app()->isLocale('en') || (app()->isLocale('ar') && empty($key->c_name)))
                                                     {{ $key->c_english_name }}
                                                 @elseif(app()->isLocale('ar') || (app()->isLocale('en') && empty($key->c_english_name)))
@@ -116,19 +115,38 @@
                                                 onchange="update_capacity_ajax({{ $key->c_id }},this.value)"
                                                 class="form-control" value="{{ $key->c_capacity }}" placeholder="">
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <label class="switch">
                                                 <input onchange="update_company_status({{ $key->c_id }},this.checked)"
                                                     type="checkbox"
                                                     @if ($key->c_status == 1) checked="" @endif><span
                                                     class="switch-state"></span>
                                             </label>
-                                        </td>
-                                        <td class="">
-                                            <div class="dropdown">
+                                        </td> --}}
+                                        <td class="d-flex">
+                                            <button class="btn btn-dark btn-sm form-control m-1">
+                                                <a class="text-white" style="cursor: pointer; font-size: 10px"
+                                                   href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
+                                                    تعديل
+                                                </a>
+                                            </button>
+                                            <button class="btn btn-dark btn-sm form-control m-1"><a
+                                                    style="cursor: pointer;font-size: 10px" class="text-white"
+                                                    onclick='location.href="{{ route('admin.companies.edit', ['id' => $key->c_id]) }}"'>تفاصيل
+                                                    الشركة</a></button>
+                                            <button class="btn btn-dark btn-sm form-control m-1"><a
+                                                    style="cursor: pointer;font-size: 10px" class="text-white"
+                                                    onclick='show_student_nomination_modal({{ $key }})'>اقتراحات
+                                                    الطلاب</a></button>
+                                            <button class="btn btn-dark btn-sm form-control m-1"><a
+                                                    style="cursor: pointer;font-size: 10px" class="text-white"
+                                                    onclick='addAttachmentModal({{ $key->c_id }})'>اضافة
+                                                    اتفاقية</a></button>
+                                            {{-- <div class="dropdown">
                                                 <span data-feather="more-vertical"></span>
                                                 <div class="dropdown-content">
-                                                    <a class="btn btn-dark btn-sm form-control m-1" href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
+                                                    <a class="btn btn-dark btn-sm form-control m-1"
+                                                        href="{{ route('admin.companies.edit2', ['id' => $key->c_id]) }}">
                                                         تعديل
                                                     </a>
                                                     <button class="btn btn-dark btn-sm form-control m-1"><a
@@ -144,7 +162,7 @@
                                                             onclick='addAttachmentModal({{ $key->c_id }})'>اضافة
                                                             اتفاقية</a></button>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -167,6 +185,17 @@
     <script>
         let uncompletedCompanySize = 0;
         let uncompletedCompany;
+
+        let debounceTimer;
+
+        function debouncedCompanySearch(data) {
+            clearTimeout(debounceTimer); // إلغاء المؤقت السابق
+
+            debounceTimer = setTimeout(function() {
+                companySearch(data);
+            }, 500); // تنفيذ بعد 500ms من التوقف عن الكتابة
+        }
+
 
         $(document).ready(function() {
             search_student_ajax();
@@ -198,7 +227,6 @@
         });
 
         function companySearch(data) {
-
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             // Send an AJAX request with the CSRF token
@@ -206,24 +234,33 @@
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 }
-            })
+            });
+
             $('#showTable').html(
-                '<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>')
+                '<div class="modal-body text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>'
+            );
+
             $.ajax({
                 url: "{{ route('admin.companies.companySearch') }}",
                 method: "post",
                 data: {
                     'search': data,
-                    _token: '{!! csrf_token() !!}',
+                    _token: '{{ csrf_token() }}',
                 },
                 success: function(data) {
-                    $('#showTable').html(data.view);
+                    if (data.success == 'true') {
+                        $('#showTable').html(data.view);
+                    } else {
+                        $('#showTable').html(
+                            '<div class="text-center"><div class="loader-box"><div class="loader-3" ></div></div></div>'
+                        );
+                    }
                 },
                 error: function(xhr, status, error) {
+                    console.error("AJAX ERROR:", xhr.responseText);
                     alert('error');
                 }
             });
-
         }
 
         function search_student_ajax() {

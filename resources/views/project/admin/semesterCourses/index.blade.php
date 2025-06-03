@@ -19,9 +19,9 @@
 @section('content')
 
 
-<div>
-    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course to Current Semester')}}{{-- إضافة التدريب العملي إلى الفصل الحالي --}}</button>
-</div>
+{{-- <div>
+    <button id="openModal" class="btn btn-primary  mb-2 btn-s" onclick="$('#AddCourseToSemesterModal').modal('show')" type="button"><span class="fa fa-plus"></span>{{__('translate.Add Course to Current Semester')}}</button>
+</div> --}}
 
 <div class="card" style="padding-left:0px; padding-right:0px;">
 

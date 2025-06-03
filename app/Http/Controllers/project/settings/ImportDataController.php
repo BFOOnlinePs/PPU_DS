@@ -28,7 +28,8 @@ class ImportDataController extends Controller
         $this->syncMajors($accessToken);
         $this->syncCities($accessToken);
         $this->syncStudents($accessToken);
-        return view('import.success', ['message' => 'Data imported successfully!']);
+        // return view('import.success', ['message' => 'Data imported successfully!']);
+        return redirect()->back()->with(['success' => 'Data imported successfully!']);
     }
 
     private function syncMajors($accessToken)
