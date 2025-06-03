@@ -223,6 +223,7 @@ class CompaniesController extends Controller
 
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->firstOrFail();
+            return $user;
             $user->u_username = $request->mobile;
             $user->name = $request->caName;
             $user->email = $request->email2;
@@ -257,7 +258,7 @@ class CompaniesController extends Controller
                 // $branch->b_city_id = $request->b_city_id;
                 $branch->save();
             }
-            return $user;
+
             // 4. إرسال البيانات إلى الـ API الخارجي
             $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
                 'headers' => [
