@@ -65,8 +65,8 @@ class CompaniesController extends Controller
             $user->u_date_of_birth = Carbon::parse('01/01/1990');
             $user->u_tawjihi_gpa = 0;
 
-            $check_phone=User::where('u_phone1',$request->mobile)->first();
-            if($check_phone){
+            $check_phone = User::where('u_phone1', $request->mobile)->first();
+            if ($check_phone) {
                 return response()->json([
                     'success' => 'false',
                     'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $check_phone->name . 'والمرتبط بالشركة ' . $check_phone->company->c_name
@@ -209,91 +209,83 @@ class CompaniesController extends Controller
     }
 
     public function update2(Request $request)
-{
-    $http = new \GuzzleHttp\Client();
+    {
+        $http = new \GuzzleHttp\Client();
 
-    try {
-        // التحقق من أن رقم الهاتف غير مستخدم من قبل مستخدم آخر
-        $existingUser = User::where('u_phone1', $request->mobile)
-            ->where('u_id', '!=', $request->company_id)
-            ->first();
-
-        if ($existingUser) {
-            return response()->json([
-                'success' => false,
-                'message' => 'رقم الهاتف هذا مسجل مسبقاً للمستخدم ' . $existingUser->name .
-                             ' والمرتبط بالشركة ' . ($existingUser->company->c_name ?? 'غير معروفة')
+        try {
+            // 1. إرسال البيانات إلى الـ API الخارجي أولاً
+            $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . session('auth_token'),
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'caName'   => $request->caName,
+                    'ceName'   => $request->ceName ?? $request->caName,
+                    'cpaName'  => $request->caName,
+                    'cpeName'  => $request->ceName ?? $request->caName,
+                    'email2'   => $request->email2,
+                    'mobile'   => $request->mobile,
+                    'pw'       => $request->mobile,
+                    'userName' => $request->mobile,
+                ]
             ]);
-        }
 
-        // 1. جلب وتحديث بيانات المستخدم
-        $user = User::where('u_id', $request->company_id)->first();
-        if (!$user) {
-            return response()->json(['error' => 'المستخدم غير موجود'], 404);
-        }
+            $responseData = json_decode($response->getBody(), true);
 
-        $user->u_username = $request->mobile;
-        $user->name = $request->caName;
-        $user->email = $request->email2;
-        $user->u_phone1 = $request->mobile;
-
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
-        }
-
-        $user->save();
-
-        // 2. تحديث بيانات الشركة
-        $company = Company::where('c_manager_id', $user->u_id)->first();
-        if ($company) {
-            $company->c_name = $request->caName;
-            $company->c_english_name = $request->ceName;
-            $company->save();
-        }
-
-        // 3. تحديث بيانات الفرع
-        if ($company) {
-            $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
-            if ($branch) {
-                $branch->b_phone1 = $request->mobile;
-                // $branch->b_city_id = $request->b_city_id; // مفعل إذا احتجت المدينة
-                $branch->save();
+            if (!isset($responseData['success']) || !$responseData['success']) {
+                return redirect()->back()->with('error', 'حدث خطأ من النظام الخارجي: ' . ($responseData['message'] ?? 'فشل غير معروف'));
             }
+
+            // 2. بعد نجاح الحفظ الخارجي، نقوم بالحفظ المحلي
+            $user = User::where('u_id', $request->company_id)->first();
+            if (!$user) {
+                return response()->json(['error' => 'المستخدم غير موجود'], 404);
+            }
+
+            $user->u_username = $request->mobile;
+            $user->name = $request->caName;
+            $user->email = $request->email2;
+            $user->u_phone1 = $request->mobile;
+
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->password);
+            }
+
+            $user->save();
+
+            $company = Company::where('c_manager_id', $user->u_id)->first();
+            if ($company) {
+                $company->c_name = $request->caName;
+                $company->c_english_name = $request->ceName;
+                $company->save();
+            }
+
+            if ($company) {
+                $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
+                if ($branch) {
+                    $branch->b_phone1 = $request->mobile;
+                    $branch->save();
+                }
+            }
+
+            return redirect()->back()->with('success', 'تم التعديل بنجاح');
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            // محاولة استخراج رسالة الخطأ من الاستجابة
+            $responseBody = $e->getResponse()->getBody()->getContents();
+            $error = json_decode($responseBody, true);
+
+            $message = $error['message'] ?? 'حدث خطأ غير متوقع من النظام الخارجي.';
+
+            return redirect()->back()->with('error', $message);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'حدث خطأ داخلي',
+                'details' => $e->getMessage(),
+            ], 500);
         }
-
-        // 4. إرسال البيانات إلى الـ API الخارجي
-        $response = $http->post('https://api-core.ppu.edu/api/DualStudies/Company/Add', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . session('auth_token'),
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'caName'   => $request->caName,
-                'ceName'   => $request->ceName ?? $request->caName,
-                'cpaName'  => $request->caName,
-                'cpeName'  => $request->ceName ?? $request->caName,
-                'email2'   => $request->email2,
-                'mobile'   => $request->mobile,
-                'pw'       => $request->mobile,
-                'userName' => $request->mobile,
-            ]
-        ]);
-
-        $responseData = json_decode($response->getBody(), true);
-
-        if (!isset($responseData['success']) || !$responseData['success']) {
-            return redirect()->back()->with('error', 'حدث خطأ: ' . ($responseData['message'] ?? 'فشل غير معروف'));
-        }
-
-        return redirect()->back()->with('success', 'تم التعديل بنجاح');
-
-    } catch (\GuzzleHttp\Exception\ClientException $e) {
-        $responseBody = $e->getResponse()->getBody()->getContents();
-        return response()->json(['error' => 'API Client Error', 'details' => $responseBody], 500);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Exception Occurred', 'details' => $e->getMessage()], 500);
     }
-}
+
 
 
 
