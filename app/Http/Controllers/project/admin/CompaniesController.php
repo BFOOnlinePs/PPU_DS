@@ -223,7 +223,6 @@ class CompaniesController extends Controller
 
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->firstOrFail();
-            return $user;
             $user->u_username = $request->mobile;
             $user->name = $request->caName;
             $user->email = $request->email2;
@@ -250,6 +249,8 @@ class CompaniesController extends Controller
                 $company->c_english_name = $request->ceName;
                 $company->save();
             }
+
+        return $company;
 
             // 3. تحديث بيانات الفرع
             $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
