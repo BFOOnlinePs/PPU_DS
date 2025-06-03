@@ -72,7 +72,7 @@ class CompaniesController extends Controller
                     'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $check_phone->name . 'والمرتبط بالشركة ' . $check_phone->company->c_name
                 ]);
             }
-            
+
             $user->save();
 
             // 2. حفظ الشركة محليًا
@@ -212,14 +212,14 @@ class CompaniesController extends Controller
     {
         $http = new \GuzzleHttp\Client();
         try {
-            
+
             $phone_check = User::where('u_phone1', $request->mobile)->first();
-            // if ($phone_check) {
-            //     return response()->json([
-            //         'success' => 'false',
-            //         'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $phone_check->name . 'والمرتبط بالشركة ' . $phone_check->company->c_name
-            //     ]);
-            // }
+            if ($phone_check) {
+                return response()->json([
+                    'success' => 'false',
+                    'message' => 'رقم الهاتف هذا مسجل مسبق  للمستخدم ' . $phone_check->name . 'والمرتبط بالشركة ' . $phone_check->company->c_name
+                ]);
+            }
 
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->first();
@@ -245,7 +245,7 @@ class CompaniesController extends Controller
                 ]);
             }
 
-           
+
 
             // 2. تحديث بيانات الشركة
             $company = Company::where('c_manager_id', $user->u_id)->first();
