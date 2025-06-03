@@ -224,11 +224,20 @@ class CompaniesController extends Controller
 
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->first();
-            $user->u_username = $request->mobile;
-            $user->name = $request->caName;
-            $user->email = $request->email2;
-            $user->u_phone1 = $request->mobile;
+        if (!$user) {
+            return response()->json(['error' => 'المستخدم غير موجود'], 404);
+        }
 
+        $user->u_username = $request->mobile;
+        $user->name = $request->caName;
+        $user->email = $request->email2;
+        $user->u_phone1 = $request->mobile;
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
             $check_phone=User::where('u_phone1',$request->mobile)->where('u_id','!=',$user->u_id)->first();
             if($request->mobile == $check_phone->u_phone1){
                 return response()->json([
@@ -237,11 +246,7 @@ class CompaniesController extends Controller
                 ]);
             }
 
-            if ($request->filled('password')) {
-                $user->password = bcrypt($request->password);
-            }
-            return $user;
-            $user->save();
+           
 
             // 2. تحديث بيانات الشركة
             $company = Company::where('c_manager_id', $user->u_id)->first();
