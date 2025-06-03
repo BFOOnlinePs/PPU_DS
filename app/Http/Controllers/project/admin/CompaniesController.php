@@ -64,6 +64,15 @@ class CompaniesController extends Controller
             $user->u_role_id = 6;
             $user->u_date_of_birth = Carbon::parse('01/01/1990');
             $user->u_tawjihi_gpa = 0;
+
+            $check_phone=User::where('u_phone1',$request->mobile)->first();
+            if($check_phone){
+                return response()->json([
+                    'success' => 'false',
+                    'message' => 'رقم الهاتف هذا مسجل مسبقا للمستخدم ' . $check_phone->name . 'والمرتبط بالشركة ' . $check_phone->company->c_name
+                ]);
+            }
+            
             $user->save();
 
             // 2. حفظ الشركة محليًا
