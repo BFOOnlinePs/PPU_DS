@@ -210,7 +210,6 @@ class CompaniesController extends Controller
 
     public function update2(Request $request)
     {
-        return $request;
         $http = new \GuzzleHttp\Client();
         try {
             
