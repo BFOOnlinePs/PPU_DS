@@ -210,7 +210,6 @@ class CompaniesController extends Controller
 
     public function update2(Request $request)
     {
-        return $request;
         $http = new \GuzzleHttp\Client();
         try {
             
@@ -224,18 +223,18 @@ class CompaniesController extends Controller
 
             // 1. تحديث بيانات المستخدم
             $user = User::where('u_id', $request->company_id)->first();
-        if (!$user) {
-            return response()->json(['error' => 'المستخدم غير موجود'], 404);
-        }
+            if (!$user) {
+                return response()->json(['error' => 'المستخدم غير موجود'], 404);
+            }
 
-        $user->u_username = $request->mobile;
-        $user->name = $request->caName;
-        $user->email = $request->email2;
-        $user->u_phone1 = $request->mobile;
+            $user->u_username = $request->mobile;
+            $user->name = $request->caName;
+            $user->email = $request->email2;
+            $user->u_phone1 = $request->mobile;
 
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
-        }
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->password);
+            }
 
         $user->save();
             $check_phone=User::where('u_phone1',$request->mobile)->where('u_id','!=',$user->u_id)->first();
@@ -283,7 +282,7 @@ class CompaniesController extends Controller
                     'userName' => $request->mobile,
                 ]
             ]);
-            return 'mohaamd';
+
             $responseData = json_decode($response->getBody(), true);
 
             if (!isset($responseData['success']) || !$responseData['success']) {
