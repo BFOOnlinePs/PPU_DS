@@ -217,13 +217,14 @@ class CompaniesController extends Controller
 
             // 2. تحديث بيانات الشركة
             $company = Company::where('c_manager_id', $user->u_id)->first();
+            return $company;
             if ($company) {
                 $company->c_name = $request->caName;
                 $company->c_english_name = $request->ceName;
                 $company->save();
             }
 
-        return $company;
+
 
             // 3. تحديث بيانات الفرع
             $branch = CompanyBranch::where('b_company_id', $company->c_id)->first();
