@@ -212,7 +212,7 @@ class CompaniesController extends Controller
             if ($request->filled('password')) {
                 $user->password = bcrypt($request->password);
             }
-
+            return $user;
             $user->save();
 
             // 2. تحديث بيانات الشركة
