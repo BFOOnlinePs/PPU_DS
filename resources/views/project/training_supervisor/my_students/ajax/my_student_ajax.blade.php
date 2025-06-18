@@ -7,13 +7,13 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($data as $key)
+    @forelse($data as $key)
         <tr>
-            <td>{{ optional($key->users)->name ?? 'غير متوفر' }}</td>
-            {{-- <td>{{ optional($key->company)->c_name ?? 'غير متوفر' }}</td> --}}
+            <td>{{ $key->student_name ?? 'غير متوفر' }}</td>
+            {{-- <td>{{ $key->company_name ?? 'غير متوفر' }}</td> --}}
             <td>
-                @if(optional($key->users)->u_id)
-                    <a href="{{ route('admin.users.details',['id'=> $key->users->u_id]) }}" class="btn btn-xs btn-primary">
+                @if(!empty($key->r_student_id))
+                    <a href="{{ route('admin.users.details', ['id' => $key->r_student_id]) }}" class="btn btn-xs btn-primary">
                         <span class="fa fa-search"></span>
                     </a>
                 @else
@@ -21,6 +21,10 @@
                 @endif
             </td>
         </tr>
-    @endforeach
+    @empty
+        <tr>
+            <td colspan="2" class="text-center text-muted">لا يوجد طلاب</td>
+        </tr>
+    @endforelse
     </tbody>
 </table>
