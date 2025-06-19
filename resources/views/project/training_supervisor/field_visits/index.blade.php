@@ -47,8 +47,9 @@
                                 @foreach ($data as $key)
                                     <tr>
                                         <td>{{ implode(', ', $key->student_names) }}</td>
-                                        <td>{{ $key->fv_supervisor_id }}</td>
-                                        <td>{{ $key->fv_company_id }}</td>
+                                        {{-- <td>{{ $key->fv_supervisor_id }}</td> --}}
+                                        <td>{{ $key->supervisor->name }}</td>
+                                        <td>{{ $key->company->name }}</td>
                                         <td>{{ $key->fv_visiting_place }}</td>
                                         <td>{{ $key->fv_date_by_user }}</td>
                                         <td>{{ $key->fv_notes }}</td>

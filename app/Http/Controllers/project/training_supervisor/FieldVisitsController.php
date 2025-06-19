@@ -15,7 +15,7 @@ class FieldVisitsController extends Controller
 {
     public function index()
     {
-        $data = FieldVisitsModel::where('fv_supervisor_id',auth()->user()->u_id)->orderBy('fv_id','desc')->get();
+        $data = FieldVisitsModel::with('supervisor','company')->where('fv_supervisor_id',auth()->user()->u_id)->orderBy('fv_id','desc')->get();
         foreach ($data as $key){
             $studentIds = json_decode($key->fv_student_id, true);
             $students = User::whereIn('u_id', $studentIds)->pluck('name')->toArray();
