@@ -578,7 +578,7 @@ Route::group(['middleware' => ['auth', 'check.token']], function () {
                 Route::post('/confirm', [App\Http\Controllers\project\students\payments\PaymentsController::class, 'confirmByAjax'])->name('student.payments.confirmByAjax');
             });
         });
-        Route::group(['prefix' => 'evaluation', 'middleware' => 'role:2|6|10'], function () {
+        Route::group(['prefix' => 'evaluation', 'middleware' => 'role:1|2|6|10'], function () {
             Route::get('/index', [App\Http\Controllers\project\students\EvaluationController::class, 'index'])->name('students.evaluation.index');
             Route::get('/details/{evaluation_id}', [App\Http\Controllers\project\students\EvaluationController::class, 'details'])->name('students.evaluation.details');
             Route::get('/evaluation_submission_page/{registration_id}/{evaluation_id}', [App\Http\Controllers\project\students\EvaluationController::class, 'evaluation_submission_page'])->name('students.evaluation.evaluation_submission_page');

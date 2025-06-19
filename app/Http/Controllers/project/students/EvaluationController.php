@@ -190,14 +190,14 @@ class EvaluationController extends Controller
                     $registration = Registration::where('r_id',$request->registration_id)->first();
                     $registration->company_score = $equation;
                     $registration->company_score_added_by_user_id = auth()->user()->u_id;
-                    $registration->save();    
+                    $registration->save();
                 }
 
                 if(auth()->user()->user_role == 10){
                     $registration = Registration::where('r_id',$request->registration_id)->first();
                     $registration->university_score = $equation;
                     $registration->university_score_added_by_user_id = auth()->user()->u_id;
-                    $registration->save();    
+                    $registration->save();
                 }
 
                 return redirect()->route('students.evaluation.details', ['evaluation_id' => $request->es_evaluation_id])->with(['success' => 'تم التقييم بنجاح']);
