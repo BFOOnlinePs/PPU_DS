@@ -28,8 +28,16 @@
 
     <div class="card-body" >
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <input type="search" class="form-control mb-1" placeholder="{{__('translate.Search')}}" aria-label="Search" id="user_name" onkeyup="filter()"/> {{-- بحث --}}
+            </div>
+            <div class="col-md-2">
+                <select autofocus class="js-example-basic-single col-sm-2" id="user_supervisor" onchange="filter()">
+                    <option value="">المشرف</option>
+                    @foreach ($supervisors as $supervisor)
+                        <option value="{{ $supervisor->u_id }}">{{ $supervisor->name }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="col-md-2 mb-2">
                 <select autofocus class="js-example-basic-single col-sm-2" id="user_major" onchange="filter()">
@@ -75,6 +83,7 @@
             let user_major = document.getElementById('user_major').value;
             let user_course = document.getElementById('user_course').value;
             let user_gender = document.getElementById('user_gender').value;
+            let user_supervisor = document.getElementById('user_supervisor').value;
             $.ajax({
                 url: "{{ route('admin.registration.filterSemesterStudents') }}",
                 method: 'POST',
@@ -85,7 +94,8 @@
                     'user_name' : user_name ,
                     'user_major' : user_major ,
                     'user_course' : user_course ,
-                    'user_gender' : user_gender
+                    'user_gender' : user_gender,
+                    'user_supervisor' : user_supervisor
                 } ,
                 success: function (response) {
                     $('#semester_students').html(response.html);
