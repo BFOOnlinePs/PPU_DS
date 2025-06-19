@@ -71,6 +71,12 @@ class RegistrationController extends Controller
             ->where('u_role_id', 2)
             ->pluck('u_id')
             ->toArray();
+        if ($request->user_supervisor != null) {
+            $users = User::where('u_id', $request->user_supervisor)
+                ->where('u_role_id', 2)
+                ->pluck('u_id')
+                ->toArray();
+        }
         if ($request->user_gender != null && $request->user_major != null) {
             $users = User::where('name', 'like', '%' . $request->user_name . '%')
                 ->where('u_gender', $request->user_gender)
