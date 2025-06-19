@@ -71,12 +71,7 @@ class RegistrationController extends Controller
             ->where('u_role_id', 2)
             ->pluck('u_id')
             ->toArray();
-        if ($request->user_supervisor != null) {
-            $users = User::where('u_id', $request->user_supervisor)
-                ->where('u_role_id', 2)
-                ->pluck('u_id')
-                ->toArray();
-        }
+
         if ($request->user_gender != null && $request->user_major != null) {
             $users = User::where('name', 'like', '%' . $request->user_name . '%')
                 ->where('u_gender', $request->user_gender)
@@ -101,7 +96,7 @@ class RegistrationController extends Controller
         $systemSettings = SystemSetting::first();
         $semester = $systemSettings->ss_semester_type;
         $year = $systemSettings->ss_year;
-        $data = Registration::with('users', 'courses')
+        $data = Registration::with('users', 'courses','supervisor')
             ->where('r_year', $year)
             ->where('r_semester', $semester)
             ->whereIn('r_student_id', $users)
@@ -113,6 +108,17 @@ class RegistrationController extends Controller
                 ->where('r_semester', $semester)
                 ->whereIn('r_student_id', $users)
                 ->where('r_course_id', $request->user_course)
+                ->select('r_student_id')
+                ->distinct()
+                ->get();
+        }
+
+        if ($request->user_supervisor != null) {
+            $data = Registration::with('users', 'courses')
+                ->where('r_year', $year)
+                ->where('r_semester', $semester)
+                ->whereIn('r_student_id', $users)
+                ->where('supervisor_id', $request->user_supervisor)
                 ->select('r_student_id')
                 ->distinct()
                 ->get();
