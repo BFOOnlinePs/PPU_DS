@@ -30,40 +30,40 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-{
-    // Check if the user is authenticated
-
-    view()->composer('*', function ($view)
     {
-        if (Auth::check()) {
-            // Get the authenticated user
-            $userId = auth()->user()->u_id;
-            $message = MessageModel::with(['conversation.participants'])
-            ->whereIn('m_conversation_id', function ($query) use ($userId) {
-                $query->select('cms_conversation_id')
-                    ->from('conversation_messages_seen')->where('cms_receiver_id',auth()->user()->u_id);
-            })
-    ->whereDoesntHave('conversationMessagesSeen', function ($query) {
-        $query->whereColumn('messages.m_id', 'conversation_messages_seen.cms_message_id')->latest()->limit(1);
-    })
-    ->orderBy('m_id', 'desc')
-    ->limit(4)
-    ->get();
-            $view->with('message', $message );
-        } else {
-            // Handle the case where the user is not authenticated (optional)
-        }
-    });
+        // Check if the user is authenticated
 
-    // Socialite::extend('identity_server', function ($app) {
-    //     $config = $app['config']['services.identity_server'];
-    //     return new CustomIdentityServerProvider(
-    //         $app['request'],
-    //         $config['client_id'],
-    //         $config['client_secret'],
-    //         $config['redirect']
-    //     );
-    // });
-    Paginator::useBootstrapFive();
-}
+        view()->composer('*', function ($view) {
+            if (Auth::check()) {
+                // Get the authenticated user
+                $userId = auth()->user()->u_id;
+                $message = MessageModel::with(['conversation.participants'])
+                    ->where('m_status', 0)
+                    ->whereIn('m_conversation_id', function ($query) use ($userId) {
+                        $query->select('cms_conversation_id')
+                            ->from('conversation_messages_seen')->where('cms_receiver_id', auth()->user()->u_id);
+                    })
+                    ->whereDoesntHave('conversationMessagesSeen', function ($query) {
+                        $query->whereColumn('messages.m_id', 'conversation_messages_seen.cms_message_id')->latest()->limit(1);
+                    })
+                    ->orderBy('m_id', 'desc')
+                    ->limit(4)
+                    ->get();
+                $view->with('message', $message);
+            } else {
+                // Handle the case where the user is not authenticated (optional)
+            }
+        });
+
+        // Socialite::extend('identity_server', function ($app) {
+        //     $config = $app['config']['services.identity_server'];
+        //     return new CustomIdentityServerProvider(
+        //         $app['request'],
+        //         $config['client_id'],
+        //         $config['client_secret'],
+        //         $config['redirect']
+        //     );
+        // });
+        Paginator::useBootstrapFive();
+    }
 }
