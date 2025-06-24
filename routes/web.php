@@ -151,7 +151,7 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
             'auth_token' => $accessToken,
             'id_token' => $idToken,
         ]);
-        return $accessToken;
+
         Auth::login($user);
         return redirect()->route('home');
     } else {
