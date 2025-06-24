@@ -200,7 +200,8 @@ class ConversationController extends Controller
     public function list_message_ajax(Request $request)
     {
         $data = MessageModel::where('m_conversation_id', $request->c_id)->with('sender')->get();
-        $conversations = ConversationsModel::where('c_id', $request->c_id)->first();
+        $conversations = ConversationsModel::where('c_id', $request->c_id)->orderBy('c_id', 'desc')->first();
+
         $conversation_messages_seen = ConversationMessagesSeenModel::where('cms_conversation_id', $request->c_id)->where('cms_receiver_id',auth()->user()->u_id)->first();
         if(empty($conversation_messages_seen)){
             $conversation_messages_seen = new ConversationMessagesSeenModel();
