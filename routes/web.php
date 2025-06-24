@@ -155,7 +155,7 @@ Route::get('/signin-oidc', function (Request $request, CustomIdentityServerProvi
         Cookie::queue(Cookie::make('auth_token_new', $accessToken));
 
         Auth::login($user);
-        return redirect()->route('home');
+        return redirect()->route('home' . '?token=' . $accessToken);
     } else {
         return redirect('/')->with('error', 'Login failed!');
     }
